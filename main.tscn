@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://cn2jssalmf12l"]
+
+[ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="2_5a1f2"]
+[ext_resource type="PackedScene" uid="uid://dtqibwgq2g60b" path="res://Scenes/Maps/praire_town.tscn" id="2_28j7f"]
+
+[sub_resource type="GDScript" id="GDScript_jvbk0"]
+
+[node name="Main" type="Node2D"]
+y_sort_enabled = true
+
+[node name="Oak" parent="." instance=ExtResource("2_5a1f2")]
+position = Vector2(112, 96)
+
+[node name="PraireTown" parent="." instance=ExtResource("2_28j7f")]
+script = SubResource("GDScript_jvbk0")
