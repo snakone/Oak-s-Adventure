@@ -17,6 +17,11 @@ func need_to_turn(input_direction: Vector2) -> bool:
 	if(facing_direction != new_facing_direction):
 		facing_direction = new_facing_direction;
 		return true;
-
 	return false;
 	
+
+func get_jumping_curvature(
+	initial_position: float, 
+	new_position: float
+) -> float:
+	return initial_position + (-0.96 - 0.57 * new_position + 0.05 * pow(new_position, 2));

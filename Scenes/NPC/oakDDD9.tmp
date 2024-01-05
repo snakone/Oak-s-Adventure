@@ -1,39 +1,8 @@
-[gd_scene load_steps=48 format=3 uid="uid://w5upskxna6ds"]
+[gd_scene load_steps=42 format=3 uid="uid://w5upskxna6ds"]
 
 [ext_resource type="Script" path="res://Scenes/NPC/oak.gd" id="1_4ift8"]
 [ext_resource type="Texture2D" uid="uid://bbr4k5128eafp" path="res://Sprites/oak_sprite.png" id="2_05a7t"]
-[ext_resource type="PackedScene" uid="uid://b43os1en518o1" path="res://Scenes/NPC/shadow.tscn" id="2_rdqlm"]
-[ext_resource type="Texture2D" uid="uid://bfuf4j5xlxapr" path="res://Sprites/jump_landing_dust.png" id="4_nuy0e"]
-[ext_resource type="Script" path="res://Scenes/NPC/dust_effect.gd" id="5_lwcr8"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sena7"]
-atlas = ExtResource("4_nuy0e")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dwju5"]
-atlas = ExtResource("4_nuy0e")
-region = Rect2(16, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fdpfa"]
-atlas = ExtResource("4_nuy0e")
-region = Rect2(32, 0, 16, 16)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_etf16"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sena7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dwju5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fdpfa")
-}],
-"loop": false,
-"name": &"default",
-"speed": 8.0
-}]
+[ext_resource type="Texture2D" uid="uid://bjllh0q55mxd6" path="res://Sprites/player_shadow.png" id="2_m6qd8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fmnmb"]
 size = Vector2(16, 16)
@@ -430,9 +399,12 @@ collision_mask = 6
 platform_floor_layers = 4294967176
 script = ExtResource("1_4ift8")
 
-[node name="Shadow" parent="." instance=ExtResource("2_rdqlm")]
+[node name="Shadow" type="Sprite2D" parent="."]
 visible = false
-y_sort_enabled = true
+modulate = Color(0.913725, 0.913725, 0.913725, 0.784314)
+texture = ExtResource("2_m6qd8")
+centered = false
+offset = Vector2(0, 2)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 1
@@ -443,15 +415,6 @@ offset = Vector2(0, -4)
 hframes = 3
 vframes = 4
 frame = 6
-
-[node name="DustEffect" type="AnimatedSprite2D" parent="."]
-visible = false
-sprite_frames = SubResource("SpriteFrames_etf16")
-frame = 2
-frame_progress = 1.0
-centered = false
-offset = Vector2(0, 1)
-script = ExtResource("5_lwcr8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -492,5 +455,3 @@ show_behind_parent = true
 position = Vector2(8, 8)
 target_position = Vector2(0, 8)
 collision_mask = 4
-
-[connection signal="animation_finished" from="DustEffect" to="DustEffect" method="_on_animation_finished"]

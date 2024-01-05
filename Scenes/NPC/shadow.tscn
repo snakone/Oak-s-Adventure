@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://b43os1en518o1"]
+
+[ext_resource type="Texture2D" uid="uid://bjllh0q55mxd6" path="res://Sprites/player_shadow.png" id="1_y2y2m"]
+
+[node name="Shadow" type="Sprite2D"]
+modulate = Color(0.913725, 0.913725, 0.913725, 0.784314)
+texture = ExtResource("1_y2y2m")
+centered = false
+offset = Vector2(0, 2)
