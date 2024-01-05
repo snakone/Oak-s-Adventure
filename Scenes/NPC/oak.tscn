@@ -394,6 +394,7 @@ states/Turn/position = Vector2(334, 174)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_f1wjv"), "Idle", "Move", SubResource("AnimationNodeStateMachineTransition_nw76w"), "Move", "Idle", SubResource("AnimationNodeStateMachineTransition_wo0vf"), "Idle", "Turn", SubResource("AnimationNodeStateMachineTransition_37tmo"), "Turn", "Idle", SubResource("AnimationNodeStateMachineTransition_vlaom"), "Move", "Turn", SubResource("AnimationNodeStateMachineTransition_whfpy"), "Turn", "Move", SubResource("AnimationNodeStateMachineTransition_nms58")]
 
 [node name="Oak" type="CharacterBody2D"]
+collision_mask = 6
 platform_floor_layers = 4294967176
 script = ExtResource("1_4ift8")
 
@@ -408,6 +409,7 @@ vframes = 4
 frame = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_fmnmb")
 
@@ -432,7 +434,15 @@ limit_left = 0
 limit_top = 0
 limit_right = 384
 limit_bottom = 256
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="BlockRayCast2D" type="RayCast2D" parent="."]
 position = Vector2(8, 8)
 target_position = Vector2(0, 8)
+collision_mask = 6
+
+[node name="LedgeRayCast2D" type="RayCast2D" parent="."]
+position = Vector2(8, 8)
+target_position = Vector2(0, 8)
+collision_mask = 4

@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://bc2mwnax5n1pj"]
+
+[ext_resource type="Texture2D" uid="uid://bxpesg55y0i7t" path="res://Sprites/ledge.png" id="1_caeq6"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_svcl7"]
+texture = ExtResource("1_caeq6")
+0:0/0 = 0
+0:0/0/terrain_set = 0
+0:0/0/terrain = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:0/0/terrains_peering_bit/right_side = 0
+1:0/0 = 0
+1:0/0/terrain_set = 0
+1:0/0/terrain = 0
+1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:0/0/physics_layer_0/angular_velocity = 0.0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:0/0/terrains_peering_bit/right_side = 0
+1:0/0/terrains_peering_bit/left_side = 0
+2:0/0 = 0
+2:0/0/terrain_set = 0
+2:0/0/terrain = 0
+2:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:0/0/physics_layer_0/angular_velocity = 0.0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:0/0/terrains_peering_bit/left_side = 0
+
+[sub_resource type="TileSet" id="TileSet_0513l"]
+physics_layer_0/collision_layer = 4
+terrain_set_0/mode = 0
+terrain_set_0/terrain_0/name = "AutoLedge"
+terrain_set_0/terrain_0/color = Color(0.666667, 0, 0.509804, 1)
+sources/0 = SubResource("TileSetAtlasSource_svcl7")
+
+[node name="Ledges" type="TileMap"]
+tile_set = SubResource("TileSet_0513l")
+format = 2

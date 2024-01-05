@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://c0duc0rrogte8"]
+[gd_scene load_steps=10 format=3 uid="uid://c0duc0rrogte8"]
 
 [ext_resource type="Script" path="res://Scenes/Nature/tall_grass.gd" id="1_jt238"]
 [ext_resource type="Texture2D" uid="uid://b6ep3i8702h1g" path="res://Sprites/tall_grass.png" id="1_k13g3"]
 [ext_resource type="Texture2D" uid="uid://6s27ul0ja1lf" path="res://Sprites/stepped_tall_grass.png" id="3_r7poi"]
+[ext_resource type="PackedScene" uid="uid://bsaqt8m014gxc" path="res://Scenes/Nature/grass_effect.tscn" id="4_52u5o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qw7nk"]
 size = Vector2(14, 14)
@@ -71,8 +72,11 @@ centered = false
 hframes = 2
 
 [node name="Area2D" type="Area2D" parent="."]
+y_sort_enabled = true
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+visible = false
 z_as_relative = false
 y_sort_enabled = true
 position = Vector2(8, 8)
@@ -86,6 +90,7 @@ libraries = {
 [node name="TextureRect" type="TextureRect" parent="."]
 visible = false
 show_behind_parent = true
+z_index = 2
 y_sort_enabled = true
 texture_filter = 1
 offset_right = 40.0
@@ -94,5 +99,6 @@ scale = Vector2(1, 0.992558)
 texture = ExtResource("3_r7poi")
 stretch_mode = 2
 
+[node name="GrassEffect" parent="." instance=ExtResource("4_52u5o")]
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
