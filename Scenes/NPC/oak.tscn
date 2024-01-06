@@ -462,7 +462,6 @@ shape = SubResource("RectangleShape2D_fmnmb")
 libraries = {
 "": SubResource("AnimationLibrary_1kj2f")
 }
-autoplay = "idleDown"
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 libraries = {

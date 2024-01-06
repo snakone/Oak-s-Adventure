@@ -80,10 +80,8 @@ func check_ledges() -> void:
 	else: jump();
 
 func check_wrong_direction() -> void:
-	var right_or_left = int(Input.is_action_pressed("moveRight")) - int(Input.is_action_pressed("moveLeft"));
-	var up_or_down = int(Input.is_action_pressed("moveDown")) - int(Input.is_action_pressed("moveUp"));
-	if(input_direction.y == 0): input_direction.x = right_or_left;
-	if(input_direction.x == 0): input_direction.y = up_or_down;
+	if(input_direction.y == 0): input_direction.x = Input.get_axis("moveLeft", "moveRight");
+	if(input_direction.x == 0): input_direction.y = Input.get_axis("moveUp", "moveDown");
 
 func finished_turning() -> void:
 	player_state = PlayerState.IDLE;
@@ -93,11 +91,11 @@ func reset_moving() -> void:
 	percent_moved = 0;
 	
 func jump() -> void:
-	dust_effect.visible = false;
 	jumping_over_ledge = true;
-	shadow.visible = true;
 	var new_position = input_direction.y * TILE_SIZE * percent_moved;
 	position.y = player_utils.get_jumping_curvature(start_position.y, new_position);
+	shadow.visible = true;
+	showDustEffect(false);
 
 func stop_jumping() -> void:
 	position = start_position + (TILE_SIZE * input_direction * 2);
@@ -105,6 +103,9 @@ func stop_jumping() -> void:
 	is_moving = false;
 	jumping_over_ledge = false;
 	shadow.visible = false;
-	dust_effect.visible = true;
-	dust_effect.play();
+	showDustEffect(true);
+
+func showDustEffect(value: bool) -> void:
+	if(value): dust_effect.play();
+	dust_effect.visible = value;
 

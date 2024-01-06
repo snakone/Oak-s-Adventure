@@ -9,15 +9,8 @@ func _ready():
 
 func _on_area_2d_body_entered(_body) -> void:
 	animation_player.play("Stepped")
-	await get_tree().create_timer(0.2).timeout;
-	active_texture();
-	active_effect();
-
-func active_texture():
-	texture_rect.visible = true;
 
 func active_effect() -> void:
-	grass_effect.visible = true;
 	grass_effect.play();
 
 func reset_texture():
