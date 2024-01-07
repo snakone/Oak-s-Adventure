@@ -7,6 +7,7 @@ enum DIRECTIONS {LEFT, RIGHT, UP, DOWN, NONE}
 const directions_array: Array = [Vector2(-1, 0), Vector2(1, 0), Vector2(0, -1), Vector2(0, 1), Vector2.ZERO]
 
 var last_player_direction = directions_array[DIRECTIONS.NONE];
+var on_transition = false;
 
 enum FacingDirection { LEFT, RIGHT, UP, DOWN };
 var facing_direction = FacingDirection.UP;

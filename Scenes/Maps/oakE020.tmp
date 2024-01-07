@@ -1,0 +1,78 @@
+[gd_scene load_steps=12 format=3 uid="uid://cbsymn8f5k46q"]
+
+[ext_resource type="Script" path="res://Scenes/Maps/oak_house.gd" id="1_hvp12"]
+[ext_resource type="Texture2D" uid="uid://cyswo02428m6m" path="res://Sprites/interior_tiles.png" id="1_nv2wr"]
+[ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="2_qhnvw"]
+[ext_resource type="Texture2D" uid="uid://c8757xym2cklw" path="res://Sprites/dolls.png" id="3_1hv1e"]
+[ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="3_clpgf"]
+[ext_resource type="Texture2D" uid="uid://di6dqp8kxemil" path="res://Sprites/mat.png" id="4_gjifn"]
+[ext_resource type="Texture2D" uid="uid://cavv0u68e8wec" path="res://Sprites/Game Boy Advance - Pokemon Ruby Sapphire - Objects (1).png" id="4_qw0q4"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_18r0l"]
+texture = ExtResource("1_nv2wr")
+18:39/0 = 0
+18:39/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+18:39/0/physics_layer_0/angular_velocity = 0.0
+135:30/0 = 0
+135:30/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+135:30/0/physics_layer_0/angular_velocity = 0.0
+130:16/0 = 0
+130:16/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+130:16/0/physics_layer_0/angular_velocity = 0.0
+130:17/0 = 0
+130:17/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+130:17/0/physics_layer_0/angular_velocity = 0.0
+124:16/0 = 0
+124:16/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+124:16/0/physics_layer_0/angular_velocity = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_c0nbo"]
+texture = ExtResource("3_1hv1e")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_alupt"]
+texture = ExtResource("4_qw0q4")
+
+[sub_resource type="TileSet" id="TileSet_kynbg"]
+physics_layer_0/collision_layer = 2
+physics_layer_0/collision_mask = 0
+sources/0 = SubResource("TileSetAtlasSource_18r0l")
+sources/1 = SubResource("TileSetAtlasSource_c0nbo")
+sources/2 = SubResource("TileSetAtlasSource_alupt")
+
+[node name="OakHouse" type="Node2D"]
+script = ExtResource("1_hvp12")
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_kynbg")
+format = 2
+layer_0/name = "Floor"
+layer_0/z_index = -1
+layer_0/tile_data = PackedInt32Array(0, 8847360, 30, 65536, 8847360, 30, 131072, 8847360, 30, 196608, 8847360, 30, 262144, 8847360, 30, 327680, 8847360, 30, 393216, 8847360, 30, 458752, 8847360, 30, 524288, 8847360, 30, 1, 8847360, 30, 65537, 8847360, 30, 131073, 8847360, 30, 196609, 8847360, 30, 262145, 8847360, 30, 327681, 8847360, 30, 393217, 8847360, 30, 458753, 8847360, 30, 524289, 8847360, 30, 2, 8847360, 30, 65538, 8847360, 30, 131074, 8847360, 30, 196610, 8847360, 30, 262146, 8847360, 30, 327682, 8847360, 30, 393218, 8847360, 30, 458754, 8847360, 30, 3, 8847360, 30, 65539, 8847360, 30, 131075, 8847360, 30, 196611, 8847360, 30, 262147, 8847360, 30, 327683, 8847360, 30, 393219, 8847360, 30, 458755, 8847360, 30, 4, 8847360, 30, 65540, 8847360, 30, 131076, 8847360, 30, 196612, 8847360, 30, 262148, 8847360, 30, 327684, 8847360, 30, 393220, 8847360, 30, 458756, 8847360, 30, 5, 8847360, 30, 65541, 8847360, 30, 131077, 8847360, 30, 196613, 8847360, 30, 262149, 8847360, 30, 327685, 8847360, 30, 393221, 8847360, 30, 458757, 8847360, 30, 6, 8847360, 30, 65542, 8847360, 30, 131078, 8847360, 30, 196614, 8847360, 30, 262150, 8847360, 30, 327686, 8847360, 30, 393222, 8847360, 30, 458758, 8847360, 30, 524294, 8847360, 30, 7, 8847360, 30, 65543, 8847360, 30, 131079, 8847360, 30, 196615, 8847360, 30, 262151, 8847360, 30, 327687, 8847360, 30, 393223, 8847360, 30, 458759, 8847360, 30, 524295, 8847360, 30, 8, 8847360, 30, 65544, 8847360, 30, 131080, 8847360, 30, 196616, 8847360, 30, 262152, 8847360, 30, 327688, 8847360, 30, 393224, 8847360, 30, 458760, 8847360, 30, 524296, 8847360, 30, 9, 8847360, 30, 65545, 8847360, 30, 131081, 8847360, 30, 196617, 8847360, 30, 262153, 8847360, 30, 327689, 8847360, 30, 393225, 8847360, 30, 458761, 8847360, 30, 524297, 8847360, 30, 10, 8847360, 30, 65546, 8847360, 30, 131082, 8847360, 30, 196618, 8847360, 30, 262154, 8847360, 30, 327690, 8847360, 30, 393226, 8847360, 30, 458762, 8847360, 30, 524298, 8847360, 30, 11, 8847360, 30, 65547, 8847360, 30, 131083, 8847360, 30, 196619, 8847360, 30, 262155, 8847360, 30, 327691, 8847360, 30, 393227, 8847360, 30, 458763, 8847360, 30, 524299, 8847360, 30, 12, 8847360, 30, 65548, 8847360, 30, 131084, 8847360, 30, 196620, 8847360, 30, 262156, 8847360, 30, 327692, 8847360, 30, 393228, 8847360, 30, 458764, 8847360, 30, 524300, 8847360, 30, 13, 8847360, 30, 65549, 8847360, 30, 131085, 8847360, 30, 196621, 8847360, 30, 262157, 8847360, 30, 327693, 8847360, 30, 393229, 8847360, 30, 458765, 8847360, 30, 524301, 8847360, 30, 14, 8847360, 30, 65550, 8847360, 30, 131086, 8847360, 30, 196622, 8847360, 30, 262158, 8847360, 30, 327694, 8847360, 30, 393230, 8847360, 30, 458766, 8847360, 30, 524302, 8847360, 30, 15, 8847360, 30, 65551, 8847360, 30, 131087, 8847360, 30, 196623, 8847360, 30, 262159, 8847360, 30, 327695, 8847360, 30, 393231, 8847360, 30, 458767, 8847360, 30, 524303, 8847360, 30, 524293, 8847360, 30, 524291, 8847360, 30, 524290, 8847360, 30)
+layer_1/name = "Room"
+layer_1/tile_data = PackedInt32Array(458754, 8519680, 16, 524290, 8519680, 17, 458758, 8519680, 268435472, 524294, 8519680, 268435473)
+
+[node name="Oak" parent="." instance=ExtResource("2_qhnvw")]
+position = Vector2(64, 128)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(128, 64)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+visible = false
+polygon = PackedVector2Array(-48, 80, 128, 80, 128, -64, -128, -64, -128, 80, -64, 80, -64, 96, -144, 96, -144, -80, 144, -80, 144, 96, -48, 96)
+
+[node name="Door" parent="." instance=ExtResource("3_clpgf")]
+visible = false
+position = Vector2(48, 80)
+next_scene = "res://Scenes/Maps/praire_town.tscn"
+animated = false
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -1
+offset_left = 56.0
+offset_top = 128.0
+offset_right = 88.0
+offset_bottom = 144.0
+texture = ExtResource("4_gjifn")

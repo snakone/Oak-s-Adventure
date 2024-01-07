@@ -35,6 +35,9 @@ func _ready():
 
 func _physics_process(delta) -> void:
 	if(player_state == PlayerState.TURNING || cant_move): return;
+	elif(GLOBAL.on_transition):
+		is_moving = false;
+		return;
 	elif(is_moving == false): process_player_input();
 	elif(input_direction != Vector2.ZERO):
 		playback.travel("Move");
@@ -46,7 +49,7 @@ func _physics_process(delta) -> void:
 func process_player_input() -> void:
 	check_wrong_direction();
 	if(input_direction != Vector2.ZERO):
-		set_spawn(input_direction);
+		set_direction(input_direction);
 		if(GLOBAL.need_to_turn(input_direction)):
 			player_state = PlayerState.TURNING;
 			playback.travel("Turn");
@@ -122,5 +125,5 @@ func _on_area_2d_area_entered(area):
 		cant_move = true;
 		GLOBAL.can_change_camera = true;
 
-func set_spawn(direction: Vector2):
+func set_direction(direction: Vector2):
 	for path in blends: animation_tree.set(path, direction);

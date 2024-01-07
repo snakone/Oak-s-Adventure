@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://bbr4k5128eafp" path="res://Sprites/oak_sprite.png" id="2_05a7t"]
 [ext_resource type="PackedScene" uid="uid://b43os1en518o1" path="res://Scenes/NPC/shadow.tscn" id="2_rdqlm"]
 [ext_resource type="Texture2D" uid="uid://bfuf4j5xlxapr" path="res://Sprites/jump_landing_dust.png" id="4_nuy0e"]
-[ext_resource type="Script" path="res://Scenes/NPC/dust_effect.gd" id="5_lwcr8"]
-[ext_resource type="Script" path="res://Scenes/NPC/camera2d.gd" id="6_1f5qq"]
+[ext_resource type="Script" path="res://Scripts/dust_effect.gd" id="5_btt4e"]
+[ext_resource type="Script" path="res://Scripts/camera2d.gd" id="6_kxb0c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lconu"]
 size = Vector2(8, 8)
@@ -454,7 +454,7 @@ frame = 2
 frame_progress = 1.0
 centered = false
 offset = Vector2(0, 1)
-script = ExtResource("5_lwcr8")
+script = ExtResource("5_btt4e")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -478,7 +478,7 @@ limit_right = 384
 limit_bottom = 256
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
-script = ExtResource("6_1f5qq")
+script = ExtResource("6_kxb0c")
 
 [node name="BlockRayCast2D" type="RayCast2D" parent="."]
 visible = false

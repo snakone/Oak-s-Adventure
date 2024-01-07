@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dyrxa3fos4lak"]
 
 [ext_resource type="Texture2D" uid="uid://d4da1c4r84m1n" path="res://Sprites/oak_house.png" id="1_w23x2"]
-[ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Scenes/Maps/door.tscn" id="2_nj6h6"]
+[ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="2_nj6h6"]
 
 [node name="House" type="StaticBody2D"]
 z_index = 1

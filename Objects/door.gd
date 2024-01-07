@@ -14,10 +14,9 @@ func _ready():
 func _on_body_entered(body):
 	check_direction();
 	if(can_be_opened && body.name == "Oak"):
-		if(animated): 
-			animation_player.play("Open");
-			MAPS.position_before_changing_scene = body.position;
-		else: enter_house()
+		MAPS.position_before_changing_scene = body.position;
+		if(animated): animation_player.play("Open");
+		else: enter_house();
 
 func check_direction():
 	if(door_open_directon != Vector2.ZERO):

@@ -1,12 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://bx6puh2tlx1xe"]
+[gd_scene load_steps=6 format=3 uid="uid://bx6puh2tlx1xe"]
 
-[ext_resource type="PackedScene" uid="uid://cn2jssalmf12l" path="res://main.tscn" id="1_36vnr"]
+[ext_resource type="PackedScene" uid="uid://cn2jssalmf12l" path="res://Scenes/Maps/praire_town.tscn" id="1_36vnr"]
 [ext_resource type="Script" path="res://scene_manager.gd" id="1_fy5xl"]
 
 [sub_resource type="Animation" id="Animation_ty746"]
 resource_name = "FadeToBlack"
 length = 1.2
-step = 0.4
+step = 0.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -14,7 +14,7 @@ tracks/0/path = NodePath("ColorRect:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.8),
+"times": PackedFloat32Array(0, 0.6, 1.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
@@ -26,28 +26,12 @@ tracks/1/path = NodePath("..")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.4),
+"times": PackedFloat32Array(0.6),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
 "method": &"on_finish_transition"
 }]
-}
-
-[sub_resource type="Animation" id="Animation_36itt"]
-resource_name = "FadeToNormal"
-step = 1.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 1), Color(1, 0.835294, 0, 0.976471)]
 }
 
 [sub_resource type="Animation" id="Animation_c1knh"]
@@ -68,7 +52,6 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_o8562"]
 _data = {
 "FadeToBlack": SubResource("Animation_ty746"),
-"FadeToNormal": SubResource("Animation_36itt"),
 "RESET": SubResource("Animation_c1knh")
 }
 
