@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://2hkjf7ag68pc"]
+
+[ext_resource type="Texture2D" uid="uid://n48fr2m4cppk" path="res://Sprites/lugia_mini.png" id="1_efhsa"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q8rgj"]
+atlas = ExtResource("1_efhsa")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bnlr7"]
+atlas = ExtResource("1_efhsa")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_331nx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q8rgj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bnlr7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[node name="Lugia" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_331nx")
+autoplay = "default"
+frame_progress = 0.709413
+centered = false
