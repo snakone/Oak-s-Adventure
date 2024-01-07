@@ -1,16 +1,15 @@
-[gd_scene load_steps=50 format=3 uid="uid://w5upskxna6ds"]
+[gd_scene load_steps=49 format=3 uid="uid://w5upskxna6ds"]
 
 [ext_resource type="Script" path="res://Scenes/NPC/oak.gd" id="1_4ift8"]
 [ext_resource type="Texture2D" uid="uid://bbr4k5128eafp" path="res://Sprites/oak_sprite.png" id="2_05a7t"]
 [ext_resource type="PackedScene" uid="uid://b43os1en518o1" path="res://Scenes/NPC/shadow.tscn" id="2_rdqlm"]
 [ext_resource type="Texture2D" uid="uid://bfuf4j5xlxapr" path="res://Sprites/jump_landing_dust.png" id="4_nuy0e"]
 [ext_resource type="Script" path="res://Scenes/NPC/dust_effect.gd" id="5_lwcr8"]
-[ext_resource type="Script" path="res://Scenes/NPC/camera2d.gd" id="6_1f5qq"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lconu"]
-size = Vector2(8, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fmnmb"]
+size = Vector2(14, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oxkw5"]
 size = Vector2(14, 14)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sena7"]
@@ -45,6 +44,18 @@ animations = [{
 [sub_resource type="Animation" id="Animation_rchw3"]
 length = 0.001
 loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
 
 [sub_resource type="Animation" id="Animation_qwynv"]
 resource_name = "idleDown"
@@ -422,16 +433,16 @@ collision_mask = 6
 platform_floor_layers = 4294967176
 script = ExtResource("1_4ift8")
 
-[node name="Area2D" type="Area2D" parent="."]
-collision_mask = 2
-
-[node name="Hitbox" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(8, 8)
-shape = SubResource("RectangleShape2D_lconu")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_fmnmb")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_oxkw5")
 
 [node name="Shadow" parent="." instance=ExtResource("2_rdqlm")]
 visible = false
@@ -445,7 +456,7 @@ centered = false
 offset = Vector2(0, -4)
 hframes = 3
 vframes = 4
-frame = 1
+frame = 6
 
 [node name="DustEffect" type="AnimatedSprite2D" parent="."]
 visible = false
@@ -478,7 +489,6 @@ limit_right = 384
 limit_bottom = 256
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
-script = ExtResource("6_1f5qq")
 
 [node name="BlockRayCast2D" type="RayCast2D" parent="."]
 visible = false
@@ -494,4 +504,5 @@ target_position = Vector2(0, 8)
 collision_mask = 4
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
 [connection signal="animation_finished" from="DustEffect" to="DustEffect" method="_on_animation_finished"]

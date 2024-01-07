@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://dtqibwgq2g60b"]
+[gd_scene load_steps=10 format=3 uid="uid://dtqibwgq2g60b"]
 
 [ext_resource type="Texture2D" uid="uid://cbkdffh861p20" path="res://Sprites/tileset3.png" id="1_oradh"]
 [ext_resource type="Texture2D" uid="uid://dgdovnqfv6lyx" path="res://Sprites/tileset2.png" id="2_3wqm6"]
 [ext_resource type="PackedScene" uid="uid://dj2oqc22fbd0m" path="res://Scenes/Nature/flowers.tscn" id="3_t7o0i"]
 [ext_resource type="PackedScene" uid="uid://c0duc0rrogte8" path="res://Scenes/Nature/tall_grass.tscn" id="3_xfx2w"]
 [ext_resource type="PackedScene" uid="uid://bc2mwnax5n1pj" path="res://Scenes/Maps/ledges.tscn" id="5_wvqdr"]
+[ext_resource type="PackedScene" uid="uid://dyrxa3fos4lak" path="res://Scenes/Maps/house.tscn" id="6_a64xi"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vjk8t"]
 resource_name = "Nature"
@@ -583,7 +584,7 @@ layer_1/tile_data = PackedInt32Array(917507, 0, 15, 851971, 0, 15, 983043, 0, 15
 layer_2/name = "Objects"
 layer_2/y_sort_enabled = true
 layer_2/z_index = 1
-layer_2/tile_data = PackedInt32Array(65538, 458753, 5, 131074, 458753, 6, 196610, 458753, 7, 262146, 458753, 8, 327682, 458753, 9, 65539, 524289, 5, 131075, 524289, 6, 196611, 524289, 7, 262147, 524289, 8, 327683, 524289, 9, 65540, 589825, 5, 131076, 589825, 6, 196612, 589825, 7, 262148, 589825, 8, 327684, 589825, 9, 65541, 655361, 5, 131077, 655361, 6, 196613, 655361, 7, 262149, 655361, 8, 327685, 655361, 9, 65542, 720897, 5, 131078, 720897, 6, 196614, 720897, 7, 262150, 720897, 8, 327686, 720897, 9, 65555, 524288, 0, 65552, 524288, 0, 327692, 1441792, 3, 196615, 1245184, 3, 262157, 1245184, 4, 196621, 1245184, 4, 786439, 196608, 34, 851977, 196608, 34, 786443, 196608, 34, 851981, 196608, 34, 786447, 196608, 34, 786451, 196608, 34, 851985, 0, 34, 851989, 0, 34, 196616, 1376256, 3, 393221, 1507328, 4, 196618, 1245184, 5)
+layer_2/tile_data = PackedInt32Array(65555, 524288, 0, 65552, 524288, 0, 327692, 1441792, 3, 196615, 1245184, 3, 262157, 1245184, 4, 196621, 1245184, 4, 786439, 196608, 34, 851977, 196608, 34, 786443, 196608, 34, 851981, 196608, 34, 786447, 196608, 34, 786451, 196608, 34, 851985, 0, 34, 851989, 0, 34, 196616, 1376256, 3, 393221, 1507328, 4, 196618, 1245184, 5)
 
 [node name="Ledges" parent="." instance=ExtResource("5_wvqdr")]
 layer_0/tile_data = PackedInt32Array(327697, 0, 0, 327698, 65536, 0, 327699, 65536, 0, 327700, 65536, 0, 327701, 131072, 0, 458759, 0, 0, 458760, 65536, 0, 458761, 65536, 0, 458762, 65536, 0, 458763, 131072, 0, 589831, 0, 0, 589832, 65536, 0, 589833, 65536, 0, 589834, 65536, 0, 589835, 131072, 0, 524305, 0, 0, 524306, 65536, 0, 524307, 65536, 0, 524308, 65536, 0, 524309, 131072, 0, 589841, 0, 0, 589842, 65536, 0, 589843, 65536, 0, 589844, 65536, 0, 589845, 131072, 0)
@@ -618,3 +619,6 @@ position = Vector2(16, 48)
 
 [node name="flowers3" parent="Flowers" instance=ExtResource("3_t7o0i")]
 position = Vector2(16, 64)
+
+[node name="House" parent="." instance=ExtResource("6_a64xi")]
+position = Vector2(32, 16)

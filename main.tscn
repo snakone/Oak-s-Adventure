@@ -5,11 +5,11 @@
 
 [sub_resource type="GDScript" id="GDScript_jvbk0"]
 
-[node name="Main" type="Node2D"]
+[node name="PraireTown" type="Node2D"]
 y_sort_enabled = true
 
 [node name="Oak" parent="." instance=ExtResource("2_5a1f2")]
-position = Vector2(112, 96)
+position = Vector2(48, 112)
 
-[node name="PraireTown" parent="." instance=ExtResource("2_28j7f")]
+[node name="TileMap" parent="." instance=ExtResource("2_28j7f")]
 script = SubResource("GDScript_jvbk0")

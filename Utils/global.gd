@@ -1,7 +1,19 @@
 extends Node
 
+signal on_tile_map_changed(size)
+signal player_moving
+
+enum DIRECTIONS {LEFT, RIGHT, UP, DOWN, NONE}
+const directions_array: Array = [Vector2(-1, 0), Vector2(1, 0), Vector2(0, -1), Vector2(0, 1), Vector2.ZERO]
+
+var last_player_direction = directions_array[DIRECTIONS.NONE];
+
 enum FacingDirection { LEFT, RIGHT, UP, DOWN };
 var facing_direction = FacingDirection.UP;
+var can_change_camera = false;
+const TILE_SIZE: int = 16;
+
+var first_spawn = false;
 
 func need_to_turn(input_direction: Vector2) -> bool:
 	var new_facing_direction;
