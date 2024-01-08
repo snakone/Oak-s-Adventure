@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://dkc34ekyveaye"]
+
+[ext_resource type="Texture2D" uid="uid://dehl42k8tbk50" path="res://Sprites/pink_berry.png" id="1_a8byq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e3omd"]
+atlas = ExtResource("1_a8byq")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_403j3"]
+atlas = ExtResource("1_a8byq")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bunkl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e3omd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_403j3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8o73j"]
+size = Vector2(16, 16)
+
+[node name="PinkBerry" type="StaticBody2D"]
+y_sort_enabled = true
+collision_layer = 2
+collision_mask = 0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 1
+y_sort_enabled = true
+sprite_frames = SubResource("SpriteFrames_bunkl")
+autoplay = "default"
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(8, 24)
+shape = SubResource("RectangleShape2D_8o73j")

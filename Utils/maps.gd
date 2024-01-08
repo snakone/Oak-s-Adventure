@@ -7,6 +7,10 @@ const LIBRARY = {
 	"OakHouse": {
 		"start_position": Vector2(80, 128),
 		"spawn_direction": GLOBAL.directions_array[GLOBAL.DIRECTIONS.UP]
+	},
+	"OakFarmerHouse": {
+		"start_positon": Vector2(64, 112),
+		"spawn_direction": GLOBAL.directions_array[GLOBAL.DIRECTIONS.UP]
 	}
 }
 

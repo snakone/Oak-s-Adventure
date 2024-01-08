@@ -11,10 +11,9 @@ script = ExtResource("1_4sei8")
 
 [node name="Oak" parent="." instance=ExtResource("1_7s0sy")]
 y_sort_enabled = true
-position = Vector2(48, 32)
+position = Vector2(304, 80)
 
 [node name="TileMap" parent="." instance=ExtResource("1_mej1f")]
-layer_2/y_sort_enabled = true
 
 [node name="SwitchScene" parent="." instance=ExtResource("3_yop7n")]
 position = Vector2(56, -8)

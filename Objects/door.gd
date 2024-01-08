@@ -7,10 +7,10 @@ extends Area2D
 @onready var animation_player = $AnimationPlayer;
 
 var can_be_opened = true;
-var door_open_directon: Vector2;
+var door_open_direction: Vector2;
 
 func _ready():
-	door_open_directon = GLOBAL.directions_array[enter_direction];
+	door_open_direction = GLOBAL.directions_array[enter_direction];
 
 func _on_body_entered(body) -> void:
 	check_direction();
@@ -18,10 +18,11 @@ func _on_body_entered(body) -> void:
 		MAPS.spawn_position = spawn_position;
 		if(animated): animation_player.play("Open");
 		else: enter_house();
+	elif(!can_be_opened): GLOBAL.emit_signal("cant_enter_door", self);
 
 func check_direction() -> void:
-	if(door_open_directon != Vector2.ZERO):
-		can_be_opened = door_open_directon == GLOBAL.last_player_direction;
+	if(door_open_direction != Vector2.ZERO):
+		can_be_opened = door_open_direction == GLOBAL.last_player_direction && next_scene != "";
 
 func enter_house() -> void:
 	if(next_scene):

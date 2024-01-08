@@ -24,6 +24,8 @@ var percent_moved: float = 0;
 var running = false;
 var sit_on_chair = false;
 var chair_direction: Vector2;
+var cant_enter_door_direction: Vector2;
+var stuck_on_door = false;
 
 var blends = [
 	"parameters/Idle/blend_position", 
@@ -33,6 +35,7 @@ var blends = [
 func _ready():
 	start_position = position;
 	$Sprite2D.visible = true;
+	GLOBAL.connect("cant_enter_door", cant_enter_door_animation);
 
 func _physics_process(delta) -> void:
 	if(player_state == PlayerState.TURNING || cant_move): return;
@@ -47,15 +50,22 @@ func process_player_input() -> void:
 	if(input_direction != Vector2.ZERO):
 		set_blend_direction(input_direction);
 		update_rays();
+		#STUCK ON DOOR
+		if(stuck_on_door && cant_enter_door_direction == input_direction):
+			playback.travel("Move");
+			return;
+		else: stuck_on_door = false;
+		#SIT ON CHAIR
 		if(
 			sit_on_chair && 
 			block_ray_cast_2d.is_colliding() && 
 			input_direction == chair_direction
 		): return;
-		
+		#TURN
 		if(GLOBAL.need_to_turn(input_direction) && !sit_on_chair):
 			player_state = PlayerState.TURNING;
 			playback.travel("Turn");
+		#DEFAULT
 		else:
 			start_position = position;
 			is_moving = true;
@@ -72,16 +82,19 @@ func move(delta) -> void:
 	elif(!block_ray_cast_2d.is_colliding()): check_moving();
 	else: reset_moving();
 
+#MOVING
 func check_moving() -> void:
 	if(percent_moved >= 1): stop_movement();
 	else:
 		GLOBAL.emit_signal("player_moving")
 		update_position();
 
+#LEDGES
 func check_ledges() -> void:
 	if(percent_moved >= 2): stop_jumping();
 	else: jump();
 
+#TRANSITION
 func check_transition():
 	if(percent_moved >= 1): 
 		stop_movement();
@@ -151,7 +164,7 @@ func _on_area_2d_area_exited(area) -> void:
 func enter_door_animation() -> void:
 	await get_tree().create_timer(.2).timeout
 	var tween = get_tree().create_tween();
-	await tween.tween_property(sprite, "modulate:a", 0, 0.1).finished;
+	await tween.tween_property(sprite, "modulate:a", 0, 0.2).finished;
 	cant_move = true;
 
 func sit_on_chair_animation(area: Area2D) -> void:
@@ -164,4 +177,10 @@ func sit_on_chair_animation(area: Area2D) -> void:
 	else: playback.travel("Chair");
 	sit_on_chair = true;
 
-
+func cant_enter_door_animation(area: Area2D) -> void:
+	stuck_on_door = true;
+	await get_tree().create_timer(.2).timeout;
+	position = start_position;
+	cant_enter_door_direction = area.door_open_direction;
+	var tween = get_tree().create_tween().set_trans(Tween.TRANS_QUAD);
+	tween.tween_property(sprite, "position:y", sprite.position.y - 4, 0.2);

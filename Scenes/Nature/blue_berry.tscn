@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://cc02mcfctdy8w"]
+
+[ext_resource type="Texture2D" uid="uid://ct2cn6pgxvefb" path="res://Sprites/blue_berry.png" id="1_3fhhy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3rcaf"]
+atlas = ExtResource("1_3fhhy")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pe3uh"]
+atlas = ExtResource("1_3fhhy")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r4gxd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3rcaf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pe3uh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ieykl"]
+size = Vector2(16, 16)
+
+[node name="BlueBerry" type="StaticBody2D"]
+z_index = 1
+y_sort_enabled = true
+collision_layer = 2
+collision_mask = 0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_r4gxd")
+autoplay = "default"
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+y_sort_enabled = true
+position = Vector2(8, 24)
+shape = SubResource("RectangleShape2D_ieykl")

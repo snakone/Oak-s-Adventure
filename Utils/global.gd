@@ -2,6 +2,7 @@ extends Node
 
 signal on_tile_map_changed(size);
 signal player_moving;
+signal cant_enter_door;
 
 enum DIRECTIONS {LEFT, RIGHT, UP, DOWN, NONE}
 const directions_array: Array = [Vector2(-1, 0), Vector2(1, 0), Vector2(0, -1), Vector2(0, 1), Vector2.ZERO]

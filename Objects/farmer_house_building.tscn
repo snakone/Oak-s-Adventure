@@ -15,10 +15,11 @@ texture = ExtResource("1_i6tmy")
 centered = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-y_sort_enabled = true
 polygon = PackedVector2Array(16, 64, 16, 64, 16, 48, 32, 48, 32, 64, 64, 64, 64, 16, 0, 16, 0, 64)
 
 [node name="Door" parent="." instance=ExtResource("2_7wpw0")]
+z_index = 1
 position = Vector2(0, -16)
+next_scene = "res://Scenes/Maps/farmer_house.tscn"
 enter_direction = 2
-spawn_position = Vector2(80, 128)
+spawn_position = Vector2(64, 112)
