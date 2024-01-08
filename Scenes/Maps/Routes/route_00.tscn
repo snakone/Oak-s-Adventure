@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://mehsprarmnqn"]
+
+[ext_resource type="Script" path="res://Scenes/Maps/Routes/route_00.gd" id="1_4sei8"]
+[ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="1_7s0sy"]
+[ext_resource type="PackedScene" uid="uid://ca0it3m1tg38u" path="res://Tilesets/route00_tileset.tscn" id="1_mej1f"]
+[ext_resource type="PackedScene" uid="uid://cqktd3b4r0pk2" path="res://Objects/switch_scene.tscn" id="3_yop7n"]
+
+[node name="Route00" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_4sei8")
+
+[node name="Oak" parent="." instance=ExtResource("1_7s0sy")]
+y_sort_enabled = true
+position = Vector2(48, 32)
+
+[node name="TileMap" parent="." instance=ExtResource("1_mej1f")]
+layer_2/y_sort_enabled = true
+
+[node name="SwitchScene" parent="." instance=ExtResource("3_yop7n")]
+position = Vector2(56, -8)
+scale = Vector2(5, 1)
+next_scene = "res://Scenes/Maps/praire_town.tscn"

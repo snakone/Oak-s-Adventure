@@ -3,6 +3,7 @@ extends Area2D
 @export_file("*.tscn") var next_scene: String;
 @export var enter_direction = GLOBAL.DIRECTIONS.UP;
 @export var animated = true;
+@export var spawn_position = Vector2.ZERO;
 @onready var animation_player = $AnimationPlayer;
 
 var can_be_opened = true;
@@ -14,7 +15,7 @@ func _ready():
 func _on_body_entered(body):
 	check_direction();
 	if(can_be_opened && body.name == "Oak"):
-		MAPS.position_before_changing_scene = body.position;
+		MAPS.spawn_position = spawn_position;
 		if(animated): animation_player.play("Open");
 		else: enter_house();
 
@@ -23,4 +24,5 @@ func check_direction():
 		can_be_opened = door_open_directon == GLOBAL.last_player_direction;
 
 func enter_house():
-	get_node("/root/SceneManager").transition_to_scene(next_scene);
+	if(next_scene):
+		get_node("/root/SceneManager").transition_to_scene(next_scene, true);

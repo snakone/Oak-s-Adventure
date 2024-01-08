@@ -9,9 +9,10 @@ var inside_grass = false;
 func _ready():
 	GLOBAL.connect("player_moving", reset_texture)
 
-func _on_area_2d_body_entered(_body) -> void:
-	animation_player.play("Stepped");
-	inside_grass = true;
+func _on_area_2d_body_entered(body) -> void:
+	if(body.name == "Oak"):
+		animation_player.play("Stepped");
+		inside_grass = true;
 
 func active_effect() -> void:
 	grass_effect.play();

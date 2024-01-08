@@ -11,10 +11,12 @@ var on_transition = false;
 
 enum FacingDirection { LEFT, RIGHT, UP, DOWN };
 var facing_direction = FacingDirection.UP;
-var can_change_camera = false;
 const TILE_SIZE: int = 16;
 
+var spawn_location = null;
 var first_spawn = false;
+
+var camera_connected = false;
 
 func need_to_turn(input_direction: Vector2) -> bool:
 	var new_facing_direction;

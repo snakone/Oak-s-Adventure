@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cbsymn8f5k46q"]
+[gd_scene load_steps=13 format=3 uid="uid://cbsymn8f5k46q"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/oak_house.gd" id="1_hvp12"]
 [ext_resource type="Texture2D" uid="uid://cyswo02428m6m" path="res://Sprites/interior_tiles.png" id="1_nv2wr"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://2hkjf7ag68pc" path="res://Scenes/Objects/Animated/lugia.tscn" id="3_xwmj3"]
 [ext_resource type="PackedScene" uid="uid://c2njh5005hmhx" path="res://Scenes/Objects/Animated/ho_oh.tscn" id="4_ln0af"]
 [ext_resource type="Texture2D" uid="uid://cavv0u68e8wec" path="res://Sprites/objects1.png" id="4_qw0q4"]
-[ext_resource type="PackedScene" uid="uid://ck353m2o1p4f8" path="res://Scenes/Objects/chair.tscn" id="8_uhd35"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_18r0l"]
 texture = ExtResource("1_nv2wr")
@@ -327,11 +326,9 @@ texture = ExtResource("1_nv2wr")
 32:46/0 = 0
 32:46/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 32:46/0/physics_layer_0/angular_velocity = 0.0
-32:46/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 32:47/0 = 0
 32:47/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 32:47/0/physics_layer_0/angular_velocity = 0.0
-32:47/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 33:47/0 = 0
 33:47/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 33:47/0/physics_layer_0/angular_velocity = 0.0
@@ -347,11 +344,25 @@ texture = ExtResource("1_nv2wr")
 35:46/0 = 0
 35:46/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 35:46/0/physics_layer_0/angular_velocity = 0.0
-35:46/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 35:47/0 = 0
 35:47/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 35:47/0/physics_layer_0/angular_velocity = 0.0
-35:47/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+184:55/0 = 0
+184:55/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+184:55/0/physics_layer_0/angular_velocity = 0.0
+37:5/0 = 0
+37:5/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+37:5/0/physics_layer_0/angular_velocity = 0.0
+133:41/0 = 0
+133:41/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+133:41/0/physics_layer_0/angular_velocity = 0.0
+133:41/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+134:41/0 = 0
+134:41/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+134:41/0/physics_layer_0/angular_velocity = 0.0
+135:41/0 = 0
+135:41/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+135:41/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_c0nbo"]
 texture = ExtResource("3_1hv1e")
@@ -371,16 +382,6 @@ y_sort_enabled = true
 position = Vector2(0, 32)
 script = ExtResource("1_hvp12")
 
-[node name="Oak" parent="." instance=ExtResource("2_qhnvw")]
-y_sort_enabled = true
-position = Vector2(64, 128)
-
-[node name="Lugia" parent="." instance=ExtResource("3_xwmj3")]
-position = Vector2(224, 96)
-
-[node name="Ho-oh" parent="." instance=ExtResource("4_ln0af")]
-position = Vector2(176, 96)
-
 [node name="TileMap" type="TileMap" parent="."]
 y_sort_enabled = true
 tile_set = SubResource("TileSet_kynbg")
@@ -393,11 +394,24 @@ layer_1/name = "Objects"
 layer_1/y_sort_enabled = true
 layer_1/y_sort_origin = -4
 layer_1/z_index = 1
-layer_1/tile_data = PackedInt32Array(-65531, 0, 29, -65530, 65536, 29, 5, 0, 30, 6, 65536, 30, -65529, 0, 31, 7, 0, 32, -65528, 65536, 31, 8, 65536, 32, -65532, 7798784, 26, 2, 10223616, 4, 65538, 1179648, 38, 458754, 1376256, 3, 524290, 1376256, 4, 458758, 1376256, 3, 524294, 1376256, 4, -65527, 7798784, 26, 65550, 2818048, 12, 14, 2818048, 11, 13, 2752512, 11, 65549, 2752512, 12, -65521, 2621440, 13, 15, 2621440, 14, -131062, 7667712, 37, -65526, 7667712, 38, -131061, 7733248, 37, -65525, 7733248, 38, -131060, 7798784, 37, -65524, 7798784, 38, 524291, 7471104, 29, 524292, 7536640, 29, 524293, 7602176, 29, -131070, 3014656, 0, -65534, 3014656, 1, 131072, 1507328, 37, 196608, 1507328, 38, 327695, 9175040, 5, 327694, 9175040, 5, 327693, 9175040, 5, 327692, 9175040, 5, 327691, 9175040, 5, 393226, 9109504, 6, 458762, 9109504, 6, 524298, 9109504, 6, 196611, 2097152, 46, 262147, 2097152, 47, 196612, 2162688, 46, 262148, 2162688, 47, 196613, 2228224, 46, 262149, 2228224, 47, 196614, 2293760, 46, 262150, 2293760, 47, 131082, 196608, 29, 131083, 262144, 29, 196618, 196608, 30, 196619, 262144, 30)
+layer_1/tile_data = PackedInt32Array(-65531, 0, 29, -65530, 65536, 29, 5, 0, 30, 6, 65536, 30, -65529, 0, 31, 7, 0, 32, -65528, 65536, 31, 8, 65536, 32, -65532, 7798784, 26, 2, 10223616, 4, 65538, 1179648, 38, -65527, 7798784, 26, 65550, 2818048, 12, 14, 2818048, 11, 13, 2752512, 11, 65549, 2752512, 12, -65521, 2621440, 13, 15, 2621440, 14, -131062, 7667712, 37, -65526, 7667712, 38, -131061, 7733248, 37, -65525, 7733248, 38, -131060, 7798784, 37, -65524, 7798784, 38, -131070, 3014656, 0, -65534, 3014656, 1, 131082, 196608, 29, 131083, 262144, 29, 196618, 196608, 30, 196619, 262144, 30, 393228, 9175040, 5, 393229, 9175040, 5, 393230, 9175040, 5, 393231, 9175040, 5, 458763, 9109504, 6, 524299, 9109504, 6, 524291, 1376256, 4, 524292, 7471104, 29, 524293, 7536640, 29, 524294, 7602176, 29, 458755, 1376256, 3, 458759, 1376256, 3, 524295, 1376256, 4, 196623, 1507328, 37, 262159, 1507328, 38, 0, 8716288, 41)
 layer_2/name = "BackgroundObjects"
 layer_2/y_sort_enabled = true
 layer_2/z_index = 1
-layer_2/tile_data = PackedInt32Array(393222, 1376256, 3, 458758, 1376256, 4, 393218, 1376256, 3, 458754, 1376256, 4, 393216, 5242880, 48, 458752, 5242880, 49, 393217, 5308416, 48, 458753, 5308416, 49, -131057, 983040, 48, -65521, 983040, 49)
+layer_2/tile_data = PackedInt32Array(-131057, 983040, 48, -65521, 983040, 49, 393219, 1376256, 3, 458755, 1376256, 4, 393223, 1376256, 3, 458759, 1376256, 4, 327680, 5242880, 48, 327681, 5308416, 48, 393216, 5242880, 49, 393217, 5308416, 49)
+layer_3/name = "Beneath"
+layer_3/z_index = -1
+layer_3/tile_data = PackedInt32Array(65544, 12058624, 55, 196612, 2162688, 46, 262148, 2162688, 47, 196613, 2228224, 46, 262149, 2228224, 47, 196614, 8847360, 41, 262150, 8847360, 41, 196611, 8781824, 41, 262147, 8781824, 41)
+
+[node name="Oak" parent="." instance=ExtResource("2_qhnvw")]
+y_sort_enabled = true
+position = Vector2(80, 128)
+
+[node name="Lugia" parent="." instance=ExtResource("3_xwmj3")]
+position = Vector2(224, 112)
+
+[node name="Ho-oh" parent="." instance=ExtResource("4_ln0af")]
+position = Vector2(192, 112)
 
 [node name="Shape" type="StaticBody2D" parent="."]
 position = Vector2(128, 64)
@@ -406,14 +420,10 @@ collision_mask = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Shape"]
 visible = false
-polygon = PackedVector2Array(-48, 80, 128, 80, 128, -64, -128, -64, -128, 80, -64, 80, -64, 96, -144, 96, -144, -80, 144, -80, 144, 96, -48, 96)
+polygon = PackedVector2Array(-32, 80, 128, 80, 128, -64, -128, -64, -128, 80, -48, 80, -48, 96, -144, 96, -144, -80, 144, -80, 144, 96, -32, 96)
 
 [node name="Door" parent="." instance=ExtResource("3_clpgf")]
 visible = false
-position = Vector2(48, 80)
+position = Vector2(64, 80)
 next_scene = "res://Scenes/Maps/praire_town.tscn"
-animated = false
-
-[node name="Chair" parent="." instance=ExtResource("8_uhd35")]
-position = Vector2(128, 16)
-collision_mask = 0
+spawn_position = Vector2(48, 96)

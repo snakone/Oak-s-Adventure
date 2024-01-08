@@ -92,7 +92,7 @@ func check_ledges() -> void:
 func check_wrong_direction() -> void:
 	if(input_direction.y == 0): input_direction.x = Input.get_axis("moveLeft", "moveRight");
 	if(input_direction.x == 0): input_direction.y = Input.get_axis("moveUp", "moveDown");
-	if(input_direction != Vector2.ZERO):
+	if(input_direction != Vector2.ZERO && !GLOBAL.on_transition):
 		GLOBAL.last_player_direction = input_direction;
 
 func finished_turning() -> void:
@@ -127,7 +127,6 @@ func _on_area_2d_area_entered(area):
 		var tween = get_tree().create_tween()
 		await tween.tween_property(sprite, "modulate:a", 0, 0.1).finished;
 		cant_move = true;
-		GLOBAL.can_change_camera = true;
 
 	elif("Chair" in area.name):
 		await get_tree().create_timer(.3).timeout
@@ -138,6 +137,9 @@ func _on_area_2d_area_entered(area):
 				playback.travel("ChairDown");
 			else: playback.travel("Chair");
 			sit_on_chair = true;
+	elif("SwitchScene" in area.name):
+		var tween = get_tree().create_tween()
+		await tween.tween_property(sprite, "modulate:a", 0, 0.2).finished;
 
 func _on_area_2d_area_exited(area):
 	if("Chair" in area.name):

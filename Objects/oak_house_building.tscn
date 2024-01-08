@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dyrxa3fos4lak"]
 
-[ext_resource type="Texture2D" uid="uid://d4da1c4r84m1n" path="res://Sprites/oak_house.png" id="1_w23x2"]
-[ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="2_nj6h6"]
+[ext_resource type="Texture2D" uid="uid://d4da1c4r84m1n" path="res://Sprites/oak_house.png" id="1_pw56d"]
+[ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="2_42u06"]
 
 [node name="House" type="StaticBody2D"]
 z_index = 1
@@ -11,13 +11,13 @@ collision_mask = 0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 y_sort_enabled = true
-texture = ExtResource("1_w23x2")
+texture = ExtResource("1_pw56d")
 centered = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-visible = false
 polygon = PackedVector2Array(0, 80, 16, 80, 16, 64, 32, 64, 32, 80, 48, 80, 64, 80, 80, 80, 80, 16, 0, 16)
 
-[node name="Door" parent="." instance=ExtResource("2_nj6h6")]
+[node name="Door" parent="." instance=ExtResource("2_42u06")]
 next_scene = "res://Scenes/Maps/oak_house.tscn"
 enter_direction = 2
+spawn_position = Vector2(80, 128)

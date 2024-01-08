@@ -10,10 +10,11 @@ config_version=5
 
 [application]
 
-config/name="Games"
+config/name="Oak's Adventure"
+config/description="Pokémon Ruby & Shappire clone"
+config/version="0.0.1"
 run/main_scene="res://scene_manager.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
-boot_splash/bg_color=Color(0.0117647, 0.12549, 0.313726, 1)
 
 [autoload]
 
@@ -75,5 +76,4 @@ run={
 
 textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"
-environment/defaults/default_clear_color=Color(0, 0.282353, 0.611765, 1)
 viewport/hdr_2d=true
