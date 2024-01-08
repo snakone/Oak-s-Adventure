@@ -427,3 +427,4 @@ visible = false
 position = Vector2(64, 80)
 next_scene = "res://Scenes/Maps/praire_town.tscn"
 spawn_position = Vector2(48, 96)
+animated = false

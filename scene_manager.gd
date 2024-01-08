@@ -10,8 +10,8 @@ func transition_to_scene(new_scene: String, animated: bool):
 	if(animated): 
 		GLOBAL.on_transition = true;
 		animation_player.play("FadeToBlack");
-	else: create_new_scene()
-	
+	else: create_new_scene();
+
 func create_new_scene():
 	current_scene.get_child(0).queue_free();
 	var new_node = await load(next_scene).instantiate();

@@ -6,8 +6,7 @@ extends Node2D
 
 var inside_grass = false;
 
-func _ready():
-	GLOBAL.connect("player_moving", reset_texture)
+func _ready(): GLOBAL.connect("player_moving", reset_texture)
 
 func _on_area_2d_body_entered(body) -> void:
 	if(body.name == "Oak"):
