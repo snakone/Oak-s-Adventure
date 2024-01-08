@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bx6puh2tlx1xe"]
+[gd_scene load_steps=7 format=3 uid="uid://bx6puh2tlx1xe"]
 
 [ext_resource type="Script" path="res://scene_manager.gd" id="1_fy5xl"]
 [ext_resource type="PackedScene" uid="uid://mehsprarmnqn" path="res://Scenes/Maps/Routes/route_00.tscn" id="2_4f6u4"]
+[ext_resource type="PackedScene" uid="uid://drehjofe2bwo0" path="res://Scenes/UI/menu.tscn" id="3_8d0bi"]
 
 [sub_resource type="Animation" id="Animation_ty746"]
 resource_name = "FadeToBlack"
@@ -61,6 +62,8 @@ script = ExtResource("1_fy5xl")
 [node name="CurrentScene" type="Node2D" parent="."]
 
 [node name="Route00" parent="CurrentScene" instance=ExtResource("2_4f6u4")]
+
+[node name="Menu" parent="." instance=ExtResource("3_8d0bi")]
 
 [node name="Transition" type="CanvasLayer" parent="."]
 

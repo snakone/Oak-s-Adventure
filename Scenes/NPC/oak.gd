@@ -35,7 +35,8 @@ var blends = [
 func _ready():
 	start_position = position;
 	$Sprite2D.visible = true;
-	GLOBAL.connect("cant_enter_door", cant_enter_door_animation);
+	GLOBAL.connect("cant_enter_door", _on_cant_enter_door);
+	GLOBAL.connect("menu_opened", _on_menu_opened);
 
 func _physics_process(delta) -> void:
 	if(player_state == PlayerState.TURNING || cant_move): return;
@@ -44,6 +45,7 @@ func _physics_process(delta) -> void:
 	else:
 		playback.travel("Idle");
 		is_moving = false;
+		GLOBAL.emit_signal("player_moving", false);
 
 func process_player_input() -> void:
 	set_direction();
@@ -69,6 +71,7 @@ func process_player_input() -> void:
 		else:
 			start_position = position;
 			is_moving = true;
+			GLOBAL.emit_signal("player_moving", true);
 	elif(!sit_on_chair): playback.travel("Idle")
 
 func move(delta) -> void:
@@ -85,9 +88,7 @@ func move(delta) -> void:
 #MOVING
 func check_moving() -> void:
 	if(percent_moved >= 1): stop_movement();
-	else:
-		GLOBAL.emit_signal("player_moving")
-		update_position();
+	else: update_position();
 
 #LEDGES
 func check_ledges() -> void:
@@ -110,8 +111,7 @@ func jump() -> void:
 
 func stop_jumping() -> void:
 	position = start_position + (GLOBAL.TILE_SIZE * input_direction * 2);
-	percent_moved = 0;
-	is_moving = false;
+	reset_moving();
 	jumping_over_ledge = false;
 	shadow.visible = false;
 	show_dust_effect(true);
@@ -132,6 +132,7 @@ func stop_movement() -> void:
 func reset_moving() -> void:
 	is_moving = false;
 	percent_moved = 0;
+	GLOBAL.emit_signal("player_moving", false);
 
 func set_blend_direction(direction: Vector2) -> void:
 	for path in blends: animation_tree.set(path, direction);
@@ -159,6 +160,10 @@ func _on_area_2d_area_entered(area):
 
 func _on_area_2d_area_exited(area) -> void:
 	if("Chair" in area.name): sit_on_chair = false;
+	
+func _on_menu_opened(value: bool):
+	if(is_moving): return;
+	set_physics_process(!value);
 
 # ANIMATIONS
 func enter_door_animation() -> void:
@@ -177,7 +182,7 @@ func sit_on_chair_animation(area: Area2D) -> void:
 	else: playback.travel("Chair");
 	sit_on_chair = true;
 
-func cant_enter_door_animation(area: Area2D) -> void:
+func _on_cant_enter_door(area: Area2D) -> void:
 	stuck_on_door = true;
 	await get_tree().create_timer(.2).timeout;
 	position = start_position;
