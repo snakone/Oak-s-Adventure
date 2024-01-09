@@ -16,5 +16,8 @@ func _ready():
 		MAPS.spawn_position = null;
 
 func set_camera() -> void:
-	var size = tilemap.get_used_rect().size;
-	GLOBAL.emit_signal("on_tile_map_changed", size);
+	var size: Vector2 = tilemap.get_used_rect().size;
+	var diff = GLOBAL.WINDOW_SIZE - size;
+	var camera_offset = Vector2.ZERO;
+	if(diff > Vector2.ZERO): camera_offset = diff / 2;
+	GLOBAL.emit_signal("on_tile_map_changed", size, camera_offset);

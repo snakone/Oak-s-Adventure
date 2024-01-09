@@ -4,13 +4,17 @@ extends Area2D
 @export var enter_direction = GLOBAL.DIRECTIONS.UP;
 @export var spawn_position = Vector2.ZERO;
 @export var animated = true;
+@export var sprite_image: Texture;
 @onready var animation_player = $AnimationPlayer;
+@onready var sprite_2d = $Sprite2D
 
 var can_be_opened = true;
 var door_open_direction: Vector2;
 
 func _ready():
 	door_open_direction = GLOBAL.directions_array[enter_direction];
+	sprite_2d.texture = sprite_image;
+	
 
 func _on_body_entered(body) -> void:
 	check_direction();

@@ -1,6 +1,6 @@
 extends Node
 
-signal on_tile_map_changed(size: Vector2);
+signal on_tile_map_changed(size: Vector2, camera_offset: Vector2);
 signal player_moving(value: bool);
 signal cant_enter_door;
 signal menu_opened(value: bool);
@@ -14,6 +14,7 @@ var on_transition = false;
 enum FacingDirection { LEFT, RIGHT, UP, DOWN };
 var facing_direction = FacingDirection.UP;
 const TILE_SIZE: int = 16;
+const WINDOW_SIZE = Vector2(15, 10);
 
 var spawn_location = null;
 var first_spawn = false;

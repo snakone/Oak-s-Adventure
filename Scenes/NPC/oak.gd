@@ -167,9 +167,9 @@ func _on_menu_opened(value: bool):
 
 # ANIMATIONS
 func enter_door_animation() -> void:
-	await get_tree().create_timer(.2).timeout
+	await get_tree().create_timer(.1).timeout
 	var tween = get_tree().create_tween();
-	await tween.tween_property(sprite, "modulate:a", 0, 0.2).finished;
+	await tween.tween_property(sprite, "modulate:a", 0, 0.1).finished;
 	cant_move = true;
 
 func sit_on_chair_animation(area: Area2D) -> void:
