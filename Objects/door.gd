@@ -6,7 +6,10 @@ extends Area2D
 @export var animated = true;
 @export var sprite_image: Texture;
 @onready var animation_player = $AnimationPlayer;
-@onready var sprite_2d = $Sprite2D
+@onready var sprite_2d = $Sprite2D;
+
+enum DoorType { IN, OUT }
+@export var type: DoorType;
 
 var can_be_opened = true;
 var door_open_direction: Vector2;
@@ -14,7 +17,7 @@ var door_open_direction: Vector2;
 func _ready():
 	door_open_direction = GLOBAL.directions_array[enter_direction];
 	sprite_2d.texture = sprite_image;
-	
+	check_close_animation();
 
 func _on_body_entered(body) -> void:
 	check_direction();
@@ -30,4 +33,10 @@ func check_direction() -> void:
 
 func enter_house() -> void:
 	if(next_scene):
+		GLOBAL.last_used_door = self.name;
 		get_node("/root/SceneManager").transition_to_scene(next_scene, true);
+
+func check_close_animation():
+	if(GLOBAL.last_used_door == self.name && type == DoorType.IN):
+		animation_player.play("Close");
+		GLOBAL.last_used_door = "";

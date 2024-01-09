@@ -11,7 +11,7 @@
 size = Vector2(8, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fmnmb"]
-size = Vector2(14, 14)
+size = Vector2(12, 12)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sena7"]
 atlas = ExtResource("4_nuy0e")
@@ -476,7 +476,6 @@ graph_offset = Vector2(0, 11.5001)
 
 [node name="Oak" type="CharacterBody2D"]
 collision_mask = 6
-platform_floor_layers = 4294967176
 script = ExtResource("1_4ift8")
 
 [node name="Area2D" type="Area2D" parent="."]

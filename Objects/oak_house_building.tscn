@@ -18,7 +18,7 @@ centered = false
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(0, 80, 16, 80, 16, 64, 32, 64, 32, 80, 48, 80, 64, 80, 80, 80, 80, 16, 0, 16)
 
-[node name="Door" parent="." instance=ExtResource("2_42u06")]
+[node name="OakDoor" parent="." instance=ExtResource("2_42u06")]
 y_sort_enabled = true
 next_scene = "res://Scenes/Maps/oak_house.tscn"
 enter_direction = 2

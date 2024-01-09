@@ -6,19 +6,17 @@ signal cant_enter_door;
 signal menu_opened(value: bool);
 
 enum DIRECTIONS {LEFT, RIGHT, UP, DOWN, NONE}
-const directions_array: Array = [Vector2(-1, 0), Vector2(1, 0), Vector2(0, -1), Vector2(0, 1), Vector2.ZERO]
+enum FacingDirection { LEFT, RIGHT, UP, DOWN };
 
+const directions_array: Array = [Vector2(-1, 0), Vector2(1, 0), Vector2(0, -1), Vector2(0, 1), Vector2.ZERO];
 var last_player_direction = directions_array[DIRECTIONS.NONE];
 var on_transition = false;
-
-enum FacingDirection { LEFT, RIGHT, UP, DOWN };
 var facing_direction = FacingDirection.UP;
+var last_used_door: String;
 const TILE_SIZE: int = 16;
 const WINDOW_SIZE = Vector2(15, 10);
-
 var spawn_location = null;
 var first_spawn = false;
-
 var camera_connected = false;
 
 func need_to_turn(input_direction: Vector2) -> bool:
