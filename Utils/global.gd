@@ -5,6 +5,7 @@ signal player_moving(value: bool);
 signal cant_enter_door;
 signal menu_opened(value: bool);
 signal party_opened(value: bool);
+signal get_on_bike(value: bool);
 
 enum DIRECTIONS {LEFT, RIGHT, UP, DOWN, NONE}
 enum FacingDirection { LEFT, RIGHT, UP, DOWN };
@@ -23,6 +24,8 @@ var camera_connected = false;
 
 var party_open = false;
 var menu_open = false;
+var on_bike = false;
+var inside_house = false;
 
 func need_to_turn(input_direction: Vector2) -> bool:
 	var new_facing_direction;

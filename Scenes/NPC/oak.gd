@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 const SPEED = 4;
+const BIKE_SPEED = 6;
 var cant_move = false;
 
 @onready var animation_tree = $AnimationTree;
@@ -13,6 +14,9 @@ var cant_move = false;
 
 @onready var playback = animation_tree.get("parameters/playback");
 @onready var rays = [block_ray_cast_2d, ledge_ray_cast_2d];
+
+var bike_texture = preload("res://Sprites/oak_bike.png");
+var oak_texture = preload("res://Sprites/oak_sprite.png");
 
 enum PlayerState { IDLE, TURNING, WALKING };
 var player_state = PlayerState.IDLE;
@@ -37,6 +41,9 @@ func _ready():
 	$Sprite2D.visible = true;
 	GLOBAL.connect("cant_enter_door", _on_cant_enter_door);
 	GLOBAL.connect("menu_opened", _on_menu_opened);
+	GLOBAL.connect("get_on_bike", _on_get_on_bike);
+	
+	if(GLOBAL.on_bike): get_on_bike();
 
 func _physics_process(delta) -> void:
 	if(player_state == PlayerState.TURNING || cant_move): return;
@@ -76,7 +83,8 @@ func process_player_input() -> void:
 
 func move(delta) -> void:
 	playback.travel("Move");
-	percent_moved += SPEED * delta;
+	if(GLOBAL.on_bike): percent_moved += BIKE_SPEED * delta;
+	else: percent_moved += SPEED * delta;
 	round_percent_move();
 	var ledge_colliding = (ledge_ray_cast_2d.is_colliding() && input_direction == Vector2(0, 1));
 	
@@ -134,6 +142,11 @@ func reset_moving() -> void:
 	percent_moved = 0;
 	GLOBAL.emit_signal("player_moving", false);
 
+func _on_get_on_bike(value: bool):
+	if(is_moving): return;
+	if(value): get_on_bike();
+	else: get_off_bike();
+
 func set_blend_direction(direction: Vector2) -> void:
 	for path in blends: animation_tree.set(path, direction);
 
@@ -153,6 +166,18 @@ func round_percent_move() -> void:
 # prevents jump when 2 tiles away and move towards a ledge
 	if(!jumping_over_ledge && percent_moved >= 0.99): percent_moved = 1;
 
+func get_on_bike():
+	GLOBAL.on_bike = true;
+	sprite.texture = bike_texture;
+	sprite.offset.x = -3;
+	sprite.offset.y = -8;
+
+func get_off_bike():
+	GLOBAL.on_bike = false;
+	sprite.texture = oak_texture;
+	sprite.offset.x = 0;
+	sprite.offset.y = -4;
+
 # LISTENERS
 func _on_area_2d_area_entered(area):
 	if("Door" in area.name && area.can_be_opened): enter_door_animation();
@@ -167,6 +192,7 @@ func _on_menu_opened(value: bool):
 
 # ANIMATIONS
 func enter_door_animation() -> void:
+	if(GLOBAL.on_bike): get_off_bike();
 	await get_tree().create_timer(.1).timeout
 	var tween = get_tree().create_tween();
 	await tween.tween_property(sprite, "modulate:a", 0, 0.1).finished;

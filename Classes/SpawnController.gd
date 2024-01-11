@@ -9,6 +9,7 @@ class_name SpawnController;
 var map_size: Vector2;
 
 func _ready():
+	GLOBAL.inside_house = false;
 	map_size = MAPS.get_map_size(tilemap);
 	oak.set_blend_direction(GLOBAL.last_player_direction);
 	

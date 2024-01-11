@@ -23,6 +23,8 @@ func _ready():
 	scene_manager = get_parent();
 
 func _unhandled_input(event: InputEvent):
+	if(event.is_action_pressed("bike") && !GLOBAL.inside_house):
+		GLOBAL.emit_signal("get_on_bike", !GLOBAL.on_bike);
 	if(
 		is_player_moving || 
 		GLOBAL.on_transition || 

@@ -8,6 +8,7 @@ class_name HouseController;
 @onready var tilemap = $TileMap;
 
 func _ready():
+	GLOBAL.inside_house = true;
 	set_camera();
 	oak.set_blend_direction(GLOBAL.last_player_direction);
 	
