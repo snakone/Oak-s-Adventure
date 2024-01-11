@@ -5,11 +5,12 @@ extends Area2D
 @export var spawn_position = Vector2.ZERO;
 @export var animated = true;
 @export var sprite_image: Texture;
+@export var type: DoorType;
+
 @onready var animation_player = $AnimationPlayer;
 @onready var sprite_2d = $Sprite2D;
 
 enum DoorType { IN, OUT }
-@export var type: DoorType;
 
 var can_be_opened = true;
 var door_open_direction: Vector2;
@@ -24,7 +25,9 @@ func _on_body_entered(body) -> void:
 	if(can_be_opened && body.name == "Oak"):
 		MAPS.spawn_position = spawn_position;
 		if(animated): animation_player.play("Open");
-		else: enter_house();
+		else: 
+			await get_tree().create_timer(.2).timeout;
+			enter_house();
 	elif(!can_be_opened): GLOBAL.emit_signal("cant_enter_door", self);
 
 func check_direction() -> void:

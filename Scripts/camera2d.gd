@@ -9,7 +9,6 @@ func _ready() -> void:
 
 func change_limit(size: Vector2, camera_offset: Vector2) -> void:
 	#@TODO Firing twice because dont know how to remove current camera before transition
-	
 	self.limit_right = int(size.x) * GLOBAL.TILE_SIZE;
 	self.limit_bottom = int(size.y) * GLOBAL.TILE_SIZE;
 	
