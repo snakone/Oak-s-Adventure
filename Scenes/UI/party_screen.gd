@@ -93,7 +93,7 @@ func handle_LEFT():
 	selected_slot = int(Slots.FIRST);
 
 func create_party_list() -> void:
-	for poke in POKEMON.pokemon_list:
+	for poke in PARTY.get_party():
 		var pokemon_node = slot_switch[poke.slot].get_node("Pokemon");
 		var gender_node = slot_switch[poke.slot].get_node("Gender");
 		var name_node = slot_switch[poke.slot].get_node("Name");

@@ -41,7 +41,8 @@ animations = [{
 
 [node name="SplashEffect" type="AnimatedSprite2D"]
 visible = false
-z_index = 2
+z_index = 1
+y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_mhc72")
 frame = 3
 frame_progress = 1.0
