@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://ck353m2o1p4f8"]
 
 [ext_resource type="Script" path="res://Scenes/Objects/chair.gd" id="1_e1oym"]
-[ext_resource type="Texture2D" uid="uid://brv20gamk3m0v" path="res://Sprites/poke_chair.png" id="1_mqck8"]
+[ext_resource type="Texture2D" uid="uid://jemfr3i78bid" path="res://Sprites/oak_chair_orange.png" id="2_qp4rn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6v0p7"]
 size = Vector2(10, 10)
@@ -11,7 +11,8 @@ collision_layer = 2
 script = ExtResource("1_e1oym")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_mqck8")
+z_index = 1
+texture = ExtResource("2_qp4rn")
 centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

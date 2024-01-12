@@ -57,6 +57,7 @@ func _unhandled_input(event: InputEvent):
 func select_option() -> void:
 	match(selected_option):
 		MenuOptions.PARTY: open_party()
+		MenuOptions.SAVE: MEMORY._save()
 		MenuOptions.EXIT: close_menu()
 	
 func update_arrow() -> void:

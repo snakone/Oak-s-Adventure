@@ -10,9 +10,12 @@ signal get_on_bike(value: bool);
 enum DIRECTIONS {LEFT, RIGHT, UP, DOWN, NONE}
 enum FacingDirection { LEFT, RIGHT, UP, DOWN };
 enum Genders { MALE, FEMALE }
+enum SaveType { PLAYER, SCENE }
+
+var player_data_to_load = null;
 
 const directions_array: Array = [Vector2(-1, 0), Vector2(1, 0), Vector2(0, -1), Vector2(0, 1), Vector2.ZERO];
-var last_player_direction = directions_array[DIRECTIONS.NONE];
+var last_player_direction = directions_array[DIRECTIONS.DOWN];
 var on_transition = false;
 var facing_direction = FacingDirection.UP;
 var last_used_door: String;

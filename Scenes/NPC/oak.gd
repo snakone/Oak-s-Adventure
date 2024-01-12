@@ -37,13 +37,18 @@ var blends = [
 	'parameters/Turn/blend_position'];
 
 func _ready():
-	start_position = position;
-	$Sprite2D.visible = true;
-	GLOBAL.connect("cant_enter_door", _on_cant_enter_door);
-	GLOBAL.connect("menu_opened", _on_menu_opened);
-	GLOBAL.connect("get_on_bike", _on_get_on_bike);
-	
+	connect_signals();
 	if(GLOBAL.on_bike): get_on_bike();
+	
+	if(GLOBAL.player_data_to_load != null):
+		await get_tree().create_timer(0).timeout
+		var data = GLOBAL.player_data_to_load;
+		position.x = data["position.x"];
+		position.y = data["position.y"];
+		var direction = Vector2(data["direction.x"], data["direction.y"]);
+		set_blend_direction(direction);
+		if(data.has("on_bike") && data["on_bike"]): get_on_bike();
+		GLOBAL.player_data_to_load = null
 
 func _physics_process(delta) -> void:
 	if(player_state == PlayerState.TURNING || cant_move): return;
@@ -178,6 +183,11 @@ func get_off_bike():
 	sprite.offset.x = 0;
 	sprite.offset.y = -4;
 
+func connect_signals() -> void:
+	GLOBAL.connect("cant_enter_door", _on_cant_enter_door);
+	GLOBAL.connect("menu_opened", _on_menu_opened);
+	GLOBAL.connect("get_on_bike", _on_get_on_bike);
+
 # LISTENERS
 func _on_area_2d_area_entered(area):
 	if("Door" in area.name && area.can_be_opened): enter_door_animation();
@@ -215,3 +225,16 @@ func _on_cant_enter_door(area: Area2D) -> void:
 	cant_enter_door_direction = area.door_open_direction;
 	var tween = get_tree().create_tween().set_trans(Tween.TRANS_QUAD);
 	tween.tween_property(sprite, "position:y", sprite.position.y - 4, 0.2);
+
+func save() -> Dictionary:
+	var data := {
+		"save_type": GLOBAL.SaveType.PLAYER,
+		"player": self.name,
+		"position.x": position.x,
+		"position.y": position.y,
+		"direction.x": GLOBAL.last_player_direction.x,
+		"direction.y": GLOBAL.last_player_direction.y,
+		"party": PARTY.get_party(),
+		"on_bike": GLOBAL.on_bike
+	}
+	return data

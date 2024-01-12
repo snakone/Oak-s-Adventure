@@ -17,7 +17,8 @@ func active_effect() -> void:
 	grass_effect.play();
 
 func reset_texture(value: bool):
-	if(value || inside_grass): texture_rect.visible = false
+	if(value && inside_grass): texture_rect.visible = false;
 
 func _on_area_2d_body_exited(_body):
 	inside_grass = false;
+	texture_rect.visible = false;
