@@ -2,7 +2,6 @@ extends CharacterBody2D
 
 const SPEED = 4;
 const BIKE_SPEED = 6;
-var cant_move = false;
 
 @onready var animation_tree = $AnimationTree;
 @onready var animation_player = $AnimationPlayer;
@@ -38,20 +37,11 @@ var blends = [
 
 func _ready():
 	connect_signals();
+	check_load_from_file();
 	if(GLOBAL.on_bike): get_on_bike();
-	
-	if(GLOBAL.player_data_to_load != null):
-		await get_tree().create_timer(0).timeout
-		var data = GLOBAL.player_data_to_load;
-		position.x = data["position.x"];
-		position.y = data["position.y"];
-		var direction = Vector2(data["direction.x"], data["direction.y"]);
-		set_blend_direction(direction);
-		if(data.has("on_bike") && data["on_bike"]): get_on_bike();
-		GLOBAL.player_data_to_load = null
 
 func _physics_process(delta) -> void:
-	if(player_state == PlayerState.TURNING || cant_move): return;
+	if(player_state == PlayerState.TURNING): return;
 	elif(!is_moving && !GLOBAL.on_transition): process_player_input();
 	elif(input_direction != Vector2.ZERO): move(delta);
 	else:
@@ -136,7 +126,7 @@ func set_direction() -> void:
 		GLOBAL.last_player_direction = input_direction;
 
 func update_position() -> void:
-	position = start_position + (floor(GLOBAL.TILE_SIZE * input_direction * percent_moved));
+	position = start_position + (floor(GLOBAL.TILE_SIZE * input_direction * percent_moved)); 
 
 func stop_movement() -> void:
 	position = start_position + (GLOBAL.TILE_SIZE * input_direction);
@@ -198,7 +188,8 @@ func _on_area_2d_area_exited(area) -> void:
 	
 func _on_menu_opened(value: bool):
 	if(is_moving): return;
-	set_physics_process(!value);
+	if(value): process_mode = Node.PROCESS_MODE_DISABLED;
+	else: process_mode = Node.PROCESS_MODE_INHERIT;
 
 # ANIMATIONS
 func enter_door_animation() -> void:
@@ -206,7 +197,7 @@ func enter_door_animation() -> void:
 	await get_tree().create_timer(.1).timeout
 	var tween = get_tree().create_tween();
 	await tween.tween_property(sprite, "modulate:a", 0, 0.1).finished;
-	cant_move = true;
+	process_mode = Node.PROCESS_MODE_DISABLED;
 
 func sit_on_chair_animation(area: Area2D) -> void:
 	await get_tree().create_timer(.3).timeout;
@@ -234,7 +225,17 @@ func save() -> Dictionary:
 		"position.y": position.y,
 		"direction.x": GLOBAL.last_player_direction.x,
 		"direction.y": GLOBAL.last_player_direction.y,
-		"party": PARTY.get_party(),
 		"on_bike": GLOBAL.on_bike
 	}
 	return data
+
+func check_load_from_file():
+	if(GLOBAL.player_data_to_load != null):
+		await get_tree().create_timer(0.01).timeout;
+		var data = GLOBAL.player_data_to_load;
+		position.x = data["position.x"];
+		position.y = data["position.y"];
+		var direction = Vector2(data["direction.x"], data["direction.y"]);
+		if(data.has("on_bike") && data["on_bike"]): get_on_bike();
+		set_blend_direction(direction);
+		GLOBAL.player_data_to_load = null;

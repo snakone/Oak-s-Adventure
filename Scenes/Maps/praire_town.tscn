@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cn2jssalmf12l"]
+[gd_scene load_steps=10 format=3 uid="uid://cn2jssalmf12l"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/praire_town.gd" id="1_3hn5p"]
 [ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="2_5a1f2"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://cqktd3b4r0pk2" path="res://Objects/switch_scene.tscn" id="4_nqgbe"]
 [ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="5_qpu3u"]
 [ext_resource type="Texture2D" uid="uid://binluodfymue4" path="res://Sprites/door_open_orange.png" id="6_ismcs"]
+[ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="7_xk2hf"]
+[ext_resource type="Texture2D" uid="uid://cd3146vuujwx6" path="res://Sprites/NPC/npc_01.png" id="8_kwho3"]
 
 [sub_resource type="GDScript" id="GDScript_jvbk0"]
 
@@ -34,3 +36,11 @@ position = Vector2(32, 16)
 next_scene = "res://Scenes/Maps/oak_house.tscn"
 enter_direction = 2
 sprite_image = ExtResource("6_ismcs")
+
+[node name="NPC" parent="." instance=ExtResource("7_xk2hf")]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(240, 112)
+collision_mask = 0
+texture = ExtResource("8_kwho3")
+state = 0

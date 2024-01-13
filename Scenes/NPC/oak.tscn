@@ -475,17 +475,18 @@ transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition
 graph_offset = Vector2(0, 11.5001)
 
 [node name="Oak" type="CharacterBody2D" groups=["Persist"]]
-collision_mask = 6
+collision_mask = 14
 script = ExtResource("1_4ift8")
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_mask = 2
+collision_mask = 10
 
 [node name="Hitbox" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_lconu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_fmnmb")
 
@@ -540,7 +541,7 @@ script = ExtResource("6_kxb0c")
 visible = false
 position = Vector2(8, 8)
 target_position = Vector2(0, 8)
-collision_mask = 6
+collision_mask = 14
 
 [node name="LedgeRayCast2D" type="RayCast2D" parent="."]
 visible = false

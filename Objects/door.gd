@@ -37,7 +37,7 @@ func check_direction() -> void:
 func enter_house() -> void:
 	if(next_scene):
 		GLOBAL.last_used_door = self.name;
-		get_node("/root/SceneManager").transition_to_scene(next_scene, true);
+		get_node("/root/SceneManager").transition_to_scene(next_scene);
 
 func check_close_animation():
 	if(GLOBAL.last_used_door == self.name && type == DoorType.IN):

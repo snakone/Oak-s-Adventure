@@ -28,7 +28,6 @@ func _unhandled_input(event: InputEvent):
 	if(
 		is_player_moving || 
 		GLOBAL.on_transition || 
-		GLOBAL.party_open || 
 		!event.is_pressed() ||
 		event.is_echo()
 	): return;
@@ -77,18 +76,17 @@ func close_menu() -> void:
 func open_party() -> void:
 	control.visible = false;
 	screen_loaded = ScreenLoaded.PARTY;
-	scene_manager.transition_to_scene(party_screen_path, true, true);
-	GLOBAL.party_open = true;
-	GLOBAL.menu_open = false;
+	scene_manager.transition_to_scene(party_screen_path, true, false);
+	process_mode = Node.PROCESS_MODE_DISABLED;
 	GLOBAL.emit_signal("party_opened", true);
 
 func _on_party_opened(value: bool) -> void:
 	#CLOSED
 	if(!value):
-		GLOBAL.party_open = false;
 		control.visible = true;
 		screen_loaded = ScreenLoaded.MENU;
 		scene_manager.get_node(party_screen_node).queue_free();
+		process_mode = Node.PROCESS_MODE_INHERIT;
 
 func handle_MENU() -> void:
 	control.visible = true;

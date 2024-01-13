@@ -7,7 +7,7 @@ extends Node2D
 var should_remove_child: bool;
 var last_scene: String;
 
-func transition_to_scene(new_scene: String, animated: bool, remove = false):
+func transition_to_scene(new_scene: String, animated = true, remove = true):
 	next_scene = new_scene;
 	should_remove_child = remove;
 	if(new_scene.find("party_screen") == -1): last_scene = new_scene;
@@ -16,16 +16,16 @@ func transition_to_scene(new_scene: String, animated: bool, remove = false):
 		GLOBAL.on_transition = true;
 		animation_player.play("FadeToBlack");
 	else: create_new_scene();
-
-func create_new_scene():
-	if(!should_remove_child): current_scene.get_child(0).queue_free();
-	var new_node = await load(next_scene).instantiate();
-	current_scene.call_deferred("add_child", new_node);
-
+	
 func on_finish_transition() -> void:
 	create_new_scene();
 	await get_tree().create_timer(.8).timeout;
 	GLOBAL.on_transition = false;
+
+func create_new_scene():
+	if(should_remove_child): current_scene.get_child(0).queue_free();
+	var new_node = await load(next_scene).instantiate();
+	current_scene.call_deferred("add_child", new_node);
 
 func save() -> Dictionary:
 	if(next_scene.find("party_screen") != -1):
@@ -38,4 +38,4 @@ func save() -> Dictionary:
 	return data;
 	
 func load(data: Dictionary):
-	if(data.scene != ""): transition_to_scene(data.scene, true);
+	if(data.scene != ""): transition_to_scene(data.scene);

@@ -19,9 +19,9 @@ var party_screen_node =  "CurrentScene/PartyScreen";
 }
 
 func _ready():
+	process_mode = Node.PROCESS_MODE_INHERIT;
 	set_active_option(PanelState.ACTIVE);
 	slots_length = slot_switch.size();
-	GLOBAL.connect("player_moving", _on_player_moving);
 	create_party_list();
 
 func set_active_option(value: int) -> void:
@@ -29,15 +29,12 @@ func set_active_option(value: int) -> void:
 
 func _unhandled_input(event) -> void:
 	if(
-		is_player_moving || 
 		GLOBAL.on_transition || 
-		GLOBAL.menu_open ||
 		!event.is_pressed() ||
 		event.is_echo()
 	): return;
 	
 	set_active_option(PanelState.OFF);
-	
 	#CLOSE
 	if(
 		Input.is_action_pressed("menu") || 
@@ -77,6 +74,7 @@ func select_slot() -> void:
 func close_party() -> void:
 	await get_tree().create_timer(.2).timeout;
 	GLOBAL.emit_signal("party_opened", false);
+	process_mode = Node.PROCESS_MODE_DISABLED;
 
 func handle_DOWN():
 	selected_slot = selected_slot + 1;
