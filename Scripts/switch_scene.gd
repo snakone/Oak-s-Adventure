@@ -2,7 +2,6 @@ extends Area2D
 
 @export_file("*.tscn") var next_scene: String;
 @export var enter_direction = GLOBAL.DIRECTIONS.UP;
-@export var animated = true;
 
 var can_be_entered = true;
 var next_scene_directon: Vector2;

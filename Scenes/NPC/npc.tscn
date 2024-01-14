@@ -100,7 +100,6 @@ _data = {
 }
 
 [node name="NPC" type="RigidBody2D"]
-z_index = 1
 y_sort_enabled = true
 collision_layer = 8
 collision_mask = 15

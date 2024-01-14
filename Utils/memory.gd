@@ -1,8 +1,11 @@
 extends Node
 
+var save_path = "user://save.poke";
+var group = "Persist";
+
 func _save() -> void:
-	var save_file = FileAccess.open("save.poke", FileAccess.WRITE)
-	var save_nodes = get_tree().get_nodes_in_group("Persist")
+	var save_file = FileAccess.open(save_path, FileAccess.WRITE)
+	var save_nodes = get_tree().get_nodes_in_group(group)
 	for node in save_nodes:
 		if !node.has_method("save"):
 			print("Node '%s' is missing a save function, skipped" % node.name)
@@ -13,13 +16,13 @@ func _save() -> void:
 	save_file.close();
 
 func _load() -> void:
-	if !FileAccess.file_exists("save.poke"):
+	if !FileAccess.file_exists(save_path):
 		print("Error, no Save File to load.")
 		return
-	var save_file = FileAccess.open("save.poke", FileAccess.READ)
+	var save_file = FileAccess.open(save_path, FileAccess.READ)
 
 	while save_file.get_position() < save_file.get_length():
-		var json = JSON.new()
+		var json = JSON.new();
 		json.parse(save_file.get_line())
 		var node_data = json.get_data();
 		if(node_data.has("path") && has_node(node_data["path"])):

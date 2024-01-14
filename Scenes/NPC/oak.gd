@@ -55,6 +55,7 @@ func process_player_input() -> void:
 	if(input_direction != Vector2.ZERO):
 		set_blend_direction(input_direction);
 		update_rays();
+		print(position)
 		#STUCK ON DOOR
 		if(
 			stuck_on_door && 
@@ -134,11 +135,6 @@ func update_position() -> void:
 
 func stop_movement() -> void:
 	position = start_position + (GLOBAL.TILE_SIZE * input_direction);
-	
-	if fmod(position.x, GLOBAL.TILE_SIZE) != 0.0 && percent_moved >= 1:
-		position.x = ceil(position.x / 16) * 16;
-	elif(fmod(position.y, GLOBAL.TILE_SIZE) != 0.0) && percent_moved >= 1:
-		position.y = ceil(position.y / 16) * 16;
 	reset_moving();
 
 func reset_moving() -> void:
@@ -189,7 +185,7 @@ func connect_signals() -> void:
 
 # LISTENERS
 func _on_area_2d_area_entered(area):
-	if("Door" in area.name && area.can_be_opened): enter_door_animation();
+	if("Door" in area.name && area.can_be_opened): enter_door_animation(area);
 	elif("Chair" in area.name): sit_on_chair_animation(area);
 
 func _on_area_2d_area_exited(area) -> void:
@@ -201,11 +197,13 @@ func _on_menu_opened(value: bool):
 	else: process_mode = Node.PROCESS_MODE_INHERIT;
 
 # ANIMATIONS
-func enter_door_animation() -> void:
+func enter_door_animation(area: Area2D) -> void:
+	var delay_time := 0.1;
+	if(area.type == GLOBAL.DoorType.OUT): delay_time = 0.2;
 	if(GLOBAL.on_bike): get_off_bike();
 	await get_tree().create_timer(.1).timeout
 	var tween = get_tree().create_tween();
-	await tween.tween_property(sprite, "modulate:a", 0, 0.1).finished;
+	await tween.tween_property(sprite, "modulate:a", 0, delay_time).finished;
 	process_mode = Node.PROCESS_MODE_DISABLED;
 
 func sit_on_chair_animation(area: Area2D) -> void:

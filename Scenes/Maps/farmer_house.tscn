@@ -57,9 +57,11 @@ margins = Vector2i(2, 0)
 22:18/0 = 0
 22:18/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 22:18/0/physics_layer_0/angular_velocity = 0.0
+22:18/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 23:18/0 = 0
 23:18/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 23:18/0/physics_layer_0/angular_velocity = 0.0
+23:18/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 24:18/0 = 0
 24:18/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 24:18/0/physics_layer_0/angular_velocity = 0.0
@@ -88,19 +90,15 @@ margins = Vector2i(2, 0)
 24:19/0 = 0
 24:19/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 24:19/0/physics_layer_0/angular_velocity = 0.0
-24:19/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 23:19/0 = 0
 23:19/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 23:19/0/physics_layer_0/angular_velocity = 0.0
-23:19/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 22:19/0 = 0
 22:19/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 22:19/0/physics_layer_0/angular_velocity = 0.0
-22:19/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 21:19/0 = 0
 21:19/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 21:19/0/physics_layer_0/angular_velocity = 0.0
-21:19/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 20:19/0 = 0
 20:19/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 20:19/0/physics_layer_0/angular_velocity = 0.0
@@ -110,7 +108,6 @@ margins = Vector2i(2, 0)
 18:19/0 = 0
 18:19/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 18:19/0/physics_layer_0/angular_velocity = 0.0
-18:19/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 18:20/0 = 0
 18:20/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 18:20/0/physics_layer_0/angular_velocity = 0.0
@@ -301,16 +298,15 @@ layer_1/z_index = 1
 layer_1/tile_data = PackedInt32Array(393225, 1179648, 23, 458761, 1179648, 24, 393216, 1179648, 23, 458752, 1179648, 24, 196612, 1441792, 20, 262148, 1441792, 21, 196613, 1507328, 20, 262149, 1507328, 21)
 
 [node name="Shape" type="StaticBody2D" parent="."]
-visible = false
 collision_layer = 2
 collision_mask = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Shape"]
+visible = false
 polygon = PackedVector2Array(64, 128, 0, 128, 0, 0, 160, 0, 160, 128, 80, 128, 80, 144, 176, 144, 176, -16, -16, -16, -16, 144, 64, 144)
 
 [node name="OakFarmerDoor" parent="." instance=ExtResource("3_ai1pw")]
 position = Vector2(48, 64)
 next_scene = "res://Scenes/Maps/Routes/route_00.tscn"
 spawn_position = Vector2(304, 80)
-animated = false
 type = 1
