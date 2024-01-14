@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://c2njh5005hmhx"]
+
+[ext_resource type="Texture2D" uid="uid://b0pbbng2gjuo8" path="res://Sprites/hooh_mini.png" id="1_62lig"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n6y2k"]
+atlas = ExtResource("1_62lig")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0gwyg"]
+atlas = ExtResource("1_62lig")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8175m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n6y2k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0gwyg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[node name="Ho-oh" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_8175m")
+autoplay = "default"
+frame_progress = 0.35099
+centered = false

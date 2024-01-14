@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://4rl0bdmg36l0"]
+
+[ext_resource type="Texture2D" uid="uid://cnkrtkp7cy62i" path="res://Sprites/small_flowers2.png" id="1_fef2y"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wyjyo"]
+atlas = ExtResource("1_fef2y")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x7gdg"]
+atlas = ExtResource("1_fef2y")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rfxse"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wyjyo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x7gdg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_rfxse")
+autoplay = "default"
+frame_progress = 0.460495
+centered = false

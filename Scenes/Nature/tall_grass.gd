@@ -1,25 +1,24 @@
 extends Node2D
+
 @onready var animation_player = $AnimationPlayer
 @onready var texture_rect = $TextureRect
-var player_utils = preload("res://Utils/player_utils.gd").new()
 @onready var grass_effect = $GrassEffect
 
-func _ready():
-	get_tree().current_scene.get_node("Oak").connect("player_moving", reset_texture)
+var inside_grass = false;
 
-func _on_area_2d_body_entered(_body) -> void:
-	animation_player.play("Stepped")
-	await get_tree().create_timer(0.2).timeout;
-	active_texture();
-	active_effect();
+func _ready(): GLOBAL.connect("player_moving", reset_texture)
 
-func active_texture():
-	texture_rect.visible = true;
+func _on_area_2d_body_entered(body) -> void:
+	if(body.name == "Oak"):
+		animation_player.play("Stepped");
+		inside_grass = true;
 
 func active_effect() -> void:
-	grass_effect.visible = true;
 	grass_effect.play();
 
-func reset_texture():
-	texture_rect.visible = false
+func reset_texture(value: bool):
+	if(value && inside_grass): texture_rect.visible = false;
 
+func _on_area_2d_body_exited(_body):
+	inside_grass = false;
+	texture_rect.visible = false;
