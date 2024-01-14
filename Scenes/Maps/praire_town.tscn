@@ -38,9 +38,6 @@ enter_direction = 2
 sprite_image = ExtResource("6_ismcs")
 
 [node name="NPC" parent="." instance=ExtResource("7_xk2hf")]
-z_index = 1
-y_sort_enabled = true
 position = Vector2(240, 112)
 collision_mask = 0
 texture = ExtResource("8_kwho3")
-state = 0

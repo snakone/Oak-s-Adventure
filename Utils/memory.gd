@@ -28,5 +28,5 @@ func _load() -> void:
 	save_file.close();
 	
 func _ready():
-	await get_tree().create_timer(3).timeout;
+	await get_tree().create_timer(1).timeout;
 	_load();

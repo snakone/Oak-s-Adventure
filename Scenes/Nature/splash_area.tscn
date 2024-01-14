@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bia3ud7j1af6p" path="res://Scenes/Nature/splash_effect.tscn" id="2_kw0q8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hrsnq"]
-size = Vector2(16, 16)
+size = Vector2(12, 12)
 
 [node name="SplashArea" type="Node2D"]
 script = ExtResource("1_0nee5")

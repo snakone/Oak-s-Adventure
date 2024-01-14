@@ -29,6 +29,7 @@ var sit_on_chair = false;
 var chair_direction: Vector2;
 var cant_enter_door_direction: Vector2;
 var stuck_on_door = false;
+var door_type;
 
 var blends = [
 	"parameters/Idle/blend_position", 
@@ -55,8 +56,12 @@ func process_player_input() -> void:
 		set_blend_direction(input_direction);
 		update_rays();
 		#STUCK ON DOOR
-		if(stuck_on_door && cant_enter_door_direction == input_direction):
-			playback.travel("Move");
+		if(
+			stuck_on_door && 
+			door_type == GLOBAL.DoorType.IN && 
+			input_direction == Vector2(0, -1)
+		):
+			playback.travel("Idle");
 			return;
 		else: stuck_on_door = false;
 		#SIT ON CHAIR
@@ -82,7 +87,6 @@ func move(delta) -> void:
 	else: percent_moved += SPEED * delta;
 	round_percent_move();
 	var ledge_colliding = (ledge_ray_cast_2d.is_colliding() && input_direction == Vector2(0, 1));
-	
 	if(GLOBAL.on_transition): check_transition();
 	elif(ledge_colliding || jumping_over_ledge): check_ledges();
 	elif(!block_ray_cast_2d.is_colliding()): check_moving();
@@ -130,6 +134,11 @@ func update_position() -> void:
 
 func stop_movement() -> void:
 	position = start_position + (GLOBAL.TILE_SIZE * input_direction);
+	
+	if fmod(position.x, GLOBAL.TILE_SIZE) != 0.0 && percent_moved >= 1:
+		position.x = ceil(position.x / 16) * 16;
+	elif(fmod(position.y, GLOBAL.TILE_SIZE) != 0.0) && percent_moved >= 1:
+		position.y = ceil(position.y / 16) * 16;
 	reset_moving();
 
 func reset_moving() -> void:
@@ -213,7 +222,7 @@ func _on_cant_enter_door(area: Area2D) -> void:
 	stuck_on_door = true;
 	await get_tree().create_timer(.2).timeout;
 	position = start_position;
-	cant_enter_door_direction = area.door_open_direction;
+	door_type = area.type;
 	var tween = get_tree().create_tween().set_trans(Tween.TRANS_QUAD);
 	tween.tween_property(sprite, "position:y", sprite.position.y - 4, 0.2);
 

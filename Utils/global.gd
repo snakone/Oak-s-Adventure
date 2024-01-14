@@ -11,6 +11,7 @@ enum DIRECTIONS {LEFT, RIGHT, UP, DOWN, NONE}
 enum FacingDirection { LEFT, RIGHT, UP, DOWN };
 enum Genders { MALE, FEMALE }
 enum SaveType { PLAYER, SCENE }
+enum DoorType { IN, OUT }
 
 var player_data_to_load = null;
 

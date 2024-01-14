@@ -12,6 +12,8 @@ func _ready():
 	set_camera();
 	oak.set_blend_direction(GLOBAL.last_player_direction);
 	
+	print(MAPS.spawn_position)
+	
 	if(MAPS.spawn_position):
 		oak.position = MAPS.spawn_position;
 		MAPS.spawn_position = null;

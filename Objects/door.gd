@@ -5,14 +5,12 @@ extends Area2D
 @export var spawn_position = Vector2.ZERO;
 @export var animated = true;
 @export var sprite_image: Texture;
-@export var type: DoorType;
+@export var type: GLOBAL.DoorType;
 
 @onready var animation_player = $AnimationPlayer;
 @onready var sprite_2d = $Sprite2D;
 
-enum DoorType { IN, OUT }
-
-var can_be_opened = true;
+var can_be_opened = false;
 var door_open_direction: Vector2;
 
 func _ready():
@@ -26,7 +24,7 @@ func _on_body_entered(body) -> void:
 		MAPS.spawn_position = spawn_position;
 		if(animated): animation_player.play("Open");
 		else: 
-			await get_tree().create_timer(.2).timeout;
+			await get_tree().create_timer(.1).timeout;
 			enter_house();
 	elif(!can_be_opened): GLOBAL.emit_signal("cant_enter_door", self);
 
@@ -40,6 +38,6 @@ func enter_house() -> void:
 		get_node("/root/SceneManager").transition_to_scene(next_scene);
 
 func check_close_animation():
-	if(GLOBAL.last_used_door == self.name && type == DoorType.IN):
+	if(GLOBAL.last_used_door == self.name && type == GLOBAL.DoorType.IN):
 		animation_player.play("Close");
 		GLOBAL.last_used_door = "";
