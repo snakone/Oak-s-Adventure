@@ -3,16 +3,7 @@ extends Node
 var position_before_changing_scene = Vector2.ZERO;
 var spawn_position = Vector2.ZERO;
 
-const LIBRARY = {
-	"OakHouse": {
-		"start_position": Vector2(80, 128),
-		"spawn_direction": GLOBAL.directions_array[GLOBAL.DIRECTIONS.UP]
-	},
-	"OakFarmerHouse": {
-		"start_positon": Vector2(64, 112),
-		"spawn_direction": GLOBAL.directions_array[GLOBAL.DIRECTIONS.UP]
-	}
-}
+var wwwww
 
 func get_map_size(tilemap: TileMap) -> Vector2:
 	var size = tilemap.get_used_rect().size;

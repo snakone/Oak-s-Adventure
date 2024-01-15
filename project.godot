@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Oak's Adventure"
 config/description="Pokémon Ruby & Shappire clone"
-config/version="0.0.1"
+config/version="0.2"
 run/main_scene="res://scene_manager.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 
@@ -23,6 +23,7 @@ MAPS="*res://Utils/maps.gd"
 PARTY="*res://Utils/party.gd"
 POKEMON="*res://Utils/pokemon.gd"
 MEMORY="*res://Utils/memory.gd"
+DIALOG="*res://Utils/dialog.gd"
 
 [display]
 

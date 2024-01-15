@@ -37,7 +37,7 @@ func enter_house() -> void:
 		GLOBAL.last_used_door = self.name;
 		get_node("/root/SceneManager").transition_to_scene(next_scene);
 
-func check_close_animation():
+func check_close_animation() -> void:
 	if(GLOBAL.last_used_door == self.name && type == GLOBAL.DoorType.IN):
 		animation_player.play("Close");
 		GLOBAL.last_used_door = "";

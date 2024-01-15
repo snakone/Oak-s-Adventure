@@ -4,9 +4,9 @@ extends CanvasLayer
 @onready var arrow = $Control/NinePatchRect/TextureRect
 
 enum ScreenLoaded { NONE, MENU, POKEDEX, PARTY, BAG, OAK, SAVE, OPTIONS }
-var screen_loaded = ScreenLoaded.NONE;
 enum MenuOptions { POKEDEX, PARTY, BAG, OAK, SAVE, OPTIONS, EXIT }
 
+var screen_loaded = ScreenLoaded.NONE;
 var party_screen_path = "res://Scenes/UI/party_screen.tscn";
 var party_screen_node =  "CurrentScene/PartyScreen"
 
@@ -18,20 +18,21 @@ var scene_manager: Node2D;
 func _ready():
 	control.visible = false;
 	update_arrow();
-	GLOBAL.connect("player_moving", _on_player_moving);
-	GLOBAL.connect("party_opened", _on_party_opened);
+	connect_signals();
 	scene_manager = get_parent();
 
-func _unhandled_input(event: InputEvent):
-	if(event.is_action_pressed("bike") && !GLOBAL.inside_house):
-		GLOBAL.emit_signal("get_on_bike", !GLOBAL.on_bike);
+func _unhandled_input(event: InputEvent) -> void:
 	if(
 		is_player_moving || 
 		GLOBAL.on_transition || 
 		!event.is_pressed() ||
-		event.is_echo()
+		event.is_echo() ||
+		GLOBAL.dialog_open
 	): return;
 	
+	if(event.is_action_pressed("bike") && !GLOBAL.inside_house):
+		GLOBAL.emit_signal("get_on_bike", !GLOBAL.on_bike);
+
 	match (screen_loaded):
 		ScreenLoaded.NONE:
 			if(Input.is_action_pressed("menu")): handle_MENU();
@@ -58,13 +59,10 @@ func select_option() -> void:
 		MenuOptions.PARTY: open_party()
 		MenuOptions.SAVE: MEMORY._save()
 		MenuOptions.EXIT: close_menu()
-	
-func update_arrow() -> void:
-	arrow.position.y = 11 + (selected_option % options_length) * 16;
 
-func _on_player_moving(value: bool) -> void:
-	is_player_moving = value;
-	
+func update_arrow() -> void: arrow.position.y = 11 + (selected_option % options_length) * 16;
+func _on_player_moving(value: bool) -> void: is_player_moving = value;
+
 func close_menu() -> void:
 	control.visible = false;
 	GLOBAL.menu_open = false;
@@ -104,4 +102,8 @@ func handle_UP() -> void:
 		selected_option = MenuOptions.EXIT;
 	else: selected_option -= 1;
 	update_arrow();
+
+func connect_signals() -> void:
+	GLOBAL.connect("player_moving", _on_player_moving);
+	GLOBAL.connect("party_opened", _on_party_opened);
 

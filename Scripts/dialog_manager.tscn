@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3 uid="uid://b6hbe8lus8fv2"]
+
+[ext_resource type="Script" path="res://Scripts/dialog_manager.gd" id="1_xrosg"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="2_sr88g"]
+[ext_resource type="Texture2D" uid="uid://c0dpipa5sqguj" path="res://Sprites/UI/dialog_bg.png" id="3_mn4i4"]
+[ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/power clear.ttf" id="4_o08y0"]
+
+[node name="DialogManager" type="CanvasLayer"]
+script = ExtResource("1_xrosg")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.05
+autostart = true
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_direction = 2
+offset_left = 4.0
+offset_top = 114.0
+offset_right = 236.0
+offset_bottom = 156.0
+texture = ExtResource("3_mn4i4")
+patch_margin_left = 12
+patch_margin_top = 6
+patch_margin_right = 12
+patch_margin_bottom = 6
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+clip_contents = false
+offset_left = 22.0
+offset_top = 120.0
+offset_right = 222.0
+offset_bottom = 153.0
+theme = ExtResource("2_sr88g")
+theme_override_colors/default_color = Color(0.294118, 0.294118, 0.294118, 1)
+theme_override_constants/line_separation = 2
+theme_override_constants/outline_size = 2
+theme_override_fonts/normal_font = ExtResource("4_o08y0")
+theme_override_font_sizes/normal_font_size = 13
+bbcode_enabled = true
+text = "How are you?"
+fit_content = true
+scroll_active = false
+text_direction = 1
+language = "Eng"

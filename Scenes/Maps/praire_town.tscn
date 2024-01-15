@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="5_qpu3u"]
 [ext_resource type="Texture2D" uid="uid://binluodfymue4" path="res://Sprites/door_open_orange.png" id="6_ismcs"]
 [ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="7_xk2hf"]
-[ext_resource type="Texture2D" uid="uid://cd3146vuujwx6" path="res://Sprites/NPC/npc_01.png" id="8_kwho3"]
+[ext_resource type="Texture2D" uid="uid://cd3146vuujwx6" path="res://Sprites/NPC/mom.png" id="8_2pcgv"]
 
 [sub_resource type="GDScript" id="GDScript_jvbk0"]
 
@@ -39,7 +39,9 @@ enter_direction = 2
 spawn_position = Vector2(80, 128)
 sprite_image = ExtResource("6_ismcs")
 
-[node name="NPC" parent="." instance=ExtResource("7_xk2hf")]
-position = Vector2(240, 112)
+[node name="Mom" parent="." instance=ExtResource("7_xk2hf")]
+position = Vector2(64, 160)
 collision_mask = 0
-texture = ExtResource("8_kwho3")
+texture = ExtResource("8_2pcgv")
+possitive_limits = Vector2(5, 5)
+negative_limits = Vector2(-3, -2)

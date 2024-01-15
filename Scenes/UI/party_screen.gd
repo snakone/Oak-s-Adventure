@@ -5,7 +5,6 @@ enum PanelState { OFF, ACTIVE }
 var selected_slot = 0;
 var slots_length;
 var last_slot_before_moving_left = 1;
-var is_player_moving = false;
 var party_screen_node =  "CurrentScene/PartyScreen";
 
 @onready var slot_switch = {
@@ -31,7 +30,8 @@ func _unhandled_input(event) -> void:
 	if(
 		GLOBAL.on_transition || 
 		!event.is_pressed() ||
-		event.is_echo()
+		event.is_echo() ||
+		GLOBAL.dialog_open
 	): return;
 	
 	set_active_option(PanelState.OFF);
@@ -55,16 +55,13 @@ func _unhandled_input(event) -> void:
 		selected_slot == Slots.FIRST): handle_RIGHT();
 	#LEFT
 	elif(
-(		Input.is_action_pressed("moveLeft") || 
+		(Input.is_action_pressed("moveLeft") || 
 		Input.is_action_pressed("ui_left")) && 
 		selected_slot != Slots.FIRST): handle_LEFT();
 	#SELECT
 	elif(event.is_action_pressed("space")): select_slot();
 	
 	set_active_option(PanelState.ACTIVE);
-
-func _on_player_moving(value: bool) -> void: 
-	is_player_moving = value;
 
 func select_slot() -> void:
 	match(selected_slot):
