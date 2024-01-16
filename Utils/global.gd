@@ -40,13 +40,6 @@ var blends = [
 	'parameters/Move/blend_position', 
 	'parameters/Turn/blend_position'];
 
-var walk: Dictionary = {
-	"UP": Vector2(0, -1),
-	"RIGHT": Vector2(1, 0),
-	"DOWN": Vector2(0, 1),
-	"LEFT": Vector2(-1, 0)
-}
-
 func need_to_turn(input_direction: Vector2) -> bool:
 	var new_facing_direction;
 	if(input_direction.x < 0): new_facing_direction = FacingDirection.LEFT

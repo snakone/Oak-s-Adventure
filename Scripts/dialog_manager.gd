@@ -4,9 +4,9 @@ extends CanvasLayer
 @onready var label: RichTextLabel = $RichTextLabel;
 
 var text_arr: Array = []
-var current_index: int = 0
-var current_line: int = 2
-var pressed: bool = true
+var current_index: int = 0;
+var current_line: int = 2;
+var pressed: bool = true;
 var process_md: bool = false;
 var self_name: String;
 var npc_name: String;
@@ -16,7 +16,7 @@ var who_talking: String;
 
 func _ready() -> void:
 	who_talking = npc_name;
-	var first_line: int = 1
+	var first_line: int = 1;
 	label.text = "";
 	
 	var text_string = text_arr[0][0];
@@ -26,10 +26,10 @@ func _ready() -> void:
 	label.text += "[b]" + who_talking + "[/b]: ";
 	
 	for i in range(first_line):
-		for j in range(len(text_arr[0][i])):
+		for j in range(len(text_string)):
 			await timer.timeout;
-			label.text += text_arr[0][i][j]
-	pressed = false
+			label.text += text_string[j];
+	pressed = false;
 	who_talking = npc_name;
 
 func _input(event: InputEvent) -> void:
@@ -56,9 +56,9 @@ func _input(event: InputEvent) -> void:
 			label.text += "[b]" + who_talking + "[/b]: ";
 			for j in range(len(text_string)):
 				await timer.timeout;
-				label.text += text_string[j]
-			current_line += 1
-		pressed = false
+				label.text += text_string[j];
+			current_line += 1;
+		pressed = false;
 		who_talking = npc_name;
 
 func set_data(dialog: Array, input_name: String, input_npc: String) -> void: 

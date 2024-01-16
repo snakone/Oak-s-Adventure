@@ -20,8 +20,8 @@ var oak_texture = preload("res://Sprites/oak_sprite.png");
 
 enum PlayerState { IDLE, TURNING, WALKING };
 var player_state = PlayerState.IDLE;
-var input_direction = Vector2()
-var start_position = Vector2(0, -1);
+var input_direction = Vector2();
+var start_position = Vector2.DOWN;
 var jumping_over_ledge = false;
 var is_moving: bool = false;
 var percent_moved: float = 0;
@@ -182,7 +182,7 @@ func connect_signals() -> void:
 	GLOBAL.connect("cant_enter_door", _on_cant_enter_door);
 	GLOBAL.connect("menu_opened", _on_menu_opened);
 	GLOBAL.connect("get_on_bike", _on_get_on_bike);
-	GLOBAL.connect("close_dialog", _on_close_dialog, 1);
+	GLOBAL.connect("close_dialog", _on_close_dialog);
 
 # LISTENERS
 func _on_area_2d_area_entered(area: Area2D) -> void:
@@ -254,18 +254,18 @@ func check_load_from_file():
 	if(GLOBAL.player_data_to_load != null):
 		await get_tree().create_timer(0.01).timeout;
 		var data = GLOBAL.player_data_to_load;
-		position.x = data["position.x"];
-		position.y = data["position.y"];
-		var direction = Vector2(data["direction.x"], data["direction.y"]);
-		if(data.has("on_bike") && data["on_bike"]): get_on_bike();
-		set_blend_direction(direction);
-		GLOBAL.player_data_to_load = null;
+		if(data != null):
+			position.x = data["position.x"];
+			position.y = data["position.y"];
+			if(data.has("on_bike") && data["on_bike"]): get_on_bike();
+			set_blend_direction(Vector2(position.x, position.y));
+			GLOBAL.player_data_to_load = null;
 
 func check_position_out_bounds():
 	if fmod(position.x, GLOBAL.TILE_SIZE) != 0.0 && percent_moved >= 1:
-		position.x = floor(position.x / 16) * 16;
+		position.x = floor(position.x / GLOBAL.TILE_SIZE) * GLOBAL.TILE_SIZE;
 	elif(fmod(position.y, GLOBAL.TILE_SIZE) != 0.0) && percent_moved >= 1:
-		position.y = floor(position.y / 16) * 16;
+		position.y = floor(position.y / GLOBAL.TILE_SIZE) * GLOBAL.TILE_SIZE;
 
 func check_for_dialogs() -> void:
 	if(!can_talk || dialog_text.size() == 0): return;

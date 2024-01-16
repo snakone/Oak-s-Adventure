@@ -13,7 +13,7 @@ var last_scene: String;
 
 func _ready():
 	GLOBAL.connect("start_dialog", _on_start_dialog);
-	GLOBAL.connect("close_dialog", _on_close_dialog, 1);
+	GLOBAL.connect("close_dialog", _on_close_dialog);
 
 func transition_to_scene(new_scene: String, animated = true, remove = true) -> void:
 	next_scene = new_scene;
@@ -55,5 +55,5 @@ func _on_start_dialog(text: Array, self_name: String, npc_name: String) -> void:
 	GLOBAL.dialog_open = true;
 	
 func _on_close_dialog() -> void:
-	dialogue_inst.queue_free();
+	dialogue_inst.call_deferred("queue_free");
 	GLOBAL.dialog_open = false;

@@ -21,15 +21,15 @@ func _ready():
 	MAPS.position_before_changing_scene = null;
 
 func set_character_position_after_scene_change() -> void:
-	if GLOBAL.last_player_direction == GLOBAL.walk.UP:
+	if GLOBAL.last_player_direction == Vector2.UP:
 		oak.position.y = map_size.y - GLOBAL.TILE_SIZE;
 		oak.position.x = MAPS.position_before_changing_scene.x;
-	elif GLOBAL.last_player_direction == GLOBAL.walk.DOWN:
+	elif GLOBAL.last_player_direction == Vector2.DOWN:
 		oak.position.y = 0;
 		oak.position.x = MAPS.position_before_changing_scene.x;
-	elif GLOBAL.last_player_direction == GLOBAL.walk.LEFT:
+	elif GLOBAL.last_player_direction == Vector2.LEFT:
 		oak.position.y = MAPS.position_before_changing_scene.y;
 		oak.position.x = map_size.x - GLOBAL.TILE_SIZE;
-	elif GLOBAL.last_player_direction == GLOBAL.walk.RIGHT: 
+	elif GLOBAL.last_player_direction == Vector2.RIGHT: 
 		oak.position.y = MAPS.position_before_changing_scene.y;
 		oak.position.x = 0;
