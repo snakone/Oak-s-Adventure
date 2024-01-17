@@ -14,6 +14,7 @@ var options_length = MenuOptions.keys().size();
 var selected_option = 0;
 var is_player_moving = false;
 var scene_manager: Node2D;
+var stop = false;
 
 func _ready():
 	control.visible = false;
@@ -27,22 +28,21 @@ func _unhandled_input(event: InputEvent) -> void:
 		GLOBAL.on_transition || 
 		!event.is_pressed() ||
 		event.is_echo() ||
-		GLOBAL.dialog_open
+		GLOBAL.dialog_open ||
+		stop
 	): return;
 	
 	if(event.is_action_pressed("bike") && !GLOBAL.inside_house):
 		GLOBAL.emit_signal("get_on_bike", !GLOBAL.on_bike);
 
 	match (screen_loaded):
-		ScreenLoaded.NONE:
-			if(Input.is_action_pressed("menu")): handle_MENU();
+		ScreenLoaded.NONE: if(Input.is_action_pressed("menu")): handle_MENU();
 		ScreenLoaded.MENU:
 			#CLOSE
 			if(
 				Input.is_action_pressed("menu") || 
 				Input.is_action_pressed("backMenu") ||
 				Input.is_action_pressed("escape")): close_menu()
-				
 			#DOWN
 			elif(
 				Input.is_action_pressed("moveDown") || 
@@ -75,7 +75,7 @@ func open_party() -> void:
 	control.visible = false;
 	screen_loaded = ScreenLoaded.PARTY;
 	scene_manager.transition_to_scene(party_screen_path, true, false);
-	process_mode = Node.PROCESS_MODE_DISABLED;
+	stop = true;
 	GLOBAL.emit_signal("party_opened", true);
 
 func _on_party_opened(value: bool) -> void:
@@ -84,7 +84,7 @@ func _on_party_opened(value: bool) -> void:
 		control.visible = true;
 		screen_loaded = ScreenLoaded.MENU;
 		scene_manager.get_node(party_screen_node).queue_free();
-		process_mode = Node.PROCESS_MODE_INHERIT;
+		stop = false;
 
 func handle_MENU() -> void:
 	control.visible = true;

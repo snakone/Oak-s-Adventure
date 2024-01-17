@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://w5upskxna6ds"]
+[gd_scene load_steps=59 format=3 uid="uid://w5upskxna6ds"]
 
 [ext_resource type="Script" path="res://Scenes/NPC/oak.gd" id="1_4ift8"]
 [ext_resource type="Texture2D" uid="uid://bbr4k5128eafp" path="res://Sprites/oak_sprite.png" id="2_05a7t"]
@@ -74,9 +74,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0, -8)]
 }
-
-[sub_resource type="Animation" id="Animation_madki"]
-length = 0.001
 
 [sub_resource type="Animation" id="Animation_qwynv"]
 resource_name = "idleDown"
@@ -340,7 +337,6 @@ tracks/1/keys = {
 _data = {
 "Chair": SubResource("Animation_lr4i5"),
 "ChairDown": SubResource("Animation_but0f"),
-"RESET": SubResource("Animation_madki"),
 "idleDown": SubResource("Animation_qwynv"),
 "idleLeft": SubResource("Animation_5r8xp"),
 "idleRight": SubResource("Animation_ybe2m"),
@@ -383,6 +379,7 @@ blend_point_2/pos = Vector2(0, -1)
 blend_point_3/node = SubResource("AnimationNodeAnimation_x1kj6")
 blend_point_3/pos = Vector2(-1, 0)
 blend_mode = 1
+sync = true
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_34ln1"]
 animation = &"moveDown"
@@ -472,14 +469,14 @@ states/Start/position = Vector2(275, 193)
 states/Turn/node = SubResource("AnimationNodeBlendSpace2D_bfyhu")
 states/Turn/position = Vector2(444, 328)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_f1wjv"), "Idle", "Move", SubResource("AnimationNodeStateMachineTransition_nw76w"), "Move", "Idle", SubResource("AnimationNodeStateMachineTransition_wo0vf"), "Idle", "Turn", SubResource("AnimationNodeStateMachineTransition_37tmo"), "Turn", "Idle", SubResource("AnimationNodeStateMachineTransition_vlaom"), "Move", "Turn", SubResource("AnimationNodeStateMachineTransition_whfpy"), "Turn", "Move", SubResource("AnimationNodeStateMachineTransition_nms58"), "Idle", "Chair", SubResource("AnimationNodeStateMachineTransition_lfxqm"), "Move", "Chair", SubResource("AnimationNodeStateMachineTransition_78557"), "ChairDown", "Move", SubResource("AnimationNodeStateMachineTransition_rascc"), "Chair", "Move", SubResource("AnimationNodeStateMachineTransition_ic4h2"), "Idle", "ChairDown", SubResource("AnimationNodeStateMachineTransition_frg2r"), "Move", "ChairDown", SubResource("AnimationNodeStateMachineTransition_hejto")]
-graph_offset = Vector2(0, 11.5001)
+graph_offset = Vector2(0, 103.885)
 
 [node name="Oak" type="CharacterBody2D" groups=["Persist"]]
 collision_mask = 14
 script = ExtResource("1_4ift8")
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_mask = 10
+collision_mask = 26
 
 [node name="Hitbox" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(8, 8)
@@ -524,7 +521,7 @@ libraries = {
 }
 tree_root = SubResource("AnimationNodeStateMachine_pe3uy")
 anim_player = NodePath("../AnimationPlayer")
-parameters/Idle/blend_position = Vector2(0, 1)
+parameters/Idle/blend_position = Vector2(-0.000947893, 0.73545)
 parameters/Move/blend_position = Vector2(0, 0)
 parameters/Turn/blend_position = Vector2(0, 0)
 
@@ -538,7 +535,6 @@ position_smoothing_speed = 10.0
 script = ExtResource("6_kxb0c")
 
 [node name="BlockRayCast2D" type="RayCast2D" parent="."]
-visible = false
 position = Vector2(8, 8)
 target_position = Vector2(0, 8)
 collision_mask = 14
@@ -548,8 +544,12 @@ position = Vector2(8, 8)
 target_position = Vector2(0, 8)
 collision_mask = 8
 
+[node name="ObjectRayCast2D" type="RayCast2D" parent="."]
+position = Vector2(8, 8)
+target_position = Vector2(0, 8)
+collision_mask = 16
+
 [node name="LedgeRayCast2D" type="RayCast2D" parent="."]
-visible = false
 show_behind_parent = true
 position = Vector2(8, 8)
 target_position = Vector2(0, 8)

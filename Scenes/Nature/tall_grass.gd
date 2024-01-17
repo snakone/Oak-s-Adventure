@@ -13,12 +13,9 @@ func _on_area_2d_body_entered(body) -> void:
 		animation_player.play("Stepped");
 		inside_grass = true;
 
-func active_effect() -> void:
-	grass_effect.play();
-
-func reset_texture(value: bool):
-	if(value && inside_grass): texture_rect.visible = false;
-
 func _on_area_2d_body_exited(_body):
 	inside_grass = false;
 	texture_rect.visible = false;
+
+func active_effect() -> void: grass_effect.play();
+func reset_texture(value: bool): if(value): texture_rect.visible = false;

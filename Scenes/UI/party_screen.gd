@@ -6,6 +6,7 @@ var selected_slot = 0;
 var slots_length;
 var last_slot_before_moving_left = 1;
 var party_screen_node =  "CurrentScene/PartyScreen";
+var stop = false;
 
 @onready var slot_switch = {
 	Slots.FIRST: $Slots/First,
@@ -18,7 +19,7 @@ var party_screen_node =  "CurrentScene/PartyScreen";
 }
 
 func _ready():
-	process_mode = Node.PROCESS_MODE_INHERIT;
+	stop = false;
 	set_active_option(PanelState.ACTIVE);
 	slots_length = slot_switch.size();
 	create_party_list();
@@ -31,7 +32,8 @@ func _unhandled_input(event) -> void:
 		GLOBAL.on_transition || 
 		!event.is_pressed() ||
 		event.is_echo() ||
-		GLOBAL.dialog_open
+		GLOBAL.dialog_open ||
+		stop
 	): return;
 	
 	set_active_option(PanelState.OFF);
@@ -71,7 +73,7 @@ func select_slot() -> void:
 func close_party() -> void:
 	await get_tree().create_timer(.2).timeout;
 	GLOBAL.emit_signal("party_opened", false);
-	process_mode = Node.PROCESS_MODE_DISABLED;
+	stop = true;
 
 func handle_DOWN():
 	selected_slot = selected_slot + 1;

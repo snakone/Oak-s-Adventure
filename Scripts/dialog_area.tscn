@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dlppxk7tvefkv"]
+
+[ext_resource type="Script" path="res://Scripts/dialog_area.gd" id="1_5hxqv"]
+[ext_resource type="Script" path="res://Scripts/object_area.gd" id="1_jfust"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a757i"]
+size = Vector2(14, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qwe52"]
+size = Vector2(16, 16)
+
+[node name="Object" type="StaticBody2D"]
+collision_layer = 16
+script = ExtResource("1_jfust")
+
+[node name="DialogArea" type="Area2D" parent="."]
+collision_layer = 16
+script = ExtResource("1_5hxqv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DialogArea"]
+position = Vector2(8, 24)
+shape = SubResource("RectangleShape2D_a757i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_qwe52")

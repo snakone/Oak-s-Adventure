@@ -15,6 +15,7 @@ func _ready():
 	GLOBAL.connect("start_dialog", _on_start_dialog);
 	GLOBAL.connect("close_dialog", _on_close_dialog);
 
+#SCENES
 func transition_to_scene(new_scene: String, animated = true, remove = true) -> void:
 	next_scene = new_scene;
 	should_remove_child = remove;
@@ -35,19 +36,7 @@ func create_new_scene() -> void:
 	var new_node = await load(next_scene).instantiate();
 	current_scene.call_deferred("add_child", new_node);
 
-func save() -> Dictionary:
-	if(next_scene.find("party_screen") != -1):
-		next_scene = last_scene;
-	var data = {
-		"save_type": GLOBAL.SaveType.SCENE,
-		"path": get_path(),
-		"scene": next_scene,
-	}
-	return data;
-	
-func load(data: Dictionary) -> void:
-	if(data.scene != ""): transition_to_scene(data.scene);
-	
+#DIALOGS
 func _on_start_dialog(text: Array, self_name: String, npc_name: String) -> void:
 	dialogue_inst = DIALOG_MANAGER.instantiate();
 	dialogue_inst.set_data(text, self_name, npc_name);
@@ -57,3 +46,19 @@ func _on_start_dialog(text: Array, self_name: String, npc_name: String) -> void:
 func _on_close_dialog() -> void:
 	dialogue_inst.call_deferred("queue_free");
 	GLOBAL.dialog_open = false;
+
+#SAVE
+func save() -> Dictionary:
+	if(next_scene.find("party_screen") != -1):
+		next_scene = last_scene;
+	var data = {
+		"save_type": GLOBAL.SaveType.SCENE,
+		"path": get_path(),
+		"scene": next_scene,
+	}
+	return data;
+
+#LOAD
+func load(data: Dictionary) -> void:
+	if(data.scene != ""): transition_to_scene(data.scene);
+

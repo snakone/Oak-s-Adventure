@@ -22,7 +22,7 @@ func _on_body_entered(body) -> void:
 	check_direction();
 	if(can_be_opened && body.name == "Oak"):
 		MAPS.spawn_position = spawn_position;
-		if(animated): animation_player.play("Open");
+		if(animated && type != GLOBAL.DoorType.OUT): animation_player.play("Open");
 		else: 
 			await get_tree().create_timer(.1).timeout;
 			enter_house();

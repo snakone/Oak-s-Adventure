@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://mehsprarmnqn"]
+[gd_scene load_steps=10 format=3 uid="uid://mehsprarmnqn"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/Routes/route_00.gd" id="1_4sei8"]
 [ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="1_7s0sy"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bpd8fst7cuqut" path="res://Sprites/blue_farmer_door.png" id="6_c5ngf"]
 [ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="7_agnbx"]
 [ext_resource type="Texture2D" uid="uid://cas7pala8455i" path="res://Sprites/NPC/gary.png" id="8_k38dg"]
+[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="9_08sj1"]
 
 [node name="Route00" type="Node2D"]
 y_sort_enabled = true
@@ -40,3 +41,8 @@ position = Vector2(48, 144)
 texture = ExtResource("8_k38dg")
 possitive_limits = Vector2(2, 1)
 negative_limits = Vector2(-1, 0)
+location = 2
+
+[node name="FarmerHouseBanner" parent="." instance=ExtResource("9_08sj1")]
+position = Vector2(288, 80)
+location = 2
