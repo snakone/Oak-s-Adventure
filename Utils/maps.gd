@@ -21,9 +21,3 @@ const location_array = [
 	"Route00",
 	"OakFarmerHouse"
 ];
-
-var dialog_count = {
-	"Mom": {
-		MAPS.Locations.PRAIRE_TOWN: 0
-	}
-}

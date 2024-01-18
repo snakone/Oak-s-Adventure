@@ -13,6 +13,7 @@ const BIKE_SPEED = 6;
 @onready var ledge_ray_cast_2d = $LedgeRayCast2D;
 @onready var npc_ray_cast_2d = $NPCRayCast2D
 @onready var object_ray_cast_2d = $ObjectRayCast2D
+@onready var audio_player = $AudioStreamPlayer;
 
 @onready var playback = animation_tree.get("parameters/playback");
 @onready var block_rays = [block_ray_cast_2d, ledge_ray_cast_2d];
@@ -20,6 +21,10 @@ const BIKE_SPEED = 6;
 
 var bike_texture = preload("res://Sprites/oak_bike.png");
 var oak_texture = preload("res://Sprites/oak_sprite.png");
+
+const CONFIRM = preload("res://Assets/confirm.wav");
+const BLOCK = preload("res://Assets/Player bump.ogg");
+const PLAYER_JUMP = preload("res://Assets/Player jump.ogg");
 
 enum PlayerState { IDLE, TURNING, WALKING };
 var player_state = PlayerState.IDLE;
@@ -40,7 +45,7 @@ var area_type := GLOBAL.DialogAreaType.NONE;
 var stop = false;
 
 var npc: StaticBody2D;
-var dialog_area: Area2D; 
+var dialog_area: StaticBody2D; 
 
 func _ready():
 	connect_signals();
@@ -100,6 +105,9 @@ func move(delta) -> void:
 	else: percent_moved += SPEED * delta;
 	round_percent_move();
 	var ledge_colliding = (ledge_ray_cast_2d.is_colliding() && input_direction == Vector2.DOWN);
+	if(block_ray_cast_2d.is_colliding() && !audio_player.playing && !ledge_colliding):
+		audio_player.stream = BLOCK;
+		audio_player.play();
 	if(GLOBAL.on_transition): check_transition();
 	elif(ledge_colliding || jumping_over_ledge): check_ledges();
 	elif(!block_ray_cast_2d.is_colliding()): check_moving();
@@ -137,11 +145,12 @@ func check_transition():
 
 #JUMP
 func jump() -> void:
+	audio_player.stream = PLAYER_JUMP;
+	audio_player.play();
 	jumping_over_ledge = true;
 	var new_position = input_direction.y * GLOBAL.TILE_SIZE * percent_moved;
 	position.y = GLOBAL.get_jumping_curvature(start_position.y, new_position);
 	shadow.visible = true;
-	show_dust_effect(false);
 
 func stop_jumping() -> void:
 	position = start_position + (GLOBAL.TILE_SIZE * input_direction * 2);
@@ -152,12 +161,14 @@ func stop_jumping() -> void:
 
 #BIKE
 func get_on_bike():
+	AUDIO.play_bike();
 	GLOBAL.on_bike = true;
 	sprite.texture = bike_texture;
 	sprite.offset.x = -3;
 	sprite.offset.y = -8;
 
-func get_off_bike():
+func get_off_bike(stop_sound = true):
+	if(stop_sound): AUDIO.stop_and_play_last_song();
 	GLOBAL.on_bike = false;
 	sprite.texture = oak_texture;
 	sprite.offset.x = 0;
@@ -169,11 +180,13 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	elif("Chair" in area.name): sit_on_chair_animation(area);
 	elif("NPCHitBox" in area.name): npc_talk_on_area_entered(area);
 	elif("DialogArea" in area.name): object_talk_on_area_entered(area);
+
 func _on_area_2d_area_exited(area: Area2D) -> void:
 	if("Chair" in area.name): sit_on_chair = false;
 	elif("NPCHitBox" in area.name || "DialogArea" in area.name): 
 		can_talk = GLOBAL.dialog_open;
 		area_type = GLOBAL.DialogAreaType.NONE;
+		dialog_text = [];
 
 func _on_menu_opened(value: bool) -> void:
 	if(is_moving): return;
@@ -193,7 +206,8 @@ func npc_talk_on_area_entered(area: Area2D) -> void:
 	
 func object_talk_on_area_entered(object: Area2D) -> void:
 	can_talk = true;
-	dialog_area = object;
+	dialog_area = object.get_parent();
+	dialog_text = object.dialog;
 	area_type = GLOBAL.DialogAreaType.OBJECT;
 
 func _on_get_on_bike(value: bool):
@@ -209,28 +223,46 @@ func check_position_out_bounds():
 		position.y = floor(position.y / GLOBAL.TILE_SIZE) * GLOBAL.TILE_SIZE;
 
 func check_for_dialogs() -> void:
-	if(!can_talk || dialog_area.dialog.size() == 0): return;
+	if(!can_talk || dialog_text.size() == 0): return;
 	if Input.is_action_just_pressed("space"):
 		var desired_step: Vector2 = GLOBAL.last_player_direction * (GLOBAL.TILE_SIZE / 2.0);
 		update_dialog_rays(desired_step);
 		#NPC
 		if(area_type == GLOBAL.DialogAreaType.NPC && npc_ray_cast_2d.is_colliding()):
-			GLOBAL.emit_signal("start_dialog", dialog_area.dialog, self.name, npc.name, npc.location);
-			stop = true;
+			if(npc && npc.name in DIALOG.dialog_count):
+				dialog_text = DIALOG.get_next_dialog(npc.name, npc.location, dialog_text)
+			open_npc_dialog(dialog_text);
 		#OBJECT
 		elif(area_type == GLOBAL.DialogAreaType.OBJECT && object_ray_cast_2d.is_colliding()):
-			GLOBAL.emit_signal("start_dialog", dialog_area.dialog, "", "", dialog_area.get_parent().location);
-			stop = true;
+			open_object_dialog(dialog_text);
+
+func open_npc_dialog(text: Array):
+	GLOBAL.emit_signal("start_dialog", text, self.name, npc.name, npc.location);
+	stop = true;
+	playback.travel("Idle");
+	reset_moving();
+	audio_player.stream = CONFIRM;
+	audio_player.play();
+
+func open_object_dialog(text: Array):
+	var direction = GLOBAL.directions_array[dialog_area.talk_direction];
+	if(direction != GLOBAL.last_player_direction && direction != Vector2.INF): return;
+	GLOBAL.emit_signal("start_dialog", text, "", "", dialog_area.location);
+	stop = true;
+	playback.travel("Idle");
+	reset_moving();
+	audio_player.stream = CONFIRM;
+	audio_player.play();
 
 # ANIMATIONS
 func enter_door_animation(area: Area2D) -> void:
 	var delay_time := 0.1;
 	if(area.type == GLOBAL.DoorType.OUT): delay_time = 0.2;
-	if(GLOBAL.on_bike): get_off_bike();
-	stop = true;
+	if(GLOBAL.on_bike): get_off_bike(false);
 	await get_tree().create_timer(.1).timeout
 	var tween = get_tree().create_tween();
 	await tween.tween_property(sprite, "modulate:a", 0, delay_time).finished;
+	stop = true;
 
 func sit_on_chair_animation(area: Area2D) -> void:
 	await get_tree().create_timer(.3).timeout;

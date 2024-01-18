@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cn2jssalmf12l"]
+[gd_scene load_steps=12 format=3 uid="uid://cn2jssalmf12l"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/praire_town.gd" id="1_3hn5p"]
 [ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="2_5a1f2"]
@@ -8,12 +8,15 @@
 [ext_resource type="Texture2D" uid="uid://binluodfymue4" path="res://Sprites/door_open_orange.png" id="6_ismcs"]
 [ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="7_xk2hf"]
 [ext_resource type="Texture2D" uid="uid://cd3146vuujwx6" path="res://Sprites/NPC/mom.png" id="8_2pcgv"]
+[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="9_255gx"]
+[ext_resource type="AudioStream" uid="uid://xaacocjq78cq" path="res://Assets/PraireTown.mp3" id="10_gcas7"]
 
 [sub_resource type="GDScript" id="GDScript_jvbk0"]
 
 [node name="PraireTown" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_3hn5p")
+song = ExtResource("10_gcas7")
 
 [node name="Oak" parent="." instance=ExtResource("2_5a1f2")]
 y_sort_enabled = true
@@ -45,3 +48,15 @@ collision_mask = 0
 texture = ExtResource("8_2pcgv")
 possitive_limits = Vector2(5, 5)
 negative_limits = Vector2(-3, -2)
+interval = 1
+
+[node name="OakMail" parent="." instance=ExtResource("9_255gx")]
+position = Vector2(80, 112)
+
+[node name="OakMarketBanner" parent="." instance=ExtResource("9_255gx")]
+position = Vector2(192, 80)
+
+[node name="OakMarketBox" parent="." instance=ExtResource("9_255gx")]
+position = Vector2(112, 48)
+talk_direction = 5
+metadata/_edit_group_ = true

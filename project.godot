@@ -24,6 +24,7 @@ PARTY="*res://Utils/party.gd"
 POKEMON="*res://Utils/pokemon.gd"
 MEMORY="*res://Utils/memory.gd"
 DIALOG="*res://Utils/dialog.gd"
+AUDIO="*res://Utils/audio.gd"
 
 [display]
 

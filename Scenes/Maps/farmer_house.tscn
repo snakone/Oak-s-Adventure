@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://c1jpjnn8vng8l"]
+[gd_scene load_steps=8 format=3 uid="uid://c1jpjnn8vng8l"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/farmer_house.gd" id="1_5wt1e"]
 [ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="1_twohn"]
 [ext_resource type="Texture2D" uid="uid://cc8r3fw5qdhfw" path="res://Sprites/insides1.png" id="2_g8qay"]
+[ext_resource type="AudioStream" uid="uid://boqgmu2280oq0" path="res://Assets/Lappet Town.ogg" id="2_pwlv7"]
 [ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="3_ai1pw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_a5q4f"]
@@ -280,6 +281,7 @@ sources/0 = SubResource("TileSetAtlasSource_a5q4f")
 [node name="FarmerHouse" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_5wt1e")
+song = ExtResource("2_pwlv7")
 
 [node name="Oak" parent="." instance=ExtResource("1_twohn")]
 y_sort_enabled = true

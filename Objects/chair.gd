@@ -1,7 +1,7 @@
 extends Area2D
 
 @export var sprite_image: Texture;
-@export var position_when_sit = GLOBAL.DIRECTIONS.UP;
+@export var position_when_sit = GLOBAL.Directions.UP;
 
 @onready var sprite = $Sprite2D;
 var sit_direction;

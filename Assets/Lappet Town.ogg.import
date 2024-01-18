@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://boqgmu2280oq0"
+path="res://.godot/imported/Lappet Town.ogg-4a301600e168eabcf403962b2eb8a8cf.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/Lappet Town.ogg"
+dest_files=["res://.godot/imported/Lappet Town.ogg-4a301600e168eabcf403962b2eb8a8cf.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,7 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://cbsymn8f5k46q"]
+[gd_scene load_steps=20 format=3 uid="uid://cbsymn8f5k46q"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/oak_house.gd" id="1_hvp12"]
 [ext_resource type="Texture2D" uid="uid://cyswo02428m6m" path="res://Sprites/interior_tiles.png" id="1_nv2wr"]
+[ext_resource type="AudioStream" uid="uid://boqgmu2280oq0" path="res://Assets/Lappet Town.ogg" id="2_msa3w"]
 [ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="2_qhnvw"]
 [ext_resource type="Texture2D" uid="uid://c8757xym2cklw" path="res://Sprites/dolls.png" id="3_1hv1e"]
 [ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="3_clpgf"]
@@ -412,6 +413,7 @@ sources/4 = SubResource("TileSetAtlasSource_sgff6")
 y_sort_enabled = true
 position = Vector2(0, 32)
 script = ExtResource("1_hvp12")
+song = ExtResource("2_msa3w")
 
 [node name="TileMap" type="TileMap" parent="."]
 y_sort_enabled = true

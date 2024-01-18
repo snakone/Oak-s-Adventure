@@ -6,8 +6,10 @@ class_name HouseController;
 
 @onready var oak = $Oak;
 @onready var tilemap = $TileMap;
+@export var song: AudioStream;
 
 func _ready():
+	if(song): AUDIO.play(song);
 	GLOBAL.inside_house = true;
 	set_camera();
 	oak.set_blend_direction(GLOBAL.last_player_direction);

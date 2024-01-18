@@ -9,7 +9,7 @@ signal start_dialog(text: Array, self_name: String, npc_name: String, location: 
 signal close_dialog;
 signal on_tile_map_changed(size: Vector2, camera_offset: Vector2);
 
-enum DIRECTIONS {LEFT, RIGHT, UP, DOWN, NONE}
+enum Directions {LEFT, RIGHT, UP, DOWN, NONE, ALL}
 enum FacingDirection { LEFT, RIGHT, UP, DOWN };
 enum Genders { MALE, FEMALE }
 enum SaveType { PLAYER, SCENE }
@@ -18,11 +18,11 @@ enum DialogAreaType { NPC, OBJECT, NONE }
 
 var player_data_to_load = null;
 
-const directions_array: Array = [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN, Vector2.ZERO];
+const directions_array: Array = [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN, Vector2.ZERO, Vector2.INF];
 const TILE_SIZE: int = 16;
 const WINDOW_SIZE = Vector2(15, 10);
 
-var last_player_direction = directions_array[DIRECTIONS.DOWN];
+var last_player_direction = directions_array[Directions.DOWN];
 var on_transition = false;
 var facing_direction = FacingDirection.UP;
 var last_used_door: String;

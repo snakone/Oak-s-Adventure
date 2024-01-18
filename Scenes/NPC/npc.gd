@@ -90,7 +90,7 @@ func move(new_direction: Vector2) -> void:
 #LISTENERS
 func _on_hit_box_body_entered(body) -> void:
 	#Avoid NPC walks in the same coordinates
-	await get_tree().create_timer(.4).timeout
+	await get_tree().create_timer(.3).timeout
 	var direction_y = [Vector2.UP * GLOBAL.TILE_SIZE, Vector2.DOWN * GLOBAL.TILE_SIZE];
 	var direction_x = [Vector2.RIGHT * GLOBAL.TILE_SIZE, Vector2.LEFT * GLOBAL.TILE_SIZE];
 
@@ -103,11 +103,11 @@ func _on_hit_box_body_entered(body) -> void:
 		body.position.y == position.y && body.position.x < position.x
 	): wrong_directions = direction_x;
 
-func _on_hit_box_body_exited(_body): 
+func _on_hit_box_body_exited(_body):
 	if(is_talking): return;
 	wrong_directions = [];
 
-func _on_start_dialog(_text, _self_name, _npc_name) -> void:
+func _on_start_dialog(_text, _self_name, _npc_name, _location) -> void:
 	is_talking = true;
 	var last_direction = GLOBAL.last_player_direction;
 	if(last_direction == Vector2.UP): sprite.frame = 0;
@@ -118,6 +118,7 @@ func _on_start_dialog(_text, _self_name, _npc_name) -> void:
 func _on_close_dialog() -> void:
 	await get_tree().create_timer(0.2).timeout;
 	is_talking = false;
+	DIALOG.check_more_dialogs(self.name, location);
 
 #CHECKERS
 func check_positon_bounds() -> void:

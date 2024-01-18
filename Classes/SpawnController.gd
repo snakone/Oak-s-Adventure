@@ -5,10 +5,12 @@ class_name SpawnController;
 
 @onready var oak = $Oak;
 @onready var tilemap = $TileMap;
+@export var song: AudioStream;
 
 var map_size: Vector2;
 
 func _ready():
+	if(song): AUDIO.play(song);
 	GLOBAL.inside_house = false;
 	map_size = MAPS.get_map_size(tilemap);
 	oak.set_blend_direction(GLOBAL.last_player_direction);

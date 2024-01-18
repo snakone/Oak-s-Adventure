@@ -555,6 +555,9 @@ position = Vector2(8, 8)
 target_position = Vector2(0, 8)
 collision_mask = 4
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -15.0
+
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
 [connection signal="animation_finished" from="DustEffect" to="DustEffect" method="_on_animation_finished"]

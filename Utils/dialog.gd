@@ -9,14 +9,25 @@ func get_dialog(npc_name: String, location: MAPS.Locations, id = 1) -> Array:
 		return dialog_library[npc_name][location][id];
 	return [];
 
+func check_more_dialogs(npc_name: String, location: MAPS.Locations) -> void:
+	var dialogs = dialog_library[npc_name][location];
+	if(dialogs.size() >= 2):
+		dialog_count[npc_name][location] += 1;
+		if(dialogs.size() < dialog_count[npc_name][location]):
+			dialog_count[npc_name][location] = 1;
+
+func get_next_dialog(npc_name: String, location: MAPS.Locations, text: Array):
+	if(npc_name in dialog_count):
+		var count = dialog_count[npc_name][location];
+		return get_dialog(npc_name, location, count);
+	return text;
+
 var dialog_library: Dictionary = {
 	"Gary": {
 		MAPS.Locations.ROUTE_00: {
 			1: [
 				["Hey! how are you?"],
-				["I was looking for you. I need to tell you something.\n", "Come into my house located right there. It will be very fun."],
-				["self:I'm fine, thanks."],
-				["Sure thing. You wont regret it!"]
+				["self:I'm fine, thanks."]
 			]
 		}
 	},
@@ -35,8 +46,45 @@ var dialog_library: Dictionary = {
 	"FarmerHouseBanner": {
 		MAPS.Locations.ROUTE_00: {
 			1: [
-				["Oak's Farmer House. Sweet!"],
+				["Oak's Farmer House."],
+			]
+		}
+	},
+	"FarmerHouseJar": {
+		MAPS.Locations.ROUTE_00: {
+			1: [
+				["There are several types of seeds inside."],
+			]
+		}
+	},
+	"OakMail": {
+		MAPS.Locations.PRAIRE_TOWN: {
+			1: [
+				["Oh, it looks like there's no mail today!"],
+				["Maybe I should find a boy to bring me the mail."],
+			]
+		}
+	},
+	"OakMarketBanner": {
+		MAPS.Locations.PRAIRE_TOWN: {
+			1: [
+				["Oak's Little Market."],
+				["We have the best selection of items."],
+				["Don't miss it!"]
+			]
+		}
+	},
+	"OakMarketBox": {
+		MAPS.Locations.PRAIRE_TOWN: {
+			1: [
+				["Some of the Oak's exclusive items."],
 			]
 		}
 	}
+}
+
+var dialog_count = {
+	"Mom": {
+		MAPS.Locations.PRAIRE_TOWN: 1
+	},
 }

@@ -3,6 +3,7 @@ extends CanvasLayer
 @onready var timer: Timer = $Timer
 @onready var label: RichTextLabel = $RichTextLabel;
 @onready var marker = $Marker;
+@onready var audio = $AudioStreamPlayer
 
 var text_arr: Array = [];
 var current_index: int = 0;
@@ -13,7 +14,7 @@ var npc_name: String;
 var dialog_closed = false;
 var oak_prefix = "self:";
 var whos_talking: String;
-var dialog_count = 0;
+var dialog_location: MAPS.Locations;
 
 func _ready() -> void:
 	marker.visible = false;
@@ -36,6 +37,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("space") and !pressed:
 		pressed = true;
 		label.text = "";
+		audio.play();
 		
 		if current_line >= len(text_arr[current_index]):
 			label.text = ""
@@ -43,6 +45,7 @@ func _input(event: InputEvent) -> void:
 			current_line = 0
 		
 		if current_index >= len(text_arr):
+			await audio.finished;
 			dialog_closed = true;
 			GLOBAL.emit_signal("close_dialog");
 			timer.stop();
@@ -57,10 +60,11 @@ func _input(event: InputEvent) -> void:
 		pressed = false;
 		whos_talking = npc_name;
 
-func set_data(dialog: Array, input_name: String, input_npc: String) -> void: 
+func set_data(dialog: Array, input_name: String, input_npc: String, location: MAPS.Locations) -> void: 
 	text_arr = dialog;
 	self_name = input_name;
 	npc_name = input_npc;
+	dialog_location = location;
 
 func add_prefix(text: String) -> String:
 	if(whos_talking != ""):

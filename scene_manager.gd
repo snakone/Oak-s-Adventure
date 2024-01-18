@@ -37,9 +37,9 @@ func create_new_scene() -> void:
 	current_scene.call_deferred("add_child", new_node);
 
 #DIALOGS
-func _on_start_dialog(text: Array, self_name: String, npc_name: String) -> void:
+func _on_start_dialog(text: Array, self_name: String, npc_name: String, location: MAPS.Locations) -> void:
 	dialogue_inst = DIALOG_MANAGER.instantiate();
-	dialogue_inst.set_data(text, self_name, npc_name);
+	dialogue_inst.set_data(text, self_name, npc_name, location);
 	call_deferred("add_child", dialogue_inst);
 	GLOBAL.dialog_open = true;
 	
