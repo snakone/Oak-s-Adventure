@@ -45,11 +45,11 @@ possitive_limits = Vector2(2, 1)
 negative_limits = Vector2(-1, 0)
 location = 2
 
-[node name="FarmerHouseBanner" parent="." instance=ExtResource("9_08sj1")]
+[node name="Banner" parent="." instance=ExtResource("9_08sj1")]
 position = Vector2(288, 80)
 location = 2
 
-[node name="FarmerHouseJar" parent="." instance=ExtResource("9_08sj1")]
+[node name="Jar" parent="." instance=ExtResource("9_08sj1")]
 position = Vector2(352, 48)
 location = 2
 talk_direction = 3

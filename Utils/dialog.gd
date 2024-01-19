@@ -43,21 +43,14 @@ var dialog_library: Dictionary = {
 			]
 		}
 	},
-	"FarmerHouseBanner": {
-		MAPS.Locations.ROUTE_00: {
-			1: [
-				["Oak's Farmer House."],
-			]
-		}
-	},
-	"FarmerHouseJar": {
+	"Jar": {
 		MAPS.Locations.ROUTE_00: {
 			1: [
 				["There are several types of seeds inside."],
 			]
 		}
 	},
-	"OakMail": {
+	"Mail": {
 		MAPS.Locations.PRAIRE_TOWN: {
 			1: [
 				["Oh, it looks like there's no mail today!"],
@@ -65,19 +58,39 @@ var dialog_library: Dictionary = {
 			]
 		}
 	},
-	"OakMarketBanner": {
+	"Banner": {
 		MAPS.Locations.PRAIRE_TOWN: {
 			1: [
 				["Oak's Little Market."],
 				["We have the best selection of items."],
 				["Don't miss it!"]
 			]
+		},
+		MAPS.Locations.ROUTE_00: {
+			1: [
+				["Oak's Farmer House."],
+			]
 		}
 	},
-	"OakMarketBox": {
+	"Box": {
 		MAPS.Locations.PRAIRE_TOWN: {
 			1: [
-				["Some of the Oak's exclusive items."],
+				["Some of Oak's exclusive items."],
+			]
+		}
+	},
+	"Bin": {
+		MAPS.Locations.OAK_HOUSE: {
+			1: [
+				["Some Doritos from last night."],
+			]
+		}
+	},
+	"GameCube": {
+		MAPS.Locations.OAK_HOUSE: {
+			1: [
+				["My old Gamecube with Twilight Princess."],
+				["I love this game!"],
 			]
 		}
 	}

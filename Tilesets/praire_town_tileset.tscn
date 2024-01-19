@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dtqibwgq2g60b"]
+[gd_scene load_steps=5 format=3 uid="uid://dtqibwgq2g60b"]
 
 [ext_resource type="TileSet" uid="uid://cxl08215wglhd" path="res://Tilesets/praire_town_tileset.tres" id="1_pimj4"]
 [ext_resource type="PackedScene" uid="uid://bc2mwnax5n1pj" path="res://Tilesets/ledges.tscn" id="3_88b0g"]
@@ -89,4 +89,3 @@ position = Vector2(16, 48)
 
 [node name="flowers3" parent="Flowers" instance=ExtResource("5_qtqdt")]
 position = Vector2(16, 64)
-

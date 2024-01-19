@@ -12,7 +12,7 @@ var map_size: Vector2;
 func _ready():
 	if(song): AUDIO.play(song);
 	GLOBAL.inside_house = false;
-	map_size = MAPS.get_map_size(tilemap);
+	map_size = MAPS.get_map_size_and_emit(tilemap);
 	oak.set_blend_direction(GLOBAL.last_player_direction);
 	
 	if(MAPS.spawn_position):

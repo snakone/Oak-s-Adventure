@@ -50,13 +50,13 @@ possitive_limits = Vector2(5, 5)
 negative_limits = Vector2(-3, -2)
 interval = 1
 
-[node name="OakMail" parent="." instance=ExtResource("9_255gx")]
+[node name="Mail" parent="." instance=ExtResource("9_255gx")]
 position = Vector2(80, 112)
 
-[node name="OakMarketBanner" parent="." instance=ExtResource("9_255gx")]
+[node name="Banner" parent="." instance=ExtResource("9_255gx")]
 position = Vector2(192, 80)
 
-[node name="OakMarketBox" parent="." instance=ExtResource("9_255gx")]
+[node name="Box" parent="." instance=ExtResource("9_255gx")]
 position = Vector2(112, 48)
 talk_direction = 5
 metadata/_edit_group_ = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cbsymn8f5k46q"]
+[gd_scene load_steps=21 format=3 uid="uid://cbsymn8f5k46q"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/oak_house.gd" id="1_hvp12"]
 [ext_resource type="Texture2D" uid="uid://cyswo02428m6m" path="res://Sprites/interior_tiles.png" id="1_nv2wr"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://di6dqp8kxemil" path="res://Sprites/mat.png" id="6_d7x54"]
 [ext_resource type="PackedScene" uid="uid://ck353m2o1p4f8" path="res://Objects/chair.tscn" id="11_dgtvr"]
 [ext_resource type="Texture2D" uid="uid://dt6qwt20twtmw" path="res://Sprites/oak_chair.png" id="12_gb0r2"]
+[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="14_x6joe"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_18r0l"]
 texture = ExtResource("1_nv2wr")
@@ -465,3 +466,13 @@ type = 1
 y_sort_enabled = true
 position = Vector2(128, 16)
 sprite_image = ExtResource("12_gb0r2")
+
+[node name="Bin" parent="." instance=ExtResource("14_x6joe")]
+location = 1
+talk_direction = 5
+
+[node name="GameCube" parent="." instance=ExtResource("14_x6joe")]
+position = Vector2(32, 16)
+location = 1
+talk_direction = 5
+metadata/_edit_group_ = true

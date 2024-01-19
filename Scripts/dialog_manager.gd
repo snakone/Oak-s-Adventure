@@ -32,9 +32,9 @@ func _ready() -> void:
 	marker.visible = true;
 
 func _input(event: InputEvent) -> void:
-	marker.visible = false;
 	if(dialog_closed): return;
 	if event.is_action_pressed("space") and !pressed:
+		marker.visible = false;
 		pressed = true;
 		label.text = "";
 		audio.play();

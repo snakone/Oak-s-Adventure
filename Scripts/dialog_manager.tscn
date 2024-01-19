@@ -22,7 +22,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(215, 144), Vector2(215, 146), Vector2(215, 144), Vector2(215, 146)]
+"values": [Vector2(224, 146), Vector2(224, 147), Vector2(224, 146), Vector2(224, 147)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_68gbe"]
@@ -40,9 +40,9 @@ autostart = true
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
 layout_direction = 2
 offset_left = 4.0
-offset_top = 114.0
+offset_top = 121.0
 offset_right = 236.0
-offset_bottom = 156.0
+offset_bottom = 155.0
 texture = ExtResource("3_mn4i4")
 patch_margin_left = 12
 patch_margin_top = 6
@@ -51,16 +51,18 @@ patch_margin_bottom = 6
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 clip_contents = false
-offset_left = 22.0
-offset_top = 120.0
-offset_right = 222.0
-offset_bottom = 153.0
+offset_left = 16.0
+offset_top = 126.0
+offset_right = 226.0
+offset_bottom = 152.0
 theme = ExtResource("2_sr88g")
 theme_override_colors/default_color = Color(0.294118, 0.294118, 0.294118, 1)
 theme_override_constants/line_separation = 2
 theme_override_constants/outline_size = 2
 theme_override_fonts/normal_font = ExtResource("4_o08y0")
+theme_override_fonts/bold_font = ExtResource("4_o08y0")
 theme_override_font_sizes/normal_font_size = 13
+theme_override_font_sizes/bold_font_size = 13
 bbcode_enabled = true
 text = "How are you?"
 fit_content = true
@@ -69,8 +71,7 @@ text_direction = 1
 language = "Eng"
 
 [node name="Marker" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(215, 144.938)
+position = Vector2(224, 146)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("5_iwqr6")
 metadata/_edit_group_ = true

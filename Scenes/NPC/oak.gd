@@ -153,11 +153,13 @@ func jump() -> void:
 	shadow.visible = true;
 
 func stop_jumping() -> void:
+	playback.travel("Idle");
+	show_dust_effect(true);
+	shadow.visible = false;
 	position = start_position + (GLOBAL.TILE_SIZE * input_direction * 2);
+	await audio_player.finished;
 	reset_moving();
 	jumping_over_ledge = false;
-	shadow.visible = false;
-	show_dust_effect(true);
 
 #BIKE
 func get_on_bike():
@@ -269,7 +271,7 @@ func sit_on_chair_animation(area: Area2D) -> void:
 	if(input_direction == Vector2.ZERO):
 		set_blend_direction(area.sit_direction);
 		chair_direction = area.sit_direction;
-	if(GLOBAL.last_player_direction == GLOBAL.walk.DOWN): 
+	if(GLOBAL.last_player_direction == Vector2.DOWN): 
 		playback.travel("ChairDown");
 	else: playback.travel("Chair");
 	sit_on_chair = true;
@@ -304,7 +306,7 @@ func check_load_from_file():
 			position.x = data["position.x"];
 			position.y = data["position.y"];
 			if(data.has("on_bike") && data["on_bike"]): get_on_bike();
-			set_blend_direction(Vector2(position.x, position.y));
+			set_blend_direction(Vector2(data["direction.x"], data["direction.y"]));
 			GLOBAL.player_data_to_load = null;
 
 #UTILS

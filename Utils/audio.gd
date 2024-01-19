@@ -14,7 +14,7 @@ func play(song: AudioStream) -> void:
 	if(current_song_id == song.get_instance_id()): return;
 	current_song_id = song.get_instance_id();
 	current_song = song;
-	if(GLOBAL.on_bike): play_bike(); return
+	if(GLOBAL.on_bike): return;
 	stop_and_play(song);
 
 func play_bike() -> void: if(!GLOBAL.on_bike): stop_and_play(BICYCLE)

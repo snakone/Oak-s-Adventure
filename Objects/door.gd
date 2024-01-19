@@ -26,12 +26,9 @@ func _on_body_entered(body) -> void:
 	check_direction();
 	if(can_be_opened && body.name == "Oak"):
 		MAPS.spawn_position = spawn_position;
-		if(type == GLOBAL.DoorType.IN):
-			audio_player.stream = DOOR_ENTER;
+		if(type == GLOBAL.DoorType.IN): audio_player.stream = DOOR_ENTER;
 		if(animated && type != GLOBAL.DoorType.OUT): animation_player.play("Open");
-		else: 
-			await get_tree().create_timer(.1).timeout;
-			enter_house();
+		else: enter_house();
 	elif(!can_be_opened): GLOBAL.emit_signal("cant_enter_door", self);
 
 func check_direction() -> void:
@@ -39,6 +36,7 @@ func check_direction() -> void:
 		can_be_opened = door_open_direction == GLOBAL.last_player_direction && next_scene != "";
 
 func enter_house() -> void:
+	await get_tree().create_timer(.1).timeout;
 	if(next_scene):
 		if(type == GLOBAL.DoorType.OUT):
 			audio_player.stream = DOOR_EXIT;

@@ -80,4 +80,4 @@ libraries = {
 }
 
 [node name="Song" type="AudioStreamPlayer" parent="."]
-volume_db = -15.0
+volume_db = -20.0
