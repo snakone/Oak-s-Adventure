@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://cwh0v4suh7xv3"
-path="res://.godot/imported/power green small.ttf-24326acc412261117770575ec63597e7.fontdata"
+uid="uid://dgrb6vwb25lwm"
+path="res://.godot/imported/power clear.ttf-69d14f4c754af439b7fa97ce685f01de.fontdata"
 
 [deps]
 
-source_file="res://Assets/power green small.ttf"
-dest_files=["res://.godot/imported/power green small.ttf-24326acc412261117770575ec63597e7.fontdata"]
+source_file="res://Assets/Fonts/power clear.ttf"
+dest_files=["res://.godot/imported/power clear.ttf-69d14f4c754af439b7fa97ce685f01de.fontdata"]
 
 [params]
 

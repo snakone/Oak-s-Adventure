@@ -1,15 +1,15 @@
-[gd_scene load_steps=14 format=3 uid="uid://giwx2ioysoot"]
+[gd_scene load_steps=15 format=3 uid="uid://giwx2ioysoot"]
 
-[ext_resource type="Texture2D" uid="uid://b84kos15c1maw" path="res://Sprites/UI/party_background.png" id="1_hwxdf"]
+[ext_resource type="Texture2D" uid="uid://b84kos15c1maw" path="res://Assets/UI/party_background.png" id="1_hwxdf"]
 [ext_resource type="Script" path="res://Scenes/UI/party_screen.gd" id="1_nyw7a"]
-[ext_resource type="Texture2D" uid="uid://bmup1q8o4nrgm" path="res://Sprites/UI/main_pokemon_background.png" id="1_urug2"]
-[ext_resource type="Texture2D" uid="uid://clu7vopy4hyri" path="res://Sprites/UI/Pokemon/charmander_menu.png" id="2_1uydf"]
+[ext_resource type="Texture2D" uid="uid://bmup1q8o4nrgm" path="res://Assets/UI/main_pokemon_background.png" id="1_urug2"]
+[ext_resource type="Texture2D" uid="uid://clu7vopy4hyri" path="res://Assets/UI/Pokemon/charmander_menu.png" id="2_1uydf"]
 [ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="3_r2g54"]
-[ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/pkmnfl.ttf" id="4_tjowx"]
-[ext_resource type="Texture2D" uid="uid://cce8ahdqmj40s" path="res://Sprites/UI/gender_icons.png" id="5_2q8x5"]
-[ext_resource type="Texture2D" uid="uid://uaqoxfq6qhvd" path="res://Sprites/UI/green_bar.png" id="6_utcu8"]
-[ext_resource type="Texture2D" uid="uid://cygndnup0am01" path="res://Sprites/UI/standby_pokemon_background.png" id="7_8kd4u"]
-[ext_resource type="Texture2D" uid="uid://dcvfw8p8val8q" path="res://Sprites/UI/exit_background_button.png" id="8_lcc1j"]
+[ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="4_tjowx"]
+[ext_resource type="Texture2D" uid="uid://cce8ahdqmj40s" path="res://Assets/UI/gender_icons.png" id="5_2q8x5"]
+[ext_resource type="Texture2D" uid="uid://uaqoxfq6qhvd" path="res://Assets/UI/green_bar.png" id="6_utcu8"]
+[ext_resource type="Texture2D" uid="uid://cygndnup0am01" path="res://Assets/UI/standby_pokemon_background.png" id="7_8kd4u"]
+[ext_resource type="Texture2D" uid="uid://dcvfw8p8val8q" path="res://Assets/UI/exit_background_button.png" id="8_lcc1j"]
 
 [sub_resource type="Animation" id="Animation_640i4"]
 resource_name = "Idle"
@@ -43,10 +43,40 @@ tracks/0/keys = {
 "values": [0]
 }
 
+[sub_resource type="Animation" id="Animation_ho0qg"]
+resource_name = "selected"
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pokemon:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pokemon:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(18, 44), Vector2(18, 36), Vector2(18, 44), Vector2(18, 36)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mswsx"]
 _data = {
 "Idle": SubResource("Animation_640i4"),
-"RESET": SubResource("Animation_ss5u6")
+"RESET": SubResource("Animation_ss5u6"),
+"selected": SubResource("Animation_ho0qg")
 }
 
 [node name="PartyScreen" type="CanvasLayer"]
@@ -67,7 +97,7 @@ hframes = 2
 frame = 1
 
 [node name="Pokemon" type="Sprite2D" parent="Slots/First"]
-position = Vector2(18, 44)
+position = Vector2(18, 36)
 texture = ExtResource("2_1uydf")
 hframes = 2
 
@@ -687,3 +717,6 @@ stretch_mode = 3
 position = Vector2(211, 144)
 texture = ExtResource("8_lcc1j")
 hframes = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -20.0

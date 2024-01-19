@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://xa22fo13s7np"]
 
 [ext_resource type="Script" path="res://Scenes/NPC/npc.gd" id="1_chn85"]
-[ext_resource type="Texture2D" uid="uid://cd3146vuujwx6" path="res://Sprites/NPC/npc_01.png" id="2_0d8cd"]
+[ext_resource type="Texture2D" uid="uid://cd3146vuujwx6" path="res://Sprites/NPC/mom.png" id="2_0d8cd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u6ea3"]
 custom_solver_bias = 0.62
@@ -99,13 +99,12 @@ _data = {
 "moveUp": SubResource("Animation_o2wig")
 }
 
-[node name="NPC" type="RigidBody2D"]
+[node name="NPC" type="StaticBody2D"]
 y_sort_enabled = true
 collision_layer = 8
 collision_mask = 15
-gravity_scale = 0.0
 script = ExtResource("1_chn85")
-npc = 1
+interval = 3
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 1
@@ -136,13 +135,13 @@ libraries = {
 "": SubResource("AnimationLibrary_dhyey")
 }
 
-[node name="HitBox" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 9
+[node name="NPCHitBox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 0
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitBox"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="NPCHitBox"]
 polygon = PackedVector2Array(4, 4, 4, -12, 12, -12, 12, 4, 28, 4, 28, 12, 12, 12, 12, 28, 4, 28, 4, 12, -12, 12, -12, 4)
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
-[connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]
-[connection signal="body_exited" from="HitBox" to="." method="_on_hit_box_body_exited"]
+[connection signal="body_entered" from="NPCHitBox" to="." method="_on_hit_box_body_entered"]
+[connection signal="body_exited" from="NPCHitBox" to="." method="_on_hit_box_body_exited"]

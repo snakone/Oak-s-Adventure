@@ -1,7 +1,7 @@
 extends Area2D
 
 @export_file("*.tscn") var next_scene: String;
-@export var enter_direction = GLOBAL.DIRECTIONS.UP;
+@export var enter_direction = GLOBAL.Directions.UP;
 @export var spawn_position = Vector2.ZERO;
 @export var animated = true;
 @export var sprite_image: Texture;
@@ -9,6 +9,10 @@ extends Area2D
 
 @onready var animation_player = $AnimationPlayer;
 @onready var sprite_2d = $Sprite2D;
+@onready var audio = $AudioStreamPlayer;
+
+const DOOR_ENTER = preload("res://Assets/Sounds/Door enter.ogg");
+const DOOR_EXIT = preload("res://Assets/Sounds/Door exit.ogg");
 
 var can_be_opened = false;
 var door_open_direction: Vector2;
@@ -22,10 +26,9 @@ func _on_body_entered(body) -> void:
 	check_direction();
 	if(can_be_opened && body.name == "Oak"):
 		MAPS.spawn_position = spawn_position;
-		if(animated): animation_player.play("Open");
-		else: 
-			await get_tree().create_timer(.1).timeout;
-			enter_house();
+		if(type == GLOBAL.DoorType.IN): audio.stream = DOOR_ENTER;
+		if(animated && type != GLOBAL.DoorType.OUT): animation_player.play("Open");
+		else: enter_house();
 	elif(!can_be_opened): GLOBAL.emit_signal("cant_enter_door", self);
 
 func check_direction() -> void:
@@ -33,11 +36,15 @@ func check_direction() -> void:
 		can_be_opened = door_open_direction == GLOBAL.last_player_direction && next_scene != "";
 
 func enter_house() -> void:
+	await GLOBAL.timeout(.1);
 	if(next_scene):
+		if(type == GLOBAL.DoorType.OUT):
+			audio.stream = DOOR_EXIT;
+			audio.play();
 		GLOBAL.last_used_door = self.name;
 		get_node("/root/SceneManager").transition_to_scene(next_scene);
 
-func check_close_animation():
+func check_close_animation() -> void:
 	if(GLOBAL.last_used_door == self.name && type == GLOBAL.DoorType.IN):
 		animation_player.play("Close");
 		GLOBAL.last_used_door = "";

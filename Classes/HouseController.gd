@@ -1,18 +1,16 @@
 extends Node2D
-
+ # Check for Spawn on Houses only.
 class_name HouseController;
-# Check for Spawn on Houses only.
-# Houses have fixed spawn.
 
 @onready var oak = $Oak;
 @onready var tilemap = $TileMap;
+@export var song: AudioStream;
 
 func _ready():
+	if(song): AUDIO.play(song);
 	GLOBAL.inside_house = true;
 	set_camera();
 	oak.set_blend_direction(GLOBAL.last_player_direction);
-	
-	print(MAPS.spawn_position)
 	
 	if(MAPS.spawn_position):
 		oak.position = MAPS.spawn_position;

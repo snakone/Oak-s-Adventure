@@ -8,3 +8,8 @@
 - Bike System
 - NPC
 - Ysort Enabled
+
+# 0.3
+- Dialogs (NPC, Objects)
+- Sounds
+- Save Scene

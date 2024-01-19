@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://b3ynf240onmy4"
-path="res://.godot/imported/pkmnfl.ttf-dbb77fe13088eb308ac53ceb774ff4c3.fontdata"
+path="res://.godot/imported/pkmnfl.ttf-824bb3a0c01dc851fa117e6651723039.fontdata"
 
 [deps]
 
-source_file="res://Assets/pkmnfl.ttf"
-dest_files=["res://.godot/imported/pkmnfl.ttf-dbb77fe13088eb308ac53ceb774ff4c3.fontdata"]
+source_file="res://Assets/Fonts/pkmnfl.ttf"
+dest_files=["res://.godot/imported/pkmnfl.ttf-824bb3a0c01dc851fa117e6651723039.fontdata"]
 
 [params]
 

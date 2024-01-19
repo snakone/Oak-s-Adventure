@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://drehjofe2bwo0"]
 
 [ext_resource type="Script" path="res://Scenes/UI/menu.gd" id="1_3pe7w"]
-[ext_resource type="Texture2D" uid="uid://ianw7xjrm5a0" path="res://Sprites/menu_box_1.png" id="1_xnrps"]
+[ext_resource type="Texture2D" uid="uid://d3dxw0bsf6jxo" path="res://Assets/UI/marker_orange.png" id="2_p4ncq"]
 [ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="2_qb6nx"]
-[ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/pkmnfl.ttf" id="3_he551"]
-[ext_resource type="Texture2D" uid="uid://bfnlj6t53rl5p" path="res://Sprites/ui_arrow_left_right.png" id="4_5nwc8"]
+[ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="3_he551"]
+[ext_resource type="Texture2D" uid="uid://bfnlj6t53rl5p" path="res://Assets/UI/ui_arrow_left_right.png" id="4_5nwc8"]
 
 [node name="Menu" type="CanvasLayer"]
 script = ExtResource("1_3pe7w")
@@ -25,7 +25,7 @@ offset_left = -3.024
 offset_top = 4.0
 offset_right = 76.976
 offset_bottom = 132.0
-texture = ExtResource("1_xnrps")
+texture = ExtResource("2_p4ncq")
 patch_margin_left = 6
 patch_margin_top = 6
 patch_margin_right = 6
@@ -57,7 +57,6 @@ layout_direction = 2
 layout_mode = 2
 theme = ExtResource("2_qb6nx")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
-theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.854902, 0.85098, 1)
 theme_override_fonts/normal_font = ExtResource("3_he551")
 theme_override_fonts/bold_font = ExtResource("3_he551")
@@ -141,3 +140,6 @@ theme_override_fonts/normal_font = ExtResource("3_he551")
 theme_override_fonts/bold_font = ExtResource("3_he551")
 theme_override_font_sizes/normal_font_size = 13
 text = "EXIT"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -20.0

@@ -1,0 +1,87 @@
+[gd_scene load_steps=9 format=3 uid="uid://b6hbe8lus8fv2"]
+
+[ext_resource type="Script" path="res://Scripts/dialog_manager.gd" id="1_xrosg"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="2_sr88g"]
+[ext_resource type="Texture2D" uid="uid://c0dpipa5sqguj" path="res://Assets/UI/dialog_bg.png" id="2_uokyr"]
+[ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/Fonts/power clear.ttf" id="4_c420i"]
+[ext_resource type="Texture2D" uid="uid://bynrkxrintj5r" path="res://Assets/UI/triangle.png" id="5_hcghe"]
+[ext_resource type="AudioStream" uid="uid://cfl2vuycupxn1" path="res://Assets/Sounds/confirm.wav" id="6_lcq8j"]
+
+[sub_resource type="Animation" id="Animation_lw6i4"]
+resource_name = "Bounce"
+length = 2.0
+loop_mode = 1
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(224, 146), Vector2(224, 147), Vector2(224, 146), Vector2(224, 147)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_68gbe"]
+_data = {
+"Bounce": SubResource("Animation_lw6i4")
+}
+
+[node name="DialogManager" type="CanvasLayer"]
+script = ExtResource("1_xrosg")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.05
+autostart = true
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_direction = 2
+offset_left = 4.0
+offset_top = 121.0
+offset_right = 236.0
+offset_bottom = 155.0
+texture = ExtResource("2_uokyr")
+patch_margin_left = 12
+patch_margin_top = 6
+patch_margin_right = 12
+patch_margin_bottom = 6
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+clip_contents = false
+offset_left = 16.0
+offset_top = 126.0
+offset_right = 226.0
+offset_bottom = 152.0
+theme = ExtResource("2_sr88g")
+theme_override_colors/default_color = Color(0.294118, 0.294118, 0.294118, 1)
+theme_override_constants/line_separation = 2
+theme_override_constants/outline_size = 2
+theme_override_fonts/normal_font = ExtResource("4_c420i")
+theme_override_fonts/bold_font = ExtResource("4_c420i")
+theme_override_font_sizes/normal_font_size = 13
+theme_override_font_sizes/bold_font_size = 13
+bbcode_enabled = true
+text = "How are you?"
+fit_content = true
+scroll_active = false
+text_direction = 1
+language = "Eng"
+
+[node name="Marker" type="Sprite2D" parent="."]
+position = Vector2(224, 146)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_hcghe")
+metadata/_edit_group_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Marker"]
+libraries = {
+"": SubResource("AnimationLibrary_68gbe")
+}
+autoplay = "Bounce"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_lcq8j")
+volume_db = -15.0
