@@ -1,8 +1,8 @@
 extends CanvasLayer
 
 @onready var audio_player = $AudioStreamPlayer;
-const GUI_SEL_CURSOR = preload("res://Assets/GUI sel cursor.ogg")
-const GUI_MENU_CLOSE = preload("res://Assets/GUI menu close.ogg");
+const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg")
+const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
 
 enum Slots { FIRST, SECOND, THRID, FOURTH, FIFTH, SIXTH, CANCEL }
 enum PanelState { OFF, ACTIVE }

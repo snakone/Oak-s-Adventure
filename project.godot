@@ -25,6 +25,7 @@ POKEMON="*res://Utils/pokemon.gd"
 MEMORY="*res://Utils/memory.gd"
 DIALOG="*res://Utils/dialog.gd"
 AUDIO="*res://Utils/audio.gd"
+SETTINGS="*res://Utils/settings.gd"
 
 [display]
 

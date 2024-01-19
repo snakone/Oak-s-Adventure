@@ -3,19 +3,22 @@ extends CanvasLayer
 @onready var control = $Control
 @onready var arrow = $Control/NinePatchRect/TextureRect
 @onready var audio_player = $AudioStreamPlayer;
+@onready var nine_patch_rect = $Control/NinePatchRect;
 
 enum ScreenLoaded { NONE, MENU, POKEDEX, PARTY, BAG, OAK, SAVE, OPTIONS }
 enum MenuOptions { POKEDEX, PARTY, BAG, OAK, SAVE, OPTIONS, EXIT }
 
 var screen_loaded = ScreenLoaded.NONE;
 var party_screen_path = "res://Scenes/UI/party_screen.tscn";
+const save_scene_path = "res://Scenes/UI/save_scene.tscn";
 var party_screen_node =  "CurrentScene/PartyScreen";
+var save_scene_node =  "CurrentScene/SaveScene";
 
-const GUI_MENU_CLOSE = preload("res://Assets/GUI menu close.ogg");
-const GUI_MENU_OPEN = preload("res://Assets/GUI menu open.ogg");
-const GUI_SEL_CURSOR = preload("res://Assets/GUI sel cursor.ogg");
-const GUI_SAVE_GAME = preload("res://Assets/GUI save game.ogg");
-const GUI_SEL_DECISION = preload("res://Assets/GUI sel decision.ogg")
+const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
+const GUI_MENU_OPEN = preload("res://Assets/Sounds/GUI menu open.ogg");
+const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg");
+const GUI_SAVE_GAME = preload("res://Assets/Sounds/GUI save game.ogg");
+const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg")
 
 var options_length = MenuOptions.keys().size();
 var selected_option = 0;
@@ -23,6 +26,8 @@ var is_player_moving = false;
 var scene_manager: Node2D;
 
 func _ready():
+	if(SETTINGS.selected_marker):
+		nine_patch_rect.texture = SETTINGS.selected_marker;
 	control.visible = false;
 	update_arrow();
 	connect_signals();
@@ -120,9 +125,14 @@ func handle_UP() -> void:
 	update_arrow();
 	
 func handle_save() -> void:
+	control.visible = false;
+	GLOBAL.menu_open = false;
+	screen_loaded = ScreenLoaded.NONE;
+	scene_manager.transition_to_scene(save_scene_path, false, false);
 	audio_player.stream = GUI_SAVE_GAME;
 	audio_player.play();
 	MEMORY._save();
+	GLOBAL.emit_signal("start_dialog", 10);
 
 func connect_signals() -> void:
 	GLOBAL.connect("player_moving", _on_player_moving);

@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhy8n67ibm6tm"]
+
+[ext_resource type="Script" path="res://Scenes/UI/save_scene.gd" id="1_ihpa7"]
+[ext_resource type="Texture2D" uid="uid://d3dxw0bsf6jxo" path="res://Assets/UI/marker_orange.png" id="2_th4p2"]
+
+[node name="SaveScene" type="CanvasLayer"]
+script = ExtResource("1_ihpa7")
+
+[node name="PlayerStats" type="NinePatchRect" parent="."]
+offset_right = 150.0
+offset_bottom = 80.0
+texture = ExtResource("2_th4p2")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Selection" type="NinePatchRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0

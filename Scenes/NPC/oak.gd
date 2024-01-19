@@ -22,9 +22,9 @@ const BIKE_SPEED = 6;
 var bike_texture = preload("res://Sprites/oak_bike.png");
 var oak_texture = preload("res://Sprites/oak_sprite.png");
 
-const CONFIRM = preload("res://Assets/confirm.wav");
-const BLOCK = preload("res://Assets/Player bump.ogg");
-const PLAYER_JUMP = preload("res://Assets/Player jump.ogg");
+const CONFIRM = preload("res://Assets/Sounds/confirm.wav");
+const BLOCK = preload("res://Assets/Sounds/Player bump.ogg");
+const PLAYER_JUMP = preload("res://Assets/Sounds/Player jump.ogg");
 
 enum PlayerState { IDLE, TURNING, WALKING };
 var player_state = PlayerState.IDLE;
@@ -40,12 +40,11 @@ var cant_enter_door_direction: Vector2;
 var stuck_on_door = false;
 var door_type: GLOBAL.DoorType;
 var can_talk = false;
-var dialog_text := [];
 var area_type := GLOBAL.DialogAreaType.NONE;
 var stop = false;
 
-var npc: StaticBody2D;
-var dialog_area: StaticBody2D; 
+var dialog_id: int;
+var dialog_direction: GLOBAL.Directions;
 
 func _ready():
 	connect_signals();
@@ -188,7 +187,6 @@ func _on_area_2d_area_exited(area: Area2D) -> void:
 	elif("NPCHitBox" in area.name || "DialogArea" in area.name): 
 		can_talk = GLOBAL.dialog_open;
 		area_type = GLOBAL.DialogAreaType.NONE;
-		dialog_text = [];
 
 func _on_menu_opened(value: bool) -> void:
 	if(is_moving): return;
@@ -202,15 +200,14 @@ func _on_close_dialog() -> void:
 	
 func npc_talk_on_area_entered(area: Area2D) -> void:
 	can_talk = true;
-	npc = area.get_parent();
-	dialog_text = npc.dialog;
 	area_type = GLOBAL.DialogAreaType.NPC;
+	dialog_id = area.get_parent().dialog_id;
 	
 func object_talk_on_area_entered(object: Area2D) -> void:
 	can_talk = true;
-	dialog_area = object.get_parent();
-	dialog_text = object.dialog;
 	area_type = GLOBAL.DialogAreaType.OBJECT;
+	dialog_id = object.get_parent().dialog_id;
+	dialog_direction = object.get_parent().talk_direction;
 
 func _on_get_on_bike(value: bool):
 	if(is_moving): return;
@@ -225,31 +222,32 @@ func check_position_out_bounds():
 		position.y = floor(position.y / GLOBAL.TILE_SIZE) * GLOBAL.TILE_SIZE;
 
 func check_for_dialogs() -> void:
-	if(!can_talk || dialog_text.size() == 0): return;
+	if(!can_talk || dialog_id == null): return;
 	if Input.is_action_just_pressed("space"):
 		var desired_step: Vector2 = GLOBAL.last_player_direction * (GLOBAL.TILE_SIZE / 2.0);
 		update_dialog_rays(desired_step);
 		#NPC
-		if(area_type == GLOBAL.DialogAreaType.NPC && npc_ray_cast_2d.is_colliding()):
-			if(npc && npc.name in DIALOG.dialog_count):
-				dialog_text = DIALOG.get_next_dialog(npc.name, npc.location, dialog_text)
-			open_npc_dialog(dialog_text);
+		if(
+			area_type == GLOBAL.DialogAreaType.NPC && 
+			npc_ray_cast_2d.is_colliding()
+			): open_npc_dialog();
 		#OBJECT
-		elif(area_type == GLOBAL.DialogAreaType.OBJECT && object_ray_cast_2d.is_colliding()):
-			open_object_dialog(dialog_text);
+		elif(
+			area_type == GLOBAL.DialogAreaType.OBJECT && 
+			object_ray_cast_2d.is_colliding()
+		): open_object_dialog();
 
-func open_npc_dialog(text: Array):
-	GLOBAL.emit_signal("start_dialog", text, self.name, npc.name, npc.location);
-	stop = true;
-	playback.travel("Idle");
-	reset_moving();
-	audio_player.stream = CONFIRM;
-	audio_player.play();
+func open_npc_dialog():
+	GLOBAL.emit_signal("start_dialog", dialog_id);
+	begin_dialog();
 
-func open_object_dialog(text: Array):
-	var direction = GLOBAL.directions_array[dialog_area.talk_direction];
+func open_object_dialog():
+	var direction = GLOBAL.directions_array[dialog_direction];
 	if(direction != GLOBAL.last_player_direction && direction != Vector2.INF): return;
-	GLOBAL.emit_signal("start_dialog", text, "", "", dialog_area.location);
+	GLOBAL.emit_signal("start_dialog", dialog_id);
+	begin_dialog();
+	
+func begin_dialog() -> void:
 	stop = true;
 	playback.travel("Idle");
 	reset_moving();

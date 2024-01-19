@@ -5,30 +5,29 @@ extends CanvasLayer
 @onready var marker = $Marker;
 @onready var audio = $AudioStreamPlayer
 
-var text_arr: Array = [];
+var dialog_data: Dictionary;
 var current_index: int = 0;
 var current_line: int = 2;
 var pressed: bool = true;
-var self_name: String;
-var npc_name: String;
 var dialog_closed = false;
 var oak_prefix = "self:";
+var npc_dialog = false;
 var whos_talking: String;
-var dialog_location: MAPS.Locations;
 
 func _ready() -> void:
 	marker.visible = false;
-	whos_talking = npc_name;
-	var first_line: int = 1;
 	label.text = "";
-	var text_string = add_prefix(text_arr[0][0]);
-	
-	for i in range(first_line):
+	var text_string = dialog_data.arr[0][0];
+	if(dialog_data.type == DIALOG.DialogType.NPC):
+		npc_dialog = true;
+		whos_talking = dialog_data.npc_name;
+		text_string = add_prefix(text_string);
+
+	for i in range(1):
 		for j in range(len(text_string)):
 			await timer.timeout;
 			label.text += text_string[j];
 	pressed = false;
-	whos_talking = npc_name;
 	marker.visible = true;
 
 func _input(event: InputEvent) -> void:
@@ -39,37 +38,36 @@ func _input(event: InputEvent) -> void:
 		label.text = "";
 		audio.play();
 		
-		if current_line >= len(text_arr[current_index]):
+		if current_line >= len(dialog_data.arr[current_index]):
 			label.text = ""
 			current_index += 1
 			current_line = 0
 		
-		if current_index >= len(text_arr):
+		if current_index >= len(dialog_data.arr):
 			await audio.finished;
 			dialog_closed = true;
 			GLOBAL.emit_signal("close_dialog");
 			timer.stop();
 		else:
-			label.text = label.text.erase(0, label.text.find("\n") + 1)
-			var text_string = add_prefix(text_arr[current_index][current_line]);
+			label.text = label.text.erase(0, label.text.find("\n") + 1);
+			var text_string = dialog_data.arr[current_index][current_line];
+			if(npc_dialog):
+				text_string = add_prefix(text_string);
+				whos_talking = dialog_data.npc_name
 			for j in range(len(text_string)):
 				await timer.timeout;
 				label.text += text_string[j];
 			current_line += 1;
 			marker.visible = true;
 		pressed = false;
-		whos_talking = npc_name;
 
-func set_data(dialog: Array, input_name: String, input_npc: String, location: MAPS.Locations) -> void: 
-	text_arr = dialog;
-	self_name = input_name;
-	npc_name = input_npc;
-	dialog_location = location;
+func set_data(id: int) -> void: 
+	dialog_data = DIALOG.get_dialog(id);
 
 func add_prefix(text: String) -> String:
-	if(whos_talking != ""):
+	if(whos_talking != "" && npc_dialog):
 		if(text.left(len(oak_prefix)) == oak_prefix): 
-			whos_talking = self_name;
+			whos_talking = "Oak";
 			text = text.replace(oak_prefix, "");
 		label.text += "[b]" + whos_talking + "[/b]: ";
 	return text;

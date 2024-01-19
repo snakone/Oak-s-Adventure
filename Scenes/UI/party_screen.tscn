@@ -1,15 +1,15 @@
 [gd_scene load_steps=15 format=3 uid="uid://giwx2ioysoot"]
 
-[ext_resource type="Texture2D" uid="uid://b84kos15c1maw" path="res://Sprites/UI/party_background.png" id="1_hwxdf"]
+[ext_resource type="Texture2D" uid="uid://b84kos15c1maw" path="res://Assets/UI/party_background.png" id="1_hwxdf"]
 [ext_resource type="Script" path="res://Scenes/UI/party_screen.gd" id="1_nyw7a"]
-[ext_resource type="Texture2D" uid="uid://bmup1q8o4nrgm" path="res://Sprites/UI/main_pokemon_background.png" id="1_urug2"]
-[ext_resource type="Texture2D" uid="uid://clu7vopy4hyri" path="res://Sprites/UI/Pokemon/charmander_menu.png" id="2_1uydf"]
+[ext_resource type="Texture2D" uid="uid://bmup1q8o4nrgm" path="res://Assets/UI/main_pokemon_background.png" id="1_urug2"]
+[ext_resource type="Texture2D" uid="uid://clu7vopy4hyri" path="res://Assets/UI/Pokemon/charmander_menu.png" id="2_1uydf"]
 [ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="3_r2g54"]
-[ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/pkmnfl.ttf" id="4_tjowx"]
-[ext_resource type="Texture2D" uid="uid://cce8ahdqmj40s" path="res://Sprites/UI/gender_icons.png" id="5_2q8x5"]
-[ext_resource type="Texture2D" uid="uid://uaqoxfq6qhvd" path="res://Sprites/UI/green_bar.png" id="6_utcu8"]
-[ext_resource type="Texture2D" uid="uid://cygndnup0am01" path="res://Sprites/UI/standby_pokemon_background.png" id="7_8kd4u"]
-[ext_resource type="Texture2D" uid="uid://dcvfw8p8val8q" path="res://Sprites/UI/exit_background_button.png" id="8_lcc1j"]
+[ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="4_tjowx"]
+[ext_resource type="Texture2D" uid="uid://cce8ahdqmj40s" path="res://Assets/UI/gender_icons.png" id="5_2q8x5"]
+[ext_resource type="Texture2D" uid="uid://uaqoxfq6qhvd" path="res://Assets/UI/green_bar.png" id="6_utcu8"]
+[ext_resource type="Texture2D" uid="uid://cygndnup0am01" path="res://Assets/UI/standby_pokemon_background.png" id="7_8kd4u"]
+[ext_resource type="Texture2D" uid="uid://dcvfw8p8val8q" path="res://Assets/UI/exit_background_button.png" id="8_lcc1j"]
 
 [sub_resource type="Animation" id="Animation_640i4"]
 resource_name = "Idle"

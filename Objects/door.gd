@@ -11,8 +11,8 @@ extends Area2D
 @onready var sprite_2d = $Sprite2D;
 @onready var audio_player = $AudioStreamPlayer
 
-const DOOR_ENTER = preload("res://Assets/Door enter.ogg");
-const DOOR_EXIT = preload("res://Assets/Door exit.ogg");
+const DOOR_ENTER = preload("res://Assets/Sounds/Door enter.ogg");
+const DOOR_EXIT = preload("res://Assets/Sounds/Door exit.ogg");
 
 var can_be_opened = false;
 var door_open_direction: Vector2;

@@ -26,7 +26,6 @@ enum Directions {
 @onready var anim_player: AnimationPlayer = $AnimationPlayer;
 @onready var sprite: Sprite2D = $Sprite2D;
 
-var dialog: Array;
 var limits_possitive;
 var limits_negative;
 var wrong_directions = [];
@@ -43,7 +42,6 @@ func _ready() -> void:
 	limits_possitive = position + (possitive_limits * GLOBAL.TILE_SIZE);
 	limits_negative = position + (negative_limits * GLOBAL.TILE_SIZE);
 	oak = get_parent().get_node("Oak");
-	dialog = DIALOG.get_dialog(self.name, location);
 	if state == States.MOVING: timer.start();
 
 func quit() -> void: self.queue_free();
@@ -107,7 +105,7 @@ func _on_hit_box_body_exited(_body):
 	if(is_talking): return;
 	wrong_directions = [];
 
-func _on_start_dialog(_text, _self_name, _npc_name, _location) -> void:
+func _on_start_dialog(_text) -> void:
 	is_talking = true;
 	var last_direction = GLOBAL.last_player_direction;
 	if(last_direction == Vector2.UP): sprite.frame = 0;
@@ -118,7 +116,6 @@ func _on_start_dialog(_text, _self_name, _npc_name, _location) -> void:
 func _on_close_dialog() -> void:
 	await get_tree().create_timer(0.2).timeout;
 	is_talking = false;
-	DIALOG.check_more_dialogs(self.name, location);
 
 #CHECKERS
 func check_positon_bounds() -> void:

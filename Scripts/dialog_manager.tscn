@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" path="res://Scripts/dialog_manager.gd" id="1_xrosg"]
 [ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="2_sr88g"]
-[ext_resource type="Texture2D" uid="uid://c0dpipa5sqguj" path="res://Sprites/UI/dialog_bg.png" id="3_mn4i4"]
-[ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/power clear.ttf" id="4_o08y0"]
-[ext_resource type="Texture2D" uid="uid://bynrkxrintj5r" path="res://Sprites/UI/triangle.png" id="5_iwqr6"]
-[ext_resource type="AudioStream" uid="uid://cfl2vuycupxn1" path="res://Assets/confirm.wav" id="6_46f51"]
+[ext_resource type="Texture2D" uid="uid://c0dpipa5sqguj" path="res://Assets/UI/dialog_bg.png" id="2_uokyr"]
+[ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/Fonts/power clear.ttf" id="4_c420i"]
+[ext_resource type="Texture2D" uid="uid://bynrkxrintj5r" path="res://Assets/UI/triangle.png" id="5_hcghe"]
+[ext_resource type="AudioStream" uid="uid://cfl2vuycupxn1" path="res://Assets/Sounds/confirm.wav" id="6_lcq8j"]
 
 [sub_resource type="Animation" id="Animation_lw6i4"]
 resource_name = "Bounce"
@@ -43,7 +43,7 @@ offset_left = 4.0
 offset_top = 121.0
 offset_right = 236.0
 offset_bottom = 155.0
-texture = ExtResource("3_mn4i4")
+texture = ExtResource("2_uokyr")
 patch_margin_left = 12
 patch_margin_top = 6
 patch_margin_right = 12
@@ -59,8 +59,8 @@ theme = ExtResource("2_sr88g")
 theme_override_colors/default_color = Color(0.294118, 0.294118, 0.294118, 1)
 theme_override_constants/line_separation = 2
 theme_override_constants/outline_size = 2
-theme_override_fonts/normal_font = ExtResource("4_o08y0")
-theme_override_fonts/bold_font = ExtResource("4_o08y0")
+theme_override_fonts/normal_font = ExtResource("4_c420i")
+theme_override_fonts/bold_font = ExtResource("4_c420i")
 theme_override_font_sizes/normal_font_size = 13
 theme_override_font_sizes/bold_font_size = 13
 bbcode_enabled = true
@@ -73,7 +73,7 @@ language = "Eng"
 [node name="Marker" type="Sprite2D" parent="."]
 position = Vector2(224, 146)
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("5_iwqr6")
+texture = ExtResource("5_hcghe")
 metadata/_edit_group_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Marker"]
@@ -83,5 +83,5 @@ libraries = {
 autoplay = "Bounce"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_46f51")
+stream = ExtResource("6_lcq8j")
 volume_db = -15.0

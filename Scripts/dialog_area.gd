@@ -1,9 +1,9 @@
 extends Area2D;
 @onready var object = $".."
 
-var dialog: Array;
 var talk_direction: GLOBAL.Directions;
+var dialog_id: int;
 
 func _ready():
-	dialog = DIALOG.get_dialog(object.name, object.location);
 	talk_direction = object.talk_direction;
+	dialog_id = object.id;

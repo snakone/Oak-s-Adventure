@@ -3,7 +3,7 @@ extends Node
 var audio_player: AudioStreamPlayer;
 var current_song_id: int;
 var current_song: AudioStream;
-const BICYCLE = preload("res://Assets/Bicycle.ogg");
+const BICYCLE = preload("res://Assets/Sounds/Bicycle.ogg");
 
 func _ready():
 	audio_player = get_node("/root/SceneManager/Song");

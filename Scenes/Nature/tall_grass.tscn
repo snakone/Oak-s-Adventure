@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scenes/Nature/tall_grass.gd" id="1_jt238"]
 [ext_resource type="Texture2D" uid="uid://b6ep3i8702h1g" path="res://Sprites/tall_grass.png" id="1_k13g3"]
-[ext_resource type="AudioStream" uid="uid://bl4ynbo88228d" path="res://Assets/grass.wav" id="3_h7t3g"]
+[ext_resource type="AudioStream" uid="uid://bl4ynbo88228d" path="res://Assets/Sounds/grass.wav" id="3_kv060"]
 [ext_resource type="Texture2D" uid="uid://6s27ul0ja1lf" path="res://Sprites/stepped_tall_grass.png" id="3_r7poi"]
 [ext_resource type="PackedScene" uid="uid://bsaqt8m014gxc" path="res://Scenes/Nature/grass_effect.tscn" id="4_52u5o"]
 
@@ -89,7 +89,7 @@ tracks/4/keys = {
 "clips": [{
 "end_offset": 0.0,
 "start_offset": 0.0,
-"stream": ExtResource("3_h7t3g")
+"stream": ExtResource("3_kv060")
 }],
 "times": PackedFloat32Array(-0.35)
 }

@@ -1,4 +1,4 @@
 extends StaticBody2D
 
-@export var location: MAPS.Locations;
+@export var dialog_id: int;
 @export var talk_direction = GLOBAL.Directions.UP;

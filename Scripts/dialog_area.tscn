@@ -1,6 +1,5 @@
-[gd_scene load_steps=4 format=3 uid="uid://dlppxk7tvefkv"]
+[gd_scene load_steps=3 format=3 uid="uid://dlppxk7tvefkv"]
 
-[ext_resource type="Script" path="res://Scripts/dialog_area.gd" id="1_5hxqv"]
 [ext_resource type="Script" path="res://Scripts/object_area.gd" id="1_jfust"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qwe52"]
@@ -13,7 +12,6 @@ script = ExtResource("1_jfust")
 
 [node name="DialogArea" type="Area2D" parent="."]
 collision_layer = 16
-script = ExtResource("1_5hxqv")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DialogArea"]
 polygon = PackedVector2Array(4, 4, 4, -12, 12, -12, 12, 4, 28, 4, 28, 12, 12, 12, 12, 28, 4, 28, 4, 12, -12, 12, -12, 4)
