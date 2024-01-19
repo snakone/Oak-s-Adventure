@@ -57,7 +57,6 @@ layout_direction = 2
 layout_mode = 2
 theme = ExtResource("2_qb6nx")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
-theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.854902, 0.85098, 1)
 theme_override_fonts/normal_font = ExtResource("3_he551")
 theme_override_fonts/bold_font = ExtResource("3_he551")

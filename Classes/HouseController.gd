@@ -1,8 +1,6 @@
 extends Node2D
-
+ # Check for Spawn on Houses only.
 class_name HouseController;
-# Check for Spawn on Houses only.
-# Houses have fixed spawn.
 
 @onready var oak = $Oak;
 @onready var tilemap = $TileMap;

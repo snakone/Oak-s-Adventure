@@ -9,7 +9,7 @@ func _ready(): GLOBAL.connect("player_moving", reset_texture);
 func _on_area_2d_body_entered(body) -> void:
 	if(body.name == "Oak"):
 		if(body.input_direction == Vector2.UP && !GLOBAL.on_bike):
-			await get_tree().create_timer(.1).timeout
+			await GLOBAL.timeout(.1);
 		animation_player.play("Stepped");
 
 func _on_area_2d_body_exited(_body): texture_rect.visible = false;

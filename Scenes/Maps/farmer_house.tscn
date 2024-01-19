@@ -278,7 +278,7 @@ physics_layer_0/collision_layer = 2
 physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_a5q4f")
 
-[node name="FarmerHouse" type="Node2D"]
+[node name="OakFarmerHouse" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_5wt1e")
 song = ExtResource("2_pwlv7")

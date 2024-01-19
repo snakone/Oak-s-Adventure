@@ -1,10 +1,10 @@
 extends Node
 
-enum DialogType { NPC, OBJECT, SYSTEM }
+enum DialogType { NPC, OBJECT, SYSTEM, NONE }
 
 func get_dialog(id: int) -> Dictionary:
 	if(id in dialog_library): return dialog_library[id];
-	return {"arr": [[]]};
+	return { "arr": [[]], "type": DialogType.NONE };
 
 var dialog_library: Dictionary = {
 	1: {
@@ -54,6 +54,10 @@ var dialog_library: Dictionary = {
 		},
 	10: {
 		"arr": [["Do you want to save the game?"]],
+		"type": DialogType.SYSTEM
+	},
+	11: {
+		"arr": [["There is already a saved game. \nDo you want to overwrite it?"]],
 		"type": DialogType.SYSTEM
 	},
 }

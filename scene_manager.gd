@@ -29,7 +29,7 @@ func transition_to_scene(new_scene: String, animated = true, remove = true) -> v
 	
 func on_finish_transition() -> void:
 	create_new_scene();
-	await get_tree().create_timer(.8).timeout;
+	await GLOBAL.timeout(.8);
 	GLOBAL.on_transition = false;
 
 func create_new_scene() -> void:
@@ -39,6 +39,7 @@ func create_new_scene() -> void:
 
 #DIALOGS
 func _on_start_dialog(id: int) -> void:
+	if(dialogue_inst != null): _on_close_dialog();
 	dialogue_inst = DIALOG_MANAGER.instantiate();
 	dialogue_inst.set_data(id);
 	call_deferred("add_child", dialogue_inst);

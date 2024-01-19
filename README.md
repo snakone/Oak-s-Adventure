@@ -7,7 +7,7 @@
 - New Pokémon Adventure with Oak as main character
 - Completely new maps
 - Additional effects and particles
-- Made from scratch - First Godot4 Project
+- Made from scratch
 
 ## Already implemented
 
@@ -18,10 +18,11 @@
 - NPC Movement and Collision
 - Save/Load Game State
 - Party Menu
+- Sounds
 
 Credits on Sprites [Sprite Resource](https://www.spriters-resource.com/)
 
-v.0.2
+v.0.3
 
 ### All Rights reserved to
 &copy;2024 Pokémon. ©1995 - 2024 Nintendo/Creatures Inc./GAME FREAK inc. TM, ®Nintendo.

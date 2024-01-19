@@ -8,11 +8,10 @@ extends CanvasLayer
 enum ScreenLoaded { NONE, MENU, POKEDEX, PARTY, BAG, OAK, SAVE, OPTIONS }
 enum MenuOptions { POKEDEX, PARTY, BAG, OAK, SAVE, OPTIONS, EXIT }
 
-var screen_loaded = ScreenLoaded.NONE;
-var party_screen_path = "res://Scenes/UI/party_screen.tscn";
+const party_screen_path = "res://Scenes/UI/party_screen.tscn";
 const save_scene_path = "res://Scenes/UI/save_scene.tscn";
-var party_screen_node =  "CurrentScene/PartyScreen";
-var save_scene_node =  "CurrentScene/SaveScene";
+const party_screen_node =  "CurrentScene/PartyScreen";
+const save_scene_node =  "CurrentScene/SaveScene";
 
 const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
 const GUI_MENU_OPEN = preload("res://Assets/Sounds/GUI menu open.ogg");
@@ -24,14 +23,15 @@ var options_length = MenuOptions.keys().size();
 var selected_option = 0;
 var is_player_moving = false;
 var scene_manager: Node2D;
+var screen_loaded = ScreenLoaded.NONE;
 
 func _ready():
 	if(SETTINGS.selected_marker):
 		nine_patch_rect.texture = SETTINGS.selected_marker;
+	scene_manager = get_parent();
 	control.visible = false;
 	update_arrow();
 	connect_signals();
-	scene_manager = get_parent();
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(
@@ -42,26 +42,25 @@ func _unhandled_input(event: InputEvent) -> void:
 		GLOBAL.dialog_open
 	): return;
 	
-	if(event.is_action_pressed("bike") && !GLOBAL.inside_house && !GLOBAL.menu_open):
-		GLOBAL.emit_signal("get_on_bike", !GLOBAL.on_bike);
+	if(
+		event.is_action_pressed("bike") && 
+		!GLOBAL.inside_house && 
+		!GLOBAL.menu_open
+	): GLOBAL.emit_signal("get_on_bike", !GLOBAL.on_bike);
 
 	match (screen_loaded):
 		ScreenLoaded.NONE: if(Input.is_action_pressed("menu")): handle_MENU();
 		ScreenLoaded.MENU:
-			#CLOSE
 			if(
 				Input.is_action_pressed("menu") || 
 				Input.is_action_pressed("backMenu") ||
 				Input.is_action_pressed("escape")): close_menu()
-			#DOWN
 			elif(
 				Input.is_action_pressed("moveDown") || 
 				Input.is_action_pressed("ui_down")): handle_DOWN();
-			#UP
 			elif(
 				Input.is_action_pressed("moveUp") || 
 				Input.is_action_pressed("ui_up")): handle_UP();
-			#ACCEPT
 			elif(event.is_action_pressed("space")): select_option();
 
 func select_option() -> void:
@@ -79,8 +78,8 @@ func close_menu() -> void:
 	control.visible = false;
 	GLOBAL.menu_open = false;
 	screen_loaded = ScreenLoaded.NONE;
-	GLOBAL.emit_signal("menu_opened", false);
 	selected_option = MenuOptions.POKEDEX;
+	GLOBAL.emit_signal("menu_opened", false);
 	update_arrow();
 
 func open_party() -> void:
@@ -89,8 +88,8 @@ func open_party() -> void:
 	await audio_player.finished;
 	control.visible = false;
 	screen_loaded = ScreenLoaded.PARTY;
-	scene_manager.transition_to_scene(party_screen_path, true, false);
 	process_mode = Node.PROCESS_MODE_DISABLED;
+	scene_manager.transition_to_scene(party_screen_path, true, false);
 	GLOBAL.emit_signal("party_opened", true);
 
 func _on_party_opened(value: bool) -> void:
@@ -125,14 +124,15 @@ func handle_UP() -> void:
 	update_arrow();
 	
 func handle_save() -> void:
+	audio_player.stream = GUI_SEL_DECISION;
+	audio_player.play();
 	control.visible = false;
 	GLOBAL.menu_open = false;
 	screen_loaded = ScreenLoaded.NONE;
+	selected_option = MenuOptions.POKEDEX;
 	scene_manager.transition_to_scene(save_scene_path, false, false);
-	audio_player.stream = GUI_SAVE_GAME;
-	audio_player.play();
-	MEMORY._save();
 	GLOBAL.emit_signal("start_dialog", 10);
+	update_arrow();
 
 func connect_signals() -> void:
 	GLOBAL.connect("player_moving", _on_player_moving);

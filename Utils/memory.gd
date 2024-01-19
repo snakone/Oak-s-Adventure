@@ -18,9 +18,9 @@ func _load() -> void:
 	if !FileAccess.file_exists(save_path):
 		print("Error, no Save File to load.");
 		GLOBAL.no_saved_data = true;
-		return
+		return;
+		
 	var save_file = FileAccess.open(save_path, FileAccess.READ)
-
 	while save_file.get_position() < save_file.get_length():
 		var json = JSON.new();
 		json.parse(save_file.get_line())
@@ -32,5 +32,5 @@ func _load() -> void:
 	save_file.close();
 	
 func _ready():
-	await get_tree().create_timer(1).timeout;
+	await GLOBAL.timeout(1);
 	_load();
