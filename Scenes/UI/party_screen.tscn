@@ -705,7 +705,7 @@ libraries = {
 }
 autoplay = "Idle"
 
-[node name="Cancel" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 offset_right = 240.0
 offset_bottom = 160.0
 auto_translate = false
@@ -713,7 +713,7 @@ localize_numeral_system = false
 texture = ExtResource("1_hwxdf")
 stretch_mode = 3
 
-[node name="Panel" type="Sprite2D" parent="Cancel"]
+[node name="Panel" type="Sprite2D" parent="Background"]
 position = Vector2(211, 144)
 texture = ExtResource("8_lcc1j")
 hframes = 2

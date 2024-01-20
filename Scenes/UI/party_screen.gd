@@ -21,7 +21,7 @@ var last_slot_before_moving_left = 1;
 	Slots.FOURTH: $Slots/Fourth,
 	Slots.FIFTH: $Slots/Fifth,
 	Slots.SIXTH: $Slots/Sixth,
-	Slots.CANCEL: $Cancel
+	Slots.CANCEL: $Background
 }
 
 func _ready():
@@ -112,16 +112,18 @@ func handle_LEFT():
 	selected_slot = int(Slots.FIRST);
 
 func create_party_list() -> void:
-	for poke in PARTY.get_party():
-		var pokemon_node = slot_switch[poke.slot].get_node("Pokemon");
-		var gender_node = slot_switch[poke.slot].get_node("Gender");
-		var name_node = slot_switch[poke.slot].get_node("Name");
-		var level_node = slot_switch[poke.slot].get_node("Level");
-		var total_hp_node = slot_switch[poke.slot].get_node("TotalHP");
-		var remain_hp_node = slot_switch[poke.slot].get_node("RemainHP");
+	var party = PARTY.get_party();
+	for index in range(0, party.size() - 1):
+		var poke = party[index];
+		var pokemon_node = slot_switch[index].get_node("Pokemon");
+		var gender_node = slot_switch[index].get_node("Gender");
+		var name_node = slot_switch[index].get_node("Name");
+		var level_node = slot_switch[index].get_node("Level");
+		var total_hp_node = slot_switch[index].get_node("TotalHP");
+		var remain_hp_node = slot_switch[index].get_node("RemainHP");
 		#var health_node = slot_switch[foo.slot].get_node("Health");
 		
-		pokemon_node.texture = poke.party_texture;
+		pokemon_node.texture = POKEMON.get_poke_texture(poke.name);
 		gender_node.frame = int(poke.gender);
 		name_node.text = poke.name;
 		level_node.text = str(poke.level);

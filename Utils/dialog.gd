@@ -91,4 +91,12 @@ var dialog_library: Dictionary = {
 		"type": DialogType.OBJECT,
 		"marker": true
 	},
+	16: {
+		"arr": [
+			["A pair of Genesect Fossils."],
+			["Discovered 3000 years ago."],
+		],
+		"type": DialogType.OBJECT,
+		"marker": true
+	},
 }

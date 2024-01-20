@@ -11,15 +11,19 @@ signal close_dialog;
 signal on_tile_map_changed(size: Vector2, camera_offset: Vector2);
 signal system_dialog_finished;
 
+signal start_battle(battle_data: Dictionary);
+signal close_battle;
+
 enum Directions {LEFT, RIGHT, UP, DOWN, NONE, ALL}
 enum FacingDirection { LEFT, RIGHT, UP, DOWN };
 enum Genders { MALE, FEMALE }
-enum SaveType { PLAYER, SCENE }
+enum SaveType { PLAYER, SCENE, PARTY }
 enum DoorType { IN, OUT }
 enum DialogAreaType { NPC, OBJECT, NONE }
 
 const TILE_SIZE: int = 16;
 const WINDOW_SIZE = Vector2(15, 10);
+const group_name = "Persist";
 
 const directions_array: Array = [
 	Vector2.LEFT, 
@@ -45,6 +49,7 @@ var inside_house = false;
 var dialog_open = false;
 var no_saved_data = true;
 var play_time: float;
+var on_battle = false;
 
 const blends = [
 	"parameters/Idle/blend_position", 

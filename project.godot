@@ -26,6 +26,7 @@ MEMORY="*res://Utils/memory.gd"
 DIALOG="*res://Utils/dialog.gd"
 AUDIO="*res://Utils/audio.gd"
 SETTINGS="*res://Utils/settings.gd"
+BATTLE="*res://Utils/battle.gd"
 
 [display]
 

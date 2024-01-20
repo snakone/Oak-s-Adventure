@@ -40,6 +40,8 @@ var area_type := GLOBAL.DialogAreaType.NONE;
 var stop = false;
 var dialog_id: int;
 var dialog_direction: GLOBAL.Directions;
+var battle_data: Dictionary;
+var ready_to_battle = false;
 
 func _ready():
 	connect_signals();
@@ -113,6 +115,10 @@ func move(delta) -> void:
 	else: reset_moving();
 
 #MOVEMENT
+func check_moving() -> void:
+	if(percent_moved >= 1): stop_movement();
+	else: update_position();
+
 func update_position() -> void:
 	position = start_position + (floor(GLOBAL.TILE_SIZE * input_direction * percent_moved)); 
 
@@ -120,15 +126,12 @@ func stop_movement() -> void:
 	position = start_position + (GLOBAL.TILE_SIZE * input_direction);
 	check_position_out_bounds();
 	reset_moving();
+	check_for_battle();
 
 func reset_moving() -> void:
 	is_moving = false;
 	percent_moved = 0;
 	GLOBAL.emit_signal("player_moving", false);
-
-func check_moving() -> void:
-	if(percent_moved >= 1): stop_movement();
-	else: update_position();
 
 #LEDGES
 func check_ledges() -> void:
@@ -225,6 +228,7 @@ func check_position_out_bounds():
 		#position.y = floor(position.y / GLOBAL.TILE_SIZE) * GLOBAL.TILE_SIZE;
 		print("WARNING: OUT OF BOUNDS");
 
+#DIALOGS
 func check_for_dialogs() -> void:
 	if(dialog_id == null): return;
 	if Input.is_action_just_pressed("space"):
@@ -250,6 +254,19 @@ func start_dialog_state(id: int) -> void:
 	reset_moving();
 	audio.stream = CONFIRM;
 	audio.play();
+
+#BATTLE
+func check_for_battle() -> void:
+	if(ready_to_battle):
+		playback.travel("Idle");
+		stop = true;
+		await GLOBAL.timeout(.4);
+		GLOBAL.emit_signal("start_battle", battle_data);
+		ready_to_battle = false;
+
+func _on_end_battle() -> void:
+	await GLOBAL.timeout(.3);
+	stop = false;
 
 # ANIMATIONS
 #DOOR
@@ -315,6 +332,7 @@ func connect_signals() -> void:
 	GLOBAL.connect("menu_opened", _on_menu_opened);
 	GLOBAL.connect("get_on_bike", _on_get_on_bike);
 	GLOBAL.connect("bike_inside", _on_bike_inside);
+	GLOBAL.connect("close_battle", _on_end_battle);
 
 func set_blend_direction(direction: Vector2) -> void:
 	for path in GLOBAL.blends: anim_tree.set(path, direction);

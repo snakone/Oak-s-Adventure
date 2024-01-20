@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://3clfgm81x0yq"]
+
+[ext_resource type="Script" path="res://Scenes/Battle/battle_scene.gd" id="1_lfnjg"]
+[ext_resource type="Texture2D" uid="uid://b2bql8hs5y4jl" path="res://Assets/UI/Battle/snow_bg.png" id="2_6ouca"]
+
+[node name="BattleScene" type="CanvasLayer"]
+script = ExtResource("1_lfnjg")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+clip_contents = true
+offset_right = 240.0
+offset_bottom = 160.0
+texture = ExtResource("2_6ouca")

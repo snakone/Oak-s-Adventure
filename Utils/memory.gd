@@ -1,11 +1,10 @@
 extends Node
 
 const save_path = "user://save.poke";
-const group = "Persist";
 
 func _save() -> void:
 	var save_file = FileAccess.open(save_path, FileAccess.WRITE)
-	var save_nodes = get_tree().get_nodes_in_group(group);
+	var save_nodes = get_tree().get_nodes_in_group(GLOBAL.group_name);
 	for node in save_nodes:
 		if !node.has_method("save"):
 			print("Node '%s' is missing a save function, skipped" % node.name)
