@@ -46,7 +46,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif(
 		Input.is_action_pressed("moveUp") || 
 		Input.is_action_pressed("ui_up")): handle_UP();
-	#ACCEPT
 	elif(event.is_action_pressed("space")): select_option();
 
 func handle_DOWN() -> void:
@@ -74,8 +73,9 @@ func close_menu(sound = true):
 		audio.stream = GUI_MENU_CLOSE;
 		audio.play();
 		await audio.finished;
-	call_deferred("queue_free");
 	GLOBAL.emit_signal("close_dialog");
+	GLOBAL.emit_signal("menu_opened", false);
+	call_deferred("queue_free");
 
 func handle_save() -> void:
 	closing_menu = true;
@@ -104,14 +104,16 @@ func _on_dialog_finished():
 
 func get_map_name() -> String:
 	var map = get_node("/root/SceneManager/CurrentScene").get_child(0).name;
-	var string: String = MAPS.location_string[map];
-	return string.to_upper();
+	if(map in MAPS.location_string):
+		var string: String = MAPS.location_string[map];
+		return string.to_upper();
+	else: return "Mysterious Place";
 
 func get_time_played() -> String:
-	var play_time = int(floor(GLOBAL.play_time));
-	var hours = int(play_time / 3600)
-	var minutes = int((play_time % 3600) / 60)
-	var seconds = int(play_time % 60)
+	var play_time = floor(GLOBAL.play_time);
+	var hours = play_time / 3600.0
+	var minutes = fmod(play_time, 3600) / 60
+	var seconds = fmod(play_time, 60)
 	var elapsed = "%02d:%02d:%02d" % [hours, minutes, seconds];
 	return elapsed;
 

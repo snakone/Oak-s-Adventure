@@ -6,11 +6,11 @@ extends Node2D
 @onready var current_scene = $CurrentScene;
 
 const DIALOG_MANAGER = preload("res://Scripts/dialog_manager.tscn");
-var dialogue_inst: CanvasLayer;
+const not_save_scenes = ["res://Scenes/UI/save_scene.tscn", "res://Scenes/UI/party_screen.tscn"];
 
+var dialogue_inst: CanvasLayer;
 var should_remove_child: bool;
 var last_scene = "res://Scenes/Maps/praire_town.tscn";
-var not_save_scenes = ["res://Scenes/UI/save_scene.tscn", "res://Scenes/UI/party_screen.tscn"];
 
 func _ready():
 	GLOBAL.connect("start_dialog", _on_start_dialog);
@@ -29,7 +29,7 @@ func transition_to_scene(new_scene: String, animated = true, remove = true) -> v
 	
 func on_finish_transition() -> void:
 	create_new_scene();
-	await GLOBAL.timeout(.8);
+	await GLOBAL.timeout(1);
 	GLOBAL.on_transition = false;
 
 func create_new_scene() -> void:
@@ -42,12 +42,12 @@ func _on_start_dialog(id: int) -> void:
 	if(dialogue_inst != null): _on_close_dialog();
 	dialogue_inst = DIALOG_MANAGER.instantiate();
 	dialogue_inst.set_data(id);
-	call_deferred("add_child", dialogue_inst);
 	GLOBAL.dialog_open = true;
+	call_deferred("add_child", dialogue_inst);
 	
 func _on_close_dialog() -> void:
-	dialogue_inst.call_deferred("queue_free");
 	GLOBAL.dialog_open = false;
+	dialogue_inst.call_deferred("queue_free");
 
 #SAVE
 func save() -> Dictionary:
@@ -61,5 +61,5 @@ func save() -> Dictionary:
 
 #LOAD
 func load(data: Dictionary) -> void:
-	if(data.scene != ""): transition_to_scene(data.scene);
+	if(data.scene != ""): transition_to_scene(data.scene, true, false);
 

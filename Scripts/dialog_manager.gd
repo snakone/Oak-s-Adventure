@@ -5,12 +5,12 @@ extends CanvasLayer
 @onready var marker = $Marker;
 @onready var audio = $AudioStreamPlayer;
 
+const oak_prefix = "self:";
 var dialog_data: Dictionary;
 var current_index: int = 0;
 var current_line: int = 2;
 var pressed: bool = true;
 var dialog_closed = false;
-var oak_prefix = "self:";
 var npc_dialog = false;
 var whos_talking: String;
 
@@ -32,12 +32,12 @@ func _ready() -> void:
 			label.text += text_string[j];
 			
 	pressed = false;
-	marker.visible = dialog_data.type != DIALOG.DialogType.SYSTEM;
-	if(dialog_data.type == DIALOG.DialogType.SYSTEM):
+	marker.visible = dialog_data.marker;
+	if(dialog_data.type == DIALOG.DialogType.SYSTEM && !dialog_data.marker):
 		GLOBAL.emit_signal("system_dialog_finished");
 
 func _input(event: InputEvent) -> void:
-	if(dialog_closed || dialog_data.type == DIALOG.DialogType.SYSTEM): return;
+	if(dialog_closed || !dialog_data.marker): return;
 	if event.is_action_pressed("space") and !pressed:
 		marker.visible = false;
 		pressed = true;
@@ -52,7 +52,7 @@ func _input(event: InputEvent) -> void:
 		if current_index >= len(dialog_data.arr):
 			await audio.finished;
 			dialog_closed = true;
-			if(dialog_data.type != DIALOG.DialogType.SYSTEM): 
+			if(dialog_data.marker): 
 				GLOBAL.emit_signal("close_dialog");
 			timer.stop();
 		else:
@@ -66,7 +66,7 @@ func _input(event: InputEvent) -> void:
 				await timer.timeout;
 				label.text += text_string[j];
 			current_line += 1;
-			marker.visible = dialog_data.type != DIALOG.DialogType.SYSTEM;
+			marker.visible = dialog_data.marker;
 		pressed = false;
 
 func add_prefix(text: String) -> String:

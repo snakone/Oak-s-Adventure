@@ -22,7 +22,7 @@ const location_array = [
 	"OakFarmerHouse"
 ];
 
-var location_string = {
+const location_string = {
 	"PraireTown": "Praire Town",
 	"OakHouse": "Oak's House",
 	"Route00": "Oak's Farm",

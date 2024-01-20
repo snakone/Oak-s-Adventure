@@ -1,7 +1,7 @@
 extends Node
 
-var save_path = "user://save.poke";
-var group = "Persist";
+const save_path = "user://save.poke";
+const group = "Persist";
 
 func _save() -> void:
 	var save_file = FileAccess.open(save_path, FileAccess.WRITE)

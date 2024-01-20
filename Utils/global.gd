@@ -5,6 +5,7 @@ signal player_moving(value: bool);
 signal menu_opened(value: bool);
 signal party_opened(value: bool);
 signal get_on_bike(value: bool);
+signal bike_inside;
 signal start_dialog(id: int);
 signal close_dialog;
 signal on_tile_map_changed(size: Vector2, camera_offset: Vector2);
@@ -45,7 +46,7 @@ var dialog_open = false;
 var no_saved_data = true;
 var play_time: float;
 
-var blends = [
+const blends = [
 	"parameters/Idle/blend_position", 
 	'parameters/Move/blend_position', 
 	'parameters/Turn/blend_position'];

@@ -47,6 +47,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		!GLOBAL.inside_house && 
 		!GLOBAL.menu_open
 	): GLOBAL.emit_signal("get_on_bike", !GLOBAL.on_bike);
+	
+	if(
+		event.is_action_pressed("bike") && 
+		GLOBAL.inside_house && 
+		!GLOBAL.menu_open
+	): GLOBAL.emit_signal("bike_inside");
 
 	match (screen_loaded):
 		ScreenLoaded.NONE: if(Input.is_action_pressed("menu")): handle_MENU();

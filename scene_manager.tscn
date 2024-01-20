@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://bx6puh2tlx1xe"]
+[gd_scene load_steps=6 format=3 uid="uid://bx6puh2tlx1xe"]
 
 [ext_resource type="Script" path="res://scene_manager.gd" id="1_fy5xl"]
-[ext_resource type="PackedScene" uid="uid://cn2jssalmf12l" path="res://Scenes/Maps/praire_town.tscn" id="2_tbtvn"]
 [ext_resource type="PackedScene" uid="uid://drehjofe2bwo0" path="res://Scenes/UI/menu.tscn" id="3_8d0bi"]
 
 [sub_resource type="Animation" id="Animation_ty746"]
@@ -62,8 +61,6 @@ next_scene = "res://Scenes/Maps/praire_town.tscn"
 
 [node name="CurrentScene" type="Node2D" parent="."]
 
-[node name="PraireTown" parent="CurrentScene" instance=ExtResource("2_tbtvn")]
-
 [node name="Menu" parent="." instance=ExtResource("3_8d0bi")]
 
 [node name="Transition" type="CanvasLayer" parent="."]
@@ -80,4 +77,4 @@ libraries = {
 }
 
 [node name="Song" type="AudioStreamPlayer" parent="."]
-volume_db = -20.0
+volume_db = -80.0
