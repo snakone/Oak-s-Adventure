@@ -25,7 +25,6 @@ func _on_area_2d_body_entered(body) -> void:
 				"type": battle_type,
 				"levels": level_range
 			}
-			reset_texture(true);
 			body.battle_data = battle_data;
 			body.ready_to_battle = true;
 
