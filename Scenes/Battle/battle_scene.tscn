@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://3clfgm81x0yq"]
+[gd_scene load_steps=32 format=3 uid="uid://3clfgm81x0yq"]
 
 [ext_resource type="Script" path="res://Scenes/Battle/battle_scene.gd" id="1_vc7g5"]
 [ext_resource type="Texture2D" uid="uid://1ieaejkmc3gf" path="res://Assets/UI/Battle/backgrounds/grass_01.png" id="1_yydbi"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://3qi43fmkdimb" path="res://Assets/UI/Battle/backgrounds/player_pokemon_grass.png" id="4_j6k0k"]
 [ext_resource type="Texture2D" uid="uid://bjgpg1v6vm0ys" path="res://Assets/UI/Battle/enemy_info.png" id="5_ici0o"]
 [ext_resource type="Texture2D" uid="uid://dk0t8e6e6ggkp" path="res://Assets/UI/Battle/player_info.png" id="6_bubkt"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="6_nsew4"]
+[ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="7_6nkkf"]
 [ext_resource type="Texture2D" uid="uid://c52a6e4eqhy5e" path="res://Assets/UI/Battle/main_menue.png" id="7_fnw4w"]
 [ext_resource type="Texture2D" uid="uid://dmp0fucbg5jx0" path="res://Assets/UI/Battle/menue_cursor.png" id="8_t1ksm"]
 [ext_resource type="Texture2D" uid="uid://dbtcanods1xaq" path="res://Assets/UI/Battle/attack_select_background.png" id="9_iv4im"]
@@ -26,7 +28,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("anim/ColorRect:size")
+tracks/0/path = NodePath("Animation/TopRect:size")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -38,7 +40,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("anim/ColorRect2:scale")
+tracks/1/path = NodePath("Animation/BottomRect:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -50,7 +52,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("ui/enemy_sprite:position")
+tracks/2/path = NodePath("UI/EnemySprite:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -62,7 +64,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("patches/enemy:position")
+tracks/3/path = NodePath("Ground/Enemy:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -74,7 +76,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("info/player_info:position")
+tracks/4/path = NodePath("Info/PlayerInfo:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -86,7 +88,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("info/player_hp_bar:position")
+tracks/5/path = NodePath("Info/PlayerHPBar:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -98,7 +100,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("info/enemy_info:position")
+tracks/6/path = NodePath("Info/EnemyInfo:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -110,19 +112,19 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("info/enemy_hp_bar:position")
+tracks/7/path = NodePath("Info/EnemyHPBar:position")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-69, 33)]
+"values": [Vector2(-71, 32)]
 }
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("patches/player:position")
+tracks/8/path = NodePath("Ground/Player:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -134,7 +136,7 @@ tracks/8/keys = {
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("anim/may:position")
+tracks/9/path = NodePath("Animation/Oak:position")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
@@ -146,7 +148,7 @@ tracks/9/keys = {
 tracks/10/type = "value"
 tracks/10/imported = false
 tracks/10/enabled = true
-tracks/10/path = NodePath("anim/may:texture")
+tracks/10/path = NodePath("Animation/Oak:texture")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
@@ -158,7 +160,7 @@ tracks/10/keys = {
 tracks/11/type = "value"
 tracks/11/imported = false
 tracks/11/enabled = true
-tracks/11/path = NodePath("ui/player_sprite:visible")
+tracks/11/path = NodePath("UI/PlayerSprite:visible")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/keys = {
@@ -170,7 +172,7 @@ tracks/11/keys = {
 tracks/12/type = "value"
 tracks/12/imported = false
 tracks/12/enabled = true
-tracks/12/path = NodePath("anim/may:visible")
+tracks/12/path = NodePath("Animation/Oak:visible")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/keys = {
@@ -182,7 +184,7 @@ tracks/12/keys = {
 tracks/13/type = "value"
 tracks/13/imported = false
 tracks/13/enabled = true
-tracks/13/path = NodePath("anim/ball:position")
+tracks/13/path = NodePath("Animation/Pokeball:position")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/keys = {
@@ -194,7 +196,7 @@ tracks/13/keys = {
 tracks/14/type = "value"
 tracks/14/imported = false
 tracks/14/enabled = true
-tracks/14/path = NodePath("anim/ball:texture")
+tracks/14/path = NodePath("Animation/Pokeball:texture")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/keys = {
@@ -206,7 +208,7 @@ tracks/14/keys = {
 tracks/15/type = "value"
 tracks/15/imported = false
 tracks/15/enabled = true
-tracks/15/path = NodePath("anim/ball:visible")
+tracks/15/path = NodePath("Animation/Pokeball:visible")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/keys = {
@@ -218,7 +220,7 @@ tracks/15/keys = {
 tracks/16/type = "value"
 tracks/16/imported = false
 tracks/16/enabled = true
-tracks/16/path = NodePath("anim/ball:rotation")
+tracks/16/path = NodePath("Animation/Pokeball:rotation")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/keys = {
@@ -230,7 +232,7 @@ tracks/16/keys = {
 tracks/17/type = "value"
 tracks/17/imported = false
 tracks/17/enabled = true
-tracks/17/path = NodePath("ui/player_sprite:position")
+tracks/17/path = NodePath("UI/PlayerSprite:position")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/keys = {
@@ -242,7 +244,7 @@ tracks/17/keys = {
 tracks/18/type = "value"
 tracks/18/imported = false
 tracks/18/enabled = true
-tracks/18/path = NodePath("info/player_info:visible")
+tracks/18/path = NodePath("Info/PlayerInfo:visible")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/keys = {
@@ -254,7 +256,7 @@ tracks/18/keys = {
 tracks/19/type = "value"
 tracks/19/imported = false
 tracks/19/enabled = true
-tracks/19/path = NodePath("intro_scroll/Sprite2D:texture")
+tracks/19/path = NodePath("Scroll/Grass:texture")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/keys = {
@@ -266,7 +268,7 @@ tracks/19/keys = {
 tracks/20/type = "bezier"
 tracks/20/imported = false
 tracks/20/enabled = true
-tracks/20/path = NodePath("intro_scroll:position:x")
+tracks/20/path = NodePath("Scroll:position:x")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/keys = {
@@ -277,7 +279,7 @@ tracks/20/keys = {
 tracks/21/type = "bezier"
 tracks/21/imported = false
 tracks/21/enabled = true
-tracks/21/path = NodePath("intro_scroll:position:y")
+tracks/21/path = NodePath("Scroll:position:y")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/keys = {
@@ -288,7 +290,7 @@ tracks/21/keys = {
 tracks/22/type = "bezier"
 tracks/22/imported = false
 tracks/22/enabled = true
-tracks/22/path = NodePath("anim/may:modulate:r")
+tracks/22/path = NodePath("Animation/Oak:modulate:r")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/keys = {
@@ -299,7 +301,7 @@ tracks/22/keys = {
 tracks/23/type = "bezier"
 tracks/23/imported = false
 tracks/23/enabled = true
-tracks/23/path = NodePath("anim/may:modulate:g")
+tracks/23/path = NodePath("Animation/Oak:modulate:g")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/keys = {
@@ -310,7 +312,7 @@ tracks/23/keys = {
 tracks/24/type = "bezier"
 tracks/24/imported = false
 tracks/24/enabled = true
-tracks/24/path = NodePath("anim/may:modulate:b")
+tracks/24/path = NodePath("Animation/Oak:modulate:b")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/keys = {
@@ -321,7 +323,7 @@ tracks/24/keys = {
 tracks/25/type = "bezier"
 tracks/25/imported = false
 tracks/25/enabled = true
-tracks/25/path = NodePath("anim/may:modulate:a")
+tracks/25/path = NodePath("Animation/Oak:modulate:a")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/keys = {
@@ -332,7 +334,7 @@ tracks/25/keys = {
 tracks/26/type = "bezier"
 tracks/26/imported = false
 tracks/26/enabled = true
-tracks/26/path = NodePath("anim/may:position:x")
+tracks/26/path = NodePath("Animation/Oak:position:x")
 tracks/26/interp = 1
 tracks/26/loop_wrap = true
 tracks/26/keys = {
@@ -343,7 +345,7 @@ tracks/26/keys = {
 tracks/27/type = "value"
 tracks/27/imported = false
 tracks/27/enabled = true
-tracks/27/path = NodePath("ui/enemy_sprite:visible")
+tracks/27/path = NodePath("UI/EnemySprite:visible")
 tracks/27/interp = 1
 tracks/27/loop_wrap = true
 tracks/27/keys = {
@@ -354,12 +356,12 @@ tracks/27/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_2swml"]
-resource_name = "start"
+resource_name = "Start"
 length = 2.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("anim/ColorRect:size")
+tracks/0/path = NodePath("Animation/TopRect:size")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -371,7 +373,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("anim/ColorRect2:scale")
+tracks/1/path = NodePath("Animation/BottomRect:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -383,7 +385,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("ui/enemy_sprite:position")
+tracks/2/path = NodePath("UI/EnemySprite:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -395,7 +397,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("patches/enemy:position")
+tracks/3/path = NodePath("Ground/Enemy:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -407,7 +409,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("info/enemy_info:position")
+tracks/4/path = NodePath("Info/EnemyInfo:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -419,19 +421,19 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("info/enemy_hp_bar:position")
+tracks/5/path = NodePath("Info/EnemyHPBar:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "times": PackedFloat32Array(2, 2.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(-69, 33), Vector2(55, 33)]
+"values": [Vector2(-71, 32), Vector2(53, 32)]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("patches/player:position")
+tracks/6/path = NodePath("Ground/Player:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -443,7 +445,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("intro_scroll/Sprite2D:texture")
+tracks/7/path = NodePath("Scroll/Grass:texture")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -455,7 +457,7 @@ tracks/7/keys = {
 tracks/8/type = "bezier"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("intro_scroll:position:x")
+tracks/8/path = NodePath("Scroll:position:x")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -466,7 +468,7 @@ tracks/8/keys = {
 tracks/9/type = "bezier"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("intro_scroll:position:y")
+tracks/9/path = NodePath("Scroll:position:y")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
@@ -477,7 +479,7 @@ tracks/9/keys = {
 tracks/10/type = "bezier"
 tracks/10/imported = false
 tracks/10/enabled = true
-tracks/10/path = NodePath("anim/may:position:x")
+tracks/10/path = NodePath("Animation/Oak:position:x")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
@@ -488,7 +490,7 @@ tracks/10/keys = {
 tracks/11/type = "value"
 tracks/11/imported = false
 tracks/11/enabled = true
-tracks/11/path = NodePath("ui/enemy_sprite:visible")
+tracks/11/path = NodePath("UI/EnemySprite:visible")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/keys = {
@@ -499,12 +501,12 @@ tracks/11/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_06t66"]
-resource_name = "start_02"
+resource_name = "Go"
 length = 1.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("info/player_info:position")
+tracks/0/path = NodePath("Info/PlayerInfo:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -516,7 +518,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("info/player_hp_bar:position")
+tracks/1/path = NodePath("Info/PlayerHPBar:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -528,7 +530,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("anim/may:position")
+tracks/2/path = NodePath("Animation/Oak:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -540,7 +542,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("anim/may:texture")
+tracks/3/path = NodePath("Animation/Oak:texture")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -552,7 +554,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("ui/player_sprite:visible")
+tracks/4/path = NodePath("UI/PlayerSprite:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -564,7 +566,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("anim/ball:position")
+tracks/5/path = NodePath("Animation/Pokeball:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -576,19 +578,19 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("anim/ball:visible")
+tracks/6/path = NodePath("Animation/Pokeball:visible")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0.35, 0.75),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.35, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [true, false]
+"values": [false, true, false]
 }
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("anim/ball:rotation")
+tracks/7/path = NodePath("Animation/Pokeball:rotation")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -600,7 +602,7 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("info/player_info:visible")
+tracks/8/path = NodePath("Info/PlayerInfo:visible")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -612,7 +614,7 @@ tracks/8/keys = {
 tracks/9/type = "audio"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("audio_stream_player")
+tracks/9/path = NodePath("AudioStreamPlayer")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
@@ -627,9 +629,9 @@ tracks/9/use_blend = true
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8lv3r"]
 _data = {
+"Go": SubResource("Animation_06t66"),
 "RESET": SubResource("Animation_x0uak"),
-"start": SubResource("Animation_2swml"),
-"start_02": SubResource("Animation_06t66")
+"Start": SubResource("Animation_2swml")
 }
 
 [sub_resource type="Animation" id="Animation_ecth8"]
@@ -637,7 +639,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("ui/player_sprite:position")
+tracks/0/path = NodePath("UI/PlayerSprite:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -649,7 +651,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("info/player_info:position")
+tracks/1/path = NodePath("Info/PlayerInfo:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -661,7 +663,7 @@ tracks/1/keys = {
 tracks/2/type = "bezier"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("ui/enemy_sprite:modulate:a")
+tracks/2/path = NodePath("UI/EnemySprite:modulate:a")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -672,7 +674,7 @@ tracks/2/keys = {
 tracks/3/type = "bezier"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("ui/player_sprite:modulate:a")
+tracks/3/path = NodePath("UI/PlayerSprite:modulate:a")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -683,7 +685,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("ui/enemy_sprite:position")
+tracks/4/path = NodePath("UI/EnemySprite:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -693,48 +695,6 @@ tracks/4/keys = {
 "values": [Vector2(176, 48)]
 }
 
-[sub_resource type="Animation" id="Animation_8e0h4"]
-resource_name = "constant"
-length = 0.6
-loop_mode = 1
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ui/player_sprite:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(64, 86), Vector2(64, 88)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("info/player_info:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(179, 92), Vector2(179, 93), Vector2(179, 92), Vector2(179, 93)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("ui/enemy_sprite:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(176, 48), Vector2(176, 47), Vector2(176, 48), Vector2(176, 47)]
-}
-
 [sub_resource type="Animation" id="Animation_drt0x"]
 resource_name = "damage_enemy"
 length = 0.45
@@ -742,7 +702,7 @@ step = 0.05
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("ui/enemy_sprite:modulate:a")
+tracks/0/path = NodePath("UI/EnemySprite:modulate:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -759,7 +719,7 @@ step = 0.05
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("ui/player_sprite:modulate:a")
+tracks/0/path = NodePath("UI/PlayerSprite:modulate:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -768,82 +728,123 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.05)
 }
 
+[sub_resource type="Animation" id="Animation_8e0h4"]
+resource_name = "Idle"
+length = 0.6
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI/PlayerSprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(64, 86), Vector2(64, 88)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Info/PlayerInfo:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(179, 92), Vector2(179, 93), Vector2(179, 92), Vector2(179, 93)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("UI/EnemySprite:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(176, 48), Vector2(176, 47), Vector2(176, 48), Vector2(176, 47)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hd5rc"]
 _data = {
+"Idle": SubResource("Animation_8e0h4"),
 "RESET": SubResource("Animation_ecth8"),
-"constant": SubResource("Animation_8e0h4"),
 "damage_enemy": SubResource("Animation_drt0x"),
 "damage_player": SubResource("Animation_jg8in")
 }
 
-[node name="battle" type="CanvasLayer"]
+[node name="Battle" type="CanvasLayer"]
 script = ExtResource("1_vc7g5")
 
-[node name="background" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 offset_right = 240.0
 offset_bottom = 112.0
 texture = ExtResource("1_yydbi")
 metadata/_edit_lock_ = true
 
-[node name="patches" type="Node2D" parent="."]
+[node name="Ground" type="Node2D" parent="."]
 metadata/_edit_lock_ = true
 
-[node name="enemy" type="Sprite2D" parent="patches"]
+[node name="Enemy" type="Sprite2D" parent="Ground"]
 position = Vector2(306, 64)
 texture = ExtResource("3_ix6g5")
 
-[node name="player" type="Sprite2D" parent="patches"]
+[node name="Player" type="Sprite2D" parent="Ground"]
 position = Vector2(308, 106)
 texture = ExtResource("4_j6k0k")
 
-[node name="info" type="Node2D" parent="."]
+[node name="Info" type="Node2D" parent="."]
 metadata/_edit_lock_ = true
 
-[node name="player_hp_bar" type="ColorRect" parent="info"]
+[node name="PlayerHPBar" type="ColorRect" parent="Info"]
 offset_left = 295.0
 offset_top = 91.0
 offset_right = 343.0
 offset_bottom = 95.0
 color = Color(0, 0.886656, 0.0859693, 1)
 
-[node name="enemy_hp_bar" type="ColorRect" parent="info"]
-offset_left = -69.0
-offset_top = 33.0
-offset_right = -21.0
-offset_bottom = 35.0
+[node name="EnemyHPBar" type="ColorRect" parent="Info"]
+offset_left = -71.0
+offset_top = 32.0
+offset_right = -23.0
+offset_bottom = 34.0
 color = Color(0, 0.886656, 0.0859693, 1)
 
-[node name="enemy_info" type="Sprite2D" parent="info"]
+[node name="EnemyInfo" type="Sprite2D" parent="Info"]
 position = Vector2(-58, 30)
 texture = ExtResource("5_ici0o")
 
-[node name="name" type="Label" parent="info/enemy_info"]
-offset_left = -43.0
-offset_top = -6.0
-offset_right = -3.0
-offset_bottom = 17.0
-theme_override_colors/font_color = Color(0.215686, 0.215686, 0.215686, 1)
+[node name="Name" type="RichTextLabel" parent="Info/EnemyInfo"]
+offset_left = -44.0
+offset_top = -9.0
+offset_right = 14.0
+theme = ExtResource("6_nsew4")
+theme_override_colors/default_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
-theme_override_font_sizes/font_size = 8
-text = "WINGULL\""
-uppercase = true
+theme_override_fonts/normal_font = ExtResource("7_6nkkf")
+theme_override_font_sizes/normal_font_size = 9
+text = "WINGULL"
 
-[node name="level" type="Label" parent="info/enemy_info"]
-offset_left = 18.0
-offset_top = -6.0
-offset_right = 58.0
-offset_bottom = 17.0
-theme_override_colors/font_color = Color(0.215427, 0.215427, 0.215427, 1)
+[node name="Level" type="RichTextLabel" parent="Info/EnemyInfo"]
+offset_left = 15.0
+offset_top = -10.0
+offset_right = 39.0
+offset_bottom = -1.0
+theme = ExtResource("6_nsew4")
 theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
-theme_override_font_sizes/font_size = 8
 text = "Lv12"
 
-[node name="player_info" type="Sprite2D" parent="info"]
+[node name="PlayerInfo" type="Sprite2D" parent="Info"]
 visible = false
 position = Vector2(179, 93)
 texture = ExtResource("6_bubkt")
 
-[node name="name" type="Label" parent="info/player_info"]
+[node name="name" type="Label" parent="Info/PlayerInfo"]
 offset_left = -36.5
 offset_top = -10.0
 offset_right = 3.5
@@ -854,7 +855,7 @@ theme_override_font_sizes/font_size = 8
 text = "treecko\""
 uppercase = true
 
-[node name="level" type="Label" parent="info/player_info"]
+[node name="level" type="Label" parent="Info/PlayerInfo"]
 offset_left = 12.5
 offset_top = -17.0
 offset_right = 52.5
@@ -866,7 +867,7 @@ text = "Lv12"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="hp" type="Label" parent="info/player_info"]
+[node name="hp" type="Label" parent="Info/PlayerInfo"]
 offset_left = 7.5
 offset_right = 47.5
 offset_bottom = 23.0
@@ -877,7 +878,7 @@ text = "60/60"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="xp_bar" type="ColorRect" parent="info/player_info"]
+[node name="xp_bar" type="ColorRect" parent="Info/PlayerInfo"]
 offset_left = -21.0
 offset_top = 15.0
 offset_right = 43.0
@@ -885,88 +886,90 @@ offset_bottom = 17.0
 scale = Vector2(1e-05, 1)
 color = Color(0, 1, 1, 1)
 
-[node name="ui" type="Node2D" parent="."]
+[node name="UI" type="Node2D" parent="."]
 
-[node name="enemy_sprite" type="Sprite2D" parent="ui"]
+[node name="EnemySprite" type="Sprite2D" parent="UI"]
 position = Vector2(176, 48)
 vframes = 2
 
-[node name="player_sprite" type="Sprite2D" parent="ui"]
+[node name="PlayerSprite" type="Sprite2D" parent="UI"]
 visible = false
 modulate = Color(1, 0.815686, 0, 1)
 position = Vector2(64, 86)
 
-[node name="menue" type="Node2D" parent="."]
+[node name="Menu" type="Node2D" parent="."]
 metadata/_edit_lock_ = true
 
-[node name="background" type="Sprite2D" parent="menue"]
+[node name="Background" type="Sprite2D" parent="Menu"]
 position = Vector2(120, 136)
 texture = ExtResource("7_fnw4w")
 
-[node name="menue_cursor" type="Sprite2D" parent="menue"]
+[node name="MenuCursor" type="Sprite2D" parent="Menu"]
 position = Vector2(147, 128)
 texture = ExtResource("8_t1ksm")
 
-[node name="Label" type="Label" parent="menue"]
-offset_left = 16.0
+[node name="Label" type="Label" parent="Menu"]
+offset_left = 12.0
 offset_top = 120.0
-offset_right = 105.0
-offset_bottom = 156.0
+offset_right = 125.0
+offset_bottom = 151.0
+theme = ExtResource("6_nsew4")
 theme_override_colors/font_shadow_color = Color(0.25098, 0.282353, 0.470588, 1)
-theme_override_font_sizes/font_size = 8
+theme_override_font_sizes/font_size = 12
+text = "fdsfsffsdfsdf"
 autowrap_mode = 3
+justification_flags = 0
 
-[node name="bag" type="Node2D" parent="."]
+[node name="Bag" type="Node2D" parent="."]
 visible = false
 metadata/_edit_lock_ = true
 
-[node name="bag_background" type="Sprite2D" parent="bag"]
+[node name="Background" type="Sprite2D" parent="Bag"]
 position = Vector2(120, 80)
 
-[node name="info" type="Sprite2D" parent="bag"]
+[node name="Info" type="Sprite2D" parent="Bag"]
 position = Vector2(64, 16)
 
-[node name="bag" type="Sprite2D" parent="bag"]
+[node name="Default" type="Sprite2D" parent="Bag"]
 position = Vector2(71, 66.5)
 
-[node name="point" type="Sprite2D" parent="bag"]
+[node name="Point" type="Sprite2D" parent="Bag"]
 position = Vector2(44, 29)
 
-[node name="bag_cursor" type="Sprite2D" parent="bag"]
+[node name="BagCursor" type="Sprite2D" parent="Bag"]
 position = Vector2(116, 24)
 
-[node name="items" type="Node2D" parent="bag"]
+[node name="Items" type="Node2D" parent="Bag"]
 
-[node name="pokeballs" type="Node2D" parent="bag"]
+[node name="PokeBalls" type="Node2D" parent="Bag"]
 visible = false
 
-[node name="tm" type="Node2D" parent="bag"]
+[node name="Berries" type="Node2D" parent="Bag"]
 visible = false
 
-[node name="berries" type="Node2D" parent="bag"]
-visible = false
-
-[node name="key_items" type="Node2D" parent="bag"]
-visible = false
-
-[node name="attack_select" type="Node2D" parent="."]
+[node name="Selection" type="Node2D" parent="."]
 metadata/_edit_lock_ = true
 
-[node name="background" type="Sprite2D" parent="attack_select"]
+[node name="Background" type="Sprite2D" parent="Selection"]
 z_index = 1
 position = Vector2(120, 136)
 texture = ExtResource("9_iv4im")
 
-[node name="attack_01" type="Label" parent="attack_select"]
+[node name="Attack01" type="Label" parent="Selection"]
+z_index = 1
 offset_left = 16.0
 offset_top = 128.0
 offset_right = 72.0
 offset_bottom = 151.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme = ExtResource("6_nsew4")
+theme_override_colors/font_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
-theme_override_font_sizes/font_size = 8
+theme_override_font_sizes/font_size = 12
+text = "Tackle"
+justification_flags = 0
 
-[node name="attack_02" type="Label" parent="attack_select"]
+[node name="Attack02" type="Label" parent="Selection"]
+z_index = 1
 offset_left = 16.0
 offset_top = 145.0
 offset_right = 72.0
@@ -975,7 +978,8 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
 theme_override_font_sizes/font_size = 8
 
-[node name="attack_03" type="Label" parent="attack_select"]
+[node name="Attack03" type="Label" parent="Selection"]
+z_index = 1
 offset_left = 88.0
 offset_top = 144.0
 offset_right = 144.0
@@ -984,7 +988,8 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
 theme_override_font_sizes/font_size = 8
 
-[node name="attack_04" type="Label" parent="attack_select"]
+[node name="Attack04" type="Label" parent="Selection"]
+z_index = 1
 offset_left = 88.0
 offset_top = 128.0
 offset_right = 144.0
@@ -993,13 +998,13 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
 theme_override_font_sizes/font_size = 8
 
-[node name="attack_select_cursor" type="Sprite2D" parent="attack_select"]
+[node name="AttackCursor" type="Sprite2D" parent="Selection"]
 position = Vector2(11, 128)
 texture = ExtResource("8_t1ksm")
 
-[node name="info" type="Node2D" parent="attack_select"]
+[node name="SelectionInfo" type="Node2D" parent="Selection"]
 
-[node name="pp" type="Label" parent="attack_select/info"]
+[node name="PP" type="Label" parent="Selection/SelectionInfo"]
 offset_left = 173.0
 offset_top = 128.0
 offset_right = 213.0
@@ -1008,7 +1013,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
 theme_override_font_sizes/font_size = 8
 
-[node name="type" type="Label" parent="attack_select/info"]
+[node name="Type" type="Label" parent="Selection/SelectionInfo"]
 offset_left = 173.0
 offset_top = 144.0
 offset_right = 213.0
@@ -1017,49 +1022,49 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
 theme_override_font_sizes/font_size = 8
 
-[node name="intro_scroll" type="Node2D" parent="."]
+[node name="Scroll" type="Node2D" parent="."]
 position = Vector2(0, 127)
 
-[node name="Sprite2D" type="Sprite2D" parent="intro_scroll"]
+[node name="Grass" type="Sprite2D" parent="Scroll"]
 position = Vector2(128, 73)
 texture = ExtResource("12_sfbb2")
 
-[node name="dialouge" type="Node2D" parent="."]
+[node name="Dialog" type="Node2D" parent="."]
 visible = false
 metadata/_edit_lock_ = true
 
-[node name="background" type="Sprite2D" parent="dialouge"]
+[node name="Background" type="Sprite2D" parent="Dialog"]
 position = Vector2(120, 136)
 
-[node name="text_label" type="Label" parent="dialouge"]
-offset_left = 15.0
-offset_top = 120.0
-offset_right = 55.0
-offset_bottom = 143.0
+[node name="Label" type="Label" parent="Dialog"]
+offset_left = 16.0
+offset_top = 119.0
+offset_right = 56.0
+offset_bottom = 142.0
 theme_override_colors/font_shadow_color = Color(0.251087, 0.282353, 0.470436, 1)
 theme_override_font_sizes/font_size = 8
 
-[node name="timer" type="Timer" parent="dialouge"]
+[node name="Timer" type="Timer" parent="Dialog"]
 wait_time = 0.05
 
-[node name="anim" type="Node2D" parent="."]
+[node name="Animation" type="Node2D" parent="."]
 
-[node name="ball" type="Sprite2D" parent="anim"]
+[node name="Pokeball" type="Sprite2D" parent="Animation"]
 visible = false
 position = Vector2(23.5192, 76.9201)
 texture = ExtResource("10_eogq7")
 
-[node name="may" type="Sprite2D" parent="anim"]
+[node name="Oak" type="Sprite2D" parent="Animation"]
 position = Vector2(312, 88)
 texture = ExtResource("16_be546")
 
-[node name="ColorRect" type="ColorRect" parent="anim"]
+[node name="TopRect" type="ColorRect" parent="Animation"]
 z_index = 1
 offset_right = 240.0
 offset_bottom = 56.0
 color = Color(0, 0, 0, 1)
 
-[node name="ColorRect2" type="ColorRect" parent="anim"]
+[node name="BottomRect" type="ColorRect" parent="Animation"]
 z_index = 1
 offset_top = 160.0
 offset_right = 240.0
@@ -1067,22 +1072,20 @@ offset_bottom = 240.0
 scale = Vector2(1, -1)
 color = Color(0, 0, 0, 1)
 
-[node name="anim_player" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_8lv3r")
 }
 speed_scale = 1.5
 
-[node name="battle_anim_player" type="AnimationPlayer" parent="."]
+[node name="BattleAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_hd5rc")
 }
 
-[node name="audio_stream_player" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -20.0
 
-[node name="music_player" type="AudioStreamPlayer" parent="."]
+[node name="Song" type="AudioStreamPlayer" parent="."]
 volume_db = -80.0
 autoplay = true
-
-[node name="sfx_player" type="AudioStreamPlayer" parent="."]

@@ -22,8 +22,8 @@ var pokemon_list: Array = [
 		"level": 6,
 		"health": 100,
 		"party_texture": preload("res://Assets/UI/Pokemon/bulbasaur_menu.png"),
-		"current_hp": 11,
-		"total_hp": 11,
+		"current_hp": 435,
+		"total_hp": 435,
 		"stats": {
 			"ATK": 6,
 			"DEF": 6,
@@ -39,8 +39,8 @@ var pokemon_list: Array = [
 		"level": 10,
 		"health": 100,
 		"party_texture": preload("res://Assets/UI/Pokemon/charmander_menu.png"),
-		"current_hp": 14,
-		"total_hp": 14,
+		"current_hp": 392,
+		"total_hp": 392,
 		"stats": {
 			"ATK": 10,
 			"DEF": 4,
