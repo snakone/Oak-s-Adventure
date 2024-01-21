@@ -18,15 +18,19 @@ const CONFIRM = preload("res://Assets/Sounds/confirm.wav");
 signal dialog_finished()
 
 @onready var battle_anim_player = $BattleAnimationPlayer;
-@onready var menu = $Menu
+@onready var menu = $Menu;
 @onready var anim_player = $AnimationPlayer;
 @onready var audio = $AudioStreamPlayer;
 @onready var dialog = $Dialog;
 @onready var dialog_timer = $Dialog/Timer;
 @onready var dialog_label = $Dialog/Label;
-@onready var eneny_name_text = $Info/EnemyInfo/Name
-@onready var enemy_gender = $Info/EnemyInfo/Gender
+@onready var eneny_name_text = $Info/EnemyInfo/Name;
+@onready var enemy_gender = $Info/EnemyInfo/Gender;
 @onready var dialog_marker = $Dialog/Marker;
+@onready var player_name_text = $Info/PlayerInfo/Name
+@onready var player_gender = $Info/PlayerInfo/Gender;
+@onready var enemy_anim_player = $UI/EnemySprite/AnimationPlayer;
+@onready var menu_label = $Menu/Label;
 
 @onready var zones_array = [
 	FIELD_BG,
@@ -42,7 +46,7 @@ var dialog_line: int
 var current_dialog_txt: String = "";
 
 var enemy = "Mewtwo";
-var yo = "Trecko";
+var yo = "Treecko";
 
 func _ready():
 	set_battle_ui();
@@ -68,14 +72,18 @@ func battle_wild() -> void:
 	anim_player.play("Start");
 	await anim_player.animation_finished;
 	start_dialog(["A wild " + enemy + " appeared!\n", "Go " + yo + "!" ]);
+	enemy_anim_player.play("Shout");
 	await dialog_finished;
 	anim_player.play("Go")
 	await anim_player.animation_finished;
 	battle_anim_player.play("Idle");
+	menu_label.text = "Ready! What will be your next move?"
 
 func set_battle_ui() -> void:
-	var dist = eneny_name_text.get_content_width() + eneny_name_text.position.x + 5;
-	enemy_gender.position.x = dist;
+	var enemy_dist = eneny_name_text.get_content_width() + eneny_name_text.position.x + 5;
+	enemy_gender.position.x = enemy_dist;
+	var player_dist = player_name_text.get_content_width() + player_name_text.position.x + 6;
+	player_gender.position.x = player_dist;
 	pass
 	#var background = zones_array[data.zone];
 	#texture_rect.texture = background;

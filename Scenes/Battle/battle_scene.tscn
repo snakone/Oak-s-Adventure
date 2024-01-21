@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://3clfgm81x0yq"]
+[gd_scene load_steps=43 format=3 uid="uid://3clfgm81x0yq"]
 
 [ext_resource type="Script" path="res://Scenes/Battle/battle_scene.gd" id="1_vc7g5"]
 [ext_resource type="Texture2D" uid="uid://1ieaejkmc3gf" path="res://Assets/UI/Battle/backgrounds/grass_01.png" id="1_yydbi"]
@@ -14,18 +14,57 @@
 [ext_resource type="Texture2D" uid="uid://dbtcanods1xaq" path="res://Assets/UI/Battle/attack_select_background.png" id="9_iv4im"]
 [ext_resource type="Texture2D" uid="uid://dvlnhpn6quw57" path="res://Assets/UI/Battle/backgrounds/scroll_grass/grass_03.png" id="10_5i3pb"]
 [ext_resource type="Texture2D" uid="uid://g2v4baiol8mq" path="res://Assets/UI/Battle/characters/ball.png" id="10_eogq7"]
+[ext_resource type="Texture2D" uid="uid://dryrh4lqxcq54" path="res://Assets/UI/Pokemon/bulbasaur/anim_front.png" id="10_ntll6"]
+[ext_resource type="Texture2D" uid="uid://dhr3umvoi8nxa" path="res://Assets/UI/Pokemon/bulbasaur/back.png" id="11_2qd72"]
 [ext_resource type="Texture2D" uid="uid://u3q1exar5vtx" path="res://Assets/UI/Battle/backgrounds/scroll_grass/grass_02.png" id="11_x7xh1"]
 [ext_resource type="Texture2D" uid="uid://dpcftpwyuj874" path="res://Assets/UI/Battle/backgrounds/scroll_grass/grass_01.png" id="12_sfbb2"]
 [ext_resource type="Texture2D" uid="uid://dpfe8yroc7ll8" path="res://Assets/UI/Battle/backgrounds/scroll_grass/grass_04.png" id="13_ioi3q"]
 [ext_resource type="Texture2D" uid="uid://d10m1ecady526" path="res://Assets/UI/Battle/dialouge_background.png" id="13_m2v7w"]
 [ext_resource type="Texture2D" uid="uid://divokpgmct8fi" path="res://Assets/UI/Battle/backgrounds/scroll_grass/grass_05.png" id="14_w0ub7"]
-[ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/Fonts/power clear.ttf" id="15_htr47"]
-[ext_resource type="Texture2D" uid="uid://c8vq6tnfwa4as" path="res://Assets/UI/Battle/characters/may_01.png" id="16_be546"]
 [ext_resource type="Texture2D" uid="uid://bynrkxrintj5r" path="res://Assets/UI/triangle.png" id="16_i0kwe"]
-[ext_resource type="Texture2D" uid="uid://c17qrjafhffvw" path="res://Assets/UI/Battle/characters/may_02.png" id="17_ryp0n"]
-[ext_resource type="Texture2D" uid="uid://bh57wt41itrif" path="res://Assets/UI/Battle/characters/may_03.png" id="18_uf4m8"]
-[ext_resource type="Texture2D" uid="uid://cwjfw76ut8nxs" path="res://Assets/UI/Battle/characters/may_04.png" id="19_e5h1l"]
+[ext_resource type="Texture2D" uid="uid://chfcujj18qrt5" path="res://Assets/UI/Battle/characters/oak_1.png" id="19_kedat"]
+[ext_resource type="Texture2D" uid="uid://bdwahe7q8c7up" path="res://Assets/UI/Battle/characters/oak_2.png" id="20_gfhjb"]
 [ext_resource type="AudioStream" uid="uid://c65pmmk1yu3rg" path="res://Assets/UI/Battle/spawnpokemon.mp3.wav" id="20_lq7ek"]
+[ext_resource type="Texture2D" uid="uid://ddthxuireeyxa" path="res://Assets/UI/Battle/characters/oak_3.png" id="21_tn81r"]
+[ext_resource type="Texture2D" uid="uid://gi7cwgf0fcqw" path="res://Assets/UI/Battle/characters/oak_4.png" id="22_cy32t"]
+
+[sub_resource type="Animation" id="Animation_abkjs"]
+resource_name = "Shout"
+length = 1.2
+step = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 0]
+}
+
+[sub_resource type="Animation" id="Animation_v4qp0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_st06w"]
+_data = {
+"RESET": SubResource("Animation_v4qp0"),
+"Shout": SubResource("Animation_abkjs")
+}
 
 [sub_resource type="Animation" id="Animation_lw6i4"]
 resource_name = "Bounce"
@@ -68,7 +107,7 @@ _data = {
 
 [sub_resource type="Animation" id="Animation_06t66"]
 resource_name = "Go"
-length = 1.5
+length = 2.7
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -76,10 +115,10 @@ tracks/0/path = NodePath("Info/PlayerInfo:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.8),
+"times": PackedFloat32Array(0, 1.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(300, 92), Vector2(179, 92)]
+"values": [Vector2(300, 93), Vector2(182, 93)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -88,10 +127,10 @@ tracks/1/path = NodePath("Info/PlayerHPBar:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.75),
+"times": PackedFloat32Array(0, 1.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(295, 91), Vector2(174, 91)]
+"values": [Vector2(294, 91), Vector2(173, 91)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -100,10 +139,10 @@ tracks/2/path = NodePath("Animation/Oak:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.54),
+"times": PackedFloat32Array(0, 2.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(72, 88), Vector2(-36, 88)]
+"values": [Vector2(60, 80), Vector2(-36, 80)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -112,10 +151,10 @@ tracks/3/path = NodePath("Animation/Oak:texture")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.35, 0.4),
+"times": PackedFloat32Array(0, 0.3, 0.6, 0.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("16_be546"), ExtResource("17_ryp0n"), ExtResource("18_uf4m8"), ExtResource("19_e5h1l")]
+"values": [ExtResource("19_kedat"), ExtResource("20_gfhjb"), ExtResource("21_tn81r"), ExtResource("22_cy32t")]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -124,10 +163,10 @@ tracks/4/path = NodePath("UI/PlayerSprite:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.75),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 2.4),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [true]
+"values": [false, true]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -136,10 +175,10 @@ tracks/5/path = NodePath("Animation/Pokeball:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0.35, 0.48, 0.61, 0.75),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(1, 1.2, 1.5, 1.8, 2.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(23.5192, 76.9201), Vector2(40, 68), Vector2(55, 70), Vector2(65, 102)]
+"values": [Vector2(23.519, 76.92), Vector2(48, 68), Vector2(55, 70), Vector2(60, 86), Vector2(65, 102)]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
@@ -148,7 +187,7 @@ tracks/6/path = NodePath("Animation/Pokeball:visible")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0, 0.35, 0.75),
+"times": PackedFloat32Array(0, 1.2, 2.3),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [false, true, false]
@@ -160,10 +199,10 @@ tracks/7/path = NodePath("Animation/Pokeball:rotation")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(0.35, 0.48, 0.61, 0.75),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(1, 1.2, 1.5, 1.8, 2.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [0.0, 6.28319, 0.0, 6.28319]
+"values": [0.0, 6.28319, 0.0, 3.14159, 6.28319]
 }
 tracks/8/type = "value"
 tracks/8/imported = false
@@ -189,7 +228,7 @@ tracks/9/keys = {
 "start_offset": 0.0,
 "stream": ExtResource("20_lq7ek")
 }],
-"times": PackedFloat32Array(0.7)
+"times": PackedFloat32Array(2.3)
 }
 tracks/9/use_blend = true
 
@@ -229,7 +268,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-72, 48)]
+"values": [Vector2(-78, 36)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -253,7 +292,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(300, 92)]
+"values": [Vector2(300, 93)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -277,7 +316,7 @@ tracks/6/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-58, 30)]
+"values": [Vector2(-60, 22)]
 }
 tracks/7/type = "value"
 tracks/7/imported = false
@@ -289,7 +328,7 @@ tracks/7/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-70, 33)]
+"values": [Vector2(-72, 25)]
 }
 tracks/8/type = "value"
 tracks/8/imported = false
@@ -301,7 +340,7 @@ tracks/8/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(312, 88)]
+"values": [Vector2(312, 80)]
 }
 tracks/9/type = "value"
 tracks/9/imported = false
@@ -313,7 +352,7 @@ tracks/9/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("16_be546")]
+"values": [ExtResource("19_kedat")]
 }
 tracks/10/type = "value"
 tracks/10/imported = false
@@ -397,7 +436,7 @@ tracks/16/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(64, 86)]
+"values": [Vector2(60, 97)]
 }
 tracks/17/type = "value"
 tracks/17/imported = false
@@ -448,7 +487,7 @@ tracks/20/keys = {
 tracks/21/type = "bezier"
 tracks/21/imported = false
 tracks/21/enabled = true
-tracks/21/path = NodePath("Animation/Oak:modulate:r")
+tracks/21/path = NodePath("Animation/Oak:modulate:a")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/keys = {
@@ -459,66 +498,33 @@ tracks/21/keys = {
 tracks/22/type = "bezier"
 tracks/22/imported = false
 tracks/22/enabled = true
-tracks/22/path = NodePath("Animation/Oak:modulate:g")
+tracks/22/path = NodePath("Animation/Oak:position:x")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/keys = {
 "handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/23/type = "bezier"
-tracks/23/imported = false
-tracks/23/enabled = true
-tracks/23/path = NodePath("Animation/Oak:modulate:b")
-tracks/23/interp = 1
-tracks/23/loop_wrap = true
-tracks/23/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/24/type = "bezier"
-tracks/24/imported = false
-tracks/24/enabled = true
-tracks/24/path = NodePath("Animation/Oak:modulate:a")
-tracks/24/interp = 1
-tracks/24/loop_wrap = true
-tracks/24/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/25/type = "bezier"
-tracks/25/imported = false
-tracks/25/enabled = true
-tracks/25/path = NodePath("Animation/Oak:position:x")
-tracks/25/interp = 1
-tracks/25/loop_wrap = true
-tracks/25/keys = {
-"handle_modes": PackedInt32Array(0),
 "points": PackedFloat32Array(312, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
-tracks/26/type = "value"
-tracks/26/imported = false
-tracks/26/enabled = true
-tracks/26/path = NodePath("UI/EnemySprite:visible")
-tracks/26/interp = 1
-tracks/26/loop_wrap = true
-tracks/26/keys = {
+tracks/23/type = "value"
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/path = NodePath("UI/EnemySprite:visible")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
 }
-tracks/27/type = "value"
-tracks/27/imported = false
-tracks/27/enabled = true
-tracks/27/path = NodePath("Ground/PlayerGround:position")
-tracks/27/interp = 1
-tracks/27/loop_wrap = true
-tracks/27/keys = {
+tracks/24/type = "value"
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/path = NodePath("Ground/PlayerGround:position")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -562,7 +568,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 2.9),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(-72, 48), Vector2(176, 48)]
+"values": [Vector2(-78, 36), Vector2(168, 36)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -679,9 +685,9 @@ _data = {
 
 [sub_resource type="Animation" id="Animation_8e0h4"]
 resource_name = "Idle"
-length = 0.6
+length = 2.2
 loop_mode = 1
-step = 0.05
+step = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -689,10 +695,10 @@ tracks/0/path = NodePath("UI/PlayerSprite:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.4, 0.8, 1.2, 1.6, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(64, 86), Vector2(64, 88)]
+"values": [Vector2(60, 97), Vector2(60, 96), Vector2(60, 97), Vector2(60, 96), Vector2(60, 97), Vector2(60, 96)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -701,22 +707,10 @@ tracks/1/path = NodePath("Info/PlayerInfo:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.8, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(179, 92), Vector2(179, 93), Vector2(179, 92), Vector2(179, 93)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("UI/EnemySprite:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(176, 48), Vector2(176, 47), Vector2(176, 48), Vector2(176, 47)]
+"values": [Vector2(182, 93), Vector2(182, 94), Vector2(182, 93)]
 }
 
 [sub_resource type="Animation" id="Animation_ecth8"]
@@ -731,7 +725,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(64, 86)]
+"values": [Vector2(60, 97)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -743,7 +737,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(179, 93)]
+"values": [Vector2(182, 93)]
 }
 tracks/2/type = "bezier"
 tracks/2/imported = false
@@ -766,18 +760,6 @@ tracks/3/keys = {
 "handle_modes": PackedInt32Array(0),
 "points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("UI/EnemySprite:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(176, 48)]
 }
 
 [sub_resource type="Animation" id="Animation_drt0x"]
@@ -852,14 +834,14 @@ offset_bottom = 95.0
 color = Color(0, 0.886656, 0.0859693, 1)
 
 [node name="EnemyHPBar" type="ColorRect" parent="Info"]
-offset_left = -70.0
-offset_top = 33.0
-offset_right = -22.0
-offset_bottom = 35.0
+offset_left = -72.0
+offset_top = 25.0
+offset_right = -24.0
+offset_bottom = 27.0
 color = Color(0, 0.886656, 0.0859693, 1)
 
 [node name="EnemyInfo" type="Sprite2D" parent="Info"]
-position = Vector2(-58, 30)
+position = Vector2(-60, 22)
 texture = ExtResource("5_ici0o")
 
 [node name="Name" type="RichTextLabel" parent="Info/EnemyInfo"]
@@ -894,41 +876,49 @@ hframes = 2
 
 [node name="PlayerInfo" type="Sprite2D" parent="Info"]
 visible = false
-position = Vector2(179, 93)
+position = Vector2(182, 93)
 texture = ExtResource("6_bubkt")
 
-[node name="name" type="Label" parent="Info/PlayerInfo"]
-offset_left = -36.5
-offset_top = -10.0
-offset_right = 3.5
+[node name="Name" type="RichTextLabel" parent="Info/PlayerInfo"]
+clip_contents = false
+offset_left = -38.0
+offset_top = -13.0
+offset_right = 21.0
+offset_bottom = -4.0
+theme = ExtResource("6_nsew4")
+theme_override_colors/default_color = Color(0.439216, 0.439216, 0.439216, 1)
+theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_fonts/normal_font = ExtResource("7_6nkkf")
+theme_override_font_sizes/normal_font_size = 9
+text = "TREECKO"
+
+[node name="Level" type="RichTextLabel" parent="Info/PlayerInfo"]
+clip_contents = false
+offset_left = 25.0
+offset_top = -11.5
+offset_right = 50.0
+offset_bottom = -2.5
+theme = ExtResource("6_nsew4")
+theme_override_colors/default_color = Color(0.439216, 0.439216, 0.439216, 1)
+theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_fonts/normal_font = ExtResource("7_6nkkf")
+theme_override_font_sizes/normal_font_size = 8
+text = "Lv12"
+
+[node name="HP" type="RichTextLabel" parent="Info/PlayerInfo"]
+clip_contents = false
+offset_left = 12.0
+offset_top = 5.0
+offset_right = 42.0
 offset_bottom = 13.0
 theme = ExtResource("6_nsew4")
+theme_override_colors/default_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
-text = "treecko\""
-uppercase = true
+theme_override_fonts/normal_font = ExtResource("7_6nkkf")
+theme_override_font_sizes/normal_font_size = 8
+text = "435/435"
 
-[node name="level" type="Label" parent="Info/PlayerInfo"]
-offset_left = 12.5
-offset_top = -17.0
-offset_right = 52.5
-offset_bottom = 6.0
-theme = ExtResource("6_nsew4")
-theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
-text = "Lv12"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="hp" type="Label" parent="Info/PlayerInfo"]
-offset_left = 7.5
-offset_right = 47.5
-offset_bottom = 23.0
-theme = ExtResource("6_nsew4")
-theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
-text = "60/60"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="xp_bar" type="ColorRect" parent="Info/PlayerInfo"]
+[node name="ExpBar" type="ColorRect" parent="Info/PlayerInfo"]
 offset_left = -21.0
 offset_top = 15.0
 offset_right = 43.0
@@ -936,19 +926,32 @@ offset_bottom = 17.0
 scale = Vector2(1e-05, 1)
 color = Color(0, 1, 1, 1)
 
+[node name="Gender" type="Sprite2D" parent="Info/PlayerInfo"]
+self_modulate = Color(1, 1, 1, 0.882353)
+position = Vector2(1, -10)
+texture = ExtResource("8_d5taf")
+hframes = 2
+frame = 1
+
 [node name="UI" type="Node2D" parent="."]
 
 [node name="EnemySprite" type="Sprite2D" parent="UI"]
-position = Vector2(176, 48)
+position = Vector2(-78, 36)
+texture = ExtResource("10_ntll6")
 vframes = 2
+frame = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/EnemySprite"]
+libraries = {
+"": SubResource("AnimationLibrary_st06w")
+}
 
 [node name="PlayerSprite" type="Sprite2D" parent="UI"]
 visible = false
-modulate = Color(1, 0.815686, 0, 1)
-position = Vector2(64, 86)
+position = Vector2(60, 97)
+texture = ExtResource("11_2qd72")
 
 [node name="Menu" type="Node2D" parent="."]
-visible = false
 metadata/_edit_lock_ = true
 
 [node name="Background" type="Sprite2D" parent="Menu"]
@@ -959,17 +962,14 @@ texture = ExtResource("7_fnw4w")
 position = Vector2(147, 128)
 texture = ExtResource("8_t1ksm")
 
-[node name="Label" type="Label" parent="Menu"]
-offset_left = 12.0
-offset_top = 120.0
-offset_right = 125.0
-offset_bottom = 151.0
+[node name="Label" type="RichTextLabel" parent="Menu"]
+offset_left = 13.0
+offset_top = 121.0
+offset_right = 132.0
+offset_bottom = 152.0
 theme = ExtResource("6_nsew4")
 theme_override_colors/font_shadow_color = Color(0.25098, 0.282353, 0.470588, 1)
-theme_override_font_sizes/font_size = 12
-text = "fdsfsffsdfsdf"
-autowrap_mode = 3
-justification_flags = 0
+theme_override_constants/line_separation = 4
 
 [node name="Bag" type="Node2D" parent="."]
 visible = false
@@ -1007,48 +1007,39 @@ z_index = 1
 position = Vector2(120, 136)
 texture = ExtResource("9_iv4im")
 
-[node name="Attack01" type="Label" parent="Selection"]
+[node name="Attack01" type="RichTextLabel" parent="Selection"]
 z_index = 1
 offset_left = 16.0
 offset_top = 128.0
 offset_right = 72.0
 offset_bottom = 151.0
 theme = ExtResource("6_nsew4")
-theme_override_colors/font_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
-theme_override_font_sizes/font_size = 12
 text = "Tackle"
-justification_flags = 0
 
-[node name="Attack02" type="Label" parent="Selection"]
+[node name="Attack02" type="RichTextLabel" parent="Selection"]
 z_index = 1
 offset_left = 16.0
 offset_top = 145.0
 offset_right = 72.0
 offset_bottom = 168.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
-theme_override_font_sizes/font_size = 8
 
-[node name="Attack03" type="Label" parent="Selection"]
+[node name="Attack03" type="RichTextLabel" parent="Selection"]
 z_index = 1
 offset_left = 88.0
 offset_top = 144.0
 offset_right = 144.0
 offset_bottom = 167.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
-theme_override_font_sizes/font_size = 8
 
-[node name="Attack04" type="Label" parent="Selection"]
+[node name="Attack04" type="RichTextLabel" parent="Selection"]
 z_index = 1
 offset_left = 88.0
 offset_top = 128.0
 offset_right = 144.0
 offset_bottom = 151.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
-theme_override_font_sizes/font_size = 8
 
 [node name="AttackCursor" type="Sprite2D" parent="Selection"]
 position = Vector2(11, 128)
@@ -1056,23 +1047,19 @@ texture = ExtResource("8_t1ksm")
 
 [node name="SelectionInfo" type="Node2D" parent="Selection"]
 
-[node name="PP" type="Label" parent="Selection/SelectionInfo"]
+[node name="PP" type="RichTextLabel" parent="Selection/SelectionInfo"]
 offset_left = 173.0
 offset_top = 128.0
 offset_right = 213.0
 offset_bottom = 151.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
-theme_override_font_sizes/font_size = 8
 
-[node name="Type" type="Label" parent="Selection/SelectionInfo"]
+[node name="Type" type="RichTextLabel" parent="Selection/SelectionInfo"]
 offset_left = 173.0
 offset_top = 144.0
 offset_right = 213.0
 offset_bottom = 167.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
-theme_override_font_sizes/font_size = 8
 
 [node name="Scroll" type="Node2D" parent="."]
 position = Vector2(0, 127)
@@ -1082,21 +1069,20 @@ position = Vector2(128, 73)
 texture = ExtResource("12_sfbb2")
 
 [node name="Dialog" type="Node2D" parent="."]
+visible = false
 metadata/_edit_lock_ = true
 
 [node name="Background" type="Sprite2D" parent="Dialog"]
 position = Vector2(120, 136)
 texture = ExtResource("13_m2v7w")
 
-[node name="Label" type="Label" parent="Dialog"]
+[node name="Label" type="RichTextLabel" parent="Dialog"]
 offset_left = 14.0
 offset_top = 121.0
-offset_right = 128.0
-offset_bottom = 144.0
+offset_right = 227.0
+offset_bottom = 151.0
 theme = ExtResource("6_nsew4")
 theme_override_colors/font_shadow_color = Color(0.251087, 0.282353, 0.470436, 1)
-theme_override_fonts/font = ExtResource("15_htr47")
-theme_override_font_sizes/font_size = 12
 
 [node name="Timer" type="Timer" parent="Dialog"]
 wait_time = 0.05
@@ -1122,8 +1108,8 @@ position = Vector2(23.5192, 76.9201)
 texture = ExtResource("10_eogq7")
 
 [node name="Oak" type="Sprite2D" parent="Animation"]
-position = Vector2(312, 88)
-texture = ExtResource("16_be546")
+position = Vector2(312, 80)
+texture = ExtResource("19_kedat")
 
 [node name="TopRect" type="ColorRect" parent="Animation"]
 z_index = 1
