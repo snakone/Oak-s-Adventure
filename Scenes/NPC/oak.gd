@@ -42,6 +42,8 @@ var dialog_id: int;
 var dialog_direction: GLOBAL.Directions;
 var battle_data: Dictionary;
 var ready_to_battle = false;
+var coming_from_battle = false;
+var can_talk = false;
 
 func _ready():
 	connect_signals();
@@ -198,14 +200,17 @@ func _on_area_2d_area_exited(area: Area2D) -> void:
 	if("Chair" in area.name): sit_on_chair = false;
 	elif("TalkArea" in area.name || "DialogArea" in area.name): 
 		area_type = GLOBAL.DialogAreaType.NONE;
+		can_talk = false;
 
 func _on_npc_talk_area_entered(area: Area2D) -> void:
 	await GLOBAL.timeout(.2);
+	can_talk = true;
 	area_type = GLOBAL.DialogAreaType.NPC;
 	dialog_id = area.get_parent().dialog_id;
 	
 func _on_object_talk_area_entered(object: Area2D) -> void:
 	await GLOBAL.timeout(.2);
+	can_talk = true;
 	area_type = GLOBAL.DialogAreaType.OBJECT;
 	dialog_id = object.get_parent().dialog_id;
 	dialog_direction = object.get_parent().talk_direction;
@@ -230,8 +235,9 @@ func check_position_out_bounds():
 
 #DIALOGS
 func check_for_dialogs() -> void:
-	if(dialog_id == null): return;
+	if(!can_talk || dialog_id == null): return;
 	if Input.is_action_just_pressed("space"):
+		print("talk")
 		var desired_step: Vector2 = GLOBAL.last_player_direction * (GLOBAL.TILE_SIZE / 2.0);
 		update_dialog_rays(desired_step);
 		if(
@@ -263,10 +269,13 @@ func check_for_battle() -> void:
 		await GLOBAL.timeout(.4);
 		GLOBAL.emit_signal("start_battle", battle_data);
 		ready_to_battle = false;
+		call_deferred("set_process", Node.PROCESS_MODE_DISABLED);
 
 func _on_end_battle() -> void:
-	await GLOBAL.timeout(.3);
+	await GLOBAL.timeout(.4);
 	stop = false;
+	call_deferred("set_process", Node.PROCESS_MODE_INHERIT);
+	coming_from_battle = true;
 
 # ANIMATIONS
 #DOOR

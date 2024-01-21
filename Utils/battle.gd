@@ -11,7 +11,7 @@ enum Zones {
 	SPECIAL = 5
 }
 
-const tile_density = 325.0;
+const tile_density = 1325.0;
 const modifire = 1.0;
 
 func pokemon_encounter() -> bool:
@@ -20,7 +20,7 @@ func pokemon_encounter() -> bool:
 	if tile_barrier <= tile_density * modifire:
 		randomize()
 		var rand: int = randi_range(0, 100)
-		if(rand > tile_density / 10):
+		if(rand < tile_density / 10):
 			return true
 	return false
 

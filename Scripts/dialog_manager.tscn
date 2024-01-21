@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b6hbe8lus8fv2"]
+[gd_scene load_steps=10 format=3 uid="uid://b6hbe8lus8fv2"]
 
 [ext_resource type="Script" path="res://Scripts/dialog_manager.gd" id="1_xrosg"]
 [ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="2_sr88g"]
@@ -22,12 +22,28 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(224, 146), Vector2(224, 147), Vector2(224, 146), Vector2(224, 147)]
+"values": [Vector2(220, 147), Vector2(220, 146), Vector2(220, 147), Vector2(220, 146)]
+}
+
+[sub_resource type="Animation" id="Animation_rljfg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(220, 147)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_68gbe"]
 _data = {
-"Bounce": SubResource("Animation_lw6i4")
+"Bounce": SubResource("Animation_lw6i4"),
+"RESET": SubResource("Animation_rljfg")
 }
 
 [node name="DialogManager" type="CanvasLayer"]
@@ -71,7 +87,7 @@ text_direction = 1
 language = "Eng"
 
 [node name="Marker" type="Sprite2D" parent="."]
-position = Vector2(224, 146)
+position = Vector2(220, 147)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("5_hcghe")
 metadata/_edit_group_ = true

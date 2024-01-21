@@ -6,7 +6,7 @@ enum States {
 	BAG = 2, 
 	POKEMON = 3, 
 	RUN = 4, 
-	DIALOUGE = 5, 
+	DIALOG = 5, 
 	NONE = 6, 
 	ATTACKING = 7
 }
@@ -24,6 +24,9 @@ signal dialog_finished()
 @onready var dialog = $Dialog;
 @onready var dialog_timer = $Dialog/Timer;
 @onready var dialog_label = $Dialog/Label;
+@onready var eneny_name_text = $Info/EnemyInfo/Name
+@onready var enemy_gender = $Info/EnemyInfo/Gender
+@onready var dialog_marker = $Dialog/Marker;
 
 @onready var zones_array = [
 	FIELD_BG,
@@ -47,6 +50,7 @@ func _ready():
 		BATTLE.Type.WILD: battle_wild();
 
 func _input(event: InputEvent) -> void:
+	if(!event.is_pressed() || event.is_echo()): return;
 	match current_state:
 		#States.MENUE:
 			#menue_input(event)
@@ -58,33 +62,34 @@ func _input(event: InputEvent) -> void:
 			#pokemon_input(event)
 #		states.RUN:
 #			action(3, "Flee")
-		States.DIALOUGE:
-			dialouge_input(event)
+		States.DIALOG: dialog_input(event);
 
 func battle_wild() -> void:
 	anim_player.play("Start");
 	await anim_player.animation_finished;
-	start_dialog(["Wild " + enemy + " appeared!\n", "Go " + yo + "." ]);
+	start_dialog(["A wild " + enemy + " appeared!\n", "Go " + yo + "!" ]);
 	await dialog_finished;
 	anim_player.play("Go")
-	await anim_player.animation_finished
-	battle_anim_player.play("Idle")
+	await anim_player.animation_finished;
+	battle_anim_player.play("Idle");
 
 func set_battle_ui() -> void:
+	var dist = eneny_name_text.get_content_width() + eneny_name_text.position.x + 5;
+	enemy_gender.position.x = dist;
 	pass
 	#var background = zones_array[data.zone];
 	#texture_rect.texture = background;
 
-func set_battle_data(battle_data: Dictionary):
-	data = battle_data;
-	
+func set_battle_data(battle_data: Dictionary): data = battle_data;
+
 func _unhandled_input(event):
 	if(event.is_action_pressed("escape")):
 		GLOBAL.emit_signal("close_battle");
 
 func start_dialog(input_arr: Array) -> void:
 	dialog_pressed = true
-	current_state = States.NONE
+	current_state = States.NONE;
+	dialog_marker.visible = false;
 	
 	dialog.visible = true
 	dialog_text = input_arr.duplicate()
@@ -98,48 +103,42 @@ func start_dialog(input_arr: Array) -> void:
 			current_dialog_txt += input_arr[i][j]
 			dialog_label.text = current_dialog_txt;
 	
-	current_state = States.DIALOUGE
+	dialog_marker.visible = true;
+	current_state = States.DIALOG;
+	await GLOBAL.timeout(.2);
 	dialog_pressed = false;
-	
-func dialouge_input(event: InputEvent) -> void:
-	if !dialog_pressed:
-		if event.is_action_pressed("space"):
-			
-			dialog_pressed = true
-			
-			audio.stream = CONFIRM;
-			audio.play();
-			await audio.finished;
 
-			if dialog_line < len(dialog_text):
-				
-				current_dialog_txt = current_dialog_txt.erase(0, current_dialog_txt.find("\n") + 1)
-				dialog_label.text = current_dialog_txt
-				
-				if current_dialog_txt.find("\n") == -1:
-					
-					for i in range(len(dialog_text[dialog_line])):
-						
-						await dialog_timer.timeout
-						current_dialog_txt += dialog_text[dialog_line][i]
-						dialog_label.text = current_dialog_txt
-					
-				else:
-					pass
-				
-				dialog_line += 1
-				dialog_pressed = false
-				
-			else:
-				
-				end_dialog();
+func dialog_input(event: InputEvent) -> void:
+	if(dialog_pressed): return;
+	if event.is_action_pressed("space"):
+		dialog_marker.visible = false;
+		dialog_pressed = true
+		audio.stream = CONFIRM;
+		audio.play();
+		await audio.finished;
+		if dialog_line < len(dialog_text): write_dialog();
+		else: end_dialog();
+
+func write_dialog() -> void:
+	current_dialog_txt = current_dialog_txt.erase(0, current_dialog_txt.find("\n") + 1)
+	dialog_label.text = current_dialog_txt;
+	if current_dialog_txt.find("\n") == -1:
+		for i in range(len(dialog_text[dialog_line])):
+			await dialog_timer.timeout
+			current_dialog_txt += dialog_text[dialog_line][i]
+			dialog_label.text = current_dialog_txt
+	dialog_line += 1;
+	dialog_marker.visible = true;
+	await GLOBAL.timeout(.2);
+	dialog_pressed = false;
 
 func end_dialog() -> void:
 	dialog_timer.stop()
 	current_dialog_txt = ""
-	dialog_label.text = ""
-	menu.visible = true
-	dialog.visible = false
-	dialog_pressed = false
+	dialog_label.text = "";
+	dialog_pressed = false;
+	await GLOBAL.timeout(.2);
+	dialog.visible = false;
+	menu.visible = true;
 	current_state = States.MENU;
-	dialog_finished.emit()
+	dialog_finished.emit();
