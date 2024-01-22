@@ -22,6 +22,7 @@ func _on_area_2d_body_entered(body) -> void:
 			
 			var battle = BATTLE.pokemon_encounter();
 			if(battle):
+				GLOBAL.on_battle = true;
 				var battle_data = {
 					"enemy":  encounters[randi() % encounters.size()],
 					"zone": zone,

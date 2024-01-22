@@ -55,7 +55,6 @@ func _on_close_dialog() -> void:
 func _on_start_battle(battle_data: Dictionary): 
 	battle_inst = BATTLE_SCENE.instantiate();
 	battle_inst.set_battle_data(battle_data);
-	GLOBAL.on_battle = true;
 	animation_player.play("StartBattle");
 	
 func _on_end_battle() -> void:

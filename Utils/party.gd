@@ -8,11 +8,18 @@ func _ready():
 
 func get_party() -> Array: return current_party;
 
-func get_active_pokemon() -> Dictionary:
-	if(current_party): return current_party[0];
-	return {};
+func get_active_pokemon():
+	if(current_party): return current_party[3];
 
 func create_party_from_json(party: Array) -> Array:
+	#return [
+		#Pokemon.new(POKEDEX.pokedex_list[0]),
+		#Pokemon.new(POKEDEX.pokedex_list[1]),
+		#Pokemon.new(POKEDEX.pokedex_list[2]),
+		#Pokemon.new(POKEDEX.pokedex_list[3]),
+		#Pokemon.new(POKEDEX.pokedex_list[4]),
+		#Pokemon.new(POKEDEX.pokedex_list[5]),
+	#]
 	var created_party = [];
 	for poke in party:
 		created_party.push_front(Pokemon.new(poke));
@@ -21,8 +28,6 @@ func create_party_from_json(party: Array) -> Array:
 func get_party_as_json() -> Array:
 	var array = [];
 	for poke in current_party:
-		poke.data.erase("party_texture");
-		poke.data.erase("stats");
 		array.push_front(poke.data);
 	return array;
 
@@ -35,5 +40,5 @@ func save() -> Dictionary:
 	return data;
 
 func load(data: Dictionary) -> void:
-	if(data["party"]): 
+	if("party" in data): 
 		current_party = create_party_from_json(data["party"]);

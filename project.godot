@@ -27,7 +27,7 @@ DIALOG="*res://Utils/dialog.gd"
 AUDIO="*res://Utils/audio.gd"
 SETTINGS="*res://Utils/settings.gd"
 BATTLE="*res://Utils/battle.gd"
-POKEMON="*res://Utils/pokemon.gd"
+MOVES="*res://Utils/moves.gd"
 
 [display]
 
