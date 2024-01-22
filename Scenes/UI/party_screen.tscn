@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://b84kos15c1maw" path="res://Assets/UI/party_background.png" id="1_hwxdf"]
 [ext_resource type="Script" path="res://Scenes/UI/party_screen.gd" id="1_nyw7a"]
 [ext_resource type="Texture2D" uid="uid://bmup1q8o4nrgm" path="res://Assets/UI/main_pokemon_background.png" id="1_urug2"]
-[ext_resource type="Texture2D" uid="uid://clu7vopy4hyri" path="res://Assets/UI/Pokemon/charmander_menu.png" id="2_1uydf"]
+[ext_resource type="Texture2D" uid="uid://0p10ayivywtg" path="res://Assets/UI/Pokemon/charmander/icon.png" id="3_mko3b"]
 [ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="3_r2g54"]
 [ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="4_tjowx"]
 [ext_resource type="Texture2D" uid="uid://cce8ahdqmj40s" path="res://Assets/UI/gender_icons.png" id="5_2q8x5"]
@@ -70,7 +70,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [Vector2(18, 44), Vector2(18, 36), Vector2(18, 44), Vector2(18, 36)]
+"values": [Vector2(15, 35), Vector2(15, 25), Vector2(15, 35), Vector2(15, 25)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mswsx"]
@@ -88,6 +88,7 @@ z_index = 2
 position = Vector2(192, 48)
 
 [node name="First" type="Node2D" parent="Slots"]
+visible = false
 position = Vector2(-192, -48)
 
 [node name="Panel" type="Sprite2D" parent="Slots/First"]
@@ -97,9 +98,9 @@ hframes = 2
 frame = 1
 
 [node name="Pokemon" type="Sprite2D" parent="Slots/First"]
-position = Vector2(18, 44)
-texture = ExtResource("2_1uydf")
-hframes = 2
+position = Vector2(15, 35)
+texture = ExtResource("3_mko3b")
+vframes = 2
 
 [node name="Gender" type="Sprite2D" parent="Slots/First"]
 position = Vector2(74, 47)
@@ -171,7 +172,7 @@ theme = ExtResource("3_r2g54")
 theme_override_colors/font_shadow_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_fonts/normal_font = ExtResource("4_tjowx")
 theme_override_font_sizes/normal_font_size = 8
-text = "15"
+text = "12"
 scroll_active = false
 autowrap_mode = 0
 tab_size = 0
@@ -191,6 +192,7 @@ libraries = {
 autoplay = "Idle"
 
 [node name="Second" type="Node2D" parent="Slots"]
+visible = false
 position = Vector2(-94, -48)
 
 [node name="Panel" type="Sprite2D" parent="Slots/Second"]
@@ -199,9 +201,9 @@ texture = ExtResource("7_8kd4u")
 hframes = 2
 
 [node name="Pokemon" type="Sprite2D" parent="Slots/Second"]
-position = Vector2(6, 22)
-texture = ExtResource("2_1uydf")
-hframes = 2
+position = Vector2(5, 18)
+texture = ExtResource("3_mko3b")
+vframes = 2
 
 [node name="Gender" type="Sprite2D" parent="Slots/Second"]
 position = Vector2(64, 25.5)
@@ -273,7 +275,7 @@ theme = ExtResource("3_r2g54")
 theme_override_colors/font_shadow_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_fonts/normal_font = ExtResource("4_tjowx")
 theme_override_font_sizes/normal_font_size = 9
-text = "15"
+text = "12"
 scroll_active = false
 autowrap_mode = 0
 tab_size = 0
@@ -294,6 +296,7 @@ libraries = {
 autoplay = "Idle"
 
 [node name="Third" type="Node2D" parent="Slots"]
+visible = false
 position = Vector2(-94, -24)
 
 [node name="Panel" type="Sprite2D" parent="Slots/Third"]
@@ -302,9 +305,9 @@ texture = ExtResource("7_8kd4u")
 hframes = 2
 
 [node name="Pokemon" type="Sprite2D" parent="Slots/Third"]
-position = Vector2(6, 22)
-texture = ExtResource("2_1uydf")
-hframes = 2
+position = Vector2(5, 18)
+texture = ExtResource("3_mko3b")
+vframes = 2
 
 [node name="Gender" type="Sprite2D" parent="Slots/Third"]
 position = Vector2(64, 25.5)
@@ -376,7 +379,7 @@ theme = ExtResource("3_r2g54")
 theme_override_colors/font_shadow_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_fonts/normal_font = ExtResource("4_tjowx")
 theme_override_font_sizes/normal_font_size = 9
-text = "15"
+text = "12"
 scroll_active = false
 autowrap_mode = 0
 tab_size = 0
@@ -397,6 +400,7 @@ libraries = {
 autoplay = "Idle"
 
 [node name="Fourth" type="Node2D" parent="Slots"]
+visible = false
 position = Vector2(-94, 0)
 
 [node name="Panel" type="Sprite2D" parent="Slots/Fourth"]
@@ -405,9 +409,9 @@ texture = ExtResource("7_8kd4u")
 hframes = 2
 
 [node name="Pokemon" type="Sprite2D" parent="Slots/Fourth"]
-position = Vector2(6, 22)
-texture = ExtResource("2_1uydf")
-hframes = 2
+position = Vector2(5, 18)
+texture = ExtResource("3_mko3b")
+vframes = 2
 
 [node name="Gender" type="Sprite2D" parent="Slots/Fourth"]
 position = Vector2(64, 25.5)
@@ -479,7 +483,7 @@ theme = ExtResource("3_r2g54")
 theme_override_colors/font_shadow_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_fonts/normal_font = ExtResource("4_tjowx")
 theme_override_font_sizes/normal_font_size = 9
-text = "15"
+text = "12"
 scroll_active = false
 autowrap_mode = 0
 tab_size = 0
@@ -500,6 +504,7 @@ libraries = {
 autoplay = "Idle"
 
 [node name="Fifth" type="Node2D" parent="Slots"]
+visible = false
 position = Vector2(-94, 24)
 
 [node name="Panel" type="Sprite2D" parent="Slots/Fifth"]
@@ -508,9 +513,9 @@ texture = ExtResource("7_8kd4u")
 hframes = 2
 
 [node name="Pokemon" type="Sprite2D" parent="Slots/Fifth"]
-position = Vector2(6, 22)
-texture = ExtResource("2_1uydf")
-hframes = 2
+position = Vector2(5, 18)
+texture = ExtResource("3_mko3b")
+vframes = 2
 
 [node name="Gender" type="Sprite2D" parent="Slots/Fifth"]
 position = Vector2(64, 25.5)
@@ -582,7 +587,7 @@ theme = ExtResource("3_r2g54")
 theme_override_colors/font_shadow_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_fonts/normal_font = ExtResource("4_tjowx")
 theme_override_font_sizes/normal_font_size = 9
-text = "15"
+text = "12"
 scroll_active = false
 autowrap_mode = 0
 tab_size = 0
@@ -603,6 +608,7 @@ libraries = {
 autoplay = "Idle"
 
 [node name="Sixth" type="Node2D" parent="Slots"]
+visible = false
 position = Vector2(-94, 48)
 
 [node name="Panel" type="Sprite2D" parent="Slots/Sixth"]
@@ -611,9 +617,9 @@ texture = ExtResource("7_8kd4u")
 hframes = 2
 
 [node name="Pokemon" type="Sprite2D" parent="Slots/Sixth"]
-position = Vector2(6, 22)
-texture = ExtResource("2_1uydf")
-hframes = 2
+position = Vector2(5, 18)
+texture = ExtResource("3_mko3b")
+vframes = 2
 
 [node name="Gender" type="Sprite2D" parent="Slots/Sixth"]
 position = Vector2(64, 25.5)
@@ -685,7 +691,7 @@ theme = ExtResource("3_r2g54")
 theme_override_colors/font_shadow_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_fonts/normal_font = ExtResource("4_tjowx")
 theme_override_font_sizes/normal_font_size = 9
-text = "15"
+text = "12"
 scroll_active = false
 autowrap_mode = 0
 tab_size = 0
@@ -721,9 +727,9 @@ hframes = 2
 [node name="RichTextLabel" type="RichTextLabel" parent="Background"]
 layout_mode = 0
 offset_left = 8.0
-offset_top = 135.0
+offset_top = 136.0
 offset_right = 176.0
-offset_bottom = 154.0
+offset_bottom = 155.0
 theme = ExtResource("3_r2g54")
 theme_override_colors/default_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)

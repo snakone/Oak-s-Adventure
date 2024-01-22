@@ -7,31 +7,31 @@ const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg")
 const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
 const party_screen_node =  "CurrentScene/PartyScreen";
 
-enum Slots { FIRST, SECOND, THRID, FOURTH, FIFTH, SIXTH, CANCEL }
+enum PartySlots { FIRST, SECOND, THRID, FOURTH, FIFTH, SIXTH }
 enum PanelState { OFF, ACTIVE }
 
 var selected_slot = 0;
-var slots_length;
 var last_slot_before_moving_left = 1;
 
-@onready var slot_switch = {
-	Slots.FIRST: $Slots/First,
-	Slots.SECOND: $Slots/Second,
-	Slots.THRID: $Slots/Third,
-	Slots.FOURTH: $Slots/Fourth,
-	Slots.FIFTH: $Slots/Fifth,
-	Slots.SIXTH: $Slots/Sixth,
-	Slots.CANCEL: $Background
+@onready var slots = {
+	PartySlots.FIRST: $Slots/First,
+	PartySlots.SECOND: $Slots/Second,
+	PartySlots.THRID: $Slots/Third,
+	PartySlots.FOURTH: $Slots/Fourth,
+	PartySlots.FIFTH: $Slots/Fifth,
+	PartySlots.SIXTH: $Slots/Sixth
 }
+
+var current_slots = {};
+var current_slots_length;
 
 func _ready():
 	process_mode = Node.PROCESS_MODE_INHERIT;
-	set_active_option(PanelState.ACTIVE);
-	slots_length = slot_switch.size();
 	create_party_list();
+	set_active_option(PanelState.ACTIVE);
 
 func set_active_option(value: PanelState) -> void:
-	slot_switch[selected_slot].get_node("Panel").frame = value;
+	current_slots[selected_slot].get_node("Panel").frame = value;
 	if(value == PanelState.ACTIVE && selected_slot == 0):
 		anim_player.play("selected");
 	else: anim_player.play("Idle");
@@ -68,7 +68,7 @@ func _unhandled_input(event) -> void:
 	elif(
 		(Input.is_action_pressed("moveRight") || 
 		Input.is_action_pressed("ui_right")) && 
-		selected_slot == Slots.FIRST): 
+		selected_slot == PartySlots.FIRST): 
 			audio.stream = GUI_SEL_CURSOR;
 			audio.play();
 			handle_RIGHT();
@@ -76,7 +76,7 @@ func _unhandled_input(event) -> void:
 	elif(
 		(Input.is_action_pressed("moveLeft") || 
 		Input.is_action_pressed("ui_left")) && 
-		selected_slot != Slots.FIRST): 
+		selected_slot != PartySlots.FIRST): 
 			audio.stream = GUI_SEL_CURSOR;
 			audio.play();
 			handle_LEFT();
@@ -86,7 +86,7 @@ func _unhandled_input(event) -> void:
 
 func select_slot() -> void:
 	match(selected_slot):
-		Slots.CANCEL: close_party()
+		current_slots_length: close_party()
 		
 
 func close_party() -> void:
@@ -97,37 +97,42 @@ func close_party() -> void:
 	process_mode = Node.PROCESS_MODE_DISABLED;
 
 func handle_DOWN():
-	selected_slot = selected_slot + 1;
-	if(selected_slot > slots_length - 1): selected_slot = int(Slots.FIRST);
+	selected_slot += 1;
+	if(selected_slot > current_slots_length): 
+		selected_slot = int(PartySlots.FIRST);
 
 func handle_UP():
-	if(selected_slot == 0): selected_slot = int(Slots.CANCEL);
-	else: selected_slot = selected_slot - 1;
+	if(selected_slot == 0): selected_slot = current_slots_length;
+	else: selected_slot -= 1;
 
 func handle_RIGHT(): 
 	selected_slot = int(last_slot_before_moving_left);
-	slot_switch[Slots.FIRST].get_node("Pokemon").position.y = 44;
+	current_slots[PartySlots.FIRST].get_node("Pokemon").position.y = 35;
 
 func handle_LEFT():
 	last_slot_before_moving_left = int(selected_slot);
-	selected_slot = int(Slots.FIRST);
+	selected_slot = int(PartySlots.FIRST);
 
 func create_party_list() -> void:
 	var party = PARTY.get_party();
-	for index in range(0, party.size() - 1):
-		var poke = party[index];
-		var pokemon_node = slot_switch[index].get_node("Pokemon");
-		var gender_node = slot_switch[index].get_node("Gender");
-		var name_node = slot_switch[index].get_node("Name");
-		var level_node = slot_switch[index].get_node("Level");
-		var total_hp_node = slot_switch[index].get_node("TotalHP");
-		var remain_hp_node = slot_switch[index].get_node("RemainHP");
-		#var health_node = slot_switch[foo.slot].get_node("Health");
+	for index in range(0, party.size()):
+		slots[index].visible = true;
+		current_slots[index] = slots[index];
+		var pokemon_node = slots[index].get_node("Pokemon");
+		var gender_node = slots[index].get_node("Gender");
+		var name_node = slots[index].get_node("Name");
+		var level_node = slots[index].get_node("Level");
+		var total_hp_node = slots[index].get_node("TotalHP");
+		var remain_hp_node = slots[index].get_node("RemainHP");
+		#var health_node = slots[foo.slot].get_node("Health");
 		
-		pokemon_node.texture = POKEMON.get_poke_texture(poke.name);
-		gender_node.frame = int(poke.gender);
-		name_node.text = poke.name;
-		level_node.text = str(poke.level);
-		total_hp_node.text = str(poke.total_hp);
-		remain_hp_node.text = str(poke.current_hp);
+		var poke = party[index];
+		pokemon_node.texture = poke.data.party_texture;
+		gender_node.frame = poke.data.gender;
+		name_node.text = poke.data.name;
+		level_node.text = str(poke.data.level);
+		total_hp_node.text = str(poke.data.total_hp);
+		remain_hp_node.text = str(poke.data.current_hp);
+	current_slots_length = current_slots.size();
+	current_slots[current_slots_length] = $Background;
 

@@ -4,7 +4,7 @@ enum States {
 	MENU = 0, 
 	FIGHT = 1, 
 	BAG = 2, 
-	POKEMON = 3, 
+	PARTY = 3, 
 	RUN = 4, 
 	DIALOG = 5, 
 	NONE = 6, 
@@ -77,7 +77,7 @@ func _input(event: InputEvent) -> void:
 			#attack_select_input(event)
 		#States.BAG:
 			#bag_input(event)
-		#States.POKEMON:
+		#States.POKEDEX:
 			#pokemon_input(event)
 #		states.RUN:
 #			action(3, "Flee")
@@ -162,7 +162,7 @@ func match_menue_input() -> void:
 		current_state = States.BAG;
 	#elif menu_cursor_index == Vector2i(0, 1):
 		#pokemon.visible = true
-		current_state = States.POKEMON;
+		current_state = States.PARTY;
 	elif menu_cursor_index == Vector2(1, 1):
 		GLOBAL.emit_signal("close_battle");
 

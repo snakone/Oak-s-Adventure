@@ -21,12 +21,13 @@ config/features=PackedStringArray("4.2", "Mobile")
 GLOBAL="*res://Utils/global.gd"
 MAPS="*res://Utils/maps.gd"
 PARTY="*res://Utils/party.gd"
-POKEMON="*res://Utils/pokemon.gd"
+POKEDEX="*res://Utils/pokedex.gd"
 MEMORY="*res://Utils/memory.gd"
 DIALOG="*res://Utils/dialog.gd"
 AUDIO="*res://Utils/audio.gd"
 SETTINGS="*res://Utils/settings.gd"
 BATTLE="*res://Utils/battle.gd"
+POKEMON="*res://Utils/pokemon.gd"
 
 [display]
 

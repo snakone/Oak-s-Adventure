@@ -4,7 +4,7 @@ extends Node2D
 @onready var texture_rect = $TextureRect;
 @onready var grass_effect = $GrassEffect;
 
-@export var encounters: Array[POKEMON.Pokedex];
+@export var encounters: Array[POKEDEX.Pokedex];
 @export var zone: BATTLE.Zones;
 @export var battle_type: BATTLE.Type; 
 @export var level_range = [5, 6];
