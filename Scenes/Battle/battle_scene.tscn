@@ -28,23 +28,6 @@
 [ext_resource type="Texture2D" uid="uid://ddthxuireeyxa" path="res://Assets/UI/Battle/characters/oak_3.png" id="21_tn81r"]
 [ext_resource type="Texture2D" uid="uid://gi7cwgf0fcqw" path="res://Assets/UI/Battle/characters/oak_4.png" id="22_cy32t"]
 
-[sub_resource type="Animation" id="Animation_abkjs"]
-resource_name = "Shout"
-length = 1.2
-step = 0.4
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [0, 1, 0]
-}
-
 [sub_resource type="Animation" id="Animation_v4qp0"]
 length = 0.001
 tracks/0/type = "value"
@@ -58,6 +41,23 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_abkjs"]
+resource_name = "Shout"
+length = 1.6
+step = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 0, 1]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_st06w"]
@@ -81,7 +81,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(220, 147), Vector2(220, 146), Vector2(220, 147), Vector2(220, 146)]
+"values": [Vector2(223, 147), Vector2(223, 146), Vector2(223, 147), Vector2(223, 146)]
 }
 
 [sub_resource type="Animation" id="Animation_rljfg"]
@@ -107,7 +107,7 @@ _data = {
 
 [sub_resource type="Animation" id="Animation_06t66"]
 resource_name = "Go"
-length = 2.7
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -115,7 +115,7 @@ tracks/0/path = NodePath("Info/PlayerInfo:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1.3),
+"times": PackedFloat32Array(0, 0.8),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(300, 93), Vector2(182, 93)]
@@ -127,10 +127,10 @@ tracks/1/path = NodePath("Info/PlayerHPBar:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1.3),
+"times": PackedFloat32Array(0, 0.8),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(294, 91), Vector2(173, 91)]
+"values": [Vector2(294, 91), Vector2(176, 91)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -139,7 +139,7 @@ tracks/2/path = NodePath("Animation/Oak:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 2.2),
+"times": PackedFloat32Array(0, 1.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(60, 80), Vector2(-36, 80)]
@@ -151,7 +151,7 @@ tracks/3/path = NodePath("Animation/Oak:texture")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.6, 0.9),
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [ExtResource("19_kedat"), ExtResource("20_gfhjb"), ExtResource("21_tn81r"), ExtResource("22_cy32t")]
@@ -163,7 +163,7 @@ tracks/4/path = NodePath("UI/PlayerSprite:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 2.4),
+"times": PackedFloat32Array(0, 1.7),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
@@ -175,10 +175,10 @@ tracks/5/path = NodePath("Animation/Pokeball:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(1, 1.2, 1.5, 1.8, 2.3),
+"times": PackedFloat32Array(0.5, 0.7, 1, 1.2, 1.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(23.519, 76.92), Vector2(48, 68), Vector2(55, 70), Vector2(60, 86), Vector2(65, 102)]
+"values": [Vector2(23.519, 76.92), Vector2(56, 68), Vector2(60, 70), Vector2(65, 86), Vector2(67, 102)]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
@@ -187,7 +187,7 @@ tracks/6/path = NodePath("Animation/Pokeball:visible")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0, 1.2, 2.3),
+"times": PackedFloat32Array(0, 0.7, 1.6),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [false, true, false]
@@ -199,10 +199,10 @@ tracks/7/path = NodePath("Animation/Pokeball:rotation")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(1, 1.2, 1.5, 1.8, 2.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0.7, 0.9, 1.3, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [0.0, 6.28319, 0.0, 3.14159, 6.28319]
+"values": [0.0, 6.28319, 0.0, 6.28319]
 }
 tracks/8/type = "value"
 tracks/8/imported = false
@@ -228,9 +228,21 @@ tracks/9/keys = {
 "start_offset": 0.0,
 "stream": ExtResource("20_lq7ek")
 }],
-"times": PackedFloat32Array(2.3)
+"times": PackedFloat32Array(1.6)
 }
 tracks/9/use_blend = true
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Dialog/Label:text")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(1.7),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [""]
+}
 
 [sub_resource type="Animation" id="Animation_x0uak"]
 length = 0.001
@@ -530,10 +542,22 @@ tracks/24/keys = {
 "update": 0,
 "values": [Vector2(308, 106)]
 }
+tracks/25/type = "value"
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/path = NodePath("Dialog/Label:text")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [""]
+}
 
 [sub_resource type="Animation" id="Animation_2swml"]
 resource_name = "Start"
-length = 4.0
+length = 3.7
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -674,6 +698,20 @@ tracks/11/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(308, 106), Vector2(64, 106)]
+}
+tracks/12/type = "method"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath(".")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(2.9),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_shout"
+}]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8lv3r"]
@@ -959,17 +997,18 @@ position = Vector2(120, 136)
 texture = ExtResource("7_fnw4w")
 
 [node name="MenuCursor" type="Sprite2D" parent="Menu"]
-position = Vector2(147, 128)
+position = Vector2(134, 129)
 texture = ExtResource("8_t1ksm")
 
 [node name="Label" type="RichTextLabel" parent="Menu"]
-offset_left = 13.0
-offset_top = 121.0
-offset_right = 132.0
-offset_bottom = 152.0
+offset_left = 14.0
+offset_top = 123.0
+offset_right = 133.0
+offset_bottom = 154.0
 theme = ExtResource("6_nsew4")
 theme_override_colors/font_shadow_color = Color(0.25098, 0.282353, 0.470588, 1)
 theme_override_constants/line_separation = 4
+text = "Ready! What will be your next move?"
 
 [node name="Bag" type="Node2D" parent="."]
 visible = false
@@ -1042,7 +1081,7 @@ offset_bottom = 151.0
 theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
 
 [node name="AttackCursor" type="Sprite2D" parent="Selection"]
-position = Vector2(11, 128)
+position = Vector2(5, 128)
 texture = ExtResource("8_t1ksm")
 
 [node name="SelectionInfo" type="Node2D" parent="Selection"]
@@ -1062,6 +1101,7 @@ offset_bottom = 167.0
 theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
 
 [node name="Scroll" type="Node2D" parent="."]
+visible = false
 position = Vector2(0, 127)
 
 [node name="Grass" type="Sprite2D" parent="Scroll"]
@@ -1077,15 +1117,15 @@ position = Vector2(120, 136)
 texture = ExtResource("13_m2v7w")
 
 [node name="Label" type="RichTextLabel" parent="Dialog"]
-offset_left = 14.0
-offset_top = 121.0
-offset_right = 227.0
-offset_bottom = 151.0
+offset_left = 13.0
+offset_top = 123.0
+offset_right = 226.0
+offset_bottom = 150.0
 theme = ExtResource("6_nsew4")
 theme_override_colors/font_shadow_color = Color(0.251087, 0.282353, 0.470436, 1)
 
 [node name="Timer" type="Timer" parent="Dialog"]
-wait_time = 0.05
+wait_time = 0.03
 
 [node name="Marker" type="Sprite2D" parent="Dialog"]
 visible = false

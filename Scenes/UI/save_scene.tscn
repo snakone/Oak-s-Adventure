@@ -34,19 +34,31 @@ text = "OAK'S FARMER HOUSE"
 layout_mode = 0
 offset_left = 10.0
 offset_top = 24.0
-offset_right = 124.0
+offset_right = 60.0
 offset_bottom = 36.0
 theme = ExtResource("3_88nxm")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.854902, 0.85098, 1)
-text = "PLAYER               OAK"
+text = "PLAYER"
+
+[node name="Name" type="RichTextLabel" parent="PlayerStats"]
+layout_mode = 0
+offset_left = 93.0
+offset_top = 24.0
+offset_right = 113.0
+offset_bottom = 36.0
+theme = ExtResource("3_88nxm")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.854902, 0.85098, 1)
+text = "OAK
+"
 
 [node name="Time" type="RichTextLabel" parent="PlayerStats"]
 clip_contents = false
 layout_mode = 0
-offset_left = 70.0
+offset_left = 72.0
 offset_top = 40.0
-offset_right = 127.0
+offset_right = 129.0
 offset_bottom = 52.0
 theme = ExtResource("3_88nxm")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)

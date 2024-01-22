@@ -36,9 +36,10 @@ var chair_direction: Vector2;
 var cant_enter_door_direction: Vector2;
 var stuck_on_door = false;
 var door_type: GLOBAL.DoorType;
-var area_type := GLOBAL.DialogAreaType.NONE;
+var area_types := [GLOBAL.DialogAreaType.NONE];
 var stop = false;
-var dialog_id: int;
+var npc_dialog_id: int;
+var object_dialog_id: int;
 var dialog_direction: GLOBAL.Directions;
 var battle_data: Dictionary;
 var ready_to_battle = false;
@@ -199,20 +200,20 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 func _on_area_2d_area_exited(area: Area2D) -> void:
 	if("Chair" in area.name): sit_on_chair = false;
 	elif("TalkArea" in area.name || "DialogArea" in area.name): 
-		area_type = GLOBAL.DialogAreaType.NONE;
+		area_types = [GLOBAL.DialogAreaType.NONE];
 		can_talk = false;
 
 func _on_npc_talk_area_entered(area: Area2D) -> void:
 	await GLOBAL.timeout(.2);
 	can_talk = true;
-	area_type = GLOBAL.DialogAreaType.NPC;
-	dialog_id = area.get_parent().dialog_id;
+	area_types.push_front(GLOBAL.DialogAreaType.NPC);
+	npc_dialog_id = area.get_parent().dialog_id;
 	
 func _on_object_talk_area_entered(object: Area2D) -> void:
 	await GLOBAL.timeout(.2);
 	can_talk = true;
-	area_type = GLOBAL.DialogAreaType.OBJECT;
-	dialog_id = object.get_parent().dialog_id;
+	area_types.push_front(GLOBAL.DialogAreaType.OBJECT);
+	object_dialog_id = object.get_parent().dialog_id;
 	dialog_direction = object.get_parent().talk_direction;
 
 #MENU
@@ -235,24 +236,24 @@ func check_position_out_bounds():
 
 #DIALOGS
 func check_for_dialogs() -> void:
-	if(!can_talk || dialog_id == null): return;
+	if(!can_talk): return;
 	if Input.is_action_just_pressed("space"):
 		print("talk")
 		var desired_step: Vector2 = GLOBAL.last_player_direction * (GLOBAL.TILE_SIZE / 2.0);
 		update_dialog_rays(desired_step);
 		if(
-			area_type == DIALOG.DialogType.NPC &&
+			DIALOG.DialogType.NPC in area_types && 
 			npc_ray_cast_2d.is_colliding()
-			): start_dialog_state(dialog_id);
+			): start_dialog_state(npc_dialog_id);
 		elif(
-			area_type == DIALOG.DialogType.OBJECT &&
+			DIALOG.DialogType.OBJECT in area_types &&
 			object_ray_cast_2d.is_colliding()
 		): open_object_dialog();
 
 func open_object_dialog():
 	var direction = GLOBAL.directions_array[dialog_direction];
 	if(direction != GLOBAL.last_player_direction && direction != Vector2.INF): return;
-	start_dialog_state(dialog_id);
+	start_dialog_state(object_dialog_id);
 
 func start_dialog_state(id: int) -> void:
 	GLOBAL.emit_signal("start_dialog", id);
@@ -286,6 +287,7 @@ func _on_enter_door_animation(area: Area2D) -> void:
 	await GLOBAL.timeout(.1);
 	var tween = get_tree().create_tween();
 	await tween.tween_property(sprite, "modulate:a", 0, delay_time).finished;
+	stop = true;
 
 func _on_cant_enter_door(_area: Area2D) -> void:
 	stuck_on_door = true;

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://giwx2ioysoot"]
+[gd_scene load_steps=16 format=3 uid="uid://giwx2ioysoot"]
 
 [ext_resource type="Texture2D" uid="uid://b84kos15c1maw" path="res://Assets/UI/party_background.png" id="1_hwxdf"]
 [ext_resource type="Script" path="res://Scenes/UI/party_screen.gd" id="1_nyw7a"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://uaqoxfq6qhvd" path="res://Assets/UI/green_bar.png" id="6_utcu8"]
 [ext_resource type="Texture2D" uid="uid://cygndnup0am01" path="res://Assets/UI/standby_pokemon_background.png" id="7_8kd4u"]
 [ext_resource type="Texture2D" uid="uid://dcvfw8p8val8q" path="res://Assets/UI/exit_background_button.png" id="8_lcc1j"]
+[ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/Fonts/power clear.ttf" id="11_20qo2"]
 
 [sub_resource type="Animation" id="Animation_640i4"]
 resource_name = "Idle"
@@ -90,14 +91,13 @@ position = Vector2(192, 48)
 position = Vector2(-192, -48)
 
 [node name="Panel" type="Sprite2D" parent="Slots/First"]
-position = Vector2(44, 46)
-scale = Vector2(1, 1.02632)
+position = Vector2(44, 46.5)
 texture = ExtResource("1_urug2")
 hframes = 2
 frame = 1
 
 [node name="Pokemon" type="Sprite2D" parent="Slots/First"]
-position = Vector2(18, 36)
+position = Vector2(18, 44)
 texture = ExtResource("2_1uydf")
 hframes = 2
 
@@ -181,8 +181,7 @@ text_direction = 2
 language = "en"
 
 [node name="Health" type="Sprite2D" parent="Slots/First"]
-position = Vector2(56, 57.3)
-scale = Vector2(1, 1.05)
+position = Vector2(56, 57.5)
 texture = ExtResource("6_utcu8")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Slots/First"]
@@ -718,6 +717,19 @@ stretch_mode = 3
 position = Vector2(211, 144)
 texture = ExtResource("8_lcc1j")
 hframes = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Background"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 135.0
+offset_right = 176.0
+offset_bottom = 154.0
+theme = ExtResource("3_r2g54")
+theme_override_colors/default_color = Color(0.439216, 0.439216, 0.439216, 1)
+theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_fonts/normal_font = ExtResource("11_20qo2")
+theme_override_font_sizes/normal_font_size = 12
+text = "Choose a POKéMON"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -20.0

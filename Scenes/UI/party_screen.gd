@@ -82,7 +82,6 @@ func _unhandled_input(event) -> void:
 			handle_LEFT();
 	#SELECT
 	elif(event.is_action_pressed("space")): select_slot();
-	
 	set_active_option(PanelState.ACTIVE);
 
 func select_slot() -> void:
@@ -105,7 +104,9 @@ func handle_UP():
 	if(selected_slot == 0): selected_slot = int(Slots.CANCEL);
 	else: selected_slot = selected_slot - 1;
 
-func handle_RIGHT(): selected_slot = int(last_slot_before_moving_left);
+func handle_RIGHT(): 
+	selected_slot = int(last_slot_before_moving_left);
+	slot_switch[Slots.FIRST].get_node("Pokemon").position.y = 44;
 
 func handle_LEFT():
 	last_slot_before_moving_left = int(selected_slot);

@@ -22,7 +22,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(220, 147), Vector2(220, 146), Vector2(220, 147), Vector2(220, 146)]
+"values": [Vector2(224, 147), Vector2(224, 146), Vector2(224, 147), Vector2(224, 146)]
 }
 
 [sub_resource type="Animation" id="Animation_rljfg"]
@@ -72,9 +72,9 @@ offset_top = 126.0
 offset_right = 226.0
 offset_bottom = 152.0
 theme = ExtResource("2_sr88g")
-theme_override_colors/default_color = Color(0.294118, 0.294118, 0.294118, 1)
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 theme_override_constants/line_separation = 2
-theme_override_constants/outline_size = 2
 theme_override_fonts/normal_font = ExtResource("4_c420i")
 theme_override_fonts/bold_font = ExtResource("4_c420i")
 theme_override_font_sizes/normal_font_size = 13
