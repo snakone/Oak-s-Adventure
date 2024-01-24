@@ -37,9 +37,6 @@ func check_for_battle(body: CharacterBody2D) -> void:
 			"type": battle_type,
 			"levels": level_range
 		}
-		
-		body.battle_data = battle_data;
-		GLOBAL.on_battle = true;
-		body.ready_to_battle = true;
+		body.set_battle_data(battle_data);
 		texture_rect.visible = true;
 		call_deferred("set_process", Node.PROCESS_MODE_DISABLED);

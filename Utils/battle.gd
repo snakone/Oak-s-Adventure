@@ -24,5 +24,3 @@ func pokemon_encounter() -> bool:
 		if(rand < tile_density / 10):
 			return true
 	return false
-
-

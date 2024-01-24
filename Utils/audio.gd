@@ -4,6 +4,7 @@ var audio: AudioStreamPlayer;
 var current_song_id: int;
 var current_song: AudioStream;
 const BICYCLE = preload("res://Assets/Sounds/Bicycle.ogg");
+const BATTLE_WILD = preload("res://Assets/Sounds/Battle wild.ogg");
 
 func _ready():
 	audio = get_node("/root/SceneManager/Song");
@@ -20,6 +21,13 @@ func play(song: AudioStream) -> void:
 func play_bike() -> void: if(!GLOBAL.on_bike): stop_and_play(BICYCLE);
 func stop_and_play_last_song() -> void: stop_and_play(current_song);
 
+func stop_battle_and_play_last_song() -> void:
+	if(GLOBAL.on_bike): stop_and_play(BICYCLE);
+	else: stop_and_play(current_song);
+
+func play_battle_wild() -> void:
+	stop_and_play(BATTLE_WILD);
+	
 func _on_song_finished() -> void:
 	if(GLOBAL.on_bike): stop_and_play(BICYCLE);
 	else: audio.play();

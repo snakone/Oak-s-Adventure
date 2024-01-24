@@ -8,18 +8,20 @@ func get_pokemon(index):
 		if(poke.number == index):
 			return poke;
 	
-func get_poke_texture(poke_name: String) -> Dictionary:
+func get_poke_resources(poke_name: String) -> Dictionary:
 	for poke in pokedex_list:
 		if(poke.name == poke_name):
 			return {
-				"party": poke.party_texture,
-				"front": poke.front_texture,
-				"back": poke.back_texture
+				"party_texture": poke.party_texture,
+				"front_texture": poke.front_texture,
+				"back_texture": poke.back_texture,
+				"shout": poke.shout
 				};
 	return {
 		"party": MISSINGNO,
 		"front": MISSINGNO,
-		"back": MISSINGNO
+		"back": MISSINGNO,
+		"shout": preload("res://Assets/Sounds/Pokemon/BULBASAUR.ogg")
 	};
 
 var pokedex_list: Array = [
@@ -30,6 +32,7 @@ var pokedex_list: Array = [
 		"party_texture": preload("res://Assets/UI/Pokemon/bulbasaur/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/bulbasaur/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/bulbasaur/back.png"),
+		"shout": preload("res://Assets/Sounds/Pokemon/BULBASAUR.ogg"),
 		"moves": [1, 2],
 		"stats": {
 			"ATK": 6,
@@ -45,6 +48,7 @@ var pokedex_list: Array = [
 		"party_texture": preload("res://Assets/UI/Pokemon/ivysaur/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/ivysaur/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/ivysaur/back.png"),
+		"shout": preload("res://Assets/Sounds/Pokemon/IVYSAUR.ogg"),
 		"moves": [1, 2],
 		"stats": {
 			"ATK": 22,
@@ -60,6 +64,7 @@ var pokedex_list: Array = [
 		"party_texture": preload("res://Assets/UI/Pokemon/charmander/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/charmander/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/charmander/back.png"),
+		"shout": preload("res://Assets/Sounds/Pokemon/CHARMANDER.ogg"),
 		"moves": [1, 2],
 		"stats": {
 			"ATK": 10,
@@ -75,6 +80,7 @@ var pokedex_list: Array = [
 		"party_texture": preload("res://Assets/UI/Pokemon/squirtle/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/squirtle/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/squirtle/back.png"),
+		"shout": preload("res://Assets/Sounds/Pokemon/SQUIRTLE.ogg"),
 		"moves": [1, 2],
 		"stats": {
 			"ATK": 8,
@@ -90,6 +96,7 @@ var pokedex_list: Array = [
 		"party_texture": preload("res://Assets/UI/Pokemon/beedrill/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/beedrill/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/beedrill/back.png"),
+		"shout": preload("res://Assets/Sounds/Pokemon/BEEDRILL.ogg"),
 		"moves": [1, 2],
 		"stats": {
 			"ATK": 15,
@@ -105,6 +112,7 @@ var pokedex_list: Array = [
 		"party_texture": preload("res://Assets/UI/Pokemon/pidgey/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/pidgey/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/pidgey/back.png"),
+		"shout": preload("res://Assets/Sounds/Pokemon/PIDGEY.ogg"),
 		"moves": [1, 2],
 		"stats": {
 			"ATK": 15,
@@ -120,6 +128,7 @@ var pokedex_list: Array = [
 		"party_texture": preload("res://Assets/UI/Pokemon/rattata/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/rattata/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/rattata/back.png"),
+		"shout": preload("res://Assets/Sounds/Pokemon/RATTATA.ogg"),
 		"moves": [1, 2],
 		"stats": {
 			"ATK": 15,
@@ -135,6 +144,7 @@ var pokedex_list: Array = [
 		"party_texture": preload("res://Assets/UI/Pokemon/pikachu/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/pikachu/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/pikachu/back.png"),
+		"shout": preload("res://Assets/Sounds/Pokemon/PIKACHU.ogg"),
 		"moves": [1, 2],
 		"stats": {
 			"ATK": 4,
@@ -150,6 +160,7 @@ var pokedex_list: Array = [
 		"party_texture": preload("res://Assets/UI/Pokemon/horsea/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/horsea/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/horsea/back.png"),
+		"shout": preload("res://Assets/Sounds/Pokemon/HORSEA.ogg"),
 		"moves": [1, 2],
 		"stats": {
 			"ATK": 6,

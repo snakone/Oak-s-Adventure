@@ -270,8 +270,17 @@ func check_for_battle() -> void:
 		playback.travel("Idle");
 		stop = true;
 		await GLOBAL.timeout(.4);
+		#AUDIO
+		match(battle_data.type):
+			BATTLE.Type.WILD: AUDIO.play_battle_wild();
+		#START
 		GLOBAL.emit_signal("start_battle", battle_data);
 		call_deferred("set_process", Node.PROCESS_MODE_DISABLED);
+
+func set_battle_data(data: Dictionary) -> void:
+	battle_data = data;
+	ready_to_battle = true;
+	GLOBAL.on_battle = true;
 
 func _on_end_battle() -> void:
 	await GLOBAL.timeout(.4);

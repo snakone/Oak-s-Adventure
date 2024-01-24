@@ -8,9 +8,7 @@ func _init(poke: Dictionary = {}, enemy = false):
 	if("name" in poke):
 		name = poke.name;
 		data = poke;
-		data.moves = poke.moves;
-		get_textures();
-		
+		get_resources();
 		if(enemy): set_enemy();
 		else: set_player(poke);
 
@@ -28,9 +26,10 @@ func set_player(poke: Dictionary) -> void:
 	data.total_hp = poke.total_hp;
 	data.current_hp = poke.current_hp;
 
-func get_textures() -> void:
-	var textures = POKEDEX.get_poke_texture(data.name);
-	data.party_texture = textures.party;
-	data.front_texture = textures.front;
-	data.back_texture = textures.back;
+func get_resources() -> void:
+	var resources = POKEDEX.get_poke_resources(data.name);
+	data.party_texture = resources.party_texture;
+	data.front_texture = resources.front_texture;
+	data.back_texture = resources.back_texture;
+	data.shout = resources.shout;
 
