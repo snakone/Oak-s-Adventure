@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-@onready var timer = $Timer
+@onready var timer = $Timer;
 @onready var label = $RichTextLabel;
 @onready var marker = $Marker;
 @onready var audio = $AudioStreamPlayer;
@@ -70,7 +70,7 @@ func _input(event: InputEvent) -> void:
 		pressed = false;
 
 func add_prefix(text: String) -> String:
-	if(whos_talking != "" && npc_dialog):
+	if(whos_talking != ""):
 		if(text.left(len(oak_prefix)) == oak_prefix): 
 			whos_talking = "Oak";
 			text = text.replace(oak_prefix, "");

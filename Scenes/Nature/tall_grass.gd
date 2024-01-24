@@ -19,23 +19,27 @@ func _on_area_2d_body_entered(body) -> void:
 			if(body.input_direction == Vector2.UP && !GLOBAL.on_bike):
 				await GLOBAL.timeout(.1);
 			animation_player.play("Stepped");
-			
-			var battle = BATTLE.pokemon_encounter();
-			if(battle):
-				GLOBAL.on_battle = true;
-				var battle_data = {
-					"enemy":  encounters[randi() % encounters.size()],
-					"zone": zone,
-					"type": battle_type,
-					"levels": level_range
-				}
-				body.battle_data = battle_data;
-				body.ready_to_battle = true;
-				texture_rect.visible = true;
-				call_deferred("set_process", Node.PROCESS_MODE_DISABLED);
+			if(encounters.size() == 0): return;
+			check_for_battle(body);
 		else: body.coming_from_battle = false;
 
 func _on_area_2d_body_exited(_body): texture_rect.visible = false;
 func active_effect() -> void: grass_effect.play();
 func reset_texture(value: bool): if(value): texture_rect.visible = false;
-func _on_end_battle() -> void: 	call_deferred("set_process", Node.PROCESS_MODE_INHERIT);;
+func _on_end_battle() -> void: 	call_deferred("set_process", Node.PROCESS_MODE_INHERIT);
+
+func check_for_battle(body: CharacterBody2D) -> void:
+	var battle = BATTLE.pokemon_encounter();
+	if(battle):
+		var battle_data = {
+			"enemy":  encounters[randi() % encounters.size()],
+			"zone": zone,
+			"type": battle_type,
+			"levels": level_range
+		}
+		
+		body.battle_data = battle_data;
+		GLOBAL.on_battle = true;
+		body.ready_to_battle = true;
+		texture_rect.visible = true;
+		call_deferred("set_process", Node.PROCESS_MODE_DISABLED);

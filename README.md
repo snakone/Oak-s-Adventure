@@ -19,10 +19,11 @@
 - Save/Load Game State
 - Party Menu
 - Sounds
+- Battle System
 
 Credits on Sprites [Sprite Resource](https://www.spriters-resource.com/)
 
-v.0.3
+v.0.4 - creaded by Snakone
 
 ### All Rights reserved to
 &copy;2024 Pokémon. ©1995 - 2024 Nintendo/Creatures Inc./GAME FREAK inc. TM, ®Nintendo.

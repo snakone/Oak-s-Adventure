@@ -3,13 +3,9 @@ extends Node
 var current_party = [];
 var active_pokemon: Dictionary;
 
-func _ready(): 
-	add_to_group(GLOBAL.group_name);
-
+func _ready(): add_to_group(GLOBAL.group_name);
 func get_party() -> Array: return current_party;
-
-func get_active_pokemon():
-	if(current_party): return current_party[3];
+func get_active_pokemon(): if(current_party): return current_party[1];
 
 func create_party_from_json(party: Array) -> Array:
 	#return [

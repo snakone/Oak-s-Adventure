@@ -2,7 +2,7 @@ extends Node2D
 
 @export_file("*.tscn") var next_scene: String;
 
-@onready var animation_player = $Transition/AnimationPlayer;
+@onready var anim_player = $Transition/AnimationPlayer;
 @onready var current_scene = $CurrentScene;
 
 const BATTLE_SCENE = preload("res://Scenes/Battle/battle_scene.tscn")
@@ -26,7 +26,7 @@ func transition_to_scene(new_scene: String, animated = true, remove = true) -> v
 	
 	if(animated): 
 		GLOBAL.on_transition = true;
-		animation_player.play("FadeToBlack");
+		anim_player.play("FadeToBlack");
 	else: create_new_scene();
 	
 func on_finish_transition() -> void:
@@ -55,7 +55,7 @@ func _on_close_dialog() -> void:
 func _on_start_battle(battle_data: Dictionary): 
 	battle_inst = BATTLE_SCENE.instantiate();
 	battle_inst.set_battle_data(battle_data);
-	animation_player.play("StartBattle");
+	anim_player.play("StartBattle");
 	
 func _on_end_battle() -> void:
 	GLOBAL.on_battle = false;

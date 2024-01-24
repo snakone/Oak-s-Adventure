@@ -13,3 +13,7 @@
 - Dialogs (NPC, Objects)
 - Sounds
 - Save Scene
+- Party Screen
+
+# 0.4
+- Battle Start Animation

@@ -1,5 +1,6 @@
 extends Node
 
+signal dialog_finished()
 enum Type { WILD, TRAINER, ELITE, SPECIAL }
 
 enum Zones {

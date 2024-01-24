@@ -17,7 +17,7 @@ func play(song: AudioStream) -> void:
 	if(GLOBAL.on_bike): return;
 	stop_and_play(song);
 
-func play_bike() -> void: if(!GLOBAL.on_bike): stop_and_play(BICYCLE)
+func play_bike() -> void: if(!GLOBAL.on_bike): stop_and_play(BICYCLE);
 func stop_and_play_last_song() -> void: stop_and_play(current_song);
 
 func _on_song_finished() -> void:

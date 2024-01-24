@@ -1,7 +1,7 @@
 extends CanvasLayer
 
-@onready var control = $Control
-@onready var arrow = $Control/NinePatchRect/TextureRect
+@onready var control = $Control;
+@onready var arrow = $Control/NinePatchRect/TextureRect;
 @onready var audio = $AudioStreamPlayer;
 @onready var nine_rect = $Control/NinePatchRect;
 
@@ -76,12 +76,8 @@ func select_option() -> void:
 		MenuOptions.SAVE: handle_save()
 		MenuOptions.EXIT: close_menu()
 
-func update_arrow() -> void: arrow.position.y = 11 + (selected_option % options_length) * 16;
-func _on_player_moving(value: bool) -> void: is_player_moving = value;
-
 func close_menu() -> void:
-	audio.stream = GUI_MENU_OPEN;
-	audio.play();
+	play_audio(GUI_MENU_OPEN);
 	control.visible = false;
 	GLOBAL.menu_open = false;
 	screen_loaded = ScreenLoaded.NONE;
@@ -90,8 +86,7 @@ func close_menu() -> void:
 	update_arrow();
 
 func open_party() -> void:
-	audio.stream = GUI_SEL_DECISION;
-	audio.play();
+	play_audio(GUI_SEL_DECISION);
 	await audio.finished;
 	control.visible = false;
 	screen_loaded = ScreenLoaded.PARTY;
@@ -108,31 +103,26 @@ func _on_party_opened(value: bool) -> void:
 		process_mode = Node.PROCESS_MODE_INHERIT;
 
 func handle_MENU() -> void:
-	audio.stream = GUI_MENU_OPEN;
-	audio.play();
+	play_audio(GUI_MENU_OPEN);
 	control.visible = true;
 	screen_loaded = ScreenLoaded.MENU;
 	GLOBAL.emit_signal("menu_opened", true);
 	GLOBAL.menu_open = true;
 
 func handle_DOWN() -> void:
-	audio.stream = GUI_SEL_CURSOR;
-	audio.play();
+	play_audio(GUI_SEL_CURSOR);
 	selected_option += 1;
 	if(selected_option > options_length - 1): selected_option = MenuOptions.POKEDEX;
 	update_arrow();
 
 func handle_UP() -> void:
-	audio.stream = GUI_SEL_CURSOR;
-	audio.play();
-	if(selected_option == MenuOptions.POKEDEX):
-		selected_option = MenuOptions.EXIT;
+	play_audio(GUI_SEL_CURSOR);
+	if(selected_option == MenuOptions.POKEDEX): selected_option = MenuOptions.EXIT;
 	else: selected_option -= 1;
 	update_arrow();
 	
 func handle_save() -> void:
-	audio.stream = GUI_SEL_DECISION;
-	audio.play();
+	play_audio(GUI_SEL_DECISION);
 	control.visible = false;
 	GLOBAL.menu_open = false;
 	screen_loaded = ScreenLoaded.NONE;
@@ -144,4 +134,11 @@ func handle_save() -> void:
 func connect_signals() -> void:
 	GLOBAL.connect("player_moving", _on_player_moving);
 	GLOBAL.connect("party_opened", _on_party_opened);
+
+func update_arrow() -> void: arrow.position.y = 11 + (selected_option % options_length) * 16;
+func _on_player_moving(value: bool) -> void: is_player_moving = value;
+
+func play_audio(stream: AudioStream) -> void:
+	audio.stream = stream;
+	audio.play();
 

@@ -28,3 +28,10 @@ const location_string = {
 	"Route00": "Oak's Farm",
 	"OakFarmerHouse": "Oak's Farmer House"
 }
+
+func get_map_name() -> String:
+	var map = get_node("/root/SceneManager/CurrentScene").get_child(0).name;
+	if(map in location_string):
+		var string: String = location_string[map];
+		return string.to_upper();
+	else: return "Mysterious Place";

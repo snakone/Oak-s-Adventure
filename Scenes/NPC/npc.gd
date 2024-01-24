@@ -27,7 +27,7 @@ enum Directions {
 var limits_possitive;
 var limits_negative;
 var is_talking = false;
-var inside = false;
+var inside_player_area = false;
 
 var oak: CharacterBody2D;
 
@@ -58,12 +58,11 @@ func _on_timer_timeout() -> void:
 		Directions.NONE: return;
 
 func handle_direction(next_step: Vector2) -> void:
-	if(inside): return;
+	if(inside_player_area): return;
 	var desired_step: Vector2 = check_limits(next_step * GLOBAL.TILE_SIZE);
 	block_ray_cast_2d.target_position = desired_step / 2;
 	block_ray_cast_2d.force_raycast_update();
-	var collapsing = block_ray_cast_2d.is_colliding();
-	if !collapsing: move(desired_step);
+	if !block_ray_cast_2d.is_colliding(): move(desired_step);
 
 func move(new_direction: Vector2) -> void:
 	if new_direction == Vector2.RIGHT * GLOBAL.TILE_SIZE: anim_player.play("moveRight")
@@ -102,5 +101,5 @@ func connect_signals() -> void:
 	GLOBAL.connect("start_dialog", _on_start_dialog);
 	GLOBAL.connect("close_dialog", _on_close_dialog);
 
-func _on_npc_area_body_entered(body): if("Oak" in body.name): inside = true;
-func _on_npc_area_body_exited(body): if("Oak" in body.name): inside = false;
+func _on_npc_area_body_entered(body): if("Oak" in body.name): inside_player_area = true;
+func _on_npc_area_body_exited(body): if("Oak" in body.name): inside_player_area = false;

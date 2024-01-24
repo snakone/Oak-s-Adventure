@@ -76,3 +76,11 @@ func get_jumping_curvature(
 
 func timeout(seconds: float) -> Signal:
 	return get_tree().create_timer(seconds).timeout;
+
+func get_time_played() -> String:
+	var time = floor(play_time);
+	var hours = time / 3600.0
+	var minutes = fmod(time, 3600) / 60
+	var seconds = fmod(time, 60)
+	var elapsed = "%02d:%02d:%02d" % [hours, minutes, seconds];
+	return elapsed;

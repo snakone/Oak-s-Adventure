@@ -12,20 +12,20 @@ const GUI_SAVE_GAME = preload("res://Assets/Sounds/GUI save game.ogg");
 const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
 const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg");
 
-enum MenuOptions { YES, NO }
+enum Options { YES, NO }
 var selected_option = 0;
-var options_length = MenuOptions.keys().size();
-var already_save = false;
+var options_length = Options.keys().size();
+var want_to_save = false;
 var closing_menu = false;
 
 func _ready():
 	update_arrow();
 	selection.visible = false;
-	location.text = get_map_name();
-	time.text = get_time_played();
+	location.text = MAPS.get_map_name();
+	time.text = GLOBAL.get_time_played();
 	
 	GLOBAL.connect("start_dialog", _on_dialog_start);
-	GLOBAL.connect("system_dialog_finished", _on_dialog_finished);
+	GLOBAL.connect("system_dialog_finished", _on_system_dialog_finished);
 	
 	if(SETTINGS.selected_marker):
 		player_stats.texture = SETTINGS.selected_marker;
@@ -37,6 +37,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		!event.is_pressed() ||
 		event.is_echo() ||
 		!selection.visible ||
+		GLOBAL.on_battle ||
 		closing_menu
 	): return;
 	
@@ -49,46 +50,42 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif(event.is_action_pressed("space")): select_option();
 
 func handle_DOWN() -> void:
-	audio.stream = GUI_SEL_CURSOR;
-	audio.play();
+	play_audio(GUI_SEL_CURSOR);
 	selected_option += 1;
-	if(selected_option > options_length - 1): selected_option = MenuOptions.YES;
+	if(selected_option > options_length - 1): selected_option = Options.YES;
 	update_arrow();
 
 func handle_UP() -> void:
-	audio.stream = GUI_SEL_CURSOR;
-	audio.play();
-	if(selected_option == MenuOptions.YES): selected_option = MenuOptions.NO;
+	play_audio(GUI_SEL_CURSOR);
+	if(selected_option == Options.YES): selected_option = Options.NO;
 	else: selected_option -= 1;
 	update_arrow();
 
 func select_option():
 	match(selected_option):
-		MenuOptions.NO: close_menu();
-		MenuOptions.YES: handle_save()
+		Options.NO: close_menu();
+		Options.YES: handle_save()
 
 func close_menu(sound = true):
 	closing_menu = true;
 	if(sound):
-		audio.stream = GUI_MENU_CLOSE;
-		audio.play();
+		play_audio(GUI_MENU_CLOSE);
 		await audio.finished;
 	GLOBAL.emit_signal("close_dialog");
 	GLOBAL.emit_signal("menu_opened", false);
 	call_deferred("queue_free");
 
 func handle_save() -> void:
-	closing_menu = true;
-	if(GLOBAL.no_saved_data || already_save): save_and_close();
-	elif(!already_save):
-		audio.stream = GUI_SEL_DECISION;
-		audio.play();
-		GLOBAL.emit_signal("start_dialog", 11);
-		already_save = true;
+	if(GLOBAL.no_saved_data || want_to_save): 
+		save_and_close();
+		return;
+	
+	play_audio(GUI_SEL_DECISION);
+	GLOBAL.emit_signal("start_dialog", 11);
+	want_to_save = true;
 
 func save_and_close() -> void:
-	audio.stream = GUI_SAVE_GAME;
-	audio.play();
+	play_audio(GUI_SAVE_GAME);
 	await audio.finished;
 	MEMORY._save();
 	close_menu(false);
@@ -98,23 +95,12 @@ func _on_dialog_start(_id: int) -> void:
 	selection.visible = false;
 	closing_menu = false;
 
-func _on_dialog_finished(): 
+func _on_system_dialog_finished(): 
 	await GLOBAL.timeout(.2);
 	selection.visible = true;
 
-func get_map_name() -> String:
-	var map = get_node("/root/SceneManager/CurrentScene").get_child(0).name;
-	if(map in MAPS.location_string):
-		var string: String = MAPS.location_string[map];
-		return string.to_upper();
-	else: return "Mysterious Place";
-
-func get_time_played() -> String:
-	var play_time = floor(GLOBAL.play_time);
-	var hours = play_time / 3600.0
-	var minutes = fmod(play_time, 3600) / 60
-	var seconds = fmod(play_time, 60)
-	var elapsed = "%02d:%02d:%02d" % [hours, minutes, seconds];
-	return elapsed;
-
 func update_arrow() -> void: arrow.position.y = 8 + (selected_option % options_length) * 14;
+
+func play_audio(stream: AudioStream) -> void:
+	audio.stream = stream;
+	audio.play();
