@@ -3,6 +3,18 @@ extends Node
 enum Slots { FIRST, SECOND, THRID, FOURTH, FIFTH, SIXTH }
 const MISSINGNO = preload("res://Assets/UI/Pokemon/missingno.png");
 
+enum Pokedex {
+	BULBASAUR = 1,
+	IVYSAUR = 2,
+	CHARMANDER = 4,
+	SQUIRTLE = 7,
+	BEEDRILL = 15,
+	PIDGEY = 16,
+	RATTATA = 19,
+	PIKACHU = 25,
+	HORSEA = 116
+}
+
 func get_pokemon(index):
 	for poke in pokedex_list:
 		if(poke.number == index):
@@ -28,7 +40,7 @@ var pokedex_list: Array = [
 	{
 		"name": "BULBASAUR",
 		"number": Pokedex.BULBASAUR,
-		"types": [Types.GRASS],
+		"types": [MOVES.Types.GRASS],
 		"party_texture": preload("res://Assets/UI/Pokemon/bulbasaur/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/bulbasaur/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/bulbasaur/back.png"),
@@ -44,7 +56,7 @@ var pokedex_list: Array = [
 	{
 		"name": "IVYSAUR",
 		"number": Pokedex.IVYSAUR,
-		"types": [Types.GRASS, Types.POISION],
+		"types": [MOVES.Types.GRASS, MOVES.Types.POISION],
 		"party_texture": preload("res://Assets/UI/Pokemon/ivysaur/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/ivysaur/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/ivysaur/back.png"),
@@ -60,7 +72,7 @@ var pokedex_list: Array = [
 	{
 		"name": "CHARMANDER",
 		"number": Pokedex.CHARMANDER,
-		"types": [Types.FIRE],
+		"types": [MOVES.Types.FIRE],
 		"party_texture": preload("res://Assets/UI/Pokemon/charmander/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/charmander/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/charmander/back.png"),
@@ -76,7 +88,7 @@ var pokedex_list: Array = [
 	{
 		"name": "SQUIRTLE",
 		"number": Pokedex.SQUIRTLE,
-		"types": [Types.WATER],
+		"types": [MOVES.Types.WATER],
 		"party_texture": preload("res://Assets/UI/Pokemon/squirtle/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/squirtle/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/squirtle/back.png"),
@@ -92,7 +104,7 @@ var pokedex_list: Array = [
 	{
 		"name": "BEEDRILL",
 		"number": Pokedex.BEEDRILL,
-		"types": [Types.BUG, Types.POISION],
+		"types": [MOVES.Types.BUG, MOVES.Types.POISION],
 		"party_texture": preload("res://Assets/UI/Pokemon/beedrill/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/beedrill/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/beedrill/back.png"),
@@ -108,7 +120,7 @@ var pokedex_list: Array = [
 	{
 		"name": "PIDGEY",
 		"number": Pokedex.PIDGEY,
-		"types": [Types.NORMAL, Types.FLYING],
+		"types": [MOVES.Types.NORMAL, MOVES.Types.FLYING],
 		"party_texture": preload("res://Assets/UI/Pokemon/pidgey/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/pidgey/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/pidgey/back.png"),
@@ -124,7 +136,7 @@ var pokedex_list: Array = [
 	{
 		"name": "RATTATA",
 		"number": Pokedex.RATTATA,
-		"types": [Types.NORMAL],
+		"types": [MOVES.Types.NORMAL],
 		"party_texture": preload("res://Assets/UI/Pokemon/rattata/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/rattata/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/rattata/back.png"),
@@ -140,7 +152,7 @@ var pokedex_list: Array = [
 	{
 		"name": "PIKACHU",
 		"number": Pokedex.PIKACHU,
-		"types": [Types.ELECTRIC],
+		"types": [MOVES.Types.ELECTRIC],
 		"party_texture": preload("res://Assets/UI/Pokemon/pikachu/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/pikachu/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/pikachu/back.png"),
@@ -156,7 +168,7 @@ var pokedex_list: Array = [
 	{
 		"name": "HORSEA",
 		"number": Pokedex.HORSEA,
-		"types": [Types.WATER],
+		"types": [MOVES.Types.WATER],
 		"party_texture": preload("res://Assets/UI/Pokemon/horsea/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/horsea/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/horsea/back.png"),
@@ -170,36 +182,3 @@ var pokedex_list: Array = [
 		}
 	},
 ];
-
-enum Pokedex {
-	BULBASAUR = 1,
-	IVYSAUR = 2,
-	CHARMANDER = 4,
-	SQUIRTLE = 7,
-	BEEDRILL = 15,
-	PIDGEY = 16,
-	RATTATA = 19,
-	PIKACHU = 25,
-	HORSEA = 116
-}
-
-enum Types {
-	NORMAL,
-	FIRE,
-	WATER,
-	GRASS,
-	ELECTRIC,
-	ICE,
-	FIGHTING,
-	POISION,
-	GROUND,
-	FLYING,
-	PSYCHIC,
-	BUG,
-	ROCK,
-	GHOST,
-	DRAGON,
-	DARK,
-	STEEL,
-	FAIRY
-}

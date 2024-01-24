@@ -108,6 +108,7 @@ _data = {
 [sub_resource type="Animation" id="Animation_06t66"]
 resource_name = "Go"
 length = 2.0
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -163,7 +164,7 @@ tracks/4/path = NodePath("UI/PlayerSprite:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 1.7),
+"times": PackedFloat32Array(0, 1.65),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
@@ -228,7 +229,7 @@ tracks/9/keys = {
 "start_offset": 0.0,
 "stream": ExtResource("20_lq7ek")
 }],
-"times": PackedFloat32Array(1.6)
+"times": PackedFloat32Array(1.55)
 }
 tracks/9/use_blend = true
 tracks/10/type = "value"
@@ -278,9 +279,12 @@ tracks/13/path = NodePath(".")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/keys = {
-"times": PackedFloat32Array(2),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(1.95, 2),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [],
+"method": &"play_shout_pokemon"
+}, {
 "args": [],
 "method": &"check_intro_dialog"
 }]
@@ -441,11 +445,23 @@ tracks/12/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
-"method": &"play_move"
+"method": &"play_move_and_shout_enemy"
 }, {
 "args": [],
 "method": &"start_battle_dialog"
 }]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("UI/EnemySprite:modulate")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0, 2.9, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.294118, 0.294118, 0.294118, 1), Color(0.294118, 0.294118, 0.294118, 1), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_x0uak"]
@@ -757,6 +773,18 @@ tracks/25/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [""]
+}
+tracks/26/type = "value"
+tracks/26/imported = false
+tracks/26/enabled = true
+tracks/26/path = NodePath("UI/EnemySprite:modulate")
+tracks/26/interp = 1
+tracks/26/loop_wrap = true
+tracks/26/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.392157, 0.392157, 0.392157, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8lv3r"]
@@ -1084,6 +1112,7 @@ frame = 1
 
 [node name="EnemySprite" type="Sprite2D" parent="UI"]
 visible = false
+modulate = Color(0.392157, 0.392157, 0.392157, 1)
 position = Vector2(168, 36)
 texture = ExtResource("10_ntll6")
 vframes = 2
@@ -1098,6 +1127,9 @@ libraries = {
 visible = false
 position = Vector2(60, 97)
 texture = ExtResource("11_2qd72")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="UI/PlayerSprite"]
+volume_db = -20.0
 
 [node name="Menu" type="Node2D" parent="."]
 visible = false

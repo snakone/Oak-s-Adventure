@@ -12,6 +12,12 @@ func _init(poke: Dictionary = {}, enemy = false):
 		if(enemy): set_enemy();
 		else: set_player(poke);
 
+static func attack(enemy: Object, move: Dictionary) -> bool:
+	if(move.pp <= 0): return false;
+	enemy.data.health -= 10;
+	move.pp -= 1;
+	return true;
+
 func set_enemy() -> void:
 	data.gender = [0, 1][randi() % 2];
 	data.health = 100;

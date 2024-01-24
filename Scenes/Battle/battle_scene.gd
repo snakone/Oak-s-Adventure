@@ -11,6 +11,8 @@ enum States {
 	ATTACKING = 7
 }
 
+enum Moves { FIRST, SECOND, THIRD, FOURTH }
+
 const FIELD_BG = preload("res://Assets/UI/Battle/field_bg.png");
 const SNOW_BG = preload("res://Assets/UI/Battle/snow_bg.png");
 const CONFIRM = preload("res://Assets/Sounds/confirm.wav");
@@ -38,6 +40,7 @@ const attack_cursor_pos: Array = [
 @onready var player_info = $Info/PlayerInfo;
 @onready var attack_cursor = $Selection/AttackCursor
 @onready var player_sprite = $UI/PlayerSprite;
+@onready var audio_player = $UI/PlayerSprite/AudioStreamPlayer
 
 #ENEMY
 @onready var enemy_info = $Info/EnemyInfo;
@@ -59,6 +62,7 @@ const attack_cursor_pos: Array = [
 @onready var bag = $Bag;
 
 #ATTACKS
+@onready var attack_selection_info = $Selection/SelectionInfo
 @onready var attack_01 = $Selection/Attack01;
 @onready var attack_02 = $Selection/Attack02;
 @onready var attack_03 = $Selection/Attack03;
@@ -72,6 +76,7 @@ var battle_data: Dictionary;
 var current_state: States = States.NONE;
 var can_use_menu = false;
 var attack_pressed = false;
+var selected_attack = Moves.FIRST;
 
 var dialog_pressed = false;
 var dialog_array: Array
@@ -96,7 +101,7 @@ func _ready():
 func set_battle_data(data: Dictionary): battle_data = data;
 
 func _input(event: InputEvent) -> void:
-	if(!event is InputEventKey): return;
+	if(!event is InputEventKey || current_state == States.ATTACKING): return;
 	if(event.is_action_pressed("escape")): 
 		GLOBAL.emit_signal("close_battle");
 		return;
@@ -222,6 +227,7 @@ func match_menu_input() -> void:
 	if menu_cursor_index == Vector2.ZERO:
 		attack_selection.visible = true;
 		current_state = States.FIGHT;
+		update_attack_ui();
 	elif menu_cursor_index == Vector2.RIGHT: pass
 		#bag.visible = true;
 		#current_state = States.BAG;
@@ -288,18 +294,43 @@ func attack_input(event: InputEvent) -> void:
 		play_audio(GUI_SEL_DECISION);
 		attack_selection.visible = false;
 		current_state = States.MENU;
-	elif event.is_action_pressed("space") and !attack_pressed:
-		attack_pressed = true;
-		play_audio(CONFIRM);
-		print("ATTACK ANIMATION!");
-		attack_pressed = false;
+	elif event.is_action_pressed("space") and !attack_pressed: start_attack();
 		
 	var new_position = attack_cursor_pos[attack_cursor_index.y][attack_cursor_index.x];
 	if(!can_move_attack_cursor(pre_position, new_position)): return;
 	attack_cursor.position = new_position;
 	if (pre_position != attack_cursor_index): play_audio(GUI_SEL_DECISION);
+	set_attack_slot();
+	update_attack_ui();
 
-func play_move() -> void:
+func start_attack() -> void:
+	attack_pressed = true;
+	var attack_success = pokemon.attack(enemy, player_moves[selected_attack]);
+	if(attack_success):
+		current_state = States.ATTACKING;
+		play_audio(CONFIRM);
+		attack_pressed = false;
+		update_attack_ui();
+		await GLOBAL.timeout(2);
+		current_state = States.FIGHT;
+
+func set_attack_slot() -> void:
+	if(attack_cursor_index == Vector2.ZERO): selected_attack = Moves.FIRST;
+	elif(attack_cursor_index == Vector2.RIGHT): selected_attack = Moves.SECOND;
+	elif(attack_cursor_index == Vector2.DOWN): selected_attack = Moves.THIRD;
+	elif(attack_cursor_index == Vector2(1, 1)): selected_attack = Moves.FOURTH;
+
+func update_attack_ui() -> void:
+	var current_attack = player_moves[selected_attack];
+	var type_node = attack_selection_info.get_node("Type");
+	var pp_node = attack_selection_info.get_node("PP/Value");
+	
+	type_node.text = MOVES.TypesString[current_attack.type + 1];
+	pp_node.text = str(current_attack.pp) + "/" + str(current_attack.total_pp);
+
+func play_shout_pokemon() -> void: play_audio(pokemon.data.shout);
+
+func play_move_and_shout_enemy() -> void:
 	enemy_anim_player.play("Move");
 	await GLOBAL.timeout(.2);
 	play_audio(enemy.data.shout);
