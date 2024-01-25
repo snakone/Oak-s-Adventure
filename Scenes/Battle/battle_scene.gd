@@ -14,11 +14,14 @@ const default_hp_bar_size = 48.0;
 @onready var attack_cursor = $Selection/AttackCursor;
 @onready var player_sprite = $UI/PlayerSprite;
 @onready var audio_player = $UI/PlayerSprite/AudioStreamPlayer;
+@onready var player_ground = $Ground/PlayerGround;
+
 #ENEMY
 @onready var enemy_info = $Info/EnemyInfo;
 @onready var enemy_anim_player = $UI/EnemySprite/EnemyAnimationPlayer;
 @onready var enemy_sprite = $UI/EnemySprite;
 @onready var enemy_hp_bar = $Info/EnemyHPBar;
+@onready var enemy_ground = $Ground/EnemyGround;
 
 #BATTLE
 @onready var menu = $Menu;
@@ -32,6 +35,9 @@ const default_hp_bar_size = 48.0;
 @onready var dialog_label = $Dialog/Label;
 @onready var dialog_marker = $Dialog/Marker;
 @onready var menu_label = $Menu/Label;
+@onready var battle_background = $Background;
+@onready var attack_background = $Selection/Background;
+@onready var menu_background = $Menu/Background;
 
 #ATTACKS
 @onready var attack_selection_info = $Selection/SelectionInfo
@@ -109,14 +115,18 @@ func check_intro_dialog() -> void:
 	menu_label.text = "Ready! What will be your next move?"
 	intro_dialog = false;
 
+#UI
 func set_battle_ui() -> void:
 	set_player_ui();
 	set_enemy_ui();
-	pass
-	#var background = zones_array[data.zone];
-	#texture_rect.texture = background;
+	var battle_textures = BATTLE.get_battle_textures(battle_data.zone);
+	battle_background.texture = battle_textures.background;
+	player_ground.texture = battle_textures.player_ground;
+	enemy_ground.texture = battle_textures.enemy_ground;
+	var markers = BATTLE.get_markers(SETTINGS.selected_type);
+	attack_background.texture = markers.attack;
+	menu_background.texture = markers.menu;
 
-#UI
 func set_player_ui() -> void:
 	pokemon = PARTY.get_active_pokemon();
 	var name_node = player_info.get_node("Name");
@@ -199,7 +209,6 @@ func end_battle(sound = true) -> void:
 	battle_anim_player.play("FadetoBlack");
 
 func close_battle() -> void:
-	print("hey")
 	GLOBAL.emit_signal("close_battle");
 	AUDIO.stop_battle_and_play_last_song();
 
@@ -337,7 +346,7 @@ func check_battle_state() -> void:
 		enemy_dead = true;
 		can_use_menu = false;
 		battle_anim_player.stop();
-		start_dialog([enemy.data.name + " fainted!\n", pokemon.data.name + " gained " + str(50) + " EXP"]);
+		start_dialog([enemy.data.name + " fainted!\n", pokemon.data.name + " gained " + str(50) + " EXP."]);
 		await BATTLE.dialog_finished;
 		end_battle(false);
 

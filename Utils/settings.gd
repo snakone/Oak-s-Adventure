@@ -12,10 +12,12 @@ const MARKER_GREEN = preload("res://Assets/UI/marker_green.png");
 	Markers.GREEN: MARKER_GREEN
 }
 
+var selected_type: Markers;
 var selected_marker: Resource;
 
 func _ready():
 	selected_marker = marker_switch[Markers.ORANGE];
+	selected_type = Markers.BLUE;
 
 var player_settings: Dictionary = {
 	"Marker": selected_marker

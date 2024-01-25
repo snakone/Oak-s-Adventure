@@ -1,33 +1,33 @@
 [gd_scene load_steps=46 format=3 uid="uid://3clfgm81x0yq"]
 
 [ext_resource type="Script" path="res://Scenes/Battle/battle_scene.gd" id="1_vc7g5"]
-[ext_resource type="Texture2D" uid="uid://1ieaejkmc3gf" path="res://Assets/UI/Battle/backgrounds/grass_01.png" id="1_yydbi"]
-[ext_resource type="Texture2D" uid="uid://dl5j30oc57k1v" path="res://Assets/UI/Battle/backgrounds/enemy_pokemon_grass.png" id="3_ix6g5"]
-[ext_resource type="Texture2D" uid="uid://3qi43fmkdimb" path="res://Assets/UI/Battle/backgrounds/player_pokemon_grass.png" id="4_j6k0k"]
+[ext_resource type="Texture2D" uid="uid://1ieaejkmc3gf" path="res://Assets/UI/Battle/Backgrounds/grass_01.png" id="2_qwkfb"]
+[ext_resource type="Texture2D" uid="uid://c07gl336ff2mq" path="res://Assets/UI/Battle/Backgrounds/grass_base1.png" id="3_6j08k"]
+[ext_resource type="Texture2D" uid="uid://c0akwu57yl48p" path="res://Assets/UI/Battle/Backgrounds/grass_base0.png" id="4_u8m2f"]
 [ext_resource type="Texture2D" uid="uid://bjgpg1v6vm0ys" path="res://Assets/UI/Battle/enemy_info.png" id="5_ici0o"]
 [ext_resource type="Texture2D" uid="uid://dk0t8e6e6ggkp" path="res://Assets/UI/Battle/player_info.png" id="6_bubkt"]
 [ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="6_nsew4"]
 [ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="7_6nkkf"]
-[ext_resource type="Texture2D" uid="uid://c52a6e4eqhy5e" path="res://Assets/UI/Battle/main_menue.png" id="7_fnw4w"]
 [ext_resource type="Texture2D" uid="uid://cce8ahdqmj40s" path="res://Assets/UI/gender_icons.png" id="8_d5taf"]
 [ext_resource type="Texture2D" uid="uid://dmp0fucbg5jx0" path="res://Assets/UI/Battle/menue_cursor.png" id="8_t1ksm"]
 [ext_resource type="Texture2D" uid="uid://dbtcanods1xaq" path="res://Assets/UI/Battle/attack_select_background.png" id="9_iv4im"]
-[ext_resource type="Texture2D" uid="uid://dvlnhpn6quw57" path="res://Assets/UI/Battle/backgrounds/scroll_grass/grass_03.png" id="10_5i3pb"]
-[ext_resource type="Texture2D" uid="uid://g2v4baiol8mq" path="res://Assets/UI/Battle/characters/ball.png" id="10_eogq7"]
 [ext_resource type="Texture2D" uid="uid://dryrh4lqxcq54" path="res://Assets/UI/Pokemon/bulbasaur/anim_front.png" id="10_ntll6"]
 [ext_resource type="Texture2D" uid="uid://dhr3umvoi8nxa" path="res://Assets/UI/Pokemon/bulbasaur/back.png" id="11_2qd72"]
-[ext_resource type="Texture2D" uid="uid://u3q1exar5vtx" path="res://Assets/UI/Battle/backgrounds/scroll_grass/grass_02.png" id="11_x7xh1"]
-[ext_resource type="Texture2D" uid="uid://c7esgd7pdwvov" path="res://Assets/UI/Battle/moves/take_tackle_hit.png" id="12_cm17v"]
-[ext_resource type="Texture2D" uid="uid://dpcftpwyuj874" path="res://Assets/UI/Battle/backgrounds/scroll_grass/grass_01.png" id="12_sfbb2"]
-[ext_resource type="Texture2D" uid="uid://dpfe8yroc7ll8" path="res://Assets/UI/Battle/backgrounds/scroll_grass/grass_04.png" id="13_ioi3q"]
+[ext_resource type="Texture2D" uid="uid://c7esgd7pdwvov" path="res://Assets/UI/Battle/Moves/take_tackle_hit.png" id="12_7234v"]
 [ext_resource type="Texture2D" uid="uid://d10m1ecady526" path="res://Assets/UI/Battle/dialouge_background.png" id="13_m2v7w"]
-[ext_resource type="Texture2D" uid="uid://divokpgmct8fi" path="res://Assets/UI/Battle/backgrounds/scroll_grass/grass_05.png" id="14_w0ub7"]
+[ext_resource type="Texture2D" uid="uid://c52a6e4eqhy5e" path="res://Assets/UI/Battle/main_menu.png" id="13_npenf"]
 [ext_resource type="Texture2D" uid="uid://bynrkxrintj5r" path="res://Assets/UI/triangle.png" id="16_i0kwe"]
-[ext_resource type="Texture2D" uid="uid://chfcujj18qrt5" path="res://Assets/UI/Battle/characters/oak_1.png" id="19_kedat"]
-[ext_resource type="Texture2D" uid="uid://bdwahe7q8c7up" path="res://Assets/UI/Battle/characters/oak_2.png" id="20_gfhjb"]
+[ext_resource type="Texture2D" uid="uid://dpcftpwyuj874" path="res://Assets/UI/Battle/Backgrounds/scroll_grass/grass_01.png" id="16_vfw16"]
+[ext_resource type="Texture2D" uid="uid://g2v4baiol8mq" path="res://Assets/UI/Battle/Characters/ball.png" id="19_lwo1p"]
+[ext_resource type="Texture2D" uid="uid://chfcujj18qrt5" path="res://Assets/UI/Battle/Characters/oak_1.png" id="20_8lsng"]
 [ext_resource type="AudioStream" uid="uid://c65pmmk1yu3rg" path="res://Assets/UI/Battle/spawnpokemon.mp3.wav" id="20_lq7ek"]
-[ext_resource type="Texture2D" uid="uid://ddthxuireeyxa" path="res://Assets/UI/Battle/characters/oak_3.png" id="21_tn81r"]
-[ext_resource type="Texture2D" uid="uid://gi7cwgf0fcqw" path="res://Assets/UI/Battle/characters/oak_4.png" id="22_cy32t"]
+[ext_resource type="Texture2D" uid="uid://bdwahe7q8c7up" path="res://Assets/UI/Battle/Characters/oak_2.png" id="21_yqy66"]
+[ext_resource type="Texture2D" uid="uid://ddthxuireeyxa" path="res://Assets/UI/Battle/Characters/oak_3.png" id="22_lr1rg"]
+[ext_resource type="Texture2D" uid="uid://gi7cwgf0fcqw" path="res://Assets/UI/Battle/Characters/oak_4.png" id="23_jtn2l"]
+[ext_resource type="Texture2D" uid="uid://u3q1exar5vtx" path="res://Assets/UI/Battle/Backgrounds/scroll_grass/grass_02.png" id="25_0jmh2"]
+[ext_resource type="Texture2D" uid="uid://dvlnhpn6quw57" path="res://Assets/UI/Battle/Backgrounds/scroll_grass/grass_03.png" id="26_sf7nx"]
+[ext_resource type="Texture2D" uid="uid://dpfe8yroc7ll8" path="res://Assets/UI/Battle/Backgrounds/scroll_grass/grass_04.png" id="27_06oqu"]
+[ext_resource type="Texture2D" uid="uid://divokpgmct8fi" path="res://Assets/UI/Battle/Backgrounds/scroll_grass/grass_05.png" id="28_dnnjq"]
 
 [sub_resource type="Animation" id="Animation_jhjjc"]
 resource_name = "Idle"
@@ -198,7 +198,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("19_kedat"), ExtResource("20_gfhjb"), ExtResource("21_tn81r"), ExtResource("22_cy32t")]
+"values": [ExtResource("20_8lsng"), ExtResource("21_yqy66"), ExtResource("22_lr1rg"), ExtResource("23_jtn2l")]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -222,7 +222,7 @@ tracks/5/keys = {
 "times": PackedFloat32Array(0.5, 0.7, 1, 1.2, 1.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(23.519, 76.92), Vector2(56, 68), Vector2(60, 70), Vector2(65, 86), Vector2(67, 102)]
+"values": [Vector2(23.519, 76.92), Vector2(54, 68), Vector2(59, 70), Vector2(62, 86), Vector2(64, 102)]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
@@ -369,7 +369,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-78, 36)]
+"values": [Vector2(-62, 34)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -381,7 +381,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(306, 64)]
+"values": [Vector2(240, 30)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -453,7 +453,7 @@ tracks/9/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("19_kedat")]
+"values": [ExtResource("20_8lsng")]
 }
 tracks/10/type = "value"
 tracks/10/imported = false
@@ -501,7 +501,7 @@ tracks/13/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("10_eogq7")]
+"values": [ExtResource("19_lwo1p")]
 }
 tracks/14/type = "value"
 tracks/14/imported = false
@@ -561,7 +561,7 @@ tracks/18/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("12_sfbb2")]
+"values": [ExtResource("16_vfw16")]
 }
 tracks/19/type = "bezier"
 tracks/19/imported = false
@@ -693,7 +693,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 2.9),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(-78, 36), Vector2(168, 36)]
+"values": [Vector2(-60, 34), Vector2(167, 34)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -705,7 +705,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0, 2.9),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(-72, 64), Vector2(176, 64)]
+"values": [Vector2(-102, 30), Vector2(122, 30)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -741,7 +741,7 @@ tracks/6/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("12_sfbb2"), ExtResource("11_x7xh1"), ExtResource("10_5i3pb"), ExtResource("13_ioi3q"), ExtResource("14_w0ub7"), ExtResource("12_sfbb2"), ExtResource("11_x7xh1"), ExtResource("10_5i3pb"), ExtResource("13_ioi3q"), ExtResource("14_w0ub7"), ExtResource("12_sfbb2"), ExtResource("11_x7xh1"), ExtResource("10_5i3pb"), ExtResource("13_ioi3q"), ExtResource("14_w0ub7"), ExtResource("12_sfbb2"), ExtResource("11_x7xh1"), ExtResource("10_5i3pb"), ExtResource("13_ioi3q"), ExtResource("14_w0ub7")]
+"values": [ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("27_06oqu"), ExtResource("28_dnnjq"), ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("27_06oqu"), ExtResource("28_dnnjq"), ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("27_06oqu"), ExtResource("28_dnnjq"), ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("27_06oqu"), ExtResource("28_dnnjq")]
 }
 tracks/7/type = "bezier"
 tracks/7/imported = false
@@ -905,6 +905,47 @@ tracks/1/keys = {
 "values": [Vector2(168, 36), Vector2(166, 36), Vector2(168, 36)]
 }
 
+[sub_resource type="Animation" id="Animation_7h2mo"]
+resource_name = "FadetoBlack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fade:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Fade:self_modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"close_battle"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_8e0h4"]
 resource_name = "Idle"
 length = 2.2
@@ -944,7 +985,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.7, 1.4),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(168, 36), Vector2(168, 36.5), Vector2(168, 36)]
+"values": [Vector2(167, 34), Vector2(167, 34.5), Vector2(167, 34)]
 }
 
 [sub_resource type="Animation" id="Animation_ecth8"]
@@ -1020,47 +1061,6 @@ tracks/5/keys = {
 "values": [false]
 }
 
-[sub_resource type="Animation" id="Animation_7h2mo"]
-resource_name = "FadetoBlack"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Fade:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Fade:self_modulate:a")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.8),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, 1.0]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(1),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"close_battle"
-}]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hd5rc"]
 _data = {
 "DamageEnemy": SubResource("Animation_drt0x"),
@@ -1082,19 +1082,22 @@ color = Color(0, 0, 0, 1)
 [node name="Background" type="TextureRect" parent="."]
 offset_right = 240.0
 offset_bottom = 112.0
-texture = ExtResource("1_yydbi")
+texture = ExtResource("2_qwkfb")
 metadata/_edit_lock_ = true
 
 [node name="Ground" type="Node2D" parent="."]
 metadata/_edit_lock_ = true
 
 [node name="EnemyGround" type="Sprite2D" parent="Ground"]
-position = Vector2(306, 64)
-texture = ExtResource("3_ix6g5")
+position = Vector2(240, 30)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("3_6j08k")
+centered = false
 
 [node name="PlayerGround" type="Sprite2D" parent="Ground"]
 position = Vector2(308, 106)
-texture = ExtResource("4_j6k0k")
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("4_u8m2f")
 
 [node name="Info" type="Node2D" parent="."]
 metadata/_edit_lock_ = true
@@ -1235,7 +1238,7 @@ volume_db = -20.0
 visible = false
 self_modulate = Color(1, 1, 1, 0.745098)
 position = Vector2(160, 27)
-texture = ExtResource("12_cm17v")
+texture = ExtResource("12_7234v")
 centered = false
 
 [node name="Menu" type="Node2D" parent="."]
@@ -1245,7 +1248,7 @@ metadata/_edit_lock_ = true
 
 [node name="Background" type="Sprite2D" parent="Menu"]
 position = Vector2(120, 136)
-texture = ExtResource("7_fnw4w")
+texture = ExtResource("13_npenf")
 
 [node name="MenuCursor" type="Sprite2D" parent="Menu"]
 position = Vector2(134, 129)
@@ -1402,7 +1405,7 @@ position = Vector2(0, 127)
 
 [node name="Grass" type="Sprite2D" parent="Scroll"]
 position = Vector2(128, 73)
-texture = ExtResource("12_sfbb2")
+texture = ExtResource("16_vfw16")
 
 [node name="Dialog" type="Node2D" parent="."]
 z_index = 1
@@ -1442,11 +1445,11 @@ autoplay = "Bounce"
 [node name="Pokeball" type="Sprite2D" parent="Animation"]
 visible = false
 position = Vector2(23.5192, 76.9201)
-texture = ExtResource("10_eogq7")
+texture = ExtResource("19_lwo1p")
 
 [node name="Oak" type="Sprite2D" parent="Animation"]
 position = Vector2(312, 80)
-texture = ExtResource("19_kedat")
+texture = ExtResource("20_8lsng")
 
 [node name="TopRect" type="ColorRect" parent="Animation"]
 z_index = 1
@@ -1474,7 +1477,7 @@ libraries = {
 }
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-volume_db = -20.0
+volume_db = -10.0
 
 [node name="Song" type="AudioStreamPlayer" parent="."]
 volume_db = -80.0
