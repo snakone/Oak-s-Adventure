@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://3clfgm81x0yq"]
+[gd_scene load_steps=46 format=3 uid="uid://3clfgm81x0yq"]
 
 [ext_resource type="Script" path="res://Scenes/Battle/battle_scene.gd" id="1_vc7g5"]
 [ext_resource type="Texture2D" uid="uid://1ieaejkmc3gf" path="res://Assets/UI/Battle/backgrounds/grass_01.png" id="1_yydbi"]
@@ -174,7 +174,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.8),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(294, 91), Vector2(176, 91)]
+"values": [Vector2(294, 92), Vector2(176, 92)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -405,7 +405,7 @@ tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(295, 91)]
+"values": [Vector2(295, 92)]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
@@ -871,7 +871,7 @@ tracks/2/path = NodePath("UI/TakeHit:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3),
+"times": PackedFloat32Array(0, 0.1, 0.25),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [false, true, false]
@@ -1007,17 +1007,77 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector2(168, 36)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Fade:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_7h2mo"]
+resource_name = "FadetoBlack"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fade:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Fade:self_modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"close_battle"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hd5rc"]
 _data = {
 "DamageEnemy": SubResource("Animation_drt0x"),
 "DamagePlayer": SubResource("Animation_flnxf"),
+"FadetoBlack": SubResource("Animation_7h2mo"),
 "Idle": SubResource("Animation_8e0h4"),
 "RESET": SubResource("Animation_ecth8")
 }
 
 [node name="Battle" type="CanvasLayer"]
 script = ExtResource("1_vc7g5")
+
+[node name="Fade" type="ColorRect" parent="."]
+visible = false
+z_index = 2
+custom_minimum_size = Vector2(240, 160)
+color = Color(0, 0, 0, 1)
 
 [node name="Background" type="TextureRect" parent="."]
 offset_right = 240.0
@@ -1041,12 +1101,13 @@ metadata/_edit_lock_ = true
 
 [node name="PlayerHPBar" type="ColorRect" parent="Info"]
 offset_left = 295.0
-offset_top = 91.0
+offset_top = 92.0
 offset_right = 343.0
-offset_bottom = 95.0
-color = Color(0, 0.886656, 0.0859693, 1)
+offset_bottom = 96.0
+color = Color(0.439216, 0.886275, 0.658824, 1)
 
 [node name="EnemyHPBar" type="ColorRect" parent="Info"]
+z_index = 1
 offset_left = -72.0
 offset_top = 25.0
 offset_right = -24.0
@@ -1352,6 +1413,7 @@ position = Vector2(120, 136)
 texture = ExtResource("13_m2v7w")
 
 [node name="Label" type="RichTextLabel" parent="Dialog"]
+clip_contents = false
 offset_left = 13.0
 offset_top = 123.0
 offset_right = 226.0

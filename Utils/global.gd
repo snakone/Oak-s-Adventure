@@ -50,6 +50,7 @@ var dialog_open = false;
 var no_saved_data = true;
 var play_time: float;
 var on_battle = false;
+var on_victory = false;
 
 const blends = [
 	"parameters/Idle/blend_position", 
