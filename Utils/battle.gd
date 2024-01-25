@@ -2,6 +2,7 @@ extends Node
 
 signal dialog_finished()
 signal attack_finished()
+signal ui_updated();
 signal on_move_hit(is_enemy: bool);
 
 #MARKERS

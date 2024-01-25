@@ -15,12 +15,13 @@ const default_hp_bar_size = 48.0;
 @onready var player_sprite = $UI/PlayerSprite;
 @onready var audio_player = $UI/PlayerSprite/AudioStreamPlayer;
 @onready var player_ground = $Ground/PlayerGround;
+@onready var player_hp_bar = $Info/PlayerInfo/PlayerHPBar;
 
 #ENEMY
 @onready var enemy_info = $Info/EnemyInfo;
 @onready var enemy_anim_player = $UI/EnemySprite/EnemyAnimationPlayer;
 @onready var enemy_sprite = $UI/EnemySprite;
-@onready var enemy_hp_bar = $Info/EnemyHPBar;
+@onready var enemy_hp_bar = $Info/EnemyInfo/EnemyHPBar;
 @onready var enemy_ground = $Ground/EnemyGround;
 
 #BATTLE
@@ -72,10 +73,10 @@ var attack_cursor_index = Vector2.ZERO;
 var player_moves = [];
 var enemy_moves = [];
 
-var enemy_dead = false;
-var pokemon_dead = false;
 var enemy_attacked = false;
 var player_attacked = false;
+var pokemon_death = false;
+var enemy_death = false;
 
 func _ready():
 	connect_signals();
@@ -86,9 +87,7 @@ func _ready():
 func set_battle_data(data: Dictionary): battle_data = data;
 
 func _unhandled_key_input(event) -> void:
-	if(
-	false
-	): return;
+	if(!event is InputEventKey || current_state == BATTLE.States.ATTACKING): return;
 	if(event.is_action_pressed("escape")): 
 		GLOBAL.emit_signal("close_battle");
 		return;
@@ -110,7 +109,10 @@ func battle_wild() -> void:
 	anim_player.play("Go");
 
 func start_battle_dialog() -> void:
-	start_dialog(["A wild " + enemy.data.name + " appeared!\n", "Go " + pokemon.data.name + "!" ]);
+	start_dialog([
+		"A wild " + enemy.data.name + " appeared!\n", 
+		"Go " + pokemon.data.name + "!"
+	]);
 
 func check_intro_dialog() -> void:
 	close_dialog_and_show_menu(.3);
@@ -121,14 +123,10 @@ func check_intro_dialog() -> void:
 func set_battle_ui() -> void:
 	set_player_ui();
 	set_enemy_ui();
-	var battle_textures = BATTLE.get_battle_textures(battle_data.zone);
-	battle_background.texture = battle_textures.background;
-	player_ground.texture = battle_textures.player_ground;
-	enemy_ground.texture = battle_textures.enemy_ground;
-	var markers = BATTLE.get_markers(SETTINGS.selected_type);
-	attack_background.texture = markers.attack;
-	menu_background.texture = markers.menu;
+	set_battle_texture();
+	set_markers();
 
+#PLAYER UI
 func set_player_ui() -> void:
 	pokemon = PARTY.get_active_pokemon();
 	var name_node = player_info.get_node("Name");
@@ -152,6 +150,7 @@ func set_player_ui() -> void:
 		player_attacks[i].visible = true;
 		player_attacks[i].text = move.name.to_upper();
 
+#ENEMY UI
 func set_enemy_ui() -> void:
 	enemy = Pokemon.new(POKEDEX.get_pokemon(battle_data["enemy"]), true);
 	var enemy_node_name = enemy_info.get_node("Name");
@@ -167,6 +166,19 @@ func set_enemy_ui() -> void:
 	#MOVES
 	for move in enemy.data.moves:
 		enemy_moves.push_back(MOVES.get_move(move));
+
+#TEXTURES
+func set_battle_texture() -> void:
+	var battle_textures = BATTLE.get_battle_textures(battle_data.zone);
+	battle_background.texture = battle_textures.background;
+	player_ground.texture = battle_textures.player_ground;
+	enemy_ground.texture = battle_textures.enemy_ground;
+
+#MARKERS
+func set_markers() -> void:
+	var markers = BATTLE.get_markers(SETTINGS.selected_type);
+	attack_background.texture = markers.attack;
+	menu_background.texture = markers.menu;
 
 #MENU STATE
 func menu_input(event: InputEvent) -> void:
@@ -246,11 +258,10 @@ func dialog_input(event: InputEvent) -> void:
 		play_audio(CONFIRM);
 		await audio.finished;
 		if dialog_line < len(dialog_array): next_dialog();
-		elif(enemy_dead): end_battle(false)
 		else: end_dialog();
 
 func next_dialog() -> void:
-	if(enemy_dead): AUDIO.play_battle_win(battle_data.type);
+	if(enemy_death): AUDIO.play_battle_win(battle_data.type);
 	current_dialog_text = current_dialog_text.erase(0, current_dialog_text.find("\n") + 1)
 	dialog_label.text = current_dialog_text;
 	if current_dialog_text.find("\n") == -1:
@@ -270,7 +281,7 @@ func end_dialog() -> void:
 	dialog_timer.stop();
 	current_dialog_text = "";
 	dialog_pressed = false;
-	if(!intro_dialog): close_dialog_and_show_menu(0);
+	if(!intro_dialog && !pokemon_death && !enemy_death): close_dialog_and_show_menu(0);
 	await GLOBAL.timeout(.2);
 	current_state = BATTLE.States.MENU;
 	BATTLE.dialog_finished.emit();
@@ -312,80 +323,81 @@ func start_attack(delay = 0.0, sound = true) -> void:
 	await GLOBAL.timeout(delay);
 	attack_pressed = true;
 	var priority = pokemon.data.stats.VEL >= enemy.data.stats.VEL;
-	
 	if((priority && !player_attacked) || enemy_attacked):
+		#PLAYER ATTACKING
 		player_attacked = true;
 		var move = player_moves[selected_attack];
-		if(pokemon.attack(enemy, move)): handle_attack(pokemon, move, false, sound);
+		if(pokemon.attack(enemy, move)): 
+			if(enemy.data.health <= 0): enemy_death = true;
+			handle_attack(pokemon, move, false, sound);
 	elif(!enemy_attacked || player_attacked):
-		print("enemy attacking")
+		#ENEMY ATTACKING
 		enemy_attacked = true;
 		var move = enemy_moves[0];
-		if(enemy.attack(pokemon, move)): handle_attack(enemy, move, true, sound);
+		if(enemy.attack(pokemon, move)): 
+			if(pokemon.data.health <= 0): pokemon_death = true;
+			handle_attack(enemy, move, true, sound);
+	#CHECK IF DEATH
+	if(pokemon_death || enemy_death): return;
 	#ATTACK AGAIN
-	if(!enemy_attacked || !player_attacked):
-		await BATTLE.attack_finished; 
+	if((!enemy_attacked || !player_attacked)):
+		await BATTLE.attack_finished;
 		start_attack(0.8, false);
 		return;
-	print("resetting")
 	enemy_attacked = false;
 	player_attacked = false;
 	
 func handle_attack(
-	subject: Object, 
+	target: Object, 
 	move: Dictionary,
 	is_enemy: bool,
 	sound = true
 ) -> void:
+		current_state = BATTLE.States.ATTACKING;
 		battle_anim_player.stop();
 		if(sound): play_audio(CONFIRM);
-		start_attack_dialog([subject.name + " use " + move.name.to_upper() + "."]);
+		start_attack_dialog([target.name + " use " + move.name.to_upper() + "."]);
 		await BATTLE.dialog_finished;
-		current_state = BATTLE.States.ATTACKING;
 		add_animation_and_play(move, is_enemy);
 		attack_pressed = false;
 		update_attack_ui();
+		await BATTLE.ui_updated;
 		check_battle_state();
 
 #UPDATES
-func update_battle_ui() -> void:
+func update_battle_ui(is_enemy) -> void:
 	var tween = get_tree().create_tween();
-	var new_size = round((default_hp_bar_size * enemy.data.health) / 100);
-	tween.tween_property(enemy_hp_bar, "size:x", new_size, .3);
-	#69%
+	var target = get_attack_target(is_enemy);
+	var new_size = round((default_hp_bar_size * target.health) / 100);
+	tween.tween_property(target.bar, "size:x", new_size, .3);
+	#74%
 	if(
 		new_size <= (74.0 * default_hp_bar_size) / 100 &&
-		new_size > (24.0 * default_hp_bar_size) / 100
-	): enemy_hp_bar.color = yellow_bar;
+		new_size > (28.0 * default_hp_bar_size) / 100
+	): target.bar.color = yellow_bar;
 	#28%
 	elif(new_size <= (28.0 * default_hp_bar_size) / 100):
-		enemy_hp_bar.color = red_bar;
+		target.bar.color = red_bar;
+	BATTLE.ui_updated.emit();
 
 func update_attack_ui() -> void:
 	var current_attack = player_moves[selected_attack];
 	var type_node = attack_selection_info.get_node("Type");
 	var pp_node = attack_selection_info.get_node("PP/Value");
-	
 	type_node.text = MOVES.TypesString[current_attack.type + 1];
 	pp_node.text = str(current_attack.pp) + "/" + str(current_attack.total_pp);
 
-func check_battle_state() -> void:
-	await BATTLE.attack_finished;
-	if(enemy.data.health <= 0):
-		enemy_dead = true;
-		can_use_menu = false;
-		battle_anim_player.stop();
-		await GLOBAL.timeout(.2);
-		battle_anim_player.play("EnemyFaint");
-		await GLOBAL.timeout(0.8);
-		start_dialog([
-			enemy.data.name + " fainted!\n", 
-			pokemon.data.name + " gained " + str(50) + " EXP."
-		]);
-		await BATTLE.dialog_finished;
-		end_battle(false);
+func handle_death(state: Dictionary) -> void:
+	can_use_menu = false;
+	battle_anim_player.stop();
+	await GLOBAL.timeout(.2);
+	battle_anim_player.play(state.anim);
+	await GLOBAL.timeout(0.8);
+	start_dialog(state.dialog);
+	await BATTLE.dialog_finished;
+	end_battle(false);
 
-#ANIMATION
+#MOVE ANIMATION
 func add_animation_and_play(move: Dictionary, is_enemy: bool) -> void:
 	var list = MovesAnimations.new();
 	var animation = list.get_move_animation(move.name.to_lower());
@@ -393,8 +405,6 @@ func add_animation_and_play(move: Dictionary, is_enemy: bool) -> void:
 	if(!is_enemy): animation.set_data_and_attack(player_sprite, false);
 	else: animation.set_data_and_attack(enemy_sprite, true);
 	await BATTLE.attack_finished;
-	if(!is_enemy): player_sprite.visible = true;
-	else: enemy_sprite.visible = true;
 	animation.call_deferred("queue_free");
 
 #ATTACK DIALOG
@@ -411,7 +421,7 @@ func start_attack_dialog(input_arr: Array) -> void:
 			current_dialog_text += input_arr[i][j];
 			dialog_label.text = current_dialog_text;
 	
-	await get_tree().create_timer(.6).timeout;
+	await GLOBAL.timeout(.7);
 	current_dialog_text = "";
 	dialog_label.text = "";
 	BATTLE.dialog_finished.emit();
@@ -420,16 +430,16 @@ func start_attack_dialog(input_arr: Array) -> void:
 func after_attacking() -> void:
 	await BATTLE.attack_finished;
 	await GLOBAL.timeout(.1);
-	if(enemy_dead || player_attacked || enemy_attacked): return;
+	if(enemy_death || player_attacked || enemy_attacked || pokemon_death): return;
 	dialog.visible = false;
 	current_state = BATTLE.States.MENU;
 
 func _on_move_hit(is_enemy: bool) -> void:
-	update_battle_ui();
+	update_battle_ui(is_enemy);
 	if(!is_enemy): battle_anim_player.play("DamageEnemy");
 	else: battle_anim_player.play("DamagePlayer")
 	await battle_anim_player.animation_finished;
-	battle_anim_player.play("Idle")
+	battle_anim_player.play("Idle");
 
 func set_attack_slot() -> void:
 	if(attack_cursor_index == Vector2.ZERO): selected_attack = Moves.FIRST;
@@ -467,5 +477,35 @@ func can_move_attack_cursor(pre_position: Vector2, new_position: Vector2) -> boo
 		return false;
 	return true;
 
-func connect_signals() -> void:
-	BATTLE.connect("on_move_hit", _on_move_hit);
+func check_battle_state() -> void:
+	await BATTLE.attack_finished;
+	var state: Dictionary;
+	if(enemy_death):
+		state = {
+			"anim": "EnemyFaint",
+			"dialog": [
+				enemy.data.name + " fainted!\n", 
+				pokemon.data.name + " gained " + str(50) + " EXP."
+			]
+		}
+		handle_death(state);
+	elif(pokemon_death):
+		state = {
+			"anim": "PlayerFaint",
+			"dialog": [pokemon.data.name + " fainted!"]
+		}
+		handle_death(state);
+
+func get_attack_target(is_enemy: bool) -> Dictionary:
+	var target: Dictionary;
+	if(is_enemy): target = {
+		"health": pokemon.data.health,
+		"bar": player_hp_bar
+	}
+	else: target = {
+			"health": enemy.data.health,
+			"bar": enemy_hp_bar
+	}
+	return target;
+
+func connect_signals() -> void: BATTLE.connect("on_move_hit", _on_move_hit);

@@ -66,7 +66,7 @@ var pokedex_list: Array = [
 			"ATK": 22,
 			"DEF": 6,
 			"HP": 12,
-			"VEL": 6
+			"VEL": 15
 		}
 	},
 	{

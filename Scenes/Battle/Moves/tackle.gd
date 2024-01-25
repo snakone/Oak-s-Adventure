@@ -6,11 +6,10 @@ extends Node2D;
 @onready var enemy_sprite = $EnemySprite;
 
 var enemy: bool;
-
-func _ready():
-	pass # Replace with function body.
+var current_sprite: Sprite2D;
 
 func set_data_and_attack(sprite: Sprite2D, is_enemy: bool) -> void:
+	current_sprite = sprite;
 	enemy = is_enemy;
 	await GLOBAL.timeout(.1);
 	if(sprite != null):
@@ -26,4 +25,6 @@ func emit_on_hit() -> void:
 	audio.play();
 	BATTLE.on_move_hit.emit(enemy);
 
-func _on_animation_finished(_name): BATTLE.attack_finished.emit();
+func _on_animation_finished(_name):
+	current_sprite.visible = true;
+	BATTLE.attack_finished.emit();

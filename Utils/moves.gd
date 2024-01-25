@@ -52,7 +52,7 @@ var moves_list: Dictionary = {
 		"name": "Tackle",
 		"type": Types.NORMAL,
 		"category": AttackCategory.PHYSIC,
-		"power": 40,
+		"power": 75,
 		"accuracy": 100,
 		"pp": 35,
 		"total_pp": 35,

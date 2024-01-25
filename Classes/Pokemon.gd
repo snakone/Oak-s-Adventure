@@ -8,13 +8,15 @@ func _init(poke: Dictionary = {}, enemy = false):
 	if("name" in poke):
 		name = poke.name;
 		data = poke;
+		data.death = false;
 		get_resources();
 		if(enemy): set_enemy();
 		else: set_player(poke);
 
 static func attack(enemy: Object, move: Dictionary) -> bool:
 	if(move.pp <= 0): return false;
-	enemy.data.health -= 25;
+	if(enemy.data.health <= 0): enemy.data.death = true;
+	enemy.data.health -= move.power;
 	move.pp -= 1;
 	return true;
 
