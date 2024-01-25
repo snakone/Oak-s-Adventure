@@ -17,11 +17,13 @@ var selected_marker: Resource;
 
 func _ready():
 	selected_marker = marker_switch[Markers.ORANGE];
-	selected_type = Markers.BLUE;
+	selected_type = Markers.ORANGE;
 
 var player_settings: Dictionary = {
-	"Marker": selected_marker
+	"marker": selected_marker,
+	"marker_type": selected_type
 }
 
 func set_settings(settings: Dictionary) -> void:
 	selected_marker = settings.marker;
+	selected_type = settings.marker_type;

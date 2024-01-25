@@ -2,7 +2,7 @@ extends Node
 
 signal dialog_finished()
 signal attack_finished()
-signal on_move_hit();
+signal on_move_hit(is_enemy: bool);
 
 #MARKERS
 const BACKGROUND_ORANGE = preload("res://Assets/UI/Battle/attack_select_background_orange.png");

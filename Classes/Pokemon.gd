@@ -14,7 +14,7 @@ func _init(poke: Dictionary = {}, enemy = false):
 
 static func attack(enemy: Object, move: Dictionary) -> bool:
 	if(move.pp <= 0): return false;
-	enemy.data.health -= 100;
+	enemy.data.health -= 25;
 	move.pp -= 1;
 	return true;
 

@@ -1,32 +1,16 @@
 [gd_scene load_steps=7 format=3 uid="uid://cx0jjo413ds6v"]
 
 [ext_resource type="Script" path="res://Scenes/Battle/Moves/tackle.gd" id="1_kicyl"]
-[ext_resource type="Texture2D" uid="uid://btitbeigsecg6" path="res://Assets/UI/Pokemon/ivysaur/back.png" id="2_twmnh"]
 [ext_resource type="AudioStream" uid="uid://u3g5iuy2em1" path="res://Assets/Sounds/Moves/Tackle.mp3" id="3_qa51q"]
 
-[sub_resource type="Animation" id="Animation_1er17"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(60, 97)]
-}
-
 [sub_resource type="Animation" id="Animation_0vd60"]
-resource_name = "attack"
+resource_name = "Attack"
 length = 0.8
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/path = NodePath("PlayerSprite:position")
 tracks/0/interp = 0
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -50,19 +34,58 @@ tracks/1/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_y5fnp"]
+resource_name = "EnemyAttack"
+length = 0.8
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnemySprite:position")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.2, 0.3, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(167, 34), Vector2(172, 34), Vector2(167, 34), Vector2(155, 34), Vector2(148, 34), Vector2(152, 34), Vector2(167, 34)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.35),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"emit_on_hit"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_1er17"]
+length = 0.001
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qndqo"]
 _data = {
-"RESET": SubResource("Animation_1er17"),
-"attack": SubResource("Animation_0vd60")
+"Attack": SubResource("Animation_0vd60"),
+"EnemyAttack": SubResource("Animation_y5fnp"),
+"RESET": SubResource("Animation_1er17")
 }
 
 [node name="Tackle" type="Node2D"]
 script = ExtResource("1_kicyl")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="PlayerSprite" type="Sprite2D" parent="."]
 show_behind_parent = true
 position = Vector2(60, 97)
-texture = ExtResource("2_twmnh")
+
+[node name="EnemySprite" type="Sprite2D" parent="."]
+position = Vector2(167, 34)
+vframes = 2
+frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
