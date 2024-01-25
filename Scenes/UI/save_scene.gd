@@ -38,7 +38,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		event.is_echo() ||
 		!selection.visible ||
 		GLOBAL.on_battle ||
-		closing_menu
+		closing_menu ||
+		!event is InputEventKey
 	): return;
 	
 	if(

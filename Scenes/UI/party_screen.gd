@@ -36,6 +36,7 @@ func set_active_option(value: State) -> void:
 
 func _unhandled_input(event) -> void:
 	if(
+		!event is InputEventKey ||
 		GLOBAL.on_transition || 
 		!event.is_pressed() ||
 		event.is_echo() ||

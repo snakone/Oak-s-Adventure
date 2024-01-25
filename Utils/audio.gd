@@ -29,7 +29,8 @@ func play_battle_wild() -> void:
 	stop_and_play(BATTLE_WILD);
 	
 func _on_song_finished() -> void:
-	if(GLOBAL.on_bike): stop_and_play(BICYCLE);
+	if(GLOBAL.on_battle): stop_and_play(BATTLE_WILD);
+	elif(GLOBAL.on_bike): stop_and_play(BICYCLE);
 	else: audio.play();
 
 func stop_and_play(song: AudioStream) -> void:

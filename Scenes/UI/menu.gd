@@ -35,6 +35,7 @@ func _ready():
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(
+		!event is InputEventKey ||
 		is_player_moving || 
 		GLOBAL.on_transition || 
 		!event.is_pressed() ||

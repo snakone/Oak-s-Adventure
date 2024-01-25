@@ -1,65 +1,37 @@
 extends Node
 
-enum States {
-	MENU = 0, 
-	FIGHT = 1, 
-	BAG = 2, 
-	PARTY = 3, 
-	RUN = 4, 
-	DIALOG = 5, 
-	NONE = 6, 
-	ATTACKING = 7
-}
-
 enum Moves { FIRST, SECOND, THIRD, FOURTH }
 
-const FIELD_BG = preload("res://Assets/UI/Battle/field_bg.png");
-const SNOW_BG = preload("res://Assets/UI/Battle/snow_bg.png");
 const CONFIRM = preload("res://Assets/Sounds/confirm.wav");
 const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg");
 const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
 const BATTLE_FLEE = preload("res://Assets/Sounds/Battle flee.ogg");
-
-const menu_cursor_pos: Array = [
-	[Vector2(135, 129), Vector2(194, 129)], 
-	[Vector2(135, 144), Vector2(194, 144)]
-];
-
-const attack_cursor_pos: Array = [
-	[Vector2(13, 127), Vector2(80, 127)], 
-	[Vector2(13, 145), Vector2(80, 145)]
-];
-
-@onready var zones_array = [
-	FIELD_BG,
-	null,
-	SNOW_BG
-];
+const MovesAnimations = preload("res://Scenes/Battle/Moves/moves_animations.gd");
 
 #PLAYER
 @onready var player_info = $Info/PlayerInfo;
-@onready var attack_cursor = $Selection/AttackCursor
+@onready var attack_cursor = $Selection/AttackCursor;
 @onready var player_sprite = $UI/PlayerSprite;
-@onready var audio_player = $UI/PlayerSprite/AudioStreamPlayer
+@onready var audio_player = $UI/PlayerSprite/AudioStreamPlayer;
 
 #ENEMY
 @onready var enemy_info = $Info/EnemyInfo;
-@onready var idle_enemy_animation_player = $IdleEnemyAnimationPlayer;
-@onready var enemy_anim_player = $UI/EnemySprite/AnimationPlayer;
+@onready var enemy_anim_player = $UI/EnemySprite/EnemyAnimationPlayer;
 @onready var enemy_sprite = $UI/EnemySprite;
+@onready var enemy_hp_bar = $Info/EnemyHPBar;
 
 #BATTLE
 @onready var menu = $Menu;
-@onready var battle_anim_player = $BattleAnimationPlayer;
+@onready var bag = $Bag;
+@onready var dialog = $Dialog;
 @onready var anim_player = $AnimationPlayer;
 @onready var audio = $AudioStreamPlayer;
-@onready var dialog = $Dialog;
+@onready var battle_anim_player = $BattleAnimationPlayer;
 @onready var dialog_timer = $Dialog/Timer;
+@onready var menu_cursor = $Menu/MenuCursor;
 @onready var dialog_label = $Dialog/Label;
 @onready var dialog_marker = $Dialog/Marker;
 @onready var menu_label = $Menu/Label;
-@onready var menu_cursor = $Menu/MenuCursor;
-@onready var bag = $Bag;
 
 #ATTACKS
 @onready var attack_selection_info = $Selection/SelectionInfo
@@ -73,10 +45,11 @@ const attack_cursor_pos: Array = [
 var pokemon: Object;
 var enemy: Object;
 var battle_data: Dictionary;
-var current_state: States = States.NONE;
+var current_state = BATTLE.States.NONE;
 var can_use_menu = false;
 var attack_pressed = false;
 var selected_attack = Moves.FIRST;
+var attacking = false;
 
 var dialog_pressed = false;
 var dialog_array: Array
@@ -94,40 +67,36 @@ var player_moves = [];
 var enemy_moves = [];
 
 func _ready():
+	connect_signals();
 	set_battle_ui();
 	match(battle_data.type):
 		BATTLE.Type.WILD: battle_wild();
 
 func set_battle_data(data: Dictionary): battle_data = data;
 
-func _input(event: InputEvent) -> void:
-	if(!event is InputEventKey || current_state == States.ATTACKING): return;
+func _unhandled_key_input(event) -> void:
+	if(
+	false
+	): return;
 	if(event.is_action_pressed("escape")): 
 		GLOBAL.emit_signal("close_battle");
 		return;
-	if(!event.is_pressed() || event.is_echo()): return;
+		
 	match current_state:
-		States.MENU: menu_input(event);
-		States.FIGHT: attack_input(event)
+		BATTLE.States.MENU: menu_input(event);
+		BATTLE.States.FIGHT: attack_input(event)
 		#States.BAG:
 			#bag_input(event)
-		#States.POKEDEX:
-			#pokemon_input(event)
+		#States.PARTY:
+			#party_input(event)
 #		states.RUN:
 #			action(3, "Flee")
-		States.DIALOG: dialog_input(event);
+		BATTLE.States.DIALOG: dialog_input(event);
 
 func battle_wild() -> void:
 	anim_player.play("Start");
 	await BATTLE.dialog_finished;
 	anim_player.play("Go");
-
-func end_battle() -> void:
-	can_use_menu = false;
-	play_audio(BATTLE_FLEE);
-	await audio.finished;
-	GLOBAL.emit_signal("close_battle");
-	AUDIO.stop_battle_and_play_last_song();
 
 func start_battle_dialog() -> void:
 	start_dialog(["A wild " + enemy.data.name + " appeared!\n", "Go " + pokemon.data.name + "!" ]);
@@ -179,8 +148,19 @@ func set_enemy_ui() -> void:
 	enemy_info.get_node("Level").text = "Lv" + level;
 	enemy_info.get_node("Gender").position.x = enemy_dist;
 
+func update_battle_ui() -> void:
+	var tween = get_tree().create_tween();
+	tween.tween_property(enemy_hp_bar, "size:x", round((48 * enemy.data.health) / 100), .3);
+	print(enemy_hp_bar.size.x)
+	
+	if((enemy_hp_bar.size.x <= (69 * 48) / 100) &&
+	   enemy_hp_bar.size.x > (30 * 48) / 100):
+		enemy_hp_bar.color = (Color.ORANGE);
+	elif(enemy_hp_bar.size.x <= (30 * 48) / 100):
+		enemy_hp_bar.color = (Color.RED);
+
 func start_dialog(input_arr: Array) -> void:
-	current_state = States.DIALOG;
+	current_state = BATTLE.States.DIALOG;
 	dialog_pressed = true;
 	dialog_marker.visible = false;
 	dialog.visible = true;
@@ -215,7 +195,7 @@ func menu_input(event: InputEvent) -> void:
 		menu_cursor_index.y -= 1;
 		play_audio(GUI_SEL_DECISION);
 	
-	menu_cursor.position = menu_cursor_pos[menu_cursor_index.y][menu_cursor_index.x];
+	menu_cursor.position = BATTLE.menu_cursor_pos[menu_cursor_index.y][menu_cursor_index.x];
 	
 	#SELECTION
 	if event.is_action_pressed("space"):
@@ -226,7 +206,7 @@ func menu_input(event: InputEvent) -> void:
 func match_menu_input() -> void:
 	if menu_cursor_index == Vector2.ZERO:
 		attack_selection.visible = true;
-		current_state = States.FIGHT;
+		current_state = BATTLE.States.FIGHT;
 		update_attack_ui();
 	elif menu_cursor_index == Vector2.RIGHT: pass
 		#bag.visible = true;
@@ -235,6 +215,13 @@ func match_menu_input() -> void:
 		#pokemon.visible = true
 		#current_state = States.PARTY;
 	elif menu_cursor_index == Vector2(1, 1): end_battle();
+
+func end_battle() -> void:
+	can_use_menu = false;
+	play_audio(BATTLE_FLEE);
+	await audio.finished;
+	GLOBAL.emit_signal("close_battle");
+	AUDIO.stop_battle_and_play_last_song();
 
 #DIALOG STATE
 func dialog_input(event: InputEvent) -> void:
@@ -269,7 +256,7 @@ func end_dialog() -> void:
 	dialog_pressed = false;
 	if(!intro_dialog): close_dialog_and_show_menu(0);
 	await GLOBAL.timeout(.2);
-	current_state = States.MENU;
+	current_state = BATTLE.States.MENU;
 	BATTLE.dialog_finished.emit();
 
 func close_dialog_and_show_menu(time: float) -> void:
@@ -293,10 +280,12 @@ func attack_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("backMenu"):
 		play_audio(GUI_SEL_DECISION);
 		attack_selection.visible = false;
-		current_state = States.MENU;
-	elif event.is_action_pressed("space") and !attack_pressed: start_attack();
+		current_state = BATTLE.States.MENU;
+	elif event.is_action_pressed("space") and !attack_pressed: 
+		start_attack();
+		return;
 		
-	var new_position = attack_cursor_pos[attack_cursor_index.y][attack_cursor_index.x];
+	var new_position = BATTLE.attack_cursor_pos[attack_cursor_index.y][attack_cursor_index.x];
 	if(!can_move_attack_cursor(pre_position, new_position)): return;
 	attack_cursor.position = new_position;
 	if (pre_position != attack_cursor_index): play_audio(GUI_SEL_DECISION);
@@ -305,14 +294,59 @@ func attack_input(event: InputEvent) -> void:
 
 func start_attack() -> void:
 	attack_pressed = true;
-	var attack_success = pokemon.attack(enemy, player_moves[selected_attack]);
-	if(attack_success):
-		current_state = States.ATTACKING;
+	var move = player_moves[selected_attack];
+	var attack_success = pokemon.attack(enemy, move);
+	if(attack_success && current_state != BATTLE.States.ATTACKING):
+		battle_anim_player.stop();
 		play_audio(CONFIRM);
+		start_attack_dialog([pokemon.name + " use " + move.name.to_upper() + "."]);
+		await BATTLE.dialog_finished;
+		current_state = BATTLE.States.ATTACKING;
+		add_animation_and_play(move);
 		attack_pressed = false;
 		update_attack_ui();
-		await GLOBAL.timeout(2);
-		current_state = States.FIGHT;
+		update_battle_ui();
+
+#ANIMATION
+func add_animation_and_play(move: Dictionary) -> void:
+	var list = MovesAnimations.new();
+	var animation = list.get_move_animation(move.name.to_lower());
+	call_deferred("add_child", animation);
+	animation.set_data_and_attack(player_sprite);
+	await BATTLE.attack_finished;
+	player_sprite.visible = true;
+	animation.call_deferred("queue_free");
+
+#ATTACK DIALOG
+func start_attack_dialog(input_arr: Array) -> void:
+	current_state = BATTLE.States.NONE;
+	attack_selection.visible = false;
+	dialog.visible = true
+	dialog_array = input_arr.duplicate()
+	dialog_timer.start();
+	
+	for i in range(1):
+		for j in range(len(input_arr[i])):
+			await dialog_timer.timeout;
+			current_dialog_text += input_arr[i][j];
+			dialog_label.text = current_dialog_text;
+	
+	await get_tree().create_timer(.6).timeout;
+	current_dialog_text = "";
+	dialog_label.text = "";
+	BATTLE.dialog_finished.emit();
+	before_attacking();
+
+func before_attacking() -> void:
+	await BATTLE.attack_finished;
+	await GLOBAL.timeout(.2);
+	dialog.visible = false;
+	current_state = BATTLE.States.MENU;
+
+func _on_move_hit() -> void:
+	battle_anim_player.play("DamageEnemy");
+	await battle_anim_player.animation_finished;
+	battle_anim_player.play("Idle")
 
 func set_attack_slot() -> void:
 	if(attack_cursor_index == Vector2.ZERO): selected_attack = Moves.FIRST;
@@ -328,7 +362,9 @@ func update_attack_ui() -> void:
 	type_node.text = MOVES.TypesString[current_attack.type + 1];
 	pp_node.text = str(current_attack.pp) + "/" + str(current_attack.total_pp);
 
-func play_shout_pokemon() -> void: play_audio(pokemon.data.shout);
+func play_shout_pokemon() -> void:
+	audio_player.stream = pokemon.data.shout;
+	audio_player.play();
 
 func play_move_and_shout_enemy() -> void:
 	enemy_anim_player.play("Move");
@@ -355,3 +391,6 @@ func can_move_attack_cursor(pre_position: Vector2, new_position: Vector2) -> boo
 		attack_cursor_index = pre_position;
 		return false;
 	return true;
+
+func connect_signals() -> void:
+	BATTLE.connect("on_move_hit", _on_move_hit);
