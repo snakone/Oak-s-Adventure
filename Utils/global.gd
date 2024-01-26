@@ -36,21 +36,23 @@ const directions_array: Array = [
 
 var player_data_to_load = null;
 var last_player_direction = directions_array[Directions.DOWN];
-var on_transition = false;
 var facing_direction = FacingDirection.UP;
 var last_used_door: String;
 var spawn_location = null;
-var first_spawn = false;
 var camera_connected = false;
+var no_saved_data = true;
+var play_time: float;
+
+#STATES
+var on_transition = false;
+var first_spawn = false;
 var party_open = false;
 var menu_open = false;
 var on_bike = false;
 var inside_house = false;
 var dialog_open = false;
-var no_saved_data = true;
-var play_time: float;
-var on_battle = false;
 var on_victory = false;
+var on_battle = false;
 
 const blends = [
 	"parameters/Idle/blend_position", 

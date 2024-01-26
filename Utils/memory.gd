@@ -29,7 +29,7 @@ func _load() -> void:
 			if(node.has_method("load")): node.load(data);
 			else: 
 				print("Node '%s' is missing a load function, skipped" % node.name)
-		elif(data.has("player")):GLOBAL.player_data_to_load = data;
+		elif(data.has("player")): GLOBAL.player_data_to_load = data;
 	GLOBAL.no_saved_data = false;
 	save_file.close();
 	

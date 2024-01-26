@@ -5,7 +5,7 @@ var active_pokemon: Dictionary;
 
 func _ready(): add_to_group(GLOBAL.group_name);
 func get_party() -> Array: return current_party;
-func get_active_pokemon(): if(current_party): return current_party[1];
+func get_active_pokemon(): if(current_party): return current_party[2];
 
 func create_party_from_json(party: Array) -> Array:
 	#return [
@@ -18,13 +18,13 @@ func create_party_from_json(party: Array) -> Array:
 	#]
 	var created_party = [];
 	for poke in party:
-		created_party.push_front(Pokemon.new(poke));
+		created_party.push_back(Pokemon.new(poke));
 	return created_party;
 
 func get_party_as_json() -> Array:
 	var array = [];
 	for poke in current_party:
-		array.push_front(poke.data);
+		array.push_back(poke.data);
 	return array;
 
 func save() -> Dictionary:

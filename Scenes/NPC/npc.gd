@@ -29,8 +29,6 @@ var limits_negative;
 var is_talking = false;
 var inside_player_area = false;
 
-var oak: CharacterBody2D;
-
 func _ready() -> void:
 	connect_signals();
 	sprite.hframes = frames
@@ -38,7 +36,6 @@ func _ready() -> void:
 	timer.wait_time = interval;
 	limits_possitive = position + (possitive_limits * GLOBAL.TILE_SIZE);
 	limits_negative = position + (negative_limits * GLOBAL.TILE_SIZE);
-	oak = get_parent().get_node("Oak");
 	if state == States.MOVING: timer.start();
 
 func _on_timer_timeout() -> void:

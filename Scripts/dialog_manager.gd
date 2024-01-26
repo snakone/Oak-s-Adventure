@@ -14,8 +14,7 @@ var dialog_closed = false;
 var npc_dialog = false;
 var whos_talking: String;
 
-func set_data(id: int) -> void: 
-	dialog_data = DIALOG.get_dialog(id);
+func set_data(id: int) -> void: dialog_data = DIALOG.get_dialog(id);
 
 func _ready() -> void:
 	marker.visible = false;
@@ -30,7 +29,7 @@ func _ready() -> void:
 		for j in range(len(text_string)):
 			await timer.timeout;
 			label.text += text_string[j];
-			
+		
 	pressed = false;
 	marker.visible = dialog_data.marker;
 	if(dialog_data.type == DIALOG.DialogType.SYSTEM && !dialog_data.marker):
@@ -52,8 +51,7 @@ func _input(event: InputEvent) -> void:
 		if current_index >= len(dialog_data.arr):
 			await audio.finished;
 			dialog_closed = true;
-			if(dialog_data.marker): 
-				GLOBAL.emit_signal("close_dialog");
+			if(dialog_data.marker): GLOBAL.emit_signal("close_dialog");
 			timer.stop();
 		else:
 			label.text = label.text.erase(0, label.text.find("\n") + 1);

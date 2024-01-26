@@ -126,7 +126,7 @@ func create_party_list() -> void:
 		remain_hp_node.text = str(poke.data.current_hp);
 		
 	current_slots_length = current_slots.size();
-	current_slots[current_slots_length] = $Background;
+	current_slots[current_slots_length] = $Background; #CANCEL BUTTON
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;

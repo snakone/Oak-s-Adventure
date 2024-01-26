@@ -9,15 +9,18 @@ func _init(poke: Dictionary = {}, enemy = false):
 		name = poke.name;
 		data = poke;
 		data.death = false;
+		create_battle_moves();
 		get_resources();
 		if(enemy): set_enemy();
 		else: set_player(poke);
 
-static func attack(enemy: Object, move: Dictionary) -> bool:
+#ATTACK
+func attack(enemy: Object, move: Dictionary) -> bool:
 	if(move.pp <= 0): return false;
 	if(enemy.data.health <= 0): enemy.data.death = true;
-	enemy.data.health -= move.power;
 	move.pp -= 1;
+	enemy.data.health -= move.power;
+	enemy.data.current_hp -= round((move.power * enemy.data.total_hp) / 100);
 	return true;
 
 func set_enemy() -> void:
@@ -41,3 +44,8 @@ func get_resources() -> void:
 	data.back_texture = resources.back_texture;
 	data.shout = resources.shout;
 
+func create_battle_moves() -> void:
+	var array = [];
+	for move in data.moves:
+		array.push_back(MOVES.get_move(move).duplicate());
+	data.battle_moves = array;

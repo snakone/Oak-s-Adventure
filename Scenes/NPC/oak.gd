@@ -26,26 +26,32 @@ const BLOCK = preload("res://Assets/Sounds/Player bump.ogg");
 const PLAYER_JUMP = preload("res://Assets/Sounds/Player jump.ogg");
 
 enum PlayerState { IDLE, TURNING, WALKING };
-var player_state = PlayerState.IDLE;
-var input_direction = Vector2();
+
+#DATA
 var start_position = Vector2.UP;
+var input_direction = Vector2();
+var player_state = PlayerState.IDLE;
+var percent_moved: float = 0;
+var area_types := [GLOBAL.DialogAreaType.NONE];
+var battle_data: Dictionary;
+
+#STATES
 var jumping_over_ledge = false;
 var is_moving: bool = false;
-var percent_moved: float = 0;
 var sit_on_chair = false;
-var chair_direction: Vector2;
-var cant_enter_door_direction: Vector2;
 var stuck_on_door = false;
-var door_type: GLOBAL.DoorType;
-var area_types := [GLOBAL.DialogAreaType.NONE];
 var stop = false;
-var npc_dialog_id: int;
-var object_dialog_id: int;
-var dialog_direction: GLOBAL.Directions;
-var battle_data: Dictionary;
 var ready_to_battle = false;
 var coming_from_battle = false;
 var can_talk = false;
+
+#OBJECTS
+var chair_direction: Vector2;
+var cant_enter_door_direction: Vector2;
+var door_type: GLOBAL.DoorType;
+var npc_dialog_id: int;
+var object_dialog_id: int;
+var dialog_direction: GLOBAL.Directions;
 
 func _ready():
 	connect_signals();
@@ -55,10 +61,10 @@ func _ready():
 func _physics_process(delta) -> void:
 	GLOBAL.play_time += delta;
 	if(
+		stop ||
 		player_state == PlayerState.TURNING || 
 		GLOBAL.dialog_open || 
-		GLOBAL.party_open ||
-		stop
+		GLOBAL.party_open
 	): return;
 	elif(!is_moving && !GLOBAL.on_transition): process_player_input();
 	elif(input_direction != Vector2.ZERO && !stuck_on_door): move(delta);
@@ -146,12 +152,6 @@ func reset_moving() -> void:
 func check_ledges() -> void:
 	if(percent_moved >= 2): stop_jumping();
 	else: jump();
-
-#TRANSITION
-func check_transition():
-	if(percent_moved >= 1): 
-		stop_movement();
-	else: update_position();
 
 #JUMP
 func jump() -> void:

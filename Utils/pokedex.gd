@@ -17,10 +17,9 @@ enum Pokedex {
 
 func get_pokemon(index):
 	for poke in pokedex_list:
-		if(poke.number == index):
-			return poke;
-	
-func get_poke_resources(poke_name: String) -> Dictionary:
+		if(poke.number == index): return poke;
+
+func get_poke_resources(poke_name: String):
 	for poke in pokedex_list:
 		if(poke.name == poke_name):
 			return {
@@ -28,13 +27,7 @@ func get_poke_resources(poke_name: String) -> Dictionary:
 				"front_texture": poke.front_texture,
 				"back_texture": poke.back_texture,
 				"shout": poke.shout
-				};
-	return {
-		"party": MISSINGNO,
-		"front": MISSINGNO,
-		"back": MISSINGNO,
-		"shout": preload("res://Assets/Sounds/Pokemon/BULBASAUR.ogg")
-	};
+			};
 
 var pokedex_list: Array = [
 	{
