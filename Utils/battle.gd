@@ -29,6 +29,7 @@ const SNOW_BASE_0 = preload("res://Assets/UI/Battle/Backgrounds/snow_base0.png")
 const SNOW_BASE_1 = preload("res://Assets/UI/Battle/Backgrounds/snow_base1.png");
 
 enum Type { WILD, TRAINER, ELITE, SPECIAL }
+enum ExpType { ERRATIC, FAST, MEDIUM, SLOW, SLACK, FLUCTUATING }
 
 enum States {
 	MENU = 0, 

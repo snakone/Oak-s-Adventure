@@ -75,6 +75,8 @@ var player_attacked = false;
 var pokemon_death = false;
 var enemy_death = false;
 
+var exp_to_next_level = 0;
+
 func _ready():
 	connect_signals();
 	set_battle_ui();
@@ -150,6 +152,9 @@ func set_player_ui() -> void:
 		var move = player_moves[i];
 		player_attacks[i].visible = true;
 		player_attacks[i].text = move.name.to_upper();
+		
+	#EXP
+	exp_to_next_level = pokemon.get_exp_to_next_level();
 
 func set_player_health() -> void:
 	#LEFT ALIGNED

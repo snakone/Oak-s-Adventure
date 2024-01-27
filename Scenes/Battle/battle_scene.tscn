@@ -1317,7 +1317,6 @@ text = "Lv12"
 
 [node name="HP" type="RichTextLabel" parent="Info/PlayerInfo"]
 clip_contents = false
-offset_left = 11.0
 offset_top = 5.0
 offset_right = 42.0
 offset_bottom = 13.0
@@ -1326,7 +1325,7 @@ theme_override_colors/default_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_colors/font_shadow_color = Color(0.8, 0.8, 0.8, 1)
 theme_override_fonts/normal_font = ExtResource("7_6nkkf")
 theme_override_font_sizes/normal_font_size = 8
-text = "425/425"
+text = "425 / 425"
 text_direction = 2
 
 [node name="ExpBar" type="ColorRect" parent="Info/PlayerInfo"]

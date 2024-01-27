@@ -11,13 +11,14 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 		data.death = false;
 		get_stats();
 		get_resources();
-		if("IV" not in data): data.IV = get_random_IV();
+		if("IV" not in data): data.IV = set_random_IV();
 		if(enemy): data.level = randi_range(levels[0], levels[1]);
-		if("battle_stats" not in data): calculate_stats();
+		if("battle_stats" not in data): set_battle_stats();
 		if(enemy): set_enemy();
-		data.battle_stages = create_battle_stages();
-		if("battle_moves" not in data): create_battle_moves();
+		data.battle_stages = set_battle_stages();
+		if("battle_moves" not in data): set_battle_moves();
 		else: convert_battle_moves();
+		if(!enemy): set_exp_by_level();
 
 #ATTACK
 func attack(enemy: Object, move: Dictionary) -> bool:
@@ -36,7 +37,7 @@ func set_enemy() -> void:
 	data.gender = [0, 1][randi() % 2];
 	data.current_hp = data.battle_stats["HP"];
 
-func get_random_IV() -> Dictionary:
+func set_random_IV() -> Dictionary:
 	randomize();
 	var iv_list = {
 		"HP": randi() % 32,
@@ -57,7 +58,7 @@ func get_resources() -> void:
 	data.back_texture = resources.back_texture;
 	data.shout = resources.shout;
 
-func create_battle_moves() -> void:
+func set_battle_moves() -> void:
 	var array = [];
 	for move in data.moves:
 		array.push_back(MOVES.get_move(move).duplicate());
@@ -69,7 +70,7 @@ func convert_battle_moves() -> void:
 		array.push_back(MOVES.load_move_with_pp(move).duplicate());
 	data.battle_moves = array;
 
-func calculate_stats() -> void:
+func set_battle_stats() -> void:
 	data.battle_stats = {};
 	for key in data.IV.keys():
 		var value = data.IV[key];
@@ -88,10 +89,7 @@ func stat_formula(
 func health_formula(base: int, iv_value: int) -> int:
 	return floor(((((2 * base) + iv_value) * data.level) / 100) + data.level + 10);
 
-func damage_formula(
-	enemy: Object,
-	move: Dictionary,
-) -> int:
+func damage_formula(enemy: Object, move: Dictionary) -> int:
 	var ATK_stat: int;
 	var DEF_stat: int;
 	#var ATK_bonus = 0;
@@ -108,7 +106,6 @@ func damage_formula(
 		print("CRIT!!")
 		CRIT_stat = 2.0;
 		
-
 	if(move.type in data.types): STAB = 1.5;
 	match move.category:
 		MOVES.AttackCategory.PHYSIC:
@@ -142,18 +139,27 @@ func get_random_float() -> float:
 	return random_float;
 
 func custom_round(number, random_float):
-	var integer_part = int(number)
-	var decimal_part = number - integer_part
+	var integer_part = int(number);
+	var decimal_part = number - integer_part;
 	if 0.5 <= decimal_part and decimal_part <= 0.59 and random_float != 1:
-		return floor(number)
+		return floor(number);
 	else:
-		return round(number)
+		return round(number);
 
 func get_critical_chance(stage: int) -> float:
 	var critical_stages = [1.0/16.0, 1.0/8.0, 1.0/4.0 ,1.0/3.0 ,1.0/2.0];
 	return critical_stages[stage];
 
-func create_battle_stages() -> Dictionary:
+#EXP
+func set_exp_by_level() -> void:
+	var total_exp = EXP.get_exp_by_level(data.exp_type, data.level);
+	data.total_exp = floor(total_exp);
+
+func get_exp_to_next_level() -> int:
+	var exp_to_next = EXP.get_exp_for_next_level(data.exp_type, data.total_exp, data.level);
+	return floor(exp_to_next);
+
+func set_battle_stages() -> Dictionary:
 	return {
 		"ATK": 0,
 		"DEF": 0,

@@ -43,6 +43,7 @@ var pokedex_list: Array = [
 		"back_texture": preload("res://Assets/UI/Pokemon/bulbasaur/back.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/BULBASAUR.ogg"),
 		"moves": [1, 2],
+		"exp_type": BATTLE.ExpType.SLACK,
 		"stats": {
 			"HP": 45,
 			"ATK": 49,
@@ -62,6 +63,7 @@ var pokedex_list: Array = [
 		"back_texture": preload("res://Assets/UI/Pokemon/ivysaur/back.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/IVYSAUR.ogg"),
 		"moves": [1, 2],
+		"exp_type": BATTLE.ExpType.SLACK,
 		"stats": {
 			"HP": 60,
 			"ATK": 62,
@@ -81,6 +83,7 @@ var pokedex_list: Array = [
 		"back_texture": preload("res://Assets/UI/Pokemon/charmander/back.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/CHARMANDER.ogg"),
 		"moves": [1, 2],
+		"exp_type": BATTLE.ExpType.SLACK,
 		"stats": {
 			"HP": 39,
 			"ATK": 52,
@@ -100,6 +103,7 @@ var pokedex_list: Array = [
 		"back_texture": preload("res://Assets/UI/Pokemon/squirtle/back.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/SQUIRTLE.ogg"),
 		"moves": [1, 2],
+		"exp_type": BATTLE.ExpType.SLACK,
 		"stats": {
 			"HP": 44,
 			"ATK": 48,
@@ -119,6 +123,7 @@ var pokedex_list: Array = [
 		"back_texture": preload("res://Assets/UI/Pokemon/beedrill/back.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/BEEDRILL.ogg"),
 		"moves": [1, 2],
+		"exp_type": BATTLE.ExpType.MEDIUM,
 		"stats": {
 			"HP": 65,
 			"ATK": 90,
@@ -138,6 +143,7 @@ var pokedex_list: Array = [
 		"back_texture": preload("res://Assets/UI/Pokemon/pidgey/back.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/PIDGEY.ogg"),
 		"moves": [1, 2],
+		"exp_type": BATTLE.ExpType.SLACK,
 		"stats": {
 			"HP": 40,
 			"ATK": 45,
@@ -157,6 +163,7 @@ var pokedex_list: Array = [
 		"back_texture": preload("res://Assets/UI/Pokemon/rattata/back.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/RATTATA.ogg"),
 		"moves": [1, 2],
+		"exp_type": BATTLE.ExpType.MEDIUM,
 		"stats": {
 			"HP": 30,
 			"ATK": 56,
@@ -176,6 +183,7 @@ var pokedex_list: Array = [
 		"back_texture": preload("res://Assets/UI/Pokemon/pikachu/back.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/PIKACHU.ogg"),
 		"moves": [1, 2],
+		"exp_type": BATTLE.ExpType.MEDIUM,
 		"stats": {
 			"HP": 35,
 			"ATK": 55,
@@ -195,6 +203,7 @@ var pokedex_list: Array = [
 		"back_texture": preload("res://Assets/UI/Pokemon/horsea/back.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/HORSEA.ogg"),
 		"moves": [1, 2],
+		"exp_type": BATTLE.ExpType.MEDIUM,
 		"stats": {
 			"HP": 30,
 			"ATK": 40,

@@ -28,6 +28,7 @@ AUDIO="*res://Utils/audio.gd"
 SETTINGS="*res://Utils/settings.gd"
 BATTLE="*res://Utils/battle.gd"
 MOVES="*res://Utils/moves.gd"
+EXP="*res://Utils/experience.gd"
 
 [display]
 
@@ -42,12 +43,15 @@ window/stretch/scale=4.0
 folder_colors={
 "res://Assets/UI/": "purple",
 "res://Assets/UI/Battle/": "yellow",
+"res://Scenes/": "blue",
 "res://Scenes/Battle/": "yellow",
 "res://Scenes/Maps/": "blue",
 "res://Scenes/NPC/": "red",
 "res://Scenes/Nature/": "green",
 "res://Scenes/UI/": "purple",
-"res://Sprites/NPC/": "red"
+"res://Scripts/": "teal",
+"res://Sprites/NPC/": "red",
+"res://Utils/": "orange"
 }
 
 [filesystem]
