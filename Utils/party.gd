@@ -3,6 +3,10 @@ extends Node
 var current_party = [];
 var active_pokemon: Dictionary;
 
+const erase_props_on_save = [
+	"front_texture", "back_texture", "party_texture", "shout", "stats", "battle_stages"
+];
+
 func _ready(): add_to_group(GLOBAL.group_name);
 func get_party() -> Array: return current_party;
 func get_active_pokemon(): if(current_party): return current_party[2];
@@ -21,10 +25,21 @@ func create_party_from_json(party: Array) -> Array:
 		created_party.push_back(Pokemon.new(poke));
 	return created_party;
 
+#SAVE
 func get_party_as_json() -> Array:
 	var array = [];
 	for poke in current_party:
-		array.push_back(poke.data);
+		var new_data = poke.data.duplicate();
+		for prop in erase_props_on_save: new_data.erase(prop);
+		var new_moves = [];
+		for move in poke.data.battle_moves.duplicate():
+			new_moves.push_back({
+				"name": move.name,
+				"pp": move.pp,
+				"id": move.id
+			})
+		new_data.battle_moves = new_moves;
+		array.push_back(new_data);
 	return array;
 
 func save() -> Dictionary:

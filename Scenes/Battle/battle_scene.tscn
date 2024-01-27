@@ -1316,7 +1316,7 @@ text = "Lv12"
 
 [node name="HP" type="RichTextLabel" parent="Info/PlayerInfo"]
 clip_contents = false
-offset_left = 12.0
+offset_left = 11.0
 offset_top = 5.0
 offset_right = 42.0
 offset_bottom = 13.0

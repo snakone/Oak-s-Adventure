@@ -145,7 +145,6 @@ func set_player_ui() -> void:
 	player_info.get_node("Gender").frame = pokemon.data.gender;
 	player_info.get_node("Level").text = "Lv" + str(pokemon.data.level);
 	player_info.get_node("Gender").position.x = player_dist;
-	set_player_health();
 	
 	#MOVES
 	player_moves = pokemon.data.battle_moves;
@@ -156,20 +155,20 @@ func set_player_ui() -> void:
 		player_attacks[i].text = move.name.to_upper();
 
 func set_player_health() -> void:
-	var health = str(pokemon.data.current_hp) + "/" + str(pokemon.data.total_hp);
+	#LEFT ALIGNED
+	var health = str(pokemon.data.battle_stats["HP"]) + " / " + str(pokemon.data.current_hp);
 	player_info.get_node("HP").text = health;
 
 #ENEMY UI
 func set_enemy_ui() -> void:
-	enemy = Pokemon.new(POKEDEX.get_pokemon(battle_data["enemy"]), true);
+	enemy = Pokemon.new(POKEDEX.get_pokemon(battle_data["enemy"]), true, battle_data.levels);
 	var enemy_node_name = enemy_info.get_node("Name");
 	enemy_node_name.text = enemy.data.name;
 	var enemy_dist = enemy_node_name.get_content_width() + enemy_node_name.position.x + 5;
-	var level = str(battle_data.levels[randi() % battle_data.levels.size()]);
 	
 	enemy_sprite.texture = enemy.data.front_texture;
 	enemy_info.get_node("Gender").frame = enemy.data.gender;
-	enemy_info.get_node("Level").text = "Lv" + level;
+	enemy_info.get_node("Level").text = "Lv" + str(enemy.data.level);
 	enemy_info.get_node("Gender").position.x = enemy_dist;
 	
 	#MOVES
@@ -232,7 +231,7 @@ func end_battle(sound = true) -> void:
 	can_use_menu = false;
 	if(sound): 
 		play_audio(BATTLE_FLEE);
-		await audio.finished;
+		await GLOBAL.timeout(.8);
 	battle_anim_player.play("FadetoBlack");
 
 func close_battle() -> void:
@@ -331,20 +330,20 @@ func attack_input(event: InputEvent) -> void:
 func start_attack(delay = 0.0, sound = true) -> void:
 	await GLOBAL.timeout(delay);
 	attack_pressed = true;
-	var priority = pokemon.data.stats.VEL >= enemy.data.stats.VEL;
+	var priority = pokemon.data.battle_stats.SPD >= enemy.data.battle_stats.SPD;
 	if((priority && !player_attacked) || enemy_attacked):
 		#PLAYER ATTACKING
 		player_attacked = true;
 		var move = player_moves[selected_attack];
 		if(pokemon.attack(enemy, move)):
-			if(enemy.data.health <= 0): enemy_death = true;
+			if(enemy.data.current_hp <= 0): enemy_death = true;
 			handle_attack(pokemon, move, false, sound);
 	elif(!enemy_attacked || player_attacked):
 		#ENEMY ATTACKING
 		enemy_attacked = true;
 		var move = enemy_moves[0];
 		if(enemy.attack(pokemon, move)): 
-			if(pokemon.data.health <= 0): pokemon_death = true;
+			if(pokemon.data.current_hp <= 0): pokemon_death = true;
 			handle_attack(enemy, move, true, sound);
 	#CHECK IF DEATH
 	if(pokemon_death || enemy_death): return;
@@ -377,24 +376,19 @@ func handle_attack(
 func update_battle_ui(is_enemy) -> void:
 	var tween = get_tree().create_tween();
 	var target = get_attack_target(is_enemy);
-	var new_size = round((default_hp_bar_size * target.health) / 100);
+	var new_size = default_hp_bar_size * (float(target["current_hp"]) / float(target["total_hp"]));
 	tween.tween_property(target.bar, "size:x", new_size, .3);
-	#74%
-	if(
-		new_size <= (74.0 * default_hp_bar_size) / 100 &&
-		new_size > (28.0 * default_hp_bar_size) / 100
-	): target.bar.color = yellow_bar;
-	#28%
-	elif(new_size <= (28.0 * default_hp_bar_size) / 100):
-		target.bar.color = red_bar;
-	set_player_health();
+	if(target.current_hp <= 74.0 && target.current_hp > 28.0): 
+		target.bar.color = yellow_bar;
+	elif(target.current_hp <= 28.0): target.bar.color = red_bar;
+	if(is_enemy): set_player_health();
 	BATTLE.ui_updated.emit();
 
 func update_attack_ui() -> void:
 	var current_attack = player_moves[selected_attack];
 	var type_node = attack_selection_info.get_node("Type");
 	var pp_node = attack_selection_info.get_node("PP/Value");
-	type_node.text = MOVES.TypesString[current_attack.type + 1];
+	type_node.text = MOVES.TypesString[int(current_attack.type + 1)];
 	pp_node.text = str(current_attack.pp) + "/" + str(current_attack.total_pp);
 
 func handle_death(state: Dictionary) -> void:
@@ -509,12 +503,14 @@ func check_battle_state() -> void:
 func get_attack_target(is_enemy: bool) -> Dictionary:
 	var target: Dictionary;
 	if(is_enemy): target = {
-		"health": pokemon.data.health,
+		"current_hp": pokemon.data.current_hp,
+		"total_hp": pokemon.data.battle_stats["HP"],
 		"bar": player_hp_bar
 	}
 	else: target = {
-			"health": enemy.data.health,
-			"bar": enemy_hp_bar
+		"current_hp": enemy.data.current_hp,
+		"total_hp": enemy.data.battle_stats["HP"],
+		"bar": enemy_hp_bar
 	}
 	return target;
 

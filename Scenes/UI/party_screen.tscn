@@ -182,8 +182,10 @@ text_direction = 2
 language = "en"
 
 [node name="Health" type="Sprite2D" parent="Slots/First"]
-position = Vector2(56, 57.5)
+position = Vector2(32, 56)
+scale = Vector2(0.5, 1)
 texture = ExtResource("6_utcu8")
+centered = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Slots/First"]
 libraries = {
@@ -192,7 +194,6 @@ libraries = {
 autoplay = "Idle"
 
 [node name="Second" type="Node2D" parent="Slots"]
-visible = false
 position = Vector2(-94, -48)
 
 [node name="Panel" type="Sprite2D" parent="Slots/Second"]
@@ -285,8 +286,9 @@ text_direction = 2
 language = "en"
 
 [node name="Health" type="Sprite2D" parent="Slots/Second"]
-position = Vector2(110, 16.5)
+position = Vector2(86, 15)
 texture = ExtResource("6_utcu8")
+centered = false
 region_filter_clip_enabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Slots/Second"]
@@ -389,8 +391,9 @@ text_direction = 2
 language = "en"
 
 [node name="Health" type="Sprite2D" parent="Slots/Third"]
-position = Vector2(110, 16.5)
+position = Vector2(86, 15)
 texture = ExtResource("6_utcu8")
+centered = false
 region_filter_clip_enabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Slots/Third"]
@@ -493,8 +496,9 @@ text_direction = 2
 language = "en"
 
 [node name="Health" type="Sprite2D" parent="Slots/Fourth"]
-position = Vector2(110, 16.5)
+position = Vector2(86, 15)
 texture = ExtResource("6_utcu8")
+centered = false
 region_filter_clip_enabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Slots/Fourth"]
@@ -597,8 +601,9 @@ text_direction = 2
 language = "en"
 
 [node name="Health" type="Sprite2D" parent="Slots/Fifth"]
-position = Vector2(110, 16.5)
+position = Vector2(86, 15)
 texture = ExtResource("6_utcu8")
+centered = false
 region_filter_clip_enabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Slots/Fifth"]
@@ -701,8 +706,9 @@ text_direction = 2
 language = "en"
 
 [node name="Health" type="Sprite2D" parent="Slots/Sixth"]
-position = Vector2(110, 16.5)
+position = Vector2(86, 15)
 texture = ExtResource("6_utcu8")
+centered = false
 region_filter_clip_enabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Slots/Sixth"]

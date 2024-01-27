@@ -3,6 +3,8 @@ extends CanvasLayer
 @onready var audio = $AudioStreamPlayer;
 @onready var anim_player = $Slots/First/AnimationPlayer;
 
+const RED_BAR = preload("res://Assets/UI/red_bar.png");
+const YELLOW_BAR = preload("res://Assets/UI/yellow_bar.png");
 const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg")
 const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
 const party_screen_node =  "CurrentScene/PartyScreen";
@@ -114,7 +116,7 @@ func create_party_list() -> void:
 		var level_node = slots[index].get_node("Level");
 		var total_hp_node = slots[index].get_node("TotalHP");
 		var remain_hp_node = slots[index].get_node("RemainHP");
-		#var health_node = slots[foo.slot].get_node("Health");
+		var health_node = slots[index].get_node("Health");
 		
 		#STATS
 		var poke = party[index];
@@ -122,8 +124,13 @@ func create_party_list() -> void:
 		gender_node.frame = poke.data.gender;
 		name_node.text = poke.data.name;
 		level_node.text = str(poke.data.level);
-		total_hp_node.text = str(poke.data.total_hp);
+		total_hp_node.text = str(poke.data.battle_stats["HP"]);
 		remain_hp_node.text = str(poke.data.current_hp);
+		health_node.scale.x = float(poke.data.current_hp) / float(poke.data.battle_stats["HP"]);
+		
+		if(health_node.scale.x <= 0.74 && health_node.scale.x > 0.28): 
+			health_node.texture = YELLOW_BAR;
+		elif(health_node.scale.x <= 0.28): health_node.texture = RED_BAR;
 		
 	current_slots_length = current_slots.size();
 	current_slots[current_slots_length] = $Background; #CANCEL BUTTON

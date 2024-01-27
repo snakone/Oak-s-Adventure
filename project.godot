@@ -37,6 +37,19 @@ window/size/initial_position_type=0
 window/stretch/mode="canvas_items"
 window/stretch/scale=4.0
 
+[file_customization]
+
+folder_colors={
+"res://Assets/UI/": "purple",
+"res://Assets/UI/Battle/": "yellow",
+"res://Scenes/Battle/": "yellow",
+"res://Scenes/Maps/": "blue",
+"res://Scenes/NPC/": "red",
+"res://Scenes/Nature/": "green",
+"res://Scenes/UI/": "purple",
+"res://Sprites/NPC/": "red"
+}
+
 [filesystem]
 
 import/blender/enabled=false

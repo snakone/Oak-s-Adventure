@@ -86,6 +86,7 @@ func handle_save() -> void:
 	want_to_save = true;
 
 func save_and_close() -> void:
+	closing_menu = true;
 	play_audio(GUI_SAVE_GAME);
 	await audio.finished;
 	MEMORY._save();

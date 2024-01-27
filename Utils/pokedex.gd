@@ -29,6 +29,10 @@ func get_poke_resources(poke_name: String):
 				"shout": poke.shout
 			};
 
+func get_pokemon_stats(poke_name: String):
+	for poke in pokedex_list:
+		if(poke.name == poke_name): return poke.stats;
+
 var pokedex_list: Array = [
 	{
 		"name": "BULBASAUR",
@@ -40,26 +44,32 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/BULBASAUR.ogg"),
 		"moves": [1, 2],
 		"stats": {
-			"ATK": 6,
-			"DEF": 6,
-			"HP": 12,
-			"VEL": 6
+			"HP": 45,
+			"ATK": 49,
+			"DEF": 49,
+			"S.ATK": 65,
+			"S.DEF": 65,
+			"SPD": 45,
+			"TOTAL": 318
 		}
 	},
 	{
 		"name": "IVYSAUR",
 		"number": Pokedex.IVYSAUR,
-		"types": [MOVES.Types.GRASS, MOVES.Types.POISION],
+		"types": [MOVES.Types.GRASS, MOVES.Types.POISON],
 		"party_texture": preload("res://Assets/UI/Pokemon/ivysaur/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/ivysaur/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/ivysaur/back.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/IVYSAUR.ogg"),
 		"moves": [1, 2],
 		"stats": {
-			"ATK": 22,
-			"DEF": 6,
-			"HP": 12,
-			"VEL": 15
+			"HP": 60,
+			"ATK": 62,
+			"DEF": 63,
+			"S.ATK": 80,
+			"S.DEF": 80,
+			"SPD": 60,
+			"TOTAL": 405
 		}
 	},
 	{
@@ -72,10 +82,13 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/CHARMANDER.ogg"),
 		"moves": [1, 2],
 		"stats": {
-			"ATK": 10,
-			"DEF": 4,
-			"HP": 8,
-			"VEL": 7
+			"HP": 39,
+			"ATK": 52,
+			"DEF": 43,
+			"S.ATK": 60,
+			"S.DEF": 50,
+			"SPD": 65,
+			"TOTAL": 309
 		}
 	}, 
 	{
@@ -88,26 +101,32 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/SQUIRTLE.ogg"),
 		"moves": [1, 2],
 		"stats": {
-			"ATK": 8,
-			"DEF": 6,
-			"HP": 9,
-			"VEL": 5
+			"HP": 44,
+			"ATK": 48,
+			"DEF": 65,
+			"S.ATK": 50,
+			"S.DEF": 64,
+			"SPD": 43,
+			"TOTAL": 314
 		}
 	},
 	{
 		"name": "BEEDRILL",
 		"number": Pokedex.BEEDRILL,
-		"types": [MOVES.Types.BUG, MOVES.Types.POISION],
+		"types": [MOVES.Types.BUG, MOVES.Types.POISON],
 		"party_texture": preload("res://Assets/UI/Pokemon/beedrill/icon.png"),
 		"front_texture": preload("res://Assets/UI/Pokemon/beedrill/anim_front.png"),
 		"back_texture": preload("res://Assets/UI/Pokemon/beedrill/back.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/BEEDRILL.ogg"),
 		"moves": [1, 2],
 		"stats": {
-			"ATK": 15,
-			"DEF": 7,
-			"HP": 7,
-			"VEL": 9
+			"HP": 65,
+			"ATK": 90,
+			"DEF": 40,
+			"S.ATK": 45,
+			"S.DEF": 80,
+			"SPD": 75,
+			"TOTAL": 395
 		}
 	},
 	{
@@ -120,10 +139,13 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/PIDGEY.ogg"),
 		"moves": [1, 2],
 		"stats": {
-			"ATK": 15,
-			"DEF": 7,
-			"HP": 7,
-			"VEL": 9
+			"HP": 40,
+			"ATK": 45,
+			"DEF": 40,
+			"S.ATK": 35,
+			"S.DEF": 35,
+			"SPD": 56,
+			"TOTAL": 251
 		}
 	},
 	{
@@ -136,10 +158,13 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/RATTATA.ogg"),
 		"moves": [1, 2],
 		"stats": {
-			"ATK": 15,
-			"DEF": 7,
-			"HP": 7,
-			"VEL": 9
+			"HP": 30,
+			"ATK": 56,
+			"DEF": 35,
+			"S.ATK": 25,
+			"S.DEF": 35,
+			"SPD": 72,
+			"TOTAL": 253
 		}
 	},
 	{
@@ -152,10 +177,13 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/PIKACHU.ogg"),
 		"moves": [1, 2],
 		"stats": {
-			"ATK": 4,
-			"DEF": 6,
-			"HP": 10,
-			"VEL": 11
+			"HP": 35,
+			"ATK": 55,
+			"DEF": 40,
+			"S.ATK": 50,
+			"S.DEF": 50,
+			"SPD": 90,
+			"TOTAL": 320
 		}
 	},
 	{
@@ -168,10 +196,13 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/HORSEA.ogg"),
 		"moves": [1, 2],
 		"stats": {
-			"ATK": 6,
-			"DEF": 8,
-			"HP": 8,
-			"VEL": 6
+			"HP": 30,
+			"ATK": 40,
+			"DEF": 70,
+			"S.ATK": 70,
+			"S.DEF": 25,
+			"SPD": 60,
+			"TOTAL": 295
 		}
 	},
 ];

@@ -23,7 +23,10 @@ func _on_area_2d_body_entered(body) -> void:
 			check_for_battle(body);
 		else: body.coming_from_battle = false;
 
-func _on_area_2d_body_exited(_body): texture_rect.visible = false;
+func _on_area_2d_body_exited(body): 
+	body.coming_from_battle = false;
+	texture_rect.visible = false;
+
 func active_effect() -> void: grass_effect.play();
 func reset_texture(value: bool): if(value): texture_rect.visible = false;
 func _on_end_battle() -> void: call_deferred("set_process", Node.PROCESS_MODE_INHERIT);
