@@ -4,7 +4,7 @@ class_name Pokemon
 
 var data: Dictionary;
 
-func _init(poke: Dictionary = {}, enemy = false, levels = []):
+func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 	if("name" in poke):
 		name = poke.name;
 		data = poke;
@@ -28,8 +28,8 @@ func attack(enemy: Object, move: Dictionary) -> bool:
 	match move.category:
 		MOVES.AttackCategory.PHYSIC, MOVES.AttackCategory.SPECIAL:
 			var damage = damage_formula(enemy, move);
-			print(damage)
-			enemy.data.current_hp -= damage;
+			print("DMG: ", damage)
+			enemy.data.current_hp = max(0, enemy.data.current_hp - damage);
 	return true;
 
 func set_enemy() -> void:
@@ -66,8 +66,8 @@ func create_battle_moves() -> void:
 func convert_battle_moves() -> void:
 	var array = [];
 	for move in data.battle_moves:
-		array.push_back(MOVES.load_move_with_pp(move));
-	data.battle_moves = array.duplicate();
+		array.push_back(MOVES.load_move_with_pp(move).duplicate());
+	data.battle_moves = array;
 
 func calculate_stats() -> void:
 	data.battle_stats = {};
@@ -92,25 +92,24 @@ func damage_formula(
 	enemy: Object,
 	move: Dictionary,
 ) -> int:
-	randomize();
 	var ATK_stat: int;
 	var DEF_stat: int;
 	#var ATK_bonus = 0;
 	#var DEF_bonus = 0;
 	var CRIT_rate: float = get_critical_chance(0);
-	var CRIT_stat = 1;
+	var CRIT_stat = 1.0;
 	var STAB: float = 1.0;
-	var random = randi_range(85, 100) / 100.0;
 	var burned = 1;
 	var effective_type1 = 1.0;
 	var effective_type2 = 1.0;
 	var not_effective = false;
-
-	if(CRIT_rate > randi() % 100 + 1):
+	if(CRIT_rate > randf()):
 		#DEF_bonus = 0;
-		CRIT_stat = 2;
+		print("CRIT!!")
+		CRIT_stat = 2.0;
+		
+
 	if(move.type in data.types): STAB = 1.5;
-	
 	match move.category:
 		MOVES.AttackCategory.PHYSIC:
 			ATK_stat = data.battle_stats["ATK"];
@@ -123,22 +122,35 @@ func damage_formula(
 	if (enemy.data.types.size() > 1):
 		effective_type2 = MOVES.type_effective(move.type, enemy.data.types[1]);
 	
-	if(effective_type1 == 0.0 || effective_type2 == 0.0):
-		not_effective = true;
+	if(effective_type1 == 0.0 || effective_type2 == 0.0): not_effective = true;
 	
-	return round(
-		((((((2 * data.level) / 5) + 2) * move.power * (ATK_stat / DEF_stat)) / 50) * burned + 2) * 
-		(CRIT_stat * STAB * effective_type1 * effective_type2 * random)
-	);
+	var base_damage = floor(
+			((2.0 * float(data.level) / 5.0 + 2.0) * 
+				move.power * float(ATK_stat) / float(DEF_stat) / 50.0
+		) * burned + 2.0);
+		
+	var random: float = get_random_float();
+	var damage = (base_damage * CRIT_stat * STAB * effective_type1 * effective_type2 * random);
+	return custom_round(damage, random);
 	
+func get_random_float() -> float:
+	var modifier = 0.99;
+	if(data.level < 50.0): modifier = 1;
+	var num_steps = int((modifier - 0.85) / 0.01) + 1.0
+	var random_index = randi_range(0, num_steps - 1.0)
+	var random_float = 0.85 + random_index * 0.01;
+	return random_float;
+
+func custom_round(number, random_float):
+	var integer_part = int(number)
+	var decimal_part = number - integer_part
+	if 0.5 <= decimal_part and decimal_part <= 0.59 and random_float != 1:
+		return floor(number)
+	else:
+		return round(number)
+
 func get_critical_chance(stage: int) -> float:
-	var critical_stages = [
-		float(1/16.0),
-		float(1/8.0),
-		float(1/4.0),
-		float(1/3.0),
-		float(1/2.0)
-	];
+	var critical_stages = [1.0/16.0, 1.0/8.0, 1.0/4.0 ,1.0/3.0 ,1.0/2.0];
 	return critical_stages[stage];
 
 func create_battle_stages() -> Dictionary:

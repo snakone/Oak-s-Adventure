@@ -2,12 +2,13 @@ extends Node
 
 enum Moves { FIRST, SECOND, THIRD, FOURTH }
 
+const RED_BAR = preload("res://Assets/UI/red_bar.png");
+const YELLOW_BAR = preload("res://Assets/UI/yellow_bar.png");
 const CONFIRM = preload("res://Assets/Sounds/confirm.wav");
 const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg");
 const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
 const BATTLE_FLEE = preload("res://Assets/Sounds/Battle flee.ogg");
 const MovesAnimations = preload("res://Scenes/Battle/Moves/moves_animations.gd");
-const default_hp_bar_size = 48.0;
 
 #PLAYER
 @onready var player_info = $Info/PlayerInfo;
@@ -63,10 +64,6 @@ var dialog_array: Array
 var dialog_line: int
 var current_dialog_text: String = "";
 var intro_dialog = true;
-
-var green_bar = Color(0.56, 0.97, 0.65);
-var yellow_bar = Color(0.97, 0.87, 0.22);
-var red_bar = Color(0.81, 0.15, 0.15);
 
 var menu_cursor_index = Vector2.ZERO;
 var attack_cursor_index = Vector2.ZERO;
@@ -376,11 +373,11 @@ func handle_attack(
 func update_battle_ui(is_enemy) -> void:
 	var tween = get_tree().create_tween();
 	var target = get_attack_target(is_enemy);
-	var new_size = default_hp_bar_size * (float(target["current_hp"]) / float(target["total_hp"]));
-	tween.tween_property(target.bar, "size:x", new_size, .3);
-	if(target.current_hp <= 74.0 && target.current_hp > 28.0): 
-		target.bar.color = yellow_bar;
-	elif(target.current_hp <= 28.0): target.bar.color = red_bar;
+	var new_size = max(0, float(target["current_hp"]) / float(target["total_hp"]));
+	tween.tween_property(target.bar, "scale:x", new_size, .3);
+	if(new_size <= 0.74 && new_size > 0.28): 
+		target.bar.texture = YELLOW_BAR;
+	elif(new_size <= 0.28): target.bar.texture = RED_BAR;
 	if(is_enemy): set_player_health();
 	BATTLE.ui_updated.emit();
 

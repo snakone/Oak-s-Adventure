@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://3clfgm81x0yq"]
+[gd_scene load_steps=49 format=3 uid="uid://3clfgm81x0yq"]
 
 [ext_resource type="Script" path="res://Scenes/Battle/battle_scene.gd" id="1_vc7g5"]
 [ext_resource type="Texture2D" uid="uid://1ieaejkmc3gf" path="res://Assets/UI/Battle/Backgrounds/grass_01.png" id="2_qwkfb"]
@@ -10,6 +10,7 @@
 [ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="7_6nkkf"]
 [ext_resource type="Texture2D" uid="uid://cce8ahdqmj40s" path="res://Assets/UI/gender_icons.png" id="8_d5taf"]
 [ext_resource type="Texture2D" uid="uid://dmp0fucbg5jx0" path="res://Assets/UI/Battle/menue_cursor.png" id="8_t1ksm"]
+[ext_resource type="Texture2D" uid="uid://uaqoxfq6qhvd" path="res://Assets/UI/green_bar.png" id="9_1a4ob"]
 [ext_resource type="Texture2D" uid="uid://dbtcanods1xaq" path="res://Assets/UI/Battle/attack_select_background.png" id="9_iv4im"]
 [ext_resource type="Texture2D" uid="uid://dryrh4lqxcq54" path="res://Assets/UI/Pokemon/bulbasaur/anim_front.png" id="10_ntll6"]
 [ext_resource type="Texture2D" uid="uid://dhr3umvoi8nxa" path="res://Assets/UI/Pokemon/bulbasaur/back.png" id="11_2qd72"]
@@ -1275,13 +1276,13 @@ position = Vector2(0, -6)
 texture = ExtResource("8_d5taf")
 hframes = 2
 
-[node name="EnemyHPBar" type="ColorRect" parent="Info/EnemyInfo"]
+[node name="EnemyHPBar" type="Sprite2D" parent="Info/EnemyInfo"]
 z_index = 1
-offset_left = -12.0
-offset_top = 3.0
-offset_right = 36.0
-offset_bottom = 5.0
-color = Color(0.439216, 0.972549, 0.658824, 1)
+position = Vector2(-12, 3)
+texture = ExtResource("9_1a4ob")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 48, 2)
 
 [node name="PlayerInfo" type="Sprite2D" parent="Info"]
 visible = false
@@ -1343,12 +1344,12 @@ texture = ExtResource("8_d5taf")
 hframes = 2
 frame = 1
 
-[node name="PlayerHPBar" type="ColorRect" parent="Info/PlayerInfo"]
-offset_left = -6.0
-offset_top = -1.0
-offset_right = 42.0
-offset_bottom = 1.0
-color = Color(0.439216, 0.886275, 0.658824, 1)
+[node name="PlayerHPBar" type="Sprite2D" parent="Info/PlayerInfo"]
+position = Vector2(-6, -1)
+texture = ExtResource("9_1a4ob")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 48, 2)
 
 [node name="UI" type="Node2D" parent="."]
 
