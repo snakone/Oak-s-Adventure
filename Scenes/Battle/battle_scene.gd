@@ -17,6 +17,7 @@ const MovesAnimations = preload("res://Scenes/Battle/Moves/moves_animations.gd")
 @onready var audio_player = $UI/PlayerSprite/AudioStreamPlayer;
 @onready var player_ground = $Ground/PlayerGround;
 @onready var player_hp_bar = $Info/PlayerInfo/PlayerHPBar;
+@onready var exp_bar = $Info/PlayerInfo/ExpBar;
 
 #ENEMY
 @onready var enemy_info = $Info/EnemyInfo;
@@ -76,6 +77,7 @@ var pokemon_death = false;
 var enemy_death = false;
 
 var exp_to_next_level = 0;
+var base_exp_level = 0;
 
 func _ready():
 	connect_signals();
@@ -104,8 +106,8 @@ func _unhandled_key_input(event) -> void:
 			#bag_input(event)
 		#States.PARTY:
 			#party_input(event)
-#		states.RUN:
-#			action(3, "Flee")
+		#states.RUN:
+			#action(3, "Flee")
 		BATTLE.States.DIALOG: dialog_input(event);
 
 func battle_wild() -> void:
@@ -119,6 +121,7 @@ func start_battle_dialog() -> void:
 		"Go " + pokemon.data.name + "!"
 	]);
 
+#INTRO
 func check_intro_dialog() -> void:
 	close_dialog_and_show_menu(.3);
 	menu_label.text = "Ready! What will be your next move?"
@@ -152,12 +155,13 @@ func set_player_ui() -> void:
 		var move = player_moves[i];
 		player_attacks[i].visible = true;
 		player_attacks[i].text = move.name.to_upper();
-		
+	
 	#EXP
 	exp_to_next_level = pokemon.get_exp_to_next_level();
+	base_exp_level = pokemon.get_exp_by_level();
+	update_exp_bar();
 
-func set_player_health() -> void:
-	#LEFT ALIGNED
+func update_player_health() -> void: #LEFT ALIGNED
 	var health = str(pokemon.data.battle_stats["HP"]) + " / " + str(pokemon.data.current_hp);
 	player_info.get_node("HP").text = health;
 
@@ -383,7 +387,7 @@ func update_battle_ui(is_enemy) -> void:
 	if(new_size <= 0.74 && new_size > 0.28): 
 		target.bar.texture = YELLOW_BAR;
 	elif(new_size <= 0.28): target.bar.texture = RED_BAR;
-	if(is_enemy): set_player_health();
+	if(is_enemy): update_player_health();
 	BATTLE.ui_updated.emit();
 
 func update_attack_ui() -> void:
@@ -401,7 +405,21 @@ func handle_death(state: Dictionary) -> void:
 	await GLOBAL.timeout(0.9);
 	start_dialog(state.dialog);
 	await BATTLE.dialog_finished;
+	
+	if("exp" in state):
+		pokemon.data.total_exp += state.exp;
+		update_exp_bar();
+
+	await GLOBAL.timeout(1);
 	end_battle(false);
+	
+func update_exp_bar():
+	var new_size = int(base_exp_level != pokemon.data.total_exp);
+	var diff = pokemon.data.total_exp - base_exp_level;
+	if(new_size != 0): new_size = 1 / (exp_to_next_level / diff);
+	var tween = get_tree().create_tween();
+	tween.tween_property(exp_bar, "scale:x", clampf(new_size, 0.0, 1.0), 0.8);
+	await tween.finished;
 
 #MOVE ANIMATION
 func add_animation_and_play(move: Dictionary, is_enemy: bool) -> void:
@@ -487,12 +505,14 @@ func check_battle_state() -> void:
 	await BATTLE.attack_finished;
 	var state: Dictionary;
 	if(enemy_death):
+		var exp = EXP.get_exp_given_by_pokemon(enemy, battle_data.type);
 		state = {
 			"anim": "EnemyFaint",
 			"dialog": [
 				enemy.data.name + " fainted!\n", 
-				pokemon.data.name + " gained " + str(50) + " EXP."
-			]
+				pokemon.data.name + " gained " + str(exp) + " EXP."
+			],
+			"exp": exp
 		}
 		handle_death(state);
 	elif(pokemon_death):

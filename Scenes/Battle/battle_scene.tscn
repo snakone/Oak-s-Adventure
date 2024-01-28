@@ -1334,7 +1334,7 @@ offset_top = 15.0
 offset_right = 43.0
 offset_bottom = 17.0
 scale = Vector2(1e-05, 1)
-color = Color(0, 1, 1, 1)
+color = Color(0.243137, 0.780392, 0.952941, 1)
 
 [node name="Gender" type="Sprite2D" parent="Info/PlayerInfo"]
 self_modulate = Color(1, 1, 1, 0.882353)

@@ -9,7 +9,7 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 		name = poke.name;
 		data = poke;
 		data.death = false;
-		get_stats();
+		get_base_stats();
 		get_resources();
 		if("IV" not in data): data.IV = set_random_IV();
 		if(enemy): data.level = randi_range(levels[0], levels[1]);
@@ -18,7 +18,7 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 		data.battle_stages = set_battle_stages();
 		if("battle_moves" not in data): set_battle_moves();
 		else: convert_battle_moves();
-		if(!enemy): set_exp_by_level();
+		if(!enemy && "total_exp" not in data): set_exp_by_level();
 
 #ATTACK
 func attack(enemy: Object, move: Dictionary) -> bool:
@@ -29,7 +29,6 @@ func attack(enemy: Object, move: Dictionary) -> bool:
 	match move.category:
 		MOVES.AttackCategory.PHYSIC, MOVES.AttackCategory.SPECIAL:
 			var damage = damage_formula(enemy, move);
-			print("DMG: ", damage)
 			enemy.data.current_hp = max(0, enemy.data.current_hp - damage);
 	return true;
 
@@ -49,7 +48,7 @@ func set_random_IV() -> Dictionary:
 	}	
 	return iv_list;
 
-func get_stats() -> void: data.stats = POKEDEX.get_pokemon_stats(name);
+func get_base_stats() -> void: data.stats = POKEDEX.get_pokemon_prop(name, "stats");
 
 func get_resources() -> void:
 	var resources = POKEDEX.get_poke_resources(data.name);
@@ -100,10 +99,10 @@ func damage_formula(enemy: Object, move: Dictionary) -> int:
 	var burned = 1;
 	var effective_type1 = 1.0;
 	var effective_type2 = 1.0;
-	var not_effective = false;
+
 	if(CRIT_rate > randf()):
 		#DEF_bonus = 0;
-		print("CRIT!!")
+		BATTLE.emit_signal("critical_landed");
 		CRIT_stat = 2.0;
 		
 	if(move.type in data.types): STAB = 1.5;
@@ -119,7 +118,9 @@ func damage_formula(enemy: Object, move: Dictionary) -> int:
 	if (enemy.data.types.size() > 1):
 		effective_type2 = MOVES.type_effective(move.type, enemy.data.types[1]);
 	
-	if(effective_type1 == 0.0 || effective_type2 == 0.0): not_effective = true;
+	if(effective_type1 == 0.0 || effective_type2 == 0.0):
+		BATTLE.emit_signal("not_effective");
+		return 0;
 	
 	var base_damage = floor(
 			((2.0 * float(data.level) / 5.0 + 2.0) * 
@@ -155,9 +156,13 @@ func set_exp_by_level() -> void:
 	var total_exp = EXP.get_exp_by_level(data.exp_type, data.level);
 	data.total_exp = floor(total_exp);
 
-func get_exp_to_next_level() -> int:
-	var exp_to_next = EXP.get_exp_for_next_level(data.exp_type, data.total_exp, data.level);
-	return floor(exp_to_next);
+func get_exp_to_next_level():
+	var exp_till_next = EXP.get_exp_for_next_level(data.exp_type, data.total_exp, data.level);
+	return exp_till_next;
+	
+func get_exp_by_level():
+	var exp_by_level = EXP.get_exp_by_level(data.exp_type, data.level);
+	return exp_by_level;
 
 func set_battle_stages() -> Dictionary:
 	return {

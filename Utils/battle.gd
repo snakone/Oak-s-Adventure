@@ -4,6 +4,29 @@ signal dialog_finished()
 signal attack_finished()
 signal ui_updated();
 signal on_move_hit(is_enemy: bool);
+signal critical_landed();
+signal not_effective();
+signal experience_end();
+
+enum Type { WILD, TRAINER, ELITE, SPECIAL }
+enum ExpType { ERRATIC, FAST, MEDIUM, SLOW, SLACK, FLUCTUATING }
+
+enum States {
+	MENU = 0, 
+	FIGHT = 1, 
+	BAG = 2, 
+	PARTY = 3, 
+	RUN = 4, 
+	DIALOG = 5, 
+	NONE = 6, 
+	ATTACKING = 7
+}
+
+enum Zones {
+	FIELD = 0,
+	GRASS = 1,
+	SNOW = 2,
+}
 
 #MARKERS
 const BACKGROUND_ORANGE = preload("res://Assets/UI/Battle/attack_select_background_orange.png");
@@ -27,26 +50,6 @@ const GRASS_BASE_1 = preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png
 const SNOW_BG = preload("res://Assets/UI/Battle/Backgrounds/snow_bg.png");
 const SNOW_BASE_0 = preload("res://Assets/UI/Battle/Backgrounds/snow_base0.png");
 const SNOW_BASE_1 = preload("res://Assets/UI/Battle/Backgrounds/snow_base1.png");
-
-enum Type { WILD, TRAINER, ELITE, SPECIAL }
-enum ExpType { ERRATIC, FAST, MEDIUM, SLOW, SLACK, FLUCTUATING }
-
-enum States {
-	MENU = 0, 
-	FIGHT = 1, 
-	BAG = 2, 
-	PARTY = 3, 
-	RUN = 4, 
-	DIALOG = 5, 
-	NONE = 6, 
-	ATTACKING = 7
-}
-
-enum Zones {
-	FIELD = 0,
-	GRASS = 1,
-	SNOW = 2,
-}
 
 const tile_density = 1325.0;
 const modifire = 1.0;

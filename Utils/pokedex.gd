@@ -29,9 +29,9 @@ func get_poke_resources(poke_name: String):
 				"shout": poke.shout
 			};
 
-func get_pokemon_stats(poke_name: String):
+func get_pokemon_prop(poke_name: String, key: String):
 	for poke in pokedex_list:
-		if(poke.name == poke_name): return poke.stats;
+		if(poke.name == poke_name): return poke[key];
 
 var pokedex_list: Array = [
 	{
@@ -44,6 +44,7 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/BULBASAUR.ogg"),
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLACK,
+		"base_exp": 64,
 		"stats": {
 			"HP": 45,
 			"ATK": 49,
@@ -64,6 +65,7 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/IVYSAUR.ogg"),
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLACK,
+		"base_exp": 141,
 		"stats": {
 			"HP": 60,
 			"ATK": 62,
@@ -84,6 +86,7 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/CHARMANDER.ogg"),
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLACK,
+		"base_exp": 65,
 		"stats": {
 			"HP": 39,
 			"ATK": 52,
@@ -104,6 +107,7 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/SQUIRTLE.ogg"),
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLACK,
+		"base_exp": 66,
 		"stats": {
 			"HP": 44,
 			"ATK": 48,
@@ -124,6 +128,7 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/BEEDRILL.ogg"),
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.MEDIUM,
+		"base_exp": 159,
 		"stats": {
 			"HP": 65,
 			"ATK": 90,
@@ -144,6 +149,7 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/PIDGEY.ogg"),
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLACK,
+		"base_exp": 55,
 		"stats": {
 			"HP": 40,
 			"ATK": 45,
@@ -164,6 +170,7 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/RATTATA.ogg"),
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.MEDIUM,
+		"base_exp": 57,
 		"stats": {
 			"HP": 30,
 			"ATK": 56,
@@ -184,6 +191,7 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/PIKACHU.ogg"),
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.MEDIUM,
+		"base_exp": 82,
 		"stats": {
 			"HP": 35,
 			"ATK": 55,
@@ -204,6 +212,7 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/HORSEA.ogg"),
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.MEDIUM,
+		"base_exp": 83,
 		"stats": {
 			"HP": 30,
 			"ATK": 40,
