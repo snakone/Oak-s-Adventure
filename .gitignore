@@ -1,6 +1,8 @@
 # Godot 4+ specific ignores
 .godot/
-Sprites
 *.tmp
 *.poke
 *.import
+# Graphical Content
+Sprites
+Assets

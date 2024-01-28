@@ -21,16 +21,34 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 		if(!enemy && "total_exp" not in data): set_exp_by_level();
 
 #ATTACK
-func attack(enemy: Object, move: Dictionary) -> bool:
-	if(move.pp <= 0): return false;
+func attack(enemy: Object, move: Dictionary) -> Dictionary:
+	if(move.pp <= 0): return {
+		"ok": false,
+		"reason": "Not enough PP",
+		"damage": 0
+	};
 	if(enemy.data.current_hp <= 0): enemy.data.death = true;
 	move.pp -= 1;
 
 	match move.category:
 		MOVES.AttackCategory.PHYSIC, MOVES.AttackCategory.SPECIAL:
 			var damage = damage_formula(enemy, move);
+			set_hp_anim_duration_after_damage(damage, enemy);
 			enemy.data.current_hp = max(0, enemy.data.current_hp - damage);
-	return true;
+			return {
+				"ok": true,
+				"reason": "Attack Success",
+				"damage": damage
+			};
+	return {
+		"ok": false,
+		"reason": "Unknown",
+		"damage": 0
+	}
+
+func level_up() -> void:
+	data.level = min(data.level + 1, 100);
+	set_battle_stats();
 
 func set_enemy() -> void:
 	data.gender = [0, 1][randi() % 2];
@@ -130,7 +148,7 @@ func damage_formula(enemy: Object, move: Dictionary) -> int:
 	var random: float = get_random_float();
 	var damage = (base_damage * CRIT_stat * STAB * effective_type1 * effective_type2 * random);
 	return custom_round(damage, random);
-	
+
 func get_random_float() -> float:
 	var modifier = 0.99;
 	if(data.level < 50.0): modifier = 1;
@@ -139,7 +157,7 @@ func get_random_float() -> float:
 	var random_float = 0.85 + random_index * 0.01;
 	return random_float;
 
-func custom_round(number, random_float):
+func custom_round(number, random_float) -> int:
 	var integer_part = int(number);
 	var decimal_part = number - integer_part;
 	if 0.5 <= decimal_part and decimal_part <= 0.59 and random_float != 1:
@@ -156,11 +174,11 @@ func set_exp_by_level() -> void:
 	var total_exp = EXP.get_exp_by_level(data.exp_type, data.level);
 	data.total_exp = floor(total_exp);
 
-func get_exp_to_next_level():
+func get_exp_to_next_level() -> int:
 	var exp_till_next = EXP.get_exp_for_next_level(data.exp_type, data.total_exp, data.level);
 	return exp_till_next;
-	
-func get_exp_by_level():
+
+func get_exp_by_level() -> int:
 	var exp_by_level = EXP.get_exp_by_level(data.exp_type, data.level);
 	return exp_by_level;
 
@@ -174,3 +192,8 @@ func set_battle_stages() -> Dictionary:
 		"EVASION": 0,
 		"ACCURACY": 0
 	}
+
+func set_hp_anim_duration_after_damage(damage: int, enemy: Object) -> void:
+	var diff = min((float(damage) / float(enemy.data.current_hp)) + 0.4, 1);
+	var duration = (diff * diff) + BATTLE.hp_animation_duration;
+	BATTLE.emit_signal("health_bar_animation_duration", duration);

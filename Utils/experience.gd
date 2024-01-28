@@ -3,12 +3,12 @@ extends Node
 func get_exp_by_level(exp_type: BATTLE.ExpType, level: float) -> float:
 	if(level == 1): return 0.0;
 	match exp_type:
-		BATTLE.ExpType.ERRATIC: return get_erratic_exp(level);
-		BATTLE.ExpType.FAST: return get_fast_exp(level);
-		BATTLE.ExpType.MEDIUM: return get_medium_exp(level);
-		BATTLE.ExpType.SLOW: return get_slow_exp(level);
-		BATTLE.ExpType.SLACK: return get_slack_exp(level);
-		BATTLE.ExpType.FLUCTUATING: return get_fluctuating_exp(level);
+		BATTLE.ExpType.ERRATIC: return floor(get_erratic_exp(level));
+		BATTLE.ExpType.FAST: return floor(get_fast_exp(level));
+		BATTLE.ExpType.MEDIUM: return floor(get_medium_exp(level));
+		BATTLE.ExpType.SLOW: return floor(get_slow_exp(level));
+		BATTLE.ExpType.SLACK: return floor(get_slack_exp(level));
+		BATTLE.ExpType.FLUCTUATING: return floor(get_fluctuating_exp(level));
 	return 0.0;
 
 #ERRATIC

@@ -9,6 +9,8 @@ const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg");
 const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
 const BATTLE_FLEE = preload("res://Assets/Sounds/Battle flee.ogg");
 const MovesAnimations = preload("res://Scenes/Battle/Moves/moves_animations.gd");
+const EXP_GAIN_PKM = preload("res://Assets/Sounds/exp_gain_pkm.mp3")
+const PKMN_EXP_FULL = preload("res://Assets/Sounds/Pkmn exp full.ogg")
 
 #PLAYER
 @onready var player_info = $Info/PlayerInfo;
@@ -78,6 +80,8 @@ var enemy_death = false;
 
 var exp_to_next_level = 0;
 var base_exp_level = 0;
+var base_exp_to_next_level = 0;
+var health_bar_anim_duration = BATTLE.hp_animation_duration;
 
 func _ready():
 	connect_signals();
@@ -133,7 +137,7 @@ func set_battle_ui() -> void:
 	set_enemy_ui();
 	set_battle_texture();
 	set_markers();
-	update_battle_ui(true);
+	update_battle_ui(true, false);
 
 #PLAYER UI
 func set_player_ui() -> void:
@@ -142,28 +146,20 @@ func set_player_ui() -> void:
 	name_node.text = pokemon.data.name;
 	var player_dist = name_node.get_content_width() + name_node.position.x + 6;
 	
-	#INFO
 	player_sprite.texture = pokemon.data.back_texture;
 	player_info.get_node("Gender").frame = pokemon.data.gender;
 	player_info.get_node("Level").text = "Lv" + str(pokemon.data.level);
 	player_info.get_node("Gender").position.x = player_dist;
-	
-	#MOVES
 	player_moves = pokemon.data.battle_moves;
 	
 	for i in range(len(player_moves)):
 		var move = player_moves[i];
 		player_attacks[i].visible = true;
 		player_attacks[i].text = move.name.to_upper();
-	
-	#EXP
-	exp_to_next_level = pokemon.get_exp_to_next_level();
-	base_exp_level = pokemon.get_exp_by_level();
-	update_exp_bar();
-
-func update_player_health() -> void: #LEFT ALIGNED
-	var health = str(pokemon.data.battle_stats["HP"]) + " / " + str(pokemon.data.current_hp);
-	player_info.get_node("HP").text = health;
+		
+	set_pokemon_exp();
+	var size = get_new_exp_bar_size();;
+	exp_bar.scale.x = size;
 
 #ENEMY UI
 func set_enemy_ui() -> void:
@@ -177,7 +173,6 @@ func set_enemy_ui() -> void:
 	enemy_info.get_node("Level").text = "Lv" + str(enemy.data.level);
 	enemy_info.get_node("Gender").position.x = enemy_dist;
 	
-	#MOVES
 	for move in enemy.data.moves:
 		enemy_moves.push_back(MOVES.get_move(move));
 
@@ -341,14 +336,14 @@ func start_attack(delay = 0.0, sound = true) -> void:
 		#PLAYER ATTACKING
 		player_attacked = true;
 		var move = player_moves[selected_attack];
-		if(pokemon.attack(enemy, move)):
+		if(pokemon.attack(enemy, move).ok):
 			if(enemy.data.current_hp <= 0): enemy_death = true;
 			handle_attack(pokemon, move, false, sound);
 	elif(!enemy_attacked || player_attacked):
 		#ENEMY ATTACKING
 		enemy_attacked = true;
 		var move = enemy_moves[0];
-		if(enemy.attack(pokemon, move)): 
+		if(enemy.attack(pokemon, move).ok): 
 			if(pokemon.data.current_hp <= 0): pokemon_death = true;
 			handle_attack(enemy, move, true, sound);
 	#CHECK IF DEATH
@@ -356,17 +351,12 @@ func start_attack(delay = 0.0, sound = true) -> void:
 	#ATTACK AGAIN
 	if((!enemy_attacked || !player_attacked)):
 		await BATTLE.attack_finished;
-		start_attack(0.8, false);
+		start_attack(health_bar_anim_duration, false);
 		return;
 	enemy_attacked = false;
 	player_attacked = false;
-	
-func handle_attack(
-	target: Object, 
-	move: Dictionary,
-	is_enemy: bool,
-	sound = true
-) -> void:
+
+func handle_attack(target: Object, move: Dictionary, is_enemy: bool, sound = true) -> void:
 	current_state = BATTLE.States.ATTACKING;
 	battle_anim_player.stop();
 	if(sound): play_audio(CONFIRM);
@@ -375,17 +365,21 @@ func handle_attack(
 	add_animation_and_play(move, is_enemy);
 	attack_pressed = false;
 	update_attack_ui();
-	await BATTLE.ui_updated;
 	check_battle_state();
 
 #UPDATES
-func update_battle_ui(is_enemy) -> void:
-	var tween = get_tree().create_tween();
+func update_battle_ui(is_enemy, animated = true) -> void:
+	player_info.get_node("Level").text = "Lv" + str(pokemon.data.level);
 	var target = get_attack_target(is_enemy);
 	var new_size = max(0, float(target["current_hp"]) / float(target["total_hp"]));
-	tween.tween_property(target.bar, "scale:x", new_size, .3);
-	if(new_size <= 0.74 && new_size > 0.28): 
-		target.bar.texture = YELLOW_BAR;
+	
+	if(animated):
+		var tween = get_tree().create_tween();
+		tween.tween_property(target.bar, "scale:x", new_size, health_bar_anim_duration);
+		await tween.finished;
+	else: target.bar.scale.x = new_size;
+		
+	if(new_size <= 0.74 && new_size > 0.28): target.bar.texture = YELLOW_BAR;
 	elif(new_size <= 0.28): target.bar.texture = RED_BAR;
 	if(is_enemy): update_player_health();
 	BATTLE.ui_updated.emit();
@@ -397,6 +391,32 @@ func update_attack_ui() -> void:
 	type_node.text = MOVES.TypesString[int(current_attack.type + 1)];
 	pp_node.text = str(current_attack.pp) + "/" + str(current_attack.total_pp);
 
+#HEALTH BAR
+func update_player_health() -> void: #LEFT ALIGNED
+	var health = str(pokemon.data.battle_stats["HP"]) + " / " + str(pokemon.data.current_hp);
+	player_info.get_node("HP").text = health;
+
+func update_exp_bar() -> void:
+	var new_size = get_new_exp_bar_size();
+	var tween = get_tree().create_tween();
+	tween.set_trans(Tween.TRANS_SINE);
+	tween.tween_property(exp_bar, "scale:x", clampf(new_size, 0.0, 1.0), 1.3);
+	play_audio(EXP_GAIN_PKM);
+	await tween.finished;
+	
+	while(exp_to_next_level <= 0.0):
+		pokemon.level_up();
+		play_audio(PKMN_EXP_FULL);
+		await audio.finished;
+		set_pokemon_exp();
+		exp_bar.scale.x = 0;
+		update_exp_bar();
+		update_battle_ui(true, false);
+		await tween.finished;
+	
+	BATTLE.experience_end.emit();
+
+#DEATH
 func handle_death(state: Dictionary) -> void:
 	can_use_menu = false;
 	battle_anim_player.stop();
@@ -408,18 +428,12 @@ func handle_death(state: Dictionary) -> void:
 	
 	if("exp" in state):
 		pokemon.data.total_exp += state.exp;
+		exp_to_next_level -= state.exp;
 		update_exp_bar();
-
-	await GLOBAL.timeout(1);
-	end_battle(false);
+		await BATTLE.experience_end;
 	
-func update_exp_bar():
-	var new_size = int(base_exp_level != pokemon.data.total_exp);
-	var diff = pokemon.data.total_exp - base_exp_level;
-	if(new_size != 0): new_size = 1 / (exp_to_next_level / diff);
-	var tween = get_tree().create_tween();
-	tween.tween_property(exp_bar, "scale:x", clampf(new_size, 0.0, 1.0), 0.8);
-	await tween.finished;
+	await GLOBAL.timeout(.9);
+	end_battle(false);
 
 #MOVE ANIMATION
 func add_animation_and_play(move: Dictionary, is_enemy: bool) -> void:
@@ -451,26 +465,7 @@ func start_attack_dialog(input_arr: Array) -> void:
 	BATTLE.dialog_finished.emit();
 	after_attacking();
 
-func after_attacking() -> void:
-	await BATTLE.attack_finished;
-	await GLOBAL.timeout(.2);
-	if(enemy_death || player_attacked || enemy_attacked || pokemon_death): return;
-	dialog.visible = false;
-	current_state = BATTLE.States.MENU;
-
-func _on_move_hit(is_enemy: bool) -> void:
-	update_battle_ui(is_enemy);
-	if(!is_enemy): battle_anim_player.play("DamageEnemy");
-	else: battle_anim_player.play("DamagePlayer")
-	await battle_anim_player.animation_finished;
-	battle_anim_player.play("Idle");
-
-func set_attack_slot() -> void:
-	if(attack_cursor_index == Vector2.ZERO): selected_attack = Moves.FIRST;
-	elif(attack_cursor_index == Vector2.RIGHT): selected_attack = Moves.SECOND;
-	elif(attack_cursor_index == Vector2.DOWN): selected_attack = Moves.THIRD;
-	elif(attack_cursor_index == Vector2(1, 1)): selected_attack = Moves.FOURTH;
-
+#AUDIO
 func play_shout_pokemon() -> void:
 	audio_player.stream = pokemon.data.shout;
 	audio_player.play();
@@ -478,11 +473,50 @@ func play_shout_pokemon() -> void:
 func play_move_and_shout_enemy() -> void:
 	enemy_anim_player.play("Move");
 	await GLOBAL.timeout(.2);
-	play_audio(enemy.data.shout);
+	play_enemy_shout();
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;
 	audio.play();
+
+func play_enemy_shout() -> void: play_audio(enemy.data.shout);
+
+#LISTENERS
+func _on_move_hit(is_enemy: bool) -> void:
+	update_battle_ui(is_enemy);
+	if(!is_enemy): battle_anim_player.play("DamageEnemy");
+	else: battle_anim_player.play("DamagePlayer")
+	await battle_anim_player.animation_finished;
+	battle_anim_player.play("Idle");
+
+func after_attacking() -> void:
+	await BATTLE.ui_updated;
+	await GLOBAL.timeout(.2);
+	if(enemy_death || player_attacked || enemy_attacked || pokemon_death): return;
+	dialog.visible = false;
+	current_state = BATTLE.States.MENU;
+
+#CHECKERS
+func check_battle_state() -> void:
+	await BATTLE.ui_updated;
+	var state: Dictionary;
+	if(enemy_death):
+		var poke_exp = EXP.get_exp_given_by_pokemon(enemy, battle_data.type);
+		state = {
+			"anim": "EnemyFaint",
+			"dialog": [
+				enemy.data.name + " fainted!\n", 
+				pokemon.data.name + " gained " + str(poke_exp) + " EXP."
+			],
+			"exp": poke_exp
+		}
+		handle_death(state);
+	elif(pokemon_death):
+		state = {
+			"anim": "PlayerFaint",
+			"dialog": [pokemon.data.name + " fainted!"]
+		}
+		handle_death(state);
 
 func can_move_attack_cursor(pre_position: Vector2, new_position: Vector2) -> bool:
 	var attack2_position = Vector2(80, 127);
@@ -501,26 +535,13 @@ func can_move_attack_cursor(pre_position: Vector2, new_position: Vector2) -> boo
 		return false;
 	return true;
 
-func check_battle_state() -> void:
-	await BATTLE.attack_finished;
-	var state: Dictionary;
-	if(enemy_death):
-		var exp = EXP.get_exp_given_by_pokemon(enemy, battle_data.type);
-		state = {
-			"anim": "EnemyFaint",
-			"dialog": [
-				enemy.data.name + " fainted!\n", 
-				pokemon.data.name + " gained " + str(exp) + " EXP."
-			],
-			"exp": exp
-		}
-		handle_death(state);
-	elif(pokemon_death):
-		state = {
-			"anim": "PlayerFaint",
-			"dialog": [pokemon.data.name + " fainted!"]
-		}
-		handle_death(state);
+#GETTERS
+func get_new_exp_bar_size() -> float:
+	return float(
+		pokemon.data.total_exp - base_exp_level
+	) / float(
+		base_exp_to_next_level - base_exp_level
+	)
 
 func get_attack_target(is_enemy: bool) -> Dictionary:
 	var target: Dictionary;
@@ -536,4 +557,29 @@ func get_attack_target(is_enemy: bool) -> Dictionary:
 	}
 	return target;
 
-func connect_signals() -> void: BATTLE.connect("on_move_hit", _on_move_hit);
+#SETTERS
+func set_pokemon_exp() -> void:
+	base_exp_level = pokemon.get_exp_by_level();
+	base_exp_to_next_level = EXP.get_exp_by_level(pokemon.data.exp_type, pokemon.data.level + 1);
+	exp_to_next_level = base_exp_to_next_level - pokemon.data.total_exp;
+
+func _set_animation_health_bar_duration(duration: float) -> void:
+	health_bar_anim_duration = duration;
+
+func set_player_health(value: float) -> void:
+	var health = str(pokemon.data.battle_stats["HP"]) + " / " + str(floor(value));
+	player_info.get_node("HP").text = health;
+	var perct = floor(value) / float(pokemon.data.battle_stats["HP"]);
+	if(perct <= 0.74 && perct > 0.28): player_hp_bar.texture = YELLOW_BAR;
+	elif(perct <= 0.28): player_hp_bar.texture = RED_BAR;
+
+func set_attack_slot() -> void:
+	if(attack_cursor_index == Vector2.ZERO): selected_attack = Moves.FIRST;
+	elif(attack_cursor_index == Vector2.RIGHT): selected_attack = Moves.SECOND;
+	elif(attack_cursor_index == Vector2.DOWN): selected_attack = Moves.THIRD;
+	elif(attack_cursor_index == Vector2(1, 1)): selected_attack = Moves.FOURTH;
+
+#SIGNALS
+func connect_signals() -> void: 
+	BATTLE.connect("on_move_hit", _on_move_hit);
+	BATTLE.connect("health_bar_animation_duration", _set_animation_health_bar_duration);

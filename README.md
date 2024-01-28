@@ -8,6 +8,7 @@
 - Completely new maps
 - Additional effects and particles
 - Made from scratch
+- Custom Made Sprites
 
 ## Already implemented
 
@@ -23,7 +24,18 @@
 
 Credits on Sprites [Sprite Resource](https://www.spriters-resource.com/)
 
-v.0.4 - creaded by Snakone
+v.0.4.1 - creaded by Snakone
+
+## Assets/Sprites
+
+All the code is *open source*, you can check, take advice, copy/paste it to your own project.
+In other terms, graphical content is hidden by default. This includes all Assets and Sprites.
+You still can download the original files from [Sprite Resource](https://www.spriters-resource.com/).
+I spend a lot of time editing the original files, that's why the graphical content is not available for everyone.
+Let's say at least i want to have exclusive content for the game, knowing it's 100% inspired in Pokémon.
+
+## Download Godot Engine
+[Godot](https://godotengine.org/)
 
 ### All Rights reserved to
 &copy;2024 Pokémon. ©1995 - 2024 Nintendo/Creatures Inc./GAME FREAK inc. TM, ®Nintendo.

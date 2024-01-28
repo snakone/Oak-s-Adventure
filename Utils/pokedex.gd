@@ -149,14 +149,14 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/PIDGEY.ogg"),
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLACK,
-		"base_exp": 55,
+		"base_exp": 400,
 		"stats": {
 			"HP": 40,
 			"ATK": 45,
 			"DEF": 40,
 			"S.ATK": 35,
 			"S.DEF": 35,
-			"SPD": 56,
+			"SPD": 560,
 			"TOTAL": 251
 		}
 	},
@@ -170,14 +170,14 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/RATTATA.ogg"),
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.MEDIUM,
-		"base_exp": 57,
+		"base_exp": 400,
 		"stats": {
 			"HP": 30,
 			"ATK": 56,
 			"DEF": 35,
 			"S.ATK": 25,
 			"S.DEF": 35,
-			"SPD": 72,
+			"SPD": 720,
 			"TOTAL": 253
 		}
 	},

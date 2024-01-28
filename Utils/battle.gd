@@ -7,6 +7,7 @@ signal on_move_hit(is_enemy: bool);
 signal critical_landed();
 signal not_effective();
 signal experience_end();
+signal health_bar_animation_duration(duration: float);
 
 enum Type { WILD, TRAINER, ELITE, SPECIAL }
 enum ExpType { ERRATIC, FAST, MEDIUM, SLOW, SLACK, FLUCTUATING }
@@ -53,6 +54,7 @@ const SNOW_BASE_1 = preload("res://Assets/UI/Battle/Backgrounds/snow_base1.png")
 
 const tile_density = 1325.0;
 const modifire = 1.0;
+const hp_animation_duration = 0.2;
 
 @onready var zones_array = [
 	{

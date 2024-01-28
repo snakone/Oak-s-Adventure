@@ -17,3 +17,9 @@
 
 # 0.4
 - Battle Start Animation
+
+# 0.4.1
+- Full Battle Experience
+- Pokémon Stats based on IV
+- Formulas
+- EXP and Level UP
