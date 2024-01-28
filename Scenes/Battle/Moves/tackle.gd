@@ -5,15 +5,14 @@ extends Node2D;
 @onready var audio = $AudioStreamPlayer;
 @onready var enemy_sprite = $EnemySprite;
 
-var enemy: bool;
+enum Turn { PLAYER, ENEMY, NONE }
 var current_sprite: Sprite2D;
 
-func set_data_and_attack(sprite: Sprite2D, is_enemy: bool) -> void:
+func set_data_and_attack(sprite: Sprite2D, current_turn: Turn) -> void:
 	current_sprite = sprite;
-	enemy = is_enemy;
 	await GLOBAL.timeout(.1);
 	if(sprite != null):
-		if(!is_enemy): 
+		if(current_turn == Turn.PLAYER): 
 			player_sprite.texture = sprite.texture;
 			anim_player.play("Attack");
 		else:
@@ -23,7 +22,7 @@ func set_data_and_attack(sprite: Sprite2D, is_enemy: bool) -> void:
 
 func emit_on_hit() -> void: 
 	audio.play();
-	BATTLE.on_move_hit.emit(enemy);
+	BATTLE.on_move_hit.emit();
 
 func _on_animation_finished(_name):
 	current_sprite.visible = true;

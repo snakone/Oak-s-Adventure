@@ -2,6 +2,8 @@ extends Node
 
 enum Moves { FIRST, SECOND, THIRD, FOURTH }
 
+enum Turn { PLAYER, ENEMY, NONE }
+
 const RED_BAR = preload("res://Assets/UI/red_bar.png");
 const YELLOW_BAR = preload("res://Assets/UI/yellow_bar.png");
 const CONFIRM = preload("res://Assets/Sounds/confirm.wav");
@@ -60,7 +62,6 @@ var current_state = BATTLE.States.NONE;
 var can_use_menu = false;
 var attack_pressed = false;
 var selected_attack = Moves.FIRST;
-var attacking = false;
 
 var dialog_pressed = false;
 var dialog_array: Array
@@ -73,8 +74,6 @@ var attack_cursor_index = Vector2.ZERO;
 var player_moves = [];
 var enemy_moves = [];
 
-var enemy_attacked = false;
-var player_attacked = false;
 var pokemon_death = false;
 var enemy_death = false;
 
@@ -82,6 +81,10 @@ var exp_to_next_level = 0;
 var base_exp_level = 0;
 var base_exp_to_next_level = 0;
 var health_bar_anim_duration = BATTLE.hp_animation_duration;
+
+var current_turn = Turn.NONE;
+var player_attacked = false;
+var enemy_attacked = false;
 
 func _ready():
 	connect_signals();
@@ -137,7 +140,7 @@ func set_battle_ui() -> void:
 	set_enemy_ui();
 	set_battle_texture();
 	set_markers();
-	update_battle_ui(true, false);
+	update_battle_ui(false);
 
 #PLAYER UI
 func set_player_ui() -> void:
@@ -334,18 +337,20 @@ func start_attack(delay = 0.0, sound = true) -> void:
 	var priority = pokemon.data.battle_stats.SPD >= enemy.data.battle_stats.SPD;
 	if((priority && !player_attacked) || enemy_attacked):
 		#PLAYER ATTACKING
+		current_turn = Turn.PLAYER;
 		player_attacked = true;
 		var move = player_moves[selected_attack];
 		if(pokemon.attack(enemy, move).ok):
 			if(enemy.data.current_hp <= 0): enemy_death = true;
-			handle_attack(pokemon, move, false, sound);
+			handle_attack(pokemon, move, sound);
 	elif(!enemy_attacked || player_attacked):
 		#ENEMY ATTACKING
+		current_turn = Turn.ENEMY;
 		enemy_attacked = true;
 		var move = enemy_moves[0];
 		if(enemy.attack(pokemon, move).ok): 
 			if(pokemon.data.current_hp <= 0): pokemon_death = true;
-			handle_attack(enemy, move, true, sound);
+			handle_attack(enemy, move, sound);
 	#CHECK IF DEATH
 	if(pokemon_death || enemy_death): return;
 	#ATTACK AGAIN
@@ -353,24 +358,24 @@ func start_attack(delay = 0.0, sound = true) -> void:
 		await BATTLE.attack_finished;
 		start_attack(health_bar_anim_duration, false);
 		return;
-	enemy_attacked = false;
 	player_attacked = false;
+	enemy_attacked = false;
 
-func handle_attack(target: Object, move: Dictionary, is_enemy: bool, sound = true) -> void:
+func handle_attack(target: Object, move: Dictionary, sound = true) -> void:
 	current_state = BATTLE.States.ATTACKING;
 	battle_anim_player.stop();
 	if(sound): play_audio(CONFIRM);
 	start_attack_dialog([target.name + " use " + move.name.to_upper() + "."]);
 	await BATTLE.dialog_finished;
-	add_animation_and_play(move, is_enemy);
+	add_animation_and_play(move);
 	attack_pressed = false;
 	update_attack_ui();
 	check_battle_state();
 
 #UPDATES
-func update_battle_ui(is_enemy, animated = true) -> void:
+func update_battle_ui(animated = true, get_self = false) -> void:
 	player_info.get_node("Level").text = "Lv" + str(pokemon.data.level);
-	var target = get_attack_target(is_enemy);
+	var target = get_attack_target(get_self);
 	var new_size = max(0, float(target["current_hp"]) / float(target["total_hp"]));
 	
 	if(animated):
@@ -381,7 +386,7 @@ func update_battle_ui(is_enemy, animated = true) -> void:
 		
 	if(new_size <= 0.74 && new_size > 0.28): target.bar.texture = YELLOW_BAR;
 	elif(new_size <= 0.28): target.bar.texture = RED_BAR;
-	if(is_enemy): update_player_health();
+	update_player_health();
 	BATTLE.ui_updated.emit();
 
 func update_attack_ui() -> void:
@@ -411,7 +416,7 @@ func update_exp_bar() -> void:
 		set_pokemon_exp();
 		exp_bar.scale.x = 0;
 		update_exp_bar();
-		update_battle_ui(true, false);
+		update_battle_ui(false, true);
 		await tween.finished;
 	
 	BATTLE.experience_end.emit();
@@ -436,12 +441,12 @@ func handle_death(state: Dictionary) -> void:
 	end_battle(false);
 
 #MOVE ANIMATION
-func add_animation_and_play(move: Dictionary, is_enemy: bool) -> void:
+func add_animation_and_play(move: Dictionary) -> void:
 	var list = MovesAnimations.new();
 	var animation = list.get_move_animation(move.name.to_lower());
-	call_deferred("add_child", animation);
-	if(!is_enemy): animation.set_data_and_attack(player_sprite, false);
-	else: animation.set_data_and_attack(enemy_sprite, true);
+	call_deferred("add_child", animation)
+	if(current_turn == Turn.PLAYER): animation.set_data_and_attack(player_sprite, current_turn);
+	elif(current_turn == Turn.ENEMY): animation.set_data_and_attack(enemy_sprite, current_turn);
 	await BATTLE.attack_finished;
 	animation.call_deferred("queue_free");
 
@@ -482,9 +487,9 @@ func play_audio(stream: AudioStream) -> void:
 func play_enemy_shout() -> void: play_audio(enemy.data.shout);
 
 #LISTENERS
-func _on_move_hit(is_enemy: bool) -> void:
-	update_battle_ui(is_enemy);
-	if(!is_enemy): battle_anim_player.play("DamageEnemy");
+func _on_move_hit() -> void:
+	update_battle_ui();
+	if(current_turn == Turn.PLAYER): battle_anim_player.play("DamageEnemy");
 	else: battle_anim_player.play("DamagePlayer")
 	await battle_anim_player.animation_finished;
 	battle_anim_player.play("Idle");
@@ -492,7 +497,7 @@ func _on_move_hit(is_enemy: bool) -> void:
 func after_attacking() -> void:
 	await BATTLE.ui_updated;
 	await GLOBAL.timeout(.2);
-	if(enemy_death || player_attacked || enemy_attacked || pokemon_death): return;
+	if(enemy_death || pokemon_death || player_attacked || enemy_attacked): return;
 	dialog.visible = false;
 	current_state = BATTLE.States.MENU;
 
@@ -543,9 +548,9 @@ func get_new_exp_bar_size() -> float:
 		base_exp_to_next_level - base_exp_level
 	)
 
-func get_attack_target(is_enemy: bool) -> Dictionary:
+func get_attack_target(get_self = false) -> Dictionary:
 	var target: Dictionary;
-	if(is_enemy): target = {
+	if(current_turn == Turn.ENEMY || get_self): target = {
 		"current_hp": pokemon.data.current_hp,
 		"total_hp": pokemon.data.battle_stats["HP"],
 		"bar": player_hp_bar
