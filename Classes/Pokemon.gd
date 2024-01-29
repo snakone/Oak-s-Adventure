@@ -32,7 +32,7 @@ func attack(enemy: Object, move: Dictionary) -> Dictionary:
 
 	match move.category:
 		MOVES.AttackCategory.PHYSIC, MOVES.AttackCategory.SPECIAL:
-			var damage = damage_formula(enemy, move);
+			var damage = min(damage_formula(enemy, move), enemy.data.current_hp);
 			set_hp_anim_duration_after_damage(damage, enemy);
 			enemy.data.current_hp = max(0, enemy.data.current_hp - damage);
 			return {
@@ -194,6 +194,6 @@ func set_battle_stages() -> Dictionary:
 	}
 
 func set_hp_anim_duration_after_damage(damage: int, enemy: Object) -> void:
-	var diff = min((float(damage) / float(enemy.data.current_hp)) + 0.4, 1);
-	var duration = (diff * diff) + BATTLE.hp_animation_duration;
-	BATTLE.emit_signal("health_bar_animation_duration", duration);
+	var diff = float(damage) / float(enemy.data.current_hp);
+	var result = max(BATTLE.min_hp_anim_duration, BATTLE.max_hp_anim_duration * (1 - exp(-diff)));
+	BATTLE.emit_signal("health_bar_animation_duration", result);

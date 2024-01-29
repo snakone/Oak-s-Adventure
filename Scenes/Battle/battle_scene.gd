@@ -22,6 +22,7 @@ const PKMN_EXP_FULL = preload("res://Assets/Sounds/Pkmn exp full.ogg")
 @onready var player_ground = $Ground/PlayerGround;
 @onready var player_hp_bar = $Info/PlayerInfo/PlayerHPBar;
 @onready var exp_bar = $Info/PlayerInfo/ExpBar;
+@onready var health_timer = $Info/PlayerInfo/HealthTimer;
 
 #ENEMY
 @onready var enemy_info = $Info/EnemyInfo;
@@ -80,11 +81,14 @@ var enemy_death = false;
 var exp_to_next_level = 0;
 var base_exp_level = 0;
 var base_exp_to_next_level = 0;
-var health_bar_anim_duration = BATTLE.hp_animation_duration;
+var health_bar_anim_duration = BATTLE.min_hp_anim_duration;
 
 var current_turn = Turn.NONE;
 var player_attacked = false;
 var enemy_attacked = false;
+
+var ellapsed_time = 0.0;
+var health_before_attack = 0.0;
 
 func _ready():
 	connect_signals();
@@ -140,7 +144,7 @@ func set_battle_ui() -> void:
 	set_enemy_ui();
 	set_battle_texture();
 	set_markers();
-	update_battle_ui(false);
+	update_battle_ui(false, true);
 
 #PLAYER UI
 func set_player_ui() -> void:
@@ -163,6 +167,7 @@ func set_player_ui() -> void:
 	set_pokemon_exp();
 	var size = get_new_exp_bar_size();;
 	exp_bar.scale.x = size;
+	health_before_attack = pokemon.data.current_hp;
 
 #ENEMY UI
 func set_enemy_ui() -> void:
@@ -348,6 +353,7 @@ func start_attack(delay = 0.0, sound = true) -> void:
 		current_turn = Turn.ENEMY;
 		enemy_attacked = true;
 		var move = enemy_moves[0];
+		health_before_attack = pokemon.data.current_hp;
 		if(enemy.attack(pokemon, move).ok): 
 			if(pokemon.data.current_hp <= 0): pokemon_death = true;
 			handle_attack(enemy, move, sound);
@@ -356,7 +362,7 @@ func start_attack(delay = 0.0, sound = true) -> void:
 	#ATTACK AGAIN
 	if((!enemy_attacked || !player_attacked)):
 		await BATTLE.attack_finished;
-		start_attack(health_bar_anim_duration, false);
+		start_attack(health_bar_anim_duration + 0.2, false);
 		return;
 	player_attacked = false;
 	enemy_attacked = false;
@@ -381,7 +387,14 @@ func update_battle_ui(animated = true, get_self = false) -> void:
 	if(animated):
 		var tween = get_tree().create_tween();
 		tween.tween_property(target.bar, "scale:x", new_size, health_bar_anim_duration);
+		if(current_turn == Turn.ENEMY):
+			health_timer.wait_time = health_bar_anim_duration / health_before_attack;
+			health_timer.start();
+		var await_time = 0;
+		if(health_bar_anim_duration > 1.0): await_time = 0.2;
+		await GLOBAL.timeout(await_time);
 		await tween.finished;
+		health_timer.stop();
 	else: target.bar.scale.x = new_size;
 		
 	if(new_size <= 0.74 && new_size > 0.28): target.bar.texture = YELLOW_BAR;
@@ -468,7 +481,7 @@ func start_attack_dialog(input_arr: Array) -> void:
 	current_dialog_text = "";
 	dialog_label.text = "";
 	BATTLE.dialog_finished.emit();
-	after_attacking();
+	after_dialog_attack();
 
 #AUDIO
 func play_shout_pokemon() -> void:
@@ -494,7 +507,7 @@ func _on_move_hit() -> void:
 	await battle_anim_player.animation_finished;
 	battle_anim_player.play("Idle");
 
-func after_attacking() -> void:
+func after_dialog_attack() -> void:
 	await BATTLE.ui_updated;
 	await GLOBAL.timeout(.2);
 	if(enemy_death || pokemon_death || player_attacked || enemy_attacked): return;
@@ -540,6 +553,15 @@ func can_move_attack_cursor(pre_position: Vector2, new_position: Vector2) -> boo
 		return false;
 	return true;
 
+func _on_health_timer_timeout() -> void:
+	if(current_turn == Turn.PLAYER): return;
+	if (ellapsed_time < health_bar_anim_duration):
+		var progress = ellapsed_time / health_bar_anim_duration;
+		var current_hp = lerp(int(health_before_attack), int(pokemon.data.current_hp), progress)
+		set_player_health(floor(current_hp));
+		ellapsed_time += health_timer.wait_time;
+	else: health_timer.stop()
+
 #GETTERS
 func get_new_exp_bar_size() -> float:
 	return float(
@@ -572,9 +594,9 @@ func _set_animation_health_bar_duration(duration: float) -> void:
 	health_bar_anim_duration = duration;
 
 func set_player_health(value: float) -> void:
-	var health = str(pokemon.data.battle_stats["HP"]) + " / " + str(floor(value));
+	var health = str(pokemon.data.battle_stats["HP"]) + " / " + str(value);
 	player_info.get_node("HP").text = health;
-	var perct = floor(value) / float(pokemon.data.battle_stats["HP"]);
+	var perct = value / float(pokemon.data.battle_stats["HP"]);
 	if(perct <= 0.74 && perct > 0.28): player_hp_bar.texture = YELLOW_BAR;
 	elif(perct <= 0.28): player_hp_bar.texture = RED_BAR;
 
@@ -588,3 +610,4 @@ func set_attack_slot() -> void:
 func connect_signals() -> void: 
 	BATTLE.connect("on_move_hit", _on_move_hit);
 	BATTLE.connect("health_bar_animation_duration", _set_animation_health_bar_duration);
+	health_timer.connect("timeout", _on_health_timer_timeout)

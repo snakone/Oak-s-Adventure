@@ -1350,6 +1350,8 @@ centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 48, 2)
 
+[node name="HealthTimer" type="Timer" parent="Info/PlayerInfo"]
+
 [node name="UI" type="Node2D" parent="."]
 
 [node name="EnemySprite" type="Sprite2D" parent="UI"]

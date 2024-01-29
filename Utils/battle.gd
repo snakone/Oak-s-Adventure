@@ -54,7 +54,9 @@ const SNOW_BASE_1 = preload("res://Assets/UI/Battle/Backgrounds/snow_base1.png")
 
 const tile_density = 1325.0;
 const modifire = 1.0;
-const hp_animation_duration = 0.2;
+
+const min_hp_anim_duration = 0.3;
+const max_hp_anim_duration = 3;
 
 @onready var zones_array = [
 	{

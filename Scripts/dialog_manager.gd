@@ -29,13 +29,14 @@ func _ready() -> void:
 		for j in range(len(text_string)):
 			await timer.timeout;
 			label.text += text_string[j];
-		
+	
+	await GLOBAL.timeout(0.2);
 	pressed = false;
 	marker.visible = dialog_data.marker;
 	if(dialog_data.type == DIALOG.DialogType.SYSTEM && !dialog_data.marker):
 		GLOBAL.emit_signal("system_dialog_finished");
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if(dialog_closed || !dialog_data.marker): return;
 	if event.is_action_pressed("space") and !pressed:
 		marker.visible = false;
@@ -65,6 +66,7 @@ func _input(event: InputEvent) -> void:
 				label.text += text_string[j];
 			current_line += 1;
 			marker.visible = dialog_data.marker;
+		await GLOBAL.timeout(0.2);
 		pressed = false;
 
 func add_prefix(text: String) -> String:
