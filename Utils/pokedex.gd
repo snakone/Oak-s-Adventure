@@ -12,7 +12,8 @@ enum Pokedex {
 	PIDGEY = 16,
 	RATTATA = 19,
 	PIKACHU = 25,
-	HORSEA = 116
+	HORSEA = 116,
+	RAYQUAZA = 384
 }
 
 func get_pokemon(index):
@@ -149,7 +150,7 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/PIDGEY.ogg"),
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLACK,
-		"base_exp": 400,
+		"base_exp": 4000,
 		"stats": {
 			"HP": 40,
 			"ATK": 45,
@@ -170,7 +171,7 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/RATTATA.ogg"),
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.MEDIUM,
-		"base_exp": 400,
+		"base_exp": 4000,
 		"stats": {
 			"HP": 30,
 			"ATK": 56,
@@ -221,6 +222,27 @@ var pokedex_list: Array = [
 			"S.DEF": 25,
 			"SPD": 60,
 			"TOTAL": 295
+		}
+	},
+	{
+		"name": "RAYQUAZA",
+		"number": Pokedex.RAYQUAZA,
+		"types": [MOVES.Types.DRAGON, MOVES.Types.FLYING],
+		"party_texture": preload("res://Assets/UI/Pokemon/rayquaza/icon.png"),
+		"front_texture": preload("res://Assets/UI/Pokemon/rayquaza/anim_front.png"),
+		"back_texture": preload("res://Assets/UI/Pokemon/rayquaza/back.png"),
+		"shout": preload("res://Assets/Sounds/Pokemon/RAYQUAZA.ogg"),
+		"moves": [1, 2],
+		"exp_type": BATTLE.ExpType.SLOW,
+		"base_exp": 220,
+		"stats": {
+			"HP": 105,
+			"ATK": 180,
+			"DEF": 100,
+			"S.ATK": 180,
+			"S.DEF": 100,
+			"SPD": 115,
+			"TOTAL": 780
 		}
 	},
 ];

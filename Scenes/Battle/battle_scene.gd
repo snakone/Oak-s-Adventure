@@ -11,8 +11,8 @@ const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg");
 const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
 const BATTLE_FLEE = preload("res://Assets/Sounds/Battle flee.ogg");
 const MovesAnimations = preload("res://Scenes/Battle/Moves/moves_animations.gd");
-const EXP_GAIN_PKM = preload("res://Assets/Sounds/exp_gain_pkm.mp3")
-const PKMN_EXP_FULL = preload("res://Assets/Sounds/Pkmn exp full.ogg")
+const EXP_GAIN_PKM = preload("res://Assets/Sounds/exp_gain_pkm.mp3");
+const EXP_FULL = preload("res://Assets/Sounds/exp_full.mp3");
 
 #PLAYER
 @onready var player_info = $Info/PlayerInfo;
@@ -23,6 +23,8 @@ const PKMN_EXP_FULL = preload("res://Assets/Sounds/Pkmn exp full.ogg")
 @onready var player_hp_bar = $Info/PlayerInfo/PlayerHPBar;
 @onready var exp_bar = $Info/PlayerInfo/ExpBar;
 @onready var health_timer = $Info/PlayerInfo/HealthTimer;
+@onready var info_background: Sprite2D = $Info/PlayerInfo/Background
+@onready var level_up_panel: NinePatchRect = $UI/NinePatchRect;
 
 #ENEMY
 @onready var enemy_info = $Info/EnemyInfo;
@@ -159,15 +161,15 @@ func set_player_ui() -> void:
 	player_info.get_node("Gender").position.x = player_dist;
 	player_moves = pokemon.data.battle_moves;
 	
+	set_pokemon_exp();
+	var size = get_new_exp_bar_size();;
+	exp_bar.scale.x = size;
+	update_player_health();
+	
 	for i in range(len(player_moves)):
 		var move = player_moves[i];
 		player_attacks[i].visible = true;
 		player_attacks[i].text = move.name.to_upper();
-		
-	set_pokemon_exp();
-	var size = get_new_exp_bar_size();;
-	exp_bar.scale.x = size;
-	health_before_attack = pokemon.data.current_hp;
 
 #ENEMY UI
 func set_enemy_ui() -> void:
@@ -345,6 +347,7 @@ func start_attack(delay = 0.0, sound = true) -> void:
 		current_turn = Turn.PLAYER;
 		player_attacked = true;
 		var move = player_moves[selected_attack];
+		health_before_attack = enemy.data.current_hp;
 		if(pokemon.attack(enemy, move).ok):
 			if(enemy.data.current_hp <= 0): enemy_death = true;
 			handle_attack(pokemon, move, sound);
@@ -387,19 +390,14 @@ func update_battle_ui(animated = true, get_self = false) -> void:
 	if(animated):
 		var tween = get_tree().create_tween();
 		tween.tween_property(target.bar, "scale:x", new_size, health_bar_anim_duration);
-		if(current_turn == Turn.ENEMY):
-			health_timer.wait_time = health_bar_anim_duration / health_before_attack;
-			health_timer.start();
+		start_health_timer();
 		var await_time = 0;
 		if(health_bar_anim_duration > 1.0): await_time = 0.2;
-		await GLOBAL.timeout(await_time);
 		await tween.finished;
-		health_timer.stop();
+		await GLOBAL.timeout(await_time);
+		stop_health_timer();
 	else: target.bar.scale.x = new_size;
 		
-	if(new_size <= 0.74 && new_size > 0.28): target.bar.texture = YELLOW_BAR;
-	elif(new_size <= 0.28): target.bar.texture = RED_BAR;
-	update_player_health();
 	BATTLE.ui_updated.emit();
 
 func update_attack_ui() -> void:
@@ -410,8 +408,8 @@ func update_attack_ui() -> void:
 	pp_node.text = str(current_attack.pp) + "/" + str(current_attack.total_pp);
 
 #HEALTH BAR
-func update_player_health() -> void: #LEFT ALIGNED
-	var health = str(pokemon.data.battle_stats["HP"]) + " / " + str(pokemon.data.current_hp);
+func update_player_health(value = pokemon.data.current_hp) -> void: #LEFT ALIGNED
+	var health = str(pokemon.data.battle_stats["HP"]) + " / " + str(value);
 	player_info.get_node("HP").text = health;
 
 func update_exp_bar() -> void:
@@ -421,18 +419,31 @@ func update_exp_bar() -> void:
 	tween.tween_property(exp_bar, "scale:x", clampf(new_size, 0.0, 1.0), 1.3);
 	play_audio(EXP_GAIN_PKM);
 	await tween.finished;
-	
-	while(exp_to_next_level <= 0.0):
-		pokemon.level_up();
-		play_audio(PKMN_EXP_FULL);
-		await audio.finished;
-		set_pokemon_exp();
-		exp_bar.scale.x = 0;
-		update_exp_bar();
-		update_battle_ui(false, true);
+	while(exp_to_next_level <= 0.0): 
+		level_up_animation();
 		await tween.finished;
-	
 	BATTLE.experience_end.emit();
+
+func level_up_animation() -> void:
+	var diff_stats = pokemon.level_up();
+	play_audio(EXP_FULL);
+	set_pokemon_exp();
+	exp_bar.scale.x = 0;
+	battle_anim_player.play("LevelUp");
+	await battle_anim_player.animation_finished;
+	update_battle_ui(false, true);
+	update_player_health();
+	start_dialog([pokemon.data.name + " grew to Level " + str(pokemon.data.level) + "!"]);
+	await BATTLE.dialog_finished;
+	dialog_marker.visible = true;
+	show_level_up_stats(diff_stats);
+	await BATTLE.level_up_stats_end;
+	dialog_label.text = "";
+	update_exp_bar();
+
+#LEVEL UP STATS
+func show_level_up_stats(diff_stats: Dictionary) -> void:
+	level_up_panel.show_panel(pokemon.data.battle_stats, diff_stats, dialog_marker);
 
 #DEATH
 func handle_death(state: Dictionary) -> void:
@@ -455,11 +466,11 @@ func handle_death(state: Dictionary) -> void:
 
 #MOVE ANIMATION
 func add_animation_and_play(move: Dictionary) -> void:
-	var list = MovesAnimations.new();
-	var animation = list.get_move_animation(move.name.to_lower());
-	call_deferred("add_child", animation)
-	if(current_turn == Turn.PLAYER): animation.set_data_and_attack(player_sprite, current_turn);
-	elif(current_turn == Turn.ENEMY): animation.set_data_and_attack(enemy_sprite, current_turn);
+	var move_list = MovesAnimations.new();
+	var animation = move_list.get_move_animation(move.name.to_lower());
+	call_deferred("add_child", animation);
+	if(current_turn == Turn.PLAYER): animation.play_attack(player_sprite, current_turn);
+	elif(current_turn == Turn.ENEMY): animation.play_attack(enemy_sprite, current_turn);
 	await BATTLE.attack_finished;
 	animation.call_deferred("queue_free");
 
@@ -483,22 +494,6 @@ func start_attack_dialog(input_arr: Array) -> void:
 	BATTLE.dialog_finished.emit();
 	after_dialog_attack();
 
-#AUDIO
-func play_shout_pokemon() -> void:
-	audio_player.stream = pokemon.data.shout;
-	audio_player.play();
-
-func play_move_and_shout_enemy() -> void:
-	enemy_anim_player.play("Move");
-	await GLOBAL.timeout(.2);
-	play_enemy_shout();
-
-func play_audio(stream: AudioStream) -> void:
-	audio.stream = stream;
-	audio.play();
-
-func play_enemy_shout() -> void: play_audio(enemy.data.shout);
-
 #LISTENERS
 func _on_move_hit() -> void:
 	update_battle_ui();
@@ -513,6 +508,16 @@ func after_dialog_attack() -> void:
 	if(enemy_death || pokemon_death || player_attacked || enemy_attacked): return;
 	dialog.visible = false;
 	current_state = BATTLE.States.MENU;
+
+func _on_health_timer_timeout() -> void:
+	var progress = ellapsed_time / health_bar_anim_duration;
+	if (ellapsed_time < health_bar_anim_duration):
+		var target_hp = int(pokemon.data.current_hp);
+		if(current_turn == Turn.PLAYER): target_hp = int(enemy.data.current_hp);
+		var current_hp = lerp(int(health_before_attack), target_hp, progress);
+		set_health_color_while_timer(floor(current_hp));
+		ellapsed_time += health_timer.wait_time;
+	else: stop_health_timer();
 
 #CHECKERS
 func check_battle_state() -> void:
@@ -553,14 +558,14 @@ func can_move_attack_cursor(pre_position: Vector2, new_position: Vector2) -> boo
 		return false;
 	return true;
 
-func _on_health_timer_timeout() -> void:
-	if(current_turn == Turn.PLAYER): return;
-	if (ellapsed_time < health_bar_anim_duration):
-		var progress = ellapsed_time / health_bar_anim_duration;
-		var current_hp = lerp(int(health_before_attack), int(pokemon.data.current_hp), progress)
-		set_player_health(floor(current_hp));
-		ellapsed_time += health_timer.wait_time;
-	else: health_timer.stop()
+#TIMER
+func start_health_timer() -> void:
+	health_timer.wait_time = health_bar_anim_duration / health_before_attack;
+	health_timer.start();
+
+func stop_health_timer() -> void:
+	health_timer.stop();
+	ellapsed_time = 0.0;
 
 #GETTERS
 func get_new_exp_bar_size() -> float:
@@ -593,12 +598,13 @@ func set_pokemon_exp() -> void:
 func _set_animation_health_bar_duration(duration: float) -> void:
 	health_bar_anim_duration = duration;
 
-func set_player_health(value: float) -> void:
-	var health = str(pokemon.data.battle_stats["HP"]) + " / " + str(value);
-	player_info.get_node("HP").text = health;
-	var perct = value / float(pokemon.data.battle_stats["HP"]);
-	if(perct <= 0.74 && perct > 0.28): player_hp_bar.texture = YELLOW_BAR;
-	elif(perct <= 0.28): player_hp_bar.texture = RED_BAR;
+func set_health_color_while_timer(value: float) -> void:
+	var target = get_attack_target();
+	if(current_turn == Turn.ENEMY): update_player_health(int(value));
+	var perct = value / float(target.total_hp);
+	if(perct < BATTLE.GREEN_BAR_PERCT && perct > BATTLE.YELLOW_BAR_PERCT): 
+		target.bar.texture = YELLOW_BAR;
+	elif(perct < BATTLE.YELLOW_BAR_PERCT): target.bar.texture = RED_BAR;
 
 func set_attack_slot() -> void:
 	if(attack_cursor_index == Vector2.ZERO): selected_attack = Moves.FIRST;
@@ -606,8 +612,24 @@ func set_attack_slot() -> void:
 	elif(attack_cursor_index == Vector2.DOWN): selected_attack = Moves.THIRD;
 	elif(attack_cursor_index == Vector2(1, 1)): selected_attack = Moves.FOURTH;
 
+#AUDIO
+func play_shout_pokemon() -> void:
+	audio_player.stream = pokemon.data.shout;
+	audio_player.play();
+
+func play_move_and_shout_enemy() -> void:
+	enemy_anim_player.play("Move");
+	await GLOBAL.timeout(.2);
+	play_enemy_shout();
+
+func play_audio(stream: AudioStream) -> void:
+	audio.stream = stream;
+	audio.play();
+
+func play_enemy_shout() -> void: play_audio(enemy.data.shout);
+
 #SIGNALS
 func connect_signals() -> void: 
 	BATTLE.connect("on_move_hit", _on_move_hit);
 	BATTLE.connect("health_bar_animation_duration", _set_animation_health_bar_duration);
-	health_timer.connect("timeout", _on_health_timer_timeout)
+	health_timer.connect("timeout", _on_health_timer_timeout);

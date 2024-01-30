@@ -4,6 +4,7 @@ class_name Pokemon
 
 var data: Dictionary;
 
+#CONSTRUCTOR
 func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 	if("name" in poke):
 		name = poke.name;
@@ -46,14 +47,39 @@ func attack(enemy: Object, move: Dictionary) -> Dictionary:
 		"damage": 0
 	}
 
-func level_up() -> void:
+#ACTIONS
+func level_up() -> Dictionary:
 	data.level = min(data.level + 1, 100);
+	var old_battle_stats = data.battle_stats;
 	set_battle_stats();
+	
+	return {
+		"HP": data.battle_stats["HP"] - old_battle_stats["HP"],
+		"ATK": data.battle_stats["ATK"] - old_battle_stats["ATK"],
+		"DEF": data.battle_stats["DEF"] - old_battle_stats["DEF"],
+		"S.ATK": data.battle_stats["S.ATK"] - old_battle_stats["S.ATK"],
+		"S.DEF": data.battle_stats["S.DEF"] - old_battle_stats["S.DEF"],
+		"SPD": data.battle_stats["SPD"] - old_battle_stats["SPD"],
+	}
+	
+#SETTERS
 
+#ENEMY
 func set_enemy() -> void:
 	data.gender = [0, 1][randi() % 2];
 	data.current_hp = data.battle_stats["HP"];
 
+#BATTLE STATS
+func set_battle_stats() -> void:
+	data.battle_stats = {};
+	for key in data.IV.keys():
+		var value = data.IV[key];
+		var stat_base = data.stats[key];
+		var nature = 1.0;
+		if(key != "HP"): data.battle_stats[key] = stat_formula(stat_base, value, nature);
+		elif(key == "HP"): data.battle_stats[key] = health_formula(stat_base, value);
+
+#IV
 func set_random_IV() -> Dictionary:
 	randomize();
 	var iv_list = {
@@ -66,8 +92,23 @@ func set_random_IV() -> Dictionary:
 	}	
 	return iv_list;
 
+#MOVES
+func set_battle_moves() -> void:
+	var array = [];
+	for move in data.moves:
+		array.push_back(MOVES.get_move(move).duplicate());
+	data.battle_moves = array;
+
+#HP ANIM
+func set_hp_anim_duration_after_damage(damage: int, enemy: Object) -> void:
+	var diff = float(damage) / float(enemy.data.current_hp);
+	var result = max(BATTLE.min_hp_anim_duration, BATTLE.max_hp_anim_duration * (1 - exp(-diff)));
+	BATTLE.emit_signal("health_bar_animation_duration", result);
+
+#BASE STATS
 func get_base_stats() -> void: data.stats = POKEDEX.get_pokemon_prop(name, "stats");
 
+#RESOURCES
 func get_resources() -> void:
 	var resources = POKEDEX.get_poke_resources(data.name);
 	data.party_texture = resources.party_texture;
@@ -75,27 +116,15 @@ func get_resources() -> void:
 	data.back_texture = resources.back_texture;
 	data.shout = resources.shout;
 
-func set_battle_moves() -> void:
-	var array = [];
-	for move in data.moves:
-		array.push_back(MOVES.get_move(move).duplicate());
-	data.battle_moves = array;
-
 func convert_battle_moves() -> void:
 	var array = [];
 	for move in data.battle_moves:
 		array.push_back(MOVES.load_move_with_pp(move).duplicate());
 	data.battle_moves = array;
 
-func set_battle_stats() -> void:
-	data.battle_stats = {};
-	for key in data.IV.keys():
-		var value = data.IV[key];
-		var stat_base = data.stats[key];
-		var nature = 1.0;
-		if(key != "HP"): data.battle_stats[key] = stat_formula(stat_base, value, nature);
-		elif(key == "HP"): data.battle_stats[key] = health_formula(stat_base, value);
+#FORMULAS
 
+#STATS
 func stat_formula(
 	base: int,
 	iv_value: int,
@@ -106,6 +135,7 @@ func stat_formula(
 func health_formula(base: int, iv_value: int) -> int:
 	return floor(((((2 * base) + iv_value) * data.level) / 100) + data.level + 10);
 
+#DAMAGE FORMULA
 func damage_formula(enemy: Object, move: Dictionary) -> int:
 	var ATK_stat: int;
 	var DEF_stat: int;
@@ -152,8 +182,8 @@ func damage_formula(enemy: Object, move: Dictionary) -> int:
 func get_random_float() -> float:
 	var modifier = 0.99;
 	if(data.level < 50.0): modifier = 1;
-	var num_steps = int((modifier - 0.85) / 0.01) + 1.0
-	var random_index = randi_range(0, num_steps - 1.0)
+	var num_steps = int((modifier - 0.85) / 0.01)
+	var random_index = randi_range(0, num_steps);
 	var random_float = 0.85 + random_index * 0.01;
 	return random_float;
 
@@ -192,8 +222,3 @@ func set_battle_stages() -> Dictionary:
 		"EVASION": 0,
 		"ACCURACY": 0
 	}
-
-func set_hp_anim_duration_after_damage(damage: int, enemy: Object) -> void:
-	var diff = float(damage) / float(enemy.data.current_hp);
-	var result = max(BATTLE.min_hp_anim_duration, BATTLE.max_hp_anim_duration * (1 - exp(-diff)));
-	BATTLE.emit_signal("health_bar_animation_duration", result);

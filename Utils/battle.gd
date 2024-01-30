@@ -8,6 +8,7 @@ signal critical_landed();
 signal not_effective();
 signal experience_end();
 signal health_bar_animation_duration(duration: float);
+signal level_up_stats_end();
 
 enum Type { WILD, TRAINER, ELITE, SPECIAL }
 enum ExpType { ERRATIC, FAST, MEDIUM, SLOW, SLACK, FLUCTUATING }
@@ -57,6 +58,9 @@ const modifire = 1.0;
 
 const min_hp_anim_duration = 0.3;
 const max_hp_anim_duration = 3;
+
+const GREEN_BAR_PERCT = 0.51;
+const YELLOW_BAR_PERCT = 0.2;
 
 @onready var zones_array = [
 	{

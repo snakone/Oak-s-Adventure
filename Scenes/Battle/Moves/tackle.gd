@@ -8,7 +8,7 @@ extends Node2D;
 enum Turn { PLAYER, ENEMY, NONE }
 var current_sprite: Sprite2D;
 
-func set_data_and_attack(sprite: Sprite2D, current_turn: Turn) -> void:
+func play_attack(sprite: Sprite2D, current_turn: Turn) -> void:
 	current_sprite = sprite;
 	await GLOBAL.timeout(.1);
 	if(sprite != null):
@@ -18,7 +18,7 @@ func set_data_and_attack(sprite: Sprite2D, current_turn: Turn) -> void:
 		else:
 			enemy_sprite.texture = sprite.texture;
 			anim_player.play("EnemyAttack");
-		sprite.visible = false;
+		current_sprite.visible = false;
 
 func emit_on_hit() -> void: 
 	audio.play();
