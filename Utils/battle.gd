@@ -8,7 +8,9 @@ signal critical_landed();
 signal not_effective();
 signal experience_end();
 signal health_bar_animation_duration(duration: float);
+signal level_up_dialog_end();
 signal level_up_stats_end();
+signal level_up_plus_end();
 
 enum Type { WILD, TRAINER, ELITE, SPECIAL }
 enum ExpType { ERRATIC, FAST, MEDIUM, SLOW, SLACK, FLUCTUATING }
@@ -21,7 +23,8 @@ enum States {
 	RUN = 4, 
 	DIALOG = 5, 
 	NONE = 6, 
-	ATTACKING = 7
+	ATTACKING = 7,
+	LEVELLING = 8
 }
 
 enum Zones {
@@ -61,6 +64,9 @@ const max_hp_anim_duration = 3;
 
 const GREEN_BAR_PERCT = 0.51;
 const YELLOW_BAR_PERCT = 0.2;
+
+var level_up_panel_visible = false;
+var can_close_level_up_panel = false;
 
 @onready var zones_array = [
 	{

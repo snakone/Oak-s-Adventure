@@ -1627,7 +1627,10 @@ theme = ExtResource("6_nsew4")
 theme_override_colors/font_shadow_color = Color(0.251087, 0.282353, 0.470436, 1)
 
 [node name="Timer" type="Timer" parent="Dialog"]
-wait_time = 0.03
+wait_time = 0.04
+
+[node name="Timer2" type="Timer" parent="Dialog"]
+wait_time = 0.04
 
 [node name="Marker" type="Sprite2D" parent="Dialog"]
 visible = false

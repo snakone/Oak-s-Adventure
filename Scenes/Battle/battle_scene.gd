@@ -13,6 +13,7 @@ const BATTLE_FLEE = preload("res://Assets/Sounds/Battle flee.ogg");
 const MovesAnimations = preload("res://Scenes/Battle/Moves/moves_animations.gd");
 const EXP_GAIN_PKM = preload("res://Assets/Sounds/exp_gain_pkm.mp3");
 const EXP_FULL = preload("res://Assets/Sounds/exp_full.mp3");
+@onready var timer_2: Timer = $Dialog/Timer2
 
 #PLAYER
 @onready var player_info = $Info/PlayerInfo;
@@ -91,6 +92,9 @@ var enemy_attacked = false;
 
 var ellapsed_time = 0.0;
 var health_before_attack = 0.0;
+var diff_stats: Dictionary;
+var level_up_panel_open = false;
+var level_up_stats_panel_open = false;
 
 func _ready():
 	connect_signals();
@@ -122,6 +126,7 @@ func _unhandled_key_input(event) -> void:
 		#states.RUN:
 			#action(3, "Flee")
 		BATTLE.States.DIALOG: dialog_input(event);
+		BATTLE.States.LEVELLING: levelling_input(event);
 
 func battle_wild() -> void:
 	anim_player.play("Start");
@@ -269,6 +274,25 @@ func start_dialog(input_arr: Array) -> void:
 	await GLOBAL.timeout(.2);
 	dialog_pressed = false;
 
+func levelling_input(event: InputEvent) -> void:
+	if(dialog_pressed): return;
+	if event.is_action_pressed("space"):
+		dialog_pressed = true;
+		play_audio(CONFIRM);
+		await audio.finished;
+		if(BATTLE.level_up_panel_visible):
+			if(BATTLE.can_close_level_up_panel): 
+				level_up_panel.close();
+				dialog_marker.visible = false;
+				current_state = BATTLE.States.NONE;
+				return;
+			else:
+				level_up_panel.show_stats_panel();
+				dialog_pressed = false;
+			return;
+		show_level_up_panel();
+		dialog_pressed = false;
+
 func dialog_input(event: InputEvent) -> void:
 	if(dialog_pressed): return;
 	if event.is_action_pressed("space"):
@@ -277,7 +301,7 @@ func dialog_input(event: InputEvent) -> void:
 		play_audio(CONFIRM);
 		await audio.finished;
 		if dialog_line < len(dialog_array): next_dialog();
-		else: end_dialog();
+		elif(current_state != BATTLE.States.LEVELLING): end_dialog();
 
 func next_dialog() -> void:
 	if(enemy_death): AUDIO.play_battle_win(battle_data.type);
@@ -412,7 +436,8 @@ func update_player_health(value = pokemon.data.current_hp) -> void: #LEFT ALIGNE
 	var health = str(pokemon.data.battle_stats["HP"]) + " / " + str(value);
 	player_info.get_node("HP").text = health;
 
-func update_exp_bar() -> void:
+func update_exp_bar(delay = 0.0) -> void:
+	await GLOBAL.timeout(delay);
 	var new_size = get_new_exp_bar_size();
 	var tween = get_tree().create_tween();
 	tween.set_trans(Tween.TRANS_SINE);
@@ -425,7 +450,7 @@ func update_exp_bar() -> void:
 	BATTLE.experience_end.emit();
 
 func level_up_animation() -> void:
-	var diff_stats = pokemon.level_up();
+	diff_stats = pokemon.level_up();
 	play_audio(EXP_FULL);
 	set_pokemon_exp();
 	exp_bar.scale.x = 0;
@@ -433,17 +458,17 @@ func level_up_animation() -> void:
 	await battle_anim_player.animation_finished;
 	update_battle_ui(false, true);
 	update_player_health();
-	start_dialog([pokemon.data.name + " grew to Level " + str(pokemon.data.level) + "!"]);
-	await BATTLE.dialog_finished;
-	dialog_marker.visible = true;
-	show_level_up_stats(diff_stats);
+	start_level_up_dialog([pokemon.data.name + " grew to Level " + str(pokemon.data.level) + "!"]);
 	await BATTLE.level_up_stats_end;
+	print("LEVEL DIALOG END");
 	dialog_label.text = "";
-	update_exp_bar();
+	update_exp_bar(0.5);
+	timer_2.stop();
 
 #LEVEL UP STATS
-func show_level_up_stats(diff_stats: Dictionary) -> void:
+func show_level_up_panel() -> void:
 	level_up_panel.show_panel(pokemon.data.battle_stats, diff_stats, dialog_marker);
+	dialog_pressed = false;
 
 #DEATH
 func handle_death(state: Dictionary) -> void:
@@ -493,6 +518,23 @@ func start_attack_dialog(input_arr: Array) -> void:
 	dialog_label.text = "";
 	BATTLE.dialog_finished.emit();
 	after_dialog_attack();
+	
+#LEVEL UP DIALOG
+func start_level_up_dialog(input_arr: Array) -> void:
+	current_dialog_text = "";
+	current_state = BATTLE.States.LEVELLING;
+	timer_2.start();
+	
+	for i in range(1):
+		for j in range(len(input_arr[i])):
+			await timer_2.timeout;
+			current_dialog_text += input_arr[i][j];
+			dialog_label.text = current_dialog_text;
+	dialog_marker.visible = true;
+	await GLOBAL.timeout(0.2);
+	dialog_pressed = false;
+	BATTLE.level_up_dialog_end.emit();
+	timer_2.stop();
 
 #LISTENERS
 func _on_move_hit() -> void:

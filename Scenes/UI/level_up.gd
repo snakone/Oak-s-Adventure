@@ -31,29 +31,24 @@ func show_panel(
 	battle_diff_stats: Dictionary,
 	marker: Sprite2D
 ) -> void:
+	BATTLE.can_close_level_up_panel = false;
 	anim_player.play("RESET");
 	dialog_marker = marker;
 	stats = battle_stats;
 	for key in battle_diff_stats.keys():
 		plus_dict[key].text = "+" + str(battle_diff_stats[key]);
 	visible = true;
+	BATTLE.level_up_panel_visible = true;
+	marker.visible = true;
 
-func _unhandled_input(event: InputEvent) -> void:
-	if(
-		!event is InputEventKey ||
-		!event.is_pressed() || 
-		event.is_echo() ||
-		!GLOBAL.on_battle ||
-		!visible
-	): return;
-	if(event.is_action_pressed("space")):
-		anim_player.play("DefaultColor");
-		audio.play();
-		dialog_marker.visible = false;
-		for key in stats.keys():
-			plus_dict[key].text = str(stats[key]);
-		await GLOBAL.timeout(2.8);
-		visible = false;
-		BATTLE.level_up_stats_end.emit();
+func show_stats_panel() -> void:
+	anim_player.play("DefaultColor");
+	for key in stats.keys():
+		plus_dict[key].text = str(stats[key]);
+	BATTLE.can_close_level_up_panel = true;
 
-
+func close() -> void:
+	await GLOBAL.timeout(0.2);
+	BATTLE.level_up_panel_visible = false;
+	visible = false;
+	BATTLE.level_up_stats_end.emit();

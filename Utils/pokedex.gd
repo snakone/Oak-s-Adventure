@@ -178,7 +178,7 @@ var pokedex_list: Array = [
 			"DEF": 35,
 			"S.ATK": 25,
 			"S.DEF": 35,
-			"SPD": 720,
+			"SPD": 4,
 			"TOTAL": 253
 		}
 	},
