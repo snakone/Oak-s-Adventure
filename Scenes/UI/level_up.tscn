@@ -164,6 +164,7 @@ _data = {
 }
 
 [node name="NinePatchRect" type="NinePatchRect"]
+visible = false
 offset_left = 115.0
 offset_top = 8.0
 offset_right = 215.0

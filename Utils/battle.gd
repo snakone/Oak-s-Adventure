@@ -8,9 +8,7 @@ signal critical_landed();
 signal not_effective();
 signal experience_end();
 signal health_bar_animation_duration(duration: float);
-signal level_up_dialog_end();
 signal level_up_stats_end();
-signal level_up_plus_end();
 
 enum Type { WILD, TRAINER, ELITE, SPECIAL }
 enum ExpType { ERRATIC, FAST, MEDIUM, SLOW, SLACK, FLUCTUATING }

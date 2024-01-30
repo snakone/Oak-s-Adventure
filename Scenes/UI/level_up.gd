@@ -21,27 +21,17 @@ var stats: Dictionary;
 	"SPD": speed_plus,
 }
 
-var dialog_marker: Sprite2D;
-
-func _ready() -> void:
-	visible = false;
-
 func show_panel(
 	battle_stats: Dictionary,
-	battle_diff_stats: Dictionary,
-	marker: Sprite2D
+	battle_diff_stats: Dictionary
 ) -> void:
-	BATTLE.can_close_level_up_panel = false;
 	anim_player.play("RESET");
-	dialog_marker = marker;
 	stats = battle_stats;
 	for key in battle_diff_stats.keys():
 		plus_dict[key].text = "+" + str(battle_diff_stats[key]);
 	visible = true;
-	BATTLE.level_up_panel_visible = true;
-	marker.visible = true;
 
-func show_stats_panel() -> void:
+func show_total_stats() -> void:
 	anim_player.play("DefaultColor");
 	for key in stats.keys():
 		plus_dict[key].text = str(stats[key]);
@@ -49,6 +39,6 @@ func show_stats_panel() -> void:
 
 func close() -> void:
 	await GLOBAL.timeout(0.2);
-	BATTLE.level_up_panel_visible = false;
 	visible = false;
+	BATTLE.level_up_panel_visible = false;
 	BATTLE.level_up_stats_end.emit();
