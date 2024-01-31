@@ -108,7 +108,8 @@ func _unhandled_key_input(event) -> void:
 		current_state == BATTLE.States.ATTACKING ||
 		event.is_echo() ||
 		!event.is_pressed() ||
-		GLOBAL.menu_open
+		GLOBAL.menu_open ||
+		dialog_pressed
 	): return;
 	if(event.is_action_pressed("escape")): 
 		end_battle(false);
@@ -224,7 +225,6 @@ func menu_input(event: InputEvent) -> void:
 	#SELECTION
 	if event.is_action_pressed("space"):
 		play_audio(CONFIRM);
-		await audio.finished;
 		match_menu_input();
 
 func match_menu_input() -> void:
@@ -302,7 +302,7 @@ func next_dialog() -> void:
 func end_dialog() -> void:
 	dialog_timer.stop();
 	current_dialog_text = "";
-	dialog_pressed = false;
+	dialog_pressed = (enemy_death || pokemon_death);
 	if(!intro_dialog && !pokemon_death && !enemy_death): close_dialog_and_show_menu(0);
 	await GLOBAL.timeout(.2);
 	current_state = BATTLE.States.MENU;
@@ -524,8 +524,8 @@ func start_attack_dialog(input_arr: Array) -> void:
 	
 #LEVEL UP DIALOG
 func start_level_up_dialog(input_arr: Array) -> void:
-	current_dialog_text = "";
 	current_state = BATTLE.States.LEVELLING;
+	current_dialog_text = "";
 	level_up_timer.start();
 	
 	for i in range(1):
