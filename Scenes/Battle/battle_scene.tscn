@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://3clfgm81x0yq"]
+[gd_scene load_steps=55 format=3 uid="uid://3clfgm81x0yq"]
 
 [ext_resource type="Script" path="res://Scenes/Battle/battle_scene.gd" id="1_vc7g5"]
 [ext_resource type="Texture2D" uid="uid://1ieaejkmc3gf" path="res://Assets/UI/Battle/Backgrounds/grass_01.png" id="2_qwkfb"]
@@ -25,6 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://g2v4baiol8mq" path="res://Assets/UI/Battle/Characters/ball.png" id="19_lwo1p"]
 [ext_resource type="Texture2D" uid="uid://chfcujj18qrt5" path="res://Assets/UI/Battle/Characters/oak_1.png" id="20_8lsng"]
 [ext_resource type="AudioStream" uid="uid://c65pmmk1yu3rg" path="res://Assets/UI/Battle/spawnpokemon.mp3.wav" id="20_lq7ek"]
+[ext_resource type="Script" path="res://Scenes/Battle/battle_dialog.gd" id="21_ypber"]
 [ext_resource type="Texture2D" uid="uid://bdwahe7q8c7up" path="res://Assets/UI/Battle/Characters/oak_2.png" id="21_yqy66"]
 [ext_resource type="Texture2D" uid="uid://ddthxuireeyxa" path="res://Assets/UI/Battle/Characters/oak_3.png" id="22_lr1rg"]
 [ext_resource type="Texture2D" uid="uid://gi7cwgf0fcqw" path="res://Assets/UI/Battle/Characters/oak_4.png" id="23_jtn2l"]
@@ -1110,7 +1111,7 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
-"method": &"play_move_and_shout_enemy"
+"method": &"play_shout_pokemon"
 }]
 }
 tracks/3/type = "value"
@@ -1610,7 +1611,9 @@ position = Vector2(128, 73)
 texture = ExtResource("16_vfw16")
 
 [node name="Dialog" type="Node2D" parent="."]
+unique_name_in_owner = true
 z_index = 1
+script = ExtResource("21_ypber")
 metadata/_edit_lock_ = true
 
 [node name="Background" type="Sprite2D" parent="Dialog"]

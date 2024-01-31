@@ -104,7 +104,7 @@ func set_hp_anim_duration_after_damage(damage: int, enemy: Object) -> void:
 	var diff = float(damage) / (float(enemy.data.battle_stats["HP"]) * 2 - float(enemy.data.current_hp));
 	var duration = max(BATTLE.min_hp_anim_duration, BATTLE.max_hp_anim_duration * (1 - exp(-diff)));
 	print("HP ANIM DURATION: ", duration)
-	BATTLE.emit_signal("health_bar_animation_duration", duration);
+	BATTLE.emit_signal("hp_bar_anim_duration", duration);
 
 #BASE STATS
 func get_base_stats() -> void: data.stats = POKEDEX.get_pokemon_prop(name, "stats");

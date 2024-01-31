@@ -7,8 +7,13 @@ signal on_move_hit(is_enemy: bool);
 signal critical_landed();
 signal not_effective();
 signal experience_end();
-signal health_bar_animation_duration(duration: float);
+signal hp_bar_anim_duration(duration: float);
 signal level_up_stats_end();
+
+signal close_level_up_panel();
+signal show_total_stats_panel();
+signal show_level_up_panel();
+signal after_dialog_attack();
 
 enum Type { WILD, TRAINER, ELITE, SPECIAL }
 enum ExpType { ERRATIC, FAST, MEDIUM, SLOW, SLACK, FLUCTUATING }
@@ -54,6 +59,20 @@ const SNOW_BG = preload("res://Assets/UI/Battle/Backgrounds/snow_bg.png");
 const SNOW_BASE_0 = preload("res://Assets/UI/Battle/Backgrounds/snow_base0.png");
 const SNOW_BASE_1 = preload("res://Assets/UI/Battle/Backgrounds/snow_base1.png");
 
+#BARS
+const RED_BAR = preload("res://Assets/UI/red_bar.png");
+const YELLOW_BAR = preload("res://Assets/UI/yellow_bar.png");
+
+#SOUNDS
+const BATTLE_SOUNDS = {
+	"CONFIRM": preload("res://Assets/Sounds/confirm.wav"),
+	"GUI_SEL_DECISION": preload("res://Assets/Sounds/GUI sel decision.ogg"),
+	"GUI_MENU_CLOSE": preload("res://Assets/Sounds/GUI menu close.ogg"),
+	"BATTLE_FLEE": preload("res://Assets/Sounds/Battle flee.ogg"),
+	"EXP_GAIN_PKM": preload("res://Assets/Sounds/exp_gain_pkm.mp3"),
+	"EXP_FULL": preload("res://Assets/Sounds/exp_full.mp3")
+}
+
 const tile_density = 1325.0;
 const modifire = 1.0;
 
@@ -65,6 +84,12 @@ const YELLOW_BAR_PERCT = 0.2;
 
 var level_up_panel_visible = false;
 var can_close_level_up_panel = false;
+
+var state = States.NONE;
+var pokemon_death = false;
+var enemy_death = false;
+var intro_dialog = true;
+var can_use_menu = false;
 
 @onready var zones_array = [
 	{
@@ -83,6 +108,15 @@ var can_close_level_up_panel = false;
 		"player_ground": SNOW_BASE_0
 	},
 ];
+
+func reset_state() -> void:
+	BATTLE.can_use_menu = false;
+	BATTLE.intro_dialog = true;
+	BATTLE.state = BATTLE.States.NONE;
+	BATTLE.pokemon_death = false;
+	BATTLE.enemy_death = false;
+	BATTLE.level_up_panel_visible = false;
+	BATTLE.can_close_level_up_panel = false;
 
 func pokemon_encounter() -> bool:
 	randomize()
@@ -123,4 +157,21 @@ func get_markers(type: SETTINGS.Markers):
 				"menu": MAIN_MENU_GREEN,
 				"attack": BACKGROUND_GREEN
 			}
+
+func can_move_attack_cursor(
+	new_position: Vector2,
+	player_attacks: Array
+) -> bool:
+	var attack2_position = Vector2(80, 127);
+	var attack2_text = player_attacks[1].text;
+	var attack3_position = Vector2(13, 145);
+	var attack3_text = player_attacks[2].text;
+	var attack4_position = Vector2(80, 145);
+	var attack4_text = player_attacks[3].text;
 	
+	if(
+		(new_position == attack2_position && attack2_text == "") ||
+		(new_position == attack3_position && attack3_text == "") ||
+		(new_position == attack4_position && attack4_text == "")
+	): return false;
+	return true;

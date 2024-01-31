@@ -57,32 +57,32 @@ encounters = Array[int]([19])
 
 [node name="TallGrass6" parent="Weed" instance=ExtResource("4_pl5bi")]
 position = Vector2(192, 160)
-encounters = Array[int]([16, 19])
+encounters = Array[int]([16])
 zone = 2
 
 [node name="TallGrass7" parent="Weed" instance=ExtResource("4_pl5bi")]
 position = Vector2(208, 160)
-encounters = Array[int]([16, 19])
+encounters = Array[int]([16])
 zone = 2
 
 [node name="TallGrass8" parent="Weed" instance=ExtResource("4_pl5bi")]
 position = Vector2(224, 160)
-encounters = Array[int]([16, 19])
+encounters = Array[int]([16])
 zone = 2
 
 [node name="TallGrass9" parent="Weed" instance=ExtResource("4_pl5bi")]
 position = Vector2(240, 160)
-encounters = Array[int]([16, 19])
+encounters = Array[int]([16])
 zone = 2
 
 [node name="TallGrass10" parent="Weed" instance=ExtResource("4_pl5bi")]
 position = Vector2(256, 160)
-encounters = Array[int]([16, 19])
+encounters = Array[int]([16])
 zone = 2
 
 [node name="TallGrass11" parent="Weed" instance=ExtResource("4_pl5bi")]
 position = Vector2(272, 160)
-encounters = Array[int]([16, 19])
+encounters = Array[int]([16])
 zone = 2
 
 [node name="Flowers" type="Node2D" parent="."]
