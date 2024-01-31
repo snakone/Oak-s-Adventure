@@ -15,7 +15,6 @@ var current_text: String = "";
 
 #DIALOG STATE
 func start(input_arr: Array) -> void:
-	print("start")
 	BATTLE.state = BATTLE.States.DIALOG;
 	pressed = true;
 	marker.visible = false;
@@ -46,7 +45,6 @@ func input(event: InputEvent) -> void:
 		elif(BATTLE.state != BATTLE.States.LEVELLING): end_dialog();
 
 func next_dialog() -> void:
-	print("next")
 	#if(BATTLE.enemy_death): AUDIO.play_battle_win(battle_data.type);
 	current_text = current_text.erase(0, current_text.find("\n") + 1)
 	label.text = current_text;
@@ -118,7 +116,6 @@ func start_level_up(input_arr: Array) -> void:
 	pressed = false;
 
 func end_dialog() -> void:
-	print("end")
 	timer.stop();
 	current_text = "";
 	pressed = (BATTLE.enemy_death || BATTLE.pokemon_death);
@@ -129,10 +126,11 @@ func end_dialog() -> void:
 	BATTLE.dialog_finished.emit();
 
 func close(time: float) -> void:
-	print("close")
 	visible = false;
 	await GLOBAL.timeout(time);
 	BATTLE.can_use_menu = true;
+
+func set_label(text: String) -> void: label = text;
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;

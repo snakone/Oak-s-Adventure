@@ -24,18 +24,14 @@ enum Turn { PLAYER, ENEMY, NONE }
 @onready var enemy_ground = $Ground/EnemyGround;
 
 #BATTLE
-@onready var menu = $Menu;
 @onready var bag = $Bag;
 
 @onready var anim_player = $AnimationPlayer;
 @onready var audio = $AudioStreamPlayer;
 @onready var battle_anim_player = $BattleAnimationPlayer;
 
-@onready var menu_cursor = $Menu/MenuCursor;
-@onready var menu_label = $Menu/Label;
 @onready var battle_background = $Background;
 @onready var attack_background = $Selection/Background;
-@onready var menu_background = $Menu/Background;
 
 #ATTACKS
 @onready var attack_selection_info = $Selection/SelectionInfo
@@ -48,13 +44,14 @@ enum Turn { PLAYER, ENEMY, NONE }
 
 const MovesAnimations = preload("res://Scenes/Battle/Moves/moves_animations.gd");
 
+@onready var menu: Node2D = $Menu
+
 var pokemon: Object;
 var enemy: Object;
 var battle_data: Dictionary;
 var attack_pressed = false;
 var selected_attack = Moves.FIRST;
 
-var menu_cursor_index = Vector2.ZERO;
 var attack_cursor_index = Vector2.ZERO;
 var player_moves = [];
 var enemy_moves = [];
@@ -96,7 +93,7 @@ func _unhandled_key_input(event) -> void:
 		return;
 		
 	match BATTLE.state:
-		BATTLE.States.MENU: menu_input(event);
+		BATTLE.States.MENU: menu.input(event);
 		BATTLE.States.FIGHT: attack_input(event)
 		#States.BAG:
 			#bag_input(event)
@@ -119,7 +116,7 @@ func start_battle_dialog() -> void:
 #INTRO
 func check_intro_dialog() -> void:
 	close_dialog_and_show_menu(.3);
-	menu_label.text = "Ready! What will be your next move?"
+	menu.set_label("Ready! What will be your next move?");
 	BATTLE.intro_dialog = false;
 
 #UI
@@ -179,44 +176,6 @@ func set_battle_texture() -> void:
 func set_markers() -> void:
 	var markers = BATTLE.get_markers(SETTINGS.selected_type);
 	attack_background.texture = markers.attack;
-	menu_background.texture = markers.menu;
-
-#MENU STATE
-func menu_input(event: InputEvent) -> void:
-	#ARROW
-	if(!BATTLE.can_use_menu): return;
-	if event.is_action_pressed("moveLeft") && menu_cursor_index.x > 0:
-		menu_cursor_index.x -= 1;
-		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
-	elif event.is_action_pressed("moveRight") && menu_cursor_index.x < 1:
-		menu_cursor_index.x += 1;
-		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
-	elif event.is_action_pressed("moveDown") && menu_cursor_index.y < 1:
-		menu_cursor_index.y += 1;
-		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
-	elif event.is_action_pressed("moveUp") && menu_cursor_index.y > 0:
-		menu_cursor_index.y -= 1;
-		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
-	
-	menu_cursor.position = BATTLE.menu_cursor_pos[menu_cursor_index.y][menu_cursor_index.x];
-	
-	#SELECTION
-	if event.is_action_pressed("space"):
-		play_audio(BATTLE.BATTLE_SOUNDS.CONFIRM);
-		match_menu_input();
-
-func match_menu_input() -> void:
-	if menu_cursor_index == Vector2.ZERO:
-		attack_selection.visible = true;
-		BATTLE.state = BATTLE.States.FIGHT;
-		update_attack_ui();
-	elif menu_cursor_index == Vector2.RIGHT: pass
-		#bag.visible = true;
-		#current_state = States.BAG;
-	elif menu_cursor_index == Vector2.DOWN: pass
-		#pokemon.visible = true
-		#current_state = States.PARTY;
-	elif menu_cursor_index == Vector2(1, 1): end_battle();
 
 #CLOSE BATTLE
 func end_battle(sound = true) -> void:
@@ -363,7 +322,7 @@ func level_up_animation() -> void:
 	update_player_health();
 	dialog.start_level_up([pokemon.data.name + " grew to Level " + str(pokemon.data.level) + "!"]);
 	await BATTLE.level_up_stats_end;
-	dialog.get_node("Label").text = "";
+	dialog.set_label("");
 	update_exp_bar(0.5);
 	level_up_timer.stop();
 
@@ -525,11 +484,13 @@ func play_audio(stream: AudioStream) -> void:
 func play_enemy_shout() -> void: play_audio(enemy.data.shout);
 
 #SIGNALS
-func connect_signals() -> void: 
+func connect_signals() -> void:
 	BATTLE.connect("on_move_hit", _on_move_hit);
 	BATTLE.connect("hp_bar_anim_duration", _set_anim_hp_bar_duration);
 	BATTLE.connect("close_level_up_panel", close_level_up_panel);
 	BATTLE.connect("show_total_stats_panel", show_total_stats_panel);
 	BATTLE.connect("show_level_up_panel", show_level_up_panel);
 	BATTLE.connect("after_dialog_attack", after_dialog_attack);
+	BATTLE.connect("end_battle", end_battle);
+	BATTLE.connect("update_attack_ui", update_attack_ui);
 	health_timer.connect("timeout", _on_health_timer_timeout);

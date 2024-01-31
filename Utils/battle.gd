@@ -1,22 +1,31 @@
 extends Node
 
-signal dialog_finished()
+#ATTACK
 signal attack_finished()
-signal ui_updated();
 signal on_move_hit(is_enemy: bool);
 signal critical_landed();
 signal not_effective();
+signal after_dialog_attack();
+
+#UI
+signal ui_updated();
+signal update_attack_ui();
 signal experience_end();
 signal hp_bar_anim_duration(duration: float);
-signal level_up_stats_end();
 
+#DIALOG
+signal dialog_finished()
 signal close_level_up_panel();
 signal show_total_stats_panel();
 signal show_level_up_panel();
-signal after_dialog_attack();
+signal level_up_stats_end();
+
+#MENU
+signal end_battle();
 
 enum Type { WILD, TRAINER, ELITE, SPECIAL }
 enum ExpType { ERRATIC, FAST, MEDIUM, SLOW, SLACK, FLUCTUATING }
+enum Zones { FIELD = 0, GRASS = 1, SNOW = 2 }
 
 enum States {
 	MENU = 0, 
@@ -28,12 +37,6 @@ enum States {
 	NONE = 6, 
 	ATTACKING = 7,
 	LEVELLING = 8
-}
-
-enum Zones {
-	FIELD = 0,
-	GRASS = 1,
-	SNOW = 2,
 }
 
 #MARKERS

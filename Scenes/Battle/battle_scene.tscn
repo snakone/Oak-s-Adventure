@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://3clfgm81x0yq"]
+[gd_scene load_steps=56 format=3 uid="uid://3clfgm81x0yq"]
 
 [ext_resource type="Script" path="res://Scenes/Battle/battle_scene.gd" id="1_vc7g5"]
 [ext_resource type="Texture2D" uid="uid://1ieaejkmc3gf" path="res://Assets/UI/Battle/Backgrounds/grass_01.png" id="2_qwkfb"]
@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://bynrkxrintj5r" path="res://Assets/UI/triangle.png" id="16_i0kwe"]
 [ext_resource type="Texture2D" uid="uid://dpcftpwyuj874" path="res://Assets/UI/Battle/Backgrounds/scroll_grass/grass_01.png" id="16_vfw16"]
 [ext_resource type="PackedScene" uid="uid://h0vfb4g8igq" path="res://Scenes/UI/level_up.tscn" id="16_ymj5o"]
+[ext_resource type="Script" path="res://Scenes/Battle/battle_menu.gd" id="17_8rdsk"]
 [ext_resource type="Texture2D" uid="uid://g2v4baiol8mq" path="res://Assets/UI/Battle/Characters/ball.png" id="19_lwo1p"]
 [ext_resource type="Texture2D" uid="uid://chfcujj18qrt5" path="res://Assets/UI/Battle/Characters/oak_1.png" id="20_8lsng"]
 [ext_resource type="AudioStream" uid="uid://c65pmmk1yu3rg" path="res://Assets/UI/Battle/spawnpokemon.mp3.wav" id="20_lq7ek"]
@@ -1447,6 +1448,7 @@ offset_right = 230.0
 [node name="Menu" type="Node2D" parent="."]
 visible = false
 z_index = 1
+script = ExtResource("17_8rdsk")
 metadata/_edit_lock_ = true
 
 [node name="Background" type="Sprite2D" parent="Menu"]
