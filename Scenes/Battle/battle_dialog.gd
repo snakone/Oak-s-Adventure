@@ -115,6 +115,25 @@ func start_level_up(input_arr: Array) -> void:
 	await GLOBAL.timeout(0.2);
 	pressed = false;
 
+func switch(input_arr: Array) -> void:
+	BATTLE.can_use_menu = false;
+	BATTLE.state = BATTLE.States.SWITCHING;
+	marker.visible = false;
+	visible = true;
+	array = input_arr.duplicate();
+	line = 1;
+	timer.start();
+	
+	for i in range(line):
+		for j in range(len(input_arr[i])):
+			await timer.timeout;
+			current_text += input_arr[i][j];
+			label.text = current_text;
+	await GLOBAL.timeout(1);
+	timer.stop();
+	current_text = "";
+	BATTLE.switch_dialog_end.emit();
+
 #END
 func end_dialog() -> void:
 	timer.stop();

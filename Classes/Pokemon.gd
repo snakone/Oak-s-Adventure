@@ -65,6 +65,11 @@ func level_up() -> Dictionary:
 	
 #SETTERS
 
+#DIE
+func bye() -> void:
+	data.death = true;
+	data.current_hp = 0;
+
 #ENEMY
 func set_enemy() -> void:
 	data.gender = [0, 1][randi() % 2];

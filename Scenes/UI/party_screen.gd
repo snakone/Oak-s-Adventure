@@ -6,7 +6,7 @@ extends CanvasLayer
 @onready var select: Control = $Select
 @onready var cursor: TextureRect = $Select/Cursor;
 @onready var label: RichTextLabel = $Background/RichTextLabel
-
+const BACKGROUND_DEAD = preload("res://Assets/UI/standby_pokemon_background_dead.png")
 const RED_BAR = preload("res://Assets/UI/red_bar.png");
 const YELLOW_BAR = preload("res://Assets/UI/yellow_bar.png");
 const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg")
@@ -39,6 +39,7 @@ var current_slots_length;
 var select_open = false;
 var select_index = int(SelectSlot.FIRST);
 var active_pokemon: Object;
+var closing = false;
 
 var select_cursor_default_position = [
 	Vector2(8, 9), Vector2(8, 25), Vector2(8, 41)
@@ -65,7 +66,8 @@ func _input(event) -> void:
 		GLOBAL.on_transition || 
 		!event.is_pressed() ||
 		event.is_echo() ||
-		GLOBAL.dialog_open
+		GLOBAL.dialog_open ||
+		closing
 	): return;
 	
 	if(!select_open && !Input.is_action_just_pressed("space")): set_active_option(State.OFF);
@@ -118,24 +120,33 @@ func select_input() -> void:
 
 func select_pokemon() -> void:
 	var poke_name = slots[selected_slot].get_node("Name").text;
+	if(GLOBAL.on_battle):
+		var poke = PARTY.get_pokemon(poke_name);
+		if(poke.data.death):
+			label.text = "";
+			await GLOBAL.timeout(0.1);
+			label.text = poke_name + " can't fight!";
+			return;
 	if(GLOBAL.on_battle && poke_name == active_pokemon.name):
 		label.text = "";
 		await GLOBAL.timeout(0.1);
 		label.text = same_pokemon_sentence;
 		return;
 	if(GLOBAL.on_battle):
+		closing = true;
 		PARTY.set_active_pokemon(poke_name);
 		close_select(false);
 		close_party();
-	else:
-		close_select();
-	await GLOBAL.timeout(0.2);
-	GLOBAL.emit_signal("selected_pokemon_party", poke_name);
+		await GLOBAL.timeout(0.2);
+		GLOBAL.emit_signal("selected_pokemon_party", poke_name);
+		return;
+	else: close_select();
 
 func close_party() -> void:
 	if(select_open): 
 		close_select();
 		return;
+	closing = true;
 	play_audio(GUI_MENU_CLOSE);
 	await GLOBAL.timeout(.2);
 	GLOBAL.emit_signal("party_opened", false);
@@ -198,16 +209,18 @@ func move_select_arrow() -> void:
 func create_party_list() -> void:
 	var party = PARTY.get_party();
 	for index in range(0, party.size()):
-		slots[index].visible = true;
-		current_slots[index] = slots[index];
+		var slot = slots[index];
+		slot.visible = true;
+		current_slots[index] = slot;
 		#NODES
-		var pokemon_node = slots[index].get_node("Pokemon");
-		var gender_node = slots[index].get_node("Gender");
-		var name_node = slots[index].get_node("Name");
-		var level_node = slots[index].get_node("Level");
-		var total_hp_node = slots[index].get_node("TotalHP");
-		var remain_hp_node = slots[index].get_node("RemainHP");
-		var health_node = slots[index].get_node("Health");
+		var pokemon_node = slot.get_node("Pokemon");
+		var gender_node = slot.get_node("Gender");
+		var name_node = slot.get_node("Name");
+		var level_node = slot.get_node("Level");
+		var total_hp_node = slot.get_node("TotalHP");
+		var remain_hp_node = slot.get_node("RemainHP");
+		var health_node = slot.get_node("Health");
+		var status_node = slot.get_node("Status");
 		
 		#STATS
 		var poke = party[index];
@@ -222,6 +235,13 @@ func create_party_list() -> void:
 		if(health_node.scale.x <= 0.74 && health_node.scale.x > 0.28): 
 			health_node.texture = YELLOW_BAR;
 		elif(health_node.scale.x <= 0.28): health_node.texture = RED_BAR;
+		
+		#status
+		if(poke.data.death):
+			var panel = slot.get_node("Panel");
+			panel.texture = BACKGROUND_DEAD;
+			status_node.visible = true;
+			
 		
 	current_slots_length = current_slots.size();
 	current_slots[current_slots_length] = $Background; #CANCEL BUTTON

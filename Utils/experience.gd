@@ -13,8 +13,7 @@ func get_exp_by_level(exp_type: BATTLE.ExpType, level: float) -> float:
 
 #ERRATIC
 func get_erratic_exp(level: float) -> float:
-	if(level == 1): return 0;
-	elif(level <= 50.0):
+	if(level <= 50.0):
 		return float((cubed(level) * (100.0 - level)) / 50.0);
 	elif(51.0 <= level && level <= 68.0):
 		return float((cubed(level) * (150 - level)) / 100.0);
@@ -38,27 +37,29 @@ func get_slack_exp(level: float) -> float:
 	return cubed(level) * 1.2 - ((level * level) * 15.0) + (level * 100) - 140;
 
 #FLUCTUATING
-func get_fluctuating_exp(level: float):
+func get_fluctuating_exp(level: float) -> float:
 	if(level <= 15):
 		return (cubed(level) * (24.0 + floor((level + 1.0) / 3.0)) / 50.0);
 	elif(16 <= level && level <= 35):
 		return (cubed(level) * (14.0 + level) / 50.0);
 	elif(36 <= level && level <= 100.0):
-		return (cubed(level) * (32.0 + floor(level / 2.0)) / 50.0)
+		return (cubed(level) * (32.0 + floor(level / 2.0)) / 50.0);
+	return 0.0;
 
 func cubed(n) -> float: return n * n * n;
 
-func rest(num):
+func rest(num) -> float:
 	if(num == 0): return num;
 	elif(num == 1): return 0.008;
 	elif(num == 2): return 0.014;
+	return num
 
 func get_exp_for_next_level(type: BATTLE.ExpType, current_exp: int, level: int) -> int:
 	var new_level = level + 1;
 	var exp_next_level = floor(get_exp_by_level(type, new_level));
 	return floor(exp_next_level - current_exp);
 
-func get_exp_given_by_pokemon(enemy: Object, battle_type: BATTLE.Type):
+func get_exp_given_by_pokemon(enemy: Object, battle_type: BATTLE.Type) -> int:
 	var base_exp = POKEDEX.get_pokemon_prop(enemy.name, "base_exp");
 	var type = 1.0;
 	var lucky_egg = 1.0;

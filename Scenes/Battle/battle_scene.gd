@@ -124,7 +124,7 @@ func set_battle_ui() -> void:
 
 #PLAYER UI
 func set_player_ui() -> void:
-	pokemon = PARTY.get_active_pokemon();
+	set_pokemon();
 	var name_node = player_info.get_node("Name");
 	name_node.text = pokemon.data.name;
 	var player_dist = name_node.get_content_width() + name_node.position.x + 6;
@@ -144,6 +144,8 @@ func set_player_ui() -> void:
 		var move = player_moves[i];
 		player_attacks[i].visible = true;
 		player_attacks[i].text = move.name.to_upper();
+
+func set_pokemon() -> void: pokemon = PARTY.get_active_pokemon();
 
 #ENEMY UI
 func set_enemy_ui() -> void:
@@ -174,6 +176,7 @@ func set_markers() -> void:
 
 #CLOSE BATTLE
 func end_battle(sound = true) -> void:
+	BATTLE.can_use_menu = false;
 	if(sound): 
 		play_audio(BATTLE.BATTLE_SOUNDS.BATTLE_FLEE);
 		await GLOBAL.timeout(.8);
@@ -231,7 +234,9 @@ func start_attack(delay = 0.0, sound = true) -> void:
 		var move = player_moves[selected_attack];
 		health_before_attack = enemy.data.current_hp;
 		if(pokemon.attack(enemy, move).ok):
-			if(enemy.data.current_hp <= 0): BATTLE.enemy_death = true;
+			if(enemy.data.current_hp <= 0):
+				BATTLE.enemy_death = true; 
+				enemy.bye();
 			handle_attack(pokemon, move, sound);
 	elif(!enemy_attacked || player_attacked):
 		#ENEMY ATTACKING
@@ -240,10 +245,12 @@ func start_attack(delay = 0.0, sound = true) -> void:
 		var move = enemy_moves[0];
 		health_before_attack = pokemon.data.current_hp;
 		if(enemy.attack(pokemon, move).ok): 
-			if(pokemon.data.current_hp <= 0): BATTLE.pokemon_death = true;
+			if(pokemon.data.current_hp <= 0):
+				BATTLE.pokemon_death = true;  
+				pokemon.bye();
 			handle_attack(enemy, move, sound);
 	#CHECK IF DEATH
-	if(BATTLE.pokemon_death || BATTLE.enemy_death): return;
+	if(pokemon.data.death || enemy.data.death): return;
 	#ATTACK AGAIN
 	if((!enemy_attacked || !player_attacked)):
 		await BATTLE.attack_finished;
@@ -256,7 +263,10 @@ func handle_attack(target: Object, move: Dictionary, sound = true) -> void:
 	BATTLE.state = BATTLE.States.ATTACKING;
 	battle_anim_player.stop();
 	if(sound): play_audio(BATTLE.BATTLE_SOUNDS.CONFIRM);
-	dialog.start_attack([target.name + " use " + move.name.to_upper() + "."]);
+	var target_name = target.name + " use ";
+	if(current_turn == Turn.ENEMY):
+		target_name = "Wild " + target_name;
+	dialog.start_attack([target_name + move.name.to_upper() + "."]);
 	await BATTLE.dialog_finished;
 	add_animation_and_play(move);
 	attack_pressed = false;
@@ -374,7 +384,7 @@ func _on_move_hit() -> void:
 func after_dialog_attack() -> void:
 	await BATTLE.ui_updated;
 	await GLOBAL.timeout(.2);
-	if(BATTLE.enemy_death || BATTLE.pokemon_death || player_attacked || enemy_attacked): return;
+	if(enemy.data.death || pokemon.data.death || player_attacked || enemy_attacked): return;
 	dialog.visible = false;
 	BATTLE.state = BATTLE.States.MENU;
 
@@ -392,7 +402,7 @@ func _on_health_timer_timeout() -> void:
 func check_battle_state() -> void:
 	await BATTLE.ui_updated;
 	var state: Dictionary;
-	if(BATTLE.enemy_death):
+	if(enemy.data.death):
 		var poke_exp = EXP.get_exp_given_by_pokemon(enemy, battle_data.type);
 		state = {
 			"anim": "EnemyFaint",
@@ -418,6 +428,8 @@ func start_health_timer() -> void:
 func stop_health_timer() -> void:
 	health_timer.stop();
 	health_bar_ellapsed_time = 0.0;
+	await GLOBAL.timeout(health_timer.wait_time);
+	if(BATTLE.pokemon_death): update_player_health(0);
 
 #GETTERS
 func get_new_exp_bar_size() -> float:
@@ -465,7 +477,14 @@ func set_attack_slot() -> void:
 
 #PARTY
 func _on_party_pokemon_select(_poke_name: String) -> void:
-	set_player_ui();
+	await GLOBAL.timeout(.2);
+	dialog.switch([pokemon.name + " that's enough!"]);
+	await BATTLE.switch_dialog_end;
+	anim_player.play("Switch");
+	await anim_player.animation_finished;
+	BATTLE.state = BATTLE.States.MENU;
+
+func go_switch_dialog() -> void: dialog.switch(["Let's go " + pokemon.name + "!"]);
 
 #AUDIO
 func play_shout_pokemon() -> void:

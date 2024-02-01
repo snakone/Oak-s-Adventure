@@ -19,6 +19,7 @@ signal close_level_up_panel();
 signal show_total_stats_panel();
 signal show_level_up_panel();
 signal level_up_stats_end();
+signal switch_dialog_end();
 
 #MENU
 signal end_battle();
@@ -33,7 +34,8 @@ enum States {
 	DIALOG = 2, 
 	ATTACKING = 3,
 	LEVELLING = 4,
-	NONE = 5, 
+	SWITCHING = 5,
+	NONE = 6, 
 }
 
 #MARKERS

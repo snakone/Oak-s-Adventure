@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://giwx2ioysoot"]
+[gd_scene load_steps=19 format=3 uid="uid://giwx2ioysoot"]
 
 [ext_resource type="Texture2D" uid="uid://b84kos15c1maw" path="res://Assets/UI/party_background.png" id="1_hwxdf"]
 [ext_resource type="Script" path="res://Scenes/UI/party_screen.gd" id="1_nyw7a"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://cygndnup0am01" path="res://Assets/UI/standby_pokemon_background.png" id="7_8kd4u"]
 [ext_resource type="Texture2D" uid="uid://dcvfw8p8val8q" path="res://Assets/UI/exit_background_button.png" id="8_lcc1j"]
 [ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/Fonts/power clear.ttf" id="11_20qo2"]
+[ext_resource type="Texture2D" uid="uid://bopa3lb8giu8a" path="res://Assets/UI/fnt.png" id="12_i0hvq"]
 [ext_resource type="Texture2D" uid="uid://d3dxw0bsf6jxo" path="res://Assets/UI/marker_orange.png" id="12_srpur"]
 [ext_resource type="Texture2D" uid="uid://bfnlj6t53rl5p" path="res://Assets/UI/ui_arrow_left_right.png" id="13_186ck"]
 
@@ -220,6 +221,15 @@ libraries = {
 }
 autoplay = "Idle"
 
+[node name="Status" type="TextureRect" parent="Slots/First"]
+visible = false
+offset_left = 20.0
+offset_top = 63.0
+offset_right = 40.0
+offset_bottom = 71.0
+scale = Vector2(1, 0.8)
+texture = ExtResource("12_i0hvq")
+
 [node name="Second" type="Node2D" parent="Slots"]
 position = Vector2(-94, -48)
 
@@ -282,7 +292,8 @@ theme = ExtResource("3_r2g54")
 theme_override_colors/font_shadow_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_fonts/normal_font = ExtResource("4_tjowx")
 theme_override_font_sizes/normal_font_size = 9
-text = "12"
+text = "250
+"
 scroll_active = false
 autowrap_mode = 0
 tab_size = 0
@@ -303,7 +314,7 @@ theme = ExtResource("3_r2g54")
 theme_override_colors/font_shadow_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_fonts/normal_font = ExtResource("4_tjowx")
 theme_override_font_sizes/normal_font_size = 9
-text = "12"
+text = "250"
 scroll_active = false
 autowrap_mode = 0
 tab_size = 0
@@ -323,6 +334,15 @@ libraries = {
 "": SubResource("AnimationLibrary_mswsx")
 }
 autoplay = "Idle"
+
+[node name="Status" type="TextureRect" parent="Slots/Second"]
+visible = false
+offset_left = 71.0
+offset_top = 22.0
+offset_right = 91.0
+offset_bottom = 30.0
+scale = Vector2(1, 0.8)
+texture = ExtResource("12_i0hvq")
 
 [node name="Third" type="Node2D" parent="Slots"]
 visible = false
@@ -429,6 +449,15 @@ libraries = {
 }
 autoplay = "Idle"
 
+[node name="Status" type="TextureRect" parent="Slots/Third"]
+visible = false
+offset_left = 71.0
+offset_top = 22.0
+offset_right = 91.0
+offset_bottom = 30.0
+scale = Vector2(1, 0.8)
+texture = ExtResource("12_i0hvq")
+
 [node name="Fourth" type="Node2D" parent="Slots"]
 visible = false
 position = Vector2(-94, 0)
@@ -533,6 +562,15 @@ libraries = {
 "": SubResource("AnimationLibrary_mswsx")
 }
 autoplay = "Idle"
+
+[node name="Status" type="TextureRect" parent="Slots/Fourth"]
+visible = false
+offset_left = 71.0
+offset_top = 22.0
+offset_right = 91.0
+offset_bottom = 30.0
+scale = Vector2(1, 0.8)
+texture = ExtResource("12_i0hvq")
 
 [node name="Fifth" type="Node2D" parent="Slots"]
 visible = false
@@ -639,8 +677,16 @@ libraries = {
 }
 autoplay = "Idle"
 
-[node name="Sixth" type="Node2D" parent="Slots"]
+[node name="Status" type="TextureRect" parent="Slots/Fifth"]
 visible = false
+offset_left = 71.0
+offset_top = 22.0
+offset_right = 91.0
+offset_bottom = 30.0
+scale = Vector2(1, 0.8)
+texture = ExtResource("12_i0hvq")
+
+[node name="Sixth" type="Node2D" parent="Slots"]
 position = Vector2(-94, 48)
 
 [node name="Panel" type="Sprite2D" parent="Slots/Sixth"]
@@ -744,10 +790,20 @@ libraries = {
 }
 autoplay = "Idle"
 
+[node name="Status" type="TextureRect" parent="Slots/Sixth"]
+visible = false
+offset_left = 71.0
+offset_top = 22.0
+offset_right = 91.0
+offset_bottom = 30.0
+scale = Vector2(1, 0.8)
+texture = ExtResource("12_i0hvq")
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -20.0
 
 [node name="Select" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 151.0
