@@ -33,10 +33,10 @@ func start(input_arr: Array) -> void:
 	await GLOBAL.timeout(.2);
 	pressed = false;
 
-func input(event: InputEvent) -> void:
+func input() -> void:
 	await get_tree().process_frame;
 	if(pressed): return;
-	if event.is_action_pressed("space"):
+	if Input.is_action_just_pressed("space"):
 		marker.visible = false;
 		pressed = true;
 		play_audio(CONFIRM);
@@ -62,9 +62,9 @@ func next_dialog() -> void:
 	else: marker.visible = true;
 
 #LEVELLING INPUT
-func levelling_input(event: InputEvent) -> void:
+func levelling_input() -> void:
 	if(pressed): return;
-	if event.is_action_pressed("space"):
+	if Input.is_action_just_pressed("space"):
 		pressed = true;
 		play_audio(CONFIRM);
 		await audio.finished;

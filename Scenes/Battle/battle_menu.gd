@@ -16,26 +16,26 @@ func _ready() -> void:
 	scene_manager = get_node("/root/SceneManager");
 
 #MENU STATE
-func input(event: InputEvent) -> void:
+func input() -> void:
 	#ARROW
 	if(!BATTLE.can_use_menu || GLOBAL.party_open): return;
-	if event.is_action_pressed("moveLeft") && cursor_index.x > 0:
+	if Input.is_action_just_pressed("moveLeft") && cursor_index.x > 0:
 		cursor_index.x -= 1;
 		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
-	elif event.is_action_pressed("moveRight") && cursor_index.x < 1:
+	elif Input.is_action_just_pressed("moveRight") && cursor_index.x < 1:
 		cursor_index.x += 1;
 		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
-	elif event.is_action_pressed("moveDown") && cursor_index.y < 1:
+	elif Input.is_action_just_pressed("moveDown") && cursor_index.y < 1:
 		cursor_index.y += 1;
 		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
-	elif event.is_action_pressed("moveUp") && cursor_index.y > 0:
+	elif Input.is_action_just_pressed("moveUp") && cursor_index.y > 0:
 		cursor_index.y -= 1;
 		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
 	
 	cursor.position = BATTLE.menu_cursor_pos[cursor_index.y][cursor_index.x];
 	
 	#SELECTION
-	if event.is_action_pressed("space"):
+	if Input.is_action_just_pressed("space"):
 		play_audio(BATTLE.BATTLE_SOUNDS.CONFIRM);
 		match_input();
 

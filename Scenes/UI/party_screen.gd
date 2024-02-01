@@ -15,6 +15,9 @@ const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg");
 const party_screen_node =  "CurrentScene/PartyScreen";
 const default_sentence = "Choose a POKéMON.";
 const selected_sentence = "Do what with this POKéMON?";
+const same_pokemon_sentence = "POKéMON is already fighting!";
+const default_select_position = Vector2(151, 97);
+const select_position_upper = Vector2(151, 2);
 
 enum Slots { FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH }
 enum State { OFF, ACTIVE }
@@ -35,12 +38,14 @@ var current_slots = {};
 var current_slots_length;
 var select_open = false;
 var select_index = int(SelectSlot.FIRST);
+var active_pokemon: Object;
 
 var select_cursor_default_position = [
 	Vector2(8, 9), Vector2(8, 25), Vector2(8, 41)
 ];
 
 func _ready():
+	active_pokemon = PARTY.get_active_pokemon();
 	label.text = default_sentence;
 	select.visible = false;
 	process_mode = Node.PROCESS_MODE_INHERIT;
@@ -54,7 +59,7 @@ func set_active_option(value: State) -> void:
 	if(value == State.ACTIVE && selected_slot == 0): anim_player.play("selected");
 	else: anim_player.play("Idle");
 
-func _unhandled_input(event) -> void:
+func _input(event) -> void:
 	if(
 		!event is InputEventKey ||
 		GLOBAL.on_transition || 
@@ -63,32 +68,32 @@ func _unhandled_input(event) -> void:
 		GLOBAL.dialog_open
 	): return;
 	
-	if(!select_open && !event.is_action_pressed("space")): set_active_option(State.OFF);
+	if(!select_open && !Input.is_action_just_pressed("space")): set_active_option(State.OFF);
 	#CLOSE
 	if(
-		Input.is_action_pressed("menu") || 
-		Input.is_action_pressed("backMenu") ||
-		Input.is_action_pressed("escape")): close_party();
+		Input.is_action_just_pressed("menu") || 
+		Input.is_action_just_pressed("backMenu") ||
+		Input.is_action_just_pressed("escape")): close_party();
 	#DOWN
 	if(
-		Input.is_action_pressed("moveDown") || 
-		Input.is_action_pressed("ui_down")): handle_DOWN();
+		Input.is_action_just_pressed("moveDown") || 
+		Input.is_action_just_pressed("ui_down")): handle_DOWN();
 	#UP
 	elif(
-		Input.is_action_pressed("moveUp") || 
-		Input.is_action_pressed("ui_up")): handle_UP();
+		Input.is_action_just_pressed("moveUp") || 
+		Input.is_action_just_pressed("ui_up")): handle_UP();
 	#RIGHT
 	elif(
-		(Input.is_action_pressed("moveRight") || 
-		Input.is_action_pressed("ui_right")) && 
+		(Input.is_action_just_pressed("moveRight") || 
+		Input.is_action_just_pressed("ui_right")) && 
 		selected_slot == Slots.FIRST): handle_RIGHT();
 	#LEFT
 	elif(
-		(Input.is_action_pressed("moveLeft") || 
-		Input.is_action_pressed("ui_left")) && 
+		(Input.is_action_just_pressed("moveLeft") || 
+		Input.is_action_just_pressed("ui_left")) && 
 		selected_slot != Slots.FIRST): handle_LEFT();
 	#SELECT
-	elif(event.is_action_pressed("space")): select_slot();
+	elif(Input.is_action_just_pressed("space")): select_slot();
 	if(!select_open): set_active_option(State.ACTIVE);
 
 func select_slot() -> void:
@@ -104,12 +109,20 @@ func select_slot() -> void:
 
 func select_input() -> void:
 	play_audio(GUI_SEL_DECISION);
+	if(selected_slot == int(Slots.FIFTH) || selected_slot == int(Slots.SIXTH)):
+		select.position = select_position_upper;
+	else: select.position = default_select_position;
 	select_open = true;
 	select.visible = true;
 	label.text = selected_sentence;
 
 func select_pokemon() -> void:
 	var poke_name = slots[selected_slot].get_node("Name").text;
+	if(GLOBAL.on_battle && poke_name == active_pokemon.name):
+		label.text = "";
+		await GLOBAL.timeout(0.1);
+		label.text = same_pokemon_sentence;
+		return;
 	if(GLOBAL.on_battle):
 		PARTY.set_active_pokemon(poke_name);
 		close_select(false);

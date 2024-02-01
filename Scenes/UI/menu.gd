@@ -24,6 +24,7 @@ var selected_option = 0;
 var is_player_moving = false;
 var scene_manager: Node2D;
 var screen_loaded = ScreenLoaded.NONE;
+var can_use_menu = true;
 
 func _ready():
 	if(SETTINGS.selected_marker):
@@ -41,35 +42,36 @@ func _unhandled_input(event: InputEvent) -> void:
 		!event.is_pressed() ||
 		event.is_echo() ||
 		GLOBAL.dialog_open ||
-		GLOBAL.on_battle
+		GLOBAL.on_battle ||
+		!can_use_menu
 	): return;
 	
 	if(
-		event.is_action_pressed("bike") && 
+		Input.is_action_just_pressed("bike") && 
 		!GLOBAL.inside_house && 
 		!GLOBAL.menu_open
 	): GLOBAL.emit_signal("get_on_bike", !GLOBAL.on_bike);
 	
 	if(
-		event.is_action_pressed("bike") && 
+		Input.is_action_just_pressed("bike") && 
 		GLOBAL.inside_house && 
 		!GLOBAL.menu_open
 	): GLOBAL.emit_signal("bike_inside");
 
 	match (screen_loaded):
-		ScreenLoaded.NONE: if(Input.is_action_pressed("menu")): handle_MENU();
+		ScreenLoaded.NONE: if(Input.is_action_just_pressed("menu")): handle_MENU();
 		ScreenLoaded.MENU:
 			if(
-				Input.is_action_pressed("menu") || 
-				Input.is_action_pressed("backMenu") ||
-				Input.is_action_pressed("escape")): close_menu()
+				Input.is_action_just_pressed("menu") || 
+				Input.is_action_just_pressed("backMenu") ||
+				Input.is_action_just_pressed("escape")): close_menu()
 			elif(
-				Input.is_action_pressed("moveDown") || 
-				Input.is_action_pressed("ui_down")): handle_DOWN();
+				Input.is_action_just_pressed("moveDown") || 
+				Input.is_action_just_pressed("ui_down")): handle_DOWN();
 			elif(
-				Input.is_action_pressed("moveUp") || 
-				Input.is_action_pressed("ui_up")): handle_UP();
-			elif(event.is_action_pressed("space")): select_option();
+				Input.is_action_just_pressed("moveUp") || 
+				Input.is_action_just_pressed("ui_up")): handle_UP();
+			elif(Input.is_action_just_pressed("space")): select_option();
 
 func select_option() -> void:
 	match(selected_option):
@@ -87,6 +89,7 @@ func close_menu() -> void:
 	update_arrow();
 
 func open_party() -> void:
+	can_use_menu = false;
 	play_audio(GUI_SEL_DECISION);
 	await audio.finished;
 	screen_loaded = ScreenLoaded.PARTY;
@@ -100,6 +103,7 @@ func _on_party_opened(value: bool) -> void:
 	#CLOSED
 	if(!value):
 		if(!GLOBAL.on_battle):
+			can_use_menu = true;
 			control.visible = true;
 			screen_loaded = ScreenLoaded.MENU;
 			process_mode = Node.PROCESS_MODE_INHERIT;

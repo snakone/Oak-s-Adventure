@@ -116,7 +116,6 @@ text = "Choose a POKéMON."
 position = Vector2(192, 48)
 
 [node name="First" type="Node2D" parent="Slots"]
-visible = false
 position = Vector2(-192, -48)
 
 [node name="Panel" type="Sprite2D" parent="Slots/First"]

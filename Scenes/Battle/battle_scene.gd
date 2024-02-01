@@ -76,7 +76,7 @@ func _ready():
 
 func set_battle_data(data: Dictionary): battle_data = data;
 
-func _unhandled_key_input(event) -> void:
+func _unhandled_key_input(event: InputEvent) -> void:
 	if(
 		!event is InputEventKey || 
 		BATTLE.state == BATTLE.States.ATTACKING ||
@@ -85,17 +85,17 @@ func _unhandled_key_input(event) -> void:
 		GLOBAL.menu_open ||
 		dialog.pressed
 	): return;
-	if(event.is_action_pressed("escape")): 
+	if(Input.is_action_just_pressed("escape")): 
 		end_battle(false);
 		return;
 		
 	match BATTLE.state:
-		BATTLE.States.MENU: menu.input(event);
-		BATTLE.States.FIGHT: attack_input(event)
+		BATTLE.States.MENU: menu.input();
+		BATTLE.States.FIGHT: attack_input()
 		#States.BAG:
 			#bag_input(event)
-		BATTLE.States.DIALOG: dialog.input(event);
-		BATTLE.States.LEVELLING: dialog.levelling_input(event);
+		BATTLE.States.DIALOG: dialog.input();
+		BATTLE.States.LEVELLING: dialog.levelling_input();
 
 func battle_wild() -> void:
 	anim_player.play("Start");
@@ -191,22 +191,22 @@ func close_dialog_and_show_menu(time: float) -> void:
 	BATTLE.can_use_menu = true;
 
 #ATTACKS
-func attack_input(event: InputEvent) -> void:
+func attack_input() -> void:
 	attack_pressed = false;
 	var pre_position = attack_cursor_index;
-	if event.is_action_pressed("moveLeft") and attack_cursor_index.x > 0:
+	if Input.is_action_just_pressed("moveLeft") and attack_cursor_index.x > 0:
 		attack_cursor_index.x -= 1;
-	elif event.is_action_pressed("moveRight") and attack_cursor_index.x < 1:
+	elif Input.is_action_just_pressed("moveRight") and attack_cursor_index.x < 1:
 		attack_cursor_index.x += 1;
-	elif event.is_action_pressed("moveUp") and attack_cursor_index.y > 0:
+	elif Input.is_action_just_pressed("moveUp") and attack_cursor_index.y > 0:
 		attack_cursor_index.y -= 1;
-	elif event.is_action_pressed("moveDown") and attack_cursor_index.y < 1:
+	elif Input.is_action_just_pressed("moveDown") and attack_cursor_index.y < 1:
 		attack_cursor_index.y += 1;
-	elif event.is_action_pressed("backMenu"):
+	elif Input.is_action_just_pressed("backMenu"):
 		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
 		attack_selection.visible = false;
 		BATTLE.state = BATTLE.States.MENU;
-	elif event.is_action_pressed("space") and !attack_pressed: 
+	elif Input.is_action_just_pressed("space") and !attack_pressed: 
 		start_attack();
 		attack_selection.visible = false;
 		return;

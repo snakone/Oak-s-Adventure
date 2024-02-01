@@ -43,12 +43,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	): return;
 	
 	if(
-		Input.is_action_pressed("moveDown") || 
-		Input.is_action_pressed("ui_down")): handle_DOWN();
+		Input.is_action_just_pressed("moveDown") || 
+		Input.is_action_just_pressed("ui_down")): handle_DOWN();
 	elif(
-		Input.is_action_pressed("moveUp") || 
-		Input.is_action_pressed("ui_up")): handle_UP();
-	elif(event.is_action_pressed("space")): select_option();
+		Input.is_action_just_pressed("moveUp") || 
+		Input.is_action_just_pressed("ui_up")): handle_UP();
+	elif(Input.is_action_just_pressed("space")): select_option();
 
 func handle_DOWN() -> void:
 	play_audio(GUI_SEL_CURSOR);

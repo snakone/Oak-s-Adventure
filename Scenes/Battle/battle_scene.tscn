@@ -707,10 +707,10 @@ tracks/5/path = NodePath("Scroll/Grass:texture")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("27_06oqu"), ExtResource("28_dnnjq"), ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("27_06oqu"), ExtResource("28_dnnjq"), ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("27_06oqu"), ExtResource("28_dnnjq"), ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("27_06oqu"), ExtResource("28_dnnjq")]
+"values": [ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("27_06oqu"), ExtResource("28_dnnjq"), ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("27_06oqu"), ExtResource("28_dnnjq"), ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("27_06oqu"), ExtResource("28_dnnjq"), ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("27_06oqu"), ExtResource("28_dnnjq"), ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("27_06oqu"), ExtResource("28_dnnjq"), ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("28_dnnjq"), ExtResource("26_sf7nx")]
 }
 tracks/6/type = "bezier"
 tracks/6/imported = false
@@ -730,9 +730,9 @@ tracks/7/path = NodePath("Scroll:position:y")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 1.5, -13.5, 127, -0.2, 25.5, 0.2, -18.5),
-"times": PackedFloat32Array(0, 2.9)
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 1.5, -13.5, 80, -0.25, 0, 0.25, 0, 135, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2.9, 3.7)
 }
 tracks/8/type = "value"
 tracks/8/imported = false
@@ -832,7 +832,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0.1, 0.2, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(168, 36), Vector2(170, 36), Vector2(168, 36)]
+"values": [Vector2(166, 34), Vector2(168, 34), Vector2(166, 34)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -925,7 +925,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.15, 0.8),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(168, 36), Vector2(168, 36), Vector2(168, 80)]
+"values": [Vector2(166, 34), Vector2(166, 34), Vector2(168, 75)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -1046,7 +1046,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.7, 1.4),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(167, 34), Vector2(167, 34.5), Vector2(167, 34)]
+"values": [Vector2(166, 34), Vector2(166, 34.5), Vector2(166, 34)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -1609,6 +1609,7 @@ position = Vector2(128, 73)
 texture = ExtResource("16_vfw16")
 
 [node name="Dialog" type="Node2D" parent="."]
+z_index = 1
 script = ExtResource("21_ypber")
 metadata/_edit_lock_ = true
 

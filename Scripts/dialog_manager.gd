@@ -37,8 +37,14 @@ func _ready() -> void:
 		GLOBAL.emit_signal("system_dialog_finished");
 
 func _unhandled_input(event: InputEvent) -> void:
+	if(
+		!event is InputEventKey || 
+		event.is_echo() ||
+		!event.is_pressed() 
+	): return;
+	
 	if(dialog_closed || !dialog_data.marker): return;
-	if event.is_action_pressed("space") and !pressed:
+	if Input.is_action_just_pressed("space") and !pressed:
 		marker.visible = false;
 		pressed = true;
 		label.text = "";

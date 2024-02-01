@@ -18,6 +18,7 @@ func get_active_pokemon():
 		return current_party[2];
 
 func set_active_pokemon(poke_name: String) -> void:
+	reset_all_active();
 	for poke in current_party:
 		if(poke.name == poke_name): 
 			poke.data.active = true;
@@ -26,6 +27,9 @@ func set_active_pokemon(poke_name: String) -> void:
 func reset_active() -> void:
 	for poke in current_party:
 		if("active" in poke.data): poke.data.active = false;
+
+func reset_all_active() -> void:
+	for poke in current_party: poke.data.active = false;
 
 func create_party_from_json(party: Array) -> Array:
 	#return [

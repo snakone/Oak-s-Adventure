@@ -79,7 +79,6 @@ _data = {
 script = ExtResource("1_kicyl")
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
-show_behind_parent = true
 position = Vector2(60, 97)
 
 [node name="EnemySprite" type="Sprite2D" parent="."]
