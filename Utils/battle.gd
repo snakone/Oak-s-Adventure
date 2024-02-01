@@ -29,14 +29,11 @@ enum Zones { FIELD = 0, GRASS = 1, SNOW = 2 }
 
 enum States {
 	MENU = 0, 
-	FIGHT = 1, 
-	BAG = 2, 
-	PARTY = 3, 
-	RUN = 4, 
-	DIALOG = 5, 
-	NONE = 6, 
-	ATTACKING = 7,
-	LEVELLING = 8
+	FIGHT = 1,
+	DIALOG = 2, 
+	ATTACKING = 3,
+	LEVELLING = 4,
+	NONE = 5, 
 }
 
 #MARKERS

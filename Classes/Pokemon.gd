@@ -9,6 +9,7 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 	if("name" in poke):
 		name = poke.name;
 		data = poke;
+		data.active = false;
 		data.death = false;
 		get_base_stats();
 		get_resources();

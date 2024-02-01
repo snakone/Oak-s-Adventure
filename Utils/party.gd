@@ -9,7 +9,23 @@ const erase_props_on_save = [
 
 func _ready(): add_to_group(GLOBAL.group_name);
 func get_party() -> Array: return current_party;
-func get_active_pokemon(): if(current_party): return current_party[2];
+
+func get_active_pokemon(): 
+	if(current_party):
+		for poke in current_party:
+			if(poke.data.active): 
+				return poke;
+		return current_party[2];
+
+func set_active_pokemon(poke_name: String) -> void:
+	for poke in current_party:
+		if(poke.name == poke_name): 
+			poke.data.active = true;
+			break;
+
+func reset_active() -> void:
+	for poke in current_party:
+		if("active" in poke.data): poke.data.active = false;
 
 func create_party_from_json(party: Array) -> Array:
 	#return [

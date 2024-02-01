@@ -31,7 +31,7 @@ func transition_to_scene(new_scene: String, animated = true, remove = true) -> v
 	
 func on_finish_transition() -> void:
 	create_new_scene();
-	await GLOBAL.timeout(1);
+	await GLOBAL.timeout(0.8);
 	GLOBAL.on_transition = false;
 
 func create_new_scene() -> void:
@@ -52,7 +52,8 @@ func _on_close_dialog() -> void:
 	dialogue_inst.call_deferred("queue_free");
 
 #BATTLE
-func _on_start_battle(battle_data: Dictionary): 
+func _on_start_battle(battle_data: Dictionary):
+	GLOBAL.on_battle = true;
 	battle_inst = BATTLE_SCENE.instantiate();
 	battle_inst.set_battle_data(battle_data);
 	anim_player.play("StartBattle");

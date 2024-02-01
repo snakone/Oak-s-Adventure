@@ -17,7 +17,7 @@ const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
 const GUI_MENU_OPEN = preload("res://Assets/Sounds/GUI menu open.ogg");
 const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg");
 const GUI_SAVE_GAME = preload("res://Assets/Sounds/GUI save game.ogg");
-const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg")
+const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg");
 
 var options_length = MenuOptions.keys().size();
 var selected_option = 0;
@@ -89,19 +89,21 @@ func close_menu() -> void:
 func open_party() -> void:
 	play_audio(GUI_SEL_DECISION);
 	await audio.finished;
-	control.visible = false;
 	screen_loaded = ScreenLoaded.PARTY;
-	process_mode = Node.PROCESS_MODE_DISABLED;
+	if(!GLOBAL.on_battle):
+		control.visible = false;
+		process_mode = Node.PROCESS_MODE_DISABLED;
 	scene_manager.transition_to_scene(party_screen_path, true, false);
 	GLOBAL.emit_signal("party_opened", true);
 
 func _on_party_opened(value: bool) -> void:
 	#CLOSED
 	if(!value):
-		control.visible = true;
-		screen_loaded = ScreenLoaded.MENU;
+		if(!GLOBAL.on_battle):
+			control.visible = true;
+			screen_loaded = ScreenLoaded.MENU;
+			process_mode = Node.PROCESS_MODE_INHERIT;
 		scene_manager.get_node(party_screen_node).queue_free();
-		process_mode = Node.PROCESS_MODE_INHERIT;
 
 func handle_MENU() -> void:
 	play_audio(GUI_MENU_OPEN);
@@ -135,6 +137,7 @@ func handle_save() -> void:
 func connect_signals() -> void:
 	GLOBAL.connect("player_moving", _on_player_moving);
 	GLOBAL.connect("party_opened", _on_party_opened);
+	GLOBAL.connect("close_menu", close_menu);
 
 func update_arrow() -> void: arrow.position.y = 11 + (selected_option % options_length) * 16;
 func _on_player_moving(value: bool) -> void: is_player_moving = value;

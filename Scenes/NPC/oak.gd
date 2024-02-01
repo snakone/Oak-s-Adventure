@@ -280,7 +280,6 @@ func check_for_battle() -> void:
 func set_battle_data(data: Dictionary) -> void:
 	battle_data = data;
 	ready_to_battle = true;
-	GLOBAL.on_battle = true;
 
 func _on_end_battle() -> void:
 	await GLOBAL.timeout(.4);

@@ -4,17 +4,21 @@ extends Node2D
 @onready var label = $Label;
 @onready var background = $Background;
 @onready var attack_selection: Node2D = $"../Selection";
-@onready var audio: AudioStreamPlayer = $"../AudioStreamPlayer";
+@onready var audio: AudioStreamPlayer = $"../AudioPlayer";
 
+const party_screen_path = "res://Scenes/UI/party_screen.tscn";
 var cursor_index = Vector2.ZERO;
+var scene_manager: Node2D;
 
 func _ready() -> void:
 	set_marker();
+	connect_signals();
+	scene_manager = get_node("/root/SceneManager");
 
 #MENU STATE
 func input(event: InputEvent) -> void:
 	#ARROW
-	if(!BATTLE.can_use_menu): return;
+	if(!BATTLE.can_use_menu || GLOBAL.party_open): return;
 	if event.is_action_pressed("moveLeft") && cursor_index.x > 0:
 		cursor_index.x -= 1;
 		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
@@ -36,17 +40,15 @@ func input(event: InputEvent) -> void:
 		match_input();
 
 func match_input() -> void:
-	if cursor_index == Vector2.ZERO:
+	if(cursor_index == Vector2.ZERO):
 		attack_selection.visible = true;
 		BATTLE.state = BATTLE.States.FIGHT;
 		BATTLE.update_attack_ui.emit();
-	elif cursor_index == Vector2.RIGHT: pass
+	elif (cursor_index == Vector2.RIGHT): pass
 		#bag.visible = true;
 		#current_state = States.BAG;
-	elif cursor_index == Vector2.DOWN: pass
-		#pokemon.visible = true
-		#current_state = States.PARTY;
-	elif cursor_index == Vector2(1, 1): BATTLE.end_battle.emit();
+	elif(cursor_index == Vector2.DOWN): open_party();
+	elif(cursor_index == Vector2(1, 1)): BATTLE.end_battle.emit();
 
 func set_label(text: String) -> void: label.text = text;
 
@@ -55,6 +57,17 @@ func set_marker() -> void:
 	var markers = BATTLE.get_markers(SETTINGS.selected_type);
 	background.texture = markers.menu;
 
+func open_party() -> void:
+	scene_manager.transition_to_scene(party_screen_path, false, false)
+	BATTLE.state = BATTLE.States.NONE;
+
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;
 	audio.play();
+
+func _on_pokemon_select_party(_name) -> void:
+	cursor_index = Vector2.ZERO;
+	cursor.position = BATTLE.menu_cursor_pos[0][0];
+
+func connect_signals() -> void:
+	GLOBAL.connect("selected_pokemon_party", _on_pokemon_select_party);

@@ -5,7 +5,7 @@ const CONFIRM = preload("res://Assets/Sounds/confirm.wav");
 @onready var timer: Timer = $Timer
 @onready var label = $Label;
 @onready var marker = $Marker;
-@onready var audio: AudioStreamPlayer = $"../AudioStreamPlayer"
+@onready var audio: AudioStreamPlayer = $"../AudioPlayer"
 @onready var level_up_timer: Timer = $LevelUpTimer
 
 var pressed = false;
@@ -80,7 +80,7 @@ func levelling_input(event: InputEvent) -> void:
 		marker.visible = true;
 		pressed = false;
 
-#ATTACK DIALOG
+#ATTACK
 func start_attack(input_arr: Array) -> void:
 	BATTLE.state = BATTLE.States.NONE;
 	visible = true;
@@ -99,7 +99,7 @@ func start_attack(input_arr: Array) -> void:
 	BATTLE.after_dialog_attack.emit();
 	BATTLE.dialog_finished.emit();
 
-#LEVEL UP DIALOG
+#LEVEL UP
 func start_level_up(input_arr: Array) -> void:
 	BATTLE.state = BATTLE.States.LEVELLING;
 	current_text = "";
@@ -115,6 +115,7 @@ func start_level_up(input_arr: Array) -> void:
 	await GLOBAL.timeout(0.2);
 	pressed = false;
 
+#END
 func end_dialog() -> void:
 	timer.stop();
 	current_text = "";
@@ -130,7 +131,7 @@ func close(time: float) -> void:
 	await GLOBAL.timeout(time);
 	BATTLE.can_use_menu = true;
 
-func set_label(text: String) -> void: label = text;
+func set_label(text: String) -> void: label.text = text;
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;

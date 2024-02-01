@@ -7,7 +7,7 @@ enum Turn { PLAYER, ENEMY, NONE }
 @onready var player_info = $Info/PlayerInfo;
 @onready var attack_cursor = $Selection/AttackCursor;
 @onready var player_sprite = $UI/PlayerSprite;
-@onready var audio_player = $UI/PlayerSprite/AudioStreamPlayer;
+@onready var audio_player = $UI/PlayerSprite/AudioPlayer;
 @onready var player_ground = $Ground/PlayerGround;
 @onready var player_hp_bar = $Info/PlayerInfo/PlayerHPBar;
 @onready var exp_bar = $Info/PlayerInfo/ExpBar;
@@ -25,11 +25,9 @@ enum Turn { PLAYER, ENEMY, NONE }
 
 #BATTLE
 @onready var bag = $Bag;
-
 @onready var anim_player = $AnimationPlayer;
-@onready var audio = $AudioStreamPlayer;
+@onready var audio = $AudioPlayer;
 @onready var battle_anim_player = $BattleAnimationPlayer;
-
 @onready var battle_background = $Background;
 @onready var attack_background = $Selection/Background;
 
@@ -42,9 +40,10 @@ enum Turn { PLAYER, ENEMY, NONE }
 @onready var attack_selection = $Selection;
 @onready var player_attacks = [attack_01, attack_02, attack_03, attack_04];
 
-const MovesAnimations = preload("res://Scenes/Battle/Moves/moves_animations.gd");
-
 @onready var menu: Node2D = $Menu
+@onready var dialog: Node2D = $Dialog;
+
+const MovesAnimations = preload("res://Scenes/Battle/Moves/moves_animations.gd");
 
 var pokemon: Object;
 var enemy: Object;
@@ -68,8 +67,6 @@ var enemy_attacked = false;
 var health_bar_ellapsed_time = 0.0;
 var health_before_attack = 0.0;
 var diff_stats: Dictionary;
-
-@onready var dialog: Node2D = %Dialog;
 
 func _ready():
 	connect_signals();
@@ -97,8 +94,6 @@ func _unhandled_key_input(event) -> void:
 		BATTLE.States.FIGHT: attack_input(event)
 		#States.BAG:
 			#bag_input(event)
-		#States.PARTY:
-			#party_input(event)
 		BATTLE.States.DIALOG: dialog.input(event);
 		BATTLE.States.LEVELLING: dialog.levelling_input(event);
 
@@ -141,7 +136,7 @@ func set_player_ui() -> void:
 	player_moves = pokemon.data.battle_moves;
 	
 	set_pokemon_exp();
-	var size = get_new_exp_bar_size();;
+	var size = get_new_exp_bar_size();
 	exp_bar.scale.x = size;
 	update_player_health();
 	
@@ -184,6 +179,7 @@ func end_battle(sound = true) -> void:
 		await GLOBAL.timeout(.8);
 	battle_anim_player.play("FadetoBlack");
 	BATTLE.reset_state();
+	PARTY.reset_active();
 
 func close_battle() -> void:
 	GLOBAL.emit_signal("close_battle");
@@ -467,6 +463,10 @@ func set_attack_slot() -> void:
 	elif(attack_cursor_index == Vector2.DOWN): selected_attack = Moves.THIRD;
 	elif(attack_cursor_index == Vector2(1, 1)): selected_attack = Moves.FOURTH;
 
+#PARTY
+func _on_party_pokemon_select(_poke_name: String) -> void:
+	set_player_ui();
+
 #AUDIO
 func play_shout_pokemon() -> void:
 	audio_player.stream = pokemon.data.shout;
@@ -494,3 +494,4 @@ func connect_signals() -> void:
 	BATTLE.connect("end_battle", end_battle);
 	BATTLE.connect("update_attack_ui", update_attack_ui);
 	health_timer.connect("timeout", _on_health_timer_timeout);
+	GLOBAL.connect("selected_pokemon_party", _on_party_pokemon_select);
