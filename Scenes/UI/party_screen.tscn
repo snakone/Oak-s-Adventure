@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://giwx2ioysoot"]
+[gd_scene load_steps=23 format=3 uid="uid://giwx2ioysoot"]
 
 [ext_resource type="Texture2D" uid="uid://b84kos15c1maw" path="res://Assets/UI/party_background.png" id="1_hwxdf"]
 [ext_resource type="Script" path="res://Scenes/UI/party_screen.gd" id="1_nyw7a"]
@@ -15,9 +15,36 @@
 [ext_resource type="Texture2D" uid="uid://d3dxw0bsf6jxo" path="res://Assets/UI/marker_orange.png" id="12_srpur"]
 [ext_resource type="Texture2D" uid="uid://bfnlj6t53rl5p" path="res://Assets/UI/ui_arrow_left_right.png" id="13_186ck"]
 
-[sub_resource type="Animation" id="Animation_640i4"]
+[sub_resource type="Animation" id="Animation_t7ymx"]
+resource_name = "Dead"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pokemon:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pokemon:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(15, 35)]
+}
+
+[sub_resource type="Animation" id="Animation_765ie"]
 resource_name = "Idle"
-loop_mode = 1
 step = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -32,25 +59,10 @@ tracks/0/keys = {
 "values": [0, 1]
 }
 
-[sub_resource type="Animation" id="Animation_ss5u6"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Pokemon:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
-[sub_resource type="Animation" id="Animation_ho0qg"]
-resource_name = "selected"
+[sub_resource type="Animation" id="Animation_sfu3h"]
+resource_name = "Selected"
 loop_mode = 1
-step = 0.05
+step = 0.25
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -76,11 +88,92 @@ tracks/1/keys = {
 "values": [Vector2(15, 35), Vector2(15, 29), Vector2(15, 35), Vector2(15, 29)]
 }
 
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dop7h"]
+_data = {
+"Dead": SubResource("Animation_t7ymx"),
+"Idle": SubResource("Animation_765ie"),
+"Selected": SubResource("Animation_sfu3h")
+}
+
+[sub_resource type="Animation" id="Animation_bkp5n"]
+resource_name = "Dead"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pokemon:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pokemon:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(5, 18)]
+}
+
+[sub_resource type="Animation" id="Animation_vn8e7"]
+resource_name = "Idle"
+loop_mode = 1
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pokemon:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_4wwwv"]
+resource_name = "Selected"
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pokemon:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pokemon:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(5, 18), Vector2(5, 12), Vector2(5, 18), Vector2(5, 12)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mswsx"]
 _data = {
-"Idle": SubResource("Animation_640i4"),
-"RESET": SubResource("Animation_ss5u6"),
-"selected": SubResource("Animation_ho0qg")
+"Dead": SubResource("Animation_bkp5n"),
+"Idle": SubResource("Animation_vn8e7"),
+"Selected": SubResource("Animation_4wwwv")
 }
 
 [node name="PartyScreen" type="CanvasLayer"]
@@ -215,12 +308,6 @@ scale = Vector2(0.5, 1)
 texture = ExtResource("6_utcu8")
 centered = false
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Slots/First"]
-libraries = {
-"": SubResource("AnimationLibrary_mswsx")
-}
-autoplay = "Idle"
-
 [node name="Status" type="TextureRect" parent="Slots/First"]
 visible = false
 offset_left = 20.0
@@ -229,6 +316,11 @@ offset_right = 40.0
 offset_bottom = 71.0
 scale = Vector2(1, 0.8)
 texture = ExtResource("12_i0hvq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Slots/First"]
+libraries = {
+"": SubResource("AnimationLibrary_dop7h")
+}
 
 [node name="Second" type="Node2D" parent="Slots"]
 position = Vector2(-94, -48)
@@ -333,7 +425,6 @@ region_filter_clip_enabled = true
 libraries = {
 "": SubResource("AnimationLibrary_mswsx")
 }
-autoplay = "Idle"
 
 [node name="Status" type="TextureRect" parent="Slots/Second"]
 visible = false
@@ -447,7 +538,6 @@ region_filter_clip_enabled = true
 libraries = {
 "": SubResource("AnimationLibrary_mswsx")
 }
-autoplay = "Idle"
 
 [node name="Status" type="TextureRect" parent="Slots/Third"]
 visible = false
@@ -561,7 +651,6 @@ region_filter_clip_enabled = true
 libraries = {
 "": SubResource("AnimationLibrary_mswsx")
 }
-autoplay = "Idle"
 
 [node name="Status" type="TextureRect" parent="Slots/Fourth"]
 visible = false
@@ -573,7 +662,6 @@ scale = Vector2(1, 0.8)
 texture = ExtResource("12_i0hvq")
 
 [node name="Fifth" type="Node2D" parent="Slots"]
-visible = false
 position = Vector2(-94, 24)
 
 [node name="Panel" type="Sprite2D" parent="Slots/Fifth"]
@@ -675,7 +763,6 @@ region_filter_clip_enabled = true
 libraries = {
 "": SubResource("AnimationLibrary_mswsx")
 }
-autoplay = "Idle"
 
 [node name="Status" type="TextureRect" parent="Slots/Fifth"]
 visible = false
@@ -788,7 +875,6 @@ region_filter_clip_enabled = true
 libraries = {
 "": SubResource("AnimationLibrary_mswsx")
 }
-autoplay = "Idle"
 
 [node name="Status" type="TextureRect" parent="Slots/Sixth"]
 visible = false

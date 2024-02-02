@@ -483,6 +483,9 @@ func _on_party_pokemon_select(_poke_name: String) -> void:
 	anim_player.play("Switch");
 	await anim_player.animation_finished;
 	BATTLE.state = BATTLE.States.MENU;
+	player_attacked = true;
+	enemy_attacked = false;
+	start_attack(.5);
 
 func go_switch_dialog() -> void: dialog.switch(["Let's go " + pokemon.name + "!"]);
 

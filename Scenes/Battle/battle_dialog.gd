@@ -82,7 +82,6 @@ func levelling_input() -> void:
 
 #ATTACK
 func start_attack(input_arr: Array) -> void:
-	BATTLE.state = BATTLE.States.NONE;
 	visible = true;
 	array = input_arr.duplicate();
 	timer.start();

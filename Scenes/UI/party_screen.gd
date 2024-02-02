@@ -1,12 +1,11 @@
 extends CanvasLayer
 
 @onready var audio = $AudioStreamPlayer;
-@onready var anim_player = $Slots/First/AnimationPlayer;
 @onready var nine_rect: NinePatchRect = $Select/NinePatchRect
 @onready var select: Control = $Select
 @onready var cursor: TextureRect = $Select/Cursor;
-@onready var label: RichTextLabel = $Background/RichTextLabel
-const BACKGROUND_DEAD = preload("res://Assets/UI/standby_pokemon_background_dead.png")
+@onready var label: RichTextLabel = $Background/RichTextLabel;
+
 const RED_BAR = preload("res://Assets/UI/red_bar.png");
 const YELLOW_BAR = preload("res://Assets/UI/yellow_bar.png");
 const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg")
@@ -16,11 +15,13 @@ const party_screen_node =  "CurrentScene/PartyScreen";
 const default_sentence = "Choose a POKéMON.";
 const selected_sentence = "Do what with this POKéMON?";
 const same_pokemon_sentence = "POKéMON is already fighting!";
+const BACKGROUND_DEAD = preload("res://Assets/UI/standby_pokemon_background_dead.png");
+const MAIN_BACKGROUND_DEAD = preload("res://Assets/UI/main_pokemon_background_dead.png")
 const default_select_position = Vector2(151, 97);
 const select_position_upper = Vector2(151, 2);
 
 enum Slots { FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH }
-enum State { OFF, ACTIVE }
+enum State { OFF, ON }
 enum SelectSlot { FIRST, SECOND, THIRD }
 
 @onready var slots = {
@@ -51,14 +52,33 @@ func _ready():
 	select.visible = false;
 	process_mode = Node.PROCESS_MODE_INHERIT;
 	create_party_list();
-	set_active_option(State.ACTIVE);
+	set_all_options();
+	set_active_option(State.ON);
 	if(SETTINGS.selected_marker):
 		nine_rect.texture = SETTINGS.selected_marker;
 
+func set_all_options() -> void:
+	var party = PARTY.current_party;
+	for index in current_slots:
+		var cancel_slot = index == current_slots.size() - 1;
+		if(!cancel_slot):
+			var slot = current_slots[index];
+			var poke = party[index];
+			var anim_player = slot.get_node("AnimationPlayer");
+			if(poke.data.death): anim_player.play("Dead");
+			else: anim_player.play("Idle");
+
 func set_active_option(value: State) -> void:
-	current_slots[selected_slot].get_node("Panel").frame = value;
-	if(value == State.ACTIVE && selected_slot == 0): anim_player.play("selected");
-	else: anim_player.play("Idle");
+	var slot = current_slots[selected_slot];
+	slot.get_node("Panel").frame = value;
+	var cancel_slot = selected_slot == current_slots.size() - 1;
+	if(!cancel_slot):
+		var anim_player = slot.get_node("AnimationPlayer");
+		var anim_name = anim_player.get_assigned_animation();
+		if(value == int(State.ON)):
+			if(anim_name == "Dead"): return;
+			anim_player.play("Selected");
+		elif(anim_name != "Dead"): anim_player.play("Idle");
 
 func _input(event) -> void:
 	if(
@@ -96,7 +116,7 @@ func _input(event) -> void:
 		selected_slot != Slots.FIRST): handle_LEFT();
 	#SELECT
 	elif(Input.is_action_just_pressed("space")): select_slot();
-	if(!select_open): set_active_option(State.ACTIVE);
+	if(!select_open): set_active_option(State.ON);
 
 func select_slot() -> void:
 	if(!select_open):
@@ -174,7 +194,6 @@ func handle_RIGHT() -> void:
 	if(select_open): return;
 	play_audio(GUI_SEL_CURSOR);
 	selected_slot = int(last_slot_before_moving_left);
-	current_slots[Slots.FIRST].get_node("Pokemon").position.y = 35;
 
 func handle_LEFT() -> void:
 	if(select_open): return;
@@ -236,17 +255,17 @@ func create_party_list() -> void:
 			health_node.texture = YELLOW_BAR;
 		elif(health_node.scale.x <= 0.28): health_node.texture = RED_BAR;
 		
-		#status
+		#STATUS
 		if(poke.data.death):
 			var panel = slot.get_node("Panel");
-			panel.texture = BACKGROUND_DEAD;
+			if(index == int(Slots.FIRST)):
+				panel.texture = MAIN_BACKGROUND_DEAD;
+			else: panel.texture = BACKGROUND_DEAD;
 			status_node.visible = true;
 			
-		
 	current_slots_length = current_slots.size();
 	current_slots[current_slots_length] = $Background; #CANCEL BUTTON
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;
 	audio.play();
-
