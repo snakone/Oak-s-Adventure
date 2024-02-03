@@ -24,9 +24,9 @@
 
 ## Credits
 
-Credits on Sprites [Sprite Resource](https://www.spriters-resource.com/)
-Credits to [Arkeve](https://www.youtube.com/@Arkeve) for help me start.
-Credits to [the_praet0rian](https://www.youtube.com/@the_praet0rian) for help me with Battle and Dialog System.
+- Credits on Sprites [Sprite Resource](https://www.spriters-resource.com/)
+- Credits to [Arkeve](https://www.youtube.com/@Arkeve) for help me start.
+- Credits to [the_praet0rian](https://www.youtube.com/@the_praet0rian) for help me with Battle and Dialog System.
 
 ## Assets/Sprites
 
