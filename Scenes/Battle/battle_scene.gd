@@ -71,13 +71,14 @@ var diff_stats: Dictionary;
 func _ready():
 	connect_signals();
 	set_battle_ui();
+	BATTLE.type = battle_data.type;
 	match(battle_data.type):
 		BATTLE.Type.WILD: battle_wild();
 
 func set_battle_data(data: Dictionary): battle_data = data;
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	if(
+	if(  
 		!event is InputEventKey || 
 		BATTLE.state == BATTLE.States.ATTACKING ||
 		event.is_echo() ||
@@ -86,16 +87,17 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		dialog.pressed
 	): return;
 	if(Input.is_action_just_pressed("escape")): 
-		end_battle(false);
+		end_battle();
 		return;
 		
 	match BATTLE.state:
 		BATTLE.States.MENU: menu.input();
-		BATTLE.States.FIGHT: attack_input()
+		BATTLE.States.FIGHT: attack_input();
 		#States.BAG:
 			#bag_input(event)
 		BATTLE.States.DIALOG: dialog.input();
 		BATTLE.States.LEVELLING: dialog.levelling_input();
+		BATTLE.States.ESCAPING: dialog.escape_input();
 
 func battle_wild() -> void:
 	anim_player.play("Start");
@@ -110,7 +112,7 @@ func start_battle_dialog() -> void:
 
 #INTRO
 func check_intro_dialog() -> void:
-	close_dialog_and_show_menu(.3);
+	close_dialog_and_show_menu(.2);
 	menu.set_label("Ready! What will be your next move?");
 	BATTLE.intro_dialog = false;
 
@@ -145,7 +147,9 @@ func set_player_ui() -> void:
 		player_attacks[i].visible = true;
 		player_attacks[i].text = move.name.to_upper();
 
-func set_pokemon() -> void: pokemon = PARTY.get_active_pokemon();
+func set_pokemon(update_health = false) -> void: 
+	pokemon = PARTY.get_active_pokemon();
+	if(update_health): set_health_color(floor(pokemon.data.current_hp));
 
 #ENEMY UI
 func set_enemy_ui() -> void:
@@ -175,11 +179,8 @@ func set_markers() -> void:
 	attack_background.texture = markers.attack;
 
 #CLOSE BATTLE
-func end_battle(sound = true) -> void:
+func end_battle() -> void:
 	BATTLE.can_use_menu = false;
-	if(sound): 
-		play_audio(BATTLE.BATTLE_SOUNDS.BATTLE_FLEE);
-		await GLOBAL.timeout(.8);
 	battle_anim_player.play("FadetoBlack");
 	BATTLE.reset_state();
 	PARTY.reset_active();
@@ -191,7 +192,6 @@ func close_battle() -> void:
 func close_dialog_and_show_menu(time: float) -> void:
 	dialog.close(time);
 	menu.visible = true;
-	BATTLE.can_use_menu = true;
 
 #ATTACKS
 func attack_input() -> void:
@@ -254,7 +254,7 @@ func start_attack(delay = 0.0, sound = true) -> void:
 	#ATTACK AGAIN
 	if((!enemy_attacked || !player_attacked)):
 		await BATTLE.attack_finished;
-		start_attack(hp_bar_anim_duration + 0.2, false);
+		start_attack(hp_bar_anim_duration + 0.3, false);
 		return;
 	player_attacked = false;
 	enemy_attacked = false;
@@ -361,7 +361,7 @@ func handle_death(state: Dictionary) -> void:
 		await BATTLE.experience_end;
 	
 	await GLOBAL.timeout(.9);
-	end_battle(false);
+	end_battle();
 
 #MOVE ANIMATION
 func add_animation_and_play(move: Dictionary) -> void:
@@ -384,8 +384,14 @@ func _on_move_hit() -> void:
 func after_dialog_attack() -> void:
 	await BATTLE.ui_updated;
 	await GLOBAL.timeout(.2);
-	if(enemy.data.death || pokemon.data.death || player_attacked || enemy_attacked): return;
+	if(
+		enemy.data.death || 
+		pokemon.data.death || 
+		player_attacked || 
+		enemy_attacked
+	): return;
 	dialog.visible = false;
+	await GLOBAL.timeout(.2);
 	BATTLE.state = BATTLE.States.MENU;
 
 func _on_health_timer_timeout() -> void:
@@ -394,7 +400,7 @@ func _on_health_timer_timeout() -> void:
 		var target_hp = int(pokemon.data.current_hp);
 		if(current_turn == Turn.PLAYER): target_hp = int(enemy.data.current_hp);
 		var current_hp = lerp(int(health_before_attack), target_hp, progress);
-		set_health_color_while_timer(floor(current_hp));
+		set_health_color(floor(current_hp));
 		health_bar_ellapsed_time += health_timer.wait_time;
 	else: stop_health_timer();
 
@@ -419,6 +425,29 @@ func check_battle_state() -> void:
 			"dialog": [pokemon.data.name + " fainted!"]
 		}
 		handle_death(state);
+
+#ESCAPE
+func _on_check_can_escape() -> void:
+	battle_anim_player.stop();
+	if(BATTLE.can_pokemon_scape(pokemon, enemy)): handle_scape();
+	else:
+		dialog.escape(["Can't scape!"]);
+		await BATTLE.dialog_finished;
+		player_attacked = true;
+		enemy_attacked = false;
+		start_attack(0.3, false);
+		await BATTLE.attack_finished;
+		await GLOBAL.timeout(0.4);
+		BATTLE.can_use_menu = true;
+		battle_anim_player.play("Idle");
+
+func handle_scape() -> void:
+	dialog.escape(["Got away safely!"]);
+	await GLOBAL.timeout(0.2);
+	play_audio(BATTLE.BATTLE_SOUNDS.BATTLE_FLEE);
+	await BATTLE.dialog_finished;
+	await GLOBAL.timeout(.6);
+	end_battle();
 
 #TIMER
 func start_health_timer() -> void:
@@ -461,11 +490,12 @@ func set_pokemon_exp() -> void:
 
 func _set_anim_hp_bar_duration(duration: float) -> void: hp_bar_anim_duration = duration;
 
-func set_health_color_while_timer(value: float) -> void:
+func set_health_color(value: float) -> void:
 	var target = get_attack_target();
 	if(current_turn == Turn.ENEMY): update_player_health(int(value));
 	var perct = value / float(target.total_hp);
-	if(perct < BATTLE.GREEN_BAR_PERCT && perct > BATTLE.YELLOW_BAR_PERCT): 
+	if(perct >= BATTLE.GREEN_BAR_PERCT): target.bar.texture = BATTLE.GREEN_BAR;
+	elif(perct < BATTLE.GREEN_BAR_PERCT && perct > BATTLE.YELLOW_BAR_PERCT): 
 		target.bar.texture = BATTLE.YELLOW_BAR;
 	elif(perct < BATTLE.YELLOW_BAR_PERCT): target.bar.texture = BATTLE.RED_BAR;
 
@@ -477,15 +507,19 @@ func set_attack_slot() -> void:
 
 #PARTY
 func _on_party_pokemon_select(_poke_name: String) -> void:
+	battle_anim_player.stop();
+	dialog.visible = true;
 	await GLOBAL.timeout(.2);
 	dialog.switch([pokemon.name + " that's enough!"]);
-	await BATTLE.switch_dialog_end;
+	await BATTLE.dialog_finished;
 	anim_player.play("Switch");
 	await anim_player.animation_finished;
-	BATTLE.state = BATTLE.States.MENU;
 	player_attacked = true;
 	enemy_attacked = false;
-	start_attack(.5);
+	start_attack(0.2, false);
+	await BATTLE.attack_finished;
+	battle_anim_player.play("Idle");
+	BATTLE.can_use_menu = true;
 
 func go_switch_dialog() -> void: dialog.switch(["Let's go " + pokemon.name + "!"]);
 
@@ -513,7 +547,7 @@ func connect_signals() -> void:
 	BATTLE.connect("show_total_stats_panel", show_total_stats_panel);
 	BATTLE.connect("show_level_up_panel", show_level_up_panel);
 	BATTLE.connect("after_dialog_attack", after_dialog_attack);
-	BATTLE.connect("end_battle", end_battle);
+	BATTLE.connect("check_can_escape", _on_check_can_escape);
 	BATTLE.connect("update_attack_ui", update_attack_ui);
 	health_timer.connect("timeout", _on_health_timer_timeout);
 	GLOBAL.connect("selected_pokemon_party", _on_party_pokemon_select);

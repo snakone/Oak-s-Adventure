@@ -67,7 +67,7 @@ var dialog_library: Dictionary = {
 		"marker": false
 	},
 	11: {
-		"arr": [["There is already a saved game. \nDo you want to overwrite it?"]],
+		"arr": [["There is already a saved file. \nIs it okay to overwrite it?"]],
 		"type": DialogType.SYSTEM,
 		"marker": false
 	},

@@ -154,20 +154,22 @@ func select_pokemon() -> void:
 		return;
 	if(GLOBAL.on_battle):
 		closing = true;
+		BATTLE.can_use_menu = false;
 		PARTY.set_active_pokemon(poke_name);
 		close_select(false);
-		close_party();
+		close_party(false);
+		play_audio(GUI_SEL_DECISION);
 		await GLOBAL.timeout(0.2);
 		GLOBAL.emit_signal("selected_pokemon_party", poke_name);
 		return;
 	else: close_select();
 
-func close_party() -> void:
+func close_party(sound = true) -> void:
 	if(select_open): 
 		close_select();
 		return;
 	closing = true;
-	play_audio(GUI_MENU_CLOSE);
+	if(sound): play_audio(GUI_MENU_CLOSE);
 	await GLOBAL.timeout(.2);
 	GLOBAL.emit_signal("party_opened", false);
 	if(GLOBAL.on_battle): BATTLE.state = BATTLE.States.MENU;
@@ -251,9 +253,12 @@ func create_party_list() -> void:
 		remain_hp_node.text = str(poke.data.current_hp);
 		health_node.scale.x = float(poke.data.current_hp) / float(poke.data.battle_stats["HP"]);
 		
-		if(health_node.scale.x <= 0.74 && health_node.scale.x > 0.28): 
-			health_node.texture = YELLOW_BAR;
-		elif(health_node.scale.x <= 0.28): health_node.texture = RED_BAR;
+		#HP COLOR
+		var perct = health_node.scale.x;
+		if(perct >= BATTLE.GREEN_BAR_PERCT): health_node.texture = BATTLE.GREEN_BAR;
+		elif(perct < BATTLE.GREEN_BAR_PERCT && perct > BATTLE.YELLOW_BAR_PERCT): 
+			health_node.texture = BATTLE.YELLOW_BAR;
+		elif(perct < BATTLE.YELLOW_BAR_PERCT): health_node.texture = BATTLE.RED_BAR;
 		
 		#STATUS
 		if(poke.data.death):

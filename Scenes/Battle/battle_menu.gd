@@ -5,6 +5,7 @@ extends Node2D
 @onready var background = $Background;
 @onready var attack_selection: Node2D = $"../Selection";
 @onready var audio: AudioStreamPlayer = $"../AudioPlayer";
+@onready var dialog_label: RichTextLabel = $"../Dialog/Label";
 
 const party_screen_path = "res://Scenes/UI/party_screen.tscn";
 var cursor_index = Vector2.ZERO;
@@ -48,7 +49,9 @@ func match_input() -> void:
 		#bag.visible = true;
 		#current_state = States.BAG;
 	elif(cursor_index == Vector2.DOWN): open_party();
-	elif(cursor_index == Vector2(1, 1)): BATTLE.end_battle.emit();
+	elif(cursor_index == Vector2(1, 1)):
+		BATTLE.state = BATTLE.States.NONE;
+		BATTLE.check_can_escape.emit();
 
 func set_label(text: String) -> void: label.text = text;
 
@@ -58,14 +61,15 @@ func set_marker() -> void:
 	background.texture = markers.menu;
 
 func open_party() -> void:
-	scene_manager.transition_to_scene(party_screen_path, false, false)
 	BATTLE.state = BATTLE.States.NONE;
+	scene_manager.transition_to_scene(party_screen_path, true, false)
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;
 	audio.play();
 
 func _on_pokemon_select_party(_name) -> void:
+	dialog_label.text = "";
 	cursor_index = Vector2.ZERO;
 	cursor.position = BATTLE.menu_cursor_pos[0][0];
 

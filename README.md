@@ -22,9 +22,11 @@
 - Sounds
 - Battle System
 
-Credits on Sprites [Sprite Resource](https://www.spriters-resource.com/)
+## Credits
 
-v.0.4.1 - creaded by Snakone
+Credits on Sprites [Sprite Resource](https://www.spriters-resource.com/)
+Credits to [Arkeve](https://www.youtube.com/@Arkeve) for help me start.
+Credits to [the_praet0rian](https://www.youtube.com/@the_praet0rian) for help me with Battle and Dialog System.
 
 ## Assets/Sprites
 
@@ -37,7 +39,12 @@ Let's say at least i want to have exclusive content for the game, knowing it's 1
 ## Download Godot Engine
 [Godot](https://godotengine.org/)
 
+## Version
+v.0.4.2 - creaded by Snakone
+
 ### All Rights reserved to
 &copy;2024 Pokémon. ©1995 - 2024 Nintendo/Creatures Inc./GAME FREAK inc. TM, ®Nintendo.
+
+
 
 

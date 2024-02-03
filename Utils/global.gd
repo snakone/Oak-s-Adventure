@@ -53,7 +53,6 @@ var menu_open = false;
 var on_bike = false;
 var inside_house = false;
 var dialog_open = false;
-var on_victory = false;
 var on_battle = false;
 
 const blends = [

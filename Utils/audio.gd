@@ -27,14 +27,14 @@ func stop_battle_and_play_last_song() -> void:
 	if(GLOBAL.on_bike): stop_and_play(BICYCLE);
 	else: stop_and_play(current_song);
 
-func play_battle_win(type: BATTLE.Type) -> void:
-	GLOBAL.on_victory = true;
-	match type:
+func play_battle_win() -> void:
+	BATTLE.on_victory = true;
+	match BATTLE.type:
 		BATTLE.Type.WILD: stop_and_play(BATTLE_VICTORY_WILD);
 
 func _on_song_finished() -> void:
 	if(GLOBAL.on_battle): 
-		if(GLOBAL.on_victory): stop_and_play(BATTLE_VICTORY_WILD);
+		if(BATTLE.on_victory): stop_and_play(BATTLE_VICTORY_WILD);
 		else: stop_and_play(BATTLE_WILD);
 	elif(GLOBAL.on_bike): stop_and_play(BICYCLE);
 	else: audio.play();

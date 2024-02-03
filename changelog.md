@@ -22,4 +22,8 @@
 - Full Battle Experience
 - Pokémon Stats based on IV
 - Formulas
+
+# 0.4.2
 - EXP and Level UP
+- Escape from Battle
+- Switch Pokémon

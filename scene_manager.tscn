@@ -80,6 +80,7 @@ next_scene = "res://Scenes/Maps/praire_town.tscn"
 [node name="Menu" parent="." instance=ExtResource("3_8d0bi")]
 
 [node name="Transition" type="CanvasLayer" parent="."]
+layer = 5
 
 [node name="ColorRect" type="ColorRect" parent="Transition"]
 offset_right = 384.0
@@ -93,4 +94,4 @@ libraries = {
 }
 
 [node name="Song" type="AudioStreamPlayer" parent="."]
-volume_db = -80.0
+volume_db = -20.0

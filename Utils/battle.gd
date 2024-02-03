@@ -1,7 +1,7 @@
 extends Node
 
 #ATTACK
-signal attack_finished()
+signal attack_finished();
 signal on_move_hit(is_enemy: bool);
 signal critical_landed();
 signal not_effective();
@@ -14,17 +14,17 @@ signal experience_end();
 signal hp_bar_anim_duration(duration: float);
 
 #DIALOG
-signal dialog_finished()
+signal dialog_finished();
 signal close_level_up_panel();
 signal show_total_stats_panel();
 signal show_level_up_panel();
 signal level_up_stats_end();
-signal switch_dialog_end();
+signal check_can_escape();
 
 #MENU
 signal end_battle();
 
-enum Type { WILD, TRAINER, ELITE, SPECIAL }
+enum Type { WILD, TRAINER, ELITE, SPECIAL, NONE }
 enum ExpType { ERRATIC, FAST, MEDIUM, SLOW, SLACK, FLUCTUATING }
 enum Zones { FIELD = 0, GRASS = 1, SNOW = 2 }
 
@@ -35,7 +35,8 @@ enum States {
 	ATTACKING = 3,
 	LEVELLING = 4,
 	SWITCHING = 5,
-	NONE = 6, 
+	ESCAPING = 6,
+	NONE = 7, 
 }
 
 #MARKERS
@@ -64,6 +65,7 @@ const SNOW_BASE_1 = preload("res://Assets/UI/Battle/Backgrounds/snow_base1.png")
 #BARS
 const RED_BAR = preload("res://Assets/UI/red_bar.png");
 const YELLOW_BAR = preload("res://Assets/UI/yellow_bar.png");
+const GREEN_BAR = preload("res://Assets/UI/green_bar.png");
 
 #SOUNDS
 const BATTLE_SOUNDS = {
@@ -87,11 +89,14 @@ const YELLOW_BAR_PERCT = 0.2;
 var level_up_panel_visible = false;
 var can_close_level_up_panel = false;
 
+var type = Type.NONE;
 var state = States.NONE;
 var pokemon_death = false;
 var enemy_death = false;
 var intro_dialog = true;
 var can_use_menu = false;
+var escape_attempts = 0;
+var on_victory = false;
 
 @onready var zones_array = [
 	{
@@ -112,13 +117,16 @@ var can_use_menu = false;
 ];
 
 func reset_state() -> void:
-	BATTLE.can_use_menu = false;
-	BATTLE.intro_dialog = true;
-	BATTLE.state = BATTLE.States.NONE;
-	BATTLE.pokemon_death = false;
-	BATTLE.enemy_death = false;
-	BATTLE.level_up_panel_visible = false;
-	BATTLE.can_close_level_up_panel = false;
+	can_use_menu = false;
+	intro_dialog = true;
+	state = BATTLE.States.NONE;
+	pokemon_death = false;
+	enemy_death = false;
+	level_up_panel_visible = false;
+	can_close_level_up_panel = false;
+	escape_attempts = 0;
+	type = Type.NONE;
+	on_victory = false;
 
 func pokemon_encounter() -> bool:
 	randomize()
@@ -142,8 +150,8 @@ const attack_cursor_pos: Array = [
 
 func get_battle_textures(zone: BATTLE.Zones): return zones_array[zone];
 
-func get_markers(type: SETTINGS.Markers):
-	match type:
+func get_markers(marker_type: SETTINGS.Markers):
+	match marker_type:
 		SETTINGS.Markers.ORANGE:
 			return {
 				"menu": MAIN_MENU_ORANGE,
@@ -177,3 +185,14 @@ func can_move_attack_cursor(
 		(new_position == attack4_position && attack4_text == "")
 	): return false;
 	return true;
+
+func can_pokemon_scape(pokemon: Object, enemy: Object) -> bool:
+	var poke_speed = pokemon.data.battle_stats["SPD"];
+	var enemy_speed = enemy.data.battle_stats["SPD"];
+	var random = randi() % 256;
+	escape_attempts += 1;
+	
+	if(poke_speed >= enemy_speed): return true;
+	else:
+		var odd = floor(int(floor(((poke_speed * 128.0) / enemy_speed) + (30.0 * escape_attempts))) % 256);
+		return random < odd;
