@@ -973,7 +973,7 @@ _data = {
 
 [sub_resource type="Animation" id="Animation_drt0x"]
 resource_name = "DamageEnemy"
-length = 0.35
+length = 0.65
 step = 0.05
 tracks/0/type = "bezier"
 tracks/0/imported = false
@@ -982,9 +982,9 @@ tracks/0/path = NodePath("UI/EnemySprite:modulate:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3)
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65)
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -993,10 +993,10 @@ tracks/1/path = NodePath("UI/EnemySprite:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.1, 0.2, 0.3),
+"times": PackedFloat32Array(0.1, 0.15, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(166, 34), Vector2(168, 34), Vector2(166, 34)]
+"values": [Vector2(166, 34), Vector2(170, 34), Vector2(166, 34)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -1005,9 +1005,9 @@ tracks/2/path = NodePath("UI/TakeHit:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.25),
+"times": PackedFloat32Array(0, 0.05, 0.15),
 "transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
+"update": 0,
 "values": [false, true, false]
 }
 tracks/3/type = "value"
@@ -1020,12 +1020,24 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(160, 27)]
+"values": [Vector2(158, 27)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Info/EnemyInfo:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.25, 0.35, 0.45, 0.55, 0.65),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(60, 22), Vector2(60, 24), Vector2(60, 22), Vector2(60, 24), Vector2(60, 22)]
 }
 
 [sub_resource type="Animation" id="Animation_udwta"]
 resource_name = "DamagePlayer"
-length = 0.35
+length = 0.65
 step = 0.05
 tracks/0/type = "bezier"
 tracks/0/imported = false
@@ -1034,9 +1046,9 @@ tracks/0/path = NodePath("UI/PlayerSprite:modulate:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3)
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65)
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -1045,10 +1057,10 @@ tracks/1/path = NodePath("UI/PlayerSprite:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.1, 0.2, 0.3),
+"times": PackedFloat32Array(0.1, 0.15, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(60, 97), Vector2(58, 97), Vector2(60, 97)]
+"values": [Vector2(60, 97), Vector2(56, 97), Vector2(60, 97)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -1057,9 +1069,9 @@ tracks/2/path = NodePath("UI/TakeHit:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.25),
+"times": PackedFloat32Array(0, 0.05, 0.15),
 "transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
+"update": 0,
 "values": [false, true, false]
 }
 tracks/3/type = "value"
@@ -1073,6 +1085,18 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(44, 77)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Info/PlayerInfo:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.25, 0.35, 0.45, 0.55, 0.65),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(182, 93), Vector2(182, 91), Vector2(182, 93), Vector2(182, 91), Vector2(182, 93)]
 }
 
 [sub_resource type="Animation" id="Animation_7cqpu"]
@@ -1442,6 +1466,18 @@ tracks/10/keys = {
 "update": 0,
 "values": [Vector2(-36, 80)]
 }
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("UI/TakeHit:visible")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hd5rc"]
 _data = {
@@ -1625,7 +1661,6 @@ libraries = {
 }
 
 [node name="PlayerSprite" type="Sprite2D" parent="UI"]
-visible = false
 position = Vector2(60, 97)
 texture = ExtResource("11_2qd72")
 
@@ -1635,7 +1670,7 @@ volume_db = -20.0
 [node name="TakeHit" type="Sprite2D" parent="UI"]
 visible = false
 self_modulate = Color(1, 1, 1, 0.745098)
-position = Vector2(160, 27)
+position = Vector2(158, 27)
 texture = ExtResource("12_7234v")
 centered = false
 

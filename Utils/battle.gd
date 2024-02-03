@@ -77,21 +77,19 @@ const BATTLE_SOUNDS = {
 	"GUI_MENU_CLOSE": preload("res://Assets/Sounds/GUI menu close.ogg"),
 	"BATTLE_FLEE": preload("res://Assets/Sounds/Battle flee.ogg"),
 	"EXP_GAIN_PKM": preload("res://Assets/Sounds/exp_gain_pkm.mp3"),
-	"EXP_FULL": preload("res://Assets/Sounds/exp_full.mp3")
+	"EXP_FULL": preload("res://Assets/Sounds/exp_full.mp3"),
+	"DAMAGE_NORMAL": preload("res://Assets/Sounds/Battle damage normal.ogg")
 }
 
 const tile_density = 1325.0;
 const modifire = 1.0;
-
 const min_hp_anim_duration = 0.3;
 const max_hp_anim_duration = 3;
-
 const GREEN_BAR_PERCT = 0.51;
 const YELLOW_BAR_PERCT = 0.2;
 
 var level_up_panel_visible = false;
 var can_close_level_up_panel = false;
-
 var type = Type.NONE;
 var state = States.NONE;
 var pokemon_death = false;
@@ -100,7 +98,6 @@ var intro_dialog = true;
 var can_use_menu = false;
 var escape_attempts = 0;
 var on_victory = false;
-
 var attack_pressed = false;
 var player_attacked = false;
 var enemy_attacked = false;

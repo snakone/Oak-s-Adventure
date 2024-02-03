@@ -1,11 +1,11 @@
 [gd_scene load_steps=7 format=3 uid="uid://cx0jjo413ds6v"]
 
 [ext_resource type="Script" path="res://Scenes/Battle/Moves/tackle.gd" id="1_kicyl"]
-[ext_resource type="AudioStream" uid="uid://u3g5iuy2em1" path="res://Assets/Sounds/Moves/Tackle.mp3" id="3_qa51q"]
+[ext_resource type="AudioStream" uid="uid://ckun4kj6oiovn" path="res://Assets/Sounds/Moves/tackle.mp3" id="2_a1ev5"]
 
 [sub_resource type="Animation" id="Animation_0vd60"]
 resource_name = "Attack"
-length = 0.8
+length = 1.2
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -26,17 +26,20 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.35),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.35, 0.8),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
 "method": &"emit_on_hit"
+}, {
+"args": [],
+"method": &"play_effective_sound"
 }]
 }
 
 [sub_resource type="Animation" id="Animation_y5fnp"]
 resource_name = "EnemyAttack"
-length = 0.8
+length = 1.2
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -57,11 +60,14 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.35),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.35, 0.8),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
 "method": &"emit_on_hit"
+}, {
+"args": [],
+"method": &"play_effective_sound"
 }]
 }
 
@@ -77,6 +83,7 @@ _data = {
 
 [node name="Tackle" type="Node2D"]
 script = ExtResource("1_kicyl")
+audio_file = ExtResource("2_a1ev5")
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 position = Vector2(60, 97)
@@ -92,7 +99,6 @@ libraries = {
 }
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_qa51q")
-volume_db = -3.0
+volume_db = -10.0
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]

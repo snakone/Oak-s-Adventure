@@ -147,7 +147,7 @@ func start_attack(delay = 0.0, sound = true) -> void:
 	if((priority && !BATTLE.player_attacked) || BATTLE.enemy_attacked):
 		pokemon_attack(sound);
 	elif(!BATTLE.enemy_attacked || BATTLE.player_attacked):
-		enemy_attack();
+		enemy_attack(sound);
 	#CHECK IF DEATH
 	if(pokemon.data.death || enemy.data.death): return;
 	#ATTACK AGAIN
@@ -157,6 +157,7 @@ func start_attack(delay = 0.0, sound = true) -> void:
 		return;
 	BATTLE.player_attacked = false;
 	BATTLE.enemy_attacked = false;
+	battle_anim_player.play("Idle");
 
 func pokemon_attack(sound = true) -> void:
 	BATTLE.current_turn = BATTLE.Turn.PLAYER;
@@ -215,7 +216,8 @@ func update_battle_ui(animated = true, get_self = false) -> void:
 		await GLOBAL.timeout(await_time);
 		stop_health_timer();
 	else: target.bar.scale.x = new_size;
-		
+	
+	dialog.set_label("");
 	BATTLE.ui_updated.emit();
 
 #HEALTH BAR
@@ -228,7 +230,7 @@ func update_exp_bar(delay = 0.0) -> void:
 	var new_size = get_new_exp_bar_size();
 	var tween = get_tree().create_tween();
 	tween.set_trans(Tween.TRANS_SINE);
-	tween.tween_property(exp_bar, "scale:x", clampf(new_size, 0.0, 1.0), 1.3);
+	tween.tween_property(exp_bar, "scale:x", clampf(new_size, 0.0, 1.0), 1);
 	play_audio(BATTLE.BATTLE_SOUNDS.EXP_GAIN_PKM);
 	await tween.finished;
 	while(exp_to_next_level <= 0.0): 
@@ -294,12 +296,12 @@ func add_animation_and_play(move: Dictionary) -> void:
 
 #LISTENERS
 func _on_move_hit() -> void:
-	update_battle_ui();
 	if(BATTLE.current_turn == BATTLE.Turn.PLAYER): 
 		battle_anim_player.play("DamageEnemy");
 	else: battle_anim_player.play("DamagePlayer")
 	await battle_anim_player.animation_finished;
-	battle_anim_player.play("Idle");
+	update_battle_ui();
+	battle_anim_player.stop();
 
 func after_dialog_attack() -> void:
 	await BATTLE.ui_updated;

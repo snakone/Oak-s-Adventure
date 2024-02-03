@@ -150,7 +150,7 @@ var pokedex_list: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/PIDGEY.ogg"),
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLACK,
-		"base_exp": 4000,
+		"base_exp": 40,
 		"stats": {
 			"HP": 40,
 			"ATK": 45,
