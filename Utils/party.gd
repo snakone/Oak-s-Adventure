@@ -1,5 +1,7 @@
 extends Node
 
+signal selected_pokemon_party(poke_name: String);
+
 var current_party = [];
 var active_pokemon: Dictionary;
 

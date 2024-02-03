@@ -6,6 +6,7 @@ signal on_move_hit(is_enemy: bool);
 signal critical_landed();
 signal not_effective();
 signal after_dialog_attack();
+signal start_attack();
 
 #UI
 signal ui_updated();
@@ -27,6 +28,8 @@ signal end_battle();
 enum Type { WILD, TRAINER, ELITE, SPECIAL, NONE }
 enum ExpType { ERRATIC, FAST, MEDIUM, SLOW, SLACK, FLUCTUATING }
 enum Zones { FIELD = 0, GRASS = 1, SNOW = 2 }
+enum Moves { FIRST, SECOND, THIRD, FOURTH }
+enum Turn { PLAYER, ENEMY, NONE }
 
 enum States {
 	MENU = 0, 
@@ -98,6 +101,11 @@ var can_use_menu = false;
 var escape_attempts = 0;
 var on_victory = false;
 
+var attack_pressed = false;
+var player_attacked = false;
+var enemy_attacked = false;
+var current_turn = Turn.NONE;
+
 @onready var zones_array = [
 	{
 		"background": FIELD_BG,
@@ -127,6 +135,10 @@ func reset_state() -> void:
 	escape_attempts = 0;
 	type = Type.NONE;
 	on_victory = false;
+	player_attacked = false;
+	enemy_attacked = false;
+	current_turn = Turn.NONE;
+	attack_pressed = false;
 
 func pokemon_encounter() -> bool:
 	randomize()

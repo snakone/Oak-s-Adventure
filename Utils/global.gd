@@ -11,7 +11,6 @@ signal start_dialog(id: int);
 signal close_dialog;
 signal on_tile_map_changed(size: Vector2, camera_offset: Vector2);
 signal system_dialog_finished;
-signal selected_pokemon_party(poke_name: String);
 
 signal start_battle(battle_data: Dictionary);
 signal close_battle;

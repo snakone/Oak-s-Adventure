@@ -160,7 +160,7 @@ func select_pokemon() -> void:
 		close_party(false);
 		play_audio(GUI_SEL_DECISION);
 		await GLOBAL.timeout(0.2);
-		GLOBAL.emit_signal("selected_pokemon_party", poke_name);
+		PARTY.emit_signal("selected_pokemon_party", poke_name);
 		return;
 	else: close_select();
 

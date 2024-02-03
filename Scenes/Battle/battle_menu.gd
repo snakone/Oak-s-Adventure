@@ -74,4 +74,4 @@ func _on_pokemon_select_party(_name) -> void:
 	cursor.position = BATTLE.menu_cursor_pos[0][0];
 
 func connect_signals() -> void:
-	GLOBAL.connect("selected_pokemon_party", _on_pokemon_select_party);
+	PARTY.connect("selected_pokemon_party", _on_pokemon_select_party);

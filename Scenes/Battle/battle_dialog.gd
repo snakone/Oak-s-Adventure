@@ -82,7 +82,7 @@ func levelling_input() -> void:
 		pressed = false;
 
 #ATTACK
-func start_attack(input_arr: Array) -> void:
+func attack(input_arr: Array) -> void:
 	visible = true;
 	timer.start();
 	
@@ -99,11 +99,11 @@ func start_attack(input_arr: Array) -> void:
 	BATTLE.dialog_finished.emit();
 
 #LEVEL UP
-func start_level_up(input_arr: Array) -> void:
+func level_up(input_arr: Array) -> void:
 	BATTLE.state = BATTLE.States.LEVELLING;
 	current_text = "";
 	level_up_timer.start();
-	play_audio(PKMN_LEVEL_UP, 0.3, 0);
+	play_audio(PKMN_LEVEL_UP, 0.3, -5);
 	
 	for i in range(1):
 		for j in range(len(input_arr[i])):

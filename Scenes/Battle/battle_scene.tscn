@@ -25,6 +25,7 @@
 [ext_resource type="Script" path="res://Scenes/Battle/battle_menu.gd" id="17_8rdsk"]
 [ext_resource type="Texture2D" uid="uid://g2v4baiol8mq" path="res://Assets/UI/Battle/Characters/ball.png" id="19_lwo1p"]
 [ext_resource type="Texture2D" uid="uid://chfcujj18qrt5" path="res://Assets/UI/Battle/Characters/oak_1.png" id="20_8lsng"]
+[ext_resource type="Script" path="res://Scenes/Battle/battle_attack.gd" id="20_qqf6l"]
 [ext_resource type="Script" path="res://Scenes/Battle/battle_dialog.gd" id="21_ypber"]
 [ext_resource type="Texture2D" uid="uid://bdwahe7q8c7up" path="res://Assets/UI/Battle/Characters/oak_2.png" id="21_yqy66"]
 [ext_resource type="Texture2D" uid="uid://ddthxuireeyxa" path="res://Assets/UI/Battle/Characters/oak_3.png" id="22_lr1rg"]
@@ -120,11 +121,6 @@ _data = {
 "Move": SubResource("Animation_abkjs"),
 "RESET": SubResource("Animation_v4qp0")
 }
-
-[sub_resource type="GDScript" id="GDScript_bis1n"]
-script/source = "extends Node2D
-
-"
 
 [sub_resource type="Animation" id="Animation_lw6i4"]
 resource_name = "Bounce"
@@ -1700,7 +1696,7 @@ visible = false
 [node name="Selection" type="Node2D" parent="."]
 visible = false
 z_index = 1
-script = SubResource("GDScript_bis1n")
+script = ExtResource("20_qqf6l")
 metadata/_edit_lock_ = true
 
 [node name="Background" type="Sprite2D" parent="Selection"]
