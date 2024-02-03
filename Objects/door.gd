@@ -7,7 +7,7 @@ extends Area2D
 @export var sprite_image: Texture;
 @export var type: GLOBAL.DoorType;
 
-@onready var animation_player = $AnimationPlayer;
+@onready var anim_player = $AnimationPlayer;
 @onready var sprite_2d = $Sprite2D;
 @onready var audio = $AudioStreamPlayer;
 
@@ -27,7 +27,10 @@ func _on_body_entered(body) -> void:
 	if(can_be_opened && body.name == "Oak"):
 		MAPS.spawn_position = spawn_position;
 		if(type == GLOBAL.DoorType.IN): audio.stream = DOOR_ENTER;
-		if(animated && type != GLOBAL.DoorType.OUT): animation_player.play("Open");
+		else:
+			audio.stream = DOOR_EXIT;
+			audio.play();
+		if(animated): anim_player.play("Open");
 		else: enter_house();
 	elif(!can_be_opened): GLOBAL.emit_signal("cant_enter_door", self);
 
@@ -38,13 +41,10 @@ func check_direction() -> void:
 func enter_house() -> void:
 	await GLOBAL.timeout(.1);
 	if(next_scene):
-		if(type == GLOBAL.DoorType.OUT):
-			audio.stream = DOOR_EXIT;
-			audio.play();
 		GLOBAL.last_used_door = self.name;
 		get_node("/root/SceneManager").transition_to_scene(next_scene);
 
 func check_close_animation() -> void:
 	if(GLOBAL.last_used_door == self.name && type == GLOBAL.DoorType.IN):
-		animation_player.play("Close");
+		anim_player.play("Close");
 		GLOBAL.last_used_door = "";

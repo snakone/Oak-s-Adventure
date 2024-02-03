@@ -1,21 +1,20 @@
 extends CanvasLayer
 
-@onready var timer = $Timer
+@onready var timer = $Timer;
 @onready var label = $RichTextLabel;
 @onready var marker = $Marker;
 @onready var audio = $AudioStreamPlayer;
 
+const oak_prefix = "self:";
 var dialog_data: Dictionary;
 var current_index: int = 0;
 var current_line: int = 2;
 var pressed: bool = true;
 var dialog_closed = false;
-var oak_prefix = "self:";
 var npc_dialog = false;
 var whos_talking: String;
 
-func set_data(id: int) -> void: 
-	dialog_data = DIALOG.get_dialog(id);
+func set_data(id: int) -> void: dialog_data = DIALOG.get_dialog(id);
 
 func _ready() -> void:
 	marker.visible = false;
@@ -30,15 +29,22 @@ func _ready() -> void:
 		for j in range(len(text_string)):
 			await timer.timeout;
 			label.text += text_string[j];
-			
+	
+	await GLOBAL.timeout(0.2);
 	pressed = false;
-	marker.visible = dialog_data.type != DIALOG.DialogType.SYSTEM;
-	if(dialog_data.type == DIALOG.DialogType.SYSTEM):
+	marker.visible = dialog_data.marker;
+	if(dialog_data.type == DIALOG.DialogType.SYSTEM && !dialog_data.marker):
 		GLOBAL.emit_signal("system_dialog_finished");
 
-func _input(event: InputEvent) -> void:
-	if(dialog_closed || dialog_data.type == DIALOG.DialogType.SYSTEM): return;
-	if event.is_action_pressed("space") and !pressed:
+func _unhandled_input(event: InputEvent) -> void:
+	if(
+		!event is InputEventKey || 
+		event.is_echo() ||
+		!event.is_pressed() 
+	): return;
+	
+	if(dialog_closed || !dialog_data.marker): return;
+	if Input.is_action_just_pressed("space") and !pressed:
 		marker.visible = false;
 		pressed = true;
 		label.text = "";
@@ -52,8 +58,7 @@ func _input(event: InputEvent) -> void:
 		if current_index >= len(dialog_data.arr):
 			await audio.finished;
 			dialog_closed = true;
-			if(dialog_data.type != DIALOG.DialogType.SYSTEM): 
-				GLOBAL.emit_signal("close_dialog");
+			if(dialog_data.marker): GLOBAL.emit_signal("close_dialog");
 			timer.stop();
 		else:
 			label.text = label.text.erase(0, label.text.find("\n") + 1);
@@ -66,11 +71,12 @@ func _input(event: InputEvent) -> void:
 				await timer.timeout;
 				label.text += text_string[j];
 			current_line += 1;
-			marker.visible = dialog_data.type != DIALOG.DialogType.SYSTEM;
+			marker.visible = dialog_data.marker;
+		await GLOBAL.timeout(0.2);
 		pressed = false;
 
 func add_prefix(text: String) -> String:
-	if(whos_talking != "" && npc_dialog):
+	if(whos_talking != ""):
 		if(text.left(len(oak_prefix)) == oak_prefix): 
 			whos_talking = "Oak";
 			text = text.replace(oak_prefix, "");

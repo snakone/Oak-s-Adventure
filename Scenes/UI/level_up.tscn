@@ -1,0 +1,390 @@
+[gd_scene load_steps=9 format=3 uid="uid://h0vfb4g8igq"]
+
+[ext_resource type="Texture2D" uid="uid://d3dxw0bsf6jxo" path="res://Assets/UI/marker_orange.png" id="1_rm364"]
+[ext_resource type="Script" path="res://Scenes/UI/level_up.gd" id="2_wkfe1"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="3_qe6n6"]
+[ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="4_qc8lg"]
+[ext_resource type="AudioStream" uid="uid://cfl2vuycupxn1" path="res://Assets/Sounds/confirm.wav" id="5_c8awa"]
+
+[sub_resource type="Animation" id="Animation_x6rbo"]
+resource_name = "DefaultColor"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HBoxContainer/VBoxContainer/HP/Plus:theme_override_colors/default_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.4, 0.4, 0.4, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HBoxContainer/VBoxContainer/ATK/Plus:theme_override_colors/default_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.4, 0.4, 0.4, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HBoxContainer/VBoxContainer/DEF/Plus:theme_override_colors/default_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.4, 0.4, 0.4, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("HBoxContainer/VBoxContainer2/S_ATK/Plus:theme_override_colors/default_color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.4, 0.4, 0.4, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("HBoxContainer/VBoxContainer2/S_DEF/Plus:theme_override_colors/default_color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.4, 0.4, 0.4, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("HBoxContainer/VBoxContainer2/SPEED/Plus:theme_override_colors/default_color")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.4, 0.4, 0.4, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_bx0p0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HBoxContainer/VBoxContainer/HP/Plus:theme_override_colors/default_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0.701961, 0.105882, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HBoxContainer/VBoxContainer/ATK/Plus:theme_override_colors/default_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0.701961, 0.105882, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HBoxContainer/VBoxContainer/DEF/Plus:theme_override_colors/default_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0.701961, 0.105882, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("HBoxContainer/VBoxContainer2/S_ATK/Plus:theme_override_colors/default_color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0.701961, 0.105882, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("HBoxContainer/VBoxContainer2/S_DEF/Plus:theme_override_colors/default_color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0.701961, 0.105882, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("HBoxContainer/VBoxContainer2/SPEED/Plus:theme_override_colors/default_color")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0.701961, 0.105882, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xuu8j"]
+_data = {
+"DefaultColor": SubResource("Animation_x6rbo"),
+"RESET": SubResource("Animation_bx0p0")
+}
+
+[node name="NinePatchRect" type="NinePatchRect"]
+visible = false
+offset_left = 115.0
+offset_top = 8.0
+offset_right = 215.0
+offset_bottom = 55.0
+texture = ExtResource("1_rm364")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+script = ExtResource("2_wkfe1")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -0.5
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="HP" type="Control" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/HP"]
+clip_contents = false
+layout_mode = 2
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 48.0
+offset_bottom = 17.0
+theme = ExtResource("3_qe6n6")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("4_qc8lg")
+theme_override_font_sizes/normal_font_size = 10
+text = "HP"
+
+[node name="Plus" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/HP"]
+clip_contents = false
+layout_mode = 2
+offset_left = 28.0
+offset_top = 8.0
+offset_right = 43.0
+offset_bottom = 17.0
+theme = ExtResource("3_qe6n6")
+theme_override_colors/default_color = Color(0, 0.701961, 0.105882, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("4_qc8lg")
+theme_override_font_sizes/normal_font_size = 10
+text = "+1"
+
+[node name="ATK" type="Control" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/ATK"]
+clip_contents = false
+layout_mode = 2
+offset_left = 8.0
+offset_top = 16.0
+offset_right = 48.0
+offset_bottom = 25.0
+theme = ExtResource("3_qe6n6")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("4_qc8lg")
+theme_override_font_sizes/normal_font_size = 10
+text = "ATK"
+
+[node name="Plus" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/ATK"]
+clip_contents = false
+layout_mode = 2
+offset_left = 28.0
+offset_top = 16.0
+offset_right = 43.0
+offset_bottom = 25.0
+theme = ExtResource("3_qe6n6")
+theme_override_colors/default_color = Color(0, 0.701961, 0.105882, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("4_qc8lg")
+theme_override_font_sizes/normal_font_size = 10
+text = "+1"
+
+[node name="DEF" type="Control" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/DEF"]
+clip_contents = false
+layout_mode = 2
+offset_left = 8.0
+offset_top = 25.0
+offset_right = 63.0
+offset_bottom = 34.0
+theme = ExtResource("3_qe6n6")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("4_qc8lg")
+theme_override_font_sizes/normal_font_size = 10
+text = "DEF"
+
+[node name="Plus" type="RichTextLabel" parent="HBoxContainer/VBoxContainer/DEF"]
+clip_contents = false
+layout_mode = 2
+offset_left = 28.0
+offset_top = 25.0
+offset_right = 43.0
+offset_bottom = 34.0
+theme = ExtResource("3_qe6n6")
+theme_override_colors/default_color = Color(0, 0.701961, 0.105882, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("4_qc8lg")
+theme_override_font_sizes/normal_font_size = 10
+text = "+1"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(57.5, 55)
+layout_mode = 2
+
+[node name="S_ATK" type="Control" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="HBoxContainer/VBoxContainer2/S_ATK"]
+clip_contents = false
+layout_mode = 2
+offset_left = 45.0
+offset_top = 8.0
+offset_right = 85.0
+offset_bottom = 17.0
+theme = ExtResource("3_qe6n6")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("4_qc8lg")
+theme_override_font_sizes/normal_font_size = 10
+text = "SP.ATK"
+
+[node name="Plus" type="RichTextLabel" parent="HBoxContainer/VBoxContainer2/S_ATK"]
+clip_contents = false
+layout_mode = 2
+offset_left = 78.0
+offset_top = 8.0
+offset_right = 93.0
+offset_bottom = 17.0
+theme = ExtResource("3_qe6n6")
+theme_override_colors/default_color = Color(0, 0.701961, 0.105882, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("4_qc8lg")
+theme_override_font_sizes/normal_font_size = 10
+text = "+1"
+
+[node name="S_DEF" type="Control" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="HBoxContainer/VBoxContainer2/S_DEF"]
+clip_contents = false
+layout_mode = 2
+offset_left = 45.0
+offset_top = 16.0
+offset_right = 85.0
+offset_bottom = 25.0
+theme = ExtResource("3_qe6n6")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("4_qc8lg")
+theme_override_font_sizes/normal_font_size = 10
+text = "SP.DEF"
+
+[node name="Plus" type="RichTextLabel" parent="HBoxContainer/VBoxContainer2/S_DEF"]
+clip_contents = false
+layout_mode = 2
+offset_left = 78.0
+offset_top = 16.0
+offset_right = 93.0
+offset_bottom = 25.0
+theme = ExtResource("3_qe6n6")
+theme_override_colors/default_color = Color(0, 0.701961, 0.105882, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("4_qc8lg")
+theme_override_font_sizes/normal_font_size = 10
+text = "+1"
+
+[node name="SPEED" type="Control" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Name" type="RichTextLabel" parent="HBoxContainer/VBoxContainer2/SPEED"]
+clip_contents = false
+layout_mode = 2
+offset_left = 45.0
+offset_top = 24.0
+offset_right = 85.0
+offset_bottom = 33.0
+theme = ExtResource("3_qe6n6")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("4_qc8lg")
+theme_override_font_sizes/normal_font_size = 10
+text = "SPEED"
+
+[node name="Plus" type="RichTextLabel" parent="HBoxContainer/VBoxContainer2/SPEED"]
+clip_contents = false
+layout_mode = 2
+offset_left = 78.0
+offset_top = 24.0
+offset_right = 93.0
+offset_bottom = 33.0
+theme = ExtResource("3_qe6n6")
+theme_override_colors/default_color = Color(0, 0.701961, 0.105882, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("4_qc8lg")
+theme_override_font_sizes/normal_font_size = 10
+text = "+1"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_c8awa")
+volume_db = -20.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xuu8j")
+}

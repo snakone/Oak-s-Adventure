@@ -49,39 +49,51 @@ position = Vector2(80, 64)
 
 [node name="TallGrass" parent="Nature" instance=ExtResource("3_82l0a")]
 position = Vector2(144, 32)
+encounters = Array[int]([])
 
 [node name="TallGrass2" parent="Nature" instance=ExtResource("3_82l0a")]
 position = Vector2(160, 32)
+encounters = Array[int]([])
 
 [node name="TallGrass3" parent="Nature" instance=ExtResource("3_82l0a")]
 position = Vector2(176, 32)
+encounters = Array[int]([])
 
 [node name="TallGrass4" parent="Nature" instance=ExtResource("3_82l0a")]
 position = Vector2(192, 32)
+encounters = Array[int]([])
 
 [node name="TallGrass5" parent="Nature" instance=ExtResource("3_82l0a")]
 position = Vector2(208, 32)
+encounters = Array[int]([])
 
 [node name="TallGrass6" parent="Nature" instance=ExtResource("3_82l0a")]
 position = Vector2(144, 48)
+encounters = Array[int]([])
 
 [node name="TallGrass7" parent="Nature" instance=ExtResource("3_82l0a")]
 position = Vector2(160, 48)
+encounters = Array[int]([])
 
 [node name="TallGrass8" parent="Nature" instance=ExtResource("3_82l0a")]
 position = Vector2(176, 48)
+encounters = Array[int]([])
 
 [node name="TallGrass9" parent="Nature" instance=ExtResource("3_82l0a")]
 position = Vector2(192, 48)
+encounters = Array[int]([])
 
 [node name="TallGrass10" parent="Nature" instance=ExtResource("3_82l0a")]
 position = Vector2(208, 48)
+encounters = Array[int]([])
 
 [node name="TallGrass11" parent="Nature" instance=ExtResource("3_82l0a")]
 position = Vector2(224, 48)
+encounters = Array[int]([])
 
 [node name="TallGrass12" parent="Nature" instance=ExtResource("3_82l0a")]
 position = Vector2(224, 32)
+encounters = Array[int]([])
 
 [node name="OrangeFlower" parent="Nature" instance=ExtResource("4_n5ibi")]
 position = Vector2(304, 112)

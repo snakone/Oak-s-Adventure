@@ -31,53 +31,59 @@ layer_0/tile_data = PackedInt32Array(327697, 0, 0, 327698, 65536, 0, 327699, 655
 
 [node name="Weed" type="Node2D" parent="."]
 
-[node name="TallGrass23" parent="Weed" instance=ExtResource("4_pl5bi")]
-position = Vector2(256, 112)
-
-[node name="TallGrass29" parent="Weed" instance=ExtResource("4_pl5bi")]
-position = Vector2(256, 144)
-
-[node name="TallGrass30" parent="Weed" instance=ExtResource("4_pl5bi")]
-position = Vector2(256, 160)
-
-[node name="TallGrass31" parent="Weed" instance=ExtResource("4_pl5bi")]
-position = Vector2(240, 32)
-
-[node name="TallGrass32" parent="Weed" instance=ExtResource("4_pl5bi")]
-position = Vector2(240, 160)
-
-[node name="TallGrass33" parent="Weed" instance=ExtResource("4_pl5bi")]
-position = Vector2(240, 144)
-
-[node name="TallGrass34" parent="Weed" instance=ExtResource("4_pl5bi")]
-position = Vector2(240, 128)
-
-[node name="TallGrass35" parent="Weed" instance=ExtResource("4_pl5bi")]
-position = Vector2(240, 96)
-
-[node name="TallGrass36" parent="Weed" instance=ExtResource("4_pl5bi")]
-position = Vector2(240, 80)
-
-[node name="TallGrass37" parent="Weed" instance=ExtResource("4_pl5bi")]
-position = Vector2(240, 64)
-
-[node name="TallGrass38" parent="Weed" instance=ExtResource("4_pl5bi")]
-position = Vector2(240, 48)
-
-[node name="TallGrass24" parent="Weed" instance=ExtResource("4_pl5bi")]
-position = Vector2(272, 112)
-
-[node name="TallGrass25" parent="Weed" instance=ExtResource("4_pl5bi")]
-position = Vector2(304, 112)
-
-[node name="TallGrass26" parent="Weed" instance=ExtResource("4_pl5bi")]
-position = Vector2(304, 96)
-
-[node name="TallGrass27" parent="Weed" instance=ExtResource("4_pl5bi")]
-position = Vector2(288, 112)
-
-[node name="TallGrass28" parent="Weed" instance=ExtResource("4_pl5bi")]
+[node name="TallGrass" parent="Weed" instance=ExtResource("4_pl5bi")]
 position = Vector2(240, 112)
+encounters = Array[int]([384])
+zone = 1
+level_range = [43, 100]
+
+[node name="TallGrass2" parent="Weed" instance=ExtResource("4_pl5bi")]
+position = Vector2(240, 96)
+encounters = Array[int]([19])
+zone = 1
+
+[node name="TallGrass3" parent="Weed" instance=ExtResource("4_pl5bi")]
+position = Vector2(240, 80)
+encounters = Array[int]([19])
+zone = 1
+
+[node name="TallGrass4" parent="Weed" instance=ExtResource("4_pl5bi")]
+position = Vector2(240, 64)
+encounters = Array[int]([19])
+
+[node name="TallGrass5" parent="Weed" instance=ExtResource("4_pl5bi")]
+position = Vector2(240, 48)
+encounters = Array[int]([19])
+
+[node name="TallGrass6" parent="Weed" instance=ExtResource("4_pl5bi")]
+position = Vector2(192, 160)
+encounters = Array[int]([16])
+zone = 2
+
+[node name="TallGrass7" parent="Weed" instance=ExtResource("4_pl5bi")]
+position = Vector2(208, 160)
+encounters = Array[int]([16])
+zone = 2
+
+[node name="TallGrass8" parent="Weed" instance=ExtResource("4_pl5bi")]
+position = Vector2(224, 160)
+encounters = Array[int]([16])
+zone = 2
+
+[node name="TallGrass9" parent="Weed" instance=ExtResource("4_pl5bi")]
+position = Vector2(240, 160)
+encounters = Array[int]([16])
+zone = 2
+
+[node name="TallGrass10" parent="Weed" instance=ExtResource("4_pl5bi")]
+position = Vector2(256, 160)
+encounters = Array[int]([16])
+zone = 2
+
+[node name="TallGrass11" parent="Weed" instance=ExtResource("4_pl5bi")]
+position = Vector2(272, 160)
+encounters = Array[int]([16])
+zone = 2
 
 [node name="Flowers" type="Node2D" parent="."]
 

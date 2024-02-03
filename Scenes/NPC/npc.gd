@@ -16,20 +16,18 @@ enum Directions {
 @export var can_down: bool = true;
 @export var possitive_limits: Vector2;
 @export var negative_limits: Vector2;
-@export var interval = 1;
+@export var interval: float = 1.0;
 @export var dialog_id = 1;
 
 @onready var block_ray_cast_2d = $BlockRayCast2D;
-@onready var oak_ray_cast_2d = $OakRayCast2D;
 @onready var timer = $Timer;
 @onready var anim_player = $AnimationPlayer;
 @onready var sprite = $Sprite2D;
 
 var limits_possitive;
 var limits_negative;
-var wrong_directions = [];
 var is_talking = false;
-var oak: CharacterBody2D;
+var inside_player_area = false;
 
 func _ready() -> void:
 	connect_signals();
@@ -38,7 +36,6 @@ func _ready() -> void:
 	timer.wait_time = interval;
 	limits_possitive = position + (possitive_limits * GLOBAL.TILE_SIZE);
 	limits_negative = position + (negative_limits * GLOBAL.TILE_SIZE);
-	oak = get_parent().get_node("Oak");
 	if state == States.MOVING: timer.start();
 
 func _on_timer_timeout() -> void:
@@ -58,38 +55,21 @@ func _on_timer_timeout() -> void:
 		Directions.NONE: return;
 
 func handle_direction(next_step: Vector2) -> void:
+	if(inside_player_area): return;
 	var desired_step: Vector2 = check_limits(next_step * GLOBAL.TILE_SIZE);
-	check_corners();
-	if(desired_step in wrong_directions): return;
-	
 	block_ray_cast_2d.target_position = desired_step / 2;
 	block_ray_cast_2d.force_raycast_update();
-	oak_ray_cast_2d.target_position = desired_step * 2;
-	oak_ray_cast_2d.force_raycast_update();
-	
-	var collapsing = block_ray_cast_2d.is_colliding();
-	var oak_collading = oak_ray_cast_2d.is_colliding();
-	if !collapsing && !oak_collading: move(desired_step);
+	if !block_ray_cast_2d.is_colliding(): move(desired_step);
 
 func move(new_direction: Vector2) -> void:
 	if new_direction == Vector2.RIGHT * GLOBAL.TILE_SIZE: anim_player.play("moveRight")
 	elif new_direction == Vector2.LEFT * GLOBAL.TILE_SIZE: anim_player.play("moveLeft")
 	elif new_direction == Vector2.DOWN * GLOBAL.TILE_SIZE: anim_player.play("moveDown")
 	elif new_direction == Vector2.UP * GLOBAL.TILE_SIZE: anim_player.play("moveUp");
-	wrong_directions = [];
 	var tween = get_tree().create_tween();
 	tween.tween_property(self, "position", floor(position + new_direction), 0.3);
-	check_positon_bounds();
 
 #LISTENERS
-func _on_hit_box_body_entered(body) -> void:
-	await GLOBAL.timeout(.3);
-	calculate_wrong_directions(body);
-
-func _on_hit_box_body_exited(_body):
-	if(is_talking): return;
-	wrong_directions = [];
-
 func _on_start_dialog(_id: int) -> void:
 	is_talking = true;
 	var last_direction = GLOBAL.last_player_direction;
@@ -103,13 +83,6 @@ func _on_close_dialog() -> void:
 	is_talking = false;
 
 #CHECKERS
-func check_positon_bounds() -> void:
-	if fmod(position.x, GLOBAL.TILE_SIZE) != 0.0: position.x = round_position(position.x);
-	if fmod(position.y, GLOBAL.TILE_SIZE) != 0.0: position.y = round_position(position.y);
-
-func round_position(coord: float) -> int:
-	return int(floor(coord / GLOBAL.TILE_SIZE) * GLOBAL.TILE_SIZE);
-
 func check_limits(step: Vector2) -> Vector2:
 	if(limits_possitive.x < position.x + step.x): 
 		return Vector2.LEFT * GLOBAL.TILE_SIZE;
@@ -121,36 +94,9 @@ func check_limits(step: Vector2) -> Vector2:
 		return Vector2.DOWN * GLOBAL.TILE_SIZE;
 	return step;
 
-func check_corners() -> void:
-	if(
-		position.x + GLOBAL.TILE_SIZE == oak.position.x && 
-		position.y - GLOBAL.TILE_SIZE == oak.position.y
-	): wrong_directions = [Vector2.UP * GLOBAL.TILE_SIZE, Vector2.RIGHT * GLOBAL.TILE_SIZE];
-	elif(
-		position.x - GLOBAL.TILE_SIZE == oak.position.x && 
-		position.y + GLOBAL.TILE_SIZE == oak.position.y
-	): wrong_directions = [Vector2.LEFT * GLOBAL.TILE_SIZE, Vector2.DOWN * GLOBAL.TILE_SIZE];
-	elif(
-		position.x - GLOBAL.TILE_SIZE == oak.position.x && 
-		position.y - GLOBAL.TILE_SIZE == oak.position.y
-	): wrong_directions = [Vector2.LEFT * GLOBAL.TILE_SIZE, Vector2.UP * GLOBAL.TILE_SIZE];
-	elif(
-		position.x + GLOBAL.TILE_SIZE == oak.position.x && 
-		position.y + GLOBAL.TILE_SIZE == oak.position.y
-	): wrong_directions = [Vector2.RIGHT * GLOBAL.TILE_SIZE, Vector2.DOWN * GLOBAL.TILE_SIZE];
-
-func calculate_wrong_directions(body: CharacterBody2D) -> void:
-	var direction_y = [Vector2.UP * GLOBAL.TILE_SIZE, Vector2.DOWN * GLOBAL.TILE_SIZE];
-	var direction_x = [Vector2.RIGHT * GLOBAL.TILE_SIZE, Vector2.LEFT * GLOBAL.TILE_SIZE];
-	if(
-		body.position.x == position.x && body.position.y > position.y ||
-		body.position.x == position.x && body.position.y < position.y
-	): wrong_directions = direction_y;
-	elif(
-		body.position.y == position.y && body.position.x > position.x ||
-		body.position.y == position.y && body.position.x < position.x
-	): wrong_directions = direction_x;
-
 func connect_signals() -> void:
 	GLOBAL.connect("start_dialog", _on_start_dialog);
 	GLOBAL.connect("close_dialog", _on_close_dialog);
+
+func _on_npc_area_body_entered(body): if("Oak" in body.name): inside_player_area = true;
+func _on_npc_area_body_exited(body): if("Oak" in body.name): inside_player_area = false;

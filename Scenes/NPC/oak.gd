@@ -7,39 +7,50 @@ const BIKE_SPEED = 6;
 @onready var shadow = $Shadow;
 @onready var dust_effect = $DustEffect;
 @onready var sprite = $Sprite2D;
+
 @onready var block_ray_cast_2d = $BlockRayCast2D;
 @onready var ledge_ray_cast_2d = $LedgeRayCast2D;
 @onready var npc_ray_cast_2d = $NPCRayCast2D
-@onready var object_ray_cast_2d = $ObjectRayCast2D
-@onready var audio = $AudioStreamPlayer;
-
-@onready var playback = anim_tree.get("parameters/playback");
+@onready var object_ray_cast_2d = $ObjectRayCast2D;
 @onready var block_rays = [block_ray_cast_2d, ledge_ray_cast_2d];
 @onready var dialog_rays = [npc_ray_cast_2d, object_ray_cast_2d];
 
-var bike_texture = preload("res://Sprites/oak_bike.png");
-var oak_texture = preload("res://Sprites/oak_sprite.png");
+@onready var audio = $AudioStreamPlayer;
+@onready var anim_player = $AnimationPlayer;
+@onready var playback = anim_tree.get("parameters/playback");
 
+const bike_texture = preload("res://Sprites/oak_bike.png");
+const oak_texture = preload("res://Sprites/oak_sprite.png");
 const CONFIRM = preload("res://Assets/Sounds/confirm.wav");
 const BLOCK = preload("res://Assets/Sounds/Player bump.ogg");
 const PLAYER_JUMP = preload("res://Assets/Sounds/Player jump.ogg");
 
 enum PlayerState { IDLE, TURNING, WALKING };
-var player_state = PlayerState.IDLE;
-var input_direction = Vector2();
+
+#DATA
 var start_position = Vector2.UP;
+var input_direction = Vector2();
+var player_state = PlayerState.IDLE;
+var percent_moved: float = 0;
+var area_types := [GLOBAL.DialogAreaType.NONE];
+var battle_data: Dictionary;
+
+#STATES
 var jumping_over_ledge = false;
 var is_moving: bool = false;
-var percent_moved: float = 0;
 var sit_on_chair = false;
+var stuck_on_door = false;
+var stop = false;
+var ready_to_battle = false;
+var coming_from_battle = false;
+var can_talk = false;
+
+#OBJECTS
 var chair_direction: Vector2;
 var cant_enter_door_direction: Vector2;
-var stuck_on_door = false;
 var door_type: GLOBAL.DoorType;
-var can_talk = false;
-var area_type := GLOBAL.DialogAreaType.NONE;
-var stop = false;
-var dialog_id: int;
+var npc_dialog_id: int;
+var object_dialog_id: int;
 var dialog_direction: GLOBAL.Directions;
 
 func _ready():
@@ -49,9 +60,14 @@ func _ready():
 
 func _physics_process(delta) -> void:
 	GLOBAL.play_time += delta;
-	if(player_state == PlayerState.TURNING || stop): return;
+	if(
+		stop ||
+		player_state == PlayerState.TURNING || 
+		GLOBAL.dialog_open || 
+		GLOBAL.party_open
+	): return;
 	elif(!is_moving && !GLOBAL.on_transition): process_player_input();
-	elif(input_direction != Vector2.ZERO): move(delta);
+	elif(input_direction != Vector2.ZERO && !stuck_on_door): move(delta);
 	else:
 		playback.travel("Idle");
 		is_moving = false;
@@ -64,14 +80,11 @@ func process_player_input() -> void:
 		set_blend_direction(input_direction);
 		update_block_rays();
 		#STUCK ON DOOR
-		if(
-			stuck_on_door && 
-			door_type == GLOBAL.DoorType.IN && 
-			input_direction == GLOBAL.walk.UP
-		):
+		if(stuck_on_door && door_type == GLOBAL.DoorType.IN):
 			playback.travel("Idle");
+			await GLOBAL.timeout(1);
+			stuck_on_door = false;
 			return;
-		else: stuck_on_door = false;
 		#SIT ON CHAIR
 		if(
 			sit_on_chair && 
@@ -88,7 +101,7 @@ func process_player_input() -> void:
 			is_moving = true;
 			GLOBAL.emit_signal("player_moving", true);
 	elif(!sit_on_chair): playback.travel("Idle");
-	
+
 func set_direction() -> void:
 	if(input_direction.y == 0): input_direction.x = Input.get_axis("moveLeft", "moveRight");
 	if(input_direction.x == 0): input_direction.y = Input.get_axis("moveUp", "moveDown");
@@ -101,15 +114,26 @@ func move(delta) -> void:
 	else: percent_moved += SPEED * delta;
 	round_percent_move();
 	var ledge_colliding = (ledge_ray_cast_2d.is_colliding() && input_direction == Vector2.DOWN);
-	if(block_ray_cast_2d.is_colliding() && !audio.playing && !ledge_colliding):
+	
+	#BLOCK SOUND
+	if(
+		block_ray_cast_2d.is_colliding() && 
+		!audio.playing && 
+		!ledge_colliding && 
+		!GLOBAL.on_transition
+	):
 		audio.stream = BLOCK;
 		audio.play();
-	if(GLOBAL.on_transition): check_transition();
+		
 	elif(ledge_colliding || jumping_over_ledge): check_ledges();
 	elif(!block_ray_cast_2d.is_colliding()): check_moving();
 	else: reset_moving();
 
 #MOVEMENT
+func check_moving() -> void:
+	if(percent_moved >= 1): stop_movement();
+	else: update_position();
+
 func update_position() -> void:
 	position = start_position + (floor(GLOBAL.TILE_SIZE * input_direction * percent_moved)); 
 
@@ -117,32 +141,21 @@ func stop_movement() -> void:
 	position = start_position + (GLOBAL.TILE_SIZE * input_direction);
 	check_position_out_bounds();
 	reset_moving();
+	check_for_battle();
 
 func reset_moving() -> void:
 	is_moving = false;
 	percent_moved = 0;
 	GLOBAL.emit_signal("player_moving", false);
 
-func check_moving() -> void:
-	if(percent_moved >= 1): stop_movement();
-	else: update_position();
-
 #LEDGES
 func check_ledges() -> void:
 	if(percent_moved >= 2): stop_jumping();
 	else: jump();
 
-#TRANSITION
-func check_transition():
-	if(percent_moved >= 1): 
-		stop_movement();
-		GLOBAL.on_transition = false;
-	else: update_position();
-
 #JUMP
 func jump() -> void:
-	audio.stream = PLAYER_JUMP;
-	audio.play();
+	if(!audio.is_playing() && !jumping_over_ledge): play_audio(PLAYER_JUMP);
 	jumping_over_ledge = true;
 	var new_position = input_direction.y * GLOBAL.TILE_SIZE * percent_moved;
 	position.y = GLOBAL.get_jumping_curvature(start_position.y, new_position);
@@ -153,11 +166,20 @@ func stop_jumping() -> void:
 	show_dust_effect(true);
 	shadow.visible = false;
 	position = start_position + (GLOBAL.TILE_SIZE * input_direction * 2);
-	await audio.finished;
 	reset_moving();
 	jumping_over_ledge = false;
 
 #BIKE
+func _on_get_on_bike(value: bool):
+	if(is_moving): return;
+	if(value): get_on_bike();
+	else: get_off_bike();
+
+func _on_bike_inside() -> void:
+	playback.travel("Idle");
+	reset_moving();
+	GLOBAL.emit_signal("start_dialog", 13);
+
 func get_on_bike():
 	AUDIO.play_bike();
 	GLOBAL.on_bike = true;
@@ -174,88 +196,101 @@ func get_off_bike(stop_sound = true):
 
 # LISTENERS
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	if("Door" in area.name && area.can_be_opened): enter_door_animation(area);
-	elif("Chair" in area.name): sit_on_chair_animation(area);
-	elif("NPCHitBox" in area.name): npc_talk_on_area_entered(area);
-	elif("DialogArea" in area.name): object_talk_on_area_entered(area);
+	if("Door" in area.name && area.can_be_opened): _on_enter_door_animation(area);
+	elif("Chair" in area.name): _on_sit_on_chair_animation(area);
+	elif("TalkArea" in area.name): _on_npc_talk_area_entered(area);
+	elif("DialogArea" in area.name): _on_object_talk_area_entered(area);
 
 func _on_area_2d_area_exited(area: Area2D) -> void:
 	if("Chair" in area.name): sit_on_chair = false;
-	elif("NPCHitBox" in area.name || "DialogArea" in area.name): 
-		can_talk = GLOBAL.dialog_open;
-		area_type = GLOBAL.DialogAreaType.NONE;
+	elif("TalkArea" in area.name || "DialogArea" in area.name): 
+		area_types = [GLOBAL.DialogAreaType.NONE];
+		can_talk = false;
 
+func _on_npc_talk_area_entered(area: Area2D) -> void:
+	await GLOBAL.timeout(.2);
+	can_talk = true;
+	area_types.push_front(GLOBAL.DialogAreaType.NPC);
+	npc_dialog_id = area.get_parent().dialog_id;
+	
+func _on_object_talk_area_entered(object: Area2D) -> void:
+	await GLOBAL.timeout(.2);
+	can_talk = true;
+	area_types.push_front(GLOBAL.DialogAreaType.OBJECT);
+	object_dialog_id = object.get_parent().dialog_id;
+	dialog_direction = object.get_parent().talk_direction;
+
+#MENU
 func _on_menu_opened(value: bool) -> void:
 	if(is_moving): return;
-	if(value): 
+	if(value):
 		stop = true;
 		playback.travel("Idle");
 		reset_moving();
 	else: stop = false;
-	
-func _on_close_dialog() -> void:
-	await GLOBAL.timeout(.3);
-	stop = false;
-	can_talk = true;
-	
-func npc_talk_on_area_entered(area: Area2D) -> void:
-	can_talk = true;
-	area_type = GLOBAL.DialogAreaType.NPC;
-	dialog_id = area.get_parent().dialog_id;
-	
-func object_talk_on_area_entered(object: Area2D) -> void:
-	can_talk = true;
-	area_type = GLOBAL.DialogAreaType.OBJECT;
-	dialog_id = object.get_parent().dialog_id;
-	dialog_direction = object.get_parent().talk_direction;
-
-func _on_get_on_bike(value: bool):
-	if(is_moving): return;
-	if(value): get_on_bike();
-	else: get_off_bike();
 
 #CHECKERS
 func check_position_out_bounds():
 	if fmod(position.x, GLOBAL.TILE_SIZE) != 0.0 && percent_moved >= 1:
-		position.x = floor(position.x / GLOBAL.TILE_SIZE) * GLOBAL.TILE_SIZE;
+		#position.x = floor(position.x / GLOBAL.TILE_SIZE) * GLOBAL.TILE_SIZE;
+		print("WARNING: OUT OF BOUNDS");
 	elif(fmod(position.y, GLOBAL.TILE_SIZE) != 0.0) && percent_moved >= 1:
-		position.y = floor(position.y / GLOBAL.TILE_SIZE) * GLOBAL.TILE_SIZE;
+		#position.y = floor(position.y / GLOBAL.TILE_SIZE) * GLOBAL.TILE_SIZE;
+		print("WARNING: OUT OF BOUNDS");
 
+#DIALOGS
 func check_for_dialogs() -> void:
-	if(!can_talk || dialog_id == null): return;
+	if(!can_talk): return;
 	if Input.is_action_just_pressed("space"):
 		var desired_step: Vector2 = GLOBAL.last_player_direction * (GLOBAL.TILE_SIZE / 2.0);
 		update_dialog_rays(desired_step);
-		#NPC
 		if(
-			area_type == GLOBAL.DialogAreaType.NPC && 
+			DIALOG.DialogType.NPC in area_types && 
 			npc_ray_cast_2d.is_colliding()
-			): open_npc_dialog();
-		#OBJECT
+			): start_dialog_state(npc_dialog_id);
 		elif(
-			area_type == GLOBAL.DialogAreaType.OBJECT && 
+			DIALOG.DialogType.OBJECT in area_types &&
 			object_ray_cast_2d.is_colliding()
 		): open_object_dialog();
-
-func open_npc_dialog():
-	GLOBAL.emit_signal("start_dialog", dialog_id);
-	begin_dialog();
 
 func open_object_dialog():
 	var direction = GLOBAL.directions_array[dialog_direction];
 	if(direction != GLOBAL.last_player_direction && direction != Vector2.INF): return;
-	GLOBAL.emit_signal("start_dialog", dialog_id);
-	begin_dialog();
-	
-func begin_dialog() -> void:
-	stop = true;
+	start_dialog_state(object_dialog_id);
+
+func start_dialog_state(id: int) -> void:
+	GLOBAL.emit_signal("start_dialog", id);
 	playback.travel("Idle");
 	reset_moving();
-	audio.stream = CONFIRM;
-	audio.play();
+	play_audio(CONFIRM);
+
+#BATTLE
+func check_for_battle() -> void:
+	if(ready_to_battle):
+		playback.travel("Idle");
+		stop = true;
+		await GLOBAL.timeout(.4);
+		#AUDIO
+		match(battle_data.type):
+			BATTLE.Type.WILD: AUDIO.play_battle_wild();
+		#START
+		GLOBAL.emit_signal("start_battle", battle_data);
+		call_deferred("set_process", Node.PROCESS_MODE_DISABLED);
+
+func set_battle_data(data: Dictionary) -> void:
+	battle_data = data;
+	ready_to_battle = true;
+
+func _on_end_battle() -> void:
+	await GLOBAL.timeout(.4);
+	stop = false;
+	call_deferred("set_process", Node.PROCESS_MODE_INHERIT);
+	coming_from_battle = true;
+	ready_to_battle = false;
 
 # ANIMATIONS
-func enter_door_animation(area: Area2D) -> void:
+#DOOR
+func _on_enter_door_animation(area: Area2D) -> void:
 	var delay_time := 0.1;
 	if(area.type == GLOBAL.DoorType.OUT): delay_time = 0.2;
 	if(GLOBAL.on_bike): get_off_bike(false);
@@ -264,23 +299,25 @@ func enter_door_animation(area: Area2D) -> void:
 	await tween.tween_property(sprite, "modulate:a", 0, delay_time).finished;
 	stop = true;
 
-func sit_on_chair_animation(area: Area2D) -> void:
-	await GLOBAL.timeout(.3);
-	if(input_direction == Vector2.ZERO):
-		set_blend_direction(area.sit_direction);
-		chair_direction = area.sit_direction;
-	if(GLOBAL.last_player_direction == Vector2.DOWN): 
-		playback.travel("ChairDown");
-	else: playback.travel("Chair");
-	sit_on_chair = true;
-
-func _on_cant_enter_door(area: Area2D) -> void:
+func _on_cant_enter_door(_area: Area2D) -> void:
 	stuck_on_door = true;
-	await GLOBAL.timeout(.2);
+	playback.travel("Idle");
+	play_audio(BLOCK);
+	await audio.finished;
+	var tween = get_tree().create_tween().set_trans(Tween.TRANS_ELASTIC);
+	tween.tween_property(sprite, "position:y", sprite.position.y - 4, 0.15).set_ease(Tween.EASE_IN);
+	tween.tween_property(sprite, "position:y", sprite.position.y + 3, 0.1).set_ease(Tween.EASE_OUT);
 	position = start_position;
-	door_type = area.type;
-	var tween = get_tree().create_tween().set_trans(Tween.TRANS_QUAD);
-	tween.tween_property(sprite, "position:y", sprite.position.y - 4, 0.2);
+	start_dialog_state(12);
+
+#CHAIR
+func _on_sit_on_chair_animation(area: Area2D) -> void:
+	await GLOBAL.timeout(.2);
+	if(is_moving): return;
+	chair_direction = area.sit_direction;
+	set_blend_direction(chair_direction);
+	playback.travel("Chair");
+	sit_on_chair = true;
 
 #SAVE
 func save() -> Dictionary:
@@ -306,15 +343,16 @@ func check_load_from_file():
 			position.y = data["position.y"];
 			if(data.has("on_bike") && data["on_bike"]): get_on_bike();
 			set_blend_direction(Vector2(data["direction.x"], data["direction.y"]));
-			GLOBAL.player_data_to_load = null;
 			GLOBAL.play_time = data["play_time"];
+			GLOBAL.player_data_to_load = null;
 
 #UTILS
 func connect_signals() -> void:
 	GLOBAL.connect("cant_enter_door", _on_cant_enter_door);
 	GLOBAL.connect("menu_opened", _on_menu_opened);
 	GLOBAL.connect("get_on_bike", _on_get_on_bike);
-	GLOBAL.connect("close_dialog", _on_close_dialog);
+	GLOBAL.connect("bike_inside", _on_bike_inside);
+	GLOBAL.connect("close_battle", _on_end_battle);
 
 func set_blend_direction(direction: Vector2) -> void:
 	for path in GLOBAL.blends: anim_tree.set(path, direction);
@@ -339,3 +377,7 @@ func show_dust_effect(value: bool) -> void:
 	dust_effect.visible = value;
 
 func finished_turning() -> void: player_state = PlayerState.IDLE;
+
+func play_audio(stream: AudioStream) -> void:
+	audio.stream = stream;
+	audio.play();

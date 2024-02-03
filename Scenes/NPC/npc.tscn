@@ -1,10 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://xa22fo13s7np"]
+[gd_scene load_steps=11 format=3 uid="uid://xa22fo13s7np"]
 
 [ext_resource type="Script" path="res://Scenes/NPC/npc.gd" id="1_chn85"]
 [ext_resource type="Texture2D" uid="uid://cd3146vuujwx6" path="res://Sprites/NPC/mom.png" id="2_0d8cd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u6ea3"]
-custom_solver_bias = 0.62
 size = Vector2(16, 16)
 
 [sub_resource type="Animation" id="Animation_8yqu0"]
@@ -99,12 +98,14 @@ _data = {
 "moveUp": SubResource("Animation_o2wig")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_16cn7"]
+size = Vector2(58, 58)
+
 [node name="NPC" type="StaticBody2D"]
 y_sort_enabled = true
 collision_layer = 8
 collision_mask = 15
 script = ExtResource("1_chn85")
-interval = 3
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 1
@@ -126,22 +127,24 @@ target_position = Vector2(0, 8)
 collision_mask = 15
 collide_with_areas = true
 
-[node name="OakRayCast2D" type="RayCast2D" parent="."]
-position = Vector2(8, 8)
-target_position = Vector2(0, 8)
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_dhyey")
 }
 
-[node name="NPCHitBox" type="Area2D" parent="."]
-collision_layer = 16
-collision_mask = 0
+[node name="StopArea" type="Area2D" parent="."]
+collision_layer = 8
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="NPCHitBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StopArea"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_16cn7")
+
+[node name="TalkArea" type="Area2D" parent="."]
+collision_layer = 16
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TalkArea"]
 polygon = PackedVector2Array(4, 4, 4, -12, 12, -12, 12, 4, 28, 4, 28, 12, 12, 12, 12, 28, 4, 28, 4, 12, -12, 12, -12, 4)
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
-[connection signal="body_entered" from="NPCHitBox" to="." method="_on_hit_box_body_entered"]
-[connection signal="body_exited" from="NPCHitBox" to="." method="_on_hit_box_body_exited"]
+[connection signal="body_entered" from="StopArea" to="." method="_on_npc_area_body_entered"]
+[connection signal="body_exited" from="StopArea" to="." method="_on_npc_area_body_exited"]

@@ -13,3 +13,17 @@
 - Dialogs (NPC, Objects)
 - Sounds
 - Save Scene
+- Party Screen
+
+# 0.4
+- Battle Start Animation
+
+# 0.4.1
+- Full Battle Experience
+- Pokémon Stats based on IV
+- Formulas
+
+# 0.4.2
+- EXP and Level UP
+- Escape from Battle
+- Switch Pokémon

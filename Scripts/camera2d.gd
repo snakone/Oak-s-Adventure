@@ -9,11 +9,11 @@ func _ready() -> void:
 
 func change_limit(size: Vector2, camera_offset: Vector2) -> void:
 	#@TODO Firing twice
-	self.limit_right = int(size.x) * GLOBAL.TILE_SIZE;
-	self.limit_bottom = int(size.y) * GLOBAL.TILE_SIZE;
+	limit_right = int(size.x) * GLOBAL.TILE_SIZE;
+	limit_bottom = int(size.y) * GLOBAL.TILE_SIZE;
 	
 	if(camera_offset != Vector2.ZERO):
-		self.offset.x = camera_offset.x * GLOBAL.TILE_SIZE;
-		self.offset.y = camera_offset.y * GLOBAL.TILE_SIZE * -1;
+		offset.x = camera_offset.x * GLOBAL.TILE_SIZE;
+		offset.y = camera_offset.y * GLOBAL.TILE_SIZE * -1;
 	else:
-		self.offset = camera_offset;
+		offset = camera_offset;
