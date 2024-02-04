@@ -103,6 +103,7 @@ var attack_pressed = false;
 var player_attacked = false;
 var enemy_attacked = false;
 var current_turn = Turn.NONE;
+var can_use_next_pokemon = false;
 
 @onready var zones_array = [
 	{
@@ -122,7 +123,7 @@ var current_turn = Turn.NONE;
 	},
 ];
 
-func reset_state() -> void:
+func reset_state(reset_type = true) -> void:
 	can_use_menu = false;
 	intro_dialog = true;
 	state = BATTLE.States.NONE;
@@ -131,12 +132,12 @@ func reset_state() -> void:
 	level_up_panel_visible = false;
 	can_close_level_up_panel = false;
 	escape_attempts = 0;
-	type = Type.NONE;
 	on_victory = false;
 	player_attacked = false;
 	enemy_attacked = false;
 	current_turn = Turn.NONE;
 	attack_pressed = false;
+	if(reset_type): type = Type.NONE;
 
 func pokemon_encounter() -> bool:
 	randomize()

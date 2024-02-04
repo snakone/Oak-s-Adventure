@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scenes/UI/save_scene.gd" id="1_ihpa7"]
 [ext_resource type="Texture2D" uid="uid://d3dxw0bsf6jxo" path="res://Assets/UI/marker_orange.png" id="2_th4p2"]
 [ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="3_88nxm"]
-[ext_resource type="Texture2D" uid="uid://bfnlj6t53rl5p" path="res://Assets/UI/ui_arrow_left_right.png" id="4_1580r"]
+[ext_resource type="PackedScene" uid="uid://d1n3rqipshb3u" path="res://Scenes/UI/menu_selection.tscn" id="4_c42uj"]
 
 [node name="SaveScene" type="CanvasLayer"]
 script = ExtResource("1_ihpa7")
@@ -80,49 +80,9 @@ theme_override_colors/font_shadow_color = Color(0.862745, 0.854902, 0.85098, 1)
 theme_override_font_sizes/normal_font_size = 12
 text = "TIME.P"
 
-[node name="Selection" type="NinePatchRect" parent="."]
-offset_left = 176.0
-offset_top = 70.0
-offset_right = 226.0
-offset_bottom = 110.0
-theme = ExtResource("3_88nxm")
-texture = ExtResource("2_th4p2")
-patch_margin_left = 6
-patch_margin_top = 6
-patch_margin_right = 6
-patch_margin_bottom = 6
-
-[node name="TextureRect" type="TextureRect" parent="Selection"]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 8.0
-offset_right = 16.0
-offset_bottom = 18.0
-texture = ExtResource("4_1580r")
-stretch_mode = 2
-
-[node name="Yes" type="RichTextLabel" parent="Selection"]
-clip_contents = false
-layout_mode = 0
-offset_left = 22.0
-offset_top = 8.0
-offset_right = 48.0
-offset_bottom = 20.0
-theme = ExtResource("3_88nxm")
-theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
-theme_override_colors/font_shadow_color = Color(0.862745, 0.854902, 0.85098, 1)
-text = "YES"
-
-[node name="No" type="RichTextLabel" parent="Selection"]
-layout_mode = 0
-offset_left = 23.0
-offset_top = 22.0
-offset_right = 48.0
-offset_bottom = 34.0
-theme = ExtResource("3_88nxm")
-theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
-theme_override_colors/font_shadow_color = Color(0.862745, 0.854902, 0.85098, 1)
-text = "NO"
+[node name="Selection" parent="." instance=ExtResource("4_c42uj")]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -20.0
+
+[connection signal="value_selected" from="Selection" to="." method="_on_selection_value_selected"]

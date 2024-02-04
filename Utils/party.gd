@@ -17,7 +17,7 @@ func get_active_pokemon():
 		for poke in current_party:
 			if(poke.data.active): 
 				return poke;
-		return current_party[0];
+		return current_party[2];
 
 func get_next_pokemon():
 	if(current_party):

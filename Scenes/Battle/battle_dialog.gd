@@ -181,6 +181,26 @@ func escape_input() -> void:
 		BATTLE.dialog_finished.emit();
 		pressed = false;
 
+#NEXT POKEMON
+func next_pokemon(input_arr: Array) -> void:
+	BATTLE.state = BATTLE.States.NONE;
+	pressed = true;
+	marker.visible = false;
+	visible = true;
+	array = input_arr.duplicate();
+	line = 1;
+	timer.start();
+	
+	for i in range(line):
+		for j in range(len(input_arr[i])):
+			await timer.timeout;
+			current_text += input_arr[i][j];
+			label.text = current_text;
+	
+	await GLOBAL.timeout(.2);
+	pressed = false;
+	BATTLE.dialog_finished.emit();
+
 #CLOSE
 func close(time: float) -> void:
 	visible = false;
@@ -188,6 +208,7 @@ func close(time: float) -> void:
 	BATTLE.can_use_menu = true;
 
 func set_label(text: String) -> void: label.text = text;
+func set_current_text(text: String) -> void: current_text = text;
 
 func play_audio(stream: AudioStream, delay = 0.0, volume = -10) -> void:
 	await GLOBAL.timeout(delay);

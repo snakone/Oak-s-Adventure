@@ -55,7 +55,7 @@ func _ready():
 	set_all_options();
 	set_active_option(State.ON);
 	if(SETTINGS.selected_marker):
-		nine_rect.texture = SETTINGS.selected_marker;
+		nine_rect.texture = SETTINGS.selected_marker; 
 
 func set_all_options() -> void:
 	var party = PARTY.current_party;
@@ -139,30 +139,34 @@ func select_input() -> void:
 	label.text = selected_sentence;
 
 func select_pokemon() -> void:
+	label.text = "";
 	var poke_name = slots[selected_slot].get_node("Name").text;
+	var poke = PARTY.get_pokemon(poke_name);
+	#BATTLE
 	if(GLOBAL.on_battle):
-		var poke = PARTY.get_pokemon(poke_name);
 		if(poke.data.death):
 			label.text = "";
 			await GLOBAL.timeout(0.1);
 			label.text = poke_name + " can't fight!";
 			return;
-	if(GLOBAL.on_battle && poke_name == active_pokemon.name):
-		label.text = "";
-		await GLOBAL.timeout(0.1);
-		label.text = same_pokemon_sentence;
-		return;
-	if(GLOBAL.on_battle):
-		closing = true;
-		BATTLE.can_use_menu = false;
-		PARTY.set_active_pokemon(poke_name);
-		close_select(false);
-		close_party(false);
-		play_audio(GUI_SEL_DECISION);
-		await GLOBAL.timeout(0.2);
-		PARTY.emit_signal("selected_pokemon_party", poke_name);
+		if(poke_name == active_pokemon.name):
+			label.text = "";
+			await GLOBAL.timeout(0.1);
+			label.text = same_pokemon_sentence;
+			return;
+		select_poke_and_switch(poke_name);
 		return;
 	else: close_select();
+	
+func select_poke_and_switch(poke_name: String) -> void:
+	closing = true;
+	BATTLE.can_use_menu = false;
+	PARTY.set_active_pokemon(poke_name);
+	close_select(false);
+	close_party(false);
+	play_audio(GUI_SEL_DECISION);
+	await GLOBAL.timeout(0.2);
+	PARTY.emit_signal("selected_pokemon_party", poke_name);
 
 func close_party(sound = true) -> void:
 	if(select_open): 

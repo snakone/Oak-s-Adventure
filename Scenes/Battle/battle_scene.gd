@@ -8,9 +8,9 @@ extends Node
 @onready var player_hp_bar = $Info/PlayerInfo/PlayerHPBar;
 @onready var exp_bar = $Info/PlayerInfo/ExpBar;
 @onready var health_timer = $Info/PlayerInfo/HealthTimer;
-@onready var info_background: Sprite2D = $Info/PlayerInfo/Background
+@onready var info_background: Sprite2D = $Info/PlayerInfo/Background;
 @onready var level_up_panel: NinePatchRect = $UI/NinePatchRect;
-@onready var level_up_timer: Timer = $Dialog/LevelUpTimer
+@onready var level_up_timer: Timer = $Dialog/LevelUpTimer;
 
 #ENEMY
 @onready var enemy_info = $Info/EnemyInfo;
@@ -26,7 +26,7 @@ extends Node
 @onready var battle_anim_player = $BattleAnimationPlayer;
 @onready var battle_background = $Background;
 @onready var attack_background = $Selection/Background;
-
+@onready var menu_selection: NinePatchRect = $MenuSelection;
 @onready var menu: Node2D = $Menu
 @onready var dialog: Node2D = $Dialog;
 @onready var selection: Node2D = $Selection;
@@ -87,15 +87,20 @@ func check_intro_dialog() -> void:
 
 #UI
 func set_battle_ui() -> void:
+	set_pokemon();
 	set_player_ui();
 	set_enemy_ui();
 	set_battle_texture();
 	set_markers();
 	update_battle_ui(false, true);
 
+func set_pokemon(update_health = false) -> void: 
+	pokemon = PARTY.get_active_pokemon();
+	if(pokemon.data.death): pokemon = PARTY.get_next_pokemon();
+	if(update_health): set_health_color(floor(pokemon.data.current_hp));
+
 #PLAYER UI
 func set_player_ui() -> void:
-	set_pokemon();
 	var name_node = player_info.get_node("Name");
 	name_node.text = pokemon.data.name;
 	var player_dist = name_node.get_content_width() + name_node.position.x + 6;
@@ -110,11 +115,6 @@ func set_player_ui() -> void:
 	var size = get_new_exp_bar_size();
 	exp_bar.scale.x = size;
 	update_player_health();
-
-func set_pokemon(update_health = false) -> void: 
-	pokemon = PARTY.get_active_pokemon();
-	if(pokemon.data.death): pokemon = PARTY.get_next_pokemon();
-	if(update_health): set_health_color(floor(pokemon.data.current_hp));
 
 #ENEMY UI
 func set_enemy_ui() -> void:
@@ -280,9 +280,22 @@ func handle_death(state: Dictionary) -> void:
 		exp_to_next_level -= state.exp;
 		update_exp_bar();
 		await BATTLE.experience_end;
-	
-	await GLOBAL.timeout(1);
-	end_battle();
+	else: check_for_next_pokemon();
+
+# CHECK NEXT
+func check_for_next_pokemon() -> void:
+	var next = PARTY.get_next_pokemon();
+	print(next)
+	if(next != null):
+		BATTLE.can_use_next_pokemon = true;
+		await GLOBAL.timeout(0.2);
+		dialog.next_pokemon(["Use next POKéMON?"]);
+		await BATTLE.dialog_finished;
+		await GLOBAL.timeout(0.1);
+		menu_selection.set_visibility(true);
+	else:
+		await GLOBAL.timeout(1);
+		_on_check_can_escape();
 
 #MOVE ANIMATION
 func add_animation_and_play(move: Dictionary) -> void:
@@ -353,6 +366,27 @@ func check_battle_state() -> void:
 
 #PARTY
 func _on_party_pokemon_select(_poke_name: String) -> void:
+	if(BATTLE.can_use_next_pokemon):
+		reset_state_and_get_new_pokemon();
+	else: switch_pokemon();
+
+func reset_state_and_get_new_pokemon() -> void:
+	BATTLE.reset_state(false);
+	await GLOBAL.timeout(0.2);
+	set_pokemon(true);
+	set_player_ui();
+	update_battle_ui(false, true);
+	await GLOBAL.timeout(0.6);
+	dialog.start(["It's your turn now!\n", "Go " + pokemon.data.name + "!"]);
+	await BATTLE.dialog_finished;
+	anim_player.play("Go");
+	await anim_player.animation_finished;
+	battle_anim_player.play("Idle");
+	BATTLE.state = BATTLE.States.MENU;
+	dialog.set_current_text("");
+	BATTLE.can_use_next_pokemon = false;
+
+func switch_pokemon() -> void:
 	battle_anim_player.stop();
 	dialog.visible = true;
 	await GLOBAL.timeout(.2);
@@ -372,6 +406,9 @@ func _on_check_can_escape() -> void:
 	else:
 		dialog.escape(["Can't scape!"]);
 		await BATTLE.dialog_finished;
+		if(BATTLE.can_use_next_pokemon):
+			menu.open_party();
+			return;
 		fake_attack();
 		await BATTLE.attack_finished;
 		await GLOBAL.timeout(0.4);
@@ -442,7 +479,8 @@ func set_pokemon_exp() -> void:
 	exp_to_next_level = base_exp_to_next_level - pokemon.data.total_exp;
 
 func set_health_color(value: float) -> void:
-	var target = get_attack_target();
+	var get_self = BATTLE.current_turn != BATTLE.Turn.ENEMY;
+	var target = get_attack_target(get_self);
 	if(BATTLE.current_turn == BATTLE.Turn.ENEMY): update_player_health(int(value));
 	var perct = value / float(target.total_hp);
 	if(perct >= BATTLE.GREEN_BAR_PERCT): target.bar.texture = BATTLE.GREEN_BAR;
@@ -482,3 +520,13 @@ func connect_signals() -> void:
 	BATTLE.connect("start_attack", start_attack);
 	PARTY.connect("selected_pokemon_party", _on_party_pokemon_select);
 	health_timer.connect("timeout", _on_health_timer_timeout);
+
+func _on_menu_selection_value_selected(value: int) -> void:
+	dialog.set_current_text("");
+	play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
+	match value:
+		int(GLOBAL.BinaryOptions.YES): 
+			menu.open_party();
+			await GLOBAL.timeout(1);
+			player_info.visible = false;
+		int(GLOBAL.BinaryOptions.NO): _on_check_can_escape();

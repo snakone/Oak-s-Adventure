@@ -21,6 +21,7 @@ enum Genders { MALE, FEMALE }
 enum SaveType { PLAYER, SCENE, PARTY }
 enum DoorType { IN, OUT }
 enum DialogAreaType { NPC, OBJECT, NONE }
+enum BinaryOptions { YES, NO }
 
 const TILE_SIZE: int = 16;
 const WINDOW_SIZE = Vector2(15, 10);
@@ -53,6 +54,7 @@ var on_bike = false;
 var inside_house = false;
 var dialog_open = false;
 var on_battle = false;
+var closing_menu_selection = false;
 
 const blends = [
 	"parameters/Idle/blend_position", 

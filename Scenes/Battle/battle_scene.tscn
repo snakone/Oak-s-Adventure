@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://3clfgm81x0yq"]
+[gd_scene load_steps=59 format=3 uid="uid://3clfgm81x0yq"]
 
 [ext_resource type="Script" path="res://Scenes/Battle/battle_scene.gd" id="1_vc7g5"]
 [ext_resource type="Texture2D" uid="uid://1ieaejkmc3gf" path="res://Assets/UI/Battle/Backgrounds/grass_01.png" id="2_qwkfb"]
@@ -35,6 +35,7 @@
 [ext_resource type="Texture2D" uid="uid://dpfe8yroc7ll8" path="res://Assets/UI/Battle/Backgrounds/scroll_grass/grass_04.png" id="27_06oqu"]
 [ext_resource type="Texture2D" uid="uid://divokpgmct8fi" path="res://Assets/UI/Battle/Backgrounds/scroll_grass/grass_05.png" id="28_dnnjq"]
 [ext_resource type="AudioStream" uid="uid://c65pmmk1yu3rg" path="res://Assets/Sounds/spawnpokemon.mp3.wav" id="30_tmaf8"]
+[ext_resource type="PackedScene" uid="uid://d1n3rqipshb3u" path="res://Scenes/UI/menu_selection.tscn" id="36_loxbc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b7wee"]
 resource_local_to_scene = true
@@ -1248,6 +1249,42 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector2(182, 93), Vector2(182, 94), Vector2(182, 93)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("UI/EnemySprite:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("UI/PlayerSprite:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("UI/PlayerSprite:self_modulate:a")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
 
 [sub_resource type="Animation" id="Animation_vaxqt"]
 resource_name = "LevelUp"
@@ -1917,3 +1954,8 @@ volume_db = -10.0
 [node name="Song" type="AudioStreamPlayer" parent="."]
 volume_db = -20.0
 autoplay = true
+
+[node name="MenuSelection" parent="." instance=ExtResource("36_loxbc")]
+selection_position = Vector2(180, 32)
+
+[connection signal="value_selected" from="MenuSelection" to="." method="_on_menu_selection_value_selected"]

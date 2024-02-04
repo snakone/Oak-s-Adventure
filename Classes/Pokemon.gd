@@ -111,7 +111,7 @@ func set_hp_anim_duration_after_damage(damage: int, _enemy: Object) -> void:
 	#var diff = (float(damage) / (float(enemy.data.battle_stats["HP"])) - float(enemy.data.current_hp));
 	#var duration = max(BATTLE.min_hp_anim_duration, BATTLE.max_hp_anim_duration * (1 - exp(-diff * -0.01)));
 	var total = BATTLE.min_hp_anim_duration;
-	if(damage > 100): total = total * 2;
+	if(damage == 1): total = 0;
 	BATTLE.emit_signal("hp_bar_anim_duration", total);
 
 #BASE STATS
