@@ -7,10 +7,9 @@ extends Node2D
 
 const BATTLE_SCENE = preload("res://Scenes/Battle/battle_scene.tscn")
 const DIALOG_MANAGER = preload("res://Scripts/dialog_manager.tscn");
-
 const not_save_scenes = ["res://Scenes/UI/save_scene.tscn", "res://Scenes/UI/party_screen.tscn"];
-var last_scene = "res://Scenes/Maps/praire_town.tscn";
 
+var last_scene = "res://Scenes/Maps/praire_town.tscn";
 var dialogue_inst: CanvasLayer;
 var battle_inst: CanvasLayer;
 var should_remove_child: bool;

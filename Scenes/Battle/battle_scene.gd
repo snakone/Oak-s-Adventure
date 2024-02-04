@@ -43,6 +43,7 @@ var hp_bar_anim_duration = BATTLE.min_hp_anim_duration;
 var health_bar_ellapsed_time = 0.0;
 var health_before_attack = 0.0;
 var diff_stats: Dictionary;
+var current_damage: int;
 
 func _ready():
 	connect_signals();
@@ -112,6 +113,7 @@ func set_player_ui() -> void:
 
 func set_pokemon(update_health = false) -> void: 
 	pokemon = PARTY.get_active_pokemon();
+	if(pokemon.data.death): pokemon = PARTY.get_next_pokemon();
 	if(update_health): set_health_color(floor(pokemon.data.current_hp));
 
 #ENEMY UI
@@ -144,9 +146,9 @@ func start_attack(delay = 0.0, sound = true) -> void:
 	await GLOBAL.timeout(delay);
 	BATTLE.attack_pressed = true;
 	var priority = pokemon.data.battle_stats.SPD >= enemy.data.battle_stats.SPD;
-	if((priority && !BATTLE.player_attacked) || BATTLE.enemy_attacked):
+	if((priority && !BATTLE.player_attacked) || BATTLE.enemy_attacked): 
 		pokemon_attack(sound);
-	elif(!BATTLE.enemy_attacked || BATTLE.player_attacked):
+	elif(!BATTLE.enemy_attacked || BATTLE.player_attacked): 
 		enemy_attack(sound);
 	#CHECK IF DEATH
 	if(pokemon.data.death || enemy.data.death): return;
@@ -155,6 +157,9 @@ func start_attack(delay = 0.0, sound = true) -> void:
 		await BATTLE.attack_finished;
 		start_attack(hp_bar_anim_duration + 0.3, false);
 		return;
+		
+	await BATTLE.attack_finished;
+	await GLOBAL.timeout(hp_bar_anim_duration);
 	BATTLE.player_attacked = false;
 	BATTLE.enemy_attacked = false;
 	battle_anim_player.play("Idle");
@@ -204,17 +209,14 @@ func fake_attack() -> void:
 func update_battle_ui(animated = true, get_self = false) -> void:
 	player_info.get_node("Level").text = "Lv" + str(pokemon.data.level);
 	var target = get_attack_target(get_self);
-	var new_size = max(0, float(target["current_hp"]) / float(target["total_hp"]));
+	var new_size = float(target["current_hp"]) / float(target["total_hp"]);
 	
 	if(animated):
 		var tween = get_tree().create_tween();
 		tween.tween_property(target.bar, "scale:x", new_size, hp_bar_anim_duration);
+		current_damage = int(max(0, int(health_before_attack) - int(target["current_hp"])));
 		start_health_timer();
-		var await_time = 0;
-		if(hp_bar_anim_duration > 1.0): await_time = 0.2;
 		await tween.finished;
-		await GLOBAL.timeout(await_time);
-		stop_health_timer();
 	else: target.bar.scale.x = new_size;
 	
 	dialog.set_label("");
@@ -230,7 +232,7 @@ func update_exp_bar(delay = 0.0) -> void:
 	var new_size = get_new_exp_bar_size();
 	var tween = get_tree().create_tween();
 	tween.set_trans(Tween.TRANS_SINE);
-	tween.tween_property(exp_bar, "scale:x", clampf(new_size, 0.0, 1.0), 1);
+	tween.tween_property(exp_bar, "scale:x", clampf(new_size, 0.0, 1.0), BATTLE.default_exp_duration);
 	play_audio(BATTLE.BATTLE_SOUNDS.EXP_GAIN_PKM);
 	await tween.finished;
 	while(exp_to_next_level <= 0.0): 
@@ -279,7 +281,7 @@ func handle_death(state: Dictionary) -> void:
 		update_exp_bar();
 		await BATTLE.experience_end;
 	
-	await GLOBAL.timeout(.8);
+	await GLOBAL.timeout(1);
 	end_battle();
 
 #MOVE ANIMATION
@@ -401,14 +403,15 @@ func close_dialog_and_show_menu(time: float) -> void:
 
 #TIMER
 func start_health_timer() -> void:
-	health_timer.wait_time = hp_bar_anim_duration / health_before_attack;
+	var time = max((hp_bar_anim_duration / current_damage) * 2, 0.015);
+	health_timer.wait_time = time;
 	health_timer.start();
 
 func stop_health_timer() -> void:
 	health_timer.stop();
 	health_bar_ellapsed_time = 0.0;
+	update_player_health(pokemon.data.current_hp);
 	await GLOBAL.timeout(health_timer.wait_time);
-	if(BATTLE.pokemon_death): update_player_health(0);
 
 #GETTERS
 func get_new_exp_bar_size() -> float:

@@ -76,17 +76,18 @@ const BATTLE_SOUNDS = {
 	"GUI_SEL_DECISION": preload("res://Assets/Sounds/GUI sel decision.ogg"),
 	"GUI_MENU_CLOSE": preload("res://Assets/Sounds/GUI menu close.ogg"),
 	"BATTLE_FLEE": preload("res://Assets/Sounds/Battle flee.ogg"),
-	"EXP_GAIN_PKM": preload("res://Assets/Sounds/exp_gain_pkm.mp3"),
+	"EXP_GAIN_PKM": preload("res://Assets/Sounds/pkm_exp_gain.mp3"),
 	"EXP_FULL": preload("res://Assets/Sounds/exp_full.mp3"),
 	"DAMAGE_NORMAL": preload("res://Assets/Sounds/Battle damage normal.ogg")
 }
 
 const tile_density = 1325.0;
 const modifire = 1.0;
-const min_hp_anim_duration = 0.3;
+const min_hp_anim_duration = 1.2;
 const max_hp_anim_duration = 3;
 const GREEN_BAR_PERCT = 0.51;
 const YELLOW_BAR_PERCT = 0.2;
+const default_exp_duration = 1.2;
 
 var level_up_panel_visible = false;
 var can_close_level_up_panel = false;

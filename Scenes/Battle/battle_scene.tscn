@@ -1661,6 +1661,7 @@ libraries = {
 }
 
 [node name="PlayerSprite" type="Sprite2D" parent="UI"]
+visible = false
 position = Vector2(60, 97)
 texture = ExtResource("11_2qd72")
 
