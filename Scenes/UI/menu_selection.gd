@@ -58,6 +58,8 @@ func handle_UP() -> void:
 func select_option(): 
 	value_selected.emit(selected_option);
 	visible = false;
+	selected_option = 0;
+	update_arrow();
 
 func update_arrow() -> void: arrow.position.y = 8 + (selected_option % options_length) * 14;
 

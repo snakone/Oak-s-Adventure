@@ -106,12 +106,13 @@ func set_battle_moves() -> void:
 	data.battle_moves = array;
 
 #HP ANIM
-func set_hp_anim_duration_after_damage(damage: int, _enemy: Object) -> void:
+func set_hp_anim_duration_after_damage(damage: int, enemy: Object) -> void:
 	#TODO IMPROVE THIS
 	#var diff = (float(damage) / (float(enemy.data.battle_stats["HP"])) - float(enemy.data.current_hp));
 	#var duration = max(BATTLE.min_hp_anim_duration, BATTLE.max_hp_anim_duration * (1 - exp(-diff * -0.01)));
 	var total = BATTLE.min_hp_anim_duration;
-	if(damage == 1): total = 0;
+	if(damage == 1): total = 0.1;
+	if(damage < 20 && damage != 1 && enemy.data.level > 50): total = 0.2;
 	BATTLE.emit_signal("hp_bar_anim_duration", total);
 
 #BASE STATS

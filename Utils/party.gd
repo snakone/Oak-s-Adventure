@@ -6,23 +6,27 @@ var current_party = [];
 var active_pokemon: Dictionary;
 
 const erase_props_on_save = [
-	"front_texture", "back_texture", "party_texture", "shout", "stats", "battle_stages"
+	"front_texture", "back_texture", "party_texture", "shout", "stats", "battle_stages", "battle_stats"
 ];
 
 func _ready(): add_to_group(GLOBAL.group_name);
 func get_party() -> Array: return current_party;
 
-func get_active_pokemon(): 
+func get_active_pokemon() -> Object: 
 	if(current_party):
 		for poke in current_party:
-			if(poke.data.active): 
+			if(poke.data.active): return poke;
+		for poke in current_party:
+			if(!poke.data.death): 
+				poke.data.active = true;
 				return poke;
-		return current_party[2];
+	return null;
 
-func get_next_pokemon():
+func get_next_pokemon() -> Object:
 	if(current_party):
 		for poke in current_party:
 			if(!poke.data.death): return poke;
+	return null;
 
 func get_pokemon(poke_name: String):
 	for poke in current_party:

@@ -43,6 +43,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		event.is_echo() ||
 		GLOBAL.dialog_open ||
 		GLOBAL.on_battle ||
+		GLOBAL.party_open ||
 		!can_use_menu
 	): return;
 	

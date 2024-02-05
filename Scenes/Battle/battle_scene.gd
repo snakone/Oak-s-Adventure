@@ -46,6 +46,7 @@ var diff_stats: Dictionary;
 var current_damage: int;
 
 func _ready():
+	BATTLE.reset_state();
 	connect_signals();
 	set_battle_ui();
 	BATTLE.type = battle_data.type;
@@ -94,10 +95,9 @@ func set_battle_ui() -> void:
 	set_markers();
 	update_battle_ui(false, true);
 
-func set_pokemon(update_health = false) -> void: 
+func set_pokemon() -> void: 
 	pokemon = PARTY.get_active_pokemon();
-	if(pokemon.data.death): pokemon = PARTY.get_next_pokemon();
-	if(update_health): set_health_color(floor(pokemon.data.current_hp));
+	set_pokemon_health_color(floor(pokemon.data.current_hp));
 
 #PLAYER UI
 func set_player_ui() -> void:
@@ -280,6 +280,8 @@ func handle_death(state: Dictionary) -> void:
 		exp_to_next_level -= state.exp;
 		update_exp_bar();
 		await BATTLE.experience_end;
+		await GLOBAL.timeout(1);
+		end_battle();
 	else: check_for_next_pokemon();
 
 # CHECK NEXT
@@ -295,7 +297,9 @@ func check_for_next_pokemon() -> void:
 		menu_selection.set_visibility(true);
 	else:
 		await GLOBAL.timeout(1);
-		_on_check_can_escape();
+		dialog.start(["No POKéMON left!\n", "You returned to the last safe spot..."]);
+		await BATTLE.dialog_finished;
+		end_battle();
 
 #MOVE ANIMATION
 func add_animation_and_play(move: Dictionary) -> void:
@@ -331,6 +335,7 @@ func after_dialog_attack() -> void:
 	await GLOBAL.timeout(.2);
 	BATTLE.state = BATTLE.States.MENU;
 
+#HEALTH TIMEOUT
 func _on_health_timer_timeout() -> void:
 	var progress = health_bar_ellapsed_time / hp_bar_anim_duration;
 	if (health_bar_ellapsed_time < hp_bar_anim_duration):
@@ -341,6 +346,17 @@ func _on_health_timer_timeout() -> void:
 		set_health_color(floor(current_hp));
 		health_bar_ellapsed_time += health_timer.wait_time;
 	else: stop_health_timer();
+
+#MENU SELECTION
+func _on_menu_selection_value_selected(value: int) -> void:
+	dialog.set_current_text("");
+	play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
+	match value:
+		int(GLOBAL.BinaryOptions.YES): 
+			menu.open_party();
+			await GLOBAL.timeout(1);
+			player_info.visible = false;
+		int(GLOBAL.BinaryOptions.NO): _on_check_can_escape();
 
 #CHECKERS
 func check_battle_state() -> void:
@@ -371,12 +387,13 @@ func _on_party_pokemon_select(_poke_name: String) -> void:
 	else: switch_pokemon();
 
 func reset_state_and_get_new_pokemon() -> void:
+	player_info.visible = false;
 	BATTLE.reset_state(false);
 	await GLOBAL.timeout(0.2);
-	set_pokemon(true);
+	set_pokemon();
 	set_player_ui();
 	update_battle_ui(false, true);
-	await GLOBAL.timeout(0.6);
+	anim_player.play("In");
 	dialog.start(["It's your turn now!\n", "Go " + pokemon.data.name + "!"]);
 	await BATTLE.dialog_finished;
 	anim_player.play("Go");
@@ -384,7 +401,6 @@ func reset_state_and_get_new_pokemon() -> void:
 	battle_anim_player.play("Idle");
 	BATTLE.state = BATTLE.States.MENU;
 	dialog.set_current_text("");
-	BATTLE.can_use_next_pokemon = false;
 
 func switch_pokemon() -> void:
 	battle_anim_player.stop();
@@ -401,10 +417,10 @@ func switch_pokemon() -> void:
 
 #ESCAPE
 func _on_check_can_escape() -> void:
-	battle_anim_player.stop();
+	if(!BATTLE.can_use_next_pokemon): battle_anim_player.stop();
 	if(BATTLE.can_pokemon_scape(pokemon, enemy)): handle_scape();
 	else:
-		dialog.escape(["Can't scape!"]);
+		dialog.escape(["Can't escape!"]);
 		await BATTLE.dialog_finished;
 		if(BATTLE.can_use_next_pokemon):
 			menu.open_party();
@@ -427,7 +443,6 @@ func handle_scape() -> void:
 func end_battle() -> void:
 	BATTLE.can_use_menu = false;
 	battle_anim_player.play("FadetoBlack");
-	BATTLE.reset_state();
 	PARTY.reset_active();
 
 func close_battle() -> void:
@@ -478,15 +493,22 @@ func set_pokemon_exp() -> void:
 	base_exp_to_next_level = EXP.get_exp_by_level(pokemon.data.exp_type, pokemon.data.level + 1);
 	exp_to_next_level = base_exp_to_next_level - pokemon.data.total_exp;
 
+func set_pokemon_health_color(value: float) -> void:
+	update_player_health(int(value));
+	var perct = value / float(pokemon.data.battle_stats["HP"]);
+	check_health_bar_color(perct, player_hp_bar);
+
 func set_health_color(value: float) -> void:
-	var get_self = BATTLE.current_turn != BATTLE.Turn.ENEMY;
-	var target = get_attack_target(get_self);
+	var target = get_attack_target();
 	if(BATTLE.current_turn == BATTLE.Turn.ENEMY): update_player_health(int(value));
 	var perct = value / float(target.total_hp);
-	if(perct >= BATTLE.GREEN_BAR_PERCT): target.bar.texture = BATTLE.GREEN_BAR;
+	check_health_bar_color(perct, target.bar);
+
+func check_health_bar_color(perct: float, health_bar: Sprite2D) -> void:
+	if(perct >= BATTLE.GREEN_BAR_PERCT): health_bar.texture = BATTLE.GREEN_BAR;
 	elif(perct < BATTLE.GREEN_BAR_PERCT && perct > BATTLE.YELLOW_BAR_PERCT): 
-		target.bar.texture = BATTLE.YELLOW_BAR;
-	elif(perct < BATTLE.YELLOW_BAR_PERCT): target.bar.texture = BATTLE.RED_BAR;
+		health_bar.texture = BATTLE.YELLOW_BAR;
+	elif(perct < BATTLE.YELLOW_BAR_PERCT): health_bar.texture = BATTLE.RED_BAR;
 
 #AUDIO
 func play_shout_pokemon() -> void:
@@ -520,13 +542,3 @@ func connect_signals() -> void:
 	BATTLE.connect("start_attack", start_attack);
 	PARTY.connect("selected_pokemon_party", _on_party_pokemon_select);
 	health_timer.connect("timeout", _on_health_timer_timeout);
-
-func _on_menu_selection_value_selected(value: int) -> void:
-	dialog.set_current_text("");
-	play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
-	match value:
-		int(GLOBAL.BinaryOptions.YES): 
-			menu.open_party();
-			await GLOBAL.timeout(1);
-			player_info.visible = false;
-		int(GLOBAL.BinaryOptions.NO): _on_check_can_escape();

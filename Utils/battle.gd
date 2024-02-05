@@ -138,6 +138,7 @@ func reset_state(reset_type = true) -> void:
 	current_turn = Turn.NONE;
 	attack_pressed = false;
 	if(reset_type): type = Type.NONE;
+	can_use_next_pokemon = false;
 
 func pokemon_encounter() -> bool:
 	randomize()

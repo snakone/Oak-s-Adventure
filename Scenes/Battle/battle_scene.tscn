@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://3clfgm81x0yq"]
+[gd_scene load_steps=60 format=3 uid="uid://3clfgm81x0yq"]
 
 [ext_resource type="Script" path="res://Scenes/Battle/battle_scene.gd" id="1_vc7g5"]
 [ext_resource type="Texture2D" uid="uid://1ieaejkmc3gf" path="res://Assets/UI/Battle/Backgrounds/grass_01.png" id="2_qwkfb"]
@@ -197,10 +197,10 @@ tracks/2/path = NodePath("Animation/Oak:texture")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("20_8lsng"), ExtResource("21_yqy66"), ExtResource("22_lr1rg"), ExtResource("23_jtn2l")]
+"values": [ExtResource("20_8lsng"), ExtResource("21_yqy66"), ExtResource("22_lr1rg"), ExtResource("23_jtn2l"), ExtResource("22_lr1rg")]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -911,7 +911,7 @@ tracks/8/keys = {
 "times": PackedFloat32Array(0, 0.7, 0.8, 1, 3.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "values": [{
-"args": [true],
+"args": [],
 "method": &"set_pokemon"
 }, {
 "args": [],
@@ -964,9 +964,38 @@ tracks/11/keys = {
 "values": [Vector2(300, 93), Vector2(182, 93)]
 }
 
+[sub_resource type="Animation" id="Animation_nmcl2"]
+resource_name = "In"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Animation/Oak:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-36, 80), Vector2(60, 80)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Animation/Oak:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("20_8lsng")]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8lv3r"]
 _data = {
 "Go": SubResource("Animation_06t66"),
+"In": SubResource("Animation_nmcl2"),
 "RESET": SubResource("Animation_x0uak"),
 "Start": SubResource("Animation_2swml"),
 "Switch": SubResource("Animation_oyoyh")

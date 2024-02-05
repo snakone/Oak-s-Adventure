@@ -15,6 +15,8 @@ const party_screen_node =  "CurrentScene/PartyScreen";
 const default_sentence = "Choose a POKéMON.";
 const selected_sentence = "Do what with this POKéMON?";
 const same_pokemon_sentence = "POKéMON is already fighting!";
+const exit_sentence = "Close";
+const must_sentence = "Must select a POKéMON!";
 const BACKGROUND_DEAD = preload("res://Assets/UI/standby_pokemon_background_dead.png");
 const MAIN_BACKGROUND_DEAD = preload("res://Assets/UI/main_pokemon_background_dead.png")
 const default_select_position = Vector2(151, 97);
@@ -71,14 +73,19 @@ func set_all_options() -> void:
 func set_active_option(value: State) -> void:
 	var slot = current_slots[selected_slot];
 	slot.get_node("Panel").frame = value;
-	var cancel_slot = selected_slot == current_slots.size() - 1;
+	var cancel_slot = selected_slot == current_slots_length;
 	if(!cancel_slot):
+		label.text = default_sentence;
 		var anim_player = slot.get_node("AnimationPlayer");
 		var anim_name = anim_player.get_assigned_animation();
 		if(value == int(State.ON)):
 			if(anim_name == "Dead"): return;
 			anim_player.play("Selected");
 		elif(anim_name != "Dead"): anim_player.play("Idle");
+	else:
+		if(BATTLE.can_use_next_pokemon):
+			label.text = must_sentence;
+		else: label.text = exit_sentence;
 
 func _input(event) -> void:
 	if(
@@ -90,12 +97,24 @@ func _input(event) -> void:
 		closing
 	): return;
 	
-	if(!select_open && !Input.is_action_just_pressed("space")): set_active_option(State.OFF);
+	if(
+		!select_open && 
+		!Input.is_action_just_pressed("space") &&
+		!Input.is_action_just_pressed("backMenu")
+	): 
+		set_active_option(State.OFF);
 	#CLOSE
 	if(
-		Input.is_action_just_pressed("menu") || 
-		Input.is_action_just_pressed("backMenu") ||
-		Input.is_action_just_pressed("escape")): close_party();
+		Input.is_action_just_pressed("backMenu") &&
+		!select_open &&
+		check_if_can_close()
+	): 
+		close_party();
+		return;
+	if(Input.is_action_just_pressed("backMenu") && select_open): 
+		close_select();
+		label.text = default_sentence;
+		return;
 	#DOWN
 	if(
 		Input.is_action_just_pressed("moveDown") || 
@@ -116,18 +135,22 @@ func _input(event) -> void:
 		selected_slot != Slots.FIRST): handle_LEFT();
 	#SELECT
 	elif(Input.is_action_just_pressed("space")): select_slot();
-	if(!select_open): set_active_option(State.ON);
+	if(
+		!select_open && 
+		!Input.is_action_just_pressed("backMenu")
+	): set_active_option(State.ON);
 
 func select_slot() -> void:
 	if(!select_open):
 		match selected_slot:
 			Slots.FIRST, Slots.SECOND, Slots.THIRD, Slots.FOURTH, Slots.FIFTH, Slots.SIXTH:
 				select_input();
-			current_slots_length: close_party();
+			current_slots_length:
+				if(check_if_can_close()): close_party();
 	elif(select_open):
 		match select_index:
 			SelectSlot.FIRST: select_pokemon();
-			SelectSlot.THIRD: close_party();
+			SelectSlot.THIRD: close_select();
 
 func select_input() -> void:
 	play_audio(GUI_SEL_DECISION);
@@ -139,19 +162,14 @@ func select_input() -> void:
 	label.text = selected_sentence;
 
 func select_pokemon() -> void:
-	label.text = "";
 	var poke_name = slots[selected_slot].get_node("Name").text;
 	var poke = PARTY.get_pokemon(poke_name);
 	#BATTLE
 	if(GLOBAL.on_battle):
 		if(poke.data.death):
-			label.text = "";
-			await GLOBAL.timeout(0.1);
 			label.text = poke_name + " can't fight!";
 			return;
 		if(poke_name == active_pokemon.name):
-			label.text = "";
-			await GLOBAL.timeout(0.1);
 			label.text = same_pokemon_sentence;
 			return;
 		select_poke_and_switch(poke_name);
@@ -159,19 +177,16 @@ func select_pokemon() -> void:
 	else: close_select();
 	
 func select_poke_and_switch(poke_name: String) -> void:
+	label.text = selected_sentence;
 	closing = true;
 	BATTLE.can_use_menu = false;
 	PARTY.set_active_pokemon(poke_name);
-	close_select(false);
 	close_party(false);
 	play_audio(GUI_SEL_DECISION);
 	await GLOBAL.timeout(0.2);
 	PARTY.emit_signal("selected_pokemon_party", poke_name);
 
 func close_party(sound = true) -> void:
-	if(select_open): 
-		close_select();
-		return;
 	closing = true;
 	if(sound): play_audio(GUI_MENU_CLOSE);
 	await GLOBAL.timeout(.2);
@@ -224,9 +239,14 @@ func close_select(sound = true) -> void:
 	if(sound): play_audio(GUI_SEL_CURSOR);
 	select_open = false;
 	select.visible = false;
-	label.text = default_sentence;
 	select_index = int(SelectSlot.FIRST);
 	move_select_arrow();
+
+func check_if_can_close() -> bool:
+	if(BATTLE.can_use_next_pokemon):
+		label.text = must_sentence;
+		return false;
+	return true;
 
 func move_select_arrow() -> void:
 	cursor.position = select_cursor_default_position[select_index];
