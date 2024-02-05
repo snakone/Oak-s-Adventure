@@ -13,6 +13,7 @@ var pressed = false;
 var array: Array
 var line: int
 var current_text: String = "";
+var participant: Object;
 
 #DIALOG STATE
 func start(input_arr: Array) -> void:
@@ -77,7 +78,7 @@ func levelling_input() -> void:
 				BATTLE.show_total_stats_panel.emit();
 				pressed = false;
 			return;
-		BATTLE.show_level_up_panel.emit();
+		BATTLE.show_level_up_panel.emit(participant);
 		marker.visible = true;
 		pressed = false;
 
@@ -98,8 +99,9 @@ func attack(input_arr: Array) -> void:
 	BATTLE.dialog_finished.emit();
 
 #LEVEL UP
-func level_up(input_arr: Array) -> void:
+func level_up(input_arr: Array, poke: Object) -> void:
 	BATTLE.state = BATTLE.States.LEVELLING;
+	participant = poke;
 	current_text = "";
 	level_up_timer.start();
 	play_audio(PKMN_LEVEL_UP, 0.3, -5);
@@ -147,7 +149,7 @@ func end_dialog() -> void:
 	): close(0);
 	BATTLE.dialog_finished.emit();
 	await GLOBAL.timeout(.3);
-	BATTLE.state = BATTLE.States.MENU;
+	if(!BATTLE.exp_loop): BATTLE.state = BATTLE.States.MENU;
 
 #ESCAPE
 func escape(input_arr: Array) -> void:

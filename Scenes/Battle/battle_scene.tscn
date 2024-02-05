@@ -847,10 +847,10 @@ tracks/1/path = NodePath("Animation/Oak:texture")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1.2, 1.4, 1.6, 1.8),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 1.2, 1.4, 1.6, 1.8, 2.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [ExtResource("20_8lsng"), ExtResource("20_8lsng"), ExtResource("21_yqy66"), ExtResource("22_lr1rg"), ExtResource("23_jtn2l")]
+"values": [ExtResource("20_8lsng"), ExtResource("20_8lsng"), ExtResource("21_yqy66"), ExtResource("22_lr1rg"), ExtResource("23_jtn2l"), ExtResource("22_lr1rg")]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -1604,6 +1604,7 @@ texture = ExtResource("4_u8m2f")
 metadata/_edit_lock_ = true
 
 [node name="EnemyInfo" type="Sprite2D" parent="Info"]
+texture_filter = 1
 position = Vector2(-60, 22)
 texture = ExtResource("5_ici0o")
 
@@ -1716,12 +1717,12 @@ centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 48, 2)
 
-[node name="HealthTimer" type="Timer" parent="Info/PlayerInfo"]
-
 [node name="Background" type="Sprite2D" parent="Info/PlayerInfo"]
 show_behind_parent = true
 material = SubResource("ShaderMaterial_b7wee")
 texture = ExtResource("11_jd31m")
+
+[node name="HealthTimer" type="Timer" parent="Info/PlayerInfo"]
 
 [node name="UI" type="Node2D" parent="."]
 
@@ -1997,6 +1998,7 @@ volume_db = -20.0
 autoplay = true
 
 [node name="MenuSelection" parent="." instance=ExtResource("36_loxbc")]
+visible = false
 selection_position = Vector2(180, 32)
 
 [connection signal="value_selected" from="MenuSelection" to="." method="_on_menu_selection_value_selected"]

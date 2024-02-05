@@ -240,7 +240,6 @@ position = Vector2(-192, -48)
 position = Vector2(44, 46.5)
 texture = ExtResource("1_urug2")
 hframes = 2
-frame = 1
 
 [node name="Pokemon" type="Sprite2D" parent="Slots/First"]
 position = Vector2(15, 35)

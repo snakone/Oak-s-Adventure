@@ -18,7 +18,7 @@ signal hp_bar_anim_duration(duration: float);
 signal dialog_finished();
 signal close_level_up_panel();
 signal show_total_stats_panel();
-signal show_level_up_panel();
+signal show_level_up_panel(participant: Object);
 signal level_up_stats_end();
 signal check_can_escape();
 
@@ -105,6 +105,8 @@ var enemy_attacked = false;
 var current_turn = Turn.NONE;
 var can_use_next_pokemon = false;
 var coming_from_battle = false;
+var participants: Array = [];
+var exp_loop = false;
 
 @onready var zones_array = [
 	{
@@ -140,6 +142,8 @@ func reset_state(reset_type = true) -> void:
 	attack_pressed = false;
 	if(reset_type): type = Type.NONE;
 	can_use_next_pokemon = false;
+	participants = [];
+	exp_loop = false;
 
 func pokemon_encounter() -> bool:
 	randomize()
@@ -209,3 +213,14 @@ func can_pokemon_scape(pokemon: Object, enemy: Object) -> bool:
 	else:
 		var odd = floor(int(floor(((poke_speed * 128.0) / enemy_speed) + (30.0 * escape_attempts))) % 256);
 		return random < odd;
+
+func add_participant(poke: Object) -> void:
+	var already = false;
+	for participant in participants:
+		if(participant.name == poke.name):
+			already = true;
+			break;
+	if(!already): participants.push_front(poke);
+
+func remove_participant(poke: Object) -> void:
+	participants.erase(poke);

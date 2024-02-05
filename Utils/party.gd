@@ -19,7 +19,7 @@ func get_active_pokemon() -> Object:
 		for poke in current_party:
 			if(!poke.data.death): 
 				poke.data.active = true;
-				return poke;
+				return current_party[3];
 	return null;
 
 func get_next_pokemon() -> Object:

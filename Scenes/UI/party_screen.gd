@@ -286,6 +286,11 @@ func create_party_list() -> void:
 			health_node.texture = BATTLE.YELLOW_BAR;
 		elif(perct < BATTLE.YELLOW_BAR_PERCT): health_node.texture = BATTLE.RED_BAR;
 		
+		if(
+			active_pokemon.name == poke.data.name && 
+			GLOBAL.on_battle
+		): selected_slot = index;
+		
 		#STATUS
 		if(poke.data.death):
 			var panel = slot.get_node("Panel");
