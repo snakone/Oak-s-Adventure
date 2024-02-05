@@ -223,7 +223,8 @@ func update_battle_ui(animated = true, get_self = false) -> void:
 	BATTLE.ui_updated.emit();
 
 #HEALTH BAR
-func update_player_health(value = pokemon.data.current_hp) -> void: #LEFT ALIGNED
+func update_player_health(value = pokemon.data.current_hp) -> void: 
+	#LEFT ALIGNED
 	var health = str(pokemon.data.battle_stats["HP"]) + " / " + str(value);
 	player_info.get_node("HP").text = health;
 
@@ -383,10 +384,10 @@ func check_battle_state() -> void:
 #PARTY
 func _on_party_pokemon_select(_poke_name: String) -> void:
 	if(BATTLE.can_use_next_pokemon):
-		reset_state_and_get_new_pokemon();
+		reset_state_and_get_next_pokemon();
 	else: switch_pokemon();
 
-func reset_state_and_get_new_pokemon() -> void:
+func reset_state_and_get_next_pokemon() -> void:
 	player_info.visible = false;
 	BATTLE.reset_state(false);
 	await GLOBAL.timeout(0.2);
@@ -436,7 +437,7 @@ func handle_scape() -> void:
 	await GLOBAL.timeout(0.2);
 	play_audio(BATTLE.BATTLE_SOUNDS.BATTLE_FLEE);
 	await BATTLE.dialog_finished;
-	await GLOBAL.timeout(.6);
+	await GLOBAL.timeout(.4);
 	end_battle();
 
 #CLOSE BATTLE
@@ -527,7 +528,7 @@ func play_audio(stream: AudioStream) -> void:
 func show_total_stats_panel() -> void: level_up_panel.show_total_stats();
 func go_switch_dialog() -> void: dialog.switch(["Let's go " + pokemon.name + "!"]);
 func play_enemy_shout() -> void: play_audio(enemy.data.shout);
-func set_battle_data(data: Dictionary): battle_data = data;
+func set_battle_data(data: Dictionary) -> void: battle_data = data;
 func _set_anim_hp_bar_duration(duration: float) -> void: hp_bar_anim_duration = duration;
 
 #SIGNALS

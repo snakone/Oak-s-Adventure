@@ -42,7 +42,6 @@ var sit_on_chair = false;
 var stuck_on_door = false;
 var stop = false;
 var ready_to_battle = false;
-var coming_from_battle = false;
 var can_talk = false;
 
 #OBJECTS
@@ -285,7 +284,7 @@ func _on_end_battle() -> void:
 	await GLOBAL.timeout(.4);
 	stop = false;
 	call_deferred("set_process", Node.PROCESS_MODE_INHERIT);
-	coming_from_battle = true;
+	BATTLE.coming_from_battle = true;
 	ready_to_battle = false;
 
 # ANIMATIONS

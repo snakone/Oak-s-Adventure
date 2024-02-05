@@ -171,7 +171,7 @@ func escape(input_arr: Array) -> void:
 func escape_input() -> void:
 	if(pressed): return;
 	if Input.is_action_just_pressed("space"):
-		current_text = "";
+
 		pressed = true;
 		BATTLE.state = BATTLE.States.NONE;
 		play_audio(CONFIRM);
@@ -180,6 +180,8 @@ func escape_input() -> void:
 		await GLOBAL.timeout(.2);
 		BATTLE.dialog_finished.emit();
 		pressed = false;
+		current_text = "";
+		label.text = "";
 
 #NEXT POKEMON
 func next_pokemon(input_arr: Array) -> void:

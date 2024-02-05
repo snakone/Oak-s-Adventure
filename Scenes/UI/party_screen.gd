@@ -11,14 +11,16 @@ const YELLOW_BAR = preload("res://Assets/UI/yellow_bar.png");
 const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg")
 const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
 const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg");
+const BACKGROUND_DEAD = preload("res://Assets/UI/standby_pokemon_background_dead.png");
+const MAIN_BACKGROUND_DEAD = preload("res://Assets/UI/main_pokemon_background_dead.png");
+
 const party_screen_node =  "CurrentScene/PartyScreen";
 const default_sentence = "Choose a POKéMON.";
 const selected_sentence = "Do what with this POKéMON?";
 const same_pokemon_sentence = "POKéMON is already fighting!";
 const exit_sentence = "Close";
 const must_sentence = "Must select a POKéMON!";
-const BACKGROUND_DEAD = preload("res://Assets/UI/standby_pokemon_background_dead.png");
-const MAIN_BACKGROUND_DEAD = preload("res://Assets/UI/main_pokemon_background_dead.png")
+
 const default_select_position = Vector2(151, 97);
 const select_position_upper = Vector2(151, 2);
 
@@ -166,6 +168,7 @@ func select_pokemon() -> void:
 	var poke = PARTY.get_pokemon(poke_name);
 	#BATTLE
 	if(GLOBAL.on_battle):
+		play_audio(GUI_SEL_DECISION);
 		if(poke.data.death):
 			label.text = poke_name + " can't fight!";
 			return;
@@ -182,7 +185,6 @@ func select_poke_and_switch(poke_name: String) -> void:
 	BATTLE.can_use_menu = false;
 	PARTY.set_active_pokemon(poke_name);
 	close_party(false);
-	play_audio(GUI_SEL_DECISION);
 	await GLOBAL.timeout(0.2);
 	PARTY.emit_signal("selected_pokemon_party", poke_name);
 
@@ -293,7 +295,8 @@ func create_party_list() -> void:
 			status_node.visible = true;
 			
 	current_slots_length = current_slots.size();
-	current_slots[current_slots_length] = $Background; #CANCEL BUTTON
+	#CANCEL BUTTON - CHILD PANEL NODE
+	current_slots[current_slots_length] = $Background;
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;

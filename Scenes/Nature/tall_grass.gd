@@ -15,21 +15,25 @@ func _ready():
 
 func _on_area_2d_body_entered(body) -> void:
 	if(body.name == "Oak"):
-		if(!body.coming_from_battle):
+		if(!BATTLE.coming_from_battle):
 			if(body.input_direction == Vector2.UP && !GLOBAL.on_bike):
 				await GLOBAL.timeout(.1);
 			animation_player.play("Stepped");
 			if(encounters.size() == 0): return;
 			check_for_battle(body);
-		else: body.coming_from_battle = false;
+		else: BATTLE.coming_from_battle = false;
 
-func _on_area_2d_body_exited(body): 
-	body.coming_from_battle = false;
+func _on_area_2d_body_exited(_body): 
+	BATTLE.coming_from_battle = false;
 	texture_rect.visible = false;
 
 func active_effect() -> void: grass_effect.play();
-func reset_texture(value: bool): if(value): texture_rect.visible = false;
 func _on_end_battle() -> void: call_deferred("set_process", Node.PROCESS_MODE_INHERIT);
+
+func reset_texture(value: bool): 
+	if(value): 
+		texture_rect.visible = false;
+		BATTLE.coming_from_battle = false;
 
 func check_for_battle(body: CharacterBody2D) -> void:
 	var battle = BATTLE.pokemon_encounter();

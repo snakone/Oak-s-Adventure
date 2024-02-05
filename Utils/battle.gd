@@ -104,6 +104,7 @@ var player_attacked = false;
 var enemy_attacked = false;
 var current_turn = Turn.NONE;
 var can_use_next_pokemon = false;
+var coming_from_battle = false;
 
 @onready var zones_array = [
 	{
