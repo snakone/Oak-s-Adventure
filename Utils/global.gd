@@ -4,7 +4,7 @@ signal cant_enter_door;
 signal player_moving(value: bool);
 signal menu_opened(value: bool);
 signal close_menu;
-signal party_opened(value: bool);
+signal scene_opened(value: bool, node_name: String);
 signal get_on_bike(value: bool);
 signal bike_inside;
 signal start_dialog(id: int);
@@ -56,6 +56,9 @@ var dialog_open = false;
 var on_battle = false;
 var closing_menu_selection = false;
 
+#VALUES
+var current_money = 0;
+
 const blends = [
 	"parameters/Idle/blend_position", 
 	'parameters/Move/blend_position', 
@@ -87,5 +90,5 @@ func get_time_played() -> String:
 	var hours = time / 3600.0
 	var minutes = fmod(time, 3600) / 60
 	var seconds = fmod(time, 60)
-	var elapsed = "%02d:%02d:%02d" % [hours, minutes, seconds];
-	return elapsed;
+	var ellapsed = "%02d:%02d:%02d" % [hours, minutes, seconds];
+	return ellapsed;

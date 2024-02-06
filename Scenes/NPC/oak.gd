@@ -328,7 +328,8 @@ func save() -> Dictionary:
 		"direction.x": GLOBAL.last_player_direction.x,
 		"direction.y": GLOBAL.last_player_direction.y,
 		"on_bike": GLOBAL.on_bike,
-		"play_time": GLOBAL.play_time
+		"play_time": GLOBAL.play_time,
+		"money": GLOBAL.current_money
 	}
 	return data
 
@@ -337,13 +338,13 @@ func check_load_from_file():
 	if(GLOBAL.player_data_to_load != null):
 		await GLOBAL.timeout(.01);
 		var data = GLOBAL.player_data_to_load;
-		if(data != null):
-			position.x = data["position.x"];
-			position.y = data["position.y"];
-			if(data.has("on_bike") && data["on_bike"]): get_on_bike();
-			set_blend_direction(Vector2(data["direction.x"], data["direction.y"]));
-			GLOBAL.play_time = data["play_time"];
-			GLOBAL.player_data_to_load = null;
+		position.x = data["position.x"];
+		position.y = data["position.y"];
+		if(data.has("on_bike") && data["on_bike"]): get_on_bike();
+		set_blend_direction(Vector2(data["direction.x"], data["direction.y"]));
+		GLOBAL.play_time = data["play_time"];
+		GLOBAL.player_data_to_load = null;
+		GLOBAL.current_money = data["money"];
 
 #UTILS
 func connect_signals() -> void:

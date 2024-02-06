@@ -12,6 +12,8 @@ const party_screen_path = "res://Scenes/UI/party_screen.tscn";
 const save_scene_path = "res://Scenes/UI/save_scene.tscn";
 const party_screen_node =  "CurrentScene/PartyScreen";
 const save_scene_node =  "CurrentScene/SaveScene";
+const profile_scene_path = "res://Scenes/UI/profile.tscn";
+const profile_scene_node = "CurrentScene/Profile";
 
 const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
 const GUI_MENU_OPEN = preload("res://Assets/Sounds/GUI menu open.ogg");
@@ -73,10 +75,15 @@ func _unhandled_input(event: InputEvent) -> void:
 				Input.is_action_just_pressed("moveUp") || 
 				Input.is_action_just_pressed("ui_up")): handle_UP();
 			elif(Input.is_action_just_pressed("space")): select_option();
+		ScreenLoaded.OAK: 
+			if(
+				Input.is_action_just_pressed("space") || 
+				Input.is_action_just_pressed("backMenu")): close_profile();
 
 func select_option() -> void:
 	match(selected_option):
 		MenuOptions.PARTY: open_party()
+		MenuOptions.OAK: open_profile()
 		MenuOptions.SAVE: handle_save()
 		MenuOptions.EXIT: close_menu()
 
@@ -89,18 +96,18 @@ func close_menu() -> void:
 	GLOBAL.emit_signal("menu_opened", false);
 	update_arrow();
 
+#PARTY
 func open_party() -> void:
 	can_use_menu = false;
+	screen_loaded = ScreenLoaded.PARTY;
 	play_audio(GUI_SEL_DECISION);
 	await audio.finished;
-	screen_loaded = ScreenLoaded.PARTY;
 	if(!GLOBAL.on_battle):
 		control.visible = false;
 		process_mode = Node.PROCESS_MODE_DISABLED;
 	scene_manager.transition_to_scene(party_screen_path, true, false);
-	GLOBAL.emit_signal("party_opened", true);
 
-func _on_party_opened(value: bool) -> void:
+func _on_scene_opened(value: bool, node_name: String) -> void:
 	#CLOSED
 	if(!value):
 		if(!GLOBAL.on_battle):
@@ -108,7 +115,22 @@ func _on_party_opened(value: bool) -> void:
 			control.visible = true;
 			screen_loaded = ScreenLoaded.MENU;
 			process_mode = Node.PROCESS_MODE_INHERIT;
-		scene_manager.get_node(party_screen_node).queue_free();
+		scene_manager.get_node(node_name).queue_free();
+
+#PROFILE
+func open_profile() -> void:
+	can_use_menu = false;
+	screen_loaded = ScreenLoaded.OAK;
+	play_audio(GUI_SEL_DECISION);
+	await audio.finished;
+	control.visible = false;
+	scene_manager.transition_to_scene(profile_scene_path, true, false);
+	await GLOBAL.timeout(0.8)
+	can_use_menu = true;
+
+func close_profile() -> void:
+	play_audio(GUI_SEL_DECISION);
+	_on_scene_opened(false, profile_scene_node);
 
 func handle_MENU() -> void:
 	play_audio(GUI_MENU_OPEN);
@@ -141,7 +163,7 @@ func handle_save() -> void:
 
 func connect_signals() -> void:
 	GLOBAL.connect("player_moving", _on_player_moving);
-	GLOBAL.connect("party_opened", _on_party_opened);
+	GLOBAL.connect("scene_opened", _on_scene_opened);
 	GLOBAL.connect("close_menu", close_menu);
 
 func update_arrow() -> void: arrow.position.y = 11 + (selected_option % options_length) * 16;

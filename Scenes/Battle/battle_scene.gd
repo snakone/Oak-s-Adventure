@@ -229,7 +229,7 @@ func update_exp_bar(delay = 0.0) -> void:
 	await GLOBAL.timeout(delay);
 	var new_size = get_new_exp_bar_size();
 	var tween = get_tree().create_tween();
-	tween.set_trans(Tween.TRANS_SINE);
+	tween.set_trans(Tween.TRANS_LINEAR);
 	tween.tween_property(exp_bar, "scale:x", clampf(new_size, 0.0, 1.0), BATTLE.default_exp_duration);
 	play_audio(BATTLE.BATTLE_SOUNDS.EXP_GAIN_PKM);
 	await tween.finished;
@@ -273,6 +273,7 @@ func handle_death(state: Dictionary) -> void:
 	dialog.start(state.dialog);
 	await BATTLE.dialog_finished;
 	
+	#EXP
 	if("exp" in state):
 		pokemon.data.total_exp += state.exp;
 		exp_to_next_level -= state.exp;
@@ -282,6 +283,7 @@ func handle_death(state: Dictionary) -> void:
 		dialog.set_label("");
 		dialog.set_current_text("");
 		
+		#PARTICIPANTS EXP
 		if(BATTLE.participants.size() > 1):
 			BATTLE.exp_loop = true;
 			await GLOBAL.timeout(0.2);

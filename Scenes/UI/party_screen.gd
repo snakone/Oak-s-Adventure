@@ -5,6 +5,7 @@ extends CanvasLayer
 @onready var select: Control = $Select
 @onready var cursor: TextureRect = $Select/Cursor;
 @onready var label: RichTextLabel = $Background/RichTextLabel;
+@onready var shift: RichTextLabel = $Select/VBoxContainer/Shift
 
 const RED_BAR = preload("res://Assets/UI/red_bar.png");
 const YELLOW_BAR = preload("res://Assets/UI/yellow_bar.png");
@@ -20,6 +21,7 @@ const selected_sentence = "Do what with this POKéMON?";
 const same_pokemon_sentence = "POKéMON is already fighting!";
 const exit_sentence = "Close";
 const must_sentence = "Must select a POKéMON!";
+const default_shift = "SHIFT";
 
 const default_select_position = Vector2(151, 97);
 const select_position_upper = Vector2(151, 2);
@@ -159,6 +161,8 @@ func select_input() -> void:
 	if(selected_slot == int(Slots.FIFTH) || selected_slot == int(Slots.SIXTH)):
 		select.position = select_position_upper;
 	else: select.position = default_select_position;
+	if(BATTLE.can_use_next_pokemon): shift.text = "SEND OUT";
+	else: shift.text = default_shift;
 	select_open = true;
 	select.visible = true;
 	label.text = selected_sentence;
@@ -192,7 +196,7 @@ func close_party(sound = true) -> void:
 	closing = true;
 	if(sound): play_audio(GUI_MENU_CLOSE);
 	await GLOBAL.timeout(.2);
-	GLOBAL.emit_signal("party_opened", false);
+	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/PartyScreen");
 	if(GLOBAL.on_battle): BATTLE.state = BATTLE.States.MENU;
 	process_mode = Node.PROCESS_MODE_DISABLED;
 
@@ -287,6 +291,7 @@ func create_party_list() -> void:
 		elif(perct < BATTLE.YELLOW_BAR_PERCT): health_node.texture = BATTLE.RED_BAR;
 		
 		if(
+			active_pokemon && 
 			active_pokemon.name == poke.data.name && 
 			GLOBAL.on_battle
 		): selected_slot = index;
