@@ -125,9 +125,8 @@ func get_base_stats() -> void: data.stats = POKEDEX.get_pokemon_prop(name, "stat
 func get_resources() -> void:
 	var resources = POKEDEX.get_poke_resources(data.name);
 	data.party_texture = resources.party_texture;
-	data.front_texture = resources.front_texture;
-	data.back_texture = resources.back_texture;
 	data.shout = resources.shout;
+	data.offset = resources.offset;
 	
 	if("sprites" in resources):
 		var animated_sprite = load(resources.sprites);

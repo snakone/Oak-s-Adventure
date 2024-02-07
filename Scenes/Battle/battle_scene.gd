@@ -113,6 +113,10 @@ func set_player_ui() -> void:
 	var size = get_new_exp_bar_size();
 	exp_bar.scale.x = size;
 	update_player_health();
+	player_sprite.play("Back");
+	
+	if("offset" in pokemon.data):
+		player_sprite.offset = pokemon.data.offset;
 
 #ENEMY UI
 func set_enemy_ui() -> void:
@@ -125,6 +129,10 @@ func set_enemy_ui() -> void:
 	enemy_info.get_node("Level").text = "Lv" + str(enemy.data.level);
 	enemy_info.get_node("Gender").position.x = enemy_dist;
 	selection.set_enemy_moves(enemy.data.moves);
+	enemy_sprite.play("Front");
+	
+	if("offset" in enemy.data):
+		enemy_sprite.offset = enemy.data.offset;
 
 #TEXTURES
 func set_battle_texture() -> void:
@@ -539,17 +547,13 @@ func play_shout_pokemon() -> void:
 	audio_player.stream = pokemon.data.shout;
 	audio_player.play();
 
-func play_move_and_shout_enemy() -> void:
-	await GLOBAL.timeout(.2);
-	play_enemy_shout();
-
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;
 	audio.play();
 
 func show_total_stats_panel() -> void: level_up_panel.show_total_stats();
 func go_switch_dialog() -> void: dialog.switch(["Let's go " + pokemon.name + "!"]);
-func play_enemy_shout() -> void: play_audio(enemy.data.shout);
+func play_shout_enemy() -> void: play_audio(enemy.data.shout);
 func set_battle_data(data: Dictionary) -> void: battle_data = data;
 func _set_anim_hp_bar_duration(duration: float) -> void: hp_bar_anim_duration = duration;
 

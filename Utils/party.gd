@@ -6,7 +6,7 @@ var current_party = [];
 var active_pokemon: Dictionary;
 
 const erase_props_on_save = [
-	"front_texture", "back_texture", "party_texture", "shout", "stats", "battle_stages", "battle_stats"
+	"sprites", "party_texture", "shout", "stats", "battle_stages", "battle_stats", "offset"
 ];
 
 func _ready(): add_to_group(GLOBAL.group_name);
