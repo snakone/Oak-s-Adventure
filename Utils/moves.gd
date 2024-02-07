@@ -3,7 +3,7 @@ extends Node
 enum AttackCategory { PHYSIC, SPECIAL, STATUS, NONE }
 
 func get_move(index: int):
-	if(index in moves_list): return moves_list[index];
+	if(index in MoveList): return MoveList[index];
 
 func load_move_with_pp(move: Dictionary):
 	var move_data = get_move(move.id).duplicate();
@@ -52,7 +52,7 @@ var TypesString = {
 	18: "Type/FAIRY"
 }
 
-var moves_list: Dictionary = {
+var MoveList: Dictionary = {
 	1: {
 		"id": 1,
 		"name": "Tackle",
@@ -181,3 +181,31 @@ func type_effective(atk_type: Types, def_type: Types) -> float:
 				Types.FIRE, Types.POISON, Types.STEEL: return 0.5;
 				_: return 1.0;
 	return 1.0;
+
+enum MoveNames {
+	TACKLE
+}
+
+const MovesData = {
+	MoveNames.TACKLE: {
+		"property": "position:x",
+		"values": {
+			"player": [
+				{ "value": -5, "duration": 0.15 },
+				{ "value": 0, "duration": 0.11 },
+				{ "value": 12, "duration": 0.1 },
+				{ "value": 18, "duration": 0.1 },
+				{ "value": 15, "duration": 0.1 },
+				{ "value": 0, "duration": 0.2 }
+			],
+			"enemy": [
+				{ "value": 5, "duration": 0.15 },
+				{ "value": 0, "duration": 0.11 },
+				{ "value": -12, "duration": 0.1 },
+				{ "value": -18, "duration": 0.1 },
+				{ "value": -15, "duration": 0.1 },
+				{ "value": 0, "duration": 0.2 }
+			]
+		}
+	}
+}

@@ -18,7 +18,7 @@ enum Pokedex {
 
 func get_pokemon(index):
 	for poke in pokedex_list:
-		if(poke.number == index): return poke;
+		if(poke.number == index): return poke.duplicate();
 
 func get_poke_resources(poke_name: String):
 	for poke in pokedex_list:
@@ -27,7 +27,8 @@ func get_poke_resources(poke_name: String):
 				"party_texture": poke.party_texture,
 				"front_texture": poke.front_texture,
 				"back_texture": poke.back_texture,
-				"shout": poke.shout
+				"shout": poke.shout,
+				"sprites": str(poke.sprites)
 			};
 
 func get_pokemon_prop(poke_name: String, key: String):
@@ -46,6 +47,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLACK,
 		"base_exp": 64,
+		"sprites": "res://Sprites/Animated/Bulbasaur/bulbasaur.tscn",
 		"stats": {
 			"HP": 45,
 			"ATK": 49,
@@ -67,6 +69,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLACK,
 		"base_exp": 141,
+		"sprites": "res://Sprites/Animated/Bulbasaur/bulbasaur.tscn",
 		"stats": {
 			"HP": 60,
 			"ATK": 62,
@@ -88,6 +91,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLACK,
 		"base_exp": 65,
+		"sprites": "res://Sprites/Animated/Bulbasaur/bulbasaur.tscn",
 		"stats": {
 			"HP": 39,
 			"ATK": 52,
@@ -109,6 +113,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLACK,
 		"base_exp": 66,
+		"sprites": "res://Sprites/Animated/Bulbasaur/bulbasaur.tscn",
 		"stats": {
 			"HP": 44,
 			"ATK": 48,
@@ -130,6 +135,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.MEDIUM,
 		"base_exp": 159,
+		"sprites": "res://Sprites/Animated/Bulbasaur/bulbasaur.tscn",
 		"stats": {
 			"HP": 65,
 			"ATK": 90,
@@ -151,6 +157,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLACK,
 		"base_exp": 40,
+		"sprites": "res://Sprites/Animated/Bulbasaur/bulbasaur.tscn",
 		"stats": {
 			"HP": 40,
 			"ATK": 45,
@@ -172,6 +179,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.MEDIUM,
 		"base_exp": 4000,
+		"sprites": "res://Sprites/Animated/Bulbasaur/bulbasaur.tscn",
 		"stats": {
 			"HP": 30,
 			"ATK": 56,
@@ -193,6 +201,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.MEDIUM,
 		"base_exp": 82,
+		"sprites": "res://Sprites/Animated/Bulbasaur/bulbasaur.tscn",
 		"stats": {
 			"HP": 35,
 			"ATK": 55,
@@ -214,6 +223,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.MEDIUM,
 		"base_exp": 83,
+		"sprites": "res://Sprites/Animated/Bulbasaur/bulbasaur.tscn",
 		"stats": {
 			"HP": 30,
 			"ATK": 40,
@@ -235,6 +245,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLOW,
 		"base_exp": 220,
+		"sprites": "res://Sprites/Animated/Bulbasaur/bulbasaur.tscn",
 		"stats": {
 			"HP": 105,
 			"ATK": 180,

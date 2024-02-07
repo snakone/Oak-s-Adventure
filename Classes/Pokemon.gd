@@ -113,7 +113,7 @@ func set_hp_anim_duration_after_damage(damage: int, enemy: Object) -> void:
 	var total = BATTLE.min_hp_anim_duration;
 	if(damage < 5): total = 0.15;
 	elif(damage < 20 && damage != 1 && enemy.data.level > 50): total = 0.4;
-	elif((damage < 10 && damage != 1 && enemy.data.level < 30)): total = 0.8
+	elif((damage < 10 && damage != 1 && enemy.data.level < 30)): total = 0.2
 	elif(damage >= 30 && enemy.data.battle_stats["HP"] <= 30): total = 1.0;
 	print("HP BAR DURATION: ", total);
 	BATTLE.emit_signal("hp_bar_anim_duration", total);
@@ -128,6 +128,10 @@ func get_resources() -> void:
 	data.front_texture = resources.front_texture;
 	data.back_texture = resources.back_texture;
 	data.shout = resources.shout;
+	
+	if("sprites" in resources):
+		var animated_sprite = load(resources.sprites);
+		data.sprites = animated_sprite.instantiate();
 
 func convert_battle_moves() -> void:
 	var array = [];

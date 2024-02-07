@@ -14,7 +14,6 @@ extends Node
 
 #ENEMY
 @onready var enemy_info = $Info/EnemyInfo;
-@onready var enemy_anim_player = $UI/EnemySprite/EnemyAnimationPlayer;
 @onready var enemy_sprite = $UI/EnemySprite;
 @onready var enemy_hp_bar = $Info/EnemyInfo/EnemyHPBar;
 @onready var enemy_ground = $Ground/EnemyGround;
@@ -105,7 +104,7 @@ func set_player_ui() -> void:
 	var name_node = player_info.get_node("Name");
 	name_node.text = pokemon.data.name;
 	var player_dist = name_node.get_content_width() + name_node.position.x + 6;
-	player_sprite.texture = pokemon.data.back_texture;
+	player_sprite.sprite_frames = pokemon.data.sprites.sprite_frames;
 	player_info.get_node("Gender").frame = pokemon.data.gender;
 	player_info.get_node("Level").text = "Lv" + str(pokemon.data.level);
 	player_info.get_node("Gender").position.x = player_dist;
@@ -121,7 +120,7 @@ func set_enemy_ui() -> void:
 	var enemy_node_name = enemy_info.get_node("Name");
 	enemy_node_name.text = enemy.data.name;
 	var enemy_dist = enemy_node_name.get_content_width() + enemy_node_name.position.x + 5;
-	enemy_sprite.texture = enemy.data.front_texture;
+	enemy_sprite.sprite_frames = enemy.data.sprites.sprite_frames;
 	enemy_info.get_node("Gender").frame = enemy.data.gender;
 	enemy_info.get_node("Level").text = "Lv" + str(enemy.data.level);
 	enemy_info.get_node("Gender").position.x = enemy_dist;
@@ -282,6 +281,7 @@ func handle_death(state: Dictionary) -> void:
 		await GLOBAL.timeout(1);
 		dialog.set_label("");
 		dialog.set_current_text("");
+		enemy.free();
 		
 		#PARTICIPANTS EXP
 		if(BATTLE.participants.size() > 1):
@@ -540,7 +540,6 @@ func play_shout_pokemon() -> void:
 	audio_player.play();
 
 func play_move_and_shout_enemy() -> void:
-	enemy_anim_player.play("Move");
 	await GLOBAL.timeout(.2);
 	play_enemy_shout();
 

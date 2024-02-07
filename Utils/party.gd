@@ -45,9 +45,6 @@ func reset_active() -> void:
 
 func reset_all_active() -> void:
 	for poke in current_party: poke.data.active = false;
-	for poke in current_party:
-		if(!poke.data.death): poke.data.active = true;
-		break;
 
 func create_party_from_json(party: Array) -> Array:
 	#return [

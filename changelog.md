@@ -27,3 +27,6 @@
 - EXP and Level UP
 - Escape from Battle
 - Switch Pokémon
+
+# 0.5
+- Animated Pokémon Sprites (Gen V)

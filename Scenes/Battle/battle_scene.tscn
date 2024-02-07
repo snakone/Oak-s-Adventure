@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://3clfgm81x0yq"]
+[gd_scene load_steps=58 format=3 uid="uid://3clfgm81x0yq"]
 
 [ext_resource type="Script" path="res://Scenes/Battle/battle_scene.gd" id="1_vc7g5"]
 [ext_resource type="Texture2D" uid="uid://1ieaejkmc3gf" path="res://Assets/UI/Battle/Backgrounds/grass_01.png" id="2_qwkfb"]
@@ -12,11 +12,9 @@
 [ext_resource type="Texture2D" uid="uid://uaqoxfq6qhvd" path="res://Assets/UI/green_bar.png" id="9_1a4ob"]
 [ext_resource type="Texture2D" uid="uid://dbtcanods1xaq" path="res://Assets/UI/Battle/attack_select_background.png" id="9_iv4im"]
 [ext_resource type="Texture2D" uid="uid://cu7y7kgh8s7mn" path="res://Assets/UI/Battle/player_info1.png" id="10_crvw1"]
-[ext_resource type="Texture2D" uid="uid://dryrh4lqxcq54" path="res://Assets/UI/Pokemon/bulbasaur/anim_front.png" id="10_ntll6"]
-[ext_resource type="Texture2D" uid="uid://dhr3umvoi8nxa" path="res://Assets/UI/Pokemon/bulbasaur/back.png" id="11_2qd72"]
 [ext_resource type="Texture2D" uid="uid://cwjt1thedkj7u" path="res://Assets/UI/Battle/player_info_bg.png" id="11_jd31m"]
 [ext_resource type="Shader" path="res://Scenes/UI/level_up.gdshader" id="11_l7hxn"]
-[ext_resource type="Texture2D" uid="uid://c7esgd7pdwvov" path="res://Assets/UI/Battle/Moves/take_tackle_hit.png" id="12_7234v"]
+[ext_resource type="SpriteFrames" uid="uid://b7qwmj75ulas8" path="res://Sprites/Animated/Bulbasaur/bulbasaur.tres" id="13_4uggi"]
 [ext_resource type="Texture2D" uid="uid://d10m1ecady526" path="res://Assets/UI/Battle/dialouge_background.png" id="13_m2v7w"]
 [ext_resource type="Texture2D" uid="uid://c52a6e4eqhy5e" path="res://Assets/UI/Battle/main_menu.png" id="13_npenf"]
 [ext_resource type="Texture2D" uid="uid://bynrkxrintj5r" path="res://Assets/UI/triangle.png" id="16_i0kwe"]
@@ -320,19 +318,17 @@ tracks/11/keys = {
 "method": &"check_intro_dialog"
 }]
 }
-tracks/12/type = "method"
+tracks/12/type = "value"
 tracks/12/imported = false
 tracks/12/enabled = true
-tracks/12/path = NodePath("UI/EnemySprite/EnemyAnimationPlayer")
+tracks/12/path = NodePath("UI/PlayerSprite:position")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/keys = {
-"times": PackedFloat32Array(2),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"values": [{
-"args": ["Idle", -1, 1.0, false],
-"method": &"play"
-}]
+"update": 0,
+"values": [Vector2(60, 97)]
 }
 
 [sub_resource type="Animation" id="Animation_nmcl2"]
@@ -524,138 +520,126 @@ tracks/12/keys = {
 tracks/13/type = "value"
 tracks/13/imported = false
 tracks/13/enabled = true
-tracks/13/path = NodePath("UI/PlayerSprite:position")
+tracks/13/path = NodePath("Info/PlayerInfo:visible")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(60, 97)]
+"update": 1,
+"values": [false]
 }
 tracks/14/type = "value"
 tracks/14/imported = false
 tracks/14/enabled = true
-tracks/14/path = NodePath("Info/PlayerInfo:visible")
+tracks/14/path = NodePath("Scroll/Grass:texture")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [ExtResource("16_vfw16")]
 }
-tracks/15/type = "value"
+tracks/15/type = "bezier"
 tracks/15/imported = false
 tracks/15/enabled = true
-tracks/15/path = NodePath("Scroll/Grass:texture")
+tracks/15/path = NodePath("Scroll:position:x")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("16_vfw16")]
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
 }
 tracks/16/type = "bezier"
 tracks/16/imported = false
 tracks/16/enabled = true
-tracks/16/path = NodePath("Scroll:position:x")
+tracks/16/path = NodePath("Scroll:position:y")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/keys = {
 "handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(127, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
 tracks/17/type = "bezier"
 tracks/17/imported = false
 tracks/17/enabled = true
-tracks/17/path = NodePath("Scroll:position:y")
+tracks/17/path = NodePath("Animation/Oak:modulate:a")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/keys = {
 "handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(127, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
 tracks/18/type = "bezier"
 tracks/18/imported = false
 tracks/18/enabled = true
-tracks/18/path = NodePath("Animation/Oak:modulate:a")
+tracks/18/path = NodePath("Animation/Oak:position:x")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/keys = {
 "handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/19/type = "bezier"
-tracks/19/imported = false
-tracks/19/enabled = true
-tracks/19/path = NodePath("Animation/Oak:position:x")
-tracks/19/interp = 1
-tracks/19/loop_wrap = true
-tracks/19/keys = {
-"handle_modes": PackedInt32Array(0),
 "points": PackedFloat32Array(312, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
-tracks/20/type = "value"
-tracks/20/imported = false
-tracks/20/enabled = true
-tracks/20/path = NodePath("UI/EnemySprite:visible")
-tracks/20/interp = 1
-tracks/20/loop_wrap = true
-tracks/20/keys = {
+tracks/19/type = "value"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath("UI/EnemySprite:visible")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
 }
-tracks/21/type = "value"
-tracks/21/imported = false
-tracks/21/enabled = true
-tracks/21/path = NodePath("Ground/PlayerGround:position")
-tracks/21/interp = 1
-tracks/21/loop_wrap = true
-tracks/21/keys = {
+tracks/20/type = "value"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("Ground/PlayerGround:position")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(308, 106)]
 }
-tracks/22/type = "value"
-tracks/22/imported = false
-tracks/22/enabled = true
-tracks/22/path = NodePath("Dialog/Label:text")
-tracks/22/interp = 1
-tracks/22/loop_wrap = true
-tracks/22/keys = {
+tracks/21/type = "value"
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/path = NodePath("Dialog/Label:text")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [""]
 }
-tracks/23/type = "value"
-tracks/23/imported = false
-tracks/23/enabled = true
-tracks/23/path = NodePath("UI/EnemySprite:modulate")
-tracks/23/interp = 1
-tracks/23/loop_wrap = true
-tracks/23/keys = {
+tracks/22/type = "value"
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/path = NodePath("UI/EnemySprite:modulate")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(0.392157, 0.392157, 0.392157, 1)]
 }
-tracks/24/type = "value"
-tracks/24/imported = false
-tracks/24/enabled = true
-tracks/24/path = NodePath("UI/PlayerSprite:self_modulate")
-tracks/24/interp = 1
-tracks/24/loop_wrap = true
-tracks/24/keys = {
+tracks/23/type = "value"
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/path = NodePath("UI/PlayerSprite:self_modulate")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -699,7 +683,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 2.9),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(-60, 34), Vector2(166, 34)]
+"values": [Vector2(-50, 42), Vector2(174, 42)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -1026,39 +1010,15 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0.1, 0.15, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(166, 34), Vector2(170, 34), Vector2(166, 34)]
+"values": [Vector2(174, 42), Vector2(178, 42), Vector2(174, 42)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("UI/TakeHit:visible")
+tracks/2/path = NodePath("Info/EnemyInfo:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.15),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [false, true, false]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("UI/TakeHit:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(158, 27)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Info/EnemyInfo:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
 "times": PackedFloat32Array(0.25, 0.35, 0.45, 0.55, 0.65),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
@@ -1095,34 +1055,10 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("UI/TakeHit:visible")
+tracks/2/path = NodePath("Info/PlayerInfo:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.15),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [false, true, false]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("UI/TakeHit:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(44, 77)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Info/PlayerInfo:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
 "times": PackedFloat32Array(0.25, 0.35, 0.45, 0.55, 0.65),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
@@ -1143,7 +1079,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.15, 0.8),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(166, 34), Vector2(166, 34), Vector2(168, 75)]
+"values": [Vector2(174, 42), Vector2(174, 42), Vector2(174, 75)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -1245,82 +1181,58 @@ step = 0.7
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("UI/PlayerSprite:position")
+tracks/0/path = NodePath("Info/PlayerInfo:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.8, 1.2, 1.6, 2),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(60, 97), Vector2(60, 96), Vector2(60, 97), Vector2(60, 96), Vector2(60, 97), Vector2(60, 96)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("UI/EnemySprite:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.7, 1.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(166, 34), Vector2(166, 34.5), Vector2(166, 34)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Info/PlayerInfo:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.7, 1.4),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector2(182, 93), Vector2(182, 94), Vector2(182, 93)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("UI/EnemySprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("UI/PlayerSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("UI/EnemySprite:visible")
+tracks/3/path = NodePath("UI/PlayerSprite:self_modulate:a")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
+"update": 0,
+"values": [1.0]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("UI/PlayerSprite:visible")
+tracks/4/path = NodePath("AudioPlayer:pitch_scale")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("UI/PlayerSprite:self_modulate:a")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [1.0]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("AudioPlayer:pitch_scale")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -1544,18 +1456,6 @@ tracks/10/keys = {
 "update": 0,
 "values": [Vector2(-36, 80)]
 }
-tracks/11/type = "value"
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/path = NodePath("UI/TakeHit:visible")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [false]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hd5rc"]
 _data = {
@@ -1726,12 +1626,14 @@ texture = ExtResource("11_jd31m")
 
 [node name="UI" type="Node2D" parent="."]
 
-[node name="EnemySprite" type="Sprite2D" parent="UI"]
+[node name="EnemySprite" type="AnimatedSprite2D" parent="UI"]
 visible = false
 modulate = Color(0.392157, 0.392157, 0.392157, 1)
 position = Vector2(168, 36)
-texture = ExtResource("10_ntll6")
-vframes = 2
+scale = Vector2(0.8, 0.8)
+sprite_frames = ExtResource("13_4uggi")
+animation = &"Front"
+autoplay = "Front"
 frame = 1
 
 [node name="EnemyAnimationPlayer" type="AnimationPlayer" parent="UI/EnemySprite"]
@@ -1739,20 +1641,14 @@ libraries = {
 "": SubResource("AnimationLibrary_st06w")
 }
 
-[node name="PlayerSprite" type="Sprite2D" parent="UI"]
-visible = false
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="UI"]
 position = Vector2(60, 97)
-texture = ExtResource("11_2qd72")
+sprite_frames = ExtResource("13_4uggi")
+animation = &"Back"
+autoplay = "Back"
 
 [node name="AudioPlayer" type="AudioStreamPlayer" parent="UI/PlayerSprite"]
 volume_db = -20.0
-
-[node name="TakeHit" type="Sprite2D" parent="UI"]
-visible = false
-self_modulate = Color(1, 1, 1, 0.745098)
-position = Vector2(158, 27)
-texture = ExtResource("12_7234v")
-centered = false
 
 [node name="NinePatchRect" parent="UI" instance=ExtResource("16_ymj5o")]
 offset_left = 130.0
