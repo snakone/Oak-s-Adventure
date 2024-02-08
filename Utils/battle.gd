@@ -3,7 +3,6 @@ extends Node
 #ATTACK
 signal attack_finished();
 signal on_move_hit(is_enemy: bool);
-signal critical_landed();
 signal not_effective();
 signal after_dialog_attack();
 signal start_attack();
@@ -21,6 +20,7 @@ signal show_total_stats_panel();
 signal show_level_up_panel(participant: Object);
 signal level_up_stats_end();
 signal check_can_escape();
+signal critical_dialog_end();
 
 #MENU
 signal end_battle();
@@ -107,6 +107,7 @@ var can_use_next_pokemon = false;
 var coming_from_battle = false;
 var participants: Array = [];
 var exp_loop = false;
+var critical_hit = false;
 
 @onready var zones_array = [
 	{
@@ -144,6 +145,7 @@ func reset_state(reset_type = true) -> void:
 	can_use_next_pokemon = false;
 	participants = [];
 	exp_loop = false;
+	critical_hit = false;
 
 func pokemon_encounter() -> bool:
 	randomize()

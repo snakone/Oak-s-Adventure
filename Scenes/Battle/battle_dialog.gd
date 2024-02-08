@@ -35,6 +35,7 @@ func start(input_arr: Array) -> void:
 	await GLOBAL.timeout(.2);
 	pressed = false;
 
+#INPUT DIALOG
 func input() -> void:
 	await get_tree().process_frame;
 	if(pressed): return;
@@ -46,6 +47,7 @@ func input() -> void:
 		if line < len(array): next_dialog();
 		elif(BATTLE.state != BATTLE.States.LEVELLING): end_dialog();
 
+#NEXT
 func next_dialog() -> void:
 	if(BATTLE.enemy_death && !BATTLE.on_victory): AUDIO.play_battle_win();
 	current_text = current_text.erase(0, current_text.find("\n") + 1)
@@ -135,23 +137,6 @@ func switch(input_arr: Array) -> void:
 	current_text = "";
 	BATTLE.dialog_finished.emit();
 
-#END
-func end_dialog() -> void:
-	timer.stop();
-	current_text = "";
-	pressed = (BATTLE.enemy_death || BATTLE.pokemon_death);
-	if(
-		!BATTLE.intro_dialog && 
-		!BATTLE.pokemon_death && 
-		!BATTLE.enemy_death &&
-		BATTLE.state != BATTLE.States.ESCAPING
-	): close(0);
-	
-	BATTLE.state = BATTLE.States.NONE;
-	BATTLE.dialog_finished.emit();
-	await GLOBAL.timeout(.3);
-	if(!BATTLE.exp_loop): BATTLE.state = BATTLE.States.MENU;
-
 #ESCAPE
 func escape(input_arr: Array) -> void:
 	BATTLE.state = BATTLE.States.ESCAPING;
@@ -171,6 +156,7 @@ func escape(input_arr: Array) -> void:
 	await GLOBAL.timeout(.2);
 	pressed = false;
 
+#ESCAPE INPUT
 func escape_input() -> void:
 	if(pressed): return;
 	if Input.is_action_just_pressed("space"):
@@ -205,6 +191,43 @@ func next_pokemon(input_arr: Array) -> void:
 	await GLOBAL.timeout(.2);
 	pressed = false;
 	BATTLE.dialog_finished.emit();
+
+#CRITICAL
+func critical(input_arr: Array) -> void:
+	BATTLE.state = BATTLE.States.NONE;
+	pressed = true;
+	marker.visible = false;
+	visible = true;
+	array = input_arr.duplicate();
+	line = 1;
+	timer.start();
+	
+	for i in range(line):
+		for j in range(len(input_arr[i])):
+			await timer.timeout;
+			current_text += input_arr[i][j];
+			label.text = current_text;
+	
+	await GLOBAL.timeout(0.8);
+	pressed = false;
+	BATTLE.critical_dialog_end.emit();
+
+#END
+func end_dialog() -> void:
+	timer.stop();
+	current_text = "";
+	pressed = (BATTLE.enemy_death || BATTLE.pokemon_death);
+	if(
+		!BATTLE.intro_dialog && 
+		!BATTLE.pokemon_death && 
+		!BATTLE.enemy_death &&
+		BATTLE.state != BATTLE.States.ESCAPING
+	): close(0);
+	
+	BATTLE.state = BATTLE.States.NONE;
+	BATTLE.dialog_finished.emit();
+	await GLOBAL.timeout(.3);
+	if(!BATTLE.exp_loop): BATTLE.state = BATTLE.States.MENU;
 
 #CLOSE
 func close(time: float) -> void:

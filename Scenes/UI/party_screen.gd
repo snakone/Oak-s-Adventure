@@ -53,10 +53,10 @@ var select_cursor_default_position = [
 ];
 
 func _ready():
+	process_mode = Node.PROCESS_MODE_INHERIT;
 	active_pokemon = PARTY.get_active_pokemon();
 	label.text = default_sentence;
 	select.visible = false;
-	process_mode = Node.PROCESS_MODE_INHERIT;
 	create_party_list();
 	set_all_options();
 	set_active_option(State.ON);

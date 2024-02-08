@@ -10,7 +10,7 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 		name = poke.name;
 		data = poke;
 		data.active = false;
-		data.death = false;
+		if("death" not in data): data.death = false;
 		get_base_stats();
 		get_resources();
 		if("IV" not in data): data.IV = set_random_IV();
@@ -70,8 +70,6 @@ func level_up() -> Dictionary:
 		"S.DEF": data.battle_stats["S.DEF"] - old_battle_stats["S.DEF"],
 		"SPD": data.battle_stats["SPD"] - old_battle_stats["SPD"],
 	}
-	
-#SETTERS
 
 #DIE
 func bye() -> void:
@@ -175,7 +173,7 @@ func damage_formula(enemy: Object, move: Dictionary) -> int:
 
 	if(CRIT_rate > randf()):
 		#DEF_bonus = 0;
-		BATTLE.emit_signal("critical_landed");
+		BATTLE.critical_hit = true;
 		CRIT_stat = 2.0;
 		
 	if(move.type in data.types): STAB = 1.5;

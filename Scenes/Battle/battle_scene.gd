@@ -96,9 +96,8 @@ func set_battle_ui() -> void:
 
 func set_pokemon() -> void: 
 	pokemon = PARTY.get_active_pokemon();
-	if(!pokemon.data.death):
-		set_pokemon_health_color(floor(pokemon.data.current_hp));
-		BATTLE.add_participant(pokemon);
+	set_pokemon_health_color(floor(pokemon.data.current_hp));
+	BATTLE.add_participant(pokemon);
 
 #PLAYER UI
 func set_player_ui() -> void:
@@ -155,12 +154,23 @@ func start_attack(delay = 0.0, sound = true) -> void:
 	#CHECK IF DEATH
 	if(pokemon.data.death || enemy.data.death): return;
 	#ATTACK AGAIN
-	if((!BATTLE.enemy_attacked || !BATTLE.player_attacked)):
+	if(!BATTLE.enemy_attacked || !BATTLE.player_attacked):
 		await BATTLE.attack_finished;
-		start_attack(hp_bar_anim_duration + 0.3, false);
+		delay = hp_bar_anim_duration + 0.3;
+		#CRITICAL FIRST ATTACK
+		if(BATTLE.critical_hit):
+			await BATTLE.critical_dialog_end;
+			BATTLE.critical_hit = false;
+			delay = 0.2;
+		start_attack(delay, false);
 		return;
-		
-	await GLOBAL.timeout(hp_bar_anim_duration + 0.3);
+	await GLOBAL.timeout(delay);
+	#CRITICAL SECOND ATTACK
+	if(BATTLE.critical_hit):
+		await BATTLE.critical_dialog_end;
+		BATTLE.critical_hit = false;
+		await GLOBAL.timeout(0.2);
+		BATTLE.can_use_menu = true;
 	BATTLE.player_attacked = false;
 	BATTLE.enemy_attacked = false;
 	battle_anim_player.play("Idle");
@@ -279,7 +289,7 @@ func handle_death(state: Dictionary) -> void:
 	dialog.start(state.dialog);
 	await BATTLE.dialog_finished;
 	
-	#EXP
+	#ENEMY DEATH - EXP
 	if("exp" in state):
 		pokemon.data.total_exp += state.exp;
 		exp_to_next_level -= state.exp;
@@ -314,6 +324,7 @@ func handle_death(state: Dictionary) -> void:
 						dialog.set_label("");
 						dialog.set_current_text("");
 		end_battle();
+	#PLAYER DEATH
 	else: check_for_next_pokemon();
 
 # CHECK NEXT
@@ -352,11 +363,14 @@ func _on_move_hit() -> void:
 	else: battle_anim_player.play("DamagePlayer")
 	await battle_anim_player.animation_finished;
 	update_battle_ui();
-	battle_anim_player.stop();
 
 func after_dialog_attack() -> void:
 	await BATTLE.ui_updated;
 	await GLOBAL.timeout(.2);
+	
+	if(BATTLE.critical_hit):
+		await BATTLE.critical_dialog_end;
+		await GLOBAL.timeout(0.2);
 	if(
 		enemy.data.death || 
 		pokemon.data.death || 
@@ -393,6 +407,12 @@ func _on_menu_selection_value_selected(value: int) -> void:
 #CHECKERS
 func check_battle_state() -> void:
 	await BATTLE.ui_updated;
+	#CRITICAL HIT
+	if(BATTLE.critical_hit):
+		show_critical_dialog();
+		await BATTLE.critical_dialog_end;
+		dialog.set_label("");
+		dialog.set_current_text("");
 	var state: Dictionary;
 	if(enemy.data.death):
 		var poke_exp = EXP.get_exp_given_by_pokemon(enemy, battle_data.type, BATTLE.participants.size());
@@ -411,6 +431,15 @@ func check_battle_state() -> void:
 			"dialog": [pokemon.data.name + " fainted!"]
 		}
 		handle_death(state);
+
+#CRITICAL DIALOG
+func show_critical_dialog() -> void:
+	BATTLE.can_use_menu = false;
+	var text = "Nice! A critical Hit!";
+	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
+		text = "Oh no! A critical Hit!";
+	await GLOBAL.timeout(0.3);
+	dialog.critical([text]);
 
 #PARTY
 func _on_party_pokemon_select(_poke_name: String) -> void:

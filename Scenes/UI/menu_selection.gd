@@ -63,8 +63,6 @@ func select_option():
 	visible = false;
 	selected_option = 0;
 	update_arrow();
-	await GLOBAL.timeout(0.2);
-	BATTLE.can_use_menu = true;
 
 func update_arrow() -> void: arrow.position.y = 8 + (selected_option % options_length) * 14;
 
