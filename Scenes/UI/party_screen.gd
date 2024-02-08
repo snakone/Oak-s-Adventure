@@ -176,7 +176,7 @@ func select_pokemon() -> void:
 		if(poke.data.death):
 			label.text = poke_name + " can't fight!";
 			return;
-		if(poke_name == active_pokemon.name):
+		if(active_pokemon && poke_name == active_pokemon.name):
 			label.text = same_pokemon_sentence;
 			return;
 		select_poke_and_switch(poke_name);
@@ -187,13 +187,15 @@ func select_poke_and_switch(poke_name: String) -> void:
 	label.text = selected_sentence;
 	closing = true;
 	BATTLE.can_use_menu = false;
+	PARTY.reset_all_active();
 	PARTY.set_active_pokemon(poke_name);
-	close_party(false);
 	await GLOBAL.timeout(0.2);
+	close_party(false);
 	PARTY.emit_signal("selected_pokemon_party", poke_name);
 
 func close_party(sound = true) -> void:
 	closing = true;
+	GLOBAL.party_open = false;
 	if(sound): play_audio(GUI_MENU_CLOSE);
 	await GLOBAL.timeout(.2);
 	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/PartyScreen");

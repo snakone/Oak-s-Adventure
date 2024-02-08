@@ -12,14 +12,10 @@ const erase_props_on_save = [
 func _ready(): add_to_group(GLOBAL.group_name);
 func get_party() -> Array: return current_party;
 
-func get_active_pokemon() -> Object: 
+func get_active_pokemon() -> Object:
 	if(current_party):
 		for poke in current_party:
-			if(poke.data.active && !poke.data.death): return poke;
-		for poke in current_party:
-			if(!poke.data.death): 
-				poke.data.active = true;
-				return poke;
+			if(poke.data.active): return poke;
 	return null;
 
 func get_next_pokemon() -> Object:
@@ -33,18 +29,19 @@ func get_pokemon(poke_name: String):
 		if(poke.name == poke_name): return poke;
 
 func set_active_pokemon(poke_name: String) -> void:
-	reset_all_active();
 	for poke in current_party:
-		if(poke.name == poke_name): 
+		if(poke.name == poke_name && !poke.data.death):
 			poke.data.active = true;
 			break;
 
-func reset_active() -> void:
-	for poke in current_party:
-		if("active" in poke.data && poke.data.active): poke.data.active = false;
-
-func reset_all_active() -> void:
+func reset_all_active(set_active = false) -> void:
 	for poke in current_party: poke.data.active = false;
+	
+	if(set_active):
+		for poke in current_party:
+			if(!poke.data.death):
+				poke.data.active = true;
+				break;
 
 func create_party_from_json(party: Array) -> Array:
 	#return [
@@ -56,8 +53,13 @@ func create_party_from_json(party: Array) -> Array:
 		#Pokemon.new(POKEDEX.pokedex_list[5]),
 	#]
 	var created_party = [];
-	for poke in party:
-		created_party.push_back(Pokemon.new(poke));
+	var already_active = false;
+	for index in range(party.size()):
+		var poke = Pokemon.new(party[index]);
+		if(!poke.data.death && !already_active): 
+			poke.data.active = true;
+			already_active = true;
+		created_party.push_back(poke);
 	return created_party;
 
 #SAVE

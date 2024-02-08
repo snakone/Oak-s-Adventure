@@ -77,6 +77,7 @@ func level_up() -> Dictionary:
 func bye() -> void:
 	data.death = true;
 	data.current_hp = 0;
+	data.active = false;
 
 #ENEMY
 func set_enemy() -> void:
@@ -119,7 +120,7 @@ func set_hp_anim_duration_after_damage(damage: int, enemy: Object) -> void:
 	#var diff = (float(damage) / (float(enemy.data.battle_stats["HP"])) - float(enemy.data.current_hp));
 	#var duration = max(BATTLE.min_hp_anim_duration, BATTLE.max_hp_anim_duration * (1 - exp(-diff * -0.01)));
 	var total = BATTLE.min_hp_anim_duration;
-	if(damage < 5): total = 0.15;
+	if(damage < 10): total = 0.15;
 	elif(damage < 20 && damage != 1 && enemy.data.level > 50): total = 0.4;
 	elif((damage < 10 && damage != 1 && enemy.data.level < 30)): total = 0.2
 	elif(damage >= 30 && enemy.data.battle_stats["HP"] <= 30): total = 1.0;

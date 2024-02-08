@@ -62,6 +62,7 @@ func set_marker() -> void:
 
 func open_party() -> void:
 	BATTLE.state = BATTLE.States.NONE;
+	GLOBAL.party_open = true;
 	scene_manager.transition_to_scene(party_screen_path, true, false)
 
 func play_audio(stream: AudioStream) -> void:

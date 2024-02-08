@@ -475,7 +475,7 @@ func handle_scape() -> void:
 func end_battle() -> void:
 	BATTLE.can_use_menu = false;
 	battle_anim_player.play("FadetoBlack");
-	PARTY.reset_active();
+	PARTY.reset_all_active(true);
 
 func close_battle() -> void:
 	GLOBAL.emit_signal("close_battle");

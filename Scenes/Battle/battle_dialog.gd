@@ -137,7 +137,6 @@ func switch(input_arr: Array) -> void:
 
 #END
 func end_dialog() -> void:
-	BATTLE.state = BATTLE.States.NONE;
 	timer.stop();
 	current_text = "";
 	pressed = (BATTLE.enemy_death || BATTLE.pokemon_death);
@@ -147,6 +146,8 @@ func end_dialog() -> void:
 		!BATTLE.enemy_death &&
 		BATTLE.state != BATTLE.States.ESCAPING
 	): close(0);
+	
+	BATTLE.state = BATTLE.States.NONE;
 	BATTLE.dialog_finished.emit();
 	await GLOBAL.timeout(.3);
 	if(!BATTLE.exp_loop): BATTLE.state = BATTLE.States.MENU;

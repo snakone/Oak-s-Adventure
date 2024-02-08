@@ -100,6 +100,7 @@ func close_menu() -> void:
 func open_party() -> void:
 	can_use_menu = false;
 	screen_loaded = ScreenLoaded.PARTY;
+	GLOBAL.party_open = true;
 	play_audio(GUI_SEL_DECISION);
 	await audio.finished;
 	if(!GLOBAL.on_battle):
