@@ -15,11 +15,11 @@ func get_party() -> Array: return current_party;
 func get_active_pokemon() -> Object: 
 	if(current_party):
 		for poke in current_party:
-			if(poke.data.active): return poke;
+			if(poke.data.active && !poke.data.death): return poke;
 		for poke in current_party:
 			if(!poke.data.death): 
 				poke.data.active = true;
-				return current_party[3];
+				return poke;
 	return null;
 
 func get_next_pokemon() -> Object:

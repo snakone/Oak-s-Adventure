@@ -96,8 +96,9 @@ func set_battle_ui() -> void:
 
 func set_pokemon() -> void: 
 	pokemon = PARTY.get_active_pokemon();
-	set_pokemon_health_color(floor(pokemon.data.current_hp));
-	BATTLE.add_participant(pokemon);
+	if(!pokemon.data.death):
+		set_pokemon_health_color(floor(pokemon.data.current_hp));
+		BATTLE.add_participant(pokemon);
 
 #PLAYER UI
 func set_player_ui() -> void:
@@ -114,9 +115,7 @@ func set_player_ui() -> void:
 	exp_bar.scale.x = size;
 	update_player_health();
 	player_sprite.play("Back");
-	
-	if("offset" in pokemon.data):
-		player_sprite.offset = pokemon.data.offset;
+	player_sprite.offset = pokemon.data.offset;
 
 #ENEMY UI
 func set_enemy_ui() -> void:
@@ -130,9 +129,7 @@ func set_enemy_ui() -> void:
 	enemy_info.get_node("Gender").position.x = enemy_dist;
 	selection.set_enemy_moves(enemy.data.moves);
 	enemy_sprite.play("Front");
-	
-	if("offset" in enemy.data):
-		enemy_sprite.offset = enemy.data.offset;
+	enemy_sprite.offset = enemy.data.offset;
 
 #TEXTURES
 func set_battle_texture() -> void:
@@ -163,8 +160,7 @@ func start_attack(delay = 0.0, sound = true) -> void:
 		start_attack(hp_bar_anim_duration + 0.3, false);
 		return;
 		
-	await BATTLE.attack_finished;
-	await GLOBAL.timeout(hp_bar_anim_duration);
+	await GLOBAL.timeout(hp_bar_anim_duration + 0.3);
 	BATTLE.player_attacked = false;
 	BATTLE.enemy_attacked = false;
 	battle_anim_player.play("Idle");
@@ -174,7 +170,8 @@ func pokemon_attack(sound = true) -> void:
 	BATTLE.player_attacked = true;
 	var move = selection.get_player_selected_attack();
 	health_before_attack = enemy.data.current_hp;
-	if(pokemon.attack(enemy, move).ok):
+	var result = pokemon.attack(enemy, move);
+	if(result.ok):
 		if(enemy.data.current_hp <= 0):
 			BATTLE.enemy_death = true; 
 			enemy.bye();
@@ -185,7 +182,8 @@ func enemy_attack(sound = true) -> void:
 	BATTLE.enemy_attacked = true;
 	var move = selection.get_enemy_random_attack();
 	health_before_attack = pokemon.data.current_hp;
-	if(enemy.attack(pokemon, move).ok): 
+	var result = enemy.attack(pokemon, move);
+	if(result.ok): 
 		if(pokemon.data.current_hp <= 0):
 			BATTLE.pokemon_death = true;  
 			pokemon.bye();
@@ -254,7 +252,8 @@ func level_up_animation() -> void:
 	await battle_anim_player.animation_finished;
 	update_battle_ui(false, true);
 	update_player_health();
-	dialog.level_up([pokemon.data.name + " grew to Level " + str(pokemon.data.level) + "!"], pokemon);
+	var grew = pokemon.data.name + " grew to Level ";
+	dialog.level_up([grew + str(pokemon.data.level) + "!"], pokemon);
 	await BATTLE.level_up_stats_end;
 	dialog.set_label("");
 	update_exp_bar(0.5);
@@ -309,7 +308,8 @@ func handle_death(state: Dictionary) -> void:
 						play_audio(BATTLE.BATTLE_SOUNDS.EXP_FULL);
 						set_exp(participant);
 						await GLOBAL.timeout(0.2);
-						dialog.level_up([participant.data.name + " grew to Level " + str(participant.data.level) + "!"], participant);
+						var grew = participant.data.name + " grew to Level ";
+						dialog.level_up([grew + str(participant.data.level) + "!"], participant);
 						await BATTLE.level_up_stats_end;
 						dialog.set_label("");
 						dialog.set_current_text("");
@@ -546,6 +546,10 @@ func check_health_bar_color(perct: float, health_bar: Sprite2D) -> void:
 func play_shout_pokemon() -> void:
 	audio_player.stream = pokemon.data.shout;
 	audio_player.play();
+	
+func play_shout_enemy() -> void:
+	await GLOBAL.timeout(0.2);
+	play_audio(enemy.data.shout);
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;
@@ -553,7 +557,6 @@ func play_audio(stream: AudioStream) -> void:
 
 func show_total_stats_panel() -> void: level_up_panel.show_total_stats();
 func go_switch_dialog() -> void: dialog.switch(["Let's go " + pokemon.name + "!"]);
-func play_shout_enemy() -> void: play_audio(enemy.data.shout);
 func set_battle_data(data: Dictionary) -> void: battle_data = data;
 func _set_anim_hp_bar_duration(duration: float) -> void: hp_bar_anim_duration = duration;
 

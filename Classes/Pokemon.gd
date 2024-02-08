@@ -29,6 +29,14 @@ func attack(enemy: Object, move: Dictionary) -> Dictionary:
 		"reason": "Not enough PP",
 		"damage": 0
 	};
+	
+	#if(float(move.accuracy) / 100 < randf()):
+		#return {
+		#"ok": false,
+		#"reason": "Attack Missed",
+		#"damage": 0
+	#}
+	
 	if(enemy.data.current_hp <= 0): enemy.data.death = true;
 	move.pp -= 1;
 

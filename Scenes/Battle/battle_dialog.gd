@@ -145,7 +145,7 @@ func end_dialog() -> void:
 		!BATTLE.intro_dialog && 
 		!BATTLE.pokemon_death && 
 		!BATTLE.enemy_death &&
-		!BATTLE.escaping
+		BATTLE.state != BATTLE.States.ESCAPING
 	): close(0);
 	BATTLE.dialog_finished.emit();
 	await GLOBAL.timeout(.3);
