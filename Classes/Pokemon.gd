@@ -31,12 +31,7 @@ func attack(enemy: Object, move: Dictionary) -> Dictionary:
 		"damage": 0
 	};
 	
-	#if(float(move.accuracy) / 100 < randf()):
-		#return {
-		#"ok": false,
-		#"reason": "Attack Missed",
-		#"damage": 0
-	#}
+	#if(float(move.accuracy) / 100 < randf()): BATTLE.attack_missed = true;
 	
 	if(enemy.data.current_hp <= 0): enemy.data.death = true;
 	move.pp -= 1;
@@ -162,11 +157,12 @@ func health_formula(base: int, iv_value: int) -> int:
 
 #DAMAGE FORMULA
 func damage_formula(enemy: Object, move: Dictionary) -> int:
+	if(BATTLE.attack_missed): return 0;
 	var ATK_stat: int;
 	var DEF_stat: int;
 	#var ATK_bonus = 0;
 	#var DEF_bonus = 0;
-	var CRIT_rate: float = get_critical_chance(0);
+	var CRIT_rate: float = get_critical_chance(5);
 	var CRIT_stat = 1.0;
 	var STAB: float = 1.0;
 	var burned = 1;
@@ -221,7 +217,7 @@ func custom_round(number, random_float) -> int:
 		return round(number);
 
 func get_critical_chance(stage: int) -> float:
-	var critical_stages = [1.0/16.0, 1.0/8.0, 1.0/4.0 ,1.0/3.0 ,1.0/2.0];
+	var critical_stages = [1.0/16.0, 1.0/8.0, 1.0/4.0 ,1.0/3.0 ,1.0/2.0, 1.0/1.0];
 	return critical_stages[stage];
 
 #EXP

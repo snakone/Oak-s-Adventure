@@ -246,7 +246,7 @@ var pokedex_list: Array = [
 		"base_exp": 220,
 		"sprites": "res://Sprites/Animated/Ho-oh/ho-oh.tscn",
 		"offset": Vector2(0, -16),
-		"scale": Vector2(0.75, 0.75),
+		"scale": Vector2(0.7, 0.7),
 		"stats": {
 			"HP": 106,
 			"ATK": 130,

@@ -59,7 +59,7 @@ var MoveList: Dictionary = {
 		"type": Types.NORMAL,
 		"category": AttackCategory.PHYSIC,
 		"power": 35.0,
-		"accuracy": 40,
+		"accuracy": 50,
 		"pp": 35,
 		"total_pp": 35,
 		"effects": []

@@ -20,7 +20,8 @@ signal show_total_stats_panel();
 signal show_level_up_panel(participant: Object);
 signal level_up_stats_end();
 signal check_can_escape();
-signal critical_dialog_end();
+signal quick_dialog_end();
+signal participant_exp_end();
 
 #MENU
 signal end_battle();
@@ -108,6 +109,7 @@ var coming_from_battle = false;
 var participants: Array = [];
 var exp_loop = false;
 var critical_hit = false;
+var attack_missed = false;
 
 @onready var zones_array = [
 	{
@@ -146,6 +148,7 @@ func reset_state(reset_type = true) -> void:
 	participants = [];
 	exp_loop = false;
 	critical_hit = false;
+	attack_missed = false;
 
 func pokemon_encounter() -> bool:
 	randomize()

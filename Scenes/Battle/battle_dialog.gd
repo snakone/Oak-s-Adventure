@@ -192,8 +192,8 @@ func next_pokemon(input_arr: Array) -> void:
 	pressed = false;
 	BATTLE.dialog_finished.emit();
 
-#CRITICAL
-func critical(input_arr: Array) -> void:
+#QUICK - SHOW AND CLOSE
+func quick(input_arr: Array, delay = 1.0) -> void:
 	BATTLE.state = BATTLE.States.NONE;
 	pressed = true;
 	marker.visible = false;
@@ -208,9 +208,9 @@ func critical(input_arr: Array) -> void:
 			current_text += input_arr[i][j];
 			label.text = current_text;
 	
-	await GLOBAL.timeout(0.8);
+	await GLOBAL.timeout(delay);
 	pressed = false;
-	BATTLE.critical_dialog_end.emit();
+	BATTLE.quick_dialog_end.emit();
 
 #END
 func end_dialog() -> void:

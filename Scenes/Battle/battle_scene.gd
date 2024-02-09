@@ -161,7 +161,7 @@ func start_attack(delay = 0.0, sound = true) -> void:
 		delay = hp_bar_anim_duration + 0.3;
 		#CRITICAL FIRST ATTACK
 		if(BATTLE.critical_hit):
-			await BATTLE.critical_dialog_end;
+			await BATTLE.quick_dialog_end;
 			BATTLE.critical_hit = false;
 			delay = 0.2;
 		start_attack(delay, false);
@@ -169,7 +169,7 @@ func start_attack(delay = 0.0, sound = true) -> void:
 	await GLOBAL.timeout(delay);
 	#CRITICAL SECOND ATTACK
 	if(BATTLE.critical_hit):
-		await BATTLE.critical_dialog_end;
+		await BATTLE.quick_dialog_end;
 		BATTLE.critical_hit = false;
 		await GLOBAL.timeout(0.2);
 		BATTLE.can_use_menu = true;
@@ -303,43 +303,11 @@ func handle_death(state: Dictionary) -> void:
 		if(BATTLE.participants.size() > 1):
 			BATTLE.exp_loop = true;
 			await GLOBAL.timeout(0.2);
-			for index in range(0, BATTLE.participants.size()):
-				var participant = BATTLE.participants[index];
-				if(participant.name != pokemon.name):
-					participant.data.total_exp += state.exp;
-					set_exp(participant);
-					dialog.start([participant.name + " gained " + str(state.exp) + " EXP."]);
-					await BATTLE.dialog_finished;
-					await GLOBAL.timeout(0.2);
-					while(exp_to_next_level <= 0.0):
-						diff_stats = participant.level_up();
-						play_audio(BATTLE.BATTLE_SOUNDS.EXP_FULL);
-						set_exp(participant);
-						await GLOBAL.timeout(0.2);
-						var grew = participant.data.name + " grew to Level ";
-						dialog.level_up([grew + str(participant.data.level) + "!"], participant);
-						await BATTLE.level_up_stats_end;
-						dialog.reset_text();
+			give_exp_to_participants(state);
+			await BATTLE.participant_exp_end;
 		end_battle();
 	#PLAYER DEATH
 	else: check_for_next_pokemon();
-
-# CHECK NEXT
-func check_for_next_pokemon() -> void:
-	BATTLE.remove_participant(pokemon);
-	var next = PARTY.get_next_pokemon();
-	if(next != null):
-		BATTLE.can_use_next_pokemon = true;
-		await GLOBAL.timeout(0.2);
-		dialog.next_pokemon(["Use next POKéMON?"]);
-		await BATTLE.dialog_finished;
-		await GLOBAL.timeout(0.1);
-		menu_selection.set_visibility(true);
-	else:
-		await GLOBAL.timeout(1);
-		dialog.start(["No POKéMON left!\n", "You returned to the last safe spot..."]);
-		await BATTLE.dialog_finished;
-		end_battle();
 
 #MOVE ANIMATION
 func add_animation_and_play(move: Dictionary) -> void:
@@ -366,7 +334,7 @@ func after_dialog_attack() -> void:
 	await GLOBAL.timeout(.2);
 	
 	if(BATTLE.critical_hit):
-		await BATTLE.critical_dialog_end;
+		await BATTLE.quick_dialog_end;
 		await GLOBAL.timeout(0.2);
 	if(
 		enemy.data.death || 
@@ -407,11 +375,13 @@ func check_battle_state() -> void:
 	#CRITICAL HIT
 	if(BATTLE.critical_hit):
 		show_critical_dialog();
-		await BATTLE.critical_dialog_end;
+		await BATTLE.quick_dialog_end;
 		dialog.reset_text();
 	var state: Dictionary;
 	if(enemy.data.death):
-		var poke_exp = EXP.get_exp_given_by_pokemon(enemy, battle_data.type, BATTLE.participants.size());
+		var poke_exp = EXP.get_exp_given_by_pokemon(
+			enemy, battle_data.type, BATTLE.participants.size()
+		);
 		state = {
 			"anim": "EnemyFaint",
 			"dialog": [
@@ -428,14 +398,22 @@ func check_battle_state() -> void:
 		}
 		handle_death(state);
 
-#CRITICAL DIALOG
-func show_critical_dialog() -> void:
-	BATTLE.can_use_menu = false;
-	var text = "Nice! A critical Hit!";
-	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
-		text = "Oh no! A critical Hit!";
-	await GLOBAL.timeout(0.3);
-	dialog.critical([text]);
+# CHECK NEXT
+func check_for_next_pokemon() -> void:
+	BATTLE.remove_participant(pokemon);
+	var next = PARTY.get_next_pokemon();
+	if(next != null):
+		BATTLE.can_use_next_pokemon = true;
+		await GLOBAL.timeout(0.2);
+		dialog.next_pokemon(["Use next POKéMON?"]);
+		await BATTLE.dialog_finished;
+		await GLOBAL.timeout(0.1);
+		menu_selection.set_visibility(true);
+	else:
+		await GLOBAL.timeout(1);
+		dialog.start(["No POKéMON left!\n", "You returned to the last safe spot..."]);
+		await BATTLE.dialog_finished;
+		end_battle();
 
 #PARTY
 func _on_party_pokemon_select(_poke_name: String) -> void:
@@ -567,11 +545,50 @@ func check_health_bar_color(perct: float, health_bar: Sprite2D) -> void:
 		health_bar.texture = BATTLE.YELLOW_BAR;
 	elif(perct < BATTLE.YELLOW_BAR_PERCT): health_bar.texture = BATTLE.RED_BAR;
 
+#PARTICIPANT EXP
+func give_exp_to_participants(state: Dictionary) -> void:
+	for index in range(0, BATTLE.participants.size()):
+		var participant = BATTLE.participants[index];
+		if(participant.name != pokemon.name):
+			participant.data.total_exp += state.exp;
+			set_exp(participant);
+			dialog.start([participant.name + " gained " + str(state.exp) + " EXP."]);
+			await BATTLE.dialog_finished;
+			await GLOBAL.timeout(0.2);
+			while(exp_to_next_level <= 0.0):
+				diff_stats = participant.level_up();
+				play_audio(BATTLE.BATTLE_SOUNDS.EXP_FULL);
+				set_exp(participant);
+				await GLOBAL.timeout(0.2);
+				var grew = participant.data.name + " grew to Level ";
+				dialog.level_up([grew + str(participant.data.level) + "!"], participant);
+				await BATTLE.level_up_stats_end;
+				dialog.reset_text();
+	BATTLE.participant_exp_end.emit();
+
+#CRITICAL DIALOG
+func show_critical_dialog() -> void:
+	BATTLE.can_use_menu = false;
+	var text = "Nice! A critical Hit!";
+	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
+		text = "Oh no! A critical Hit!";
+	await GLOBAL.timeout(0.3);
+	dialog.quick([text]);
+
+#MISSED DIALOG
+func show_missed_dialog() -> void:
+	BATTLE.can_use_menu = false;
+	var text = "Oh no! Attack missed!";
+	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
+		text = "Phew! " + enemy.name + " missed!";
+	await GLOBAL.timeout(0.3);
+	dialog.quick([text]);
+
 #AUDIO
 func play_shout_pokemon() -> void:
 	audio_player.stream = pokemon.data.shout;
 	audio_player.play();
-	
+
 func play_shout_enemy() -> void:
 	await GLOBAL.timeout(0.2);
 	play_audio(enemy.data.shout);
