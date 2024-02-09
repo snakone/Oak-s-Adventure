@@ -14,6 +14,7 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 		get_base_stats();
 		get_resources();
 		if("IV" not in data): data.IV = set_random_IV();
+		if(enemy && levels.size() == 1): levels.push_front(levels[0]);
 		if(enemy): data.level = randi_range(levels[0], levels[1]);
 		if("battle_stats" not in data): set_battle_stats();
 		if(enemy): set_enemy();
@@ -134,6 +135,7 @@ func get_resources() -> void:
 	data.party_texture = resources.party_texture;
 	data.shout = resources.shout;
 	data.offset = resources.offset;
+	data.scale = resources.scale;
 	
 	if("sprites" in resources):
 		var animated_sprite = load(resources.sprites);

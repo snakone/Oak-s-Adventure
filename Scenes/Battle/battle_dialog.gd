@@ -238,6 +238,10 @@ func close(time: float) -> void:
 func set_label(text: String) -> void: label.text = text;
 func set_current_text(text: String) -> void: current_text = text;
 
+func reset_text() -> void:
+	set_label("");
+	set_current_text("");
+
 func play_audio(stream: AudioStream, delay = 0.0, volume = -10) -> void:
 	await GLOBAL.timeout(delay);
 	audio.volume_db = volume;

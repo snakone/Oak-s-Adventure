@@ -115,6 +115,7 @@ func set_player_ui() -> void:
 	update_player_health();
 	player_sprite.play("Back");
 	player_sprite.offset = pokemon.data.offset;
+	player_sprite.scale = pokemon.data.scale;
 
 #ENEMY UI
 func set_enemy_ui() -> void:
@@ -129,6 +130,7 @@ func set_enemy_ui() -> void:
 	selection.set_enemy_moves(enemy.data.moves);
 	enemy_sprite.play("Front");
 	enemy_sprite.offset = enemy.data.offset;
+	enemy_sprite.scale = enemy.data.scale;
 
 #TEXTURES
 func set_battle_texture() -> void:
@@ -288,7 +290,6 @@ func handle_death(state: Dictionary) -> void:
 	await GLOBAL.timeout(0.9);
 	dialog.start(state.dialog);
 	await BATTLE.dialog_finished;
-	
 	#ENEMY DEATH - EXP
 	if("exp" in state):
 		pokemon.data.total_exp += state.exp;
@@ -296,10 +297,8 @@ func handle_death(state: Dictionary) -> void:
 		update_exp_bar();
 		await BATTLE.experience_end;
 		await GLOBAL.timeout(1);
-		dialog.set_label("");
-		dialog.set_current_text("");
+		dialog.reset_text();
 		enemy.free();
-		
 		#PARTICIPANTS EXP
 		if(BATTLE.participants.size() > 1):
 			BATTLE.exp_loop = true;
@@ -312,7 +311,6 @@ func handle_death(state: Dictionary) -> void:
 					dialog.start([participant.name + " gained " + str(state.exp) + " EXP."]);
 					await BATTLE.dialog_finished;
 					await GLOBAL.timeout(0.2);
-					
 					while(exp_to_next_level <= 0.0):
 						diff_stats = participant.level_up();
 						play_audio(BATTLE.BATTLE_SOUNDS.EXP_FULL);
@@ -321,8 +319,7 @@ func handle_death(state: Dictionary) -> void:
 						var grew = participant.data.name + " grew to Level ";
 						dialog.level_up([grew + str(participant.data.level) + "!"], participant);
 						await BATTLE.level_up_stats_end;
-						dialog.set_label("");
-						dialog.set_current_text("");
+						dialog.reset_text();
 		end_battle();
 	#PLAYER DEATH
 	else: check_for_next_pokemon();
@@ -411,8 +408,7 @@ func check_battle_state() -> void:
 	if(BATTLE.critical_hit):
 		show_critical_dialog();
 		await BATTLE.critical_dialog_end;
-		dialog.set_label("");
-		dialog.set_current_text("");
+		dialog.reset_text();
 	var state: Dictionary;
 	if(enemy.data.death):
 		var poke_exp = EXP.get_exp_given_by_pokemon(enemy, battle_data.type, BATTLE.participants.size());

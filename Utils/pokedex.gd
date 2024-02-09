@@ -13,6 +13,7 @@ enum Pokedex {
 	RATTATA = 19,
 	PIKACHU = 25,
 	HORSEA = 116,
+	HOOH = 250,
 	RAYQUAZA = 384
 }
 
@@ -27,7 +28,8 @@ func get_poke_resources(poke_name: String):
 				"party_texture": poke.party_texture,
 				"shout": poke.shout,
 				"sprites": str(poke.sprites),
-				"offset": poke.offset
+				"offset": poke.offset,
+				"scale": poke.scale
 			};
 
 func get_pokemon_prop(poke_name: String, key: String):
@@ -46,6 +48,7 @@ var pokedex_list: Array = [
 		"base_exp": 64,
 		"sprites": "res://Sprites/Animated/Bulbasaur/bulbasaur.tscn",
 		"offset": Vector2.ZERO,
+		"scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 45,
 			"ATK": 49,
@@ -67,6 +70,7 @@ var pokedex_list: Array = [
 		"base_exp": 141,
 		"sprites": "res://Sprites/Animated/Ivysaur/ivysaur.tscn",
 		"offset": Vector2.ZERO,
+		"scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 60,
 			"ATK": 62,
@@ -88,6 +92,7 @@ var pokedex_list: Array = [
 		"base_exp": 65,
 		"sprites": "res://Sprites/Animated/Charmander/charmander.tscn",
 		"offset": Vector2.ZERO,
+		"scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 39,
 			"ATK": 52,
@@ -109,6 +114,7 @@ var pokedex_list: Array = [
 		"base_exp": 66,
 		"sprites": "res://Sprites/Animated/Squirtle/squirtle.tscn",
 		"offset": Vector2.ZERO,
+		"scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 44,
 			"ATK": 48,
@@ -130,6 +136,7 @@ var pokedex_list: Array = [
 		"base_exp": 159,
 		"sprites": "res://Sprites/Animated/Beedrill/beedrill.tscn",
 		"offset": Vector2.ZERO,
+		"scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 65,
 			"ATK": 90,
@@ -151,6 +158,7 @@ var pokedex_list: Array = [
 		"base_exp": 40,
 		"sprites": "res://Sprites/Animated/Pidgey/pidgey.tscn",
 		"offset": Vector2.ZERO,
+		"scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 40,
 			"ATK": 45,
@@ -172,6 +180,7 @@ var pokedex_list: Array = [
 		"base_exp": 4000,
 		"sprites": "res://Sprites/Animated/Rattata/rattata.tscn",
 		"offset": Vector2.ZERO,
+		"scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 30,
 			"ATK": 56,
@@ -193,6 +202,7 @@ var pokedex_list: Array = [
 		"base_exp": 82,
 		"sprites": "res://Sprites/Animated/Pikachu/pikachu.tscn",
 		"offset": Vector2.ZERO,
+		"scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 35,
 			"ATK": 55,
@@ -214,6 +224,7 @@ var pokedex_list: Array = [
 		"base_exp": 83,
 		"sprites": "res://Sprites/Animated/Horsea/horsea.tscn",
 		"offset": Vector2.ZERO,
+		"scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 30,
 			"ATK": 40,
@@ -222,6 +233,28 @@ var pokedex_list: Array = [
 			"S.DEF": 25,
 			"SPD": 60,
 			"TOTAL": 295
+		}
+	},
+	{
+		"name": "HO-OH",
+		"number": Pokedex.HOOH,
+		"types": [MOVES.Types.FIRE, MOVES.Types.FLYING],
+		"party_texture": preload("res://Assets/UI/Pokemon/ho-oh/icon.png"),
+		"shout": preload("res://Assets/Sounds/Pokemon/HOOH.ogg"),
+		"moves": [1, 2],
+		"exp_type": BATTLE.ExpType.SLOW,
+		"base_exp": 220,
+		"sprites": "res://Sprites/Animated/Ho-oh/ho-oh.tscn",
+		"offset": Vector2(0, -16),
+		"scale": Vector2(0.75, 0.75),
+		"stats": {
+			"HP": 106,
+			"ATK": 130,
+			"DEF": 90,
+			"S.ATK": 110,
+			"S.DEF": 154,
+			"SPD": 90,
+			"TOTAL": 680
 		}
 	},
 	{
@@ -235,14 +268,15 @@ var pokedex_list: Array = [
 		"base_exp": 220,
 		"sprites": "res://Sprites/Animated/Rayquaza/rayquaza.tscn",
 		"offset": Vector2(0, -10),
+		"scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 105,
-			"ATK": 180,
-			"DEF": 100,
-			"S.ATK": 180,
-			"S.DEF": 100,
-			"SPD": 115,
-			"TOTAL": 780
+			"ATK": 150,
+			"DEF": 90,
+			"S.ATK": 150,
+			"S.DEF": 90,
+			"SPD": 95,
+			"TOTAL": 680
 		}
 	},
 ];
