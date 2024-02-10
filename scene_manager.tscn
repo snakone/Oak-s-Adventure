@@ -83,8 +83,8 @@ next_scene = "res://Scenes/Maps/praire_town.tscn"
 layer = 5
 
 [node name="ColorRect" type="ColorRect" parent="Transition"]
-offset_right = 384.0
-offset_bottom = 256.0
+offset_right = 240.0
+offset_bottom = 160.0
 size_flags_vertical = 3
 color = Color(0, 0, 0, 0)
 

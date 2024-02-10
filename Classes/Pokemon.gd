@@ -25,13 +25,15 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 
 #ATTACK
 func attack(enemy: Object, move: Dictionary) -> Dictionary:
+	BATTLE.attack_result = [];
 	if(move.pp <= 0): return {
 		"ok": false,
 		"reason": "Not enough PP",
 		"damage": 0
 	};
 	
-	#if(float(move.accuracy) / 100 < randf()): BATTLE.attack_missed = true;
+	if(float(move.accuracy) / 100 < randf()):
+		BATTLE.attack_result.push_front(BATTLE.AttackResult.MISS);
 	
 	if(enemy.data.current_hp <= 0): enemy.data.death = true;
 	move.pp -= 1;
@@ -110,9 +112,6 @@ func set_battle_moves() -> void:
 
 #HP ANIM
 func set_hp_anim_duration_after_damage(damage: int, enemy: Object) -> void:
-	#TODO IMPROVE THIS
-	#var diff = (float(damage) / (float(enemy.data.battle_stats["HP"])) - float(enemy.data.current_hp));
-	#var duration = max(BATTLE.min_hp_anim_duration, BATTLE.max_hp_anim_duration * (1 - exp(-diff * -0.01)));
 	var total = BATTLE.min_hp_anim_duration;
 	if(damage < 10): total = 0.15;
 	elif(damage < 20 && damage != 1 && enemy.data.level > 50): total = 0.4;
@@ -157,24 +156,33 @@ func health_formula(base: int, iv_value: int) -> int:
 
 #DAMAGE FORMULA
 func damage_formula(enemy: Object, move: Dictionary) -> int:
-	if(BATTLE.attack_missed): return 0;
+	#MISS
+	if(BATTLE.AttackResult.MISS in BATTLE.attack_result):
+		BATTLE.attack_result = [BATTLE.AttackResult.MISS];
+		return 0;
+		
 	var ATK_stat: int;
 	var DEF_stat: int;
-	#var ATK_bonus = 0;
-	#var DEF_bonus = 0;
-	var CRIT_rate: float = get_critical_chance(0);
+	var _ATK_bonus = 0;
+	var _DEF_bonus = 0;
+	var CRIT_rate: float = get_critical_chance(5);
 	var CRIT_stat = 1.0;
 	var STAB: float = 1.0;
 	var burned = 1;
 	var effective_type1 = 1.0;
 	var effective_type2 = 1.0;
-
+	
+	#CRITICAL
 	if(CRIT_rate > randf()):
-		#DEF_bonus = 0;
+		_DEF_bonus = 0;
 		BATTLE.critical_hit = true;
+		BATTLE.attack_result.push_front(BATTLE.AttackResult.CRITICAL);
 		CRIT_stat = 2.0;
-		
+	
+	#STAB
 	if(move.type in data.types): STAB = 1.5;
+	
+	#STATS
 	match move.category:
 		MOVES.AttackCategory.PHYSIC:
 			ATK_stat = data.battle_stats["ATK"];
@@ -183,12 +191,24 @@ func damage_formula(enemy: Object, move: Dictionary) -> int:
 			ATK_stat = data.battle_stats["S.ATK"];
 			DEF_stat = enemy.data.battle_stats["S.DEF"];
 			
+	#EFFECTIVE
 	effective_type1 = MOVES.type_effective(move.type, enemy.data.types[0]);
 	if (enemy.data.types.size() > 1):
 		effective_type2 = MOVES.type_effective(move.type, enemy.data.types[1]);
-	
-	if(effective_type1 == 0.0 || effective_type2 == 0.0):
-		BATTLE.emit_signal("not_effective");
+	if(
+		(effective_type1 == 2.0 && effective_type2 == 1.0) || 
+		(effective_type2 == 2.0 && effective_type1 == 1.0)
+	): BATTLE.attack_result.push_front(BATTLE.AttackResult.EFFECTIVE);
+	elif(
+		(effective_type1 == 0.5 && effective_type2 == 1.0) || 
+		(effective_type2 == 0.5 && effective_type1 == 1.0)
+	): BATTLE.attack_result.push_front(BATTLE.AttackResult.LOW);
+	elif(effective_type1 == 2.0 && effective_type2 == 2.0):
+		BATTLE.attack_result.push_front(BATTLE.AttackResult.FULMINATE);
+	elif(effective_type1 == 0.5 && effective_type2 == 0.5): 
+		BATTLE.attack_result.push_front(BATTLE.AttackResult.AWFULL);
+	elif(effective_type1 == 0.0 || effective_type2 == 0.0):
+		BATTLE.attack_result = [BATTLE.AttackResult.NONE];
 		return 0;
 	
 	var base_damage = floor(
@@ -198,6 +218,7 @@ func damage_formula(enemy: Object, move: Dictionary) -> int:
 		
 	var random: float = get_random_float();
 	var damage = (base_damage * CRIT_stat * STAB * effective_type1 * effective_type2 * random);
+	if(BATTLE.attack_result.size() == 0): BATTLE.attack_result = [BATTLE.AttackResult.NORMAL];
 	return custom_round(damage, random);
 
 func get_random_float() -> float:

@@ -157,18 +157,16 @@ func start_attack(delay = 0.0, sound = true) -> void:
 	if(!BATTLE.enemy_attacked || !BATTLE.player_attacked):
 		await BATTLE.attack_finished;
 		delay = hp_bar_anim_duration + 0.3;
-		#CRITICAL FIRST ATTACK
-		if(BATTLE.critical_hit):
-			await BATTLE.quick_dialog_end;
-			BATTLE.critical_hit = false;
+		#FIRST ATTACK
+		if(BATTLE.AttackResult.NORMAL not in BATTLE.attack_result):
+			await BATTLE.attack_check_done;
 			delay = 0.2;
 		start_attack(delay, false);
 		return;
 	await GLOBAL.timeout(delay);
-	#CRITICAL SECOND ATTACK
-	if(BATTLE.critical_hit):
-		await BATTLE.quick_dialog_end;
-		BATTLE.critical_hit = false;
+	#SECOND ATTACK
+	if(BATTLE.AttackResult.NORMAL not in BATTLE.attack_result):
+		await BATTLE.attack_check_done;
 		await GLOBAL.timeout(0.2);
 		BATTLE.can_use_menu = true;
 		
@@ -331,9 +329,9 @@ func _on_move_hit() -> void:
 
 func after_dialog_attack() -> void:
 	await GLOBAL.timeout(.2);
-	if(BATTLE.critical_hit):
-		await BATTLE.quick_dialog_end;
-		await GLOBAL.timeout(0.1);
+	if(BATTLE.AttackResult.NORMAL not in BATTLE.attack_result):
+		await BATTLE.attack_check_done;
+		await GLOBAL.timeout(0.2);
 	if(enemy.data.death || pokemon.data.death || 
 		BATTLE.player_attacked || BATTLE.enemy_attacked): return;
 	dialog.visible = false;
@@ -366,11 +364,32 @@ func _on_menu_selection_value_selected(value: int) -> void:
 #CHECKERS
 func check_battle_state() -> void:
 	await BATTLE.ui_updated;
-	#CRITICAL HIT
-	if(BATTLE.critical_hit):
-		show_critical_dialog();
+	print(BATTLE.attack_result)
+	#NON EFFECTIVE
+	if(BATTLE.AttackResult.NONE in BATTLE.attack_result):
+		dialog.show_non_effective();
 		await BATTLE.quick_dialog_end;
-		dialog.reset_text();
+	#CRITICAL HIT
+	elif(BATTLE.AttackResult.CRITICAL in BATTLE.attack_result):
+		dialog.show_critical();
+		await BATTLE.quick_dialog_end;
+	#EFFECTIVE HIT
+	if(BATTLE.AttackResult.EFFECTIVE in BATTLE.attack_result):
+		dialog.show_effective();
+		await BATTLE.quick_dialog_end;
+	#LOW EFFECTIVE HIT
+	elif(BATTLE.AttackResult.LOW in BATTLE.attack_result):
+		dialog.show_low();
+		await BATTLE.quick_dialog_end;
+	elif(BATTLE.AttackResult.FULMINATE in BATTLE.attack_result):
+		dialog.show_fulminate();
+		await BATTLE.quick_dialog_end;
+	elif(BATTLE.AttackResult.AWFULL in BATTLE.attack_result):
+		dialog.show_awfull();
+		await BATTLE.quick_dialog_end;
+	await GLOBAL.timeout(0.2);
+	BATTLE.attack_check_done.emit();
+	
 	var state: Dictionary;
 	if(enemy.data.death):
 		var poke_exp = EXP.get_exp_given_by_pokemon(
@@ -552,15 +571,6 @@ func give_exp_to_participants(state: Dictionary) -> void:
 				await BATTLE.level_up_stats_end;
 				dialog.reset_text();
 	BATTLE.participant_exp_end.emit();
-
-#CRITICAL DIALOG
-func show_critical_dialog() -> void:
-	BATTLE.can_use_menu = false;
-	var text = "Nice! A critical Hit!";
-	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
-		text = "Oh no! A critical Hit!";
-	await GLOBAL.timeout(0.3);
-	dialog.quick([text]);
 
 #MISSED DIALOG
 func show_missed_dialog() -> void:

@@ -5,6 +5,7 @@ signal attack_finished();
 signal on_move_hit(is_enemy: bool);
 signal not_effective();
 signal start_attack();
+signal attack_check_done();
 
 #UI
 signal ui_updated();
@@ -30,6 +31,7 @@ enum ExpType { ERRATIC, FAST, MEDIUM, SLOW, SLACK, FLUCTUATING }
 enum Zones { FIELD = 0, GRASS = 1, SNOW = 2 }
 enum Moves { FIRST, SECOND, THIRD, FOURTH }
 enum Turn { PLAYER, ENEMY, NONE }
+enum AttackResult { NORMAL, CRITICAL, EFFECTIVE, LOW, MISS, NONE, FULMINATE, AWFULL }
 
 enum States {
 	MENU = 0, 
@@ -109,6 +111,7 @@ var participants: Array = [];
 var exp_loop = false;
 var critical_hit = false;
 var attack_missed = false;
+var attack_result = [];
 
 @onready var zones_array = [
 	{
@@ -148,6 +151,7 @@ func reset_state(reset_type = true) -> void:
 	exp_loop = false;
 	critical_hit = false;
 	attack_missed = false;
+	attack_result = [];
 
 func pokemon_encounter() -> bool:
 	randomize()
