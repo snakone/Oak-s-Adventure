@@ -1,6 +1,6 @@
 extends Node
 
-enum Slots { FIRST, SECOND, THRID, FOURTH, FIFTH, SIXTH }
+enum Category { NORMAL, LEGENDARY, SINGULAR, SPECIAL, NONE, STARTER }
 const MISSINGNO = preload("res://Assets/UI/Pokemon/missingno.png");
 
 enum Pokedex {
@@ -46,6 +46,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLACK,
 		"base_exp": 64,
+		"category": Category.STARTER,
 		"sprites": "res://Sprites/Animated/Bulbasaur/bulbasaur.tscn",
 		"offset": Vector2.ZERO,
 		"scale": Vector2(0.8, 0.8),
@@ -68,6 +69,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLACK,
 		"base_exp": 141,
+		"category": Category.STARTER,
 		"sprites": "res://Sprites/Animated/Ivysaur/ivysaur.tscn",
 		"offset": Vector2.ZERO,
 		"scale": Vector2(0.8, 0.8),
@@ -90,6 +92,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLACK,
 		"base_exp": 65,
+		"category": Category.STARTER,
 		"sprites": "res://Sprites/Animated/Charmander/charmander.tscn",
 		"offset": Vector2.ZERO,
 		"scale": Vector2(0.8, 0.8),
@@ -112,6 +115,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLACK,
 		"base_exp": 66,
+		"category": Category.STARTER,
 		"sprites": "res://Sprites/Animated/Squirtle/squirtle.tscn",
 		"offset": Vector2.ZERO,
 		"scale": Vector2(0.8, 0.8),
@@ -134,6 +138,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.MEDIUM,
 		"base_exp": 159,
+		"category": Category.NORMAL,
 		"sprites": "res://Sprites/Animated/Beedrill/beedrill.tscn",
 		"offset": Vector2.ZERO,
 		"scale": Vector2(0.8, 0.8),
@@ -156,6 +161,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLACK,
 		"base_exp": 40,
+		"category": Category.NORMAL,
 		"sprites": "res://Sprites/Animated/Pidgey/pidgey.tscn",
 		"offset": Vector2.ZERO,
 		"scale": Vector2(0.8, 0.8),
@@ -178,6 +184,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.MEDIUM,
 		"base_exp": 4000,
+		"category": Category.NORMAL,
 		"sprites": "res://Sprites/Animated/Rattata/rattata.tscn",
 		"offset": Vector2.ZERO,
 		"scale": Vector2(0.8, 0.8),
@@ -200,6 +207,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.MEDIUM,
 		"base_exp": 82,
+		"category": Category.NORMAL,
 		"sprites": "res://Sprites/Animated/Pikachu/pikachu.tscn",
 		"offset": Vector2.ZERO,
 		"scale": Vector2(0.8, 0.8),
@@ -222,6 +230,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.MEDIUM,
 		"base_exp": 83,
+		"category": Category.NORMAL,
 		"sprites": "res://Sprites/Animated/Horsea/horsea.tscn",
 		"offset": Vector2.ZERO,
 		"scale": Vector2(0.8, 0.8),
@@ -244,6 +253,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLOW,
 		"base_exp": 220,
+		"category": Category.LEGENDARY,
 		"sprites": "res://Sprites/Animated/Ho-oh/ho-oh.tscn",
 		"offset": Vector2(0, -16),
 		"scale": Vector2(0.7, 0.7),
@@ -266,6 +276,7 @@ var pokedex_list: Array = [
 		"moves": [1, 2],
 		"exp_type": BATTLE.ExpType.SLOW,
 		"base_exp": 220,
+		"category": Category.LEGENDARY,
 		"sprites": "res://Sprites/Animated/Rayquaza/rayquaza.tscn",
 		"offset": Vector2(0, -10),
 		"scale": Vector2(0.8, 0.8),

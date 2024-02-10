@@ -912,7 +912,6 @@ texture = ExtResource("12_i0hvq")
 volume_db = -20.0
 
 [node name="Select" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 151.0
@@ -939,9 +938,9 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 17.0
-offset_top = -21.5
+offset_top = -20.5
 offset_right = 79.0
-offset_bottom = 22.5
+offset_bottom = 23.5
 grow_vertical = 2
 
 [node name="Shift" type="RichTextLabel" parent="Select/VBoxContainer"]
@@ -960,6 +959,15 @@ theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 text = "SUMMARY"
 
+[node name="Item" type="RichTextLabel" parent="Select/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme = ExtResource("3_r2g54")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "ITEM"
+
 [node name="Cancel" type="RichTextLabel" parent="Select/VBoxContainer"]
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
@@ -971,8 +979,8 @@ text = "CANCEL"
 [node name="Cursor" type="TextureRect" parent="Select"]
 layout_mode = 2
 offset_left = 8.0
-offset_top = 9.0
+offset_top = 10.0
 offset_right = 17.0
-offset_bottom = 19.0
+offset_bottom = 20.0
 texture = ExtResource("13_186ck")
 stretch_mode = 2

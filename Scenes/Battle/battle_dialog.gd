@@ -284,6 +284,15 @@ func show_non_effective() -> void:
 	await GLOBAL.timeout(0.3);
 	quick([text]);
 
+#MISSED DIALOG
+func show_missed(target_name: String) -> void:
+	BATTLE.can_use_menu = false;
+	var text = "Oh no! Attack missed!";
+	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
+		text = "Phew! " + target_name + " missed!";
+	await GLOBAL.timeout(0.3);
+	quick([text]);
+
 #CLOSE
 func close(time: float) -> void:
 	visible = false;

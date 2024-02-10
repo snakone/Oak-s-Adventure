@@ -101,12 +101,15 @@ func set_pokemon() -> void:
 #PLAYER UI
 func set_player_ui() -> void:
 	var name_node = player_info.get_node("Name");
+	var gender_node = player_info.get_node("Gender");
 	name_node.text = pokemon.data.name;
 	var player_dist = name_node.get_content_width() + name_node.position.x + 6;
 	player_sprite.sprite_frames = pokemon.data.sprites.sprite_frames;
-	player_info.get_node("Gender").frame = pokemon.data.gender;
+	if("gender" in pokemon.data):
+		gender_node.frame = pokemon.data.gender;
+		gender_node.position.x = player_dist;
+		gender_node.visible = true;
 	player_info.get_node("Level").text = "Lv" + str(pokemon.data.level);
-	player_info.get_node("Gender").position.x = player_dist;
 	selection.set_pokemon_moves(pokemon.data.battle_moves);
 	set_exp(pokemon);
 	exp_bar.scale.x = get_new_exp_bar_size();
@@ -119,12 +122,15 @@ func set_player_ui() -> void:
 func set_enemy_ui() -> void:
 	enemy = Pokemon.new(POKEDEX.get_pokemon(battle_data["enemy"]), true, battle_data.levels);
 	var enemy_node_name = enemy_info.get_node("Name");
+	var gender_node = enemy_info.get_node("Gender");
 	enemy_node_name.text = enemy.data.name;
 	var enemy_dist = enemy_node_name.get_content_width() + enemy_node_name.position.x + 5;
 	enemy_sprite.sprite_frames = enemy.data.sprites.sprite_frames;
-	enemy_info.get_node("Gender").frame = enemy.data.gender;
+	if("gender" in enemy.data):
+		gender_node.frame = enemy.data.gender;
+		gender_node.position.x = enemy_dist;
+		gender_node.visible = true;
 	enemy_info.get_node("Level").text = "Lv" + str(enemy.data.level);
-	enemy_info.get_node("Gender").position.x = enemy_dist;
 	selection.set_enemy_moves(enemy.data.moves);
 	enemy_sprite.play("Front");
 	enemy_sprite.offset = enemy.data.offset;
@@ -179,11 +185,8 @@ func pokemon_attack(sound = true) -> void:
 	BATTLE.player_attacked = true;
 	var move = selection.get_player_selected_attack();
 	health_before_attack = enemy.data.current_hp;
-	var result = pokemon.attack(enemy, move);
-	if(result.ok):
-		if(enemy.data.current_hp <= 0):
-			BATTLE.enemy_death = true; 
-			enemy.bye();
+	if(pokemon.attack(enemy, move).ok):
+		if(enemy.data.death): BATTLE.enemy_death = true; 
 		handle_attack(pokemon, move, sound);
 
 func enemy_attack(sound = true) -> void:
@@ -191,11 +194,8 @@ func enemy_attack(sound = true) -> void:
 	BATTLE.enemy_attacked = true;
 	var move = selection.get_enemy_random_attack();
 	health_before_attack = pokemon.data.current_hp;
-	var result = enemy.attack(pokemon, move);
-	if(result.ok): 
-		if(pokemon.data.current_hp <= 0):
-			BATTLE.pokemon_death = true;  
-			pokemon.bye();
+	if(enemy.attack(pokemon, move).ok): 
+		if(pokemon.data.death): BATTLE.pokemon_death = true;  
 		handle_attack(enemy, move, sound);
 
 func handle_attack(target: Object, move: Dictionary, sound = true) -> void:
@@ -364,13 +364,24 @@ func _on_menu_selection_value_selected(value: int) -> void:
 #CHECKERS
 func check_battle_state() -> void:
 	await BATTLE.ui_updated;
-	print(BATTLE.attack_result)
 	#NON EFFECTIVE
 	if(BATTLE.AttackResult.NONE in BATTLE.attack_result):
 		dialog.show_non_effective();
 		await BATTLE.quick_dialog_end;
+		await GLOBAL.timeout(0.2);
+		BATTLE.attack_check_done.emit();
+		return;
+	#MISSED
+	if(BATTLE.AttackResult.MISS in BATTLE.attack_result):
+		var target = pokemon;
+		if(BATTLE.current_turn == BATTLE.Turn.ENEMY): target = enemy;
+		dialog.show_missed(target.name);
+		await BATTLE.quick_dialog_end;
+		await GLOBAL.timeout(0.2);
+		BATTLE.attack_check_done.emit();
+		return;
 	#CRITICAL HIT
-	elif(BATTLE.AttackResult.CRITICAL in BATTLE.attack_result):
+	if(BATTLE.AttackResult.CRITICAL in BATTLE.attack_result):
 		dialog.show_critical();
 		await BATTLE.quick_dialog_end;
 	#EFFECTIVE HIT
@@ -390,6 +401,7 @@ func check_battle_state() -> void:
 	await GLOBAL.timeout(0.2);
 	BATTLE.attack_check_done.emit();
 	
+	#CHECK DEATH
 	var state: Dictionary;
 	if(enemy.data.death):
 		var poke_exp = EXP.get_exp_given_by_pokemon(
@@ -422,7 +434,7 @@ func check_for_next_pokemon() -> void:
 		await GLOBAL.timeout(0.1);
 		menu_selection.set_visibility(true);
 	else:
-		await GLOBAL.timeout(1);
+		await GLOBAL.timeout(0.8);
 		dialog.start(["No POKéMON left!\n", "You returned to the last safe spot..."]);
 		await BATTLE.dialog_finished;
 		end_battle();
@@ -494,6 +506,7 @@ func end_battle() -> void:
 func close_battle() -> void:
 	GLOBAL.emit_signal("close_battle");
 	AUDIO.stop_battle_and_play_last_song();
+	BATTLE.reset_state();
 
 func close_dialog_and_show_menu(time: float) -> void:
 	dialog.close(time);
@@ -571,15 +584,6 @@ func give_exp_to_participants(state: Dictionary) -> void:
 				await BATTLE.level_up_stats_end;
 				dialog.reset_text();
 	BATTLE.participant_exp_end.emit();
-
-#MISSED DIALOG
-func show_missed_dialog() -> void:
-	BATTLE.can_use_menu = false;
-	var text = "Oh no! Attack missed!";
-	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
-		text = "Phew! " + enemy.name + " missed!";
-	await GLOBAL.timeout(0.3);
-	dialog.quick([text]);
 
 #AUDIO
 func play_shout_pokemon() -> void:

@@ -32,17 +32,16 @@ func attack(enemy: Object, move: Dictionary) -> Dictionary:
 		"damage": 0
 	};
 	
+	move.pp -= 1;
 	if(float(move.accuracy) / 100 < randf()):
 		BATTLE.attack_result.push_front(BATTLE.AttackResult.MISS);
-	
-	if(enemy.data.current_hp <= 0): enemy.data.death = true;
-	move.pp -= 1;
-
+		
 	match move.category:
 		MOVES.AttackCategory.PHYSIC, MOVES.AttackCategory.SPECIAL:
 			var damage = min(damage_formula(enemy, move), enemy.data.current_hp);
 			set_hp_anim_duration_after_damage(damage, enemy);
 			enemy.data.current_hp = max(0, enemy.data.current_hp - damage);
+			if(enemy.data.current_hp <= 0): enemy.bye();
 			return {
 				"ok": true,
 				"reason": "Attack Success",
@@ -77,7 +76,9 @@ func bye() -> void:
 
 #ENEMY
 func set_enemy() -> void:
-	data.gender = [0, 1][randi() % 2];
+	match data.category:
+		POKEDEX.Category.NORMAL, POKEDEX.Category.STARTER:
+			data.gender = [0, 1][randi() % 2];
 	data.current_hp = data.battle_stats["HP"];
 
 #BATTLE STATS

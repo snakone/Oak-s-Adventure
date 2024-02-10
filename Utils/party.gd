@@ -43,6 +43,20 @@ func reset_all_active(set_active = false) -> void:
 				poke.data.active = true;
 				break;
 
+func swap_party_pokemon(party: Array, initial_pos: int, destiny_pos: int) -> Array:
+	var copy = party.duplicate(true);
+	if(
+		initial_pos < 0 || 
+		initial_pos >= party.size() || 
+		destiny_pos < 0 ||
+		destiny_pos >= party.size()
+	): return party;
+
+	var temp = copy[initial_pos];
+	copy[initial_pos] = copy[destiny_pos]
+	copy[destiny_pos] = temp;
+	return copy;
+
 func create_party_from_json(party: Array) -> Array:
 	#return [
 		#Pokemon.new(POKEDEX.pokedex_list[0]),

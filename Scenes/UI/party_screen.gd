@@ -2,10 +2,14 @@ extends CanvasLayer
 
 @onready var audio = $AudioStreamPlayer;
 @onready var nine_rect: NinePatchRect = $Select/NinePatchRect
-@onready var select: Control = $Select
+@onready var select: Control = $Select;
 @onready var cursor: TextureRect = $Select/Cursor;
 @onready var label: RichTextLabel = $Background/RichTextLabel;
-@onready var shift: RichTextLabel = $Select/VBoxContainer/Shift
+
+@onready var v_box_container: VBoxContainer = $Select/VBoxContainer
+@onready var shift: RichTextLabel = $Select/VBoxContainer/Shift;
+@onready var item: RichTextLabel = $Select/VBoxContainer/Item;
+@onready var summary: RichTextLabel = $Select/VBoxContainer/Summary
 
 const RED_BAR = preload("res://Assets/UI/red_bar.png");
 const YELLOW_BAR = preload("res://Assets/UI/yellow_bar.png");
@@ -24,11 +28,12 @@ const must_sentence = "Must select a POKéMON!";
 const default_shift = "SHIFT";
 
 const default_select_position = Vector2(151, 97);
-const select_position_upper = Vector2(151, 2);
+const select_position_upper_on_battle = Vector2(151, 2);
+const select_position_upper = Vector2(151, 19);
 
 enum Slots { FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH }
 enum State { OFF, ON }
-enum SelectSlot { FIRST, SECOND, THIRD }
+enum SelectSlot { FIRST, SECOND, THIRD, FOURTH }
 
 @onready var slots = {
 	Slots.FIRST: $Slots/First,
@@ -49,7 +54,7 @@ var active_pokemon: Object;
 var closing = false;
 
 var select_cursor_default_position = [
-	Vector2(8, 9), Vector2(8, 25), Vector2(8, 41)
+	Vector2(8, -6), Vector2(8, 10), Vector2(8, 26), Vector2(8, 42)
 ];
 
 func _ready():
@@ -57,9 +62,13 @@ func _ready():
 	active_pokemon = PARTY.get_active_pokemon();
 	label.text = default_sentence;
 	select.visible = false;
+	item.visible = false;
+	create_select_panel();
 	create_party_list();
 	set_all_options();
 	set_active_option(State.ON);
+	if(GLOBAL.on_battle): select_cursor_default_position.pop_front();
+	move_select_arrow();
 	if(SETTINGS.selected_marker):
 		nine_rect.texture = SETTINGS.selected_marker; 
 
@@ -151,18 +160,27 @@ func select_slot() -> void:
 				select_input();
 			current_slots_length:
 				if(check_if_can_close()): close_party();
-	elif(select_open):
+	elif(select_open && GLOBAL.on_battle):
 		match select_index:
 			SelectSlot.FIRST: select_pokemon();
 			SelectSlot.THIRD: close_select();
+	elif(select_open && !GLOBAL.on_battle):
+		match select_index:
+			SelectSlot.SECOND: switch_slot();
+			SelectSlot.FOURTH: close_select();
 
 func select_input() -> void:
 	play_audio(GUI_SEL_DECISION);
-	if(selected_slot == int(Slots.FIFTH) || selected_slot == int(Slots.SIXTH)):
-		select.position = select_position_upper;
+	if(
+		selected_slot == int(Slots.FIFTH) || 
+		selected_slot == int(Slots.SIXTH)
+	):
+		if(GLOBAL.on_battle):
+			select.position = select_position_upper_on_battle;
+		else: select.position = select_position_upper;
 	else: select.position = default_select_position;
 	if(BATTLE.can_use_next_pokemon): shift.text = "SEND OUT";
-	else: shift.text = default_shift;
+	elif(GLOBAL.on_battle): shift.text = default_shift;
 	select_open = true;
 	select.visible = true;
 	label.text = selected_sentence;
@@ -202,6 +220,9 @@ func close_party(sound = true) -> void:
 	if(GLOBAL.on_battle): BATTLE.state = BATTLE.States.MENU;
 	process_mode = Node.PROCESS_MODE_DISABLED;
 
+func switch_slot() -> void:
+	print("SWITCH SLOT");
+
 func handle_DOWN() -> void:
 	play_audio(GUI_SEL_CURSOR);
 	if(select_open):
@@ -233,14 +254,23 @@ func handle_LEFT() -> void:
 #SELECT
 func select_DOWN() -> void:
 	select_index += 1;
-	if(select_index > SelectSlot.THIRD): 
-		select_index = int(SelectSlot.FIRST);
+	if(GLOBAL.on_battle):
+		if(select_index > SelectSlot.THIRD): 
+			select_index = int(SelectSlot.FIRST);
+	else:
+		if(select_index > SelectSlot.FOURTH): 
+			select_index = int(SelectSlot.FIRST);
 	move_select_arrow();
 
 func select_UP() -> void:
-	if(select_index == SelectSlot.FIRST): 
-		select_index = int(SelectSlot.THIRD);
-	else: select_index -= 1;
+	if(GLOBAL.on_battle):
+		if(select_index == SelectSlot.FIRST): 
+			select_index = int(SelectSlot.THIRD);
+		else: select_index -= 1;
+	else:
+		if(select_index == SelectSlot.FIRST): 
+			select_index = int(SelectSlot.FOURTH);
+		else: select_index -= 1;
 	move_select_arrow();
 
 func close_select(sound = true) -> void:
@@ -258,6 +288,16 @@ func check_if_can_close() -> bool:
 
 func move_select_arrow() -> void:
 	cursor.position = select_cursor_default_position[select_index];
+	
+func create_select_panel() -> void:
+	if(!GLOBAL.on_battle):
+		v_box_container.move_child(summary, 0);
+		v_box_container.move_child(shift, 1);
+		v_box_container.position = Vector2(17, 3);
+		shift.text = "SWITCH";
+		item.visible = true;
+		nine_rect.position = Vector2(0, -15);
+		nine_rect.set_deferred("size", Vector2(87, 76));
 
 func create_party_list() -> void:
 	var party = PARTY.get_party();
