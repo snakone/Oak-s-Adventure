@@ -31,7 +31,6 @@ extends Node
 @onready var selection: Node2D = $Selection;
 
 const MovesAnimations = preload("res://Scenes/Battle/Moves/moves_animations.gd");
-
 var pokemon: Object;
 var enemy: Object;
 var battle_data: Dictionary;
@@ -110,8 +109,7 @@ func set_player_ui() -> void:
 	player_info.get_node("Gender").position.x = player_dist;
 	selection.set_pokemon_moves(pokemon.data.battle_moves);
 	set_exp(pokemon);
-	var size = get_new_exp_bar_size();
-	exp_bar.scale.x = size;
+	exp_bar.scale.x = get_new_exp_bar_size();
 	update_player_health();
 	player_sprite.play("Back");
 	player_sprite.offset = pokemon.data.offset;
@@ -173,6 +171,7 @@ func start_attack(delay = 0.0, sound = true) -> void:
 		BATTLE.critical_hit = false;
 		await GLOBAL.timeout(0.2);
 		BATTLE.can_use_menu = true;
+		
 	BATTLE.player_attacked = false;
 	BATTLE.enemy_attacked = false;
 	battle_anim_player.play("Idle");
@@ -221,7 +220,7 @@ func fake_attack() -> void:
 	start_attack(0.2, false);
 
 #UPDATES
-func update_battle_ui(animated = true, get_self = false) -> void:
+func update_battle_ui(animated = true, get_self = false, check_dialog = false) -> void:
 	player_info.get_node("Level").text = "Lv" + str(pokemon.data.level);
 	var target = get_attack_target(get_self);
 	var new_size = float(target["current_hp"]) / float(target["total_hp"]);
@@ -236,6 +235,7 @@ func update_battle_ui(animated = true, get_self = false) -> void:
 	
 	dialog.set_label("");
 	BATTLE.ui_updated.emit();
+	if(check_dialog): after_dialog_attack();
 
 #HEALTH BAR - LEFT ALIGNED
 func update_player_health(value = pokemon.data.current_hp) -> void: 
@@ -327,21 +327,15 @@ func _on_move_hit() -> void:
 		battle_anim_player.play("DamageEnemy");
 	else: battle_anim_player.play("DamagePlayer")
 	await battle_anim_player.animation_finished;
-	update_battle_ui();
+	update_battle_ui(true, false, true);
 
 func after_dialog_attack() -> void:
-	await BATTLE.ui_updated;
 	await GLOBAL.timeout(.2);
-	
 	if(BATTLE.critical_hit):
 		await BATTLE.quick_dialog_end;
-		await GLOBAL.timeout(0.2);
-	if(
-		enemy.data.death || 
-		pokemon.data.death || 
-		BATTLE.player_attacked || 
-		BATTLE.enemy_attacked
-	): return;
+		await GLOBAL.timeout(0.1);
+	if(enemy.data.death || pokemon.data.death || 
+		BATTLE.player_attacked || BATTLE.enemy_attacked): return;
 	dialog.visible = false;
 	await GLOBAL.timeout(.2);
 	BATTLE.state = BATTLE.States.MENU;
@@ -380,8 +374,7 @@ func check_battle_state() -> void:
 	var state: Dictionary;
 	if(enemy.data.death):
 		var poke_exp = EXP.get_exp_given_by_pokemon(
-			enemy, battle_data.type, BATTLE.participants.size()
-		);
+			enemy, battle_data.type, BATTLE.participants.size());
 		state = {
 			"anim": "EnemyFaint",
 			"dialog": [
@@ -417,8 +410,7 @@ func check_for_next_pokemon() -> void:
 
 #PARTY
 func _on_party_pokemon_select(_poke_name: String) -> void:
-	if(BATTLE.can_use_next_pokemon):
-		reset_state_and_get_next_pokemon();
+	if(BATTLE.can_use_next_pokemon): reset_state_and_get_next_pokemon();
 	else: switch_pokemon();
 
 func reset_state_and_get_next_pokemon() -> void:
@@ -490,8 +482,7 @@ func close_dialog_and_show_menu(time: float) -> void:
 
 #TIMER
 func start_health_timer() -> void:
-	var time = max((hp_bar_anim_duration / current_damage) * 1.5, 0.04);
-	health_timer.wait_time = time;
+	health_timer.wait_time = max((hp_bar_anim_duration / current_damage) * 1.5, 0.04);
 	health_timer.start();
 
 func stop_health_timer() -> void:
@@ -504,22 +495,18 @@ func stop_health_timer() -> void:
 func get_new_exp_bar_size() -> float:
 	return float(
 		pokemon.data.total_exp - base_exp_level
-	) / float(
-		base_exp_to_next_level - base_exp_level
-	)
+	) / float(base_exp_to_next_level - base_exp_level)
 
 func get_attack_target(get_self = false) -> Dictionary:
 	var target: Dictionary;
 	if(BATTLE.current_turn == BATTLE.Turn.ENEMY || get_self): target = {
 		"current_hp": pokemon.data.current_hp,
 		"total_hp": pokemon.data.battle_stats["HP"],
-		"bar": player_hp_bar
-	}
+		"bar": player_hp_bar}
 	else: target = {
 		"current_hp": enemy.data.current_hp,
 		"total_hp": enemy.data.battle_stats["HP"],
-		"bar": enemy_hp_bar
-	}
+		"bar": enemy_hp_bar}
 	return target;
 
 #SETTERS
@@ -609,7 +596,6 @@ func connect_signals() -> void:
 	BATTLE.connect("close_level_up_panel", close_level_up_panel);
 	BATTLE.connect("show_total_stats_panel", show_total_stats_panel);
 	BATTLE.connect("show_level_up_panel", show_level_up_panel);
-	BATTLE.connect("after_dialog_attack", after_dialog_attack);
 	BATTLE.connect("check_can_escape", _on_check_can_escape);
 	BATTLE.connect("start_attack", start_attack);
 	PARTY.connect("selected_pokemon_party", _on_party_pokemon_select);

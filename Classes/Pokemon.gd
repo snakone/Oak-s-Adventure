@@ -162,7 +162,7 @@ func damage_formula(enemy: Object, move: Dictionary) -> int:
 	var DEF_stat: int;
 	#var ATK_bonus = 0;
 	#var DEF_bonus = 0;
-	var CRIT_rate: float = get_critical_chance(5);
+	var CRIT_rate: float = get_critical_chance(0);
 	var CRIT_stat = 1.0;
 	var STAB: float = 1.0;
 	var burned = 1;

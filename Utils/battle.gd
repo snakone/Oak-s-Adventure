@@ -4,7 +4,6 @@ extends Node
 signal attack_finished();
 signal on_move_hit(is_enemy: bool);
 signal not_effective();
-signal after_dialog_attack();
 signal start_attack();
 
 #UI

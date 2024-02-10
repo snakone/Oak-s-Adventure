@@ -97,7 +97,6 @@ func attack(input_arr: Array) -> void:
 	
 	await GLOBAL.timeout(.8);
 	current_text = "";
-	BATTLE.after_dialog_attack.emit();
 	BATTLE.dialog_finished.emit();
 
 #LEVEL UP
