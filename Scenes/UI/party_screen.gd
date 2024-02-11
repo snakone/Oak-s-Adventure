@@ -32,10 +32,12 @@ const exit_sentence = "Close";
 const must_sentence = "Must select a POKéMON!";
 const default_shift = "SHIFT";
 const move_where_sentence = "Move to where?";
+const cancel_switch_sentence = "Cancel Switch";
 
 const default_select_position = Vector2(151, 97);
 const select_position_upper_on_battle = Vector2(151, 2);
 const select_position_upper = Vector2(151, 19);
+const switch_anim_duration = 0.5;
 
 enum Slots { FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH }
 enum State { OFF, ON }
@@ -58,7 +60,7 @@ var select_open = false;
 var select_index = int(SelectSlot.FIRST);
 var active_pokemon: Object;
 var closing = false;
-
+var switching = false;
 var switch_mode = false;
 var current_switch_slot;
 
@@ -101,7 +103,8 @@ func set_active_option(value: State) -> void:
 	if(!cancel_slot):
 		label.text = default_sentence;
 		if(switch_mode):
-			if(selected_slot == Slots.FIRST): panel.texture = MAIN_BACKGROUND_SWITCH;
+			if(selected_slot == Slots.FIRST): 
+				panel.texture = MAIN_BACKGROUND_SWITCH;
 			else: panel.texture = BACKGROUND_SWITCH;
 			label.text = move_where_sentence;
 		var anim_player = slot.get_node("AnimationPlayer");
@@ -113,22 +116,27 @@ func set_active_option(value: State) -> void:
 		#DESACTIVE
 		else:
 			if(anim_name == "Dead"):
-				if(selected_slot == Slots.FIRST): panel.texture = MAIN_BACKGROUND_DEAD;
+				if(selected_slot == Slots.FIRST): 
+					panel.texture = MAIN_BACKGROUND_DEAD;
 				else: panel.texture = BACKGROUND_DEAD;
 			else: 
-				if(selected_slot == Slots.FIRST): panel.texture = MAIN_POKEMON_BACKGROUND;
+				if(selected_slot == Slots.FIRST): 
+					panel.texture = MAIN_POKEMON_BACKGROUND;
 				else: panel.texture = POKEMON_BACKGROUND;
 				anim_player.play("Idle");
-		#ON SWITCH
+		#KEEP SWITCH ACTIVE
 		if(current_switch_slot != null):
 			var switch_panel = current_slots[current_switch_slot].get_node("Panel"); 
 			if(current_switch_slot == Slots.FIRST): 
 				switch_panel.texture = MAIN_BACKGROUND_SWITCH;
 			else: switch_panel.texture = BACKGROUND_SWITCH;
+	#CANCEL
 	else:
 		if(BATTLE.can_use_next_pokemon):
 			label.text = must_sentence;
-		else: label.text = exit_sentence;
+		else: 
+			if(switch_mode): label.text = cancel_switch_sentence;
+			else: label.text = exit_sentence;
 
 func _input(event) -> void:
 	if(
@@ -137,7 +145,8 @@ func _input(event) -> void:
 		!event.is_pressed() ||
 		event.is_echo() ||
 		GLOBAL.dialog_open ||
-		closing
+		closing ||
+		switching
 	): return;
 	
 	if(
@@ -187,14 +196,18 @@ func _input(event) -> void:
 func select_slot() -> void:
 	if(!select_open):
 		match selected_slot:
+			#POKEMON
 			Slots.FIRST, Slots.SECOND, Slots.THIRD, Slots.FOURTH, Slots.FIFTH, Slots.SIXTH:
 				select_input();
+			#CANCEL
 			current_slots_length:
 				if(check_if_can_close()): close_party();
+	#ON BATTLE
 	elif(select_open && GLOBAL.on_battle):
 		match select_index:
 			SelectSlot.FIRST: select_pokemon();
 			SelectSlot.THIRD: close_select();
+	#NORMAL PARTY
 	elif(select_open && !GLOBAL.on_battle):
 		match select_index:
 			SelectSlot.SECOND: switch_slot();
@@ -205,13 +218,11 @@ func select_input() -> void:
 		close_party();
 		return;
 	elif(switch_mode):
-		var anim_player = slots[selected_slot].get_node("AnimationPlayer");
-		print(anim_player)
-		anim_player.play("SwitchOut");
-		await anim_player.animation_finished;
-		close_party();
+		switch_pokemon();
 		return;
 	play_audio(GUI_SEL_DECISION);
+	
+	#OPEN SELECT
 	if(
 		selected_slot == int(Slots.FIFTH) || 
 		selected_slot == int(Slots.SIXTH)
@@ -226,6 +237,40 @@ func select_input() -> void:
 	select.visible = true;
 	label.text = selected_sentence;
 
+#SWITCH
+func switch_pokemon() -> void:
+	switching = true;
+	play_audio(GUI_SEL_DECISION);
+	
+	var slots_array = [
+		slots[selected_slot].get_node("Switch"),
+		slots[current_switch_slot].get_node("Switch")
+	];
+	
+	#OUT
+	for anim_player in slots_array:
+		anim_player.play("SwitchOut");
+	await GLOBAL.timeout(switch_anim_duration);
+	
+	#SET NEW PARTY
+	PARTY.swap_party_pokemon(current_switch_slot, selected_slot);
+	current_slots = {};
+	current_slots_length = 0;
+	create_party_list();
+	set_all_options();
+	await GLOBAL.timeout(0.1);
+	
+	#IN
+	for anim_player in slots_array:
+		anim_player.play("SwitchIn");
+	await GLOBAL.timeout(switch_anim_duration);
+	close_party(false, false);
+	if(selected_slot == Slots.FIRST):
+		PARTY.reset_all_active(true);
+	await GLOBAL.timeout(0.2);
+	switching = false;
+
+#SELECT POKEMON
 func select_pokemon() -> void:
 	var poke_name = slots[selected_slot].get_node("Name").text;
 	var poke = PARTY.get_pokemon(poke_name);
@@ -242,6 +287,7 @@ func select_pokemon() -> void:
 		return;
 	else: close_select();
 
+#CHANGE POKEMON
 func select_poke_and_change(poke_name: String) -> void:
 	label.text = selected_sentence;
 	closing = true;
@@ -253,13 +299,13 @@ func select_poke_and_change(poke_name: String) -> void:
 	PARTY.emit_signal("selected_pokemon_party", poke_name);
 
 #CLOSE
-func close_party(sound = true) -> void:
+func close_party(sound = true, reset_list = true) -> void:
 	if(switch_mode):
-		play_audio(GUI_SEL_DECISION);
+		if(sound): play_audio(GUI_SEL_DECISION);
 		label.text = default_sentence;
 		switch_mode = false;
 		current_switch_slot = null;
-		reset();
+		if(reset_list): reset();
 		return;
 	closing = true;
 	GLOBAL.party_open = false;
@@ -375,6 +421,8 @@ func create_party_list() -> void:
 		var health_node = slot.get_node("Health");
 		var status_node = slot.get_node("Status");
 		
+		status_node.visible = false;
+		
 		#STATS
 		var poke = party[index];
 		pokemon_node.texture = poke.data.party_texture;
@@ -403,7 +451,6 @@ func create_party_list() -> void:
 		#STATUS
 		var panel = slot.get_node("Panel");
 		if(poke.data.death):
-			
 			if(index == int(Slots.FIRST)):
 				panel.texture = MAIN_BACKGROUND_DEAD;
 			else: panel.texture = BACKGROUND_DEAD;
@@ -416,7 +463,7 @@ func create_party_list() -> void:
 	current_slots_length = current_slots.size();
 	#CANCEL BUTTON - CHILD PANEL NODE
 	current_slots[current_slots_length] = $Background;
-	label.text = default_sentence;
+	if(!switch_mode): label.text = default_sentence;
 
 func reset() -> void:
 	var party = PARTY.get_party();

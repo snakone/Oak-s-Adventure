@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://giwx2ioysoot"]
+[gd_scene load_steps=42 format=3 uid="uid://giwx2ioysoot"]
 
 [ext_resource type="Texture2D" uid="uid://b84kos15c1maw" path="res://Assets/UI/party_background.png" id="1_hwxdf"]
 [ext_resource type="Script" path="res://Scenes/UI/party_screen.gd" id="1_nyw7a"]
@@ -107,6 +107,44 @@ _data = {
 "Selected": SubResource("Animation_sfu3h")
 }
 
+[sub_resource type="Animation" id="Animation_fr41x"]
+resource_name = "SwitchIn"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-278, -48), Vector2(-192, -48)]
+}
+
+[sub_resource type="Animation" id="Animation_md6ek"]
+resource_name = "SwitchOut"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-192, -48), Vector2(-278, -48)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_t73bf"]
+_data = {
+"SwitchIn": SubResource("Animation_fr41x"),
+"SwitchOut": SubResource("Animation_md6ek")
+}
+
 [sub_resource type="Animation" id="Animation_bkp5n"]
 resource_name = "Dead"
 length = 0.1
@@ -193,11 +231,217 @@ tracks/1/keys = {
 "values": [Vector2(5, 18), Vector2(5, 12), Vector2(5, 18), Vector2(5, 12)]
 }
 
+[sub_resource type="Animation" id="Animation_avdih"]
+resource_name = "SwitchOut"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../Slots/Fourth:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-94.0, 58.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mswsx"]
 _data = {
 "Dead": SubResource("Animation_bkp5n"),
 "Idle": SubResource("Animation_vn8e7"),
-"Selected": SubResource("Animation_4wwwv")
+"Selected": SubResource("Animation_4wwwv"),
+"SwitchOut": SubResource("Animation_avdih")
+}
+
+[sub_resource type="Animation" id="Animation_tm6cd"]
+resource_name = "SwitchIn"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(58, -48), Vector2(-94, -48)]
+}
+
+[sub_resource type="Animation" id="Animation_pkgby"]
+resource_name = "SwitchOut"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-94, -48), Vector2(58, -48)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j1dy6"]
+_data = {
+"SwitchIn": SubResource("Animation_tm6cd"),
+"SwitchOut": SubResource("Animation_pkgby")
+}
+
+[sub_resource type="Animation" id="Animation_vcqgf"]
+resource_name = "SwitchIn"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(58, -24), Vector2(-94, -24)]
+}
+
+[sub_resource type="Animation" id="Animation_thm0n"]
+resource_name = "SwitchOut"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-94, -24), Vector2(58, -24)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ufkc2"]
+_data = {
+"SwitchIn": SubResource("Animation_vcqgf"),
+"SwitchOut": SubResource("Animation_thm0n")
+}
+
+[sub_resource type="Animation" id="Animation_ov2b2"]
+resource_name = "SwitchOut"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-94.0, 58.0]
+}
+
+[sub_resource type="Animation" id="Animation_txfh8"]
+resource_name = "SwitchIn"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [58.0, -94.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wp3f2"]
+_data = {
+"SwitchIn": SubResource("Animation_txfh8"),
+"SwitchOut": SubResource("Animation_ov2b2")
+}
+
+[sub_resource type="Animation" id="Animation_e2u4x"]
+resource_name = "SwitchIn"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(58, 24), Vector2(-94, 24)]
+}
+
+[sub_resource type="Animation" id="Animation_1kcay"]
+resource_name = "SwitchOut"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-94, 24), Vector2(58, 24)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yc77i"]
+_data = {
+"SwitchIn": SubResource("Animation_e2u4x"),
+"SwitchOut": SubResource("Animation_1kcay")
+}
+
+[sub_resource type="Animation" id="Animation_lvh5m"]
+resource_name = "SwitchIn"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(58, 48), Vector2(-94, 48)]
+}
+
+[sub_resource type="Animation" id="Animation_rlsvg"]
+resource_name = "SwitchOut"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-94, 48), Vector2(58, 48)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_h7o6p"]
+_data = {
+"SwitchIn": SubResource("Animation_lvh5m"),
+"SwitchOut": SubResource("Animation_rlsvg")
 }
 
 [node name="PartyScreen" type="CanvasLayer"]
@@ -345,6 +589,11 @@ libraries = {
 "": SubResource("AnimationLibrary_dop7h")
 }
 
+[node name="Switch" type="AnimationPlayer" parent="Slots/First"]
+libraries = {
+"": SubResource("AnimationLibrary_t73bf")
+}
+
 [node name="Second" type="Node2D" parent="Slots"]
 position = Vector2(-94, -48)
 
@@ -444,11 +693,6 @@ texture = ExtResource("6_utcu8")
 centered = false
 region_filter_clip_enabled = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Slots/Second"]
-libraries = {
-"": SubResource("AnimationLibrary_mswsx")
-}
-
 [node name="Status" type="TextureRect" parent="Slots/Second"]
 visible = false
 offset_left = 71.0
@@ -458,8 +702,17 @@ offset_bottom = 30.0
 scale = Vector2(1, 0.8)
 texture = ExtResource("12_i0hvq")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Slots/Second"]
+libraries = {
+"": SubResource("AnimationLibrary_mswsx")
+}
+
+[node name="Switch" type="AnimationPlayer" parent="Slots/Second"]
+libraries = {
+"": SubResource("AnimationLibrary_j1dy6")
+}
+
 [node name="Third" type="Node2D" parent="Slots"]
-visible = false
 position = Vector2(-94, -24)
 
 [node name="Panel" type="Sprite2D" parent="Slots/Third"]
@@ -557,11 +810,6 @@ texture = ExtResource("6_utcu8")
 centered = false
 region_filter_clip_enabled = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Slots/Third"]
-libraries = {
-"": SubResource("AnimationLibrary_mswsx")
-}
-
 [node name="Status" type="TextureRect" parent="Slots/Third"]
 visible = false
 offset_left = 71.0
@@ -571,8 +819,17 @@ offset_bottom = 30.0
 scale = Vector2(1, 0.8)
 texture = ExtResource("12_i0hvq")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Slots/Third"]
+libraries = {
+"": SubResource("AnimationLibrary_mswsx")
+}
+
+[node name="Switch" type="AnimationPlayer" parent="Slots/Third"]
+libraries = {
+"": SubResource("AnimationLibrary_ufkc2")
+}
+
 [node name="Fourth" type="Node2D" parent="Slots"]
-visible = false
 position = Vector2(-94, 0)
 
 [node name="Panel" type="Sprite2D" parent="Slots/Fourth"]
@@ -670,11 +927,6 @@ texture = ExtResource("6_utcu8")
 centered = false
 region_filter_clip_enabled = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Slots/Fourth"]
-libraries = {
-"": SubResource("AnimationLibrary_mswsx")
-}
-
 [node name="Status" type="TextureRect" parent="Slots/Fourth"]
 visible = false
 offset_left = 71.0
@@ -683,6 +935,16 @@ offset_right = 91.0
 offset_bottom = 30.0
 scale = Vector2(1, 0.8)
 texture = ExtResource("12_i0hvq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Slots/Fourth"]
+libraries = {
+"": SubResource("AnimationLibrary_mswsx")
+}
+
+[node name="Switch" type="AnimationPlayer" parent="Slots/Fourth"]
+libraries = {
+"": SubResource("AnimationLibrary_wp3f2")
+}
 
 [node name="Fifth" type="Node2D" parent="Slots"]
 position = Vector2(-94, 24)
@@ -782,11 +1044,6 @@ texture = ExtResource("6_utcu8")
 centered = false
 region_filter_clip_enabled = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Slots/Fifth"]
-libraries = {
-"": SubResource("AnimationLibrary_mswsx")
-}
-
 [node name="Status" type="TextureRect" parent="Slots/Fifth"]
 visible = false
 offset_left = 71.0
@@ -795,6 +1052,16 @@ offset_right = 91.0
 offset_bottom = 30.0
 scale = Vector2(1, 0.8)
 texture = ExtResource("12_i0hvq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Slots/Fifth"]
+libraries = {
+"": SubResource("AnimationLibrary_mswsx")
+}
+
+[node name="Switch" type="AnimationPlayer" parent="Slots/Fifth"]
+libraries = {
+"": SubResource("AnimationLibrary_yc77i")
+}
 
 [node name="Sixth" type="Node2D" parent="Slots"]
 position = Vector2(-94, 48)
@@ -894,11 +1161,6 @@ texture = ExtResource("6_utcu8")
 centered = false
 region_filter_clip_enabled = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Slots/Sixth"]
-libraries = {
-"": SubResource("AnimationLibrary_mswsx")
-}
-
 [node name="Status" type="TextureRect" parent="Slots/Sixth"]
 visible = false
 offset_left = 71.0
@@ -908,10 +1170,21 @@ offset_bottom = 30.0
 scale = Vector2(1, 0.8)
 texture = ExtResource("12_i0hvq")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Slots/Sixth"]
+libraries = {
+"": SubResource("AnimationLibrary_mswsx")
+}
+
+[node name="Switch" type="AnimationPlayer" parent="Slots/Sixth"]
+libraries = {
+"": SubResource("AnimationLibrary_h7o6p")
+}
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -20.0
 
 [node name="Select" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 151.0
