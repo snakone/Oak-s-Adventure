@@ -37,14 +37,10 @@ I spend a lot of time editing the original files, that's why the graphical conte
 Let's say at least i want to have exclusive content for the game, knowing it's 100% inspired in Pokémon.
 
 ## Download Godot Engine
-[Godot](https://godotengine.org/)
+Download [Godot](https://godotengine.org/) for free and start your own journey!
 
 ## Version
-v.0.5 - creaded by Snakone
+v.0.5.1 - creaded by Snakone
 
 ### All Rights reserved to
 &copy;2024 Pokémon. ©1995 - 2024 Nintendo/Creatures Inc./GAME FREAK inc. TM, ®Nintendo.
-
-
-
-

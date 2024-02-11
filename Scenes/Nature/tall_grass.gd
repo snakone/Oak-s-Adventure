@@ -38,6 +38,7 @@ func reset_texture(value: bool):
 func check_for_battle(body: CharacterBody2D) -> void:
 	var battle = BATTLE.pokemon_encounter();
 	if(battle):
+		GLOBAL.on_battle = true;
 		var battle_data = {
 			"enemy":  encounters[randi() % encounters.size()],
 			"zone": zone,

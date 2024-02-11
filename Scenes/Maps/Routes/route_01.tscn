@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://doemf40ma8wva"]
+
+[ext_resource type="Script" path="res://Scenes/Maps/Routes/route_01.gd" id="1_ma7kd"]
+[ext_resource type="PackedScene" uid="uid://bmt2k15vecwp3" path="res://Tilesets/route01_tileset.tscn" id="2_qk12y"]
+[ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="3_814xi"]
+
+[node name="Route01" type="Node2D"]
+script = ExtResource("1_ma7kd")
+
+[node name="TileMap" parent="." instance=ExtResource("2_qk12y")]
+
+[node name="Oak" parent="." instance=ExtResource("3_814xi")]
+position = Vector2(288, 464)

@@ -330,22 +330,6 @@ _data = {
 "SwitchOut": SubResource("Animation_thm0n")
 }
 
-[sub_resource type="Animation" id="Animation_ov2b2"]
-resource_name = "SwitchOut"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [-94.0, 58.0]
-}
-
 [sub_resource type="Animation" id="Animation_txfh8"]
 resource_name = "SwitchIn"
 length = 0.5
@@ -360,6 +344,22 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [58.0, -94.0]
+}
+
+[sub_resource type="Animation" id="Animation_ov2b2"]
+resource_name = "SwitchOut"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-94.0, 58.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wp3f2"]

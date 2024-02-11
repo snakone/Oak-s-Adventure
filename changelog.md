@@ -30,3 +30,9 @@
 
 # 0.5
 - Animated Pokémon Sprites (Gen V)
+- Attack States (Effective, Critical, etc...)
+- Improved Spawn Pokeball Animation
+
+# 0.5.1
+- Switch Pokémon on Party
+- General Battle Improves

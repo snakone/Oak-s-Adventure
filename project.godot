@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="Oak's Adventure"
-config/description="Pokémon Ruby & Shappire clone"
-config/version="0.5"
+config/description="Pokémon Ruby & Shappire inspired Game"
+config/version="0.5.1"
 run/main_scene="res://scene_manager.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 
@@ -50,6 +50,8 @@ folder_colors={
 "res://Scenes/Nature/": "green",
 "res://Scenes/UI/": "purple",
 "res://Scripts/": "teal",
+"res://Sprites/": "gray",
+"res://Sprites/Animated/": "pink",
 "res://Sprites/NPC/": "red",
 "res://Utils/": "orange"
 }

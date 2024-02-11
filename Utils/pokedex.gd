@@ -12,6 +12,7 @@ enum Pokedex {
 	PIDGEY = 16,
 	RATTATA = 19,
 	PIKACHU = 25,
+	GEODUDE = 74,
 	HORSEA = 116,
 	HOOH = 250,
 	RAYQUAZA = 384
@@ -171,7 +172,7 @@ var pokedex_list: Array = [
 			"DEF": 40,
 			"S.ATK": 35,
 			"S.DEF": 35,
-			"SPD": 6,
+			"SPD": 56,
 			"TOTAL": 251
 		}
 	},
@@ -194,7 +195,7 @@ var pokedex_list: Array = [
 			"DEF": 35,
 			"S.ATK": 25,
 			"S.DEF": 35,
-			"SPD": 4000,
+			"SPD": 72,
 			"TOTAL": 253
 		}
 	},
@@ -219,6 +220,29 @@ var pokedex_list: Array = [
 			"S.DEF": 50,
 			"SPD": 90,
 			"TOTAL": 320
+		}
+	},
+	{
+		"name": "GEODUDE",
+		"number": Pokedex.GEODUDE,
+		"types": [MOVES.Types.ROCK, MOVES.Types.GROUND],
+		"party_texture": preload("res://Assets/UI/Pokemon/geodude/icon.png"),
+		"shout": preload("res://Assets/Sounds/Pokemon/GEODUDE.ogg"),
+		"moves": [1, 2],
+		"exp_type": BATTLE.ExpType.SLACK,
+		"base_exp": 86,
+		"category": Category.NORMAL,
+		"sprites": "res://Sprites/Animated/Geodude/geodude.tscn",
+		"offset": Vector2(-1, -3),
+		"scale": Vector2(0.8, 0.8),
+		"stats": {
+			"HP": 40,
+			"ATK": 80,
+			"DEF": 100,
+			"S.ATK": 30,
+			"S.DEF": 30,
+			"SPD": 20,
+			"TOTAL": 300
 		}
 	},
 	{

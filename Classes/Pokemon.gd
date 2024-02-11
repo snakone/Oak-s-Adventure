@@ -166,7 +166,7 @@ func damage_formula(enemy: Object, move: Dictionary) -> int:
 	var DEF_stat: int;
 	var _ATK_bonus = 0;
 	var _DEF_bonus = 0;
-	var CRIT_rate: float = get_critical_chance(5);
+	var CRIT_rate: float = get_critical_chance(0);
 	var CRIT_stat = 1.0;
 	var STAB: float = 1.0;
 	var burned = 1;
@@ -233,7 +233,7 @@ func get_random_float() -> float:
 func custom_round(number, random_float) -> int:
 	var integer_part = int(number);
 	var decimal_part = number - integer_part;
-	if 0.5 <= decimal_part and decimal_part <= 0.59 and random_float != 1:
+	if 0.5 <= decimal_part and decimal_part <= 0.59 and random_float != 1.0:
 		return floor(number);
 	else:
 		return round(number);
