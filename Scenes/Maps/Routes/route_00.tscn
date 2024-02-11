@@ -18,7 +18,7 @@ song = ExtResource("2_cho4p")
 
 [node name="Oak" parent="." instance=ExtResource("1_7s0sy")]
 y_sort_enabled = true
-position = Vector2(304, 80)
+position = Vector2(48, 16)
 input_pickable = true
 
 [node name="OakFarmerDoor" parent="." instance=ExtResource("5_1wix8")]

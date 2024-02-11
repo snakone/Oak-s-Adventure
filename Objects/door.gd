@@ -36,7 +36,7 @@ func _on_body_entered(body) -> void:
 
 func check_direction() -> void:
 	if(door_open_direction != Vector2.ZERO):
-		can_be_opened = door_open_direction == GLOBAL.last_player_direction && next_scene != "";
+		can_be_opened = door_open_direction == GLOBAL.last_direction && next_scene != "";
 
 func enter_house() -> void:
 	await GLOBAL.timeout(.1);

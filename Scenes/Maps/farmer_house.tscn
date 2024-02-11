@@ -304,7 +304,6 @@ collision_layer = 2
 collision_mask = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Shape"]
-visible = false
 polygon = PackedVector2Array(64, 128, 0, 128, 0, 0, 160, 0, 160, 128, 80, 128, 80, 144, 176, 144, 176, -16, -16, -16, -16, 144, 64, 144)
 
 [node name="OakFarmerDoor" parent="." instance=ExtResource("3_ai1pw")]

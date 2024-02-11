@@ -95,43 +95,17 @@ encounters = Array[int]([])
 position = Vector2(224, 32)
 encounters = Array[int]([])
 
-[node name="OrangeFlower" parent="Nature" instance=ExtResource("4_n5ibi")]
-position = Vector2(304, 112)
-
-[node name="OrangeFlower2" parent="Nature" instance=ExtResource("4_n5ibi")]
-position = Vector2(336, 112)
-
 [node name="OrangeFlower3" parent="Nature" instance=ExtResource("4_n5ibi")]
 position = Vector2(352, 128)
-
-[node name="OrangeFlower5" parent="Nature" instance=ExtResource("4_n5ibi")]
-position = Vector2(320, 160)
-
-[node name="OrangeFlower6" parent="Nature" instance=ExtResource("4_n5ibi")]
-position = Vector2(288, 160)
 
 [node name="OrangeFlower7" parent="Nature" instance=ExtResource("4_n5ibi")]
 position = Vector2(272, 144)
 
-[node name="VioletFlower" parent="Nature" instance=ExtResource("5_e4oy1")]
-position = Vector2(288, 112)
-
-[node name="VioletFlower2" parent="Nature" instance=ExtResource("5_e4oy1")]
-position = Vector2(320, 112)
-
 [node name="VioletFlower4" parent="Nature" instance=ExtResource("5_e4oy1")]
 position = Vector2(352, 144)
 
-[node name="VioletFlower5" parent="Nature" instance=ExtResource("5_e4oy1")]
-position = Vector2(336, 160)
-
-[node name="VioletFlower6" parent="Nature" instance=ExtResource("5_e4oy1")]
-position = Vector2(304, 160)
-
 [node name="VioletFlower8" parent="Nature" instance=ExtResource("5_e4oy1")]
 position = Vector2(272, 128)
-
-[node name="SplashZone" type="Node2D" parent="."]
 
 [node name="Berries" type="Node2D" parent="."]
 y_sort_enabled = true
@@ -143,5 +117,4 @@ position = Vector2(208, 144)
 position = Vector2(192, 144)
 
 [node name="GreenBerry" parent="Berries" instance=ExtResource("10_4rmsc")]
-y_sort_enabled = true
 position = Vector2(224, 144)

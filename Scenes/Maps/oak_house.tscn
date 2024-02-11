@@ -497,7 +497,7 @@ layer_3/tile_data = PackedInt32Array(196612, 2162688, 46, 262148, 2162688, 47, 1
 
 [node name="Oak" parent="." instance=ExtResource("2_qhnvw")]
 y_sort_enabled = true
-position = Vector2(208, 48)
+position = Vector2(80, 128)
 
 [node name="Shape" type="StaticBody2D" parent="."]
 position = Vector2(128, 64)

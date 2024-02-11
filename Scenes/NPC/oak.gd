@@ -105,7 +105,7 @@ func set_direction() -> void:
 	if(input_direction.y == 0): input_direction.x = Input.get_axis("moveLeft", "moveRight");
 	if(input_direction.x == 0): input_direction.y = Input.get_axis("moveUp", "moveDown");
 	if(input_direction != Vector2.ZERO && !GLOBAL.on_transition):
-		GLOBAL.last_player_direction = input_direction;
+		GLOBAL.last_direction = input_direction;
 
 func move(delta) -> void:
 	playback.travel("Move");
@@ -241,7 +241,7 @@ func check_position_out_bounds():
 func check_for_dialogs() -> void:
 	if(!can_talk): return;
 	if Input.is_action_just_pressed("space"):
-		var desired_step: Vector2 = GLOBAL.last_player_direction * (GLOBAL.TILE_SIZE / 2.0);
+		var desired_step: Vector2 = GLOBAL.last_direction * (GLOBAL.TILE_SIZE / 2.0);
 		update_dialog_rays(desired_step);
 		if(
 			DIALOG.DialogType.NPC in area_types && 
@@ -254,7 +254,7 @@ func check_for_dialogs() -> void:
 
 func open_object_dialog():
 	var direction = GLOBAL.directions_array[dialog_direction];
-	if(direction != GLOBAL.last_player_direction && direction != Vector2.INF): return;
+	if(direction != GLOBAL.last_direction && direction != Vector2.INF): return;
 	start_dialog_state(object_dialog_id);
 
 func start_dialog_state(id: int) -> void:
@@ -325,8 +325,8 @@ func save() -> Dictionary:
 		"player": self.name,
 		"position.x": position.x,
 		"position.y": position.y,
-		"direction.x": GLOBAL.last_player_direction.x,
-		"direction.y": GLOBAL.last_player_direction.y,
+		"direction.x": GLOBAL.last_direction.x,
+		"direction.y": GLOBAL.last_direction.y,
 		"on_bike": GLOBAL.on_bike,
 		"play_time": GLOBAL.play_time,
 		"money": GLOBAL.current_money

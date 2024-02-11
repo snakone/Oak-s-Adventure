@@ -10,11 +10,13 @@ func _ready():
 	if(song): AUDIO.play(song);
 	GLOBAL.inside_house = true;
 	set_camera();
-	oak.set_blend_direction(GLOBAL.last_player_direction);
+	oak.set_blend_direction(GLOBAL.last_direction);
 	
 	if(MAPS.spawn_position):
 		oak.position = MAPS.spawn_position;
 		MAPS.spawn_position = null;
+		
+	MAPS.last_map = null;
 
 func set_camera() -> void:
 	var size: Vector2 = tilemap.get_used_rect().size;

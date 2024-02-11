@@ -7,31 +7,23 @@ class_name SpawnController;
 @onready var tilemap = $TileMap;
 @export var song: AudioStream;
 
-var map_size: Vector2;
-
 func _ready():
 	if(song): AUDIO.play(song);
 	GLOBAL.inside_house = false;
-	map_size = MAPS.get_map_size_and_emit(tilemap);
-	oak.set_blend_direction(GLOBAL.last_player_direction);
+	MAPS.get_map_size_and_emit(tilemap);
+	oak.set_blend_direction(GLOBAL.last_direction);
 	
+	#COMING FROM HOUSE
 	if(MAPS.spawn_position):
 		oak.position = MAPS.spawn_position;
 		MAPS.spawn_position = null;
-	elif(MAPS.position_before_changing_scene):
-		set_character_position_after_scene_change();
-	MAPS.position_before_changing_scene = null;
-
-func set_character_position_after_scene_change() -> void:
-	if GLOBAL.last_player_direction == Vector2.UP:
-		oak.position.y = map_size.y - GLOBAL.TILE_SIZE;
-		oak.position.x = MAPS.position_before_changing_scene.x;
-	elif GLOBAL.last_player_direction == Vector2.DOWN:
-		oak.position.y = 0;
-		oak.position.x = MAPS.position_before_changing_scene.x;
-	elif GLOBAL.last_player_direction == Vector2.LEFT:
-		oak.position.y = MAPS.position_before_changing_scene.y;
-		oak.position.x = map_size.x - GLOBAL.TILE_SIZE;
-	elif GLOBAL.last_player_direction == Vector2.RIGHT: 
-		oak.position.y = MAPS.position_before_changing_scene.y;
-		oak.position.x = 0;
+		return;
+	
+	#COMING FROM SCENE
+	if(MAPS.position_before_scene && MAPS.last_map != null):
+		if(
+			MAPS.last_map in MAPS.connections &&
+			name in MAPS.connections[MAPS.last_map] &&
+			MAPS.position_before_scene in MAPS.connections[MAPS.last_map][name]
+		):
+			oak.position = MAPS.connections[MAPS.last_map][name][MAPS.position_before_scene];

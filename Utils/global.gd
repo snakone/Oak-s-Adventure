@@ -37,7 +37,7 @@ const directions_array: Array = [
 ];
 
 var player_data_to_load = null;
-var last_player_direction = directions_array[Directions.DOWN];
+var last_direction = directions_array[Directions.DOWN];
 var facing_direction = FacingDirection.UP;
 var last_used_door: String;
 var spawn_location = null;

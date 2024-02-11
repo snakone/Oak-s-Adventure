@@ -72,7 +72,7 @@ func move(new_direction: Vector2) -> void:
 #LISTENERS
 func _on_start_dialog(_id: int) -> void:
 	is_talking = true;
-	var last_direction = GLOBAL.last_player_direction;
+	var last_direction = GLOBAL.last_direction;
 	if(last_direction == Vector2.UP): sprite.frame = 0;
 	elif(last_direction == Vector2.RIGHT): sprite.frame = 2;
 	elif(last_direction == Vector2.DOWN): sprite.frame = 1;

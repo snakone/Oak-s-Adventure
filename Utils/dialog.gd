@@ -99,4 +99,14 @@ var dialog_library: Dictionary = {
 		"type": DialogType.OBJECT,
 		"marker": true
 	},
+	17: {
+		"arr": [["South Access to Calderock Village."]],
+		"type": DialogType.OBJECT,
+		"marker": true
+	},
+	18: {
+		"arr": [["Irine's Fountain."]],
+		"type": DialogType.OBJECT,
+		"marker": true
+	},
 }

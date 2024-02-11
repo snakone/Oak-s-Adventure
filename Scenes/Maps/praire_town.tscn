@@ -31,12 +31,14 @@ script = SubResource("GDScript_jvbk0")
 position = Vector2(288, -12)
 scale = Vector2(2, 1)
 next_scene = "res://Scenes/Maps/Routes/route_01.tscn"
+new_map = 4
 
 [node name="SwitchRoute00" parent="." instance=ExtResource("4_nqgbe")]
 position = Vector2(56, 268)
 scale = Vector2(5, 1)
 next_scene = "res://Scenes/Maps/Routes/route_00.tscn"
 enter_direction = 3
+new_map = 2
 
 [node name="OakDoor" parent="." instance=ExtResource("5_qpu3u")]
 z_index = 1
