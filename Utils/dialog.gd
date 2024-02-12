@@ -8,13 +8,19 @@ func get_dialog(id: int) -> Dictionary:
 
 var dialog_library: Dictionary = {
 	1: {
-		"arr": [["Hey! how are you?"],["self:I'm fine, thanks."]],
+		"arr": [
+			["Hey! how are you?"],
+			["self:I'm fine, thanks."]
+		],
 		"npc_name": "Gary",
 		"type": DialogType.NPC,
 		"marker": true
 		},
 	2: {
-		"arr": [["Today is a great day!"],["self:Sure it is!"]],
+		"arr": [
+			["Today is a great day!"],
+			["self:Sure it is!"]
+		],
 		"npc_name": "Mom",
 		"type": DialogType.NPC,
 		"marker": true
@@ -57,7 +63,10 @@ var dialog_library: Dictionary = {
 		"marker": true
 		},
 	9: {
-		"arr": [["My old Gamecube with Twilight Princess."], ["I love this game!"]],
+		"arr": [
+			["My old Gamecube with Twilight Princess."],
+			["I love this game!"]
+		],
 		"type": DialogType.OBJECT,
 		"marker": true
 		},
@@ -107,6 +116,25 @@ var dialog_library: Dictionary = {
 	18: {
 		"arr": [["Irine's Fountain."]],
 		"type": DialogType.OBJECT,
+		"marker": true
+	},
+	19: {
+		"arr": [
+			["Jumping over ledges is so funny!"],
+			["self: Mmm I think I should try aswell!"],
+			["That's the spirit!"]
+		],
+		"type": DialogType.NPC,
+		"npc_name": "Scott",
+		"marker": true
+	},
+	20: {
+		"arr": [
+			["Hey Professor!"],
+			["Take a look to our last stuff..."]
+		],
+		"type": DialogType.NPC,
+		"npc_name": "Merlin",
 		"marker": true
 	},
 }

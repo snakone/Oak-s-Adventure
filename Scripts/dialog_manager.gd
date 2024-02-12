@@ -40,7 +40,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if(
 		!event is InputEventKey || 
 		event.is_echo() ||
-		!event.is_pressed() 
+		!event.is_pressed() ||
+		dialog_closed ||
+		GLOBAL.menu_open
 	): return;
 	
 	if(dialog_closed || !dialog_data.marker): return;
@@ -56,10 +58,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			current_line = 0
 		
 		if current_index >= len(dialog_data.arr):
-			await audio.finished;
-			dialog_closed = true;
-			if(dialog_data.marker): GLOBAL.emit_signal("close_dialog");
 			timer.stop();
+			dialog_closed = true;
+			await audio.finished;
+			if(dialog_data.marker): GLOBAL.emit_signal("close_dialog");
 		else:
 			label.text = label.text.erase(0, label.text.find("\n") + 1);
 			var text_string = dialog_data.arr[current_index][current_line];

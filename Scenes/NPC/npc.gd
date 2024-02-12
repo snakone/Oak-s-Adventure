@@ -36,7 +36,7 @@ func _ready() -> void:
 	timer.wait_time = interval;
 	limits_possitive = position + (possitive_limits * GLOBAL.TILE_SIZE);
 	limits_negative = position + (negative_limits * GLOBAL.TILE_SIZE);
-	if state == States.MOVING: timer.start();
+	timer.start();
 
 func _on_timer_timeout() -> void:
 	if(is_talking): return;
@@ -44,14 +44,18 @@ func _on_timer_timeout() -> void:
 	var random_int: int = randi_range(0, Directions.size() - 1);
 	
 	match random_int:
-		Directions.WALK_LEFT: if can_left: handle_direction(Vector2.LEFT)
-		Directions.WALK_RIGHT: if can_right: handle_direction(Vector2.RIGHT)
-		Directions.WALK_UP: if can_up: handle_direction(Vector2.UP)
-		Directions.WALK_DOWN: if can_down: handle_direction(Vector2.DOWN)
-		Directions.LOOK_LEFT: sprite.frame = 2
-		Directions.LOOK_RIGHT: sprite.frame = 3
-		Directions.LOOK_UP: sprite.frame = 1
-		Directions.LOOK_DOWN: sprite.frame = 0
+		Directions.WALK_LEFT: if(can_left && state == States.MOVING): 
+			handle_direction(Vector2.LEFT)
+		Directions.WALK_RIGHT: if(can_right && state == States.MOVING): 
+			handle_direction(Vector2.RIGHT)
+		Directions.WALK_UP: if(can_up && state == States.MOVING):
+			handle_direction(Vector2.UP)
+		Directions.WALK_DOWN: if(can_down && state == States.MOVING): 
+			handle_direction(Vector2.DOWN)
+		Directions.LOOK_LEFT: if(can_left): sprite.frame = 2
+		Directions.LOOK_RIGHT: if(can_right): sprite.frame = 3
+		Directions.LOOK_UP: if(can_up): sprite.frame = 1
+		Directions.LOOK_DOWN: if(can_down): sprite.frame = 0
 		Directions.NONE: return;
 
 func handle_direction(next_step: Vector2) -> void:
