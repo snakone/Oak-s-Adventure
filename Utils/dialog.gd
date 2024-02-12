@@ -137,4 +137,15 @@ const LIBRARY: Dictionary = {
 		"npc_name": "Merlin",
 		"marker": true
 	},
+	21: {
+		"arr": [
+			["Long time no see, Professor."],
+			["self:Hey Harold, how are you?"],
+			["I heard that a strange POKéMON have been seen near the Black Mountain."],
+			["self:Mm!? What it can be?"],
+		],
+		"type": DialogType.NPC,
+		"npc_name": "Harold",
+		"marker": true
+	},
 }
