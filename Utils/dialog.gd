@@ -148,4 +148,13 @@ const LIBRARY: Dictionary = {
 		"npc_name": "Harold",
 		"marker": true
 	},
+	22: {
+		"arr": [
+			["I like this fountains a lot! Hehe."],
+			["self:They are quite relaxing."],
+		],
+		"type": DialogType.NPC,
+		"npc_name": "Daisy",
+		"marker": true
+	},
 }
