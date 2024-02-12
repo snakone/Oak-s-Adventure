@@ -253,7 +253,7 @@ func check_for_dialogs() -> void:
 		): open_object_dialog();
 
 func open_object_dialog():
-	var direction = GLOBAL.directions_array[dialog_direction];
+	var direction = GLOBAL.DIRECTIONS[dialog_direction];
 	if(direction != GLOBAL.last_direction && direction != Vector2.INF): return;
 	start_dialog_state(object_dialog_id);
 
@@ -336,7 +336,7 @@ func save() -> Dictionary:
 #LOAD
 func check_load_from_file():
 	if(GLOBAL.player_data_to_load != null):
-		await GLOBAL.timeout(.01);
+		await GLOBAL.timeout(0.1);
 		var data = GLOBAL.player_data_to_load;
 		position.x = data["position.x"];
 		position.y = data["position.y"];

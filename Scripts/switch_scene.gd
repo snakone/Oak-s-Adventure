@@ -8,7 +8,7 @@ var can_be_entered = true;
 var next_scene_directon: Vector2;
 
 func _ready():
-	next_scene_directon = GLOBAL.directions_array[enter_direction];
+	next_scene_directon = GLOBAL.DIRECTIONS[enter_direction];
 
 func _on_body_entered(body):
 	check_direction();

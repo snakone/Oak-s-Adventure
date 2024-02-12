@@ -5,7 +5,7 @@ signal selected_pokemon_party(poke_name: String);
 var current_party = [];
 var active_pokemon: Dictionary;
 
-const erase_props_on_save = [
+const ERASE_PROPS = [
 	"sprites", "party_texture", "shout", "stats", "battle_stages", "battle_stats", "offset", "scale"
 ];
 
@@ -59,12 +59,12 @@ func swap_party_pokemon(initial_pos: int, destiny_pos: int) -> void:
 
 func create_party_from_json(party: Array) -> Array:
 	#return [
-		#Pokemon.new(POKEDEX.pokedex_list[0]),
-		#Pokemon.new(POKEDEX.pokedex_list[1]),
-		#Pokemon.new(POKEDEX.pokedex_list[2]),
-		#Pokemon.new(POKEDEX.pokedex_list[3]),
-		#Pokemon.new(POKEDEX.pokedex_list[4]),
-		#Pokemon.new(POKEDEX.pokedex_list[5]),
+		#Pokemon.new(POKEDEX.LIBRARY[0]),
+		#Pokemon.new(POKEDEX.LIBRARY[1]),
+		#Pokemon.new(POKEDEX.LIBRARY[2]),
+		#Pokemon.new(POKEDEX.LIBRARY[3]),
+		#Pokemon.new(POKEDEX.LIBRARY[4]),
+		#Pokemon.new(POKEDEX.LIBRARY[5]),
 	#]
 	var created_party = [];
 	var already_active = false;
@@ -81,7 +81,7 @@ func get_party_as_json() -> Array:
 	var array = [];
 	for poke in current_party:
 		var new_data = poke.data.duplicate();
-		for prop in erase_props_on_save: new_data.erase(prop);
+		for prop in ERASE_PROPS: new_data.erase(prop);
 		var new_moves = [];
 		for move in poke.data.battle_moves.duplicate():
 			new_moves.push_back({

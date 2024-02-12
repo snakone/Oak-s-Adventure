@@ -18,7 +18,7 @@ var can_be_opened = false;
 var door_open_direction: Vector2;
 
 func _ready():
-	door_open_direction = GLOBAL.directions_array[enter_direction];
+	door_open_direction = GLOBAL.DIRECTIONS[enter_direction];
 	sprite_2d.texture = sprite_image;
 	check_close_animation();
 

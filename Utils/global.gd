@@ -27,7 +27,7 @@ const TILE_SIZE: int = 16;
 const WINDOW_SIZE = Vector2(15, 10);
 const group_name = "Persist";
 
-const directions_array: Array = [
+const DIRECTIONS: Array = [
 	Vector2.LEFT, 
 	Vector2.RIGHT, 
 	Vector2.UP, 
@@ -37,7 +37,7 @@ const directions_array: Array = [
 ];
 
 var player_data_to_load = null;
-var last_direction = directions_array[Directions.DOWN];
+var last_direction = DIRECTIONS[Directions.DOWN];
 var facing_direction = FacingDirection.UP;
 var last_used_door: String;
 var spawn_location = null;

@@ -3,10 +3,10 @@ extends Node
 enum DialogType { NPC, OBJECT, SYSTEM, NONE }
 
 func get_dialog(id: int) -> Dictionary:
-	if(id in dialog_library): return dialog_library[id];
+	if(id in LIBRARY): return LIBRARY[id];
 	return { "arr": [[]], "type": DialogType.NONE };
 
-var dialog_library: Dictionary = {
+const LIBRARY: Dictionary = {
 	1: {
 		"arr": [
 			["Hey! how are you?"],
@@ -120,7 +120,7 @@ var dialog_library: Dictionary = {
 	},
 	19: {
 		"arr": [
-			["Jumping over ledges is so funny!"],
+			["Jumping over ledges is so fun!"],
 			["self: Mmm I think I should try aswell!"],
 			["That's the spirit!"]
 		],

@@ -2,7 +2,7 @@ extends Node
 
 var position_before_scene = Vector2.ZERO;
 var spawn_position = Vector2.ZERO;
-var last_map
+var last_map;
 
 func get_map_size_and_emit(tilemap: TileMap) -> Vector2:
 	var size = tilemap.get_used_rect().size;
@@ -14,7 +14,8 @@ enum Locations {
 	OAK_HOUSE,
 	ROUTE_00,
 	OAK_FARMER_HOUSE,
-	ROUTE_01
+	ROUTE_01,
+	CALDEROCK_VILLAGE
 }
 
 const location_array = [
@@ -22,7 +23,8 @@ const location_array = [
 	"OakHouse",
 	"Route00",
 	"OakFarmerHouse",
-	"Route01"
+	"Route01",
+	"Calderock"
 ];
 
 const location_string = {
@@ -30,7 +32,8 @@ const location_string = {
 	"OakHouse": "Oak's House",
 	"Route00": "Oak's Farm",
 	"OakFarmerHouse": "Oak's Farmer House",
-	"Route01": "Route 01"
+	"Route01": "Route 01",
+	"Calderock": "Calderock Village"
 }
 
 func get_map_name(get_string = false) -> String:
@@ -41,7 +44,7 @@ func get_map_name(get_string = false) -> String:
 		return string.to_upper();
 	else: return "Mysterious Place";
 
-var connections = {
+const CONNECTIONS = {
 	"PraireTown": {
 		"Route00": {
 			Vector2(16, 246): Vector2(16, 0),
@@ -68,6 +71,15 @@ var connections = {
 		"PraireTown": {
 			Vector2(112, 470): Vector2(272, 0),
 			Vector2(128, 470): Vector2(288, 0),
+		}
+	}
+}
+
+const ENCOUNTERS = {
+	"Route01": {
+		1: {
+			POKEDEX.Pokedex.PIDGEY: 60.0,
+			POKEDEX.Pokedex.RATTATA: 40.0
 		}
 	}
 }

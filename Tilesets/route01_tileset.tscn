@@ -38,7 +38,7 @@ layer_2/tile_data = PackedInt32Array(1769486, 917504, 17, 1638414, 917504, 17, 1
 layer_3/name = "Buildings"
 layer_3/y_sort_enabled = true
 layer_3/z_index = 1
-layer_3/tile_data = PackedInt32Array(196615, 8, 0, 1507332, 1507328, 3)
+layer_3/tile_data = PackedInt32Array(1507332, 1507328, 3, 5, 4, 0, 65541, 4, 1, 131077, 4, 2, 196613, 4, 3, 262149, 4, 4, 327685, 4, 5, 393221, 4, 6, 6, 65540, 0, 65542, 65540, 1, 131078, 65540, 2, 196614, 65540, 3, 262150, 65540, 4, 327686, 65540, 5, 393222, 65540, 6, 7, 131076, 0, 65543, 131076, 1, 131079, 131076, 2, 196615, 131076, 3, 262151, 131076, 4, 327687, 131076, 5, 393223, 131076, 6, 8, 196612, 0, 65544, 196612, 1, 131080, 196612, 2, 196616, 196612, 3, 262152, 196612, 4, 327688, 196612, 5, 393224, 196612, 6, 9, 262148, 0, 65545, 262148, 1, 131081, 262148, 2, 196617, 262148, 3, 262153, 262148, 4, 327689, 262148, 5, 393225, 262148, 6, 10, 327684, 0, 65546, 327684, 1, 131082, 327684, 2, 196618, 327684, 3, 262154, 327684, 4, 327690, 327684, 5, 393226, 327684, 6)
 layer_4/name = "Ysort"
 layer_4/y_sort_enabled = true
 layer_4/tile_data = PackedInt32Array(458762, 1441792, 3)
@@ -82,45 +82,73 @@ y_sort_enabled = true
 
 [node name="TallGrass" parent="Grass" instance=ExtResource("5_x2w4k")]
 position = Vector2(160, 176)
-
-[node name="TallGrass9" parent="Grass" instance=ExtResource("5_x2w4k")]
-position = Vector2(144, 160)
-
-[node name="TallGrass14" parent="Grass" instance=ExtResource("5_x2w4k")]
-position = Vector2(208, 160)
-
-[node name="TallGrass13" parent="Grass" instance=ExtResource("5_x2w4k")]
-position = Vector2(208, 208)
-
-[node name="TallGrass10" parent="Grass" instance=ExtResource("5_x2w4k")]
-position = Vector2(144, 208)
-
-[node name="TallGrass11" parent="Grass" instance=ExtResource("5_x2w4k")]
-position = Vector2(192, 208)
-
-[node name="TallGrass12" parent="Grass" instance=ExtResource("5_x2w4k")]
-position = Vector2(192, 192)
+encounters = Array[int]([16, 19])
+level_range = [2, 5]
 
 [node name="TallGrass2" parent="Grass" instance=ExtResource("5_x2w4k")]
-position = Vector2(176, 192)
+position = Vector2(208, 208)
+encounters = Array[int]([16, 19])
+level_range = [2, 5]
 
 [node name="TallGrass3" parent="Grass" instance=ExtResource("5_x2w4k")]
-position = Vector2(176, 208)
+position = Vector2(208, 176)
+encounters = Array[int]([16, 19])
+level_range = [2, 5]
 
 [node name="TallGrass4" parent="Grass" instance=ExtResource("5_x2w4k")]
-position = Vector2(160, 208)
+position = Vector2(208, 160)
+encounters = Array[int]([16, 19])
+level_range = [2, 5]
 
 [node name="TallGrass5" parent="Grass" instance=ExtResource("5_x2w4k")]
-position = Vector2(160, 192)
+position = Vector2(144, 160)
+encounters = Array[int]([16, 19])
+level_range = [2, 5]
 
 [node name="TallGrass6" parent="Grass" instance=ExtResource("5_x2w4k")]
-position = Vector2(208, 176)
+position = Vector2(144, 208)
+encounters = Array[int]([16, 19])
+level_range = [2, 5]
 
 [node name="TallGrass7" parent="Grass" instance=ExtResource("5_x2w4k")]
-position = Vector2(192, 176)
+position = Vector2(192, 208)
+encounters = Array[int]([16, 19])
+level_range = [2, 5]
 
 [node name="TallGrass8" parent="Grass" instance=ExtResource("5_x2w4k")]
+position = Vector2(176, 208)
+encounters = Array[int]([16, 19])
+level_range = [2, 5]
+
+[node name="TallGrass9" parent="Grass" instance=ExtResource("5_x2w4k")]
+position = Vector2(160, 208)
+encounters = Array[int]([16, 19])
+level_range = [2, 5]
+
+[node name="TallGrass10" parent="Grass" instance=ExtResource("5_x2w4k")]
+position = Vector2(192, 192)
+encounters = Array[int]([16, 19])
+level_range = [2, 5]
+
+[node name="TallGrass11" parent="Grass" instance=ExtResource("5_x2w4k")]
+position = Vector2(176, 192)
+encounters = Array[int]([16, 19])
+level_range = [2, 5]
+
+[node name="TallGrass12" parent="Grass" instance=ExtResource("5_x2w4k")]
+position = Vector2(160, 192)
+encounters = Array[int]([16, 19])
+level_range = [2, 5]
+
+[node name="TallGrass13" parent="Grass" instance=ExtResource("5_x2w4k")]
+position = Vector2(192, 176)
+encounters = Array[int]([16, 19])
+level_range = [2, 5]
+
+[node name="TallGrass14" parent="Grass" instance=ExtResource("5_x2w4k")]
 position = Vector2(176, 176)
+encounters = Array[int]([16, 19])
+level_range = [2, 5]
 
 [node name="Flowers" type="Node2D" parent="."]
 

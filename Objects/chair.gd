@@ -8,4 +8,4 @@ var sit_direction;
 
 func _ready() -> void:
 	sprite.texture = sprite_image;
-	sit_direction = GLOBAL.directions_array[position_when_sit];
+	sit_direction = GLOBAL.DIRECTIONS[position_when_sit];

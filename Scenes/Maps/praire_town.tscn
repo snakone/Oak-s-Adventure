@@ -59,9 +59,10 @@ dialog_id = 7
 talk_direction = 5
 metadata/_edit_group_ = true
 
-[node name="NPC" parent="." instance=ExtResource("9_sm5xq")]
+[node name="Vendor" parent="." instance=ExtResource("9_sm5xq")]
 position = Vector2(160, 80)
 texture = ExtResource("10_l6t8e")
 state = 1
 can_up = false
+interval = 3.0
 dialog_id = 20

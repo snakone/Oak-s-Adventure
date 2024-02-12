@@ -1,9 +1,9 @@
 extends Node
 
-const save_path = "user://save.poke";
+const SAVE_PATH = "user://save.poke";
 
 func _save() -> void:
-	var save_file = FileAccess.open(save_path, FileAccess.WRITE)
+	var save_file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	var save_nodes = get_tree().get_nodes_in_group(GLOBAL.group_name);
 	for node in save_nodes:
 		if !node.has_method("save"):
@@ -14,12 +14,12 @@ func _save() -> void:
 	save_file.close();
 
 func _load() -> void:
-	if !FileAccess.file_exists(save_path):
+	if !FileAccess.file_exists(SAVE_PATH):
 		print("Error, no Save File to load.");
 		GLOBAL.no_saved_data = true;
 		return;
 		
-	var save_file = FileAccess.open(save_path, FileAccess.READ)
+	var save_file = FileAccess.open(SAVE_PATH, FileAccess.READ)
 	while save_file.get_position() < save_file.get_length():
 		var json = JSON.new();
 		json.parse(save_file.get_line())

@@ -57,7 +57,7 @@ func input() -> void:
 		visible = false;
 		return;
 		
-	var new_position = BATTLE.attack_cursor_pos[cursor_index.y][cursor_index.x];
+	var new_position = BATTLE.ATTACK_CURSOR[cursor_index.y][cursor_index.x];
 	if(!BATTLE.can_move_attack_cursor(new_position, player_attacks)):
 		cursor_index = pre_position;
 		return;
@@ -77,7 +77,7 @@ func update_attack_ui() -> void:
 	var current_attack = player_moves[selected_attack];
 	var type_node = attack_selection_info.get_node("Type");
 	var pp_node = attack_selection_info.get_node("PP/Value");
-	type_node.text = MOVES.TypesString[int(current_attack.type + 1)];
+	type_node.text = MOVES.TYPES[int(current_attack.type + 1)];
 	pp_node.text = str(current_attack.pp) + "/" + str(current_attack.total_pp);
 
 func play_audio(stream: AudioStream) -> void:

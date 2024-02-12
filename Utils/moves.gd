@@ -3,7 +3,7 @@ extends Node
 enum AttackCategory { PHYSIC, SPECIAL, STATUS, NONE }
 
 func get_move(index: int):
-	if(index in MoveList): return MoveList[index];
+	if(index in LIBRARY): return LIBRARY[index];
 
 func load_move_with_pp(move: Dictionary):
 	var move_data = get_move(move.id).duplicate();
@@ -31,7 +31,7 @@ enum Types {
 	FAIRY
 }
 
-var TypesString = {
+const TYPES = {
 	1: "Type/NORMA.",
 	2: "Type/FIRE",
 	3: "Type/WATER",
@@ -52,7 +52,7 @@ var TypesString = {
 	18: "Type/FAIRY"
 }
 
-var MoveList: Dictionary = {
+var LIBRARY: Dictionary = {
 	1: {
 		"id": 1,
 		"name": "Tackle",
@@ -186,7 +186,7 @@ enum MoveNames {
 	TACKLE
 }
 
-const MovesData = {
+const MOVE_ANIMATION = {
 	MoveNames.TACKLE: {
 		"property": "position:x",
 		"values": {

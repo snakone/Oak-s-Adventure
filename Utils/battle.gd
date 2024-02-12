@@ -83,8 +83,9 @@ const BATTLE_SOUNDS = {
 	"DAMAGE_NORMAL": preload("res://Assets/Sounds/Battle damage normal.ogg")
 }
 
-const tile_density = 1325.0;
-const modifire = 1.0;
+const tile_density = 325.0;
+var modifire = 1.0;
+
 const min_hp_anim_duration = 1.2;
 const max_hp_anim_duration = 3;
 const GREEN_BAR_PERCT = 0.51;
@@ -113,7 +114,7 @@ var critical_hit = false;
 var attack_missed = false;
 var attack_result = [];
 
-@onready var zones_array = [
+@onready var ZONES_ARRAY = [
 	{
 		"background": FIELD_BG,
 		"enemy_ground": FIELD_BASE_1,
@@ -154,26 +155,28 @@ func reset_state(reset_type = true) -> void:
 	attack_result = [];
 
 func pokemon_encounter() -> bool:
-	randomize()
+	randomize();
 	var tile_barrier = randi_range(0, 2879)
+	if(GLOBAL.on_bike): modifire = modifire * 1.5;
+	else: modifire = 1.0;
 	if tile_barrier <= tile_density * modifire:
-		randomize()
+		randomize();
 		var rand: int = randi_range(0, 100)
 		if(rand < tile_density / 10):
 			return true
 	return false
 
-const menu_cursor_pos: Array = [
+const MENU_CURSOR: Array = [
 	[Vector2(135, 129), Vector2(194, 129)], 
 	[Vector2(135, 144), Vector2(194, 144)]
 ];
 
-const attack_cursor_pos: Array = [
+const ATTACK_CURSOR: Array = [
 	[Vector2(13, 127), Vector2(80, 127)],
 	[Vector2(13, 145), Vector2(80, 145)]
 ];
 
-func get_battle_textures(zone: BATTLE.Zones): return zones_array[zone];
+func get_battle_textures(zone: BATTLE.Zones): return ZONES_ARRAY[zone];
 
 func get_markers(marker_type: SETTINGS.Markers):
 	match marker_type:
@@ -219,7 +222,9 @@ func can_pokemon_scape(pokemon: Object, enemy: Object) -> bool:
 	
 	if(poke_speed >= enemy_speed): return true;
 	else:
-		var odd = floor(int(floor(((poke_speed * 128.0) / enemy_speed) + (30.0 * escape_attempts))) % 256);
+		var odd = floor(int(floor(
+			((poke_speed * 128.0) / enemy_speed) + (30.0 * escape_attempts))) % 256
+		);
 		return random < odd;
 
 func add_participant(poke: Object) -> void:
@@ -230,5 +235,4 @@ func add_participant(poke: Object) -> void:
 			break;
 	if(!already): participants.push_front(poke);
 
-func remove_participant(poke: Object) -> void:
-	participants.erase(poke);
+func remove_participant(poke: Object) -> void: participants.erase(poke);

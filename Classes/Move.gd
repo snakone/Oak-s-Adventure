@@ -50,7 +50,7 @@ func check_move_sprite() -> void:
 func tackle() -> void:
 	var tween = get_tree().create_tween();
 	var pos = current_sprite.position.x;
-	var move = MOVES.MovesData[move_name];
+	var move = MOVES.MOVE_ANIMATION[move_name];
 	var array =  move.values.player;
 	if(current_turn == Turn.ENEMY): array = move.values.enemy;
 	

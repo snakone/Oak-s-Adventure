@@ -19,11 +19,11 @@ enum Pokedex {
 }
 
 func get_pokemon(index):
-	for poke in pokedex_list:
+	for poke in LIBRARY:
 		if(poke.number == index): return poke.duplicate();
 
 func get_poke_resources(poke_name: String):
-	for poke in pokedex_list:
+	for poke in LIBRARY:
 		if(poke.name == poke_name):
 			return {
 				"party_texture": poke.party_texture,
@@ -34,10 +34,10 @@ func get_poke_resources(poke_name: String):
 			};
 
 func get_pokemon_prop(poke_name: String, key: String):
-	for poke in pokedex_list:
+	for poke in LIBRARY:
 		if(poke.name == poke_name): return poke[key];
 
-var pokedex_list: Array = [
+var LIBRARY: Array = [
 	{
 		"name": "BULBASAUR",
 		"number": Pokedex.BULBASAUR,

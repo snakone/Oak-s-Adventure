@@ -22,8 +22,8 @@ func _ready():
 	#COMING FROM SCENE
 	if(MAPS.position_before_scene && MAPS.last_map != null):
 		if(
-			MAPS.last_map in MAPS.connections &&
-			name in MAPS.connections[MAPS.last_map] &&
-			MAPS.position_before_scene in MAPS.connections[MAPS.last_map][name]
+			MAPS.last_map in MAPS.CONNECTIONS &&
+			name in MAPS.CONNECTIONS[MAPS.last_map] &&
+			MAPS.position_before_scene in MAPS.CONNECTIONS[MAPS.last_map][name]
 		):
-			oak.position = MAPS.connections[MAPS.last_map][name][MAPS.position_before_scene];
+			oak.position = MAPS.CONNECTIONS[MAPS.last_map][name][MAPS.position_before_scene];

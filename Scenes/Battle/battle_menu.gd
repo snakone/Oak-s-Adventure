@@ -33,7 +33,7 @@ func input() -> void:
 		cursor_index.y -= 1;
 		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
 	
-	cursor.position = BATTLE.menu_cursor_pos[cursor_index.y][cursor_index.x];
+	cursor.position = BATTLE.MENU_CURSOR[cursor_index.y][cursor_index.x];
 	
 	#SELECTION
 	if Input.is_action_just_pressed("space"):
@@ -72,7 +72,7 @@ func play_audio(stream: AudioStream) -> void:
 func _on_pokemon_select_party(_name) -> void:
 	dialog_label.text = "";
 	cursor_index = Vector2.ZERO;
-	cursor.position = BATTLE.menu_cursor_pos[0][0];
+	cursor.position = BATTLE.MENU_CURSOR[0][0];
 
 func connect_signals() -> void:
 	PARTY.connect("selected_pokemon_party", _on_pokemon_select_party);

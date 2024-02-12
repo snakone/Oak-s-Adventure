@@ -1,11 +1,12 @@
 extends Node
 
-var audio: AudioStreamPlayer;
-var current_song_id: int;
-var current_song: AudioStream;
 const BICYCLE = preload("res://Assets/Sounds/Bicycle.ogg");
 const BATTLE_WILD = preload("res://Assets/Sounds/Battle wild.ogg");
 const BATTLE_VICTORY_WILD = preload("res://Assets/Sounds/Battle victory wild.ogg");
+
+var audio: AudioStreamPlayer;
+var current_song_id: int;
+var current_song: AudioStream;
 
 func _ready():
 	audio = get_node("/root/SceneManager/Song");

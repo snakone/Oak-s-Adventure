@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://dgrt08phhewaf"]
+
+[ext_resource type="Script" path="res://Scenes/Maps/calderock_village.gd" id="1_tvowd"]
+[ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="2_4a8rc"]
+[ext_resource type="PackedScene" uid="uid://b6mqi2pnykjf4" path="res://Tilesets/calderock_village.tscn" id="2_4hxry"]
+[ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="4_h8pxt"]
+
+[node name="CalderockVillage" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_tvowd")
+
+[node name="TileMap" parent="." instance=ExtResource("2_4hxry")]
+layer_1/tile_data = PackedInt32Array(1638419, 0, 38, 1703955, 0, 38, 1769491, 0, 38, 1835027, 0, 38, 1900563, 0, 38, 1966099, 0, 38, 1638420, 0, 38, 1703956, 0, 38, 1769492, 0, 38, 1835028, 0, 38, 1900564, 0, 38, 1966100, 0, 38, 1638421, 0, 38, 1703957, 0, 38, 1769493, 0, 38, 1835029, 0, 38, 1900565, 0, 38, 1966101, 0, 38, 1638412, 0, 38, 1703948, 0, 38, 1769484, 0, 38, 1835020, 0, 38, 1900556, 0, 38, 1966092, 0, 38, 1638411, 0, 38, 1703947, 0, 38, 1769483, 0, 38, 1835019, 0, 38, 1900555, 0, 38, 1966091, 0, 38, 1638410, 0, 38, 1703946, 0, 38, 1769482, 0, 38, 1835018, 0, 38, 1900554, 0, 38, 1966090, 0, 38, 1638409, 0, 38, 1703945, 0, 38, 1769481, 0, 38, 1835017, 0, 38, 1900553, 0, 38, 1966089, 0, 38, 1638422, 0, 38, 1703958, 0, 38, 1769494, 0, 38, 1835030, 0, 38, 1900566, 0, 38, 1966102, 0, 38, 1638413, 0, 38, 1638414, 0, 38, 1638415, 0, 38, 1638416, 0, 38, 1638417, 0, 38, 1638418, 0, 38)
+
+[node name="Oak" parent="." instance=ExtResource("2_4a8rc")]
+position = Vector2(240, 384)
+
+[node name="DoorLeft" parent="." instance=ExtResource("4_h8pxt")]
+z_index = 1
+position = Vector2(224, 352)
+next_scene = "res://Scenes/Maps/Routes/route_01.tscn"
+spawn_position = Vector2(112, 80)
+
+[node name="DoorRight" parent="." instance=ExtResource("4_h8pxt")]
+z_index = 1
+position = Vector2(240, 352)
+next_scene = "res://Scenes/Maps/Routes/route_01.tscn"
+spawn_position = Vector2(128, 80)
