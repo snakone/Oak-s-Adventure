@@ -21,6 +21,8 @@ y_sort_enabled = true
 position = Vector2(48, 16)
 input_pickable = true
 
+[node name="TileMap" parent="." instance=ExtResource("1_mej1f")]
+
 [node name="OakFarmerDoor" parent="." instance=ExtResource("5_1wix8")]
 z_index = 1
 y_sort_enabled = true
@@ -29,8 +31,6 @@ next_scene = "res://Scenes/Maps/farmer_house.tscn"
 enter_direction = 2
 spawn_position = Vector2(64, 112)
 sprite_image = ExtResource("5_xxc6b")
-
-[node name="TileMap" parent="." instance=ExtResource("1_mej1f")]
 
 [node name="SwitchScene" parent="." instance=ExtResource("3_yop7n")]
 position = Vector2(56, -12)

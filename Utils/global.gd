@@ -22,6 +22,7 @@ enum SaveType { PLAYER, SCENE, PARTY }
 enum DoorType { IN, OUT }
 enum DialogAreaType { NPC, OBJECT, NONE }
 enum BinaryOptions { YES, NO }
+enum DoorCategory { DOOR, TUNNEL, AUTO }
 
 const TILE_SIZE: int = 16;
 const WINDOW_SIZE = Vector2(15, 10);

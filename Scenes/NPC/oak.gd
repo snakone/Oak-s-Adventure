@@ -292,10 +292,12 @@ func _on_end_battle() -> void:
 func _on_enter_door_animation(area: Area2D) -> void:
 	var delay_time := 0.1;
 	if(area.type == GLOBAL.DoorType.OUT): delay_time = 0.2;
-	if(GLOBAL.on_bike): get_off_bike(false);
-	await GLOBAL.timeout(.1);
+	if(GLOBAL.on_bike && area.category == GLOBAL.DoorCategory.DOOR): 
+		get_off_bike(false);
+	await GLOBAL.timeout(delay_time);
 	var tween = get_tree().create_tween();
-	await tween.tween_property(sprite, "modulate:a", 0, delay_time).finished;
+	tween.tween_property(sprite, "modulate:a", 0, delay_time);
+	await tween.finished;
 	stop = true;
 
 func _on_cant_enter_door(_area: Area2D) -> void:

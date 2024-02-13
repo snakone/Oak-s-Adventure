@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://doemf40ma8wva"]
+[gd_scene load_steps=10 format=3 uid="uid://doemf40ma8wva"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/Routes/route_01.gd" id="1_ma7kd"]
 [ext_resource type="AudioStream" uid="uid://xjfw4vmtoyty" path="res://Assets/Sounds/Route01.ogg" id="2_0k0wu"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="5_ldwwl"]
 [ext_resource type="Texture2D" uid="uid://33uo6ty1kgq7" path="res://Sprites/NPC/green_boy.png" id="6_h16s6"]
 [ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="8_kepij"]
+[ext_resource type="AudioStream" uid="uid://7ufcq8cj32hk" path="res://Assets/Sounds/Door exit.ogg" id="9_add08"]
 
 [node name="Route01" type="Node2D"]
 y_sort_enabled = true
@@ -34,16 +35,24 @@ negative_limits = Vector2(-1, 0)
 interval = 3.0
 dialog_id = 19
 
-[node name="LeftDoor" parent="." instance=ExtResource("8_kepij")]
+[node name="DoorLeft" parent="." instance=ExtResource("8_kepij")]
 z_index = 1
+y_sort_enabled = true
 position = Vector2(95, -2)
 next_scene = "res://Scenes/Maps/calderock_village.tscn"
 enter_direction = 2
 spawn_position = Vector2(240, 384)
+animated = false
+DOOR_ENTER = ExtResource("9_add08")
+category = 1
 
-[node name="RightDoor" parent="." instance=ExtResource("8_kepij")]
+[node name="DoorRight" parent="." instance=ExtResource("8_kepij")]
 z_index = 1
+y_sort_enabled = true
 position = Vector2(113, -2)
 next_scene = "res://Scenes/Maps/calderock_village.tscn"
 enter_direction = 2
 spawn_position = Vector2(256, 384)
+animated = false
+DOOR_ENTER = ExtResource("9_add08")
+category = 1

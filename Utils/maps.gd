@@ -24,7 +24,7 @@ const location_array = [
 	"Route00",
 	"OakFarmerHouse",
 	"Route01",
-	"Calderock"
+	"CalderockVillage"
 ];
 
 const location_string = {
@@ -33,7 +33,7 @@ const location_string = {
 	"Route00": "Oak's Farm",
 	"OakFarmerHouse": "Oak's Farmer House",
 	"Route01": "Route 01",
-	"Calderock": "Calderock Village"
+	"CalderockVillage": "Calderock Village"
 }
 
 func get_map_name(get_string = false) -> String:
