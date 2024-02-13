@@ -39,7 +39,7 @@ new_map = 2
 [node name="OakDoor" parent="." instance=ExtResource("5_qpu3u")]
 z_index = 1
 y_sort_enabled = true
-position = Vector2(32, 16)
+position = Vector2(48, 80)
 next_scene = "res://Scenes/Maps/oak_house.tscn"
 enter_direction = 2
 spawn_position = Vector2(80, 128)

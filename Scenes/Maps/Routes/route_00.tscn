@@ -26,7 +26,7 @@ input_pickable = true
 [node name="OakFarmerDoor" parent="." instance=ExtResource("5_1wix8")]
 z_index = 1
 y_sort_enabled = true
-position = Vector2(288, 0)
+position = Vector2(304, 64)
 next_scene = "res://Scenes/Maps/farmer_house.tscn"
 enter_direction = 2
 spawn_position = Vector2(64, 112)

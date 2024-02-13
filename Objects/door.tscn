@@ -133,13 +133,12 @@ enter_direction = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 z_index = 1
-position = Vector2(24, 72)
+position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_gvsfj")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
 y_sort_enabled = true
-position = Vector2(16, 64)
 texture = ExtResource("2_5b8ag")
 centered = false
 vframes = 3

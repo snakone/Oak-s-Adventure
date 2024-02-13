@@ -1,0 +1,24 @@
+[gd_scene load_steps=7 format=3 uid="uid://bxf1hxdkx6318"]
+
+[ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="1_cst2t"]
+[ext_resource type="Script" path="res://Scenes/Maps/Shared/poke_center.gd" id="1_u7137"]
+[ext_resource type="AudioStream" uid="uid://882nu3y2isp5" path="res://Assets/Sounds/Poke Center.ogg" id="2_oet7p"]
+[ext_resource type="PackedScene" uid="uid://bymuwwmuh7j1x" path="res://Tilesets/poke_center.tscn" id="3_6pyhj"]
+[ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="3_m840l"]
+[ext_resource type="AudioStream" uid="uid://cihltj3h07xqb" path="res://Assets/Sounds/Door slide.ogg" id="5_1blax"]
+
+[node name="PokeCenter" type="Node2D"]
+script = ExtResource("1_u7137")
+song = ExtResource("2_oet7p")
+
+[node name="Oak" parent="." instance=ExtResource("1_cst2t")]
+position = Vector2(112, 128)
+
+[node name="TileMap" parent="." instance=ExtResource("3_6pyhj")]
+
+[node name="PokeCenterDoor" parent="." instance=ExtResource("3_m840l")]
+position = Vector2(112, 144)
+next_scene = "res://Scenes/Maps/calderock_village.tscn"
+spawn_position = Vector2(368, 256)
+type = 1
+DOOR_EXIT = ExtResource("5_1blax")

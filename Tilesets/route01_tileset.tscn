@@ -42,23 +42,23 @@ layer_4/name = "Ysort"
 layer_4/y_sort_enabled = true
 layer_4/tile_data = PackedInt32Array(458762, 1441792, 3)
 
-[node name="Area2D" type="StaticBody2D" parent="."]
+[node name="Collisions" type="StaticBody2D" parent="."]
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionSouthLeft" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionSouthLeft" type="CollisionShape2D" parent="Collisions"]
 position = Vector2(56, 488)
 shape = SubResource("RectangleShape2D_sb8u1")
 
-[node name="CollisionSouthRight" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionSouthRight" type="CollisionShape2D" parent="Collisions"]
 position = Vector2(200, 488)
 shape = SubResource("RectangleShape2D_mfse4")
 
-[node name="CollisionRight" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionRight" type="CollisionShape2D" parent="Collisions"]
 position = Vector2(248, 232)
 shape = SubResource("RectangleShape2D_vmb2u")
 
-[node name="CollisionLeft" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionLeft" type="CollisionShape2D" parent="Collisions"]
 position = Vector2(-8, 232)
 shape = SubResource("RectangleShape2D_vmb2u")
 

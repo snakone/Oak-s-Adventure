@@ -505,11 +505,10 @@ collision_layer = 2
 collision_mask = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Shape"]
-visible = false
 polygon = PackedVector2Array(-32, 80, 128, 80, 128, -64, -128, -64, -128, 80, -48, 80, -48, 96, -144, 96, -144, -80, 144, -80, 144, 96, -32, 96)
 
 [node name="OakDoor" parent="." instance=ExtResource("3_clpgf")]
-position = Vector2(64, 80)
+position = Vector2(80, 144)
 next_scene = "res://Scenes/Maps/praire_town.tscn"
 spawn_position = Vector2(48, 96)
 type = 1
