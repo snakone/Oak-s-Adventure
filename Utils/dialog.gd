@@ -157,4 +157,18 @@ const LIBRARY: Dictionary = {
 		"npc_name": "Daisy",
 		"marker": true
 	},
+	23: {
+		"arr": [
+			["Welcome Sr. Oak"]
+		],
+		"type": DialogType.NPC,
+		"npc_name": "Joy",
+		"marker": true,
+		"selection": true
+	},
+	24: {
+		"arr": [["Do you want to heal your POKéMON?"]],
+		"type": DialogType.SYSTEM,
+		"marker": false
+	},
 }

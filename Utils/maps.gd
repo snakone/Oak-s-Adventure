@@ -24,7 +24,8 @@ const location_array = [
 	"Route00",
 	"OakFarmerHouse",
 	"Route01",
-	"CalderockVillage"
+	"CalderockVillage",
+	"PokeCenter"
 ];
 
 const location_string = {
@@ -33,7 +34,8 @@ const location_string = {
 	"Route00": "Oak's Farm",
 	"OakFarmerHouse": "Oak's Farmer House",
 	"Route01": "Route 01",
-	"CalderockVillage": "Calderock Village"
+	"CalderockVillage": "Calderock Village",
+	"PokeCenter": "POKéMON Center"
 }
 
 func get_map_name(get_string = false) -> String:
@@ -72,6 +74,9 @@ const CONNECTIONS = {
 			Vector2(112, 470): Vector2(272, 0),
 			Vector2(128, 470): Vector2(288, 0),
 		}
+	},
+	"PokeCenter": {
+		"CalderockVillage": Vector2(368, 256)
 	}
 }
 
