@@ -14,7 +14,9 @@ const LIBRARY: Dictionary = {
 		],
 		"npc_name": "Gary",
 		"type": DialogType.NPC,
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 		},
 	2: {
 		"arr": [
@@ -23,12 +25,16 @@ const LIBRARY: Dictionary = {
 		],
 		"npc_name": "Mom",
 		"type": DialogType.NPC,
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 		},
 	3: {
 		"arr": [["There are several types of seeds inside."]],
 		"type": DialogType.OBJECT,
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 		},
 	4: {
 		"arr": [
@@ -36,7 +42,9 @@ const LIBRARY: Dictionary = {
 				["Maybe I should find a boy to bring me the mail sometimes."]
 			],
 		"type": DialogType.OBJECT,
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 		},
 	5: {
 		"arr": [
@@ -45,22 +53,30 @@ const LIBRARY: Dictionary = {
 				["Don't miss it!"]
 			],
 		"type": DialogType.OBJECT,
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 		},
 	6: {
 		"arr": [["Oak's Farmer House."]],
 		"type": DialogType.OBJECT,
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 		},
 	7: {
 		"arr": [["Some of Oak's exclusive items."]],
 		"type": DialogType.OBJECT,
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 		},
 	8: {
 		"arr": [["Some Doritos from last night."]],
 		"type": DialogType.OBJECT,
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 		},
 	9: {
 		"arr": [
@@ -68,37 +84,51 @@ const LIBRARY: Dictionary = {
 			["I love this game!"]
 		],
 		"type": DialogType.OBJECT,
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 		},
 	10: {
 		"arr": [["Do you want to save the game?"]],
 		"type": DialogType.SYSTEM,
-		"marker": false
+		"marker": false,
+		"selection": true,
+		"sound": preload("res://Assets/Sounds/confirm.wav")
 	},
 	11: {
 		"arr": [["There is already a saved file. \nIs it okay to overwrite it?"]],
 		"type": DialogType.SYSTEM,
-		"marker": false
+		"marker": false,
+		"selection": true,
+		"sound": preload("res://Assets/Sounds/save game.mp3")
 	},
 	12: {
 		"arr": [["Oops! It seems like this door is locked!"]],
 		"type": DialogType.SYSTEM,
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 	},
 	13: {
 		"arr": [["I'd better keep this for outside."]],
 		"type": DialogType.SYSTEM,
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 	},
 	14: {
 		"arr": [["There's still some coffee left in the cup."]],
 		"type": DialogType.OBJECT,
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 	},
 	15: {
 		"arr": [["My underwear is already clean."]],
 		"type": DialogType.OBJECT,
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 	},
 	16: {
 		"arr": [
@@ -106,17 +136,23 @@ const LIBRARY: Dictionary = {
 			["Discovered 3000 years ago."],
 		],
 		"type": DialogType.OBJECT,
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 	},
 	17: {
 		"arr": [["South Access to Calderock Village."]],
 		"type": DialogType.OBJECT,
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 	},
 	18: {
 		"arr": [["Irine's Fountain."]],
 		"type": DialogType.OBJECT,
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 	},
 	19: {
 		"arr": [
@@ -126,7 +162,9 @@ const LIBRARY: Dictionary = {
 		],
 		"type": DialogType.NPC,
 		"npc_name": "Scott",
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 	},
 	20: {
 		"arr": [
@@ -135,7 +173,9 @@ const LIBRARY: Dictionary = {
 		],
 		"type": DialogType.NPC,
 		"npc_name": "Merlin",
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 	},
 	21: {
 		"arr": [
@@ -146,7 +186,9 @@ const LIBRARY: Dictionary = {
 		],
 		"type": DialogType.NPC,
 		"npc_name": "Harold",
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 	},
 	22: {
 		"arr": [
@@ -155,20 +197,19 @@ const LIBRARY: Dictionary = {
 		],
 		"type": DialogType.NPC,
 		"npc_name": "Daisy",
-		"marker": true
+		"marker": true,
+		"selection": false,
+		"sound": null
 	},
 	23: {
 		"arr": [
-			["Welcome Sr. Oak"]
+			["Welcome Sr. Oak"],
+			["Do you want to heal your POKéMON?"]
 		],
 		"type": DialogType.NPC,
 		"npc_name": "Joy",
 		"marker": true,
-		"selection": true
-	},
-	24: {
-		"arr": [["Do you want to heal your POKéMON?"]],
-		"type": DialogType.SYSTEM,
-		"marker": false
-	},
+		"selection": true,
+		"sound": preload("res://Assets/Sounds/confirm.wav")
+	}
 }

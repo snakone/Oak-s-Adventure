@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bxf1hxdkx6318"]
+[gd_scene load_steps=9 format=3 uid="uid://bxf1hxdkx6318"]
 
 [ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="1_cst2t"]
 [ext_resource type="Script" path="res://Scenes/Maps/Shared/poke_center.gd" id="1_u7137"]
@@ -8,7 +8,6 @@
 [ext_resource type="AudioStream" uid="uid://cihltj3h07xqb" path="res://Assets/Sounds/Door slide.ogg" id="5_1blax"]
 [ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="7_1jicx"]
 [ext_resource type="Texture2D" uid="uid://cgoricxuabdhj" path="res://Sprites/NPC/joy_care_no_feet.png" id="8_d1bba"]
-[ext_resource type="PackedScene" uid="uid://d1n3rqipshb3u" path="res://Scenes/UI/menu_selection.tscn" id="9_na0fi"]
 
 [node name="PokeCenter" type="Node2D"]
 script = ExtResource("1_u7137")
@@ -38,8 +37,6 @@ can_down = false
 possitive_limits = Vector2(1, 0)
 interval = 10.0
 dialog_id = 23
-
-[node name="Selection" parent="." instance=ExtResource("9_na0fi")]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 

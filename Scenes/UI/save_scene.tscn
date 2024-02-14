@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bhy8n67ibm6tm"]
+[gd_scene load_steps=4 format=3 uid="uid://bhy8n67ibm6tm"]
 
 [ext_resource type="Script" path="res://Scenes/UI/save_scene.gd" id="1_ihpa7"]
 [ext_resource type="Texture2D" uid="uid://d3dxw0bsf6jxo" path="res://Assets/UI/marker_orange.png" id="2_th4p2"]
 [ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="3_88nxm"]
-[ext_resource type="PackedScene" uid="uid://d1n3rqipshb3u" path="res://Scenes/UI/menu_selection.tscn" id="4_c42uj"]
 
 [node name="SaveScene" type="CanvasLayer"]
 script = ExtResource("1_ihpa7")
@@ -20,6 +19,7 @@ patch_margin_right = 6
 patch_margin_bottom = 6
 
 [node name="Location" type="RichTextLabel" parent="PlayerStats"]
+clip_contents = false
 layout_mode = 0
 offset_left = 10.0
 offset_top = 9.0
@@ -80,9 +80,5 @@ theme_override_colors/font_shadow_color = Color(0.862745, 0.854902, 0.85098, 1)
 theme_override_font_sizes/normal_font_size = 12
 text = "TIME.P"
 
-[node name="Selection" parent="." instance=ExtResource("4_c42uj")]
-
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -20.0
-
-[connection signal="value_selected" from="Selection" to="." method="_on_selection_value_selected"]

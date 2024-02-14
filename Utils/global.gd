@@ -10,7 +10,7 @@ signal bike_inside;
 signal start_dialog(id: int);
 signal close_dialog;
 signal on_tile_map_changed(size: Vector2, camera_offset: Vector2);
-signal system_dialog_finished;
+signal selection_value_selected(value:BinaryOptions);
 
 signal start_battle(battle_data: Dictionary);
 signal close_battle;
@@ -55,7 +55,6 @@ var on_bike = false;
 var inside_house = false;
 var dialog_open = false;
 var on_battle = false;
-var closing_menu_selection = false;
 var on_poke_center = false;
 
 #VALUES

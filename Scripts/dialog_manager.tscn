@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b6hbe8lus8fv2"]
+[gd_scene load_steps=11 format=3 uid="uid://b6hbe8lus8fv2"]
 
 [ext_resource type="Script" path="res://Scripts/dialog_manager.gd" id="1_xrosg"]
 [ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="2_sr88g"]
@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/Fonts/power clear.ttf" id="4_c420i"]
 [ext_resource type="Texture2D" uid="uid://bynrkxrintj5r" path="res://Assets/UI/triangle.png" id="5_hcghe"]
 [ext_resource type="AudioStream" uid="uid://cfl2vuycupxn1" path="res://Assets/Sounds/confirm.wav" id="6_lcq8j"]
+[ext_resource type="PackedScene" uid="uid://d1n3rqipshb3u" path="res://Scenes/UI/menu_selection.tscn" id="7_mmu53"]
 
 [sub_resource type="Animation" id="Animation_lw6i4"]
 resource_name = "Bounce"
@@ -101,3 +102,5 @@ autoplay = "Bounce"
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_lcq8j")
 volume_db = -15.0
+
+[node name="Selection" parent="." instance=ExtResource("7_mmu53")]

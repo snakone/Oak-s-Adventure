@@ -151,7 +151,7 @@ func handle_UP() -> void:
 	if(selected_option == MenuOptions.POKEDEX): selected_option = MenuOptions.EXIT;
 	else: selected_option -= 1;
 	update_arrow();
-	
+
 func handle_save() -> void:
 	play_audio(GUI_SEL_DECISION);
 	control.visible = false;
@@ -173,4 +173,3 @@ func _on_player_moving(value: bool) -> void: is_player_moving = value;
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;
 	audio.play();
-

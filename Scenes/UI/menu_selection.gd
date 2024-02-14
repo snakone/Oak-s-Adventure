@@ -1,6 +1,5 @@
 extends NinePatchRect
 
-signal value_selected(value: GLOBAL.BinaryOptions);
 @export var selection_position: Vector2 = Vector2(176, 70);
 
 @onready var arrow = $TextureRect;
@@ -32,7 +31,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		event.is_echo() ||
 		!visible ||
 		GLOBAL.party_open ||
-		GLOBAL.closing_menu_selection ||
 		!event is InputEventKey
 	): return;
 	
@@ -59,7 +57,7 @@ func handle_UP() -> void:
 	update_arrow();
 
 func select_option(): 
-	value_selected.emit(selected_option);
+	GLOBAL.selection_value_selected.emit(selected_option);
 	visible = false;
 	selected_option = 0;
 	update_arrow();
