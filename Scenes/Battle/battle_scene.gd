@@ -351,7 +351,7 @@ func _on_health_timer_timeout() -> void:
 	else: stop_health_timer();
 
 #MENU SELECTION
-func _on_menu_selection_value_selected(value: int) -> void:
+func _on_selection_value_selected(value: int) -> void:
 	dialog.set_current_text("");
 	play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
 	match value:
@@ -613,4 +613,5 @@ func connect_signals() -> void:
 	BATTLE.connect("check_can_escape", _on_check_can_escape);
 	BATTLE.connect("start_attack", start_attack);
 	PARTY.connect("selected_pokemon_party", _on_party_pokemon_select);
+	GLOBAL.connect("selection_value_selected", _on_selection_value_selected);
 	health_timer.connect("timeout", _on_health_timer_timeout);

@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bymuwwmuh7j1x"]
+[gd_scene load_steps=7 format=3 uid="uid://bymuwwmuh7j1x"]
 
 [ext_resource type="Texture2D" uid="uid://cc8r3fw5qdhfw" path="res://Sprites/insides1.png" id="1_1r7hk"]
+[ext_resource type="Texture2D" uid="uid://c7q7v0f8skccl" path="res://Sprites/poke_center_inside.png" id="2_d4ur2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8axba"]
 texture = ExtResource("1_1r7hk")
@@ -506,10 +507,14 @@ margins = Vector2i(2, 6)
 4:8/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 4:8/0/physics_layer_0/angular_velocity = 0.0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6m7ot"]
+texture = ExtResource("2_d4ur2")
+
 [sub_resource type="TileSet" id="TileSet_encl5"]
 physics_layer_0/collision_layer = 2
 physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_8axba")
+sources/2 = SubResource("TileSetAtlasSource_6m7ot")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y46e0"]
 

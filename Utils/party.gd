@@ -57,6 +57,11 @@ func swap_party_pokemon(initial_pos: int, destiny_pos: int) -> void:
 	copy[destiny_pos] = temp;
 	current_party = copy;
 
+func healh_party_pokemon() -> void:
+	for poke in current_party:
+		poke.data.death = false;
+		poke.data.current_hp = poke.data.battle_stats["HP"];
+
 func create_party_from_json(party: Array) -> Array:
 	#return [
 		#Pokemon.new(POKEDEX.LIBRARY[0]),

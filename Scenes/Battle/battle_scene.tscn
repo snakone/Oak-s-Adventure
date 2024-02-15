@@ -1954,5 +1954,3 @@ autoplay = true
 [node name="MenuSelection" parent="." instance=ExtResource("36_loxbc")]
 visible = false
 selection_position = Vector2(180, 32)
-
-[connection signal="value_selected" from="MenuSelection" to="." method="_on_menu_selection_value_selected"]

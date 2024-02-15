@@ -232,10 +232,10 @@ func _on_menu_opened(value: bool) -> void:
 func check_position_out_bounds():
 	if fmod(position.x, GLOBAL.TILE_SIZE) != 0.0 && percent_moved >= 1:
 		#position.x = floor(position.x / GLOBAL.TILE_SIZE) * GLOBAL.TILE_SIZE;
-		print("WARNING: OUT OF BOUNDS");
+		print("WARNING: OUT OF BOUNDS (X)");
 	elif(fmod(position.y, GLOBAL.TILE_SIZE) != 0.0) && percent_moved >= 1:
 		#position.y = floor(position.y / GLOBAL.TILE_SIZE) * GLOBAL.TILE_SIZE;
-		print("WARNING: OUT OF BOUNDS");
+		print("WARNING: OUT OF BOUNDS (Y)");
 
 #DIALOGS
 func check_for_dialogs() -> void:
@@ -245,7 +245,8 @@ func check_for_dialogs() -> void:
 		update_dialog_rays(desired_step);
 		if(
 			DIALOG.DialogType.NPC in area_types && 
-			npc_ray_cast_2d.is_colliding()
+			npc_ray_cast_2d.is_colliding() &&
+			!GLOBAL.healing
 			): start_dialog_state(npc_dialog_id);
 		elif(
 			DIALOG.DialogType.OBJECT in area_types &&

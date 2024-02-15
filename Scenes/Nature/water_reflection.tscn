@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://1hfhb3c78hec"]
+
+[ext_resource type="TileSet" uid="uid://b5gndbwmtjfuv" path="res://Tilesets/route00.tres" id="1_dc1mn"]
+
+[node name="Water" type="TileMap"]
+clip_children = 2
+z_index = 1
+y_sort_enabled = true
+tile_set = ExtResource("1_dc1mn")
+format = 2
+layer_0/name = "Water"
+layer_0/y_sort_enabled = true
+layer_0/z_index = 1
+layer_0/tile_data = PackedInt32Array(983056, 1048576, 21, 983057, 1048576, 21, 983058, 1048576, 21, 983054, 983040, 21, 1048590, 983040, 22, 1114126, 983040, 23, 983055, 1048576, 21, 1048591, 1048576, 22, 1114127, 1048576, 23, 1048592, 1048576, 22, 1114128, 1048576, 23, 1048593, 1048576, 22, 1114129, 1048576, 23, 1048594, 1048576, 22, 1114130, 1048576, 23, 983059, 1114112, 21, 1048595, 1114112, 22, 1114131, 1114112, 23)

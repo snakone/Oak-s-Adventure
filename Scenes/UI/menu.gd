@@ -20,6 +20,8 @@ const GUI_MENU_OPEN = preload("res://Assets/Sounds/GUI menu open.ogg");
 const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg");
 const GUI_SAVE_GAME = preload("res://Assets/Sounds/GUI save game.ogg");
 const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg");
+const TRAINER_CARD_OPEN = preload("res://Assets/Sounds/GUI trainer card open.ogg");
+const GUI_SAVE_CHOICE = preload("res://Assets/Sounds/GUI save choice.ogg");
 
 var options_length = MenuOptions.keys().size();
 var selected_option = 0;
@@ -122,7 +124,7 @@ func _on_scene_opened(value: bool, node_name: String) -> void:
 func open_profile() -> void:
 	can_use_menu = false;
 	screen_loaded = ScreenLoaded.OAK;
-	play_audio(GUI_SEL_DECISION);
+	play_audio(TRAINER_CARD_OPEN);
 	await audio.finished;
 	control.visible = false;
 	scene_manager.transition_to_scene(profile_scene_path, true, false);
@@ -153,7 +155,7 @@ func handle_UP() -> void:
 	update_arrow();
 
 func handle_save() -> void:
-	play_audio(GUI_SEL_DECISION);
+	play_audio(GUI_SAVE_CHOICE);
 	control.visible = false;
 	GLOBAL.menu_open = false;
 	screen_loaded = ScreenLoaded.NONE;

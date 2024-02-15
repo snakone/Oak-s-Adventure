@@ -211,5 +211,27 @@ const LIBRARY: Dictionary = {
 		"marker": true,
 		"selection": true,
 		"sound": preload("res://Assets/Sounds/confirm.wav")
+	},
+	24: {
+		"arr": [
+			["Ok. Just one moment please."]
+		],
+		"type": DialogType.NPC,
+		"npc_name": "Joy",
+		"marker": false,
+		"selection": false,
+		"sound": null
+	},
+	25: {
+		"arr": [
+			["Thanks for your patience."],
+			["Your POKéMON have fully health now."],
+			["Hope to see you again soon."]
+		],
+		"type": DialogType.NPC,
+		"npc_name": "Joy",
+		"marker": true,
+		"selection": false,
+		"sound": null
 	}
 }

@@ -56,6 +56,7 @@ var inside_house = false;
 var dialog_open = false;
 var on_battle = false;
 var on_poke_center = false;
+var healing = false;
 
 #VALUES
 var current_money = 0;

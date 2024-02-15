@@ -16,6 +16,7 @@ const YELLOW_BAR = preload("res://Assets/UI/yellow_bar.png");
 const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg");
 const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
 const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg");
+const GUI_PARTY_SWITCH = preload("res://Assets/Sounds/GUI party switch.ogg");
 
 const POKEMON_BACKGROUND = preload("res://Assets/UI/standby_pokemon_background.png");
 const MAIN_POKEMON_BACKGROUND = preload("res://Assets/UI/main_pokemon_background.png");
@@ -248,6 +249,7 @@ func switch_pokemon() -> void:
 	];
 	
 	#OUT
+	play_audio(GUI_PARTY_SWITCH);
 	for anim_player in slots_array:
 		anim_player.play("SwitchOut");
 	await GLOBAL.timeout(switch_anim_duration);
@@ -261,6 +263,7 @@ func switch_pokemon() -> void:
 	await GLOBAL.timeout(0.1);
 	
 	#IN
+	play_audio(GUI_PARTY_SWITCH);
 	for anim_player in slots_array:
 		anim_player.play("SwitchIn");
 	await GLOBAL.timeout(switch_anim_duration);
