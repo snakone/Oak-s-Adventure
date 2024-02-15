@@ -36,3 +36,8 @@
 # 0.5.1
 - Switch Pokémon on Party
 - General Battle Improves
+
+# 0.5.2
+- New Maps Route01 and Calderock
+- Pokémon Center / Healing
+- Dialog Selection
