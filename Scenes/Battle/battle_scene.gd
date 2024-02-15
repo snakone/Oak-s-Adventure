@@ -152,7 +152,17 @@ func set_markers() -> void:
 func start_attack(delay = 0.0, sound = true) -> void:
 	await GLOBAL.timeout(delay);
 	BATTLE.attack_pressed = true;
+	#PRIORITY
 	var priority = pokemon.data.battle_stats.SPD >= enemy.data.battle_stats.SPD;
+	if(!BATTLE.attacks_set):
+		BATTLE.player_selected_attack = selection.get_player_selected_attack();
+		BATTLE.enemy_selected_attack = selection.get_enemy_random_attack();
+		BATTLE.attacks_set = true;
+		if(BATTLE.enemy_selected_attack.priority > BATTLE.player_selected_attack.priority):
+			priority = false;
+		elif(BATTLE.player_selected_attack.priority > BATTLE.enemy_selected_attack.priority): 
+			priority = true;
+	
 	if((priority && !BATTLE.player_attacked) || BATTLE.enemy_attacked): 
 		pokemon_attack(sound);
 	elif(!BATTLE.enemy_attacked || BATTLE.player_attacked): 
@@ -178,25 +188,24 @@ func start_attack(delay = 0.0, sound = true) -> void:
 		
 	BATTLE.player_attacked = false;
 	BATTLE.enemy_attacked = false;
+	BATTLE.attacks_set = false;
 	battle_anim_player.play("Idle");
 
 func pokemon_attack(sound = true) -> void:
 	BATTLE.current_turn = BATTLE.Turn.PLAYER;
 	BATTLE.player_attacked = true;
-	var move = selection.get_player_selected_attack();
 	health_before_attack = enemy.data.current_hp;
-	if(pokemon.attack(enemy, move).ok):
+	if(pokemon.attack(enemy, BATTLE.player_selected_attack).ok):
 		if(enemy.data.death): BATTLE.enemy_death = true; 
-		handle_attack(pokemon, move, sound);
+		handle_attack(pokemon, BATTLE.player_selected_attack, sound);
 
 func enemy_attack(sound = true) -> void:
 	BATTLE.current_turn = BATTLE.Turn.ENEMY;
 	BATTLE.enemy_attacked = true;
-	var move = selection.get_enemy_random_attack();
 	health_before_attack = pokemon.data.current_hp;
-	if(enemy.attack(pokemon, move).ok): 
+	if(enemy.attack(pokemon, BATTLE.enemy_selected_attack).ok): 
 		if(pokemon.data.death): BATTLE.pokemon_death = true;  
-		handle_attack(enemy, move, sound);
+		handle_attack(enemy, BATTLE.enemy_selected_attack, sound);
 
 func handle_attack(target: Object, move: Dictionary, sound = true) -> void:
 	BATTLE.state = BATTLE.States.ATTACKING;
@@ -266,6 +275,11 @@ func level_up_animation() -> void:
 	dialog.level_up([grew + str(pokemon.data.level) + "!"], pokemon);
 	await BATTLE.level_up_stats_end;
 	dialog.set_label("");
+	#CHECK NEW MOVES
+	var new_level = int(pokemon.data.level);
+	if(new_level in pokemon.data.move_set.keys()):
+		check_learn_move(pokemon, new_level);
+		await BATTLE.dialog_finished;
 	update_exp_bar(0.5);
 	level_up_timer.stop();
 
@@ -360,6 +374,19 @@ func _on_selection_value_selected(value: int) -> void:
 			await GLOBAL.timeout(1);
 			player_info.visible = false;
 		int(GLOBAL.BinaryOptions.NO): _on_check_can_escape();
+
+func check_learn_move(poke: Object, new_level: int) -> void:
+	var new_move_index = float(poke.data.move_set[new_level]);
+	if(new_move_index in poke.data.moves):
+		await GLOBAL.timeout(0.2);
+		BATTLE.dialog_finished.emit();
+		return;
+	var new_move = MOVES.get_move(new_move_index);
+	poke.learn_move(new_move.id);
+	await GLOBAL.timeout(0.1);
+	dialog.set_current_text("");
+	play_audio(BATTLE.BATTLE_SOUNDS.MOVE_LEARN);
+	dialog.start([poke.name + " learned " + new_move.name.to_upper() + "!"]);
 
 #CHECKERS
 func check_battle_state() -> void:
@@ -583,6 +610,10 @@ func give_exp_to_participants(state: Dictionary) -> void:
 				dialog.level_up([grew + str(participant.data.level) + "!"], participant);
 				await BATTLE.level_up_stats_end;
 				dialog.reset_text();
+				var new_level = int(participant.data.level);
+				if(new_level in participant.data.move_set.keys()):
+					check_learn_move(participant, new_level);
+					await BATTLE.dialog_finished;
 	BATTLE.participant_exp_end.emit();
 
 #AUDIO

@@ -62,7 +62,9 @@ var LIBRARY: Dictionary = {
 		"accuracy": 100,
 		"pp": 35,
 		"total_pp": 35,
-		"effects": []
+		"effects": [],
+		"priority": 0,
+		"description": "A physical attack in which the user charges, full body, into the foe."
 	},
 	2: {
 		"id": 2,
@@ -73,11 +75,26 @@ var LIBRARY: Dictionary = {
 		"accuracy": 100,
 		"pp": 40,
 		"total_pp": 40,
+		"priority": 0,
 		"effects": [
 			{
 				"apply": func set(enemy: Dictionary): enemy.data.battle_stages["ATK"] -= 1; 
 			}
-		]
+		],
+		"description": ""
+	},
+	3: {
+		"id": 3,
+		"name": "Quick Attack",
+		"type": Types.NORMAL,
+		"category": AttackCategory.PHYSIC,
+		"power": 90,
+		"accuracy": 100,
+		"pp": 30,
+		"total_pp": 30,
+		"effects": [],
+		"priority": 1,
+		"description": "An almost invisibly fast attack that is certain to strike first."
 	}
 }
 
@@ -183,7 +200,8 @@ func type_effective(atk_type: Types, def_type: Types) -> float:
 	return 1.0;
 
 enum MoveNames {
-	TACKLE
+	TACKLE,
+	QUICK_ATTACK
 }
 
 const MOVE_ANIMATION = {
@@ -205,6 +223,23 @@ const MOVE_ANIMATION = {
 				{ "value": -18, "duration": 0.1 },
 				{ "value": -15, "duration": 0.1 },
 				{ "value": 0, "duration": 0.2 }
+			]
+		}
+	},
+	MoveNames.QUICK_ATTACK: {
+		"property": "position:x",
+		"values": {
+			"player": [
+				{ "value": -5, "duration": 0.15 },
+				{ "value": -20, "duration": 0.11 },
+				{ "value": -100, "duration": 0.2 },
+				{ "value": 0, "duration": 0.3 },
+			],
+			"enemy": [
+				{ "value": 5, "duration": 0.15 },
+				{ "value": 20, "duration": 0.11 },
+				{ "value": 100, "duration": 0.2 },
+				{ "value": 0, "duration": 0.3 },
 			]
 		}
 	}

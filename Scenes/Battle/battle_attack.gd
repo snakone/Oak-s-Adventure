@@ -23,16 +23,19 @@ func get_player_selected_attack() -> Dictionary:
 	return player_moves[selected_attack];
 
 func get_enemy_random_attack() -> Dictionary:
-	return enemy_moves[0];
+	var randomIndex = randi() % enemy_moves.size();
+	return enemy_moves[randomIndex];
 
-func set_pokemon_moves(moves: Array) -> void: 
+func set_pokemon_moves(moves: Array) -> void:
+	reset();
 	player_moves = moves;
+	print("MOVE SIZE: ", player_moves.size())
 	for i in range(len(player_moves)):
 		var move = player_moves[i];
 		player_attacks[i].visible = true;
 		player_attacks[i].text = move.name.to_upper();
 
-func set_enemy_moves(moves: Array) -> void: 
+func set_enemy_moves(moves: Array) -> void:
 	for move in moves:
 		enemy_moves.push_back(MOVES.get_move(move));
 
@@ -79,6 +82,11 @@ func update_attack_ui() -> void:
 	var pp_node = attack_selection_info.get_node("PP/Value");
 	type_node.text = MOVES.TYPES[int(current_attack.type + 1)];
 	pp_node.text = str(current_attack.pp) + "/" + str(current_attack.total_pp);
+
+func reset() -> void:
+	for attack in player_attacks: attack.text = "";
+	selected_attack = BATTLE.Moves.FIRST;
+	cursor_index = Vector2.ZERO;
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;

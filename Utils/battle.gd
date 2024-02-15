@@ -80,7 +80,8 @@ const BATTLE_SOUNDS = {
 	"BATTLE_FLEE": preload("res://Assets/Sounds/Battle flee.ogg"),
 	"EXP_GAIN_PKM": preload("res://Assets/Sounds/pkm_exp_gain.mp3"),
 	"EXP_FULL": preload("res://Assets/Sounds/exp_full.mp3"),
-	"DAMAGE_NORMAL": preload("res://Assets/Sounds/Battle damage normal.ogg")
+	"DAMAGE_NORMAL": preload("res://Assets/Sounds/Battle damage normal.ogg"),
+	"MOVE_LEARN": preload("res://Assets/Sounds/Pkmn move learnt.ogg")
 }
 
 const tile_density = 325.0;
@@ -113,6 +114,9 @@ var exp_loop = false;
 var critical_hit = false;
 var attack_missed = false;
 var attack_result = [];
+var player_selected_attack = 0;
+var enemy_selected_attack = 0;
+var attacks_set = false;
 
 @onready var ZONES_ARRAY = [
 	{
@@ -153,6 +157,9 @@ func reset_state(reset_type = true) -> void:
 	critical_hit = false;
 	attack_missed = false;
 	attack_result = [];
+	player_selected_attack = 0;
+	enemy_selected_attack = 0;
+	attacks_set = false;
 
 func pokemon_encounter() -> bool:
 	randomize();
@@ -172,8 +179,8 @@ const MENU_CURSOR: Array = [
 ];
 
 const ATTACK_CURSOR: Array = [
-	[Vector2(13, 127), Vector2(80, 127)],
-	[Vector2(13, 145), Vector2(80, 145)]
+	[Vector2(11, 127.5), Vector2(84, 127.5)],
+	[Vector2(11, 144.5), Vector2(84, 144.5)]
 ];
 
 func get_battle_textures(zone: BATTLE.Zones): return ZONES_ARRAY[zone];
@@ -200,11 +207,11 @@ func can_move_attack_cursor(
 	new_position: Vector2,
 	player_attacks: Array
 ) -> bool:
-	var attack2_position = Vector2(80, 127);
+	var attack2_position = ATTACK_CURSOR[0][1];
 	var attack2_text = player_attacks[1].text;
-	var attack3_position = Vector2(13, 145);
+	var attack3_position = ATTACK_CURSOR[1][0];
 	var attack3_text = player_attacks[2].text;
-	var attack4_position = Vector2(80, 145);
+	var attack4_position = ATTACK_CURSOR[1][1];
 	var attack4_text = player_attacks[3].text;
 	
 	if(

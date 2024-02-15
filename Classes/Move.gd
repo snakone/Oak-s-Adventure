@@ -21,10 +21,10 @@ func play_attack(sprite: AnimatedSprite2D, turn: Turn) -> void:
 	await GLOBAL.timeout(0.1);
 	if(sprite != null):
 		if(current_turn == Turn.PLAYER): 
-			if(move_sprite): check_move_sprite();
+			if(move_sprite): attack();
 			anim_player.play("Attack");
 		elif(current_turn == Turn.ENEMY):
-			if(move_sprite): check_move_sprite();
+			if(move_sprite): attack();
 			anim_player.play("EnemyAttack");
 
 func emit_on_hit() -> void:
@@ -43,11 +43,7 @@ func play_effective_sound() -> void:
 func _on_animation_finished(_name):
 	BATTLE.attack_finished.emit();
 
-func check_move_sprite() -> void:
-	match move_name:
-		MOVES.MoveNames.TACKLE: tackle();
-
-func tackle() -> void:
+func attack() -> void:
 	var tween = get_tree().create_tween();
 	var pos = current_sprite.position.x;
 	var move = MOVES.MOVE_ANIMATION[move_name];

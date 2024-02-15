@@ -1692,7 +1692,6 @@ autoplay = "Front"
 frame = 1
 
 [node name="PlayerSprite" type="AnimatedSprite2D" parent="UI"]
-visible = false
 material = SubResource("ShaderMaterial_nw7km")
 position = Vector2(64, 97)
 sprite_frames = ExtResource("13_4uggi")
@@ -1768,56 +1767,56 @@ texture = ExtResource("9_iv4im")
 
 [node name="Attack01" type="RichTextLabel" parent="Selection"]
 visible = false
-offset_left = 19.0
-offset_top = 122.0
-offset_right = 81.0
-offset_bottom = 135.0
+offset_left = 17.0
+offset_top = 123.0
+offset_right = 86.0
+offset_bottom = 134.0
 theme = ExtResource("6_nsew4")
 theme_override_colors/default_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 theme_override_fonts/normal_font = ExtResource("7_6nkkf")
-theme_override_font_sizes/normal_font_size = 12
-text = "TACKLE"
+theme_override_font_sizes/normal_font_size = 10
 
 [node name="Attack02" type="RichTextLabel" parent="Selection"]
 visible = false
-offset_left = 86.0
-offset_top = 122.0
-offset_right = 148.0
-offset_bottom = 135.0
+offset_left = 90.0
+offset_top = 123.0
+offset_right = 158.0
+offset_bottom = 136.0
 theme = ExtResource("6_nsew4")
 theme_override_colors/default_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 theme_override_fonts/normal_font = ExtResource("7_6nkkf")
-theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/normal_font_size = 10
 
 [node name="Attack03" type="RichTextLabel" parent="Selection"]
 visible = false
-offset_left = 19.0
+offset_left = 17.0
 offset_top = 140.0
-offset_right = 104.0
+offset_right = 88.0
 offset_bottom = 153.0
 theme = ExtResource("6_nsew4")
 theme_override_colors/default_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 theme_override_fonts/normal_font = ExtResource("7_6nkkf")
-theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/normal_font_size = 10
 
 [node name="Attack04" type="RichTextLabel" parent="Selection"]
 visible = false
-offset_left = 86.0
+offset_left = 90.0
 offset_top = 140.0
-offset_right = 166.0
+offset_right = 162.0
 offset_bottom = 153.0
 theme = ExtResource("6_nsew4")
 theme_override_colors/default_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 theme_override_fonts/normal_font = ExtResource("7_6nkkf")
-theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/normal_font_size = 10
 
 [node name="AttackCursor" type="Sprite2D" parent="Selection"]
 z_index = 1
-position = Vector2(13, 127)
+position = Vector2(11, 127.5)
+scale = Vector2(0.9, 0.9)
 texture = ExtResource("8_t1ksm")
 
 [node name="SelectionInfo" type="Node2D" parent="Selection"]
@@ -1928,12 +1927,6 @@ scale = Vector2(1, -1)
 color = Color(0, 0, 0, 1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_8lv3r")
-}
-speed_scale = 1.5
-
-[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_8lv3r")
 }

@@ -67,6 +67,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if current_index >= len(dialog_data.arr):
 			timer.stop();
 			dialog_closed = true;
+			await audio.finished;
 			if(dialog_data.marker): GLOBAL.emit_signal("close_dialog");
 		else:
 			label.text = label.text.erase(0, label.text.find("\n") + 1);

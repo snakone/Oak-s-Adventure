@@ -218,6 +218,7 @@ visible = false
 position = Vector2(95, 32)
 texture = ExtResource("10_ltsu3")
 hframes = 4
+frame = 2
 
 [node name="Screen" type="Sprite2D" parent="HealAnimation"]
 visible = false

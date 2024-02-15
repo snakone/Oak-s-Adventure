@@ -68,6 +68,10 @@ func level_up() -> Dictionary:
 		"SPD": data.battle_stats["SPD"] - old_battle_stats["SPD"],
 	}
 
+func learn_move(id: int) -> void:
+	data.moves.push_back(id);
+	data.battle_moves.push_back(MOVES.get_move(id).duplicate());
+
 #DIE
 func bye() -> void:
 	data.death = true;
@@ -131,6 +135,7 @@ func get_resources() -> void:
 	data.shout = resources.shout;
 	data.offset = resources.offset;
 	data.scale = resources.scale;
+	data.move_set = resources.move_set;
 	
 	if("sprites" in resources):
 		var animated_sprite = load(resources.sprites);
@@ -166,7 +171,7 @@ func damage_formula(enemy: Object, move: Dictionary) -> int:
 	var DEF_stat: int;
 	var _ATK_bonus = 0;
 	var _DEF_bonus = 0;
-	var CRIT_rate: float = get_critical_chance(0);
+	var CRIT_rate: float = get_critical_chance(4);
 	var CRIT_stat = 1.0;
 	var STAB: float = 1.0;
 	var burned = 1;

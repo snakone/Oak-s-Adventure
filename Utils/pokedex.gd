@@ -30,7 +30,8 @@ func get_poke_resources(poke_name: String):
 				"shout": poke.shout,
 				"sprites": str(poke.sprites),
 				"offset": poke.offset,
-				"scale": poke.scale
+				"scale": poke.scale,
+				"move_set": poke.move_set
 			};
 
 func get_pokemon_prop(poke_name: String, key: String):
@@ -59,6 +60,9 @@ var LIBRARY: Array = [
 			"S.DEF": 65,
 			"SPD": 45,
 			"TOTAL": 318
+		},
+		"move_set": {
+			51: 3
 		}
 	},
 	{
@@ -82,7 +86,8 @@ var LIBRARY: Array = [
 			"S.DEF": 80,
 			"SPD": 60,
 			"TOTAL": 405
-		}
+		},
+		"move_set": {}
 	},
 	{
 		"name": "CHARMANDER",
@@ -105,7 +110,8 @@ var LIBRARY: Array = [
 			"S.DEF": 50,
 			"SPD": 65,
 			"TOTAL": 309
-		}
+		},
+		"move_set": {}
 	}, 
 	{
 		"name": "SQUIRTLE",
@@ -128,6 +134,9 @@ var LIBRARY: Array = [
 			"S.DEF": 64,
 			"SPD": 43,
 			"TOTAL": 314
+		},
+		"move_set": {
+			4: 3
 		}
 	},
 	{
@@ -151,7 +160,8 @@ var LIBRARY: Array = [
 			"S.DEF": 80,
 			"SPD": 75,
 			"TOTAL": 395
-		}
+		},
+		"move_set": {}
 	},
 	{
 		"name": "PIDGEY",
@@ -159,7 +169,7 @@ var LIBRARY: Array = [
 		"types": [MOVES.Types.NORMAL, MOVES.Types.FLYING],
 		"party_texture": preload("res://Assets/UI/Pokemon/pidgey/icon.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/PIDGEY.ogg"),
-		"moves": [1, 2],
+		"moves": [1, 3],
 		"exp_type": BATTLE.ExpType.SLACK,
 		"base_exp": 40,
 		"category": Category.NORMAL,
@@ -174,7 +184,8 @@ var LIBRARY: Array = [
 			"S.DEF": 35,
 			"SPD": 56,
 			"TOTAL": 251
-		}
+		},
+		"move_set": {}
 	},
 	{
 		"name": "RATTATA",
@@ -197,7 +208,8 @@ var LIBRARY: Array = [
 			"S.DEF": 35,
 			"SPD": 72,
 			"TOTAL": 253
-		}
+		},
+		"move_set": {}
 	},
 	{
 		"name": "PIKACHU",
@@ -220,7 +232,8 @@ var LIBRARY: Array = [
 			"S.DEF": 50,
 			"SPD": 90,
 			"TOTAL": 320
-		}
+		},
+		"move_set": {}
 	},
 	{
 		"name": "GEODUDE",
@@ -243,7 +256,8 @@ var LIBRARY: Array = [
 			"S.DEF": 30,
 			"SPD": 20,
 			"TOTAL": 300
-		}
+		},
+		"move_set": {}
 	},
 	{
 		"name": "HORSEA",
@@ -266,7 +280,8 @@ var LIBRARY: Array = [
 			"S.DEF": 25,
 			"SPD": 60,
 			"TOTAL": 295
-		}
+		},
+		"move_set": {}
 	},
 	{
 		"name": "HO-OH",
@@ -289,7 +304,8 @@ var LIBRARY: Array = [
 			"S.DEF": 154,
 			"SPD": 90,
 			"TOTAL": 680
-		}
+		},
+		"move_set": {}
 	},
 	{
 		"name": "RAYQUAZA",
@@ -312,6 +328,7 @@ var LIBRARY: Array = [
 			"S.DEF": 90,
 			"SPD": 95,
 			"TOTAL": 680
-		}
+		},
+		"move_set": {}
 	},
 ];
