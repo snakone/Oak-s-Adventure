@@ -206,40 +206,42 @@ enum MoveNames {
 
 const MOVE_ANIMATION = {
 	MoveNames.TACKLE: {
-		"property": "position:x",
+		"property": "position",
 		"values": {
 			"player": [
-				{ "value": -5, "duration": 0.15 },
-				{ "value": 0, "duration": 0.11 },
-				{ "value": 12, "duration": 0.1 },
-				{ "value": 18, "duration": 0.1 },
-				{ "value": 15, "duration": 0.1 },
-				{ "value": 0, "duration": 0.2 }
+				{ "value": Vector2(-5, 0), "duration": 0.15 },
+				{ "value": Vector2.ZERO, "duration": 0.11 },
+				{ "value": Vector2(12, 0), "duration": 0.1 },
+				{ "value": Vector2(18, 0), "duration": 0.1 },
+				{ "value": Vector2(15, 0), "duration": 0.1 },
+				{ "value": Vector2.ZERO, "duration": 0.2 }
 			],
 			"enemy": [
-				{ "value": 5, "duration": 0.15 },
-				{ "value": 0, "duration": 0.11 },
-				{ "value": -12, "duration": 0.1 },
-				{ "value": -18, "duration": 0.1 },
-				{ "value": -15, "duration": 0.1 },
-				{ "value": 0, "duration": 0.2 }
+				{ "value": Vector2(5, 0), "duration": 0.15 },
+				{ "value": Vector2.ZERO, "duration": 0.11 },
+				{ "value": Vector2(-12, 0), "duration": 0.1 },
+				{ "value": Vector2(-18, 0), "duration": 0.1 },
+				{ "value": Vector2(-15, 0), "duration": 0.1 },
+				{ "value": Vector2.ZERO, "duration": 0.2 }
 			]
 		}
 	},
 	MoveNames.QUICK_ATTACK: {
-		"property": "position:x",
+		"property": "position",
 		"values": {
 			"player": [
-				{ "value": -5, "duration": 0.15 },
-				{ "value": -20, "duration": 0.11 },
-				{ "value": -100, "duration": 0.2 },
-				{ "value": 0, "duration": 0.3 },
+				{ "value": Vector2(-5, 0), "duration": 0.15 },
+				{ "value": Vector2(-20, 0), "duration": 0.11 },
+				{ "value": Vector2(-120, 0), "duration": 0.2 },
+				{ "value": Vector2(-150, 0), "duration": 0.1 },
+				{ "value": Vector2.ZERO, "duration": 0.2 },
 			],
 			"enemy": [
-				{ "value": 5, "duration": 0.15 },
-				{ "value": 20, "duration": 0.11 },
-				{ "value": 100, "duration": 0.2 },
-				{ "value": 0, "duration": 0.3 },
+				{ "value": Vector2(5, 0), "duration": 0.15 },
+				{ "value": Vector2(20, 0), "duration": 0.11 },
+				{ "value": Vector2(120, 0), "duration": 0.2 },
+				{ "value": Vector2(150, 0), "duration": 0.1 },
+				{ "value": Vector2.ZERO, "duration": 0.2 },
 			]
 		}
 	}

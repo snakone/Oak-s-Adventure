@@ -129,7 +129,7 @@ libraries = {
 }
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-volume_db = -10.0
+volume_db = -5.0
 
 [node name="TakeHit" type="Sprite2D" parent="."]
 visible = false

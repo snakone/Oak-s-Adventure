@@ -18,7 +18,6 @@ const profile_scene_node = "CurrentScene/Profile";
 const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
 const GUI_MENU_OPEN = preload("res://Assets/Sounds/GUI menu open.ogg");
 const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg");
-const GUI_SAVE_GAME = preload("res://Assets/Sounds/GUI save game.ogg");
 const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg");
 const TRAINER_CARD_OPEN = preload("res://Assets/Sounds/GUI trainer card open.ogg");
 const GUI_SAVE_CHOICE = preload("res://Assets/Sounds/GUI save choice.ogg");

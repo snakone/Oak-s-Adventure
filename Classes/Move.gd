@@ -45,10 +45,10 @@ func _on_animation_finished(_name):
 
 func attack() -> void:
 	var tween = get_tree().create_tween();
-	var pos = current_sprite.position.x;
 	var move = MOVES.MOVE_ANIMATION[move_name];
+	var key_value = current_sprite[move.property];
 	var array =  move.values.player;
 	if(current_turn == Turn.ENEMY): array = move.values.enemy;
 	
 	for stat in array:
-		tween.tween_property(current_sprite, move.property, pos + stat.value, stat.duration);
+		tween.tween_property(current_sprite, move.property, key_value + stat.value, stat.duration);

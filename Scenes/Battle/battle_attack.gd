@@ -29,7 +29,6 @@ func get_enemy_random_attack() -> Dictionary:
 func set_pokemon_moves(moves: Array) -> void:
 	reset();
 	player_moves = moves;
-	print("MOVE SIZE: ", player_moves.size())
 	for i in range(len(player_moves)):
 		var move = player_moves[i];
 		player_attacks[i].visible = true;

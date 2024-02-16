@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://3clfgm81x0yq"]
+[gd_scene load_steps=58 format=3 uid="uid://3clfgm81x0yq"]
 
 [ext_resource type="Script" path="res://Scenes/Battle/battle_scene.gd" id="1_vc7g5"]
 [ext_resource type="Shader" path="res://Scenes/UI/flash.gdshader" id="2_hhjny"]
@@ -34,6 +34,7 @@
 [ext_resource type="Texture2D" uid="uid://dpfe8yroc7ll8" path="res://Assets/UI/Battle/Backgrounds/scroll_grass/grass_04.png" id="27_06oqu"]
 [ext_resource type="Texture2D" uid="uid://divokpgmct8fi" path="res://Assets/UI/Battle/Backgrounds/scroll_grass/grass_05.png" id="28_dnnjq"]
 [ext_resource type="AudioStream" uid="uid://c65pmmk1yu3rg" path="res://Assets/Sounds/spawnpokemon.mp3.wav" id="30_tmaf8"]
+[ext_resource type="AudioStream" uid="uid://bujoluoxcjhic" path="res://Assets/Sounds/Battle recall.ogg" id="35_o7yso"]
 [ext_resource type="PackedScene" uid="uid://d1n3rqipshb3u" path="res://Scenes/UI/menu_selection.tscn" id="36_loxbc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r0gx4"]
@@ -150,7 +151,7 @@ tracks/4/path = NodePath("Animation/Pokeball:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.7, 1, 1.2, 1.8),
+"times": PackedFloat32Array(0.7, 1, 1.2, 1.65),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(54, 68), Vector2(59, 70), Vector2(62, 86), Vector2(64, 105)]
@@ -162,7 +163,7 @@ tracks/5/path = NodePath("Animation/Pokeball:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.7, 1.8),
+"times": PackedFloat32Array(0, 0.7, 1.65),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [false, true, false]
@@ -174,10 +175,10 @@ tracks/6/path = NodePath("Animation/Pokeball:rotation")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0.7, 0.92, 1.14, 1.36, 1.58, 1.8),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0.7, 0.92, 1.14, 1.35, 1.58),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [0.0, 4.71239, 9.42478, 14.1372, 18.8496, 21.8166]
+"values": [0.0, 4.71239, 9.42478, 14.1372, 18.8496]
 }
 tracks/7/type = "value"
 tracks/7/imported = false
@@ -847,7 +848,7 @@ tracks/2/path = NodePath("UI/PlayerSprite:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.7, 3.2),
+"times": PackedFloat32Array(0, 0.7, 3.1),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [true, false, true]
@@ -859,7 +860,7 @@ tracks/3/path = NodePath("Animation/Pokeball:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(2.1, 2.4, 2.6, 3.2),
+"times": PackedFloat32Array(2.1, 2.4, 2.6, 3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(54, 68), Vector2(59, 70), Vector2(62, 86), Vector2(64, 105)]
@@ -871,7 +872,7 @@ tracks/4/path = NodePath("Animation/Pokeball:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(1.4, 2.1, 3.2),
+"times": PackedFloat32Array(1.4, 2.1, 3),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [false, true, false]
@@ -883,10 +884,10 @@ tracks/5/path = NodePath("Animation/Pokeball:rotation")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(2.1, 2.32, 2.54, 2.76, 2.98, 3.2),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(2.1, 2.32, 2.54, 2.76, 2.98),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [0.0, 4.71239, 9.42478, 14.1372, 18.8496, 21.8166]
+"values": [0.0, 4.71239, 9.42478, 14.1372, 18.8496]
 }
 tracks/6/type = "audio"
 tracks/6/imported = false
@@ -898,9 +899,13 @@ tracks/6/keys = {
 "clips": [{
 "end_offset": 0.0,
 "start_offset": 0.0,
+"stream": ExtResource("35_o7yso")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
 "stream": ExtResource("30_tmaf8")
 }],
-"times": PackedFloat32Array(3.4)
+"times": PackedFloat32Array(0.1, 3.4)
 }
 tracks/6/use_blend = true
 tracks/7/type = "method"
@@ -998,7 +1003,7 @@ tracks/13/path = NodePath("UI/PlayerSprite:scale")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/keys = {
-"times": PackedFloat32Array(0, 0.7, 3.2, 3.65),
+"times": PackedFloat32Array(0, 0.7, 3.1, 3.65),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(1, 1), Vector2(0, 0), Vector2(1e-05, 1e-05), Vector2(1, 1)]
@@ -1692,6 +1697,7 @@ autoplay = "Front"
 frame = 1
 
 [node name="PlayerSprite" type="AnimatedSprite2D" parent="UI"]
+visible = false
 material = SubResource("ShaderMaterial_nw7km")
 position = Vector2(64, 97)
 sprite_frames = ExtResource("13_4uggi")

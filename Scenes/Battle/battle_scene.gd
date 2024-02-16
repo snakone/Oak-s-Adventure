@@ -493,6 +493,7 @@ func switch_pokemon() -> void:
 	await GLOBAL.timeout(.2);
 	dialog.switch([pokemon.name + " that's enough!"]);
 	await BATTLE.dialog_finished;
+	selection.reset();
 	anim_player.play("Switch");
 	await anim_player.animation_finished;
 	fake_attack();
