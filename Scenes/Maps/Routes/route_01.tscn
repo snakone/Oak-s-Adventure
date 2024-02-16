@@ -38,7 +38,8 @@ dialog_id = 19
 [node name="DoorLeft" parent="." instance=ExtResource("8_kepij")]
 z_index = 1
 y_sort_enabled = true
-position = Vector2(112, 64)
+position = Vector2(112, 77)
+scale = Vector2(1, 0.2)
 next_scene = "res://Scenes/Maps/calderock_village.tscn"
 enter_direction = 2
 spawn_position = Vector2(240, 384)
@@ -49,7 +50,8 @@ category = 1
 [node name="DoorRight" parent="." instance=ExtResource("8_kepij")]
 z_index = 1
 y_sort_enabled = true
-position = Vector2(128, 64)
+position = Vector2(128, 77)
+scale = Vector2(1, 0.2)
 next_scene = "res://Scenes/Maps/calderock_village.tscn"
 enter_direction = 2
 spawn_position = Vector2(256, 384)

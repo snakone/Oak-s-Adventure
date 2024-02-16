@@ -34,7 +34,6 @@ func _on_body_entered(body) -> void:
 		if(animated): anim_player.play("Open");
 		else:
 			audio.play();
-			await GLOBAL.timeout(0.1);
 			enter_house();
 	elif(!can_be_opened): GLOBAL.emit_signal("cant_enter_door", self);
 

@@ -185,7 +185,6 @@ can_left = false
 can_right = false
 can_up = false
 can_down = false
-possitive_limits = Vector2(1, 0)
 interval = 10.0
 dialog_id = 23
 

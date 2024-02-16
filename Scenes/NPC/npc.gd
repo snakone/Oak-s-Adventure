@@ -74,7 +74,8 @@ func move(new_direction: Vector2) -> void:
 	tween.tween_property(self, "position", floor(position + new_direction), 0.3);
 
 #LISTENERS
-func _on_start_dialog(_id: int) -> void:
+func _on_start_dialog(id: int) -> void:
+	if(dialog_id != id): return;
 	is_talking = true;
 	var last_direction = GLOBAL.last_direction;
 	if(last_direction == Vector2.UP): sprite.frame = 0;
