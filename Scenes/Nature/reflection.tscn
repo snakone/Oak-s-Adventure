@@ -20,9 +20,11 @@ shader_parameter/alpha = 1.0
 [node name="Reflection" type="Node2D"]
 show_behind_parent = true
 clip_children = 1
+z_index = -3
+y_sort_enabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = 1
+z_index = -3
 y_sort_enabled = true
 material = SubResource("ShaderMaterial_o6w1c")
 texture = ExtResource("2_abrcx")

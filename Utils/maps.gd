@@ -15,7 +15,9 @@ enum Locations {
 	ROUTE_00,
 	OAK_FARMER_HOUSE,
 	ROUTE_01,
-	CALDEROCK_VILLAGE
+	CALDEROCK_VILLAGE,
+	POKE_CENTER,
+	POKE_SHOP
 }
 
 const location_array = [
@@ -25,7 +27,8 @@ const location_array = [
 	"OakFarmerHouse",
 	"Route01",
 	"CalderockVillage",
-	"PokeCenter"
+	"PokeCenter",
+	"PokeShop"
 ];
 
 const location_string = {
@@ -35,7 +38,8 @@ const location_string = {
 	"OakFarmerHouse": "Oak's Farmer House",
 	"Route01": "Route 01",
 	"CalderockVillage": "Calderock Village",
-	"PokeCenter": "POKéMON Center"
+	"PokeCenter": "POKéMON Center",
+	"PokeShop": "POKéMON Shop"
 }
 
 func get_map_name(get_string = false) -> String:

@@ -1,7 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://bmt2k15vecwp3"]
+[gd_scene load_steps=12 format=3 uid="uid://bmt2k15vecwp3"]
 
 [ext_resource type="TileSet" uid="uid://cxl08215wglhd" path="res://Tilesets/praire_town_tileset.tres" id="1_wa6ow"]
-[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="2_8ugao"]
 [ext_resource type="PackedScene" uid="uid://bc2mwnax5n1pj" path="res://Tilesets/ledges.tscn" id="3_1jdin"]
 [ext_resource type="PackedScene" uid="uid://dkc34ekyveaye" path="res://Scenes/Nature/pink_berry.tscn" id="4_lopnb"]
 [ext_resource type="PackedScene" uid="uid://c0duc0rrogte8" path="res://Scenes/Nature/tall_grass.tscn" id="5_x2w4k"]
@@ -61,14 +60,6 @@ shape = SubResource("RectangleShape2D_vmb2u")
 [node name="CollisionLeft" type="CollisionShape2D" parent="Collisions"]
 position = Vector2(-8, 232)
 shape = SubResource("RectangleShape2D_vmb2u")
-
-[node name="BannerCalderock" parent="." instance=ExtResource("2_8ugao")]
-position = Vector2(160, 112)
-dialog_id = 17
-
-[node name="BannerFountain" parent="." instance=ExtResource("2_8ugao")]
-position = Vector2(64, 368)
-dialog_id = 18
 
 [node name="Ledges" parent="." instance=ExtResource("3_1jdin")]
 layer_0/tile_data = PackedInt32Array(720897, 0, 0, 720898, 65536, 0, 720899, 131072, 0, 983041, 0, 0, 983042, 65536, 0, 983043, 131072, 0, 1245185, 0, 0, 1245186, 65536, 0, 1245187, 131072, 0)

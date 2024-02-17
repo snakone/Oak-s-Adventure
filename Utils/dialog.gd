@@ -233,5 +233,54 @@ const LIBRARY: Dictionary = {
 		"marker": true,
 		"selection": false,
 		"sound": null
-	}
+	},
+	26: {
+		"arr": [
+			["Welcome Professor Oak."],
+			["Take a look to our items."],
+		],
+		"type": DialogType.NPC,
+		"npc_name": "Kevin",
+		"marker": true,
+		"selection": false,
+		"sound": null
+	},
+	27: {
+		"arr": [["POKéMON related magazines."]],
+		"type": DialogType.OBJECT,
+		"marker": true,
+		"selection": false,
+		"sound": null
+	},
+	28: {
+		"arr": [["I\'m hungry, but I shouldn\'t do this."]],
+		"type": DialogType.OBJECT,
+		"marker": true,
+		"selection": false,
+		"sound": null
+	},
+	29: {
+		"arr": [
+			["Calderock Village."],
+			["A relaxing place to spend your time."]
+		],
+		"type": DialogType.OBJECT,
+		"marker": true,
+		"selection": false,
+		"sound": null
+	},
+	30: {
+		"arr": [["Access to Route 02."]],
+		"type": DialogType.OBJECT,
+		"marker": true,
+		"selection": false,
+		"sound": null
+	},
+	31: {
+		"arr": [["Harold\'s House."]],
+		"type": DialogType.OBJECT,
+		"marker": true,
+		"selection": false,
+		"sound": null
+	},
 }

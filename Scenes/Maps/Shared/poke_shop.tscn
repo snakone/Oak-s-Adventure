@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bm8nbqqnjomdp"]
+[gd_scene load_steps=10 format=3 uid="uid://bm8nbqqnjomdp"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/Shared/poke_shop.gd" id="1_yq5el"]
 [ext_resource type="AudioStream" uid="uid://d0osdwu2i52ac" path="res://Assets/Sounds/Poke Mart.ogg" id="2_f2w0n"]
@@ -6,15 +6,36 @@
 [ext_resource type="PackedScene" uid="uid://luo8iuiso0bh" path="res://Tilesets/poke_shop.tscn" id="4_onct5"]
 [ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="5_p4a23"]
 [ext_resource type="AudioStream" uid="uid://cihltj3h07xqb" path="res://Assets/Sounds/Door slide.ogg" id="6_sdgar"]
+[ext_resource type="Texture2D" uid="uid://dnb5fjh02hg0r" path="res://Sprites/NPC/poke_vendor_no_feet.png" id="6_uhm56"]
+[ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="7_ui2od"]
+[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="9_cou7u"]
 
 [node name="PokeShop" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_yq5el")
 song = ExtResource("2_f2w0n")
 
 [node name="Oak" parent="." instance=ExtResource("3_6c5hn")]
-position = Vector2(64, 112)
+position = Vector2(32, 80)
 
 [node name="TileMap" parent="." instance=ExtResource("4_onct5")]
+
+[node name="Vendor" parent="." instance=ExtResource("7_ui2od")]
+position = Vector2(32, 48)
+texture = ExtResource("6_uhm56")
+frames = 4
+state = 1
+can_left = false
+can_up = false
+interval = 5.0
+dialog_id = 26
+
+[node name="CollisionShape2D" parent="Vendor" index="1"]
+position = Vector2(16, 16)
+scale = Vector2(2, 2)
+
+[node name="CollisionPolygon2D" parent="Vendor/TalkArea" index="0"]
+polygon = PackedVector2Array(4, 4, 4, -12, 12, -12, 12, 4, 44, 4, 44, 12, 12, 12, 12, 44, 4, 44, 4, 12, -12, 12, -12, 4)
 
 [node name="PokeShopDoor" parent="." instance=ExtResource("5_p4a23")]
 position = Vector2(64, 128)
@@ -22,3 +43,17 @@ animated = false
 type = 1
 DOOR_EXIT = ExtResource("6_sdgar")
 shared = true
+
+[node name="Magazine" parent="." instance=ExtResource("9_cou7u")]
+position = Vector2(112, 16)
+dialog_id = 27
+
+[node name="Magazine2" parent="." instance=ExtResource("9_cou7u")]
+position = Vector2(128, 16)
+dialog_id = 27
+
+[node name="Magazine3" parent="." instance=ExtResource("9_cou7u")]
+position = Vector2(144, 16)
+dialog_id = 27
+
+[editable path="Vendor"]
