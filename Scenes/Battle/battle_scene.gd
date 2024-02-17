@@ -173,19 +173,18 @@ func start_attack(delay = 0.0, sound = true) -> void:
 	if(!BATTLE.enemy_attacked || !BATTLE.player_attacked):
 		await BATTLE.attack_finished;
 		delay = hp_bar_anim_duration + 0.3;
-		#FIRST ATTACK
+		#SECOND ATTACK
 		if(BATTLE.AttackResult.NORMAL not in BATTLE.attack_result):
 			await BATTLE.attack_check_done;
 			delay = 0.2;
 		start_attack(delay, false);
 		return;
 	await GLOBAL.timeout(delay);
-	#SECOND ATTACK
+	#CHECK RESULT
 	if(BATTLE.AttackResult.NORMAL not in BATTLE.attack_result):
 		await BATTLE.attack_check_done;
-		await GLOBAL.timeout(0.2);
-		BATTLE.can_use_menu = true;
-		
+	
+	await GLOBAL.timeout(0.2);
 	BATTLE.player_attacked = false;
 	BATTLE.enemy_attacked = false;
 	BATTLE.attacks_set = false;
@@ -297,9 +296,9 @@ func close_level_up_panel() -> void:
 func handle_death(state: Dictionary) -> void:
 	BATTLE.can_use_menu = false;
 	battle_anim_player.stop();
-	await GLOBAL.timeout(.3);
+	await GLOBAL.timeout(.2);
 	battle_anim_player.play(state.anim);
-	await GLOBAL.timeout(0.9);
+	await battle_anim_player.animation_finished;
 	dialog.start(state.dialog);
 	await BATTLE.dialog_finished;
 	#ENEMY DEATH - EXP
@@ -308,7 +307,7 @@ func handle_death(state: Dictionary) -> void:
 		exp_to_next_level -= state.exp;
 		update_exp_bar();
 		await BATTLE.experience_end;
-		await GLOBAL.timeout(1);
+		await GLOBAL.timeout(0.6);
 		dialog.reset_text();
 		enemy.free();
 		#PARTICIPANTS EXP
@@ -395,7 +394,6 @@ func check_battle_state() -> void:
 	if(BATTLE.AttackResult.NONE in BATTLE.attack_result):
 		dialog.show_non_effective();
 		await BATTLE.quick_dialog_end;
-		await GLOBAL.timeout(0.2);
 		BATTLE.attack_check_done.emit();
 		return;
 	#MISSED
@@ -404,7 +402,6 @@ func check_battle_state() -> void:
 		if(BATTLE.current_turn == BATTLE.Turn.ENEMY): target = enemy;
 		dialog.show_missed(target.name);
 		await BATTLE.quick_dialog_end;
-		await GLOBAL.timeout(0.2);
 		BATTLE.attack_check_done.emit();
 		return;
 	#CRITICAL HIT
@@ -419,13 +416,15 @@ func check_battle_state() -> void:
 	elif(BATTLE.AttackResult.LOW in BATTLE.attack_result):
 		dialog.show_low();
 		await BATTLE.quick_dialog_end;
+	#FULMINATE
 	elif(BATTLE.AttackResult.FULMINATE in BATTLE.attack_result):
 		dialog.show_fulminate();
 		await BATTLE.quick_dialog_end;
+	#AWFULL
 	elif(BATTLE.AttackResult.AWFULL in BATTLE.attack_result):
 		dialog.show_awfull();
 		await BATTLE.quick_dialog_end;
-	await GLOBAL.timeout(0.2);
+	await GLOBAL.timeout(0.1);
 	BATTLE.attack_check_done.emit();
 	
 	#CHECK DEATH
@@ -468,6 +467,7 @@ func check_for_next_pokemon() -> void:
 
 #PARTY
 func _on_party_pokemon_select(_poke_name: String) -> void:
+	selection.reset();
 	if(BATTLE.can_use_next_pokemon): reset_state_and_get_next_pokemon();
 	else: switch_pokemon();
 

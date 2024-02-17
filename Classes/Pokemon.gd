@@ -118,7 +118,7 @@ func set_battle_moves() -> void:
 #HP ANIM
 func set_hp_anim_duration_after_damage(damage: int, enemy: Object) -> void:
 	var total = BATTLE.min_hp_anim_duration;
-	if(damage < 10): total = 0.2;
+	if(damage < 10): total = 0.3;
 	elif(damage < 20 && damage != 1 && enemy.data.level > 50): total = 0.4;
 	elif((damage < 10 && damage != 1 && enemy.data.level < 30)): total = 0.2
 	elif(damage >= 30 && enemy.data.battle_stats["HP"] <= 30): total = 1.0;

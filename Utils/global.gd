@@ -22,7 +22,7 @@ enum SaveType { PLAYER, SCENE, PARTY }
 enum DoorType { IN, OUT }
 enum DialogAreaType { NPC, OBJECT, NONE }
 enum BinaryOptions { YES, NO }
-enum DoorCategory { DOOR, TUNNEL, AUTO }
+enum DoorCategory { DOOR, TUNNEL }
 
 const TILE_SIZE: int = 16;
 const WINDOW_SIZE = Vector2(15, 10);
@@ -55,7 +55,6 @@ var on_bike = false;
 var inside_house = false;
 var dialog_open = false;
 var on_battle = false;
-var on_poke_center = false;
 var healing = false;
 
 #VALUES

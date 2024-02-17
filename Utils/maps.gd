@@ -77,6 +77,9 @@ const CONNECTIONS = {
 	},
 	"PokeCenter": {
 		"CalderockVillage": Vector2(368, 256)
+	},
+	"PokeShop": {
+		"CalderockVillage": Vector2(464, 256)
 	}
 }
 
@@ -88,3 +91,14 @@ const ENCOUNTERS = {
 		}
 	}
 }
+
+func get_next_map() -> String:
+	if(last_map == null): return "";
+	var switch = {
+		"Route00": "res://Scenes/Maps/Routes/route_00.tscn",
+		"Route01": "res://Scenes/Maps/Routes/route_01.tscn",
+		"PraireTown": "res://Scenes/Maps/praire_town.tscn",
+		"CalderockVillage": "res://Scenes/Maps/calderock_village.tscn"
+	}
+	
+	return switch[last_map];

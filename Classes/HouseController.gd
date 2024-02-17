@@ -15,7 +15,6 @@ func _ready():
 	if(MAPS.spawn_position):
 		oak.position = MAPS.spawn_position;
 		MAPS.spawn_position = null;
-	MAPS.last_map = null;
 
 func set_camera() -> void:
 	var size: Vector2 = tilemap.get_used_rect().size;

@@ -18,7 +18,6 @@ var index = 0;
 
 func _ready() -> void:
 	super();
-	GLOBAL.on_poke_center = true;
 	check_out_scene();
 	party = PARTY.get_party();
 	party_size = party.size();

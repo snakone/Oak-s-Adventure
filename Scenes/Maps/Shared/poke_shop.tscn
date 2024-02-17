@@ -1,0 +1,24 @@
+[gd_scene load_steps=7 format=3 uid="uid://bm8nbqqnjomdp"]
+
+[ext_resource type="Script" path="res://Scenes/Maps/Shared/poke_shop.gd" id="1_yq5el"]
+[ext_resource type="AudioStream" uid="uid://d0osdwu2i52ac" path="res://Assets/Sounds/Poke Mart.ogg" id="2_f2w0n"]
+[ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="3_6c5hn"]
+[ext_resource type="PackedScene" uid="uid://luo8iuiso0bh" path="res://Tilesets/poke_shop.tscn" id="4_onct5"]
+[ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="5_p4a23"]
+[ext_resource type="AudioStream" uid="uid://cihltj3h07xqb" path="res://Assets/Sounds/Door slide.ogg" id="6_sdgar"]
+
+[node name="PokeShop" type="Node2D"]
+script = ExtResource("1_yq5el")
+song = ExtResource("2_f2w0n")
+
+[node name="Oak" parent="." instance=ExtResource("3_6c5hn")]
+position = Vector2(64, 112)
+
+[node name="TileMap" parent="." instance=ExtResource("4_onct5")]
+
+[node name="PokeShopDoor" parent="." instance=ExtResource("5_p4a23")]
+position = Vector2(64, 128)
+animated = false
+type = 1
+DOOR_EXIT = ExtResource("6_sdgar")
+shared = true

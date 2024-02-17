@@ -67,7 +67,7 @@ func input() -> void:
 	if (pre_position != cursor_index): 
 		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
 		set_attack_slot();
-	BATTLE.update_attack_ui.emit();
+	update_attack_ui();
 
 func set_attack_slot() -> void:
 	if(cursor_index == Vector2.ZERO): selected_attack = BATTLE.Moves.FIRST;
@@ -86,6 +86,7 @@ func reset() -> void:
 	for attack in player_attacks: attack.text = "";
 	selected_attack = BATTLE.Moves.FIRST;
 	cursor_index = Vector2.ZERO;
+	attack_cursor.position = BATTLE.ATTACK_CURSOR[0][0];
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;

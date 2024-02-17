@@ -2,6 +2,7 @@ extends Node2D
 
 const CONFIRM = preload("res://Assets/Sounds/confirm.wav");
 const PKMN_LEVEL_UP = preload("res://Assets/Sounds/Pkmn level up.ogg");
+const wait_quick_dialog = 0.2;
 
 @onready var timer: Timer = $Timer
 @onready var label = $Label;
@@ -192,7 +193,7 @@ func next_pokemon(input_arr: Array) -> void:
 	BATTLE.dialog_finished.emit();
 
 #QUICK - SHOW AND CLOSE
-func quick(input_arr: Array, delay = 1.0) -> void:
+func quick(input_arr: Array, delay = 0.6) -> void:
 	BATTLE.state = BATTLE.States.NONE;
 	pressed = true;
 	marker.visible = false;
@@ -210,8 +211,9 @@ func quick(input_arr: Array, delay = 1.0) -> void:
 	await GLOBAL.timeout(delay);
 	pressed = false;
 	BATTLE.quick_dialog_end.emit();
-	await GLOBAL.timeout(0.1);
 	reset_text();
+	await GLOBAL.timeout(wait_quick_dialog);
+	BATTLE.can_use_menu = true;
 
 #END
 func end_dialog() -> void:
@@ -227,7 +229,7 @@ func end_dialog() -> void:
 	
 	BATTLE.state = BATTLE.States.NONE;
 	BATTLE.dialog_finished.emit();
-	await GLOBAL.timeout(.3);
+	await GLOBAL.timeout(0.3);
 	if(!BATTLE.exp_loop): BATTLE.state = BATTLE.States.MENU;
 
 #EFFECTIVE
@@ -236,7 +238,7 @@ func show_effective() -> void:
 	var text = "It's super effective!";
 	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
 		text = "Ouch! " + text;
-	await GLOBAL.timeout(0.3);
+	await GLOBAL.timeout(wait_quick_dialog);
 	quick([text]);
 
 #CRITICAL
@@ -245,7 +247,7 @@ func show_critical() -> void:
 	var text = "Nice! A critical Hit!";
 	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
 		text = "Oh no! A critical Hit!";
-	await GLOBAL.timeout(0.3);
+	await GLOBAL.timeout(wait_quick_dialog);
 	quick([text]);
 
 #LOW EFFECTIVE
@@ -254,7 +256,7 @@ func show_low() -> void:
 	var text = "Not very effective!";
 	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
 		text = "Well! " + text;
-	await GLOBAL.timeout(0.3);
+	await GLOBAL.timeout(wait_quick_dialog);
 	quick([text]);
 
 #FULMINATE
@@ -263,7 +265,7 @@ func show_fulminate() -> void:
 	var text = "Wow! That was fulminate!";
 	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
 		text = "Arghh! That was fulminate!";
-	await GLOBAL.timeout(0.3);
+	await GLOBAL.timeout(wait_quick_dialog);
 	quick([text]);
 
 #AWFULL
@@ -272,7 +274,7 @@ func show_awfull() -> void:
 	var text = "Puff! Better change the move!";
 	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
 		text = "Is the enemy drunk!?";
-	await GLOBAL.timeout(0.3);
+	await GLOBAL.timeout(wait_quick_dialog);
 	quick([text]);
 
 #NO EFFECTIVE
@@ -281,7 +283,7 @@ func show_non_effective() -> void:
 	var text = "This move type won't work!";
 	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
 		text = "Alright! that hasn't any effect!";
-	await GLOBAL.timeout(0.3);
+	await GLOBAL.timeout(wait_quick_dialog);
 	quick([text]);
 
 #MISSED DIALOG
@@ -290,7 +292,7 @@ func show_missed(target_name: String) -> void:
 	var text = "Oh no! Attack missed!";
 	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
 		text = "Phew! " + target_name + " missed!";
-	await GLOBAL.timeout(0.3);
+	await GLOBAL.timeout(wait_quick_dialog);
 	quick([text]);
 
 #CLOSE

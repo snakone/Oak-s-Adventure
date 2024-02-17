@@ -9,6 +9,7 @@ extends Area2D
 @export var DOOR_ENTER: AudioStream = preload("res://Assets/Sounds/Door enter.ogg");
 @export var DOOR_EXIT: AudioStream = preload("res://Assets/Sounds/Door exit.ogg");
 @export var category: GLOBAL.DoorCategory = GLOBAL.DoorCategory.DOOR;
+@export var shared: bool = false;
 
 @onready var anim_player = $AnimationPlayer;
 @onready var sprite_2d = $Sprite2D;
@@ -39,16 +40,20 @@ func _on_body_entered(body) -> void:
 
 func check_direction() -> void:
 	if(door_open_direction != Vector2.ZERO):
-		can_be_opened = door_open_direction == GLOBAL.last_direction && next_scene != "";
+		can_be_opened = door_open_direction == GLOBAL.last_direction && (
+			next_scene != "" || shared);
 
 func enter_house() -> void:
 	await GLOBAL.timeout(.1);
-	if(next_scene):
+	if(shared && type == GLOBAL.DoorType.OUT): next_scene = MAPS.get_next_map();
+	if(next_scene != ""):
+		if(type == GLOBAL.DoorType.IN && shared): 
+			MAPS.last_map = MAPS.get_map_name(true);
 		GLOBAL.last_used_door = self.name;
 		get_node("/root/SceneManager").transition_to_scene(next_scene);
 
 func check_close_animation() -> void:
 	if(GLOBAL.last_used_door == self.name && type == GLOBAL.DoorType.IN):
-		await GLOBAL.timeout(0.4);
+		await GLOBAL.timeout(0.3);
 		anim_player.play("Close");
 		GLOBAL.last_used_door = "";

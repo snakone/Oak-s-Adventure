@@ -70,3 +70,16 @@ spawn_position = Vector2(112, 128)
 sprite_image = ExtResource("10_5hbyn")
 DOOR_ENTER = ExtResource("11_uaraq")
 category = 2
+shared = true
+
+[node name="PokeShopDoor" parent="." instance=ExtResource("4_h8pxt")]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(464, 240)
+next_scene = "res://Scenes/Maps/Shared/poke_shop.tscn"
+enter_direction = 2
+spawn_position = Vector2(64, 112)
+sprite_image = ExtResource("10_5hbyn")
+DOOR_ENTER = ExtResource("11_uaraq")
+category = 2
+shared = true

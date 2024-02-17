@@ -171,9 +171,10 @@ position = Vector2(112, 64)
 
 [node name="PokeCenterDoor" parent="." instance=ExtResource("3_m840l")]
 position = Vector2(112, 144)
-next_scene = "res://Scenes/Maps/calderock_village.tscn"
+animated = false
 type = 1
 DOOR_EXIT = ExtResource("5_1blax")
+shared = true
 
 [node name="NPC" parent="." instance=ExtResource("7_1jicx")]
 show_behind_parent = true
