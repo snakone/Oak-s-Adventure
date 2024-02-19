@@ -10,6 +10,7 @@ extends Area2D
 @export var DOOR_EXIT: AudioStream = preload("res://Assets/Sounds/Door exit.ogg");
 @export var category: GLOBAL.DoorCategory = GLOBAL.DoorCategory.DOOR;
 @export var shared: bool = false;
+@export var offset: Vector2 = Vector2.ZERO;
 
 @onready var anim_player = $AnimationPlayer;
 @onready var sprite_2d = $Sprite2D;
@@ -21,6 +22,7 @@ var door_open_direction: Vector2;
 func _ready():
 	door_open_direction = GLOBAL.DIRECTIONS[enter_direction];
 	sprite_2d.texture = sprite_image;
+	sprite_2d.offset = offset;
 	check_close_animation();
 
 func _on_body_entered(body) -> void:

@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://hdb6vwfcb8ri"]
+
+[ext_resource type="Script" path="res://Scenes/Maps/Houses/Calderock/house_02.gd" id="1_qel1c"]
+[ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="2_f0avs"]
+[ext_resource type="PackedScene" uid="uid://d2ugtmhk27xtk" path="res://Tilesets/house_02.tscn" id="3_cb5pe"]
+[ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="3_taphe"]
+[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="5_sfxun"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nabc2"]
+size = Vector2(16, 144)
+
+[node name="House02" type="Node2D"]
+script = ExtResource("1_qel1c")
+
+[node name="Oak" parent="." instance=ExtResource("2_f0avs")]
+position = Vector2(80, 128)
+
+[node name="TileMap" parent="." instance=ExtResource("3_cb5pe")]
+
+[node name="HaroldDoor" parent="." instance=ExtResource("3_taphe")]
+position = Vector2(80, 144)
+next_scene = "res://Scenes/Maps/calderock_village.tscn"
+spawn_position = Vector2(432, 96)
+animated = false
+type = 1
+
+[node name="Collisions" type="Node2D" parent="."]
+
+[node name="LeftCollision" type="StaticBody2D" parent="Collisions"]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collisions/LeftCollision"]
+position = Vector2(-8, 72)
+shape = SubResource("RectangleShape2D_nabc2")
+
+[node name="RightCollision" type="StaticBody2D" parent="Collisions"]
+position = Vector2(208, 0)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collisions/RightCollision"]
+position = Vector2(-8, 72)
+shape = SubResource("RectangleShape2D_nabc2")
+
+[node name="Jar" parent="." instance=ExtResource("5_sfxun")]
+position = Vector2(16, 48)
+dialog_id = 34
+
+[node name="Wardrobe" parent="." instance=ExtResource("5_sfxun")]
+position = Vector2(128, 16)
+dialog_id = 35

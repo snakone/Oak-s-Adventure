@@ -169,7 +169,7 @@ const LIBRARY: Dictionary = {
 		"arr": [
 			["Long time no see, Professor."],
 			["self:Hey Harold, how are you?"],
-			["I heard that a strange POKéMON have been seen near the Black Mountain."],
+			["A strange POKéMON have been seen near the Black Mountain."],
 			["self:Mm!? What it can be?"],
 		],
 		"type": Type.NPC,
@@ -279,5 +279,23 @@ const LIBRARY: Dictionary = {
 		"type": Type.PC,
 		"direction": GLOBAL.Directions.UP,
 		"marker": false
+	},
+	34: {
+		"arr": [["It\'s empty."]],
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.ALL,
+		"marker": true
+	},
+	35: {
+		"arr": [["It\'s locked. The lock seems very strange."]],
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
+	},
+	36: {
+		"arr": [["Music Notes Playground."]],
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
 	},
 }

@@ -14,7 +14,7 @@ position = Vector2(64, 112)
 
 [node name="TileMap" parent="." instance=ExtResource("3_r712i")]
 
-[node name="Door" parent="." instance=ExtResource("4_ad61t")]
+[node name="House01Door" parent="." instance=ExtResource("4_ad61t")]
 position = Vector2(64, 128)
 next_scene = "res://Scenes/Maps/calderock_village.tscn"
 spawn_position = Vector2(288, 96)

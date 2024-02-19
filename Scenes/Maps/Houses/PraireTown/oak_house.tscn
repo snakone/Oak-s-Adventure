@@ -36,17 +36,14 @@ type = 1
 
 [node name="Bin" parent="." instance=ExtResource("6_2lk47")]
 dialog_id = 8
-talk_direction = 5
 
 [node name="GameCube" parent="." instance=ExtResource("6_2lk47")]
 position = Vector2(32, 16)
 dialog_id = 9
-talk_direction = 5
 
 [node name="Cafe" parent="." instance=ExtResource("6_2lk47")]
 position = Vector2(240, 64)
 dialog_id = 14
-talk_direction = 5
 
 [node name="Cabinet" parent="." instance=ExtResource("6_2lk47")]
 position = Vector2(240, 0)

@@ -23,7 +23,7 @@ func start_dialog() -> void:
 	GLOBAL.start_dialog.emit(32);
 	await GLOBAL.close_dialog;
 	GLOBAL.start_dialog.emit(33);
-	await GLOBAL.timeout(1.7);
+	await GLOBAL.timeout(1.8);
 	can_use_menu = true;
 	nine_rect.visible = true;
 

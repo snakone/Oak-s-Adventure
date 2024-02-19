@@ -30,7 +30,8 @@ const location_array = [
 	"CalderockVillage",
 	"PokeCenter",
 	"PokeShop",
-	"House01"
+	"House01",
+	"House02"
 ];
 
 const location_string = {
@@ -42,7 +43,8 @@ const location_string = {
 	"CalderockVillage": "Calderock Village",
 	"PokeCenter": "POKéMON Center",
 	"PokeShop": "POKéMON Shop",
-	"House01": "House of ????"
+	"House01": "House of ????",
+	"House02": "Harold's House"
 }
 
 func get_map_name(get_string = false) -> String:

@@ -303,7 +303,6 @@ func _on_enter_door_animation(area: Area2D) -> void:
 	if(GLOBAL.on_bike && area.category != GLOBAL.DoorCategory.TUNNEL): 
 		get_off_bike(false);
 	var tween = get_tree().create_tween();
-	print(delay)
 	tween.tween_property(sprite, "modulate:a", 0, delay);
 	await tween.finished;
 	stop = true;
