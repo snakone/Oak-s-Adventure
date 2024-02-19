@@ -1,0 +1,127 @@
+[gd_scene load_steps=15 format=3 uid="uid://ivj6tbkbl3wy"]
+
+[ext_resource type="Script" path="res://Scenes/UI/pokemon_boxes.gd" id="1_wdni0"]
+[ext_resource type="Shader" path="res://Scenes/UI/animated_background.gdshader" id="2_mfosh"]
+[ext_resource type="Texture2D" uid="uid://dxrfpyiioyrs2" path="res://Assets/UI/Boxes/anim_background.png" id="3_asy8o"]
+[ext_resource type="Texture2D" uid="uid://d2288bnr5xm0q" path="res://Assets/UI/Boxes/hand.png" id="4_35d71"]
+[ext_resource type="Texture2D" uid="uid://ctbmbcy0tn2f8" path="res://Assets/UI/Boxes/data_inactive.png" id="4_l0lo0"]
+[ext_resource type="Texture2D" uid="uid://c6ijn3ggawe54" path="res://Assets/UI/Boxes/data_active.png" id="5_6c1ev"]
+[ext_resource type="Texture2D" uid="uid://dvi1e10qdwgbb" path="res://Assets/UI/Boxes/box1.png" id="6_uwq0w"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="7_qe0k8"]
+[ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/Fonts/power clear.ttf" id="8_acmja"]
+[ext_resource type="Texture2D" uid="uid://c6r4pxbkouh4t" path="res://Assets/UI/Boxes/party_poke.png" id="8_yqdca"]
+[ext_resource type="Texture2D" uid="uid://ck8uwfwvnjnic" path="res://Assets/UI/Boxes/close.png" id="9_or3r2"]
+[ext_resource type="Texture2D" uid="uid://d3tc1hi14e0rd" path="res://Assets/UI/Boxes/arrow_left.png" id="10_jv6p7"]
+[ext_resource type="Texture2D" uid="uid://dpc041np632sh" path="res://Assets/UI/Boxes/arrow_right.png" id="11_j5iov"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dci5v"]
+shader = ExtResource("2_mfosh")
+shader_parameter/Direction = Vector2(1, 1)
+shader_parameter/Speed = 0.08
+
+[node name="PokemonBoxes" type="CanvasLayer"]
+layer = 5
+script = ExtResource("1_wdni0")
+
+[node name="Node2D" type="Node2D" parent="."]
+z_index = 4
+
+[node name="Background" type="Sprite2D" parent="Node2D"]
+z_index = -1
+texture_repeat = 2
+material = SubResource("ShaderMaterial_dci5v")
+texture = ExtResource("3_asy8o")
+centered = false
+flip_h = true
+
+[node name="Hand" type="Control" parent="Node2D"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 85.0
+offset_top = 17.0
+offset_right = 117.0
+offset_bottom = 49.0
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/Hand"]
+z_index = 2
+texture = ExtResource("4_35d71")
+centered = false
+hframes = 4
+
+[node name="Data" type="Control" parent="Node2D"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 80.0
+offset_bottom = 160.0
+
+[node name="Inactive" type="Sprite2D" parent="Node2D/Data"]
+position = Vector2(0, 2)
+texture = ExtResource("4_l0lo0")
+centered = false
+
+[node name="Active" type="Sprite2D" parent="Node2D/Data"]
+visible = false
+position = Vector2(0, 2)
+texture = ExtResource("5_6c1ev")
+centered = false
+hframes = 3
+
+[node name="Box" type="Control" parent="Node2D"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -1.0
+offset_right = 239.0
+offset_bottom = 160.0
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/Box"]
+position = Vector2(83, 17)
+texture = ExtResource("6_uwq0w")
+centered = false
+
+[node name="Name" type="RichTextLabel" parent="Node2D/Box"]
+layout_mode = 0
+offset_left = 150.0
+offset_top = 25.0
+offset_right = 191.0
+offset_bottom = 38.0
+theme = ExtResource("7_qe0k8")
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.196078, 0.196078, 0.196078, 1)
+theme_override_fonts/normal_font = ExtResource("8_acmja")
+text = "BOX 1"
+
+[node name="ArrowLeft" type="Sprite2D" parent="Node2D/Box"]
+position = Vector2(89, 30)
+texture = ExtResource("10_jv6p7")
+vframes = 6
+
+[node name="ArrowRight" type="Sprite2D" parent="Node2D/Box"]
+position = Vector2(233, 30)
+texture = ExtResource("11_j5iov")
+vframes = 6
+
+[node name="Party" type="Control" parent="Node2D"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 80.0
+offset_top = -3.0
+offset_right = 160.0
+offset_bottom = 13.0
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/Party"]
+position = Vector2(2, 5)
+texture = ExtResource("8_yqdca")
+centered = false
+
+[node name="Close" type="Control" parent="Node2D"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 160.0
+offset_right = 240.0
+offset_bottom = 16.0
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/Close"]
+position = Vector2(43, 9.5)
+texture = ExtResource("9_or3r2")
+vframes = 2

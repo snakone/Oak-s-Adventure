@@ -298,4 +298,13 @@ const LIBRARY: Dictionary = {
 		"direction": GLOBAL.Directions.UP,
 		"marker": true
 	},
+	37: {
+		"arr": [
+			["Accessed Bill\'s PC."],
+			["POKéMON Storage System opened."]
+			],
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
+	},
 }

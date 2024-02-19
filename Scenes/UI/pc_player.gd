@@ -8,15 +8,19 @@ const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg");
 const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
 const CONFIRM = preload("res://Assets/Sounds/confirm.wav");
 
-enum PcOptions { SOMEONE, OAK, POKEDEX, OFF }
+const POKEMON_BOXES = "res://Scenes/UI/pokemon_boxes.tscn";
+
+enum PcOptions { BILL, OAK, POKEDEX, OFF }
 
 var can_use_menu = false;
 var selected_option = 0;
 var options_length = PcOptions.keys().size();
+var scene_manager: Node2D;
 
 func _ready() -> void:
 	set_marker();
 	start_dialog();
+	scene_manager = get_parent();
 
 func start_dialog() -> void:
 	play_audio(CONFIRM);
@@ -26,6 +30,13 @@ func start_dialog() -> void:
 	await GLOBAL.timeout(1.8);
 	can_use_menu = true;
 	nine_rect.visible = true;
+
+func _on_scene_opened(value: bool, node_name: String) -> void:
+	#CLOSED
+	if(!value):
+		can_use_menu = true;
+		process_mode = Node.PROCESS_MODE_INHERIT;
+	scene_manager.get_node(node_name).queue_free();
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(
@@ -52,25 +63,32 @@ func handle_DOWN() -> void:
 	play_audio(GUI_SEL_CURSOR);
 	selected_option += 1;
 	if(selected_option > options_length - 1): 
-		selected_option = PcOptions.SOMEONE;
+		selected_option = PcOptions.BILL;
 	update_cursor();
 
 func handle_UP() -> void:
 	play_audio(GUI_SEL_CURSOR);
-	if(selected_option == PcOptions.SOMEONE): 
+	if(selected_option == PcOptions.BILL): 
 		selected_option = PcOptions.OFF;
 	else: selected_option -= 1;
 	update_cursor();
 
 func select_option() -> void:
+	play_audio(CONFIRM);
 	match(selected_option):
-		PcOptions.SOMEONE: select_someone()
+		PcOptions.BILL: select_storage()
 		PcOptions.OAK: select_oak()
 		PcOptions.POKEDEX: select_pokedex()
 		PcOptions.OFF: close_menu()
 
-func select_someone() -> void:
-	print("Someone");
+func select_storage() -> void:
+	can_use_menu = false;
+	nine_rect.visible = false;
+	GLOBAL.start_dialog.emit(37);
+	await GLOBAL.close_dialog;
+	GLOBAL.menu_open = true;
+	scene_manager.transition_to_scene(POKEMON_BOXES, true, false);
+	process_mode = Node.PROCESS_MODE_DISABLED;
 
 func select_oak() -> void:
 	print("Oak");
@@ -79,6 +97,7 @@ func select_pokedex() -> void:
 	print("Pokedex");
 
 func close_menu() -> void:
+	can_use_menu = false;
 	play_audio(GUI_MENU_CLOSE);
 	nine_rect.visible = false;
 	await GLOBAL.timeout(0.3);

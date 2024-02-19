@@ -41,3 +41,8 @@
 - New Maps Route01 and Calderock
 - Pokémon Center / Healing
 - Dialog Selection
+
+# 0.5.3
+- Overall fixing - Indented Code
+- Shared Doors
+- Calderock Houses
