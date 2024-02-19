@@ -9,12 +9,13 @@ const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg");
 const SAVE_GAME = preload("res://Assets/Sounds/save game.mp3");
 
 var want_to_save = false;
+const selection_category = GLOBAL.SelectionCategory.BINARY;
 
 func _ready():
 	location.text = MAPS.get_map_name();
 	time.text = GLOBAL.get_time_played();
 	
-	GLOBAL.connect("selection_value_selected", _on_selection_value_selected);
+	GLOBAL.connect("selection_value_select", _on_selection_value_select);
 	
 	if(SETTINGS.selected_marker):
 		player_stats.texture = SETTINGS.selected_marker;
@@ -40,7 +41,11 @@ func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;
 	audio.play();
 
-func _on_selection_value_selected(value: int) -> void:
+func _on_selection_value_select(
+	value: int,
+	category: GLOBAL.SelectionCategory
+) -> void:
+	if(category != selection_category): return;
 	match value:
 		int(GLOBAL.BinaryOptions.YES): handle_save();
 		int(GLOBAL.BinaryOptions.NO): close_menu();

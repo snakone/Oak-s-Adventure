@@ -1252,8 +1252,8 @@ text = "CANCEL"
 [node name="Cursor" type="TextureRect" parent="Select"]
 layout_mode = 2
 offset_left = 8.0
-offset_top = 10.0
+offset_top = 10.5
 offset_right = 17.0
-offset_bottom = 20.0
+offset_bottom = 20.5
 texture = ExtResource("13_186ck")
 stretch_mode = 2

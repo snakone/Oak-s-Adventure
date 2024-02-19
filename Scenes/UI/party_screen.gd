@@ -66,7 +66,7 @@ var switch_mode = false;
 var current_switch_slot;
 
 var select_cursor_default_position = [
-	Vector2(8, -6), Vector2(8, 10), Vector2(8, 26), Vector2(8, 42)
+	Vector2(8, -5.5), Vector2(8, 10), Vector2(8, 26), Vector2(8, 42)
 ];
 
 func _ready():

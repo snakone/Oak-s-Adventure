@@ -120,11 +120,12 @@ func set_player_ui() -> void:
 
 #ENEMY UI
 func set_enemy_ui() -> void:
-	enemy = Pokemon.new(POKEDEX.get_pokemon(battle_data["enemy"]), true, battle_data.levels);
-	var enemy_node_name = enemy_info.get_node("Name");
+	var new_enemy = POKEDEX.get_pokemon(battle_data["enemy"]);
+	enemy = Pokemon.new(new_enemy, true, battle_data.levels);
+	var enemy_name = enemy_info.get_node("Name");
 	var gender_node = enemy_info.get_node("Gender");
-	enemy_node_name.text = enemy.data.name;
-	var enemy_dist = enemy_node_name.get_content_width() + enemy_node_name.position.x + 5;
+	enemy_name.text = enemy.data.name;
+	var enemy_dist = enemy_name.get_content_width() + enemy_name.position.x + 5;
 	enemy_sprite.sprite_frames = enemy.data.sprites.sprite_frames;
 	if("gender" in enemy.data):
 		gender_node.frame = enemy.data.gender;
@@ -155,12 +156,12 @@ func start_attack(delay = 0.0, sound = true) -> void:
 	#PRIORITY
 	var priority = pokemon.data.battle_stats.SPD >= enemy.data.battle_stats.SPD;
 	if(!BATTLE.attacks_set):
-		BATTLE.player_selected_attack = selection.get_player_selected_attack();
-		BATTLE.enemy_selected_attack = selection.get_enemy_random_attack();
+		BATTLE.player_attack = selection.get_player_attack();
+		BATTLE.enemy_attack = selection.get_enemy_random_attack();
 		BATTLE.attacks_set = true;
-		if(BATTLE.enemy_selected_attack.priority > BATTLE.player_selected_attack.priority):
+		if(BATTLE.enemy_attack.priority > BATTLE.player_attack.priority):
 			priority = false;
-		elif(BATTLE.player_selected_attack.priority > BATTLE.enemy_selected_attack.priority): 
+		elif(BATTLE.player_attack.priority > BATTLE.enemy_attack.priority): 
 			priority = true;
 	
 	if((priority && !BATTLE.player_attacked) || BATTLE.enemy_attacked): 
@@ -194,17 +195,17 @@ func pokemon_attack(sound = true) -> void:
 	BATTLE.current_turn = BATTLE.Turn.PLAYER;
 	BATTLE.player_attacked = true;
 	health_before_attack = enemy.data.current_hp;
-	if(pokemon.attack(enemy, BATTLE.player_selected_attack).ok):
+	if(pokemon.attack(enemy, BATTLE.player_attack).ok):
 		if(enemy.data.death): BATTLE.enemy_death = true; 
-		handle_attack(pokemon, BATTLE.player_selected_attack, sound);
+		handle_attack(pokemon, BATTLE.player_attack, sound);
 
 func enemy_attack(sound = true) -> void:
 	BATTLE.current_turn = BATTLE.Turn.ENEMY;
 	BATTLE.enemy_attacked = true;
 	health_before_attack = pokemon.data.current_hp;
-	if(enemy.attack(pokemon, BATTLE.enemy_selected_attack).ok): 
+	if(enemy.attack(pokemon, BATTLE.enemy_attack).ok): 
 		if(pokemon.data.death): BATTLE.pokemon_death = true;  
-		handle_attack(enemy, BATTLE.enemy_selected_attack, sound);
+		handle_attack(enemy, BATTLE.enemy_attack, sound);
 
 func handle_attack(target: Object, move: Dictionary, sound = true) -> void:
 	BATTLE.state = BATTLE.States.ATTACKING;
@@ -226,7 +227,11 @@ func fake_attack() -> void:
 	start_attack(0.2, false);
 
 #UPDATES
-func update_battle_ui(animated = true, get_self = false, check_dialog = false) -> void:
+func update_battle_ui(
+	animated = true,
+	get_self = false,
+	check_dialog = false
+) -> void:
 	player_info.get_node("Level").text = "Lv" + str(pokemon.data.level);
 	var target = get_attack_target(get_self);
 	var new_size = float(target["current_hp"]) / float(target["total_hp"]);
@@ -253,7 +258,11 @@ func update_exp_bar(delay = 0.0) -> void:
 	var new_size = get_new_exp_bar_size();
 	var tween = get_tree().create_tween();
 	tween.set_trans(Tween.TRANS_LINEAR);
-	tween.tween_property(exp_bar, "scale:x", clampf(new_size, 0.0, 1.0), BATTLE.default_exp_duration);
+	tween.tween_property(
+		exp_bar, "scale:x",
+		clampf(new_size, 0.0, 1.0),
+		BATTLE.default_exp_duration
+	);
 	play_audio(BATTLE.BATTLE_SOUNDS.EXP_GAIN_PKM);
 	await tween.finished;
 	while(exp_to_next_level <= 0.0): 
@@ -364,7 +373,11 @@ func _on_health_timer_timeout() -> void:
 	else: stop_health_timer();
 
 #MENU SELECTION
-func _on_selection_value_selected(value: int) -> void:
+func _on_selection_value_select(
+	value: int,
+	id: GLOBAL.SelectionCategory
+) -> void:
+	if(id != GLOBAL.SelectionCategory.BINARY): return;
 	dialog.set_current_text("");
 	play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
 	match value:
@@ -645,5 +658,5 @@ func connect_signals() -> void:
 	BATTLE.connect("check_can_escape", _on_check_can_escape);
 	BATTLE.connect("start_attack", start_attack);
 	PARTY.connect("selected_pokemon_party", _on_party_pokemon_select);
-	GLOBAL.connect("selection_value_selected", _on_selection_value_selected);
+	GLOBAL.connect("selection_value_select", _on_selection_value_select);
 	health_timer.connect("timeout", _on_health_timer_timeout);

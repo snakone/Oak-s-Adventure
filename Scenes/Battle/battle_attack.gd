@@ -19,7 +19,7 @@ var enemy_moves = [];
 func _ready() -> void:
 	BATTLE.connect("update_attack_ui", update_attack_ui);
 
-func get_player_selected_attack() -> Dictionary:
+func get_player_attack() -> Dictionary:
 	return player_moves[selected_attack];
 
 func get_enemy_random_attack() -> Dictionary:

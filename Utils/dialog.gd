@@ -1,10 +1,10 @@
 extends Node
 
-enum DialogType { NPC, OBJECT, SYSTEM, NONE }
+enum Type { NPC, OBJECT, SYSTEM, PC, NONE }
 
 func get_dialog(id: int) -> Dictionary:
 	if(id in LIBRARY): return LIBRARY[id];
-	return { "arr": [[]], "type": DialogType.NONE };
+	return { "arr": [[]], "type": Type.NONE };
 
 const LIBRARY: Dictionary = {
 	1: {
@@ -13,10 +13,9 @@ const LIBRARY: Dictionary = {
 			["self:I'm fine, thanks."]
 		],
 		"npc_name": "Gary",
-		"type": DialogType.NPC,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
+		"marker": true
 		},
 	2: {
 		"arr": [
@@ -24,27 +23,24 @@ const LIBRARY: Dictionary = {
 			["self:Sure it is!"]
 		],
 		"npc_name": "Mom",
-		"type": DialogType.NPC,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
+		"marker": true
 		},
 	3: {
 		"arr": [["There are several types of seeds inside."]],
-		"type": DialogType.OBJECT,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.DOWN,
+		"marker": true
 		},
 	4: {
 		"arr": [
 				["Oh, it looks like there's no mail today!"],
 				["Maybe I should find a boy to bring me the mail sometimes."]
 			],
-		"type": DialogType.OBJECT,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
 		},
 	5: {
 		"arr": [
@@ -52,107 +48,101 @@ const LIBRARY: Dictionary = {
 				["We have the best selection of items."],
 				["Don't miss it!"]
 			],
-		"type": DialogType.OBJECT,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
 		},
 	6: {
 		"arr": [["Oak's Farmer House."]],
-		"type": DialogType.OBJECT,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
 		},
 	7: {
 		"arr": [["Some of Oak's exclusive items."]],
-		"type": DialogType.OBJECT,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.ALL,
+		"marker": true
 		},
 	8: {
 		"arr": [["Some Doritos from last night."]],
-		"type": DialogType.OBJECT,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.ALL,
+		"marker": true
 		},
 	9: {
 		"arr": [
 			["My old Gamecube with Twilight Princess."],
 			["I love this game!"]
 		],
-		"type": DialogType.OBJECT,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.ALL,
+		"marker": true
 		},
 	10: {
 		"arr": [["Do you want to save the game?"]],
-		"type": DialogType.SYSTEM,
+		"type": Type.SYSTEM,
+		"direction": GLOBAL.Directions.NONE,
 		"marker": false,
-		"selection": true,
-		"sound": preload("res://Assets/Sounds/confirm.wav")
+		"selection": {
+			"category": GLOBAL.SelectionCategory.BINARY,
+			"sound": preload("res://Assets/Sounds/confirm.wav")
+		},
 	},
 	11: {
 		"arr": [["There is already a saved file. \nIs it okay to overwrite it?"]],
-		"type": DialogType.SYSTEM,
+		"type": Type.SYSTEM,
+		"direction": GLOBAL.Directions.NONE,
 		"marker": false,
-		"selection": true,
-		"sound": preload("res://Assets/Sounds/save game.mp3")
+		"selection": {
+			"category": GLOBAL.SelectionCategory.BINARY,
+			"sound": preload("res://Assets/Sounds/save game.mp3")
+		},
 	},
 	12: {
 		"arr": [["Oops! It seems like this door is locked!"]],
-		"type": DialogType.SYSTEM,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.SYSTEM,
+		"direction": GLOBAL.Directions.NONE,
+		"marker": true
 	},
 	13: {
 		"arr": [["I'd better keep this for outside."]],
-		"type": DialogType.SYSTEM,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.SYSTEM,
+		"direction": GLOBAL.Directions.NONE,
+		"marker": true
 	},
 	14: {
 		"arr": [["There's still some coffee left in the cup."]],
-		"type": DialogType.OBJECT,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.ALL,
+		"marker": true
 	},
 	15: {
 		"arr": [["My underwear is already clean."]],
-		"type": DialogType.OBJECT,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
 	},
 	16: {
 		"arr": [
 			["A pair of Genesect Fossils."],
 			["Discovered 3000 years ago."],
 		],
-		"type": DialogType.OBJECT,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
 	},
 	17: {
 		"arr": [["South Access to Calderock Village."]],
-		"type": DialogType.OBJECT,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
 	},
 	18: {
 		"arr": [["Irine's Fountain."]],
-		"type": DialogType.OBJECT,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
 	},
 	19: {
 		"arr": [
@@ -160,22 +150,20 @@ const LIBRARY: Dictionary = {
 			["self: Mmm I think I should try aswell!"],
 			["That's the spirit!"]
 		],
-		"type": DialogType.NPC,
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
 		"npc_name": "Scott",
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"marker": true
 	},
 	20: {
 		"arr": [
 			["Hey Professor!"],
 			["Take a look to our last stuff..."]
 		],
-		"type": DialogType.NPC,
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
 		"npc_name": "Merlin",
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"marker": true
 	},
 	21: {
 		"arr": [
@@ -184,43 +172,43 @@ const LIBRARY: Dictionary = {
 			["I heard that a strange POKéMON have been seen near the Black Mountain."],
 			["self:Mm!? What it can be?"],
 		],
-		"type": DialogType.NPC,
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
 		"npc_name": "Harold",
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"marker": true
 	},
 	22: {
 		"arr": [
 			["I like this fountains a lot! Hehe."],
 			["self:They are quite relaxing."],
 		],
-		"type": DialogType.NPC,
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
 		"npc_name": "Daisy",
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"marker": true
 	},
 	23: {
 		"arr": [
 			["Welcome Sr. Oak"],
 			["Do you want to heal your POKéMON?"]
 		],
-		"type": DialogType.NPC,
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
 		"npc_name": "Joy",
 		"marker": true,
-		"selection": true,
-		"sound": preload("res://Assets/Sounds/confirm.wav")
+		"selection": {
+			"category": GLOBAL.SelectionCategory.HEAL,
+			"sound": preload("res://Assets/Sounds/confirm.wav")
+		},
 	},
 	24: {
 		"arr": [
 			["Ok. Just one moment please."]
 		],
-		"type": DialogType.NPC,
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
 		"npc_name": "Joy",
-		"marker": false,
-		"selection": false,
-		"sound": null
+		"marker": false
 	},
 	25: {
 		"arr": [
@@ -228,59 +216,68 @@ const LIBRARY: Dictionary = {
 			["Your POKéMON have fully health now."],
 			["Hope to see you again soon."]
 		],
-		"type": DialogType.NPC,
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
 		"npc_name": "Joy",
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"marker": true
 	},
 	26: {
 		"arr": [
 			["Welcome Professor Oak."],
 			["Take a look to our items."],
 		],
-		"type": DialogType.NPC,
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
 		"npc_name": "Kevin",
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"marker": true
 	},
 	27: {
 		"arr": [["POKéMON related magazines."]],
-		"type": DialogType.OBJECT,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
 	},
 	28: {
 		"arr": [["I\'m hungry, but I shouldn\'t do this."]],
-		"type": DialogType.OBJECT,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
 	},
 	29: {
 		"arr": [
 			["Calderock Village."],
 			["A relaxing place to spend your time."]
 		],
-		"type": DialogType.OBJECT,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
 	},
 	30: {
 		"arr": [["Access to Route 02."]],
-		"type": DialogType.OBJECT,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
 	},
 	31: {
 		"arr": [["Harold\'s House."]],
-		"type": DialogType.OBJECT,
-		"marker": true,
-		"selection": false,
-		"sound": null
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
+	},
+	32: {
+		"arr": [
+			["You booted up the PC."]
+		],
+		"type": Type.PC,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
+	},
+	33: {
+		"arr": [
+			["Which PC should be accessed?"]
+		],
+		"type": Type.PC,
+		"direction": GLOBAL.Directions.UP,
+		"marker": false
 	},
 }

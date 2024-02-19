@@ -54,12 +54,20 @@ func rest(num) -> float:
 	elif(num == 2): return 0.014;
 	return num
 
-func get_exp_for_next_level(type: BATTLE.ExpType, current_exp: int, level: int) -> int:
+func get_exp_for_next_level(
+	type: BATTLE.ExpType,
+	current_exp: int,
+	level: int
+) -> int:
 	var new_level = level + 1;
 	var exp_next_level = floor(get_exp_by_level(type, new_level));
 	return floor(exp_next_level - current_exp);
 
-func get_exp_given_by_pokemon(enemy: Object, battle_type: BATTLE.Type, participants: int = 1) -> int:
+func get_exp_given_by_pokemon(
+	enemy: Object,
+	battle_type: BATTLE.Type,
+	participants: int = 1
+) -> int:
 	var base_exp = POKEDEX.get_pokemon_prop(enemy.name, "base_exp");
 	var type = 1.0;
 	var lucky_egg = 1.0;
@@ -67,5 +75,6 @@ func get_exp_given_by_pokemon(enemy: Object, battle_type: BATTLE.Type, participa
 	match battle_type:
 		BATTLE.Type.TRAINER, BATTLE.Type.SPECIAL, BATTLE.Type.ELITE: type = 1.5;
 	
-	return floor(((base_exp * enemy.data.level) / 7.0) * (1.0 / float(participants)) * lucky_egg * type)
+	var base = ((base_exp * enemy.data.level) / 7.0);
+	return floor(base * (1.0 / float(participants)) * lucky_egg * type);
 	

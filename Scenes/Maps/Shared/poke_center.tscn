@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bxf1hxdkx6318"]
+[gd_scene load_steps=17 format=3 uid="uid://bxf1hxdkx6318"]
 
 [ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="1_cst2t"]
 [ext_resource type="Script" path="res://Scenes/Maps/Shared/poke_center.gd" id="1_u7137"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://ceasrabapd61m" path="res://Sprites/pokeball_heal_animation_flash.png" id="10_ltsu3"]
 [ext_resource type="Texture2D" uid="uid://bnwtt2dxwuf0x" path="res://Sprites/screen_poke_heal.png" id="11_y32w2"]
 [ext_resource type="Texture2D" uid="uid://shlclivbp510" path="res://Assets/UI/Pokemon/horsea/icon.png" id="12_yo0oq"]
+[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="13_0bgan"]
 
 [sub_resource type="Animation" id="Animation_7p7f0"]
 resource_name = "PokeballHeal"
@@ -239,6 +240,10 @@ vframes = 2
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.3
+
+[node name="PC" parent="." instance=ExtResource("13_0bgan")]
+position = Vector2(176, 16)
+dialog_id = 32
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 

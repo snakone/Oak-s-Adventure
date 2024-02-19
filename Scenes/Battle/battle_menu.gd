@@ -18,7 +18,6 @@ func _ready() -> void:
 
 #MENU STATE
 func input() -> void:
-	#ARROW
 	if(!BATTLE.can_use_menu || GLOBAL.party_open): return;
 	if Input.is_action_just_pressed("moveLeft") && cursor_index.x > 0:
 		cursor_index.x -= 1;

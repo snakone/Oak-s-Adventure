@@ -103,5 +103,8 @@ func connect_signals() -> void:
 	GLOBAL.connect("start_dialog", _on_start_dialog);
 	GLOBAL.connect("close_dialog", _on_close_dialog);
 
-func _on_npc_area_body_entered(body): if("Oak" in body.name): inside_player_area = true;
-func _on_npc_area_body_exited(body): if("Oak" in body.name): inside_player_area = false;
+func _on_npc_area_body_entered(body): if("Oak" in body.name): 
+	inside_player_area = true;
+
+func _on_npc_area_body_exited(body): if("Oak" in body.name): 
+	inside_player_area = false;

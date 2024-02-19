@@ -31,7 +31,17 @@ enum ExpType { ERRATIC, FAST, MEDIUM, SLOW, SLACK, FLUCTUATING }
 enum Zones { FIELD = 0, GRASS = 1, SNOW = 2 }
 enum Moves { FIRST, SECOND, THIRD, FOURTH }
 enum Turn { PLAYER, ENEMY, NONE }
-enum AttackResult { NORMAL, CRITICAL, EFFECTIVE, LOW, MISS, NONE, FULMINATE, AWFULL }
+
+enum AttackResult { 
+	NORMAL, 
+	CRITICAL, 
+	EFFECTIVE,
+	LOW, 
+	MISS, 
+	NONE, 
+	FULMINATE, 
+	AWFULL
+}
 
 enum States {
 	MENU = 0, 
@@ -114,8 +124,8 @@ var exp_loop = false;
 var critical_hit = false;
 var attack_missed = false;
 var attack_result = [];
-var player_selected_attack = 0;
-var enemy_selected_attack = 0;
+var player_attack = 0;
+var enemy_attack = 0;
 var attacks_set = false;
 
 @onready var ZONES_ARRAY = [
@@ -157,8 +167,8 @@ func reset_state(reset_type = true) -> void:
 	critical_hit = false;
 	attack_missed = false;
 	attack_result = [];
-	player_selected_attack = 0;
-	enemy_selected_attack = 0;
+	player_attack = 0;
+	enemy_attack = 0;
 	attacks_set = false;
 
 func pokemon_encounter() -> bool:

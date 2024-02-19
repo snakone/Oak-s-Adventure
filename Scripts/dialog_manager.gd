@@ -22,11 +22,11 @@ var must_select = false;
 func set_data(id: int) -> void: dialog_data = DIALOG.get_dialog(id);
 
 func _ready() -> void:
-	GLOBAL.connect("selection_value_selected", _on_selection_value_selected);
+	GLOBAL.connect("selection_value_select", _on_selection_value_select);
 	marker.visible = false;
 	label.text = "";
 	var text_string = dialog_data.arr[0][0];
-	if(dialog_data.type == DIALOG.DialogType.NPC):
+	if(dialog_data.type ==  DIALOG.Type.NPC):
 		npc_dialog = true;
 		whos_talking = dialog_data.npc_name;
 		text_string = add_prefix(text_string);
@@ -39,7 +39,7 @@ func _ready() -> void:
 	await GLOBAL.timeout(0.2);
 	pressed = false;
 	marker.visible = dialog_data.marker;
-	if(dialog_data.selection && !dialog_data.marker):
+	if("selection" in dialog_data && !dialog_data.marker):
 		show_selection();
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -83,7 +83,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			#SELECTION
 			if(
 				dialog_data.arr.size() - 1 == current_index &&
-				dialog_data.selection
+				"selection" in dialog_data
 			):
 				show_selection();
 				return;
@@ -96,7 +96,7 @@ func show_selection() -> void:
 	must_select = true;
 	marker.visible = false;
 	await GLOBAL.timeout(0.1);
-	selection.set_visibility(true);
+	selection.set_visibility(true, dialog_data.selection.category);
 	
 func add_prefix(text: String) -> String:
 	if(whos_talking != ""):
@@ -107,13 +107,13 @@ func add_prefix(text: String) -> String:
 	return text;
 
 #SELECTION
-func _on_selection_value_selected(value: int) -> void:
+func _on_selection_value_select(value: int, _id) -> void:
 	match value:
-		int(GLOBAL.BinaryOptions.YES): close_selection(dialog_data.sound);
+		int(GLOBAL.BinaryOptions.YES): close_selection(dialog_data.selection.sound);
 		int(GLOBAL.BinaryOptions.NO): close_selection();
 
 func close_selection(stream: AudioStream = CLOSE_MENU) -> void:
-	if(dialog_data.sound != null): 
+	if(dialog_data.selection.sound != null):
 		play_audio(stream);
 		await audio.finished;
 	GLOBAL.emit_signal("close_dialog");

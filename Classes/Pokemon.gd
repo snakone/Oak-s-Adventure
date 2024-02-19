@@ -92,8 +92,10 @@ func set_battle_stats() -> void:
 		var value = data.IV[key];
 		var stat_base = data.stats[key];
 		var nature = 1.0;
-		if(key != "HP"): data.battle_stats[key] = stat_formula(stat_base, value, nature);
-		elif(key == "HP"): data.battle_stats[key] = health_formula(stat_base, value);
+		if(key != "HP"): 
+			data.battle_stats[key] = stat_formula(stat_base, value, nature);
+		elif(key == "HP"): 
+			data.battle_stats[key] = health_formula(stat_base, value);
 
 #IV
 func set_random_IV() -> Dictionary:
@@ -126,7 +128,8 @@ func set_hp_anim_duration_after_damage(damage: int, enemy: Object) -> void:
 	BATTLE.emit_signal("hp_bar_anim_duration", total);
 
 #BASE STATS
-func get_base_stats() -> void: data.stats = POKEDEX.get_pokemon_prop(name, "stats");
+func get_base_stats() -> void: 
+	data.stats = POKEDEX.get_pokemon_prop(name, "stats");
 
 #RESOURCES
 func get_resources() -> void:
@@ -223,8 +226,10 @@ func damage_formula(enemy: Object, move: Dictionary) -> int:
 		) * burned + 2.0);
 		
 	var random: float = get_random_float();
-	var damage = (base_damage * CRIT_stat * STAB * effective_type1 * effective_type2 * random);
-	if(BATTLE.attack_result.size() == 0): BATTLE.attack_result = [BATTLE.AttackResult.NORMAL];
+	var total_base = base_damage * CRIT_stat * STAB;
+	var damage = (total_base * effective_type1 * effective_type2 * random);
+	if(BATTLE.attack_result.size() == 0): 
+		BATTLE.attack_result = [BATTLE.AttackResult.NORMAL];
 	return custom_round(damage, random);
 
 func get_random_float() -> float:

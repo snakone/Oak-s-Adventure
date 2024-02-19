@@ -29,7 +29,9 @@ func _on_area_2d_body_exited(_body):
 	texture_rect.visible = false;
 
 func active_effect() -> void: grass_effect.play();
-func _on_end_battle() -> void: call_deferred("set_process", Node.PROCESS_MODE_INHERIT);
+
+func _on_end_battle() -> void: 
+	call_deferred("set_process", Node.PROCESS_MODE_INHERIT);
 
 func reset_texture(value: bool): 
 	if(value): 
@@ -54,7 +56,8 @@ func check_for_battle(body: CharacterBody2D) -> void:
 func get_random_pokemon() -> POKEDEX.Pokedex:
 	var map = MAPS.get_map_name(true);
 	var map_encounters = MAPS.ENCOUNTERS[map][zone_number];
-	encounters.sort_custom(func(x, y): return map_encounters[x] < map_encounters[y]);
+	encounters.sort_custom(func(x, y): 
+		return map_encounters[x] < map_encounters[y]);
 	var random = randf_range(0.0, 99.0);
 	var accumulated = 0.0;
 

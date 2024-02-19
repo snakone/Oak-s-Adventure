@@ -18,7 +18,7 @@ patch_margin_right = 6
 patch_margin_bottom = 6
 script = ExtResource("3_ebam8")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Cursor" type="TextureRect" parent="."]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 8.0

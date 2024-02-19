@@ -1697,6 +1697,7 @@ autoplay = "Front"
 frame = 1
 
 [node name="PlayerSprite" type="AnimatedSprite2D" parent="UI"]
+visible = false
 material = SubResource("ShaderMaterial_nw7km")
 position = Vector2(64, 97)
 sprite_frames = ExtResource("13_4uggi")

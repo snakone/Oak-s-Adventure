@@ -10,19 +10,22 @@ signal bike_inside;
 signal start_dialog(id: int);
 signal close_dialog;
 signal on_tile_map_changed(size: Vector2, camera_offset: Vector2);
-signal selection_value_selected(value:BinaryOptions);
+signal selection_value_select(value: BinaryOptions, category: SelectionCategory);
 
 signal start_battle(battle_data: Dictionary);
 signal close_battle;
 
-enum Directions {LEFT, RIGHT, UP, DOWN, NONE, ALL}
+signal open_pc();
+signal close_pc();
+
+enum Directions { LEFT, RIGHT, UP, DOWN, NONE, ALL }
 enum FacingDirection { LEFT, RIGHT, UP, DOWN };
 enum Genders { MALE, FEMALE }
 enum SaveType { PLAYER, SCENE, PARTY }
 enum DoorType { IN, OUT }
-enum DialogAreaType { NPC, OBJECT, NONE }
 enum BinaryOptions { YES, NO }
 enum DoorCategory { DOOR, TUNNEL }
+enum SelectionCategory { BINARY, HEAL }
 
 const TILE_SIZE: int = 16;
 const WINDOW_SIZE = Vector2(15, 10);

@@ -10,27 +10,24 @@ extends HouseController
 const POKEMON_HEAL = preload("res://Assets/Sounds/pokemon heal.mp3");
 const BATTLE_BALL_SHAKE = preload("res://Assets/Sounds/Battle ball shake.ogg");
 
-var heal_anim_duration = 10;
+var heal_anim_duration = 11;
 var party: Array = [];
 var party_size: int = 0;
 var show_screen_poke = true;
 var index = 0;
+var selection_category = GLOBAL.SelectionCategory.HEAL;
 
 func _ready() -> void:
 	super();
 	check_out_scene();
 	party = PARTY.get_party();
 	party_size = party.size();
-	GLOBAL.connect("selection_value_selected", _on_selection_value_selected);
+	GLOBAL.connect("selection_value_select", _on_selection_value_select);
 
 func check_out_scene() -> void:
 	if(self.name in MAPS.CONNECTIONS &&
 		MAPS.last_map in MAPS.CONNECTIONS[self.name]): 
 			poke_center_door.spawn_position = MAPS.CONNECTIONS[self.name][MAPS.last_map];
-
-func _on_selection_value_selected(value: int) -> void:
-	match value:
-		int(GLOBAL.BinaryOptions.YES): handle_heal();
 
 func handle_heal() -> void:
 	if(GLOBAL.healing): return;
@@ -71,3 +68,8 @@ func _on_timer_timeout() -> void:
 		#poke_preview.visible = true;
 		#poke_preview.texture = texture;
 		#index += 1;
+
+func _on_selection_value_select(value: int, category) -> void:
+	if(category != selection_category): return;
+	match value:
+		int(GLOBAL.BinaryOptions.YES): handle_heal();

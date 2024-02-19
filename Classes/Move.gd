@@ -51,4 +51,9 @@ func attack() -> void:
 	if(current_turn == Turn.ENEMY): array = move.values.enemy;
 	
 	for stat in array:
-		tween.tween_property(current_sprite, move.property, key_value + stat.value, stat.duration);
+		tween.tween_property(
+			current_sprite, 
+			move.property, 
+			key_value + stat.value, 
+			stat.duration
+		);

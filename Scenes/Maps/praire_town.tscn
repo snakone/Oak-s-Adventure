@@ -56,7 +56,6 @@ dialog_id = 5
 [node name="Box" parent="." instance=ExtResource("9_255gx")]
 position = Vector2(112, 48)
 dialog_id = 7
-talk_direction = 5
 metadata/_edit_group_ = true
 
 [node name="Vendor" parent="." instance=ExtResource("9_sm5xq")]
