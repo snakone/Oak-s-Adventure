@@ -72,6 +72,7 @@ func _on_open_pc() -> void:
 	call_deferred("add_child", pc_inst);
 
 func _on_close_pc() -> void:
+	if(dialogue_inst != null): _on_close_dialog();
 	pc_inst.call_deferred("queue_free");
 
 #BATTLE

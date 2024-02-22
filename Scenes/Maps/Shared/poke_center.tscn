@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://ceasrabapd61m" path="res://Sprites/pokeball_heal_animation_flash.png" id="10_ltsu3"]
 [ext_resource type="Texture2D" uid="uid://bnwtt2dxwuf0x" path="res://Sprites/screen_poke_heal.png" id="11_y32w2"]
 [ext_resource type="Texture2D" uid="uid://shlclivbp510" path="res://Assets/UI/Pokemon/horsea/icon.png" id="12_yo0oq"]
-[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="13_0bgan"]
+[ext_resource type="PackedScene" uid="uid://d3jj2t8g5va8g" path="res://Scripts/pc_area.tscn" id="13_q1t2n"]
 
 [sub_resource type="Animation" id="Animation_7p7f0"]
 resource_name = "PokeballHeal"
@@ -241,7 +241,7 @@ vframes = 2
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.3
 
-[node name="PC" parent="." instance=ExtResource("13_0bgan")]
+[node name="PC" parent="." instance=ExtResource("13_q1t2n")]
 position = Vector2(176, 16)
 dialog_id = 32
 

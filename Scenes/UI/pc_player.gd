@@ -7,6 +7,7 @@ extends CanvasLayer
 const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg");
 const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
 const CONFIRM = preload("res://Assets/Sounds/confirm.wav");
+const PC_ACCESS = preload("res://Assets/Sounds/PC access.ogg");
 
 const POKEMON_BOXES = "res://Scenes/UI/pokemon_boxes.tscn";
 
@@ -91,6 +92,8 @@ func select_storage() -> void:
 	GLOBAL.start_dialog.emit(37);
 	await GLOBAL.close_dialog;
 	GLOBAL.on_boxes = true;
+	play_audio(PC_ACCESS);
+	await audio.finished;
 	scene_manager.transition_to_scene(POKEMON_BOXES, true, false);
 	process_mode = Node.PROCESS_MODE_DISABLED;
 

@@ -39,10 +39,10 @@ collision_priority = 2.0
 next_scene = "res://Scenes/Maps/praire_town.tscn"
 
 [node name="Gary" parent="." instance=ExtResource("7_agnbx")]
-position = Vector2(48, 144)
+position = Vector2(128, 160)
 texture = ExtResource("8_k38dg")
-possitive_limits = Vector2(3, 2)
-negative_limits = Vector2(-2, -1)
+possitive_limits = Vector2(2, 1)
+negative_limits = Vector2(-2, -2)
 
 [node name="Banner" parent="." instance=ExtResource("9_08sj1")]
 position = Vector2(288, 80)

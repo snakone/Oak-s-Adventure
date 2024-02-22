@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://ivj6tbkbl3wy"]
+[gd_scene load_steps=23 format=3 uid="uid://ivj6tbkbl3wy"]
 
 [ext_resource type="Script" path="res://Scenes/UI/pokemon_boxes.gd" id="1_wdni0"]
 [ext_resource type="Shader" path="res://Scenes/UI/animated_background.gdshader" id="2_mfosh"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://d2288bnr5xm0q" path="res://Assets/UI/Boxes/hand.png" id="4_35d71"]
 [ext_resource type="Texture2D" uid="uid://ctbmbcy0tn2f8" path="res://Assets/UI/Boxes/data_inactive.png" id="4_l0lo0"]
 [ext_resource type="Texture2D" uid="uid://c6ijn3ggawe54" path="res://Assets/UI/Boxes/data_active.png" id="5_6c1ev"]
+[ext_resource type="Texture2D" uid="uid://dlkvo6sqfam77" path="res://Assets/UI/Boxes/hand_shadow.png" id="5_q62xx"]
 [ext_resource type="Texture2D" uid="uid://dvi1e10qdwgbb" path="res://Assets/UI/Boxes/box1.png" id="6_uwq0w"]
 [ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="7_qe0k8"]
 [ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/Fonts/power clear.ttf" id="8_acmja"]
@@ -13,11 +14,114 @@
 [ext_resource type="Texture2D" uid="uid://ck8uwfwvnjnic" path="res://Assets/UI/Boxes/close.png" id="9_or3r2"]
 [ext_resource type="Texture2D" uid="uid://d3tc1hi14e0rd" path="res://Assets/UI/Boxes/arrow_left.png" id="10_jv6p7"]
 [ext_resource type="Texture2D" uid="uid://dpc041np632sh" path="res://Assets/UI/Boxes/arrow_right.png" id="11_j5iov"]
+[ext_resource type="Texture2D" uid="uid://dqbif0an3yaxg" path="res://Assets/UI/Pokemon/bulbasaur/icon.png" id="12_odfg6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dci5v"]
 shader = ExtResource("2_mfosh")
 shader_parameter/Direction = Vector2(1, 1)
 shader_parameter/Speed = 0.08
+
+[sub_resource type="Animation" id="Animation_5hvqe"]
+resource_name = "HandIdle"
+length = 0.6
+loop_mode = 1
+step = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_pavsk"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8fdo8"]
+_data = {
+"HandIdle": SubResource("Animation_5hvqe"),
+"RESET": SubResource("Animation_pavsk")
+}
+
+[sub_resource type="Animation" id="Animation_bch4a"]
+resource_name = "BoxSelected"
+length = 0.4
+loop_mode = 1
+step = 0.06
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ArrowLeft:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.12, 0.18, 0.24, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ArrowRight:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.12, 0.18, 0.24, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="Animation" id="Animation_n6r8r"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ArrowLeft:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ArrowRight:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n4ht2"]
+_data = {
+"BoxSelected": SubResource("Animation_bch4a"),
+"RESET": SubResource("Animation_n6r8r")
+}
 
 [node name="PokemonBoxes" type="CanvasLayer"]
 layer = 5
@@ -35,18 +139,31 @@ centered = false
 flip_h = true
 
 [node name="Hand" type="Control" parent="Node2D"]
+y_sort_enabled = true
 layout_mode = 3
 anchors_preset = 0
-offset_left = 85.0
-offset_top = 17.0
-offset_right = 117.0
-offset_bottom = 49.0
+offset_left = 84.0
+offset_top = 20.0
+offset_right = 116.0
+offset_bottom = 52.0
 
 [node name="Sprite2D" type="Sprite2D" parent="Node2D/Hand"]
-z_index = 2
+z_index = 3
+y_sort_enabled = true
 texture = ExtResource("4_35d71")
 centered = false
 hframes = 4
+
+[node name="Shadow" type="Sprite2D" parent="Node2D/Hand"]
+z_index = 1
+position = Vector2(16, 37)
+texture = ExtResource("5_q62xx")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Hand"]
+libraries = {
+"": SubResource("AnimationLibrary_8fdo8")
+}
+autoplay = "HandIdle"
 
 [node name="Data" type="Control" parent="Node2D"]
 layout_mode = 3
@@ -66,19 +183,22 @@ texture = ExtResource("5_6c1ev")
 centered = false
 hframes = 3
 
-[node name="Box" type="Control" parent="Node2D"]
+[node name="Boxes" type="Node2D" parent="Node2D"]
+y_sort_enabled = true
+
+[node name="Box" type="Control" parent="Node2D/Boxes"]
 layout_mode = 3
 anchors_preset = 0
 offset_left = -1.0
 offset_right = 239.0
 offset_bottom = 160.0
 
-[node name="Sprite2D" type="Sprite2D" parent="Node2D/Box"]
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/Boxes/Box"]
 position = Vector2(83, 17)
 texture = ExtResource("6_uwq0w")
 centered = false
 
-[node name="Name" type="RichTextLabel" parent="Node2D/Box"]
+[node name="Name" type="RichTextLabel" parent="Node2D/Boxes/Box"]
 layout_mode = 0
 offset_left = 150.0
 offset_top = 25.0
@@ -90,15 +210,83 @@ theme_override_colors/font_shadow_color = Color(0.196078, 0.196078, 0.196078, 1)
 theme_override_fonts/normal_font = ExtResource("8_acmja")
 text = "BOX 1"
 
-[node name="ArrowLeft" type="Sprite2D" parent="Node2D/Box"]
+[node name="ArrowLeft" type="Sprite2D" parent="Node2D/Boxes/Box"]
 position = Vector2(89, 30)
 texture = ExtResource("10_jv6p7")
 vframes = 6
 
-[node name="ArrowRight" type="Sprite2D" parent="Node2D/Box"]
+[node name="ArrowRight" type="Sprite2D" parent="Node2D/Boxes/Box"]
 position = Vector2(233, 30)
 texture = ExtResource("11_j5iov")
 vframes = 6
+
+[node name="Pokemon" type="Node2D" parent="Node2D/Boxes/Box"]
+z_index = 2
+position = Vector2(84, 32)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
+texture = ExtResource("12_odfg6")
+centered = false
+vframes = 2
+
+[node name="Sprite2D7" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
+position = Vector2(0, 22)
+texture = ExtResource("12_odfg6")
+centered = false
+vframes = 2
+
+[node name="Sprite2D8" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
+position = Vector2(0, 44)
+texture = ExtResource("12_odfg6")
+centered = false
+vframes = 2
+
+[node name="Sprite2D9" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
+position = Vector2(0, 66)
+texture = ExtResource("12_odfg6")
+centered = false
+vframes = 2
+
+[node name="Sprite2D10" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
+position = Vector2(0, 88)
+texture = ExtResource("12_odfg6")
+centered = false
+vframes = 2
+
+[node name="Sprite2D2" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
+position = Vector2(24, 0)
+texture = ExtResource("12_odfg6")
+centered = false
+vframes = 2
+
+[node name="Sprite2D3" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
+position = Vector2(48, 0)
+texture = ExtResource("12_odfg6")
+centered = false
+vframes = 2
+
+[node name="Sprite2D4" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
+position = Vector2(72, 0)
+texture = ExtResource("12_odfg6")
+centered = false
+vframes = 2
+
+[node name="Sprite2D5" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
+position = Vector2(96, 0)
+texture = ExtResource("12_odfg6")
+centered = false
+vframes = 2
+
+[node name="Sprite2D6" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
+position = Vector2(120, 0)
+texture = ExtResource("12_odfg6")
+centered = false
+vframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Boxes/Box"]
+libraries = {
+"": SubResource("AnimationLibrary_n4ht2")
+}
 
 [node name="Party" type="Control" parent="Node2D"]
 layout_mode = 3
@@ -124,3 +312,6 @@ offset_bottom = 16.0
 position = Vector2(43, 9.5)
 texture = ExtResource("9_or3r2")
 vframes = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -10.0
