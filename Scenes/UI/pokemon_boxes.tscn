@@ -35,7 +35,6 @@ centered = false
 flip_h = true
 
 [node name="Hand" type="Control" parent="Node2D"]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 85.0

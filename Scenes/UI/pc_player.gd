@@ -18,9 +18,11 @@ var options_length = PcOptions.keys().size();
 var scene_manager: Node2D;
 
 func _ready() -> void:
+	GLOBAL.on_pc = true;
 	set_marker();
 	start_dialog();
 	scene_manager = get_parent();
+	GLOBAL.connect("scene_opened", _on_scene_opened);
 
 func start_dialog() -> void:
 	play_audio(CONFIRM);
@@ -36,6 +38,8 @@ func _on_scene_opened(value: bool, node_name: String) -> void:
 	if(!value):
 		can_use_menu = true;
 		process_mode = Node.PROCESS_MODE_INHERIT;
+		nine_rect.visible = true;
+		GLOBAL.on_boxes = false;
 	scene_manager.get_node(node_name).queue_free();
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -86,7 +90,7 @@ func select_storage() -> void:
 	nine_rect.visible = false;
 	GLOBAL.start_dialog.emit(37);
 	await GLOBAL.close_dialog;
-	GLOBAL.menu_open = true;
+	GLOBAL.on_boxes = true;
 	scene_manager.transition_to_scene(POKEMON_BOXES, true, false);
 	process_mode = Node.PROCESS_MODE_DISABLED;
 
@@ -102,6 +106,7 @@ func close_menu() -> void:
 	nine_rect.visible = false;
 	await GLOBAL.timeout(0.3);
 	GLOBAL.close_pc.emit();
+	GLOBAL.on_pc = false;
 
 func update_cursor() -> void:
 	var perct = (selected_option % options_length) * 16;

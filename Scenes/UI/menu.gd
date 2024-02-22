@@ -111,6 +111,7 @@ func open_party() -> void:
 	scene_manager.transition_to_scene(party_screen_path, true, false);
 
 func _on_scene_opened(value: bool, node_name: String) -> void:
+	if(GLOBAL.on_boxes): return;
 	#CLOSED
 	if(!value):
 		if(!GLOBAL.on_battle):

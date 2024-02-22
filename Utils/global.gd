@@ -59,6 +59,8 @@ var inside_house = false;
 var dialog_open = false;
 var on_battle = false;
 var healing = false;
+var on_boxes = false;
+var on_pc = false;
 
 #VALUES
 var current_money = 0;
