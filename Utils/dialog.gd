@@ -169,7 +169,7 @@ const LIBRARY: Dictionary = {
 		"arr": [
 			["Long time no see, Professor."],
 			["self:Hey Harold, how are you?"],
-			["A strange POKéMON have been seen near the Black Mountain."],
+			["I heard that a strange POKéMON has been seen near the Black Mountain."],
 			["self:Mm!? What it can be?"],
 		],
 		"type": Type.NPC,

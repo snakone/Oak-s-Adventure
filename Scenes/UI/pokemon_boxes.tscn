@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://ivj6tbkbl3wy"]
+[gd_scene load_steps=28 format=3 uid="uid://ivj6tbkbl3wy"]
 
 [ext_resource type="Script" path="res://Scenes/UI/pokemon_boxes.gd" id="1_wdni0"]
 [ext_resource type="Shader" path="res://Scenes/UI/animated_background.gdshader" id="2_mfosh"]
@@ -14,12 +14,40 @@
 [ext_resource type="Texture2D" uid="uid://ck8uwfwvnjnic" path="res://Assets/UI/Boxes/close.png" id="9_or3r2"]
 [ext_resource type="Texture2D" uid="uid://d3tc1hi14e0rd" path="res://Assets/UI/Boxes/arrow_left.png" id="10_jv6p7"]
 [ext_resource type="Texture2D" uid="uid://dpc041np632sh" path="res://Assets/UI/Boxes/arrow_right.png" id="11_j5iov"]
-[ext_resource type="Texture2D" uid="uid://dqbif0an3yaxg" path="res://Assets/UI/Pokemon/bulbasaur/icon.png" id="12_odfg6"]
+[ext_resource type="Texture2D" uid="uid://dc2sp3chid7is" path="res://Assets/UI/Boxes/box3.png" id="13_13i7f"]
+[ext_resource type="Texture2D" uid="uid://be586ki4sb72i" path="res://Assets/UI/Boxes/box2.png" id="14_qwdan"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dci5v"]
 shader = ExtResource("2_mfosh")
 shader_parameter/Direction = Vector2(1, 1)
 shader_parameter/Speed = 0.08
+
+[sub_resource type="Animation" id="Animation_0jxrx"]
+resource_name = "Drop"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [3, 2, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 8), Vector2(0, 8), Vector2(0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_5hvqe"]
 resource_name = "HandIdle"
@@ -39,6 +67,33 @@ tracks/0/keys = {
 "values": [0, 1]
 }
 
+[sub_resource type="Animation" id="Animation_eig71"]
+resource_name = "Pick"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 8), Vector2(0, 8), Vector2(0, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_pavsk"]
 length = 0.001
 tracks/0/type = "value"
@@ -56,11 +111,13 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8fdo8"]
 _data = {
+"Drop": SubResource("Animation_0jxrx"),
 "HandIdle": SubResource("Animation_5hvqe"),
+"Pick": SubResource("Animation_eig71"),
 "RESET": SubResource("Animation_pavsk")
 }
 
-[sub_resource type="Animation" id="Animation_bch4a"]
+[sub_resource type="Animation" id="Animation_tf7y2"]
 resource_name = "BoxSelected"
 length = 0.4
 loop_mode = 1
@@ -80,7 +137,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("ArrowRight:frame")
+tracks/1/path = NodePath("../Previous/ArrowLeft:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = false
 tracks/1/keys = {
@@ -89,8 +146,88 @@ tracks/1/keys = {
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Next/ArrowLeft:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.12, 0.18, 0.24, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ArrowRight:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.12, 0.18, 0.24, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../Previous/ArrowRight:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.12, 0.18, 0.24, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../Next/ArrowRight:frame")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.12, 0.18, 0.24, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
 
-[sub_resource type="Animation" id="Animation_n6r8r"]
+[sub_resource type="Animation" id="Animation_fa341"]
+resource_name = "Next"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-176, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_o4ucu"]
+resource_name = "Previous"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(177, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_e51tc"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -102,7 +239,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0]
+"values": [1]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -114,13 +251,39 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0]
+"values": [1]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Previous/ArrowRight:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Next/ArrowRight:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_n4ht2"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tltli"]
 _data = {
-"BoxSelected": SubResource("Animation_bch4a"),
-"RESET": SubResource("Animation_n6r8r")
+"BoxSelected": SubResource("Animation_tf7y2"),
+"Next": SubResource("Animation_fa341"),
+"Previous": SubResource("Animation_o4ucu"),
+"RESET": SubResource("Animation_e51tc")
 }
 
 [node name="PokemonBoxes" type="CanvasLayer"]
@@ -150,9 +313,15 @@ offset_bottom = 52.0
 [node name="Sprite2D" type="Sprite2D" parent="Node2D/Hand"]
 z_index = 3
 y_sort_enabled = true
+position = Vector2(0, 4)
 texture = ExtResource("4_35d71")
 centered = false
 hframes = 4
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Node2D/Hand/Sprite2D"]
+update_position = false
+update_rotation = false
+update_scale = false
 
 [node name="Shadow" type="Sprite2D" parent="Node2D/Hand"]
 z_index = 1
@@ -166,6 +335,9 @@ libraries = {
 autoplay = "HandIdle"
 
 [node name="Data" type="Control" parent="Node2D"]
+visible = false
+z_index = 3
+y_sort_enabled = true
 layout_mode = 3
 anchors_preset = 0
 offset_right = 80.0
@@ -208,84 +380,106 @@ theme = ExtResource("7_qe0k8")
 theme_override_colors/default_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0.196078, 0.196078, 0.196078, 1)
 theme_override_fonts/normal_font = ExtResource("8_acmja")
-text = "BOX 1"
+text = "BOX"
 
 [node name="ArrowLeft" type="Sprite2D" parent="Node2D/Boxes/Box"]
 position = Vector2(89, 30)
 texture = ExtResource("10_jv6p7")
 vframes = 6
+frame = 1
 
 [node name="ArrowRight" type="Sprite2D" parent="Node2D/Boxes/Box"]
 position = Vector2(233, 30)
 texture = ExtResource("11_j5iov")
 vframes = 6
+frame = 1
 
 [node name="Pokemon" type="Node2D" parent="Node2D/Boxes/Box"]
 z_index = 2
 position = Vector2(84, 32)
 
-[node name="Sprite2D" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
-texture = ExtResource("12_odfg6")
-centered = false
-vframes = 2
+[node name="Previous" type="Control" parent="Node2D/Boxes"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -178.0
+offset_right = 62.0
+offset_bottom = 160.0
 
-[node name="Sprite2D7" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
-position = Vector2(0, 22)
-texture = ExtResource("12_odfg6")
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/Boxes/Previous"]
+position = Vector2(83, 17)
+texture = ExtResource("13_13i7f")
 centered = false
-vframes = 2
 
-[node name="Sprite2D8" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
-position = Vector2(0, 44)
-texture = ExtResource("12_odfg6")
+[node name="Name" type="RichTextLabel" parent="Node2D/Boxes/Previous"]
+layout_mode = 0
+offset_left = 150.0
+offset_top = 25.0
+offset_right = 191.0
+offset_bottom = 38.0
+theme = ExtResource("7_qe0k8")
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.196078, 0.196078, 0.196078, 1)
+theme_override_fonts/normal_font = ExtResource("8_acmja")
+text = "BOX"
+
+[node name="ArrowLeft" type="Sprite2D" parent="Node2D/Boxes/Previous"]
+position = Vector2(89, 30)
+texture = ExtResource("10_jv6p7")
+vframes = 6
+
+[node name="ArrowRight" type="Sprite2D" parent="Node2D/Boxes/Previous"]
+position = Vector2(233, 30)
+texture = ExtResource("11_j5iov")
+vframes = 6
+frame = 1
+
+[node name="Pokemon" type="Node2D" parent="Node2D/Boxes/Previous"]
+z_index = 2
+position = Vector2(84, 32)
+
+[node name="Next" type="Control" parent="Node2D/Boxes"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 175.0
+offset_right = 415.0
+offset_bottom = 160.0
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/Boxes/Next"]
+position = Vector2(83, 17)
+texture = ExtResource("14_qwdan")
 centered = false
-vframes = 2
 
-[node name="Sprite2D9" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
-position = Vector2(0, 66)
-texture = ExtResource("12_odfg6")
-centered = false
-vframes = 2
+[node name="Name" type="RichTextLabel" parent="Node2D/Boxes/Next"]
+layout_mode = 0
+offset_left = 150.0
+offset_top = 25.0
+offset_right = 191.0
+offset_bottom = 38.0
+theme = ExtResource("7_qe0k8")
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.196078, 0.196078, 0.196078, 1)
+theme_override_fonts/normal_font = ExtResource("8_acmja")
+text = "BOX"
 
-[node name="Sprite2D10" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
-position = Vector2(0, 88)
-texture = ExtResource("12_odfg6")
-centered = false
-vframes = 2
+[node name="ArrowLeft" type="Sprite2D" parent="Node2D/Boxes/Next"]
+position = Vector2(89, 30)
+texture = ExtResource("10_jv6p7")
+vframes = 6
 
-[node name="Sprite2D2" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
-position = Vector2(24, 0)
-texture = ExtResource("12_odfg6")
-centered = false
-vframes = 2
+[node name="ArrowRight" type="Sprite2D" parent="Node2D/Boxes/Next"]
+position = Vector2(233, 30)
+texture = ExtResource("11_j5iov")
+vframes = 6
+frame = 1
 
-[node name="Sprite2D3" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
-position = Vector2(48, 0)
-texture = ExtResource("12_odfg6")
-centered = false
-vframes = 2
+[node name="Pokemon" type="Node2D" parent="Node2D/Boxes/Next"]
+z_index = 2
+position = Vector2(84, 32)
 
-[node name="Sprite2D4" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
-position = Vector2(72, 0)
-texture = ExtResource("12_odfg6")
-centered = false
-vframes = 2
-
-[node name="Sprite2D5" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
-position = Vector2(96, 0)
-texture = ExtResource("12_odfg6")
-centered = false
-vframes = 2
-
-[node name="Sprite2D6" type="Sprite2D" parent="Node2D/Boxes/Box/Pokemon"]
-position = Vector2(120, 0)
-texture = ExtResource("12_odfg6")
-centered = false
-vframes = 2
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Boxes/Box"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Boxes"]
+root_node = NodePath("../Box")
 libraries = {
-"": SubResource("AnimationLibrary_n4ht2")
+"": SubResource("AnimationLibrary_tltli")
 }
 
 [node name="Party" type="Control" parent="Node2D"]
@@ -312,6 +506,7 @@ offset_bottom = 16.0
 position = Vector2(43, 9.5)
 texture = ExtResource("9_or3r2")
 vframes = 2
+frame = 1
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -10.0

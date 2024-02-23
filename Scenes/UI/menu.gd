@@ -47,7 +47,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		GLOBAL.dialog_open ||
 		GLOBAL.on_battle ||
 		GLOBAL.party_open ||
-		!can_use_menu
+		!can_use_menu ||
+		GLOBAL.on_pc
 	): return;
 	
 	if(

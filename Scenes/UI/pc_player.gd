@@ -31,8 +31,9 @@ func start_dialog() -> void:
 	await GLOBAL.close_dialog;
 	GLOBAL.start_dialog.emit(33);
 	await GLOBAL.timeout(1.8);
-	can_use_menu = true;
 	nine_rect.visible = true;
+	await GLOBAL.timeout(0.2);
+	can_use_menu = true;
 
 func _on_scene_opened(value: bool, node_name: String) -> void:
 	#CLOSED
@@ -53,9 +54,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		GLOBAL.party_open ||
 		!can_use_menu
 	): return;
-	if(
-		Input.is_action_just_pressed("menu") || 
-		Input.is_action_just_pressed("backMenu")): close_menu();
+	if(Input.is_action_just_pressed("backMenu")): close_menu();
 	elif(
 		Input.is_action_just_pressed("moveDown") || 
 		Input.is_action_just_pressed("ui_down")): handle_DOWN();

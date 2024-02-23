@@ -23,7 +23,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(224, 147), Vector2(224, 146), Vector2(224, 147), Vector2(224, 146)]
+"values": [Vector2(226, 148), Vector2(226, 149), Vector2(226, 148), Vector2(226, 149)]
 }
 
 [sub_resource type="Animation" id="Animation_rljfg"]
@@ -38,7 +38,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(220, 147)]
+"values": [Vector2(226, 148)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_68gbe"]
@@ -70,7 +70,7 @@ patch_margin_bottom = 6
 clip_contents = false
 offset_left = 16.0
 offset_top = 126.0
-offset_right = 213.0
+offset_right = 222.0
 offset_bottom = 152.0
 theme = ExtResource("2_sr88g")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
@@ -88,7 +88,7 @@ text_direction = 1
 language = "Eng"
 
 [node name="Marker" type="Sprite2D" parent="."]
-position = Vector2(220, 147)
+position = Vector2(226, 148)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("5_hcghe")
 metadata/_edit_group_ = true

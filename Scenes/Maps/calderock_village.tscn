@@ -21,7 +21,7 @@ script = ExtResource("1_tvowd")
 song = ExtResource("2_vn3j6")
 
 [node name="Oak" parent="." instance=ExtResource("2_4a8rc")]
-position = Vector2(432, 96)
+position = Vector2(112, 32)
 
 [node name="TileMap" parent="." instance=ExtResource("2_4hxry")]
 
