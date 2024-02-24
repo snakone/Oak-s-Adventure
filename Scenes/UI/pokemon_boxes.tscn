@@ -24,6 +24,7 @@ shader_parameter/Speed = 0.08
 
 [sub_resource type="Animation" id="Animation_0jxrx"]
 resource_name = "Drop"
+length = 0.8
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -31,7 +32,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.8),
+"times": PackedFloat32Array(0, 0.3, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [3, 2, 0]
@@ -43,32 +44,29 @@ tracks/1/path = NodePath("Sprite2D:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.6, 1),
+"times": PackedFloat32Array(0, 0.3, 0.4, 0.8),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(0, 8), Vector2(0, 8), Vector2(0, 0)]
+"values": [Vector2(0, 0), Vector2(0, 6), Vector2(0, 6), Vector2(0, 0)]
 }
-
-[sub_resource type="Animation" id="Animation_5hvqe"]
-resource_name = "HandIdle"
-length = 0.6
-loop_mode = 1
-step = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [0, 1]
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"remove_sprite"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_eig71"]
 resource_name = "Pick"
+length = 0.8
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -76,7 +74,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.5),
+"times": PackedFloat32Array(0, 0.1, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [0, 2, 3]
@@ -88,10 +86,24 @@ tracks/1/path = NodePath("Sprite2D:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5, 0.6, 1),
+"times": PackedFloat32Array(0, 0.3, 0.4, 0.8),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(0, 8), Vector2(0, 8), Vector2(0, 0)]
+"values": [Vector2(0, 0), Vector2(0, 6), Vector2(0, 6), Vector2(0, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"add_sprite"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_pavsk"]
@@ -109,10 +121,28 @@ tracks/0/keys = {
 "values": [0]
 }
 
+[sub_resource type="Animation" id="Animation_5hvqe"]
+resource_name = "Idle"
+length = 0.6
+loop_mode = 1
+step = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8fdo8"]
 _data = {
 "Drop": SubResource("Animation_0jxrx"),
-"HandIdle": SubResource("Animation_5hvqe"),
+"Idle": SubResource("Animation_5hvqe"),
 "Pick": SubResource("Animation_eig71"),
 "RESET": SubResource("Animation_pavsk")
 }
@@ -311,17 +341,10 @@ offset_right = 116.0
 offset_bottom = 52.0
 
 [node name="Sprite2D" type="Sprite2D" parent="Node2D/Hand"]
-z_index = 3
-y_sort_enabled = true
-position = Vector2(0, 4)
+z_index = 2
 texture = ExtResource("4_35d71")
 centered = false
 hframes = 4
-
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Node2D/Hand/Sprite2D"]
-update_position = false
-update_rotation = false
-update_scale = false
 
 [node name="Shadow" type="Sprite2D" parent="Node2D/Hand"]
 z_index = 1
@@ -332,10 +355,9 @@ texture = ExtResource("5_q62xx")
 libraries = {
 "": SubResource("AnimationLibrary_8fdo8")
 }
-autoplay = "HandIdle"
+autoplay = "Idle"
 
 [node name="Data" type="Control" parent="Node2D"]
-visible = false
 z_index = 3
 y_sort_enabled = true
 layout_mode = 3
@@ -356,6 +378,7 @@ centered = false
 hframes = 3
 
 [node name="Boxes" type="Node2D" parent="Node2D"]
+z_index = -1
 y_sort_enabled = true
 
 [node name="Box" type="Control" parent="Node2D/Boxes"]

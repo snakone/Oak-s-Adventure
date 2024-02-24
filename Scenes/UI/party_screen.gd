@@ -147,7 +147,8 @@ func _input(event) -> void:
 		event.is_echo() ||
 		GLOBAL.dialog_open ||
 		closing ||
-		switching
+		switching ||
+		Input.is_action_just_pressed("menu")
 	): return;
 	
 	if(

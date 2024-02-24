@@ -14,3 +14,5 @@ func _on_open_pc() -> void:
 
 func _on_close_pc() -> void:
 	anim_player.play("PcOff");
+	await anim_player.animation_finished;
+	GLOBAL.on_pc = false;

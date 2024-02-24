@@ -3,6 +3,7 @@ extends Node
 class_name Pokemon
 
 var data: Dictionary;
+var uuid = preload("res://uuid.gd").new();
 
 #CONSTRUCTOR
 func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
@@ -22,6 +23,7 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 		if("battle_moves" not in data): set_battle_moves();
 		else: convert_battle_moves();
 		if(!enemy && "total_exp" not in data): set_exp_by_level();
+		if("uuid" not in data): data.uuid = uuid.v4();
 
 #ATTACK
 func attack(enemy: Object, move: Dictionary) -> Dictionary:

@@ -14,7 +14,7 @@ extends CanvasLayer
 @onready var previous_name: RichTextLabel = $Node2D/Boxes/Previous/Name;
 @onready var next_name: RichTextLabel = $Node2D/Boxes/Next/Name;
 @onready var pokemon_box: Node2D = $Node2D/Boxes/Box/Pokemon;
-@onready var remote_transform: RemoteTransform2D = $Node2D/Hand/Sprite2D/RemoteTransform2D;
+
 @onready var previous_pokemon_box: Node2D = $Node2D/Boxes/Previous/Pokemon;
 @onready var next_pokemon_box: Node2D = $Node2D/Boxes/Next/Pokemon
 
@@ -26,57 +26,34 @@ var boxes_length: int;
 var changing_box = false;
 var picking = false;
 var holding = false;
+var closing = false;
 
 var selected_index = 0;
 var current_index = 0;
 var selected_box = 1;
 var current_box = 1;
 
-var current_poke_node: Node2D;
-
-var boxes_array = [
-	[
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-	],
-	[
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-	],
-	[
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-	],
-	[
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-	]
-];
+var current_node: Node2D;
+var holding_sprite: Sprite2D = Sprite2D.new();
+var holding_poke;
+var selected_hand_pos: Vector2;
 
 func _ready() -> void:
 	boxes_length = GLOBAL.boxes_background.keys().size();
 	update_hand();
 	update_box();
-	remote_transform.update_position = false;
 	var new_enemy = POKEDEX.get_pokemon(2);
 	var enemy = Pokemon.new(new_enemy, true);
 	var new_enemy2 = POKEDEX.get_pokemon(4);
 	var enemy2 = Pokemon.new(new_enemy2, true);
-	boxes_array[0][1] = enemy;
-	boxes_array[0][5] = enemy2;
+	GLOBAL.boxes_array[0][1] = enemy;
+	GLOBAL.boxes_array[0][5] = enemy2;
 	update_ui(pokemon_box, current_box);
+	holding_sprite.vframes = 2;
+	holding_sprite.centered = false;
+	holding_sprite.z_index = 0;
+	holding_sprite.offset.x = -1;
+	holding_sprite.show_behind_parent = true;
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(
@@ -87,7 +64,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		GLOBAL.on_battle ||
 		!GLOBAL.on_boxes ||
 		changing_box ||
-		picking
+		picking ||
+		closing
 	): return;
 	
 	if(Input.is_action_just_pressed("backMenu")): close_box();
@@ -132,14 +110,22 @@ func update_hand() -> void:
 func handle_DOWN() -> void:
 	play_audio(GUI_SEL_CURSOR);
 	current_hand_pos.y += 1;
-	if(current_hand_pos.y > 4): current_hand_pos.y = -2;
+	if(current_hand_pos.y > 4):
+		if(holding):
+			current_hand_pos.y = -1;
+			return;  
+		current_hand_pos.y = -2;
 	if(current_hand_pos.y == -2): current_hand_pos.x = 0;
 
 func handle_UP() -> void:
 	play_audio(GUI_SEL_CURSOR);
 	current_hand_pos.y -= 1;
 	if(current_hand_pos.y < -2): current_hand_pos.y = 4;
-	if(current_hand_pos.y == -2): current_hand_pos.x = 0;
+	if(current_hand_pos.y == -2):
+		if(holding):
+			current_hand_pos.y = 4;
+			return; 
+		current_hand_pos.x = 0;
 
 func handle_RIGHT() -> void:
 	play_audio(GUI_SEL_CURSOR);
@@ -174,7 +160,6 @@ func handle_LEFT() -> void:
 		current_hand_pos.x = 5;
 
 func update_box() -> void:
-	remove_children();
 	set_current_box();
 	if(current_box == 1):
 		set_next_box();
@@ -189,31 +174,29 @@ func update_box() -> void:
 		set_previous_box();
 	
 	update_all_boxes();
-	print("-----------------------------")
 	changing_box = false;
 
 func update_ui(box: Node2D, index: int) -> void:
-	print(box.get_parent().name, " ", index)
-	for i in range(len(boxes_array[index - 1])):
-		var poke = boxes_array[index - 1][i];
+	for i in range(len(GLOBAL.boxes_array[index - 1])):
+		var poke = GLOBAL.boxes_array[index - 1][i];
 		if(poke != null):
-			var sprite_2d = Sprite2D.new();
-			sprite_2d.vframes = 2;
-			sprite_2d.centered = false;
-			sprite_2d.texture = poke.data.party_texture;
+			var sprite = Sprite2D.new();
+			sprite.vframes = 2;
+			sprite.centered = false;
+			sprite.texture = poke.data.party_texture;
+			sprite.name = poke.data.uuid;
 			if(i in GLOBAL.BOXES_SLOTS):
-				sprite_2d.position = GLOBAL.BOXES_SLOTS[i];
-			box.add_child(sprite_2d);
+				sprite.position = GLOBAL.BOXES_SLOTS[i];
+			box.add_child(sprite);
 
 func update_all_boxes() -> void:
+	remove_children();
 	var previous_index = current_box - 1;
 	if(previous_index == 0): previous_index = boxes_length;
-	update_ui(previous_pokemon_box, previous_index);
-	
 	var next_index = current_box + 1;
 	if(next_index > boxes_length): next_index = 1;
+	update_ui(previous_pokemon_box, previous_index);
 	update_ui(next_pokemon_box, next_index);
-	
 	update_ui(pokemon_box, current_box);
 
 func set_current_box() -> void:
@@ -232,57 +215,85 @@ func set_previous_box() -> void:
 	previous_name.text = GLOBAL.boxes_background[previous_index].name;
 
 func remove_children() -> void:
-	var childs = pokemon_box.get_children();
-	for child in childs:
-		pokemon_box.remove_child(child);
-	
-	var previous = previous_pokemon_box.get_children();
-	for prev in previous:
-		previous_pokemon_box.remove_child(prev);
-	
-	var next = next_pokemon_box.get_children();
-	for ne in next:
-		next_pokemon_box.remove_child(ne);
+	var poke_boxes = [pokemon_box, previous_pokemon_box, next_pokemon_box];
+	for box in poke_boxes:
+		var childs = box.get_children();
+		for child in childs: box.remove_child(child);
 
 func select_slot() -> void:
-	match hand.position:
-		Vector2(192, 2): close_box();
-	
-	set_index();
 	if(current_hand_pos.y >= 0):
-		if(!holding && get_pokemon_node()):
-			picking = true;
-			anim_hand.play("Pick");
-			await anim_hand.animation_finished;
-			picking = false;
-			holding = true;
-			selected_index = current_index;
-			selected_box = current_box;
-		elif(holding):
-			picking = true;
-			anim_hand.play("Drop");
-			await anim_hand.animation_finished;
-			picking = false;
-			holding = false;
-			swap_pokes();
-			remove_children();
-			update_all_boxes();
+		set_index();
+		if(!holding && is_pokemon_in_box()): pick_poke();
+		elif(holding): drop_poke();
+	else:
+		match hand.position:
+			Vector2(192, 2): close_box();
+
+func pick_poke() -> void:
+	play_audio(GUI_SEL_CURSOR);
+	picking = true;
+	selected_index = current_index;
+	selected_box = current_box;
+	selected_hand_pos = current_hand_pos;
+	var copy = GLOBAL.boxes_array.duplicate();
+	holding_poke = copy[current_box - 1][selected_index];
+	current_node = pokemon_box.get_node(holding_poke.data.uuid);
+	holding_sprite.texture = holding_poke.data.party_texture;
+	anim_hand.play("Pick");
+	await anim_hand.animation_finished;
+	holding = true;
+	picking = false;
+
+func drop_poke() -> void:
+	picking = true;
+	anim_hand.play("Drop");
+	await anim_hand.animation_finished;
+	picking = false;
+	holding = false;
+	anim_hand.play("Idle");
+	holding_poke = null;
+	holding_sprite.texture = null;
+
+func add_sprite() -> void:
+	holding_sprite.offset.y += 3;
+	hand.get_node("Sprite2D").add_child(holding_sprite);
+	current_node.queue_free();
+	GLOBAL.boxes_array[current_box - 1][selected_index] = null;
+
+func remove_sprite() -> void:
+	hand.get_node("Sprite2D").remove_child(holding_sprite);
+	holding_sprite.offset.y = 0;
+	swap_pokes();
+	update_all_boxes();
 
 func swap_pokes() -> void:
-	var copy = boxes_array.duplicate(true);
-	var temp = copy[selected_box - 1][selected_index];
+	if(selected_index == current_index && selected_box != current_box):
+		GLOBAL.boxes_array[selected_box - 1][selected_index] = holding_poke;
+		return;
+	var copy = GLOBAL.boxes_array.duplicate(true);
 	copy[selected_box - 1][selected_index] = copy[current_box - 1][current_index];
-	copy[current_box - 1][current_index] = temp;
-	boxes_array = copy;
+	copy[current_box - 1][current_index] = holding_poke;
+	GLOBAL.boxes_array = copy;
 
 func close_box() -> void:
+	if(holding):
+		GLOBAL.boxes_array[selected_box - 1][selected_index] = holding_poke;
+		if(selected_box != current_box):
+			update_all_boxes();
+			drop_poke();
+			return;
+		current_hand_pos = selected_hand_pos;
+		update_hand();
+		drop_poke();
+		return;
+	closing = true;
 	play_audio(GUI_MENU_CLOSE);
 	await audio.finished;
 	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/PokemonBoxes");
 
-func get_pokemon_node() -> bool:
+func is_pokemon_in_box() -> bool:
 	if(current_hand_pos.y < 0): return false;
-	if(boxes_array[current_box - 1][current_index] != null):
+	if(GLOBAL.boxes_array[current_box - 1][current_index] != null):
 		return true;
 	return false;
 

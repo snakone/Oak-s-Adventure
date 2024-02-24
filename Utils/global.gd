@@ -203,3 +203,34 @@ const BOXES_SLOTS = {
 	28: Vector2(96, 88),
 	29: Vector2(120, 88),
 }
+
+var boxes_array = [
+	[
+		null, null, null, null, null, null,
+		null, null, null, null, null, null,
+		null, null, null, null, null, null,
+		null, null, null, null, null, null,
+		null, null, null, null, null, null,
+	],
+	[
+		null, null, null, null, null, null,
+		null, null, null, null, null, null,
+		null, null, null, null, null, null,
+		null, null, null, null, null, null,
+		null, null, null, null, null, null,
+	],
+	[
+		null, null, null, null, null, null,
+		null, null, null, null, null, null,
+		null, null, null, null, null, null,
+		null, null, null, null, null, null,
+		null, null, null, null, null, null,
+	],
+	[
+		null, null, null, null, null, null,
+		null, null, null, null, null, null,
+		null, null, null, null, null, null,
+		null, null, null, null, null, null,
+		null, null, null, null, null, null,
+	]
+];

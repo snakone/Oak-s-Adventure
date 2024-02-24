@@ -106,9 +106,8 @@ func close_menu() -> void:
 	can_use_menu = false;
 	play_audio(GUI_MENU_CLOSE);
 	nine_rect.visible = false;
-	await GLOBAL.timeout(0.3);
+	await audio.finished;
 	GLOBAL.close_pc.emit();
-	GLOBAL.on_pc = false;
 
 func update_cursor() -> void:
 	var perct = (selected_option % options_length) * 16;
