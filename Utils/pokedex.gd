@@ -31,7 +31,9 @@ func get_poke_resources(poke_name: String):
 				"sprites": str(poke.sprites),
 				"offset": poke.offset,
 				"scale": poke.scale,
-				"move_set": poke.move_set
+				"move_set": poke.move_set,
+				"box_scale": poke.box_scale,
+				"box_offset": poke.box_offset
 			};
 
 func get_pokemon_prop(poke_name: String, key: String):
@@ -52,6 +54,8 @@ var LIBRARY: Array = [
 		"sprites": "res://Sprites/Animated/Bulbasaur/bulbasaur.tscn",
 		"offset": Vector2.ZERO,
 		"scale": Vector2(0.8, 0.8),
+		"box_offset": Vector2.ZERO,
+		"box_scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 45,
 			"ATK": 49,
@@ -78,6 +82,8 @@ var LIBRARY: Array = [
 		"sprites": "res://Sprites/Animated/Ivysaur/ivysaur.tscn",
 		"offset": Vector2.ZERO,
 		"scale": Vector2(0.8, 0.8),
+		"box_offset": Vector2(-7, -7),
+		"box_scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 60,
 			"ATK": 62,
@@ -102,6 +108,8 @@ var LIBRARY: Array = [
 		"sprites": "res://Sprites/Animated/Charmander/charmander.tscn",
 		"offset": Vector2.ZERO,
 		"scale": Vector2(0.8, 0.8),
+		"box_offset": Vector2.ZERO,
+		"box_scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 39,
 			"ATK": 52,
@@ -126,6 +134,8 @@ var LIBRARY: Array = [
 		"sprites": "res://Sprites/Animated/Squirtle/squirtle.tscn",
 		"offset": Vector2.ZERO,
 		"scale": Vector2(0.8, 0.8),
+		"box_offset": Vector2.ZERO,
+		"box_scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 44,
 			"ATK": 48,
@@ -152,6 +162,8 @@ var LIBRARY: Array = [
 		"sprites": "res://Sprites/Animated/Beedrill/beedrill.tscn",
 		"offset": Vector2.ZERO,
 		"scale": Vector2(0.8, 0.8),
+		"box_offset": Vector2.ZERO,
+		"box_scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 65,
 			"ATK": 90,
@@ -176,6 +188,8 @@ var LIBRARY: Array = [
 		"sprites": "res://Sprites/Animated/Pidgey/pidgey.tscn",
 		"offset": Vector2.ZERO,
 		"scale": Vector2(0.8, 0.8),
+		"box_offset": Vector2.ZERO,
+		"box_scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 40,
 			"ATK": 45,
@@ -200,6 +214,8 @@ var LIBRARY: Array = [
 		"sprites": "res://Sprites/Animated/Rattata/rattata.tscn",
 		"offset": Vector2.ZERO,
 		"scale": Vector2(0.8, 0.8),
+		"box_offset": Vector2.ZERO,
+		"box_scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 30,
 			"ATK": 56,
@@ -224,6 +240,8 @@ var LIBRARY: Array = [
 		"sprites": "res://Sprites/Animated/Pikachu/pikachu.tscn",
 		"offset": Vector2.ZERO,
 		"scale": Vector2(0.8, 0.8),
+		"box_offset": Vector2.ZERO,
+		"box_scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 35,
 			"ATK": 55,
@@ -248,6 +266,8 @@ var LIBRARY: Array = [
 		"sprites": "res://Sprites/Animated/Geodude/geodude.tscn",
 		"offset": Vector2(-1, -3),
 		"scale": Vector2(0.8, 0.8),
+		"box_offset": Vector2.ZERO,
+		"box_scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 40,
 			"ATK": 80,
@@ -272,6 +292,8 @@ var LIBRARY: Array = [
 		"sprites": "res://Sprites/Animated/Horsea/horsea.tscn",
 		"offset": Vector2.ZERO,
 		"scale": Vector2(0.8, 0.8),
+		"box_offset": Vector2.ZERO,
+		"box_scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 30,
 			"ATK": 40,
@@ -296,6 +318,8 @@ var LIBRARY: Array = [
 		"sprites": "res://Sprites/Animated/Ho-oh/ho-oh.tscn",
 		"offset": Vector2(0, -16),
 		"scale": Vector2(0.7, 0.7),
+		"box_offset": Vector2(-28, -28),
+		"box_scale": Vector2(0.6, 0.6),
 		"stats": {
 			"HP": 106,
 			"ATK": 130,
@@ -320,6 +344,8 @@ var LIBRARY: Array = [
 		"sprites": "res://Sprites/Animated/Rayquaza/rayquaza.tscn",
 		"offset": Vector2(0, -10),
 		"scale": Vector2(0.8, 0.8),
+		"box_offset": Vector2(-30, -30),
+		"box_scale": Vector2(0.6, 0.6),
 		"stats": {
 			"HP": 105,
 			"ATK": 150,

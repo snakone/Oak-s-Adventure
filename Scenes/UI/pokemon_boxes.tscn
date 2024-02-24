@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://ivj6tbkbl3wy"]
+[gd_scene load_steps=33 format=3 uid="uid://ivj6tbkbl3wy"]
 
 [ext_resource type="Script" path="res://Scenes/UI/pokemon_boxes.gd" id="1_wdni0"]
 [ext_resource type="Shader" path="res://Scenes/UI/animated_background.gdshader" id="2_mfosh"]
@@ -10,8 +10,10 @@
 [ext_resource type="Texture2D" uid="uid://dvi1e10qdwgbb" path="res://Assets/UI/Boxes/box1.png" id="6_uwq0w"]
 [ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="7_qe0k8"]
 [ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/Fonts/power clear.ttf" id="8_acmja"]
+[ext_resource type="SpriteFrames" uid="uid://b3wcl5edyh1yv" path="res://Sprites/Animated/Charmander/charmander.tres" id="8_jqjr3"]
 [ext_resource type="Texture2D" uid="uid://c6r4pxbkouh4t" path="res://Assets/UI/Boxes/party_poke.png" id="8_yqdca"]
 [ext_resource type="Texture2D" uid="uid://ck8uwfwvnjnic" path="res://Assets/UI/Boxes/close.png" id="9_or3r2"]
+[ext_resource type="Texture2D" uid="uid://cce8ahdqmj40s" path="res://Assets/UI/gender_icons.png" id="10_hgb2c"]
 [ext_resource type="Texture2D" uid="uid://d3tc1hi14e0rd" path="res://Assets/UI/Boxes/arrow_left.png" id="10_jv6p7"]
 [ext_resource type="Texture2D" uid="uid://dpc041np632sh" path="res://Assets/UI/Boxes/arrow_right.png" id="11_j5iov"]
 [ext_resource type="Texture2D" uid="uid://dc2sp3chid7is" path="res://Assets/UI/Boxes/box3.png" id="13_13i7f"]
@@ -62,6 +64,24 @@ tracks/2/keys = {
 "args": [],
 "method": &"remove_sprite"
 }]
+}
+
+[sub_resource type="Animation" id="Animation_5hvqe"]
+resource_name = "Idle"
+length = 0.6
+loop_mode = 1
+step = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
 }
 
 [sub_resource type="Animation" id="Animation_eig71"]
@@ -121,30 +141,51 @@ tracks/0/keys = {
 "values": [0]
 }
 
-[sub_resource type="Animation" id="Animation_5hvqe"]
-resource_name = "Idle"
-length = 0.6
-loop_mode = 1
-step = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [0, 1]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8fdo8"]
 _data = {
 "Drop": SubResource("Animation_0jxrx"),
 "Idle": SubResource("Animation_5hvqe"),
 "Pick": SubResource("Animation_eig71"),
 "RESET": SubResource("Animation_pavsk")
+}
+
+[sub_resource type="Animation" id="Animation_cx3ue"]
+resource_name = "Active"
+length = 0.6
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Active:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_ra3rc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Active:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ll2ie"]
+_data = {
+"Active": SubResource("Animation_cx3ue"),
+"RESET": SubResource("Animation_ra3rc")
 }
 
 [sub_resource type="Animation" id="Animation_tf7y2"]
@@ -371,11 +412,66 @@ texture = ExtResource("4_l0lo0")
 centered = false
 
 [node name="Active" type="Sprite2D" parent="Node2D/Data"]
-visible = false
 position = Vector2(0, 2)
 texture = ExtResource("5_6c1ev")
 centered = false
 hframes = 3
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="Node2D/Data/Active"]
+position = Vector2(24, 30)
+scale = Vector2(0.8, 0.8)
+sprite_frames = ExtResource("8_jqjr3")
+animation = &"Front"
+frame_progress = 0.528909
+centered = false
+
+[node name="Control" type="Control" parent="Node2D/Data/Active"]
+z_index = 1
+layout_mode = 3
+anchors_preset = 0
+offset_top = 88.0
+offset_right = 80.0
+offset_bottom = 128.0
+
+[node name="Name" type="RichTextLabel" parent="Node2D/Data/Active/Control"]
+clip_contents = false
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+offset_left = 6.0
+offset_top = 2.0
+offset_right = 72.0
+offset_bottom = 14.0
+theme = ExtResource("7_qe0k8")
+theme_override_colors/font_shadow_color = Color(0.196078, 0.196078, 0.196078, 1)
+text = "CHARMANDER"
+text_direction = 1
+
+[node name="Gender" type="Sprite2D" parent="Node2D/Data/Active/Control"]
+visible = false
+position = Vector2(6, 18)
+scale = Vector2(1.4, 1.4)
+texture = ExtResource("10_hgb2c")
+centered = false
+hframes = 2
+
+[node name="Level" type="RichTextLabel" parent="Node2D/Data/Active/Control"]
+clip_contents = false
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 74.0
+offset_bottom = 32.0
+theme = ExtResource("7_qe0k8")
+theme_override_colors/font_shadow_color = Color(0.196078, 0.196078, 0.196078, 1)
+text = "Lv3"
+text_direction = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Data"]
+libraries = {
+"": SubResource("AnimationLibrary_ll2ie")
+}
+autoplay = "Active"
 
 [node name="Boxes" type="Node2D" parent="Node2D"]
 z_index = -1

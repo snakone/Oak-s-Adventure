@@ -163,6 +163,50 @@ var boxes_background = {
 	4: {
 		"texture": preload("res://Assets/UI/Boxes/box4.png"),
 		"name": "BOX 4"
+	},
+	5: {
+		"texture": preload("res://Assets/UI/Boxes/box5.png"),
+		"name": "BOX 5"
+	},
+	6: {
+		"texture": preload("res://Assets/UI/Boxes/box6.png"),
+		"name": "BOX 6"
+	},
+	7: {
+		"texture": preload("res://Assets/UI/Boxes/box7.png"),
+		"name": "BOX 7"
+	},
+	8: {
+		"texture": preload("res://Assets/UI/Boxes/box8.png"),
+		"name": "BOX 8"
+	},
+	9: {
+		"texture": preload("res://Assets/UI/Boxes/box9.png"),
+		"name": "BOX 9"
+	},
+	10: {
+		"texture": preload("res://Assets/UI/Boxes/box10.png"),
+		"name": "BOX 10"
+	},
+	11: {
+		"texture": preload("res://Assets/UI/Boxes/box11.png"),
+		"name": "BOX 11"
+	},
+	12: {
+		"texture": preload("res://Assets/UI/Boxes/box12.png"),
+		"name": "BOX 12"
+	},
+	13: {
+		"texture": preload("res://Assets/UI/Boxes/box13.png"),
+		"name": "BOX 13"
+	},
+	14: {
+		"texture": preload("res://Assets/UI/Boxes/box14.png"),
+		"name": "BOX 14"
+	},
+	15: {
+		"texture": preload("res://Assets/UI/Boxes/box15.png"),
+		"name": "BOX 15"
 	}
 }
 
@@ -205,32 +249,24 @@ const BOXES_SLOTS = {
 }
 
 var boxes_array = [
-	[
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-	],
-	[
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-	],
-	[
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-	],
-	[
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-		null, null, null, null, null, null,
-	]
+	get_empty_box(),
+	get_empty_box(),
+	get_empty_box(),
+	get_empty_box(),
+	get_empty_box(),
+	get_empty_box(),
+	get_empty_box(),
+	get_empty_box(),
+	get_empty_box(),
+	get_empty_box(),
+	get_empty_box(),
+	get_empty_box(),
+	get_empty_box(),
+	get_empty_box(),
+	get_empty_box()
 ];
+
+func get_empty_box() -> Array:
+	var array = [];
+	array.resize(30);
+	return array.duplicate();
