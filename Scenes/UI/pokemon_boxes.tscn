@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://ivj6tbkbl3wy"]
+[gd_scene load_steps=41 format=3 uid="uid://ivj6tbkbl3wy"]
 
 [ext_resource type="Script" path="res://Scenes/UI/pokemon_boxes.gd" id="1_wdni0"]
 [ext_resource type="Shader" path="res://Scenes/UI/animated_background.gdshader" id="2_mfosh"]
@@ -144,48 +144,6 @@ tracks/0/keys = {
 "values": [0]
 }
 
-[sub_resource type="Animation" id="Animation_vkwxf"]
-resource_name = "PickParty"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [0, 2, 3]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.4, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(0, 6), Vector2(0, 6), Vector2(0, 0)]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../..")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.4),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"add_sprite_party"
-}]
-}
-
 [sub_resource type="Animation" id="Animation_o7f4d"]
 resource_name = "DropParty"
 length = 0.6
@@ -224,7 +182,7 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
-"method": &"remove_sprite_party"
+"method": &"remove_sprite"
 }]
 }
 
@@ -234,7 +192,6 @@ _data = {
 "DropParty": SubResource("Animation_o7f4d"),
 "Idle": SubResource("Animation_5hvqe"),
 "Pick": SubResource("Animation_eig71"),
-"PickParty": SubResource("Animation_vkwxf"),
 "RESET": SubResource("Animation_pavsk")
 }
 
@@ -781,7 +738,8 @@ hframes = 2
 frame = 1
 
 [node name="Poke" type="Sprite2D" parent="Node2D/Party/Panel/First"]
-position = Vector2(11, -106)
+visible = false
+position = Vector2(10, -106)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("20_3fy5u")
 centered = false
@@ -798,6 +756,7 @@ hframes = 2
 frame = 1
 
 [node name="Poke" type="Sprite2D" parent="Node2D/Party/Panel/Second"]
+visible = false
 position = Vector2(11, -106)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("20_3fy5u")
@@ -815,6 +774,7 @@ hframes = 2
 frame = 1
 
 [node name="Poke" type="Sprite2D" parent="Node2D/Party/Panel/Third"]
+visible = false
 position = Vector2(11, -106)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("20_3fy5u")
@@ -832,6 +792,7 @@ hframes = 2
 frame = 1
 
 [node name="Poke" type="Sprite2D" parent="Node2D/Party/Panel/Fourth"]
+visible = false
 position = Vector2(11, -106)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("20_3fy5u")
@@ -849,6 +810,7 @@ hframes = 2
 frame = 1
 
 [node name="Poke" type="Sprite2D" parent="Node2D/Party/Panel/Fifth"]
+visible = false
 position = Vector2(11, -106)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("20_3fy5u")
@@ -866,6 +828,7 @@ hframes = 2
 frame = 1
 
 [node name="Poke" type="Sprite2D" parent="Node2D/Party/Panel/Sixth"]
+visible = false
 position = Vector2(11, -106)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("20_3fy5u")

@@ -60,27 +60,19 @@ var holding_sprite = Sprite2D.new();
 var holding_poke: Node;
 var selected_hand_pos: Vector2;
 var party_panel_opened = false;
-var party = null;
-var party_length: int;
+var party = [null, null, null, null, null, null];
 var position_before_party_left: int = 1;
 var current_party_index = 0;
 var selected_party_index: int = 0;
+var panel_open_before_pick = false;
 
 func _ready() -> void:
 	boxes_length = GLOBAL.boxes_background.keys().size();
 	update_hand();
 	update_box();
-	party = PARTY.get_party().duplicate(true);
-	party_length = party.size();
-	var new_enemy = POKEDEX.get_pokemon(250);
-	var enemy = Pokemon.new(new_enemy, true);
-	var new_enemy2 = POKEDEX.get_pokemon(384);
-	var enemy2 = Pokemon.new(new_enemy2, true);
-	var new_enemy3 = POKEDEX.get_pokemon(7);
-	var enemy3 = Pokemon.new(new_enemy3, true);
-	GLOBAL.boxes_array[0][1] = enemy;
-	GLOBAL.boxes_array[0][5] = enemy2;
-	GLOBAL.boxes_array[1][18] = enemy3;
+	var current_party = PARTY.get_party();
+	for index in range(0, current_party.size()):
+		party[index] = current_party[index];
 	update_all_boxes();
 	set_holding_sprite();
 	set_party_panel();
@@ -139,6 +131,7 @@ func update_hand() -> void:
 		#CLOSE
 		if(current_hand_pos == Vector2(1, -2)): close.frame = 0;
 		else: close.frame = 1;
+		#ACTIVE
 		if(!holding && is_pokemon_in_box()):
 			var poke = GLOBAL.boxes_array[current_box - 1][current_index];
 			set_active(poke);
@@ -183,6 +176,7 @@ func update_ui(box: Node2D, box_index: int) -> void:
 #SELECT
 func select_slot() -> void:
 	if(!party_panel_opened):
+		#BOXES
 		if(current_hand_pos.y >= 0):
 			play_audio(GUI_SEL_CURSOR);
 			if(!holding && is_pokemon_in_box()): pick_poke();
@@ -192,9 +186,10 @@ func select_slot() -> void:
 				Vector2(104, 2): open_party_panel();
 				Vector2(192, 2): close_box();
 	else:
+		#PARTY OPENED
 		play_audio(GUI_SEL_CURSOR);
-		if(!holding && is_pokemon_in_party()): pick_party_poke();
-		elif(holding && current_hand_pos.y != int(Positions.PARTY)): drop_poke_party();
+		if(!holding && is_pokemon_in_party()): pick_poke();
+		elif(holding && current_hand_pos.y != int(Positions.PARTY)): drop_poke();
 		match hand.position:
 			Vector2(137, 115): close_party_panel();
 
@@ -207,29 +202,11 @@ func pick_poke() -> void:
 	holding = true;
 	picking = false;
 
-func pick_party_poke() -> void:
-	picking = true;
-	save_data_before_pick_party();
-	anim_hand.play("PickParty");
-	await anim_hand.animation_finished;
-	holding = true;
-	picking = false;
-
 #DROP
 func drop_poke() -> void:
 	picking = true;
-	anim_hand.play("Drop");
-	await anim_hand.animation_finished;
-	picking = false;
-	holding = false;
-	anim_hand.play("Idle");
-	holding_poke = null;
-	holding_sprite.texture = null;
-	current_node = null;
-
-func drop_poke_party() -> void:
-	picking = true;
-	anim_hand.play("DropParty");
+	if(!party_panel_opened): anim_hand.play("Drop");
+	else: anim_hand.play("DropParty");
 	await anim_hand.animation_finished;
 	picking = false;
 	holding = false;
@@ -240,50 +217,62 @@ func drop_poke_party() -> void:
 
 #SPRITES
 func add_sprite() -> void:
-	holding_sprite.scale = Vector2(1, 1);
-	holding_sprite.offset.y = 6;
-	hand.get_node("Sprite2D").add_child(holding_sprite);
-	current_node.queue_free();
-	GLOBAL.boxes_array[current_box - 1][selected_index] = null;
+	if(!party_panel_opened):
+		holding_sprite.scale = Vector2(1, 1);
+		holding_sprite.offset.y = 6;
+		hand.get_node("Sprite2D").add_child(holding_sprite);
+		current_node.queue_free();
+		GLOBAL.boxes_array[current_box - 1][selected_index] = null;
+	else:
+		holding_sprite.offset = Vector2(2.5, 12.4);
+		hand.get_node("Sprite2D").add_child(holding_sprite);
+		party[selected_party_index] = null;
+		var slot = party_slots[int(selected_party_index)];
+		slot.visible = false;
 
 func remove_sprite() -> void:
-	hand.get_node("Sprite2D").remove_child(holding_sprite);
-	holding_sprite.offset.y = 0;
+	if(!party_panel_opened):
+		hand.get_node("Sprite2D").remove_child(holding_sprite);
+		holding_sprite.offset.y = 0;
+	else:
+		hand.get_node("Sprite2D").remove_child(holding_sprite);
+		holding_sprite.offset = Vector2(-1, 0);
 	swap_pokes();
-	update_all_boxes();
-	
-func add_sprite_party() -> void:
-	holding_sprite.offset = Vector2(2.5, 12.4);
-	if(current_hand_pos.y == 0):
-		holding_sprite.offset.x = 3.8;
-	hand.get_node("Sprite2D").add_child(holding_sprite);
-	party[selected_party_index] = null;
-	var slot = party_slots[int(selected_party_index)];
-	slot.visible = false;
-
-func remove_sprite_party() -> void:
-	hand.get_node("Sprite2D").remove_child(holding_sprite);
-	holding_sprite.offset = Vector2(-1, 0);
-	swap_pokes_party();
 	set_party_panel();
+	update_all_boxes();
 
 func swap_pokes() -> void:
-	if(selected_index == current_index && selected_box != current_box):
-		GLOBAL.boxes_array[selected_box - 1][selected_index] = holding_poke;
-		return;
-	var copy = GLOBAL.boxes_array.duplicate(true);
-	copy[selected_box - 1][selected_index] = copy[current_box - 1][current_index];
-	copy[current_box - 1][current_index] = holding_poke;
-	GLOBAL.boxes_array = copy;
-
-func swap_pokes_party() -> void:
-	if(selected_party_index == current_party_index):
-		party[selected_party_index] = holding_poke;
-		return;
-	var copy = party.duplicate(true);
-	copy[selected_party_index] = copy[current_party_index];
-	copy[current_party_index] = holding_poke;
-	party = copy;
+	var boxes_copy = GLOBAL.boxes_array.duplicate(true);
+	var party_copy = party.duplicate(true);
+	if(party_panel_opened != panel_open_before_pick):
+		#SWAP PARTY -> BOX
+		if(panel_open_before_pick):
+			party_copy[selected_party_index] = boxes_copy[current_box - 1][current_index];
+			boxes_copy[current_box - 1][current_index] = holding_poke;
+			GLOBAL.boxes_array = boxes_copy;
+			party = party_copy;
+			return;
+		#SWAP BOX -> PARTY
+		else:
+			boxes_copy[selected_box - 1][selected_index] = party_copy[current_party_index];
+			party_copy[current_party_index] = holding_poke;
+			GLOBAL.boxes_array = boxes_copy;
+			party = party_copy;
+			return;
+		
+	#BOX SWAP
+	if(!party_panel_opened):
+		boxes_copy[selected_box - 1][selected_index] = boxes_copy[current_box - 1][current_index];
+		boxes_copy[current_box - 1][current_index] = holding_poke;
+		GLOBAL.boxes_array = boxes_copy;
+	#PARTY SWAP
+	else:
+		if(selected_party_index == current_party_index):
+			party[selected_party_index] = holding_poke;
+			return;
+		party_copy[selected_party_index] = party_copy[current_party_index];
+		party_copy[current_party_index] = holding_poke;
+		party = party_copy;
 
 #PARTY
 func open_party_panel() -> void:
@@ -297,7 +286,7 @@ func open_party_panel() -> void:
 	update_hand();
 	if(holding): 
 		holding_sprite.scale = Vector2(0.8, 0.8);
-		holding_sprite.offset = Vector2(3.8, 12.4);
+		holding_sprite.offset = Vector2(2.5, 12.4);
 
 func close_party_panel() -> void:
 	if(!party_panel_opened): return;
@@ -313,22 +302,37 @@ func close_party_panel() -> void:
 		holding_sprite.offset = Vector2(-1, 6);
 
 func close_box() -> void:
+	#PARTY OPENED
 	if(party_panel_opened): 
 		close_party_panel();
 		return;
+	#HOLDING
 	if(holding):
-		GLOBAL.boxes_array[selected_box - 1][selected_index] = holding_poke;
+		if(party_panel_opened != panel_open_before_pick):
+			#CANCEL PARTY -> BOX
+			if(panel_open_before_pick):
+				open_party_panel();
+				await party_anim_player.animation_finished;
+				party[selected_party_index] = holding_poke;
+				current_hand_pos = Vector2(6, selected_party_index);
+				update_hand();
+				drop_poke();
+				return;
+			#CANCEL BOX -> PARTY
+			else:
+				close_party_panel();
+				await party_anim_player.animation_finished;
+		#CANCEL DIFFERENT BOX
 		if(selected_box != current_box):
-			update_all_boxes();
-			drop_poke();
-			return;
+			current_box = selected_box;
+			update_box();
 		current_hand_pos = selected_hand_pos;
 		update_hand();
 		drop_poke();
 		return;
+	#CLOSING
 	closing = true;
-	party = party.filter(func (poke): return poke != null);
-	PARTY.set_party(party);
+	PARTY.current_party = party.filter(func (poke): return poke != null);
 	PARTY.reset_all_active(true);
 	play_audio(GUI_MENU_CLOSE);
 	await audio.finished;
@@ -359,11 +363,13 @@ func handle_UP() -> void:
 
 func handle_RIGHT() -> void:
 	play_audio(GUI_SEL_CURSOR);
+	#PARTY OPENED
 	if(party_panel_opened):
 		if(current_hand_pos.y == 0): 
 			current_hand_pos.y = position_before_party_left;
 		else: close_party_panel();
 		return;
+	#BOX SWITCH
 	if(current_hand_pos.y == int(Positions.BOX_SWITCH)):
 		current_box += 1;
 		if(current_box > boxes_length): current_box = 1;
@@ -373,6 +379,7 @@ func handle_RIGHT() -> void:
 		update_box();
 		return;
 	current_hand_pos.x += 1;
+	#OPTIONS
 	if(current_hand_pos.y == int(Positions.OPTIONS)):
 		if(current_hand_pos.x >= 2 && !holding):
 			current_hand_pos.x = 0;
@@ -384,11 +391,13 @@ func handle_RIGHT() -> void:
 
 func handle_LEFT() -> void:
 	play_audio(GUI_SEL_CURSOR);
+	#PANEL OPENED
 	if(party_panel_opened):
 		if(current_hand_pos.y != 0):
 			position_before_party_left = current_hand_pos.y;
 			current_hand_pos.y = 0;
 		return;
+	#BOX SWITCH
 	if(current_hand_pos.y == int(Positions.BOX_SWITCH)):
 		current_box -= 1;
 		if(current_box < 1): current_box = boxes_length;
@@ -398,6 +407,7 @@ func handle_LEFT() -> void:
 		update_box();
 		return;
 	current_hand_pos.x -= 1;
+	#OPTIONS
 	if(current_hand_pos.y == int(Positions.OPTIONS)):
 		if(current_hand_pos.x < 0 && !holding):
 			current_hand_pos.x = 1;
@@ -419,32 +429,35 @@ func is_pokemon_in_party() -> bool:
 		current_hand_pos.x != int(Positions.PARTY) || 
 		current_hand_pos.y == int(Positions.PARTY)
 	): return false;
+	#TODO
 	if(party[current_party_index] != null): return true;
 	return false;
 
 #SETTERS
 func save_data_before_pick() -> void:
-	selected_index = current_index;
-	selected_box = current_box;
-	selected_hand_pos = current_hand_pos;
-	var copy = GLOBAL.boxes_array.duplicate();
-	holding_poke = copy[current_box - 1][selected_index];
-	current_node = pokemon_box.get_node(holding_poke.data.uuid);
-	holding_sprite.texture = holding_poke.data.party_texture;
-
-func save_data_before_pick_party() -> void:
-	selected_party_index = current_hand_pos.y;
-	var copy = party.duplicate();
-	holding_poke = copy[selected_party_index];
-	current_node = party_panel.get_child(selected_party_index + 1).get_node("Poke");
-	holding_sprite.texture = holding_poke.data.party_texture;
-	holding_sprite.scale = Vector2(0.8, 0.8);
+	panel_open_before_pick = party_panel_opened;
+	if(!party_panel_opened):
+		selected_index = current_index;
+		selected_box = current_box;
+		selected_hand_pos = current_hand_pos;
+		var copy = GLOBAL.boxes_array.duplicate();
+		holding_poke = copy[current_box - 1][selected_index];
+		current_node = pokemon_box.get_node(holding_poke.data.uuid);
+		holding_sprite.texture = holding_poke.data.party_texture;
+	else:
+		selected_party_index = current_hand_pos.y;
+		var copy = party.duplicate();
+		holding_poke = copy[selected_party_index];
+		current_node = party_panel.get_child(selected_party_index + 1).get_node("Poke");
+		holding_sprite.texture = holding_poke.data.party_texture;
+		holding_sprite.scale = Vector2(0.8, 0.8);
 
 func set_index() -> void:
-	var base_y = current_hand_pos.y * 6;
-	var base_x = current_hand_pos.x;
-	current_index = (base_x + base_y);
 	if(party_panel_opened): current_party_index = current_hand_pos.y;
+	else:
+		var base_y = current_hand_pos.y * 6;
+		var base_x = current_hand_pos.x;
+		current_index = (base_x + base_y);
 
 func set_holding_sprite() -> void:
 	holding_sprite.vframes = 2;
@@ -486,15 +499,17 @@ func set_active(poke: Node) -> void:
 	active.visible = true;
 
 func set_party_panel() -> void:
-	for index in range(0, party_length):
+	for index in range(0, party.size()):
 		var slot = party_slots[index];
-		slot.visible = true;
 		var square_node = slot.get_node("Sprite2D");
 		var poke_node = slot.get_node("Poke");
 		square_node.frame = 0;
 		
 		var poke = party[index];
-		poke_node.texture = poke.data.party_texture;
+		if(poke != null):
+			slot.visible = true;
+			poke_node.visible = true;
+			poke_node.texture = poke.data.party_texture;
 
 func update_all_boxes() -> void:
 	remove_children();
