@@ -45,6 +45,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_765ie"]
 resource_name = "Idle"
+loop_mode = 1
 step = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -478,6 +479,7 @@ text = "Choose a POKéMON."
 position = Vector2(192, 48)
 
 [node name="First" type="Node2D" parent="Slots"]
+visible = false
 position = Vector2(-192, -48)
 
 [node name="Panel" type="Sprite2D" parent="Slots/First"]
@@ -489,6 +491,7 @@ hframes = 2
 position = Vector2(15, 35)
 texture = ExtResource("3_mko3b")
 vframes = 2
+frame = 1
 
 [node name="Gender" type="Sprite2D" parent="Slots/First"]
 position = Vector2(74, 47)
@@ -595,6 +598,7 @@ libraries = {
 }
 
 [node name="Second" type="Node2D" parent="Slots"]
+visible = false
 position = Vector2(-94, -48)
 
 [node name="Panel" type="Sprite2D" parent="Slots/Second"]
@@ -606,6 +610,7 @@ hframes = 2
 position = Vector2(5, 18)
 texture = ExtResource("3_mko3b")
 vframes = 2
+frame = 1
 
 [node name="Gender" type="Sprite2D" parent="Slots/Second"]
 position = Vector2(64, 25.5)
@@ -713,6 +718,7 @@ libraries = {
 }
 
 [node name="Third" type="Node2D" parent="Slots"]
+visible = false
 position = Vector2(-94, -24)
 
 [node name="Panel" type="Sprite2D" parent="Slots/Third"]
@@ -830,6 +836,7 @@ libraries = {
 }
 
 [node name="Fourth" type="Node2D" parent="Slots"]
+visible = false
 position = Vector2(-94, 0)
 
 [node name="Panel" type="Sprite2D" parent="Slots/Fourth"]
@@ -947,6 +954,7 @@ libraries = {
 }
 
 [node name="Fifth" type="Node2D" parent="Slots"]
+visible = false
 position = Vector2(-94, 24)
 
 [node name="Panel" type="Sprite2D" parent="Slots/Fifth"]
@@ -1064,6 +1072,7 @@ libraries = {
 }
 
 [node name="Sixth" type="Node2D" parent="Slots"]
+visible = false
 position = Vector2(-94, 48)
 
 [node name="Panel" type="Sprite2D" parent="Slots/Sixth"]

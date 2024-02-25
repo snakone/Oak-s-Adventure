@@ -145,6 +145,14 @@ const HAND_POSITIONS = {
 	Vector2(3, 4): Vector2(156, 108),
 	Vector2(4, 4): Vector2(180, 108),
 	Vector2(5, 4): Vector2(204, 108),
+	#PARTY
+	Vector2(6, 0): Vector2(88, 36),
+	Vector2(6, 1): Vector2(137, -12),
+	Vector2(6, 2): Vector2(137, 12),
+	Vector2(6, 3): Vector2(137, 36),
+	Vector2(6, 4): Vector2(137, 60),
+	Vector2(6, 5): Vector2(137, 84),
+	Vector2(6, 6): Vector2(137, 115),
 }
 
 var boxes_background = {

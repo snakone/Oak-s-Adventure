@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://ivj6tbkbl3wy"]
+[gd_scene load_steps=42 format=3 uid="uid://ivj6tbkbl3wy"]
 
 [ext_resource type="Script" path="res://Scenes/UI/pokemon_boxes.gd" id="1_wdni0"]
 [ext_resource type="Shader" path="res://Scenes/UI/animated_background.gdshader" id="2_mfosh"]
@@ -18,6 +18,9 @@
 [ext_resource type="Texture2D" uid="uid://dpc041np632sh" path="res://Assets/UI/Boxes/arrow_right.png" id="11_j5iov"]
 [ext_resource type="Texture2D" uid="uid://dc2sp3chid7is" path="res://Assets/UI/Boxes/box3.png" id="13_13i7f"]
 [ext_resource type="Texture2D" uid="uid://be586ki4sb72i" path="res://Assets/UI/Boxes/box2.png" id="14_qwdan"]
+[ext_resource type="Texture2D" uid="uid://goob8w6fl1rq" path="res://Assets/UI/Boxes/party.png" id="18_tli8a"]
+[ext_resource type="Texture2D" uid="uid://dy5ktrm8nga2r" path="res://Assets/UI/Boxes/party_poke_square.png" id="19_u6ypu"]
+[ext_resource type="Texture2D" uid="uid://dgma7rkpqaqxs" path="res://Assets/UI/Pokemon/ivysaur/icon.png" id="20_3fy5u"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dci5v"]
 shader = ExtResource("2_mfosh")
@@ -26,7 +29,7 @@ shader_parameter/Speed = 0.08
 
 [sub_resource type="Animation" id="Animation_0jxrx"]
 resource_name = "Drop"
-length = 0.8
+length = 0.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -34,7 +37,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.6),
+"times": PackedFloat32Array(0, 0.2, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [3, 2, 0]
@@ -46,7 +49,7 @@ tracks/1/path = NodePath("Sprite2D:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.4, 0.8),
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(0, 0), Vector2(0, 6), Vector2(0, 6), Vector2(0, 0)]
@@ -58,7 +61,7 @@ tracks/2/path = NodePath("../..")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.4),
+"times": PackedFloat32Array(0.3),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -86,7 +89,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_eig71"]
 resource_name = "Pick"
-length = 0.8
+length = 0.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -106,7 +109,7 @@ tracks/1/path = NodePath("Sprite2D:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.4, 0.8),
+"times": PackedFloat32Array(0, 0.3, 0.4, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(0, 0), Vector2(0, 6), Vector2(0, 6), Vector2(0, 0)]
@@ -141,11 +144,97 @@ tracks/0/keys = {
 "values": [0]
 }
 
+[sub_resource type="Animation" id="Animation_vkwxf"]
+resource_name = "PickParty"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 6), Vector2(0, 6), Vector2(0, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"add_sprite_party"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_o7f4d"]
+resource_name = "DropParty"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [3, 2, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 5), Vector2(0, 5), Vector2(0, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"remove_sprite_party"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8fdo8"]
 _data = {
 "Drop": SubResource("Animation_0jxrx"),
+"DropParty": SubResource("Animation_o7f4d"),
 "Idle": SubResource("Animation_5hvqe"),
 "Pick": SubResource("Animation_eig71"),
+"PickParty": SubResource("Animation_vkwxf"),
 "RESET": SubResource("Animation_pavsk")
 }
 
@@ -357,6 +446,60 @@ _data = {
 "RESET": SubResource("Animation_e51tc")
 }
 
+[sub_resource type="Animation" id="Animation_kxomy"]
+resource_name = "Hide"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 160), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_tefx5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_phldj"]
+resource_name = "Show"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 160)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_88o6s"]
+_data = {
+"Hide": SubResource("Animation_kxomy"),
+"RESET": SubResource("Animation_tefx5"),
+"Show": SubResource("Animation_phldj")
+}
+
 [node name="PokemonBoxes" type="CanvasLayer"]
 layer = 5
 script = ExtResource("1_wdni0")
@@ -376,10 +519,10 @@ flip_h = true
 y_sort_enabled = true
 layout_mode = 3
 anchors_preset = 0
-offset_left = 84.0
-offset_top = 20.0
-offset_right = 116.0
-offset_bottom = 52.0
+offset_left = 137.0
+offset_top = 115.0
+offset_right = 169.0
+offset_bottom = 147.0
 
 [node name="Sprite2D" type="Sprite2D" parent="Node2D/Hand"]
 z_index = 2
@@ -399,7 +542,7 @@ libraries = {
 autoplay = "Idle"
 
 [node name="Data" type="Control" parent="Node2D"]
-z_index = 3
+z_index = 2
 y_sort_enabled = true
 layout_mode = 3
 anchors_preset = 0
@@ -426,7 +569,6 @@ frame_progress = 0.528909
 centered = false
 
 [node name="Control" type="Control" parent="Node2D/Data/Active"]
-z_index = 1
 layout_mode = 3
 anchors_preset = 0
 offset_top = 88.0
@@ -545,6 +687,7 @@ text = "BOX"
 position = Vector2(89, 30)
 texture = ExtResource("10_jv6p7")
 vframes = 6
+frame = 5
 
 [node name="ArrowRight" type="Sprite2D" parent="Node2D/Boxes/Previous"]
 position = Vector2(233, 30)
@@ -584,6 +727,7 @@ text = "BOX"
 position = Vector2(89, 30)
 texture = ExtResource("10_jv6p7")
 vframes = 6
+frame = 5
 
 [node name="ArrowRight" type="Sprite2D" parent="Node2D/Boxes/Next"]
 position = Vector2(233, 30)
@@ -602,6 +746,7 @@ libraries = {
 }
 
 [node name="Party" type="Control" parent="Node2D"]
+z_index = -1
 layout_mode = 3
 anchors_preset = 0
 offset_left = 80.0
@@ -609,10 +754,123 @@ offset_top = -3.0
 offset_right = 160.0
 offset_bottom = 13.0
 
-[node name="Sprite2D" type="Sprite2D" parent="Node2D/Party"]
+[node name="Button" type="Sprite2D" parent="Node2D/Party"]
 position = Vector2(2, 5)
 texture = ExtResource("8_yqdca")
 centered = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Party"]
+libraries = {
+"": SubResource("AnimationLibrary_88o6s")
+}
+
+[node name="Panel" type="Node2D" parent="Node2D/Party"]
+z_index = 2
+
+[node name="Background" type="Sprite2D" parent="Node2D/Party/Panel"]
+position = Vector2(49, -77)
+texture = ExtResource("18_tli8a")
+
+[node name="First" type="Node2D" parent="Node2D/Party/Panel"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/Party/Panel/First"]
+position = Vector2(8, -101)
+texture = ExtResource("19_u6ypu")
+centered = false
+hframes = 2
+frame = 1
+
+[node name="Poke" type="Sprite2D" parent="Node2D/Party/Panel/First"]
+position = Vector2(11, -106)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("20_3fy5u")
+centered = false
+vframes = 2
+
+[node name="Second" type="Node2D" parent="Node2D/Party/Panel"]
+position = Vector2(48, -48)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/Party/Panel/Second"]
+position = Vector2(8, -101)
+texture = ExtResource("19_u6ypu")
+centered = false
+hframes = 2
+frame = 1
+
+[node name="Poke" type="Sprite2D" parent="Node2D/Party/Panel/Second"]
+position = Vector2(11, -106)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("20_3fy5u")
+centered = false
+vframes = 2
+
+[node name="Third" type="Node2D" parent="Node2D/Party/Panel"]
+position = Vector2(48, -24)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/Party/Panel/Third"]
+position = Vector2(8, -101)
+texture = ExtResource("19_u6ypu")
+centered = false
+hframes = 2
+frame = 1
+
+[node name="Poke" type="Sprite2D" parent="Node2D/Party/Panel/Third"]
+position = Vector2(11, -106)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("20_3fy5u")
+centered = false
+vframes = 2
+
+[node name="Fourth" type="Node2D" parent="Node2D/Party/Panel"]
+position = Vector2(48, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/Party/Panel/Fourth"]
+position = Vector2(8, -101)
+texture = ExtResource("19_u6ypu")
+centered = false
+hframes = 2
+frame = 1
+
+[node name="Poke" type="Sprite2D" parent="Node2D/Party/Panel/Fourth"]
+position = Vector2(11, -106)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("20_3fy5u")
+centered = false
+vframes = 2
+
+[node name="Fifth" type="Node2D" parent="Node2D/Party/Panel"]
+position = Vector2(48, 24)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/Party/Panel/Fifth"]
+position = Vector2(8, -101)
+texture = ExtResource("19_u6ypu")
+centered = false
+hframes = 2
+frame = 1
+
+[node name="Poke" type="Sprite2D" parent="Node2D/Party/Panel/Fifth"]
+position = Vector2(11, -106)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("20_3fy5u")
+centered = false
+vframes = 2
+
+[node name="Sixth" type="Node2D" parent="Node2D/Party/Panel"]
+position = Vector2(48, 48)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/Party/Panel/Sixth"]
+position = Vector2(8, -101)
+texture = ExtResource("19_u6ypu")
+centered = false
+hframes = 2
+frame = 1
+
+[node name="Poke" type="Sprite2D" parent="Node2D/Party/Panel/Sixth"]
+position = Vector2(11, -106)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("20_3fy5u")
+centered = false
+vframes = 2
 
 [node name="Close" type="Control" parent="Node2D"]
 layout_mode = 3

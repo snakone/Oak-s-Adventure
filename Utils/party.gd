@@ -7,11 +7,12 @@ var active_pokemon: Dictionary;
 
 const ERASE_PROPS = [
 	"sprites", "party_texture", "shout", "stats", "battle_stages", 
-	"battle_stats", "offset", "scale", "move_set"
+	"battle_stats", "offset", "scale", "move_set", "box_offset", "box_scale"
 ];
 
 func _ready(): add_to_group(GLOBAL.group_name);
 func get_party() -> Array: return current_party;
+func set_party(party: Array) -> void: current_party = party;
 
 func get_active_pokemon() -> Object:
 	if(current_party):

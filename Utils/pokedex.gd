@@ -162,7 +162,7 @@ var LIBRARY: Array = [
 		"sprites": "res://Sprites/Animated/Beedrill/beedrill.tscn",
 		"offset": Vector2.ZERO,
 		"scale": Vector2(0.8, 0.8),
-		"box_offset": Vector2.ZERO,
+		"box_offset": Vector2(-22, -18),
 		"box_scale": Vector2(0.8, 0.8),
 		"stats": {
 			"HP": 65,

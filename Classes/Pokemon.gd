@@ -22,7 +22,7 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 		data.battle_stages = set_battle_stages();
 		if("battle_moves" not in data): set_battle_moves();
 		else: convert_battle_moves();
-		if(!enemy && "total_exp" not in data): set_exp_by_level();
+		if("total_exp" not in data): set_exp_by_level();
 		if("uuid" not in data): data.uuid = uuid.v4();
 
 #ATTACK
@@ -141,6 +141,8 @@ func get_resources() -> void:
 	data.offset = resources.offset;
 	data.scale = resources.scale;
 	data.move_set = resources.move_set;
+	data.box_scale = resources.box_scale;
+	data.box_offset = resources.box_offset;
 	
 	if("sprites" in resources):
 		var animated_sprite = load(resources.sprites);

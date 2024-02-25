@@ -109,6 +109,7 @@ position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_qwe52")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture = ExtResource("2_aujt1")
 centered = false
 offset = Vector2(0, -8)

@@ -93,7 +93,9 @@ func set_all_options() -> void:
 			var poke = party[index];
 			var anim_player = slot.get_node("AnimationPlayer");
 			if(poke.data.death): anim_player.play("Dead");
-			else: anim_player.play("Idle");
+			else:
+				if(index == selected_slot): anim_player.play("Selected");
+				else: anim_player.play("Idle");
 
 func set_active_option(value: State) -> void:
 	var slot = current_slots[selected_slot];
@@ -198,12 +200,13 @@ func _input(event) -> void:
 func select_slot() -> void:
 	if(!select_open):
 		match selected_slot:
-			#POKEMON
-			Slots.FIRST, Slots.SECOND, Slots.THIRD, Slots.FOURTH, Slots.FIFTH, Slots.SIXTH:
-				select_input();
 			#CANCEL
 			current_slots_length:
 				if(check_if_can_close()): close_party();
+			#POKEMON
+			Slots.FIRST, Slots.SECOND, Slots.THIRD, Slots.FOURTH, Slots.FIFTH, Slots.SIXTH:
+				select_input();
+
 	#ON BATTLE
 	elif(select_open && GLOBAL.on_battle):
 		match select_index:

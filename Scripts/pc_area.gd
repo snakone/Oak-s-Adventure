@@ -1,12 +1,15 @@
 extends StaticBody2D
 
-@onready var anim_player: AnimationPlayer = $AnimationPlayer;
+@export var dialog_id: int = 32;
+@export var show_sprite = true;
 
-@export var dialog_id: int;
+@onready var anim_player: AnimationPlayer = $AnimationPlayer;
+@onready var sprite_2d: Sprite2D = $Sprite2D;
 
 func _ready() -> void:
 	GLOBAL.connect("open_pc", _on_open_pc);
 	GLOBAL.connect("close_pc", _on_close_pc);
+	if(show_sprite): sprite_2d.visible = true;
 
 func _on_open_pc() -> void:
 	await GLOBAL.timeout(1);

@@ -243,7 +243,6 @@ wait_time = 0.3
 
 [node name="PC" parent="." instance=ExtResource("13_q1t2n")]
 position = Vector2(176, 16)
-dialog_id = 32
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 
