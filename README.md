@@ -22,6 +22,7 @@
 - Sounds
 - Battle System
 - Pokémon Center
+- Pokémon PC and Boxes
 
 ## Credits
 
@@ -41,7 +42,7 @@ Let's say at least i want to have exclusive content for the game, knowing it's 1
 Download [Godot](https://godotengine.org/) for free and start your own journey!
 
 ## Version
-v.0.5.3
+v.0.5.4
 
 ### All Rights reserved to
 &copy;2024 Pokémon. ©1995 - 2024 Nintendo/Creatures Inc./GAME FREAK inc. TM, ®Nintendo.

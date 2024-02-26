@@ -46,3 +46,7 @@
 - Overall fixing - Indented Code
 - Shared Doors
 - Calderock Houses
+
+# 0.5.4
+- Pokémon PC
+- Boxes - Move Pokémon
