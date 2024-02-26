@@ -12,7 +12,10 @@ const ERASE_PROPS = [
 
 func _ready(): add_to_group(GLOBAL.group_name);
 func get_party() -> Array: return current_party;
-func set_party(party: Array) -> void: current_party = party;
+
+func set_party(party: Array) -> void: 
+	current_party = party;
+	reset_all_active(true);
 
 func get_active_pokemon() -> Object:
 	if(current_party):

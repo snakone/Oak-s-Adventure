@@ -332,8 +332,7 @@ func close_box() -> void:
 		return;
 	#CLOSING
 	closing = true;
-	PARTY.current_party = party.filter(func (poke): return poke != null);
-	PARTY.reset_all_active(true);
+	PARTY.set_party(party.filter(func (poke): return poke != null));
 	play_audio(GUI_MENU_CLOSE);
 	await audio.finished;
 	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/PokemonBoxes");
@@ -429,7 +428,6 @@ func is_pokemon_in_party() -> bool:
 		current_hand_pos.x != int(Positions.PARTY) || 
 		current_hand_pos.y == int(Positions.PARTY)
 	): return false;
-	#TODO
 	if(party[current_party_index] != null): return true;
 	return false;
 
@@ -499,6 +497,7 @@ func set_active(poke: Node) -> void:
 	active.visible = true;
 
 func set_party_panel() -> void:
+	move_null_to_end();
 	for index in range(0, party.size()):
 		var slot = party_slots[index];
 		var square_node = slot.get_node("Sprite2D");
@@ -510,6 +509,7 @@ func set_party_panel() -> void:
 			slot.visible = true;
 			poke_node.visible = true;
 			poke_node.texture = poke.data.party_texture;
+		else: slot.visible = false;
 
 func update_all_boxes() -> void:
 	remove_children();
@@ -526,6 +526,15 @@ func remove_children() -> void:
 	for box in poke_boxes:
 		var childs = box.get_children();
 		for child in childs: box.remove_child(child);
+
+func move_null_to_end():
+	var nulls = 0;
+	var array = [];
+	for i in range(party.size()):
+		if party[i] != null: array.append(party[i])
+		else: nulls += 1
+	for i in range(nulls): array.append(null);
+	party = array;
 
 func remove_active() -> void:
 	active.visible = false;
