@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cn2jssalmf12l"]
+[gd_scene load_steps=11 format=3 uid="uid://cn2jssalmf12l"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/praire_town.gd" id="1_3hn5p"]
 [ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="2_5a1f2"]
@@ -6,12 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://cqktd3b4r0pk2" path="res://Scripts/switch_scene.tscn" id="4_nqgbe"]
 [ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="5_qpu3u"]
 [ext_resource type="Texture2D" uid="uid://binluodfymue4" path="res://Sprites/door_open_orange.png" id="6_ismcs"]
-[ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="7_xk2hf"]
-[ext_resource type="Texture2D" uid="uid://cd3146vuujwx6" path="res://Sprites/NPC/mom.png" id="8_2pcgv"]
 [ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="9_255gx"]
+[ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="9_sm5xq"]
 [ext_resource type="AudioStream" uid="uid://xaacocjq78cq" path="res://Assets/Sounds/PraireTown.mp3" id="10_gcas7"]
-
-[sub_resource type="GDScript" id="GDScript_jvbk0"]
+[ext_resource type="Texture2D" uid="uid://dupraky0vk0qc" path="res://Sprites/NPC/farm_vendor.png" id="10_l6t8e"]
 
 [node name="PraireTown" type="Node2D"]
 y_sort_enabled = true
@@ -24,31 +22,28 @@ position = Vector2(48, 112)
 input_pickable = true
 
 [node name="TileMap" parent="." instance=ExtResource("2_28j7f")]
-layer_1/tile_data = PackedInt32Array(917507, 0, 15, 851971, 0, 15, 983043, 0, 15, 786435, 0, 15, 786438, 262144, 15, 786439, 262144, 15, 786440, 262144, 15, 786441, 131072, 16, 720899, 0, 15, 655363, 0, 15, 589827, 0, 15, 589828, 0, 15, 720901, 0, 15, 720902, 0, 15, 720903, 0, 15, 720904, 0, 15, 655368, 0, 15, 589832, 0, 15, 589831, 0, 15, 589830, 0, 15, 589829, 0, 15, 655365, 0, 15, 655367, 0, 15, 983045, 131072, 15, 655364, 0, 15, 720900, 0, 15, 19, 393216, 13, 17, 65536, 0, 18, 131072, 0, 23, 524288, 11, 65559, 524288, 12, 131095, 524288, 12, 196631, 524288, 12, 458775, 524288, 12, 524311, 524288, 12, 589847, 524288, 12, 917527, 524288, 12, 983046, 458752, 11, 983047, 458752, 11, 983048, 458752, 11, 983049, 458752, 11, 983050, 458752, 11, 983051, 458752, 11, 983052, 458752, 11, 983053, 458752, 11, 983054, 458752, 11, 983055, 458752, 11, 983056, 458752, 11, 983057, 458752, 11, 983058, 458752, 11, 983059, 458752, 11, 983060, 458752, 11, 983061, 458752, 11, 983062, 458752, 11, 983063, 524288, 13, 851991, 524288, 12, 524291, 0, 15, 524292, 196608, 15, 524293, 196608, 15, 524294, 196608, 15, 524295, 196608, 15, 524296, 196608, 15, 524297, 262144, 16, 589833, 131072, 15, 655369, 131072, 15, 720905, 131072, 15, 589824, 393216, 12, 851968, 393216, 12, 917504, 393216, 12, 983040, 393216, 12, 524289, 196608, 16, 589825, 65536, 15, 655361, 65536, 15, 720897, 65536, 15, 786433, 65536, 15, 851969, 65536, 15, 917505, 65536, 15, 983041, 65536, 15, 589826, 0, 15, 655362, 0, 15, 720898, 0, 15, 786434, 0, 15, 851970, 0, 15, 917506, 0, 15, 983042, 0, 15, 524290, 196608, 15, 524288, 393216, 12, 458752, 393216, 12, 196608, 393216, 12, 131072, 393216, 12, 65536, 393216, 12, 0, 393216, 11, 22, 458752, 11, 21, 458752, 11, 20, 458752, 11, 16, 524288, 13, 15, 458752, 13, 14, 458752, 13, 13, 458752, 13, 12, 458752, 13, 11, 458752, 13, 10, 458752, 13, 9, 458752, 13, 8, 458752, 13, 7, 458752, 13, 6, 458752, 13, 5, 458752, 13, 4, 458752, 13, 3, 458752, 13, 2, 458752, 13, 1, 458752, 13, 458755, 0, 15, 393219, 0, 15, 655366, 0, 15, 65554, 131072, 1, 65553, 65536, 1, 851973, 131072, 15, 917509, 131072, 15, 786436, 0, 15, 786437, 65536, 17, 851972, 0, 15, 917508, 0, 15, 983044, 0, 15, 393218, 524288, 15, 458754, 524288, 17, 458756, 393216, 17, 393220, 393216, 15, 65555, 524288, 0, 65552, 524288, 0, 262167, 458752, 18, 327703, 458752, 19, 393239, 458752, 20, 655383, 458752, 18, 720919, 458752, 19, 786455, 458752, 20, 655360, 393216, 18, 720896, 393216, 19, 786432, 393216, 20, 393216, 393216, 20, 327680, 393216, 19, 262144, 393216, 18)
-script = SubResource("GDScript_jvbk0")
 
-[node name="SwitchScene" parent="." instance=ExtResource("4_nqgbe")]
+[node name="SwitchRoute01" parent="." instance=ExtResource("4_nqgbe")]
+position = Vector2(288, -12)
+scale = Vector2(2, 1)
+next_scene = "res://Scenes/Maps/Routes/route_01.tscn"
+new_map = 4
+
+[node name="SwitchRoute00" parent="." instance=ExtResource("4_nqgbe")]
 position = Vector2(56, 268)
 scale = Vector2(5, 1)
 next_scene = "res://Scenes/Maps/Routes/route_00.tscn"
 enter_direction = 3
+new_map = 2
 
 [node name="OakDoor" parent="." instance=ExtResource("5_qpu3u")]
 z_index = 1
 y_sort_enabled = true
-position = Vector2(32, 16)
-next_scene = "res://Scenes/Maps/oak_house.tscn"
+position = Vector2(48, 80)
+next_scene = "res://Scenes/Maps/Houses/PraireTown/oak_house.tscn"
 enter_direction = 2
 spawn_position = Vector2(80, 128)
 sprite_image = ExtResource("6_ismcs")
-
-[node name="Mom" parent="." instance=ExtResource("7_xk2hf")]
-position = Vector2(64, 160)
-collision_mask = 0
-texture = ExtResource("8_2pcgv")
-possitive_limits = Vector2(5, 5)
-negative_limits = Vector2(-3, -2)
-dialog_id = 2
 
 [node name="Mail" parent="." instance=ExtResource("9_255gx")]
 position = Vector2(80, 112)
@@ -61,5 +56,12 @@ dialog_id = 5
 [node name="Box" parent="." instance=ExtResource("9_255gx")]
 position = Vector2(112, 48)
 dialog_id = 7
-talk_direction = 5
 metadata/_edit_group_ = true
+
+[node name="Vendor" parent="." instance=ExtResource("9_sm5xq")]
+position = Vector2(160, 80)
+texture = ExtResource("10_l6t8e")
+state = 1
+can_up = false
+interval = 3.0
+dialog_id = 20

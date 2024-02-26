@@ -10,7 +10,7 @@ func _ready():
 	if(song): AUDIO.play(song);
 	GLOBAL.inside_house = true;
 	set_camera();
-	oak.set_blend_direction(GLOBAL.last_player_direction);
+	oak.set_blend_direction(GLOBAL.last_direction);
 	
 	if(MAPS.spawn_position):
 		oak.position = MAPS.spawn_position;

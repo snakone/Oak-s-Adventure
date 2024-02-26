@@ -1,10 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://ca0it3m1tg38u"]
+[gd_scene load_steps=7 format=3 uid="uid://ca0it3m1tg38u"]
 
 [ext_resource type="TileSet" uid="uid://cxl08215wglhd" path="res://Tilesets/praire_town_tileset.tres" id="1_eg7kx"]
 [ext_resource type="PackedScene" uid="uid://dj2oqc22fbd0m" path="res://Scenes/Nature/flowers.tscn" id="2_01nin"]
-[ext_resource type="PackedScene" uid="uid://c0duc0rrogte8" path="res://Scenes/Nature/tall_grass.tscn" id="3_82l0a"]
-[ext_resource type="PackedScene" uid="uid://bbwofefpjwpbu" path="res://Scenes/Nature/small_flowers_orange.tscn" id="4_n5ibi"]
-[ext_resource type="PackedScene" uid="uid://4rl0bdmg36l0" path="res://Scenes/Nature/small_flowers_violet.tscn" id="5_e4oy1"]
+[ext_resource type="TileSet" uid="uid://c2hq3j8q2clja" path="res://Tilesets/custom_nature.tres" id="8_2q2o8"]
 [ext_resource type="PackedScene" uid="uid://cc02mcfctdy8w" path="res://Scenes/Nature/blue_berry.tscn" id="8_i2kbx"]
 [ext_resource type="PackedScene" uid="uid://cgeldutawki0f" path="res://Scenes/Nature/red_berry.tscn" id="9_f507k"]
 [ext_resource type="PackedScene" uid="uid://dvkyfmb4uusuu" path="res://Scenes/Nature/green_berry.tscn" id="10_4rmsc"]
@@ -20,7 +18,7 @@ layer_0/tile_data = PackedInt32Array(65537, 393216, 2, 131073, 393216, 1, 196609
 layer_1/name = "Roads"
 layer_1/y_sort_enabled = true
 layer_1/z_index = -1
-layer_1/tile_data = PackedInt32Array(0, 393216, 12, 65536, 393216, 12, 131072, 393216, 12, 196608, 393216, 12, 262144, 393216, 12, 327680, 393216, 12, 393216, 393216, 12, 458752, 393216, 12, 524288, 393216, 12, 589824, 393216, 12, 655360, 393216, 12, 720896, 393216, 12, 786433, 458752, 13, 786434, 458752, 13, 786435, 458752, 13, 786436, 458752, 13, 786437, 458752, 13, 786438, 458752, 13, 786439, 458752, 13, 786440, 458752, 13, 786441, 458752, 13, 786442, 458752, 13, 786443, 458752, 13, 786444, 458752, 13, 786445, 458752, 13, 786446, 458752, 13, 786447, 458752, 13, 786448, 458752, 13, 786449, 458752, 13, 786450, 458752, 13, 786451, 458752, 13, 786452, 458752, 13, 786453, 458752, 13, 786454, 458752, 13, 23, 524288, 11, 65559, 524288, 12, 131095, 524288, 12, 196631, 524288, 12, 262167, 524288, 12, 327703, 524288, 12, 393239, 524288, 12, 458775, 524288, 12, 589847, 524288, 12, 655383, 524288, 12, 720919, 524288, 12, 22, 458752, 11, 21, 458752, 11, 20, 458752, 11, 19, 458752, 11, 18, 458752, 11, 17, 458752, 11, 16, 458752, 11, 15, 458752, 11, 14, 458752, 11, 13, 458752, 11, 12, 458752, 11, 11, 458752, 11, 10, 458752, 11, 9, 458752, 11, 8, 458752, 11, 7, 458752, 11, 6, 458752, 11, 786455, 524288, 13, 786432, 393216, 13, 2, 0, 15, 3, 0, 15, 4, 0, 15, 1, 65536, 15, 65537, 65536, 16, 5, 131072, 15, 65541, 131072, 16, 65538, 262144, 15, 65539, 262144, 15, 65540, 262144, 15, 131074, 4325378, 16, 131076, 4194306, 16, 196612, 4194306, 17, 262148, 4194306, 17, 196610, 4325378, 17, 262146, 4325378, 17, 327682, 4325378, 17, 393218, 4325378, 17, 458755, 4259842, 18, 458756, 4259842, 18, 458754, 4325378, 18, 327684, 4194306, 18, 327685, 4259842, 18, 458757, 4259842, 18, 131073, 524288, 0, 327686, 4259842, 18, 327687, 4259842, 18, 131077, 524288, 0, 65542, 524288, 0, 458758, 4259842, 18, 458759, 4325378, 16, 458762, 4194306, 16, 458763, 4259842, 18, 458764, 4259842, 18, 458765, 4259842, 18, 327688, 4259842, 18, 327689, 4259842, 18, 327690, 4259842, 18, 327691, 4259842, 18, 327692, 4259842, 18, 327693, 4259842, 18, 327694, 4259842, 18, 327695, 4259842, 18, 458766, 4259842, 18, 458767, 4259842, 18, 524295, 4325378, 18, 524298, 4194306, 18, 589827, 786434, 0, 589828, 786434, 0, 655364, 786434, 0, 655363, 786434, 0, 655362, 786434, 0, 589826, 786434, 0, 589829, 786434, 0, 655365, 786434, 0, 524311, 524288, 12, 524306, 5, 0, 524307, 65541, 0, 524308, 65541, 0, 524309, 131077, 0, 589845, 131077, 2, 589844, 65541, 2, 589843, 65541, 2, 589842, 5, 2)
+layer_1/tile_data = PackedInt32Array(0, 393216, 12, 65536, 393216, 12, 131072, 393216, 12, 196608, 393216, 12, 262144, 393216, 12, 327680, 393216, 12, 393216, 393216, 12, 458752, 393216, 12, 524288, 393216, 12, 589824, 393216, 12, 655360, 393216, 12, 720896, 393216, 12, 786433, 458752, 13, 786434, 458752, 13, 786435, 458752, 13, 786436, 458752, 13, 786437, 458752, 13, 786438, 458752, 13, 786439, 458752, 13, 786440, 458752, 13, 786441, 458752, 13, 786442, 458752, 13, 786443, 458752, 13, 786444, 458752, 13, 786445, 458752, 13, 786446, 458752, 13, 786447, 458752, 13, 786448, 458752, 13, 786449, 458752, 13, 786450, 458752, 13, 786451, 458752, 13, 786452, 458752, 13, 786453, 458752, 13, 786454, 458752, 13, 23, 524288, 11, 65559, 524288, 12, 131095, 524288, 12, 196631, 524288, 12, 262167, 524288, 12, 327703, 524288, 12, 393239, 524288, 12, 458775, 524288, 12, 589847, 524288, 12, 655383, 524288, 12, 720919, 524288, 12, 22, 458752, 11, 21, 458752, 11, 20, 458752, 11, 19, 458752, 11, 18, 458752, 11, 17, 458752, 11, 16, 458752, 11, 15, 458752, 11, 14, 458752, 11, 13, 458752, 11, 12, 458752, 11, 11, 458752, 11, 10, 458752, 11, 9, 458752, 11, 8, 458752, 11, 7, 458752, 11, 6, 458752, 11, 786455, 524288, 13, 786432, 393216, 13, 131074, 4325378, 16, 131076, 4194306, 16, 196612, 4194306, 17, 262148, 4194306, 17, 196610, 4325378, 17, 262146, 4325378, 17, 327682, 4325378, 17, 393218, 4325378, 17, 458755, 4259842, 18, 458756, 4259842, 18, 458754, 4325378, 18, 327684, 4194306, 18, 327685, 4259842, 18, 458757, 4259842, 18, 131073, 524288, 0, 327686, 4259842, 18, 327687, 4259842, 18, 131077, 524288, 0, 65542, 524288, 0, 458758, 4259842, 18, 458759, 4325378, 16, 458762, 4194306, 16, 458763, 4259842, 18, 458764, 4259842, 18, 458765, 4259842, 18, 327688, 4259842, 18, 327689, 4259842, 18, 327690, 4259842, 18, 327691, 4259842, 18, 327692, 4259842, 18, 327693, 4259842, 18, 327694, 4259842, 18, 327695, 4259842, 18, 458766, 4259842, 18, 458767, 4259842, 18, 524295, 4325378, 18, 524298, 4194306, 18, 524311, 524288, 12, 5, 131072, 15, 65541, 131072, 16, 65540, 262144, 15, 65539, 262144, 15, 65538, 262144, 15, 65537, 65536, 16, 1, 65536, 15, 2, 0, 15, 3, 0, 15, 4, 0, 15, 327699, 1114114, 0)
 layer_2/name = "Objects"
 layer_2/y_sort_enabled = true
 layer_2/z_index = 1
@@ -29,109 +27,23 @@ layer_2/tile_data = PackedInt32Array(262161, 1245186, 23, 262166, 1245184, 3, 19
 [node name="Nature" type="Node2D" parent="."]
 y_sort_enabled = true
 
-[node name="flowers" parent="Nature" instance=ExtResource("2_01nin")]
+[node name="RedFlowers" parent="Nature" instance=ExtResource("2_01nin")]
 position = Vector2(16, 48)
 
-[node name="flowers2" parent="Nature" instance=ExtResource("2_01nin")]
+[node name="RedFlowers2" parent="Nature" instance=ExtResource("2_01nin")]
 position = Vector2(16, 64)
 
-[node name="flowers3" parent="Nature" instance=ExtResource("2_01nin")]
+[node name="RedFlowers3" parent="Nature" instance=ExtResource("2_01nin")]
 position = Vector2(16, 80)
 
-[node name="flowers4" parent="Nature" instance=ExtResource("2_01nin")]
+[node name="RedFlowers4" parent="Nature" instance=ExtResource("2_01nin")]
 position = Vector2(16, 96)
 
-[node name="flowers5" parent="Nature" instance=ExtResource("2_01nin")]
+[node name="RedFlowers5" parent="Nature" instance=ExtResource("2_01nin")]
 position = Vector2(80, 48)
 
-[node name="flowers6" parent="Nature" instance=ExtResource("2_01nin")]
+[node name="RedFlowers6" parent="Nature" instance=ExtResource("2_01nin")]
 position = Vector2(80, 64)
-
-[node name="TallGrass" parent="Nature" instance=ExtResource("3_82l0a")]
-position = Vector2(144, 32)
-encounters = Array[int]([])
-
-[node name="TallGrass2" parent="Nature" instance=ExtResource("3_82l0a")]
-position = Vector2(160, 32)
-encounters = Array[int]([])
-
-[node name="TallGrass3" parent="Nature" instance=ExtResource("3_82l0a")]
-position = Vector2(176, 32)
-encounters = Array[int]([])
-
-[node name="TallGrass4" parent="Nature" instance=ExtResource("3_82l0a")]
-position = Vector2(192, 32)
-encounters = Array[int]([])
-
-[node name="TallGrass5" parent="Nature" instance=ExtResource("3_82l0a")]
-position = Vector2(208, 32)
-encounters = Array[int]([])
-
-[node name="TallGrass6" parent="Nature" instance=ExtResource("3_82l0a")]
-position = Vector2(144, 48)
-encounters = Array[int]([])
-
-[node name="TallGrass7" parent="Nature" instance=ExtResource("3_82l0a")]
-position = Vector2(160, 48)
-encounters = Array[int]([])
-
-[node name="TallGrass8" parent="Nature" instance=ExtResource("3_82l0a")]
-position = Vector2(176, 48)
-encounters = Array[int]([])
-
-[node name="TallGrass9" parent="Nature" instance=ExtResource("3_82l0a")]
-position = Vector2(192, 48)
-encounters = Array[int]([])
-
-[node name="TallGrass10" parent="Nature" instance=ExtResource("3_82l0a")]
-position = Vector2(208, 48)
-encounters = Array[int]([])
-
-[node name="TallGrass11" parent="Nature" instance=ExtResource("3_82l0a")]
-position = Vector2(224, 48)
-encounters = Array[int]([])
-
-[node name="TallGrass12" parent="Nature" instance=ExtResource("3_82l0a")]
-position = Vector2(224, 32)
-encounters = Array[int]([])
-
-[node name="OrangeFlower" parent="Nature" instance=ExtResource("4_n5ibi")]
-position = Vector2(304, 112)
-
-[node name="OrangeFlower2" parent="Nature" instance=ExtResource("4_n5ibi")]
-position = Vector2(336, 112)
-
-[node name="OrangeFlower3" parent="Nature" instance=ExtResource("4_n5ibi")]
-position = Vector2(352, 128)
-
-[node name="OrangeFlower5" parent="Nature" instance=ExtResource("4_n5ibi")]
-position = Vector2(320, 160)
-
-[node name="OrangeFlower6" parent="Nature" instance=ExtResource("4_n5ibi")]
-position = Vector2(288, 160)
-
-[node name="OrangeFlower7" parent="Nature" instance=ExtResource("4_n5ibi")]
-position = Vector2(272, 144)
-
-[node name="VioletFlower" parent="Nature" instance=ExtResource("5_e4oy1")]
-position = Vector2(288, 112)
-
-[node name="VioletFlower2" parent="Nature" instance=ExtResource("5_e4oy1")]
-position = Vector2(320, 112)
-
-[node name="VioletFlower4" parent="Nature" instance=ExtResource("5_e4oy1")]
-position = Vector2(352, 144)
-
-[node name="VioletFlower5" parent="Nature" instance=ExtResource("5_e4oy1")]
-position = Vector2(336, 160)
-
-[node name="VioletFlower6" parent="Nature" instance=ExtResource("5_e4oy1")]
-position = Vector2(304, 160)
-
-[node name="VioletFlower8" parent="Nature" instance=ExtResource("5_e4oy1")]
-position = Vector2(272, 128)
-
-[node name="SplashZone" type="Node2D" parent="."]
 
 [node name="Berries" type="Node2D" parent="."]
 y_sort_enabled = true
@@ -143,5 +55,16 @@ position = Vector2(208, 144)
 position = Vector2(192, 144)
 
 [node name="GreenBerry" parent="Berries" instance=ExtResource("10_4rmsc")]
-y_sort_enabled = true
 position = Vector2(224, 144)
+
+[node name="Custom" type="TileMap" parent="."]
+y_sort_enabled = true
+tile_set = ExtResource("8_2q2o8")
+format = 2
+layer_0/name = "Ground"
+layer_0/y_sort_enabled = true
+layer_0/tile_data = PackedInt32Array(524305, 2097155, 18, 589841, 2162691, 18, 524306, 1, 0, 589842, 1, 1, 524307, 65537, 0, 589843, 65537, 1, 524308, 65537, 0, 589844, 65537, 1, 524309, 131073, 0, 589845, 131073, 1, 524310, 2162691, 18, 589846, 2097155, 18, 655378, 1, 2, 655379, 65537, 2, 655380, 65537, 2, 655381, 131073, 2, 196622, 2293763, 16, 196621, 2293763, 16, 196620, 2293763, 16, 196618, 2293763, 16, 196617, 2293763, 16, 196616, 2293763, 16)
+layer_1/name = "Objects"
+layer_1/y_sort_enabled = true
+layer_1/z_index = 1
+layer_1/tile_data = PackedInt32Array(131088, 2424835, 25, 196624, 2424835, 26, 131089, 2490371, 25, 196625, 2490371, 26, 65544, 1835011, 4, 131080, 1835011, 5, 65545, 1900547, 4, 131081, 1900547, 5, 65546, 1966083, 4, 131082, 1966083, 5, 65548, 1835011, 4, 131084, 1835011, 5, 65549, 1900547, 4, 131085, 1900547, 5, 65550, 1966083, 4, 131086, 1966083, 5, 589826, 2293763, 11, 655362, 2293763, 12, 589827, 2293763, 11, 655363, 2293763, 12, 589828, 2293763, 11, 655364, 2293763, 12, 589829, 2293763, 11, 655365, 2293763, 12)

@@ -31,7 +31,7 @@ patch_margin_top = 6
 patch_margin_right = 6
 patch_margin_bottom = 6
 
-[node name="TextureRect" type="TextureRect" parent="Control/NinePatchRect"]
+[node name="Cursor" type="TextureRect" parent="Control/NinePatchRect"]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 11.0
@@ -45,9 +45,8 @@ clip_contents = true
 layout_direction = 2
 layout_mode = 0
 offset_left = 20.0
-offset_top = -1.0
 offset_right = 100.0
-offset_bottom = 131.0
+offset_bottom = 132.0
 theme_override_constants/separation = 4
 alignment = 1
 

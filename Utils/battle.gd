@@ -3,9 +3,9 @@ extends Node
 #ATTACK
 signal attack_finished();
 signal on_move_hit(is_enemy: bool);
-signal critical_landed();
 signal not_effective();
-signal after_dialog_attack();
+signal start_attack();
+signal attack_check_done();
 
 #UI
 signal ui_updated();
@@ -17,9 +17,11 @@ signal hp_bar_anim_duration(duration: float);
 signal dialog_finished();
 signal close_level_up_panel();
 signal show_total_stats_panel();
-signal show_level_up_panel();
+signal show_level_up_panel(participant: Object);
 signal level_up_stats_end();
 signal check_can_escape();
+signal quick_dialog_end();
+signal participant_exp_end();
 
 #MENU
 signal end_battle();
@@ -27,6 +29,19 @@ signal end_battle();
 enum Type { WILD, TRAINER, ELITE, SPECIAL, NONE }
 enum ExpType { ERRATIC, FAST, MEDIUM, SLOW, SLACK, FLUCTUATING }
 enum Zones { FIELD = 0, GRASS = 1, SNOW = 2 }
+enum Moves { FIRST, SECOND, THIRD, FOURTH }
+enum Turn { PLAYER, ENEMY, NONE }
+
+enum AttackResult { 
+	NORMAL, 
+	CRITICAL, 
+	EFFECTIVE,
+	LOW, 
+	MISS, 
+	NONE, 
+	FULMINATE, 
+	AWFULL
+}
 
 enum States {
 	MENU = 0, 
@@ -73,22 +88,23 @@ const BATTLE_SOUNDS = {
 	"GUI_SEL_DECISION": preload("res://Assets/Sounds/GUI sel decision.ogg"),
 	"GUI_MENU_CLOSE": preload("res://Assets/Sounds/GUI menu close.ogg"),
 	"BATTLE_FLEE": preload("res://Assets/Sounds/Battle flee.ogg"),
-	"EXP_GAIN_PKM": preload("res://Assets/Sounds/exp_gain_pkm.mp3"),
-	"EXP_FULL": preload("res://Assets/Sounds/exp_full.mp3")
+	"EXP_GAIN_PKM": preload("res://Assets/Sounds/pkm_exp_gain.mp3"),
+	"EXP_FULL": preload("res://Assets/Sounds/exp_full.mp3"),
+	"DAMAGE_NORMAL": preload("res://Assets/Sounds/Battle damage normal.ogg"),
+	"MOVE_LEARN": preload("res://Assets/Sounds/Pkmn move learnt.ogg")
 }
 
-const tile_density = 1325.0;
-const modifire = 1.0;
+const tile_density = 325.0;
+var modifire = 1.0;
 
-const min_hp_anim_duration = 0.3;
+const min_hp_anim_duration = 1.2;
 const max_hp_anim_duration = 3;
-
 const GREEN_BAR_PERCT = 0.51;
 const YELLOW_BAR_PERCT = 0.2;
+const default_exp_duration = 1.2;
 
 var level_up_panel_visible = false;
 var can_close_level_up_panel = false;
-
 var type = Type.NONE;
 var state = States.NONE;
 var pokemon_death = false;
@@ -97,8 +113,22 @@ var intro_dialog = true;
 var can_use_menu = false;
 var escape_attempts = 0;
 var on_victory = false;
+var attack_pressed = false;
+var player_attacked = false;
+var enemy_attacked = false;
+var current_turn = Turn.NONE;
+var can_use_next_pokemon = false;
+var coming_from_battle = false;
+var participants: Array = [];
+var exp_loop = false;
+var critical_hit = false;
+var attack_missed = false;
+var attack_result = [];
+var player_attack = 0;
+var enemy_attack = 0;
+var attacks_set = false;
 
-@onready var zones_array = [
+@onready var ZONES_ARRAY = [
 	{
 		"background": FIELD_BG,
 		"enemy_ground": FIELD_BASE_1,
@@ -116,7 +146,7 @@ var on_victory = false;
 	},
 ];
 
-func reset_state() -> void:
+func reset_state(reset_type = true) -> void:
 	can_use_menu = false;
 	intro_dialog = true;
 	state = BATTLE.States.NONE;
@@ -125,30 +155,45 @@ func reset_state() -> void:
 	level_up_panel_visible = false;
 	can_close_level_up_panel = false;
 	escape_attempts = 0;
-	type = Type.NONE;
 	on_victory = false;
+	player_attacked = false;
+	enemy_attacked = false;
+	current_turn = Turn.NONE;
+	attack_pressed = false;
+	if(reset_type): type = Type.NONE;
+	can_use_next_pokemon = false;
+	participants = [];
+	exp_loop = false;
+	critical_hit = false;
+	attack_missed = false;
+	attack_result = [];
+	player_attack = 0;
+	enemy_attack = 0;
+	attacks_set = false;
 
 func pokemon_encounter() -> bool:
-	randomize()
+	randomize();
 	var tile_barrier = randi_range(0, 2879)
+	if(GLOBAL.on_bike): modifire = modifire * 1.5;
+	else: modifire = 1.0;
 	if tile_barrier <= tile_density * modifire:
-		randomize()
+		randomize();
 		var rand: int = randi_range(0, 100)
 		if(rand < tile_density / 10):
 			return true
 	return false
 
-const menu_cursor_pos: Array = [
+const MENU_CURSOR: Array = [
 	[Vector2(135, 129), Vector2(194, 129)], 
 	[Vector2(135, 144), Vector2(194, 144)]
 ];
 
-const attack_cursor_pos: Array = [
-	[Vector2(13, 127), Vector2(80, 127)],
-	[Vector2(13, 145), Vector2(80, 145)]
+const ATTACK_CURSOR: Array = [
+	[Vector2(11, 127.5), Vector2(84, 127.5)],
+	[Vector2(11, 144.5), Vector2(84, 144.5)]
 ];
 
-func get_battle_textures(zone: BATTLE.Zones): return zones_array[zone];
+func get_battle_textures(zone: BATTLE.Zones): return ZONES_ARRAY[zone];
 
 func get_markers(marker_type: SETTINGS.Markers):
 	match marker_type:
@@ -172,11 +217,11 @@ func can_move_attack_cursor(
 	new_position: Vector2,
 	player_attacks: Array
 ) -> bool:
-	var attack2_position = Vector2(80, 127);
+	var attack2_position = ATTACK_CURSOR[0][1];
 	var attack2_text = player_attacks[1].text;
-	var attack3_position = Vector2(13, 145);
+	var attack3_position = ATTACK_CURSOR[1][0];
 	var attack3_text = player_attacks[2].text;
-	var attack4_position = Vector2(80, 145);
+	var attack4_position = ATTACK_CURSOR[1][1];
 	var attack4_text = player_attacks[3].text;
 	
 	if(
@@ -194,5 +239,17 @@ func can_pokemon_scape(pokemon: Object, enemy: Object) -> bool:
 	
 	if(poke_speed >= enemy_speed): return true;
 	else:
-		var odd = floor(int(floor(((poke_speed * 128.0) / enemy_speed) + (30.0 * escape_attempts))) % 256);
+		var odd = floor(int(floor(
+			((poke_speed * 128.0) / enemy_speed) + (30.0 * escape_attempts))) % 256
+		);
 		return random < odd;
+
+func add_participant(poke: Object) -> void:
+	var already = false;
+	for participant in participants:
+		if(participant.name == poke.name):
+			already = true;
+			break;
+	if(!already): participants.push_front(poke);
+
+func remove_participant(poke: Object) -> void: participants.erase(poke);

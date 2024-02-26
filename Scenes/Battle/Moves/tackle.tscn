@@ -1,72 +1,115 @@
-[gd_scene load_steps=7 format=3 uid="uid://cx0jjo413ds6v"]
+[gd_scene load_steps=8 format=3 uid="uid://cx0jjo413ds6v"]
 
 [ext_resource type="Script" path="res://Scenes/Battle/Moves/tackle.gd" id="1_kicyl"]
-[ext_resource type="AudioStream" uid="uid://u3g5iuy2em1" path="res://Assets/Sounds/Moves/Tackle.mp3" id="3_qa51q"]
+[ext_resource type="AudioStream" uid="uid://ckun4kj6oiovn" path="res://Assets/Sounds/Moves/tackle.mp3" id="2_a1ev5"]
+[ext_resource type="Texture2D" uid="uid://c7esgd7pdwvov" path="res://Assets/UI/Battle/Moves/take_tackle_hit.png" id="3_tkkr8"]
 
 [sub_resource type="Animation" id="Animation_0vd60"]
 resource_name = "Attack"
-length = 0.8
+length = 1.2
 step = 0.05
-tracks/0/type = "value"
+tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("PlayerSprite:position")
-tracks/0/interp = 0
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.2, 0.3, 0.4, 0.6, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(60, 97), Vector2(55, 97), Vector2(60, 97), Vector2(74, 95), Vector2(85, 95), Vector2(75, 96), Vector2(60, 97)]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.35),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.35, 0.8),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
 "method": &"emit_on_hit"
+}, {
+"args": [],
+"method": &"play_effective_sound"
 }]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TakeHit:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.35, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TakeHit:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.35),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(174, 42)]
 }
 
 [sub_resource type="Animation" id="Animation_y5fnp"]
 resource_name = "EnemyAttack"
-length = 0.8
+length = 1.2
 step = 0.05
-tracks/0/type = "value"
+tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("EnemySprite:position")
-tracks/0/interp = 0
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.2, 0.3, 0.4, 0.6, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(167, 34), Vector2(172, 34), Vector2(167, 34), Vector2(155, 34), Vector2(148, 34), Vector2(152, 34), Vector2(167, 34)]
+"times": PackedFloat32Array(0.35, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"emit_on_hit"
+}, {
+"args": [],
+"method": &"play_effective_sound"
+}]
 }
-tracks/1/type = "method"
+tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".")
+tracks/1/path = NodePath("TakeHit:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0.35),
 "transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"emit_on_hit"
-}]
+"update": 0,
+"values": [Vector2(60, 97)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TakeHit:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.35, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
 }
 
 [sub_resource type="Animation" id="Animation_1er17"]
 length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TakeHit:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qndqo"]
 _data = {
@@ -77,14 +120,8 @@ _data = {
 
 [node name="Tackle" type="Node2D"]
 script = ExtResource("1_kicyl")
-
-[node name="PlayerSprite" type="Sprite2D" parent="."]
-position = Vector2(60, 97)
-
-[node name="EnemySprite" type="Sprite2D" parent="."]
-position = Vector2(167, 34)
-vframes = 2
-frame = 1
+audio_file = ExtResource("2_a1ev5")
+move_sprite = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -92,7 +129,11 @@ libraries = {
 }
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_qa51q")
-volume_db = -3.0
+volume_db = -5.0
+
+[node name="TakeHit" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(174, 42)
+texture = ExtResource("3_tkkr8")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]

@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://df2se36b8u4l4"]
+
+[ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="1_v0ef0"]
+[ext_resource type="Script" path="res://Scenes/Maps/Houses/Calderock/house_01.gd" id="1_xujvf"]
+[ext_resource type="PackedScene" uid="uid://bhgfa4r2qajog" path="res://Tilesets/house_01.tscn" id="3_r712i"]
+[ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="4_ad61t"]
+[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="5_fqj1t"]
+
+[node name="House01" type="Node2D"]
+script = ExtResource("1_xujvf")
+
+[node name="Oak" parent="." instance=ExtResource("1_v0ef0")]
+position = Vector2(64, 112)
+
+[node name="TileMap" parent="." instance=ExtResource("3_r712i")]
+
+[node name="House01Door" parent="." instance=ExtResource("4_ad61t")]
+position = Vector2(64, 128)
+next_scene = "res://Scenes/Maps/calderock_village.tscn"
+spawn_position = Vector2(288, 96)
+animated = false
+type = 1
+
+[node name="Fridge" parent="." instance=ExtResource("5_fqj1t")]
+position = Vector2(32, 16)
+dialog_id = 28

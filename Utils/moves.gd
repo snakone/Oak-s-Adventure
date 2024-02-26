@@ -3,7 +3,7 @@ extends Node
 enum AttackCategory { PHYSIC, SPECIAL, STATUS, NONE }
 
 func get_move(index: int):
-	if(index in moves_list): return moves_list[index];
+	if(index in LIBRARY): return LIBRARY[index];
 
 func load_move_with_pp(move: Dictionary):
 	var move_data = get_move(move.id).duplicate();
@@ -31,7 +31,7 @@ enum Types {
 	FAIRY
 }
 
-var TypesString = {
+const TYPES = {
 	1: "Type/NORMA.",
 	2: "Type/FIRE",
 	3: "Type/WATER",
@@ -52,7 +52,7 @@ var TypesString = {
 	18: "Type/FAIRY"
 }
 
-var moves_list: Dictionary = {
+var LIBRARY: Dictionary = {
 	1: {
 		"id": 1,
 		"name": "Tackle",
@@ -62,7 +62,9 @@ var moves_list: Dictionary = {
 		"accuracy": 100,
 		"pp": 35,
 		"total_pp": 35,
-		"effects": []
+		"effects": [],
+		"priority": 0,
+		"description": "A physical attack in which the user charges, full body, into the foe."
 	},
 	2: {
 		"id": 2,
@@ -73,11 +75,26 @@ var moves_list: Dictionary = {
 		"accuracy": 100,
 		"pp": 40,
 		"total_pp": 40,
+		"priority": 0,
 		"effects": [
 			{
 				"apply": func set(enemy: Dictionary): enemy.data.battle_stages["ATK"] -= 1; 
 			}
-		]
+		],
+		"description": ""
+	},
+	3: {
+		"id": 3,
+		"name": "Quick Attack",
+		"type": Types.NORMAL,
+		"category": AttackCategory.PHYSIC,
+		"power": 90,
+		"accuracy": 100,
+		"pp": 30,
+		"total_pp": 30,
+		"effects": [],
+		"priority": 1,
+		"description": "An almost invisibly fast attack that is certain to strike first."
 	}
 }
 
@@ -181,3 +198,51 @@ func type_effective(atk_type: Types, def_type: Types) -> float:
 				Types.FIRE, Types.POISON, Types.STEEL: return 0.5;
 				_: return 1.0;
 	return 1.0;
+
+enum MoveNames {
+	TACKLE,
+	QUICK_ATTACK
+}
+
+const MOVE_ANIMATION = {
+	MoveNames.TACKLE: {
+		"property": "position",
+		"values": {
+			"player": [
+				{ "value": Vector2(-5, 0), "duration": 0.15 },
+				{ "value": Vector2.ZERO, "duration": 0.11 },
+				{ "value": Vector2(12, 0), "duration": 0.1 },
+				{ "value": Vector2(18, 0), "duration": 0.1 },
+				{ "value": Vector2(15, 0), "duration": 0.1 },
+				{ "value": Vector2.ZERO, "duration": 0.2 }
+			],
+			"enemy": [
+				{ "value": Vector2(5, 0), "duration": 0.15 },
+				{ "value": Vector2.ZERO, "duration": 0.11 },
+				{ "value": Vector2(-12, 0), "duration": 0.1 },
+				{ "value": Vector2(-18, 0), "duration": 0.1 },
+				{ "value": Vector2(-15, 0), "duration": 0.1 },
+				{ "value": Vector2.ZERO, "duration": 0.2 }
+			]
+		}
+	},
+	MoveNames.QUICK_ATTACK: {
+		"property": "position",
+		"values": {
+			"player": [
+				{ "value": Vector2(-5, 0), "duration": 0.15 },
+				{ "value": Vector2(-20, 0), "duration": 0.11 },
+				{ "value": Vector2(-120, 0), "duration": 0.2 },
+				{ "value": Vector2(-150, 0), "duration": 0.1 },
+				{ "value": Vector2.ZERO, "duration": 0.2 },
+			],
+			"enemy": [
+				{ "value": Vector2(5, 0), "duration": 0.15 },
+				{ "value": Vector2(20, 0), "duration": 0.11 },
+				{ "value": Vector2(120, 0), "duration": 0.2 },
+				{ "value": Vector2(150, 0), "duration": 0.1 },
+				{ "value": Vector2.ZERO, "duration": 0.2 },
+			]
+		}
+	}
+}

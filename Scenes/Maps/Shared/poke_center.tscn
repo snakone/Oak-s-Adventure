@@ -1,0 +1,249 @@
+[gd_scene load_steps=17 format=3 uid="uid://bxf1hxdkx6318"]
+
+[ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="1_cst2t"]
+[ext_resource type="Script" path="res://Scenes/Maps/Shared/poke_center.gd" id="1_u7137"]
+[ext_resource type="AudioStream" uid="uid://882nu3y2isp5" path="res://Assets/Sounds/Poke Center.ogg" id="2_oet7p"]
+[ext_resource type="PackedScene" uid="uid://bymuwwmuh7j1x" path="res://Tilesets/poke_center.tscn" id="3_6pyhj"]
+[ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="3_m840l"]
+[ext_resource type="AudioStream" uid="uid://cihltj3h07xqb" path="res://Assets/Sounds/Door slide.ogg" id="5_1blax"]
+[ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="7_1jicx"]
+[ext_resource type="Texture2D" uid="uid://cgoricxuabdhj" path="res://Sprites/NPC/joy_care_no_feet.png" id="8_d1bba"]
+[ext_resource type="Texture2D" uid="uid://dg6eecmx47vvj" path="res://Sprites/pokeball_heal_animation.png" id="9_5lswu"]
+[ext_resource type="Texture2D" uid="uid://ceasrabapd61m" path="res://Sprites/pokeball_heal_animation_flash.png" id="10_ltsu3"]
+[ext_resource type="Texture2D" uid="uid://bnwtt2dxwuf0x" path="res://Sprites/screen_poke_heal.png" id="11_y32w2"]
+[ext_resource type="Texture2D" uid="uid://shlclivbp510" path="res://Assets/UI/Pokemon/horsea/icon.png" id="12_yo0oq"]
+[ext_resource type="PackedScene" uid="uid://d3jj2t8g5va8g" path="res://Scripts/pc_area.tscn" id="13_q1t2n"]
+
+[sub_resource type="Animation" id="Animation_7p7f0"]
+resource_name = "PokeballHeal"
+length = 9.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HealAnimation/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(2.1, 2.4, 2.7, 3, 3.3, 3.6, 8.9, 9, 9.1, 9.2, 9.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HealAnimation/Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.1, 5.5, 7.1, 9.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HealAnimation/Flash:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 5.5, 7.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("HealAnimation/Flash:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(5.5, 5.6, 5.7, 5.8, 5.9, 6, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(1.8, 3.7, 5.4, 8.8, 9.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"start_timer"
+}, {
+"args": [],
+"method": &"stop_timer"
+}, {
+"args": [],
+"method": &"play_heal_sound"
+}, {
+"args": [false],
+"method": &"start_timer"
+}, {
+"args": [],
+"method": &"stop_timer"
+}]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("HealAnimation/Screen:frame")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(5.5, 5.65, 5.8, 5.95, 6.1, 6.25, 6.4, 6.55, 6.7, 6.85, 7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("HealAnimation/Screen:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 5.5, 7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Timer:wait_time")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(1.5, 8.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.31, 0.1]
+}
+
+[sub_resource type="Animation" id="Animation_3nsuj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HealAnimation/Screen:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Timer:wait_time")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_x4sxd"]
+_data = {
+"PokeballHeal": SubResource("Animation_7p7f0"),
+"RESET": SubResource("Animation_3nsuj")
+}
+
+[node name="PokeCenter" type="Node2D"]
+script = ExtResource("1_u7137")
+song = ExtResource("2_oet7p")
+
+[node name="Oak" parent="." instance=ExtResource("1_cst2t")]
+position = Vector2(112, 64)
+
+[node name="TileMap" parent="." instance=ExtResource("3_6pyhj")]
+
+[node name="PokeCenterDoor" parent="." instance=ExtResource("3_m840l")]
+position = Vector2(112, 144)
+animated = false
+type = 1
+DOOR_EXIT = ExtResource("5_1blax")
+shared = true
+
+[node name="NPC" parent="." instance=ExtResource("7_1jicx")]
+show_behind_parent = true
+position = Vector2(112, 30)
+texture = ExtResource("8_d1bba")
+frames = 7
+state = 1
+can_left = false
+can_right = false
+can_up = false
+can_down = false
+interval = 10.0
+dialog_id = 23
+
+[node name="CollisionShape2D" parent="NPC" index="1"]
+position = Vector2(8, 26)
+
+[node name="CollisionPolygon2D" parent="NPC/TalkArea" index="0"]
+polygon = PackedVector2Array(4, 4, 4, -12, 12, -12, 12, 4, 28, 4, 28, 12, 12, 12, 12, 50, 4, 50, 4, 12, -12, 12, -12, 4)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -15.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_x4sxd")
+}
+
+[node name="HealAnimation" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="HealAnimation"]
+visible = false
+z_index = 1
+position = Vector2(95, 32)
+texture = ExtResource("9_5lswu")
+hframes = 2
+vframes = 3
+
+[node name="Flash" type="Sprite2D" parent="HealAnimation"]
+visible = false
+position = Vector2(95, 32)
+texture = ExtResource("10_ltsu3")
+hframes = 4
+frame = 2
+
+[node name="Screen" type="Sprite2D" parent="HealAnimation"]
+visible = false
+position = Vector2(126.5, 16.5)
+texture = ExtResource("11_y32w2")
+vframes = 4
+frame = 1
+
+[node name="PokePreview" type="Sprite2D" parent="HealAnimation"]
+visible = false
+self_modulate = Color(0.588235, 0.588235, 0.588235, 0.470588)
+position = Vector2(118, 7)
+scale = Vector2(0.5, 0.5)
+skew = -0.0872665
+texture = ExtResource("12_yo0oq")
+centered = false
+vframes = 2
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.3
+
+[node name="PC" parent="." instance=ExtResource("13_q1t2n")]
+position = Vector2(176, 16)
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+
+[editable path="NPC"]

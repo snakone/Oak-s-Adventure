@@ -1,0 +1,177 @@
+[gd_scene load_steps=12 format=3 uid="uid://b1hbdjnjmxyr8"]
+
+[ext_resource type="Script" path="res://Scenes/UI/profile.gd" id="1_48xln"]
+[ext_resource type="Texture2D" uid="uid://l46egubtlfnt" path="res://Assets/UI/Profile/profile_background.png" id="2_2pkkm"]
+[ext_resource type="Texture2D" uid="uid://d2t75ftb6oswm" path="res://Assets/UI/Profile/trainer_card_front.png" id="3_oxd5s"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="4_qui5x"]
+[ext_resource type="Texture2D" uid="uid://bp2d2cqtu06p5" path="res://Assets/UI/Profile/oak_profile.png" id="5_3isde"]
+[ext_resource type="Texture2D" uid="uid://g2v4baiol8mq" path="res://Assets/UI/Battle/Characters/ball.png" id="6_3qqdr"]
+[ext_resource type="PackedScene" uid="uid://c2llifbamjxw2" path="res://Sprites/Animated/Pikachu/pikachu.tscn" id="7_t3s6o"]
+[ext_resource type="AudioStream" uid="uid://c8dtmej0p1td4" path="res://Assets/Sounds/pika happy.mp3" id="8_b8aoh"]
+
+[sub_resource type="Animation" id="Animation_ehpuc"]
+resource_name = "Idle"
+length = 2.0
+
+[sub_resource type="Animation" id="Animation_3ogfp"]
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sb0jq"]
+_data = {
+"Idle": SubResource("Animation_ehpuc"),
+"RESET": SubResource("Animation_3ogfp")
+}
+
+[node name="Profile" type="CanvasLayer"]
+layer = 3
+script = ExtResource("1_48xln")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 240.0
+offset_bottom = 160.0
+texture = ExtResource("2_2pkkm")
+
+[node name="TrainerCard" type="TextureRect" parent="."]
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 234.0
+offset_bottom = 154.0
+texture = ExtResource("3_oxd5s")
+
+[node name="ID" type="RichTextLabel" parent="TrainerCard"]
+clip_contents = false
+layout_mode = 0
+offset_left = 150.0
+offset_top = 14.0
+offset_right = 207.0
+offset_bottom = 24.0
+theme = ExtResource("4_qui5x")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_font_sizes/normal_font_size = 11
+text = "UID: 65072"
+
+[node name="Name" type="RichTextLabel" parent="TrainerCard"]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 33.0
+offset_right = 106.0
+offset_bottom = 46.0
+theme = ExtResource("4_qui5x")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "NAME:  PROF. OAK"
+
+[node name="Money" type="Node2D" parent="TrainerCard"]
+
+[node name="Label" type="RichTextLabel" parent="TrainerCard/Money"]
+offset_left = 23.0
+offset_top = 61.0
+offset_right = 63.0
+offset_bottom = 73.0
+theme = ExtResource("4_qui5x")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "MONEY"
+
+[node name="Value" type="RichTextLabel" parent="TrainerCard/Money"]
+clip_contents = false
+offset_left = 76.0
+offset_top = 62.0
+offset_right = 136.0
+offset_bottom = 73.0
+theme = ExtResource("4_qui5x")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "$3080"
+text_direction = 2
+
+[node name="Pokedex" type="Node2D" parent="TrainerCard"]
+position = Vector2(0, 16)
+
+[node name="Label" type="RichTextLabel" parent="TrainerCard/Pokedex"]
+offset_left = 23.0
+offset_top = 61.0
+offset_right = 79.0
+offset_bottom = 73.0
+theme = ExtResource("4_qui5x")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "POKéDEX"
+
+[node name="Value" type="RichTextLabel" parent="TrainerCard/Pokedex"]
+clip_contents = false
+offset_left = 107.0
+offset_top = 62.0
+offset_right = 136.0
+offset_bottom = 73.0
+theme = ExtResource("4_qui5x")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "2"
+text_direction = 2
+
+[node name="Time" type="Node2D" parent="TrainerCard"]
+position = Vector2(0, 32)
+
+[node name="Label" type="RichTextLabel" parent="TrainerCard/Time"]
+offset_left = 23.0
+offset_top = 61.0
+offset_right = 79.0
+offset_bottom = 73.0
+theme = ExtResource("4_qui5x")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "TIME"
+
+[node name="Value" type="RichTextLabel" parent="TrainerCard/Time"]
+clip_contents = false
+offset_left = 98.0
+offset_top = 62.0
+offset_right = 136.0
+offset_bottom = 73.0
+theme = ExtResource("4_qui5x")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "2"
+text_direction = 2
+
+[node name="Timer" type="Timer" parent="TrainerCard/Time"]
+
+[node name="Clock" type="RichTextLabel" parent="TrainerCard/Time"]
+offset_top = -16.0
+offset_right = 40.0
+offset_bottom = 24.0
+
+[node name="Sprite2D" type="Sprite2D" parent="TrainerCard"]
+position = Vector2(199, 68)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("5_3isde")
+
+[node name="Pokeball" type="TextureRect" parent="TrainerCard/Sprite2D"]
+offset_left = -30.0
+offset_top = -7.0
+offset_right = -14.0
+offset_bottom = 9.0
+rotation = -0.223402
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("6_3qqdr")
+stretch_mode = 3
+
+[node name="Pikachu" parent="TrainerCard" instance=ExtResource("7_t3s6o")]
+position = Vector2(157, 74)
+scale = Vector2(0.6, 0.608696)
+animation = &"Front"
+autoplay = "Front"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="TrainerCard"]
+stream = ExtResource("8_b8aoh")
+volume_db = -20.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_sb0jq")
+}
+autoplay = "Idle"
+
+[connection signal="timeout" from="TrainerCard/Time/Timer" to="." method="_on_timer_timeout"]

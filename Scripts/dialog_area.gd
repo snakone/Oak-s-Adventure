@@ -1,9 +1,3 @@
-extends Area2D;
-@onready var object = $".."
+extends StaticBody2D
 
-var talk_direction: GLOBAL.Directions;
-var dialog_id: int;
-
-func _ready():
-	talk_direction = object.talk_direction;
-	dialog_id = object.id;
+@export var dialog_id: int;

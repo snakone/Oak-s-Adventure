@@ -24,7 +24,7 @@ animations = [{
 "speed": 2.0
 }]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+[node name="OrangeFlowers" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_og4lb")
 autoplay = "default"
 frame_progress = 0.256825

@@ -1,78 +1,26 @@
 extends CanvasLayer
 
 @onready var player_stats = $PlayerStats;
-@onready var selection = $Selection;
 @onready var location = $PlayerStats/Location;
 @onready var time = $PlayerStats/Time;
-@onready var arrow = $Selection/TextureRect;
-@onready var audio = $AudioStreamPlayer;
+@onready var audio: AudioStreamPlayer = $AudioStreamPlayer;
 
-const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg");
-const GUI_SAVE_GAME = preload("res://Assets/Sounds/GUI save game.ogg");
-const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
 const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg");
+const SAVE_GAME = preload("res://Assets/Sounds/save game.mp3");
 
-enum Options { YES, NO }
-var selected_option = 0;
-var options_length = Options.keys().size();
 var want_to_save = false;
-var closing_menu = false;
+const selection_category = GLOBAL.SelectionCategory.BINARY;
 
 func _ready():
-	update_arrow();
-	selection.visible = false;
 	location.text = MAPS.get_map_name();
 	time.text = GLOBAL.get_time_played();
 	
-	GLOBAL.connect("start_dialog", _on_dialog_start);
-	GLOBAL.connect("system_dialog_finished", _on_system_dialog_finished);
+	GLOBAL.connect("selection_value_select", _on_selection_value_select);
 	
 	if(SETTINGS.selected_marker):
 		player_stats.texture = SETTINGS.selected_marker;
-		selection.texture = SETTINGS.selected_marker;
 
-func _unhandled_input(event: InputEvent) -> void:
-	if(
-		GLOBAL.on_transition || 
-		!event.is_pressed() ||
-		event.is_echo() ||
-		!selection.visible ||
-		GLOBAL.on_battle ||
-		closing_menu ||
-		!event is InputEventKey
-	): return;
-	
-	if(
-		Input.is_action_just_pressed("moveDown") || 
-		Input.is_action_just_pressed("ui_down")): handle_DOWN();
-	elif(
-		Input.is_action_just_pressed("moveUp") || 
-		Input.is_action_just_pressed("ui_up")): handle_UP();
-	elif(Input.is_action_just_pressed("space")): select_option();
-
-func handle_DOWN() -> void:
-	play_audio(GUI_SEL_CURSOR);
-	selected_option += 1;
-	if(selected_option > options_length - 1): selected_option = Options.YES;
-	update_arrow();
-
-func handle_UP() -> void:
-	play_audio(GUI_SEL_CURSOR);
-	if(selected_option == Options.YES): selected_option = Options.NO;
-	else: selected_option -= 1;
-	update_arrow();
-
-func select_option():
-	match(selected_option):
-		Options.NO: close_menu();
-		Options.YES: handle_save()
-
-func close_menu(sound = true):
-	closing_menu = true;
-	if(sound):
-		play_audio(GUI_MENU_CLOSE);
-		await audio.finished;
-	GLOBAL.emit_signal("close_dialog");
+func close_menu():
 	GLOBAL.emit_signal("menu_opened", false);
 	call_deferred("queue_free");
 
@@ -86,23 +34,18 @@ func handle_save() -> void:
 	want_to_save = true;
 
 func save_and_close() -> void:
-	closing_menu = true;
-	play_audio(GUI_SAVE_GAME);
-	await audio.finished;
 	MEMORY._save();
-	close_menu(false);
-	GLOBAL.no_saved_data = false;
-
-func _on_dialog_start(_id: int) -> void: 
-	selection.visible = false;
-	closing_menu = false;
-
-func _on_system_dialog_finished(): 
-	await GLOBAL.timeout(.2);
-	selection.visible = true;
-
-func update_arrow() -> void: arrow.position.y = 8 + (selected_option % options_length) * 14;
+	close_menu();
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;
 	audio.play();
+
+func _on_selection_value_select(
+	value: int,
+	category: GLOBAL.SelectionCategory
+) -> void:
+	if(category != selection_category): return;
+	match value:
+		int(GLOBAL.BinaryOptions.YES): handle_save();
+		int(GLOBAL.BinaryOptions.NO): close_menu();

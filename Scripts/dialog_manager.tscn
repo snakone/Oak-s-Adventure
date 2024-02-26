@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b6hbe8lus8fv2"]
+[gd_scene load_steps=11 format=3 uid="uid://b6hbe8lus8fv2"]
 
 [ext_resource type="Script" path="res://Scripts/dialog_manager.gd" id="1_xrosg"]
 [ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="2_sr88g"]
@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/Fonts/power clear.ttf" id="4_c420i"]
 [ext_resource type="Texture2D" uid="uid://bynrkxrintj5r" path="res://Assets/UI/triangle.png" id="5_hcghe"]
 [ext_resource type="AudioStream" uid="uid://cfl2vuycupxn1" path="res://Assets/Sounds/confirm.wav" id="6_lcq8j"]
+[ext_resource type="PackedScene" uid="uid://d1n3rqipshb3u" path="res://Scenes/UI/menu_selection.tscn" id="7_mmu53"]
 
 [sub_resource type="Animation" id="Animation_lw6i4"]
 resource_name = "Bounce"
@@ -22,7 +23,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(224, 147), Vector2(224, 146), Vector2(224, 147), Vector2(224, 146)]
+"values": [Vector2(226, 148), Vector2(226, 149), Vector2(226, 148), Vector2(226, 149)]
 }
 
 [sub_resource type="Animation" id="Animation_rljfg"]
@@ -37,7 +38,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(220, 147)]
+"values": [Vector2(226, 148)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_68gbe"]
@@ -69,7 +70,7 @@ patch_margin_bottom = 6
 clip_contents = false
 offset_left = 16.0
 offset_top = 126.0
-offset_right = 226.0
+offset_right = 222.0
 offset_bottom = 152.0
 theme = ExtResource("2_sr88g")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
@@ -87,7 +88,7 @@ text_direction = 1
 language = "Eng"
 
 [node name="Marker" type="Sprite2D" parent="."]
-position = Vector2(220, 147)
+position = Vector2(226, 148)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("5_hcghe")
 metadata/_edit_group_ = true
@@ -101,3 +102,5 @@ autoplay = "Bounce"
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_lcq8j")
 volume_db = -15.0
+
+[node name="Selection" parent="." instance=ExtResource("7_mmu53")]

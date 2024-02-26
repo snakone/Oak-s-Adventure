@@ -32,7 +32,7 @@ var start_position = Vector2.UP;
 var input_direction = Vector2();
 var player_state = PlayerState.IDLE;
 var percent_moved: float = 0;
-var area_types := [GLOBAL.DialogAreaType.NONE];
+var area_types := [DIALOG.Type.NONE];
 var battle_data: Dictionary;
 
 #STATES
@@ -42,16 +42,15 @@ var sit_on_chair = false;
 var stuck_on_door = false;
 var stop = false;
 var ready_to_battle = false;
-var coming_from_battle = false;
 var can_talk = false;
 
 #OBJECTS
 var chair_direction: Vector2;
 var cant_enter_door_direction: Vector2;
 var door_type: GLOBAL.DoorType;
-var npc_dialog_id: int;
-var object_dialog_id: int;
-var dialog_direction: GLOBAL.Directions;
+
+var dialog_data: Dictionary;
+var dialog_id: int;
 
 func _ready():
 	connect_signals();
@@ -64,7 +63,9 @@ func _physics_process(delta) -> void:
 		stop ||
 		player_state == PlayerState.TURNING || 
 		GLOBAL.dialog_open || 
-		GLOBAL.party_open
+		GLOBAL.party_open ||
+		GLOBAL.menu_open ||
+		GLOBAL.on_pc
 	): return;
 	elif(!is_moving && !GLOBAL.on_transition): process_player_input();
 	elif(input_direction != Vector2.ZERO && !stuck_on_door): move(delta);
@@ -103,17 +104,22 @@ func process_player_input() -> void:
 	elif(!sit_on_chair): playback.travel("Idle");
 
 func set_direction() -> void:
-	if(input_direction.y == 0): input_direction.x = Input.get_axis("moveLeft", "moveRight");
-	if(input_direction.x == 0): input_direction.y = Input.get_axis("moveUp", "moveDown");
+	if(input_direction.y == 0): 
+		input_direction.x = Input.get_axis("moveLeft", "moveRight");
+	if(input_direction.x == 0): 
+		input_direction.y = Input.get_axis("moveUp", "moveDown");
 	if(input_direction != Vector2.ZERO && !GLOBAL.on_transition):
-		GLOBAL.last_player_direction = input_direction;
+		GLOBAL.last_direction = input_direction;
 
 func move(delta) -> void:
 	playback.travel("Move");
 	if(GLOBAL.on_bike): percent_moved += BIKE_SPEED * delta;
 	else: percent_moved += SPEED * delta;
 	round_percent_move();
-	var ledge_colliding = (ledge_ray_cast_2d.is_colliding() && input_direction == Vector2.DOWN);
+	var ledge_colliding = (
+		ledge_ray_cast_2d.is_colliding() && 
+		input_direction == Vector2.DOWN
+	);
 	
 	#BLOCK SOUND
 	if(
@@ -135,7 +141,8 @@ func check_moving() -> void:
 	else: update_position();
 
 func update_position() -> void:
-	position = start_position + (floor(GLOBAL.TILE_SIZE * input_direction * percent_moved)); 
+	var perct = input_direction * percent_moved;
+	position = start_position + floor(GLOBAL.TILE_SIZE * perct); 
 
 func stop_movement() -> void:
 	position = start_position + (GLOBAL.TILE_SIZE * input_direction);
@@ -196,29 +203,25 @@ func get_off_bike(stop_sound = true):
 
 # LISTENERS
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	if("Door" in area.name && area.can_be_opened): _on_enter_door_animation(area);
-	elif("Chair" in area.name): _on_sit_on_chair_animation(area);
-	elif("TalkArea" in area.name): _on_npc_talk_area_entered(area);
-	elif("DialogArea" in area.name): _on_object_talk_area_entered(area);
+	if("Door" in area.name && area.can_be_opened): 
+		_on_enter_door_animation(area);
+	elif("Chair" in area.name): 
+		_on_sit_on_chair_animation(area);
+	elif("TalkArea" in area.name || "DialogArea" in area.name): 
+		_on_talk_area_entered(area);
+
+func _on_talk_area_entered(object: Area2D) -> void:
+	await GLOBAL.timeout(.2);
+	can_talk = true;
+	dialog_id = object.get_parent().dialog_id;
+	dialog_data = DIALOG.get_dialog(dialog_id);
+	area_types.push_front(dialog_data.type);
 
 func _on_area_2d_area_exited(area: Area2D) -> void:
 	if("Chair" in area.name): sit_on_chair = false;
 	elif("TalkArea" in area.name || "DialogArea" in area.name): 
-		area_types = [GLOBAL.DialogAreaType.NONE];
 		can_talk = false;
-
-func _on_npc_talk_area_entered(area: Area2D) -> void:
-	await GLOBAL.timeout(.2);
-	can_talk = true;
-	area_types.push_front(GLOBAL.DialogAreaType.NPC);
-	npc_dialog_id = area.get_parent().dialog_id;
-	
-func _on_object_talk_area_entered(object: Area2D) -> void:
-	await GLOBAL.timeout(.2);
-	can_talk = true;
-	area_types.push_front(GLOBAL.DialogAreaType.OBJECT);
-	object_dialog_id = object.get_parent().dialog_id;
-	dialog_direction = object.get_parent().talk_direction;
+		area_types = [DIALOG.Type.NONE];
 
 #MENU
 func _on_menu_opened(value: bool) -> void:
@@ -233,30 +236,35 @@ func _on_menu_opened(value: bool) -> void:
 func check_position_out_bounds():
 	if fmod(position.x, GLOBAL.TILE_SIZE) != 0.0 && percent_moved >= 1:
 		#position.x = floor(position.x / GLOBAL.TILE_SIZE) * GLOBAL.TILE_SIZE;
-		print("WARNING: OUT OF BOUNDS");
+		print("WARNING: OUT OF BOUNDS (X)");
 	elif(fmod(position.y, GLOBAL.TILE_SIZE) != 0.0) && percent_moved >= 1:
 		#position.y = floor(position.y / GLOBAL.TILE_SIZE) * GLOBAL.TILE_SIZE;
-		print("WARNING: OUT OF BOUNDS");
+		print("WARNING: OUT OF BOUNDS (Y)");
 
 #DIALOGS
 func check_for_dialogs() -> void:
 	if(!can_talk): return;
 	if Input.is_action_just_pressed("space"):
-		var desired_step: Vector2 = GLOBAL.last_player_direction * (GLOBAL.TILE_SIZE / 2.0);
+		var desired_step: Vector2 = GLOBAL.last_direction * (GLOBAL.TILE_SIZE / 2.0);
 		update_dialog_rays(desired_step);
 		if(
-			DIALOG.DialogType.NPC in area_types && 
-			npc_ray_cast_2d.is_colliding()
-			): start_dialog_state(npc_dialog_id);
+			DIALOG.Type.NPC in area_types && 
+			npc_ray_cast_2d.is_colliding() &&
+			!GLOBAL.healing
+			): start_dialog_state(dialog_id);
 		elif(
-			DIALOG.DialogType.OBJECT in area_types &&
+			DIALOG.Type.OBJECT in area_types &&
 			object_ray_cast_2d.is_colliding()
 		): open_object_dialog();
+		elif(
+			DIALOG.Type.PC in area_types &&
+			object_ray_cast_2d.is_colliding()
+		): GLOBAL.emit_signal("open_pc");
 
 func open_object_dialog():
-	var direction = GLOBAL.directions_array[dialog_direction];
-	if(direction != GLOBAL.last_player_direction && direction != Vector2.INF): return;
-	start_dialog_state(object_dialog_id);
+	var direction = GLOBAL.DIRECTIONS[dialog_data.direction];
+	if(direction != GLOBAL.last_direction && direction != Vector2.INF): return;
+	start_dialog_state(dialog_id);
 
 func start_dialog_state(id: int) -> void:
 	GLOBAL.emit_signal("start_dialog", id);
@@ -285,18 +293,20 @@ func _on_end_battle() -> void:
 	await GLOBAL.timeout(.4);
 	stop = false;
 	call_deferred("set_process", Node.PROCESS_MODE_INHERIT);
-	coming_from_battle = true;
+	BATTLE.coming_from_battle = true;
 	ready_to_battle = false;
 
 # ANIMATIONS
 #DOOR
 func _on_enter_door_animation(area: Area2D) -> void:
-	var delay_time := 0.1;
-	if(area.type == GLOBAL.DoorType.OUT): delay_time = 0.2;
-	if(GLOBAL.on_bike): get_off_bike(false);
-	await GLOBAL.timeout(.1);
+	door_type = area.type;
+	var delay = 0.15;
+	if(area.category == GLOBAL.DoorCategory.TUNNEL): delay = 0;
+	if(GLOBAL.on_bike && area.category != GLOBAL.DoorCategory.TUNNEL): 
+		get_off_bike(false);
 	var tween = get_tree().create_tween();
-	await tween.tween_property(sprite, "modulate:a", 0, delay_time).finished;
+	tween.tween_property(sprite, "modulate:a", 0, delay);
+	await tween.finished;
 	stop = true;
 
 func _on_cant_enter_door(_area: Area2D) -> void:
@@ -305,8 +315,16 @@ func _on_cant_enter_door(_area: Area2D) -> void:
 	play_audio(BLOCK);
 	await audio.finished;
 	var tween = get_tree().create_tween().set_trans(Tween.TRANS_ELASTIC);
-	tween.tween_property(sprite, "position:y", sprite.position.y - 4, 0.15).set_ease(Tween.EASE_IN);
-	tween.tween_property(sprite, "position:y", sprite.position.y + 3, 0.1).set_ease(Tween.EASE_OUT);
+	tween.tween_property(
+		sprite, "position:y", 
+		sprite.position.y - 4, 0.15
+	).set_ease(Tween.EASE_IN);
+	
+	tween.tween_property(
+		sprite, "position:y", 
+		sprite.position.y + 3, 0.1
+	).set_ease(Tween.EASE_OUT);
+	
 	position = start_position;
 	start_dialog_state(12);
 
@@ -326,25 +344,26 @@ func save() -> Dictionary:
 		"player": self.name,
 		"position.x": position.x,
 		"position.y": position.y,
-		"direction.x": GLOBAL.last_player_direction.x,
-		"direction.y": GLOBAL.last_player_direction.y,
+		"direction.x": GLOBAL.last_direction.x,
+		"direction.y": GLOBAL.last_direction.y,
 		"on_bike": GLOBAL.on_bike,
-		"play_time": GLOBAL.play_time
+		"play_time": GLOBAL.play_time,
+		"money": GLOBAL.current_money
 	}
 	return data
 
 #LOAD
 func check_load_from_file():
 	if(GLOBAL.player_data_to_load != null):
-		await GLOBAL.timeout(.01);
+		await GLOBAL.timeout(0.1);
 		var data = GLOBAL.player_data_to_load;
-		if(data != null):
-			position.x = data["position.x"];
-			position.y = data["position.y"];
-			if(data.has("on_bike") && data["on_bike"]): get_on_bike();
-			set_blend_direction(Vector2(data["direction.x"], data["direction.y"]));
-			GLOBAL.play_time = data["play_time"];
-			GLOBAL.player_data_to_load = null;
+		position.x = data["position.x"];
+		position.y = data["position.y"];
+		if(data.has("on_bike") && data["on_bike"]): get_on_bike();
+		set_blend_direction(Vector2(data["direction.x"], data["direction.y"]));
+		GLOBAL.play_time = data["play_time"];
+		GLOBAL.player_data_to_load = null;
+		GLOBAL.current_money = data["money"];
 
 #UTILS
 func connect_signals() -> void:

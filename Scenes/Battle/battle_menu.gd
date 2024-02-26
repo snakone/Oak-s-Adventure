@@ -18,7 +18,6 @@ func _ready() -> void:
 
 #MENU STATE
 func input() -> void:
-	#ARROW
 	if(!BATTLE.can_use_menu || GLOBAL.party_open): return;
 	if Input.is_action_just_pressed("moveLeft") && cursor_index.x > 0:
 		cursor_index.x -= 1;
@@ -33,7 +32,7 @@ func input() -> void:
 		cursor_index.y -= 1;
 		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
 	
-	cursor.position = BATTLE.menu_cursor_pos[cursor_index.y][cursor_index.x];
+	cursor.position = BATTLE.MENU_CURSOR[cursor_index.y][cursor_index.x];
 	
 	#SELECTION
 	if Input.is_action_just_pressed("space"):
@@ -62,6 +61,7 @@ func set_marker() -> void:
 
 func open_party() -> void:
 	BATTLE.state = BATTLE.States.NONE;
+	GLOBAL.party_open = true;
 	scene_manager.transition_to_scene(party_screen_path, true, false)
 
 func play_audio(stream: AudioStream) -> void:
@@ -71,7 +71,7 @@ func play_audio(stream: AudioStream) -> void:
 func _on_pokemon_select_party(_name) -> void:
 	dialog_label.text = "";
 	cursor_index = Vector2.ZERO;
-	cursor.position = BATTLE.menu_cursor_pos[0][0];
+	cursor.position = BATTLE.MENU_CURSOR[0][0];
 
 func connect_signals() -> void:
-	GLOBAL.connect("selected_pokemon_party", _on_pokemon_select_party);
+	PARTY.connect("selected_pokemon_party", _on_pokemon_select_party);

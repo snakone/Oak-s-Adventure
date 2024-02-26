@@ -3,6 +3,7 @@ extends Node
 class_name Pokemon
 
 var data: Dictionary;
+var uuid = preload("res://uuid.gd").new();
 
 #CONSTRUCTOR
 func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
@@ -10,33 +11,39 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 		name = poke.name;
 		data = poke;
 		data.active = false;
-		data.death = false;
+		if("death" not in data): data.death = false;
 		get_base_stats();
 		get_resources();
 		if("IV" not in data): data.IV = set_random_IV();
+		if(enemy && levels.size() == 1): levels.push_front(levels[0]);
 		if(enemy): data.level = randi_range(levels[0], levels[1]);
 		if("battle_stats" not in data): set_battle_stats();
 		if(enemy): set_enemy();
 		data.battle_stages = set_battle_stages();
 		if("battle_moves" not in data): set_battle_moves();
 		else: convert_battle_moves();
-		if(!enemy && "total_exp" not in data): set_exp_by_level();
+		if("total_exp" not in data): set_exp_by_level();
+		if("uuid" not in data): data.uuid = uuid.v4();
 
 #ATTACK
 func attack(enemy: Object, move: Dictionary) -> Dictionary:
+	BATTLE.attack_result = [];
 	if(move.pp <= 0): return {
 		"ok": false,
 		"reason": "Not enough PP",
 		"damage": 0
 	};
-	if(enemy.data.current_hp <= 0): enemy.data.death = true;
+	
 	move.pp -= 1;
-
+	if(float(move.accuracy) / 100 < randf()):
+		BATTLE.attack_result.push_front(BATTLE.AttackResult.MISS);
+		
 	match move.category:
 		MOVES.AttackCategory.PHYSIC, MOVES.AttackCategory.SPECIAL:
 			var damage = min(damage_formula(enemy, move), enemy.data.current_hp);
 			set_hp_anim_duration_after_damage(damage, enemy);
 			enemy.data.current_hp = max(0, enemy.data.current_hp - damage);
+			if(enemy.data.current_hp <= 0): enemy.bye();
 			return {
 				"ok": true,
 				"reason": "Attack Success",
@@ -62,17 +69,22 @@ func level_up() -> Dictionary:
 		"S.DEF": data.battle_stats["S.DEF"] - old_battle_stats["S.DEF"],
 		"SPD": data.battle_stats["SPD"] - old_battle_stats["SPD"],
 	}
-	
-#SETTERS
+
+func learn_move(id: int) -> void:
+	data.moves.push_back(id);
+	data.battle_moves.push_back(MOVES.get_move(id).duplicate());
 
 #DIE
 func bye() -> void:
 	data.death = true;
 	data.current_hp = 0;
+	data.active = false;
 
 #ENEMY
 func set_enemy() -> void:
-	data.gender = [0, 1][randi() % 2];
+	match data.category:
+		POKEDEX.Category.NORMAL, POKEDEX.Category.STARTER:
+			data.gender = [0, 1][randi() % 2];
 	data.current_hp = data.battle_stats["HP"];
 
 #BATTLE STATS
@@ -82,8 +94,10 @@ func set_battle_stats() -> void:
 		var value = data.IV[key];
 		var stat_base = data.stats[key];
 		var nature = 1.0;
-		if(key != "HP"): data.battle_stats[key] = stat_formula(stat_base, value, nature);
-		elif(key == "HP"): data.battle_stats[key] = health_formula(stat_base, value);
+		if(key != "HP"): 
+			data.battle_stats[key] = stat_formula(stat_base, value, nature);
+		elif(key == "HP"): 
+			data.battle_stats[key] = health_formula(stat_base, value);
 
 #IV
 func set_random_IV() -> Dictionary:
@@ -107,21 +121,32 @@ func set_battle_moves() -> void:
 
 #HP ANIM
 func set_hp_anim_duration_after_damage(damage: int, enemy: Object) -> void:
-	var diff = float(damage) / (float(enemy.data.battle_stats["HP"]) * 2 - float(enemy.data.current_hp));
-	var duration = max(BATTLE.min_hp_anim_duration, BATTLE.max_hp_anim_duration * (1 - exp(-diff)));
-	print("HP ANIM DURATION: ", duration)
-	BATTLE.emit_signal("hp_bar_anim_duration", duration);
+	var total = BATTLE.min_hp_anim_duration;
+	if(damage < 10): total = 0.3;
+	elif(damage < 20 && damage != 1 && enemy.data.level > 50): total = 0.4;
+	elif((damage < 10 && damage != 1 && enemy.data.level < 30)): total = 0.2
+	elif(damage >= 30 && enemy.data.battle_stats["HP"] <= 30): total = 1.0;
+	print("HP BAR DURATION: ", total);
+	BATTLE.emit_signal("hp_bar_anim_duration", total);
 
 #BASE STATS
-func get_base_stats() -> void: data.stats = POKEDEX.get_pokemon_prop(name, "stats");
+func get_base_stats() -> void: 
+	data.stats = POKEDEX.get_pokemon_prop(name, "stats");
 
 #RESOURCES
 func get_resources() -> void:
 	var resources = POKEDEX.get_poke_resources(data.name);
 	data.party_texture = resources.party_texture;
-	data.front_texture = resources.front_texture;
-	data.back_texture = resources.back_texture;
 	data.shout = resources.shout;
+	data.offset = resources.offset;
+	data.scale = resources.scale;
+	data.move_set = resources.move_set;
+	data.box_scale = resources.box_scale;
+	data.box_offset = resources.box_offset;
+	
+	if("sprites" in resources):
+		var animated_sprite = load(resources.sprites);
+		data.sprites = animated_sprite.instantiate();
 
 func convert_battle_moves() -> void:
 	var array = [];
@@ -144,23 +169,33 @@ func health_formula(base: int, iv_value: int) -> int:
 
 #DAMAGE FORMULA
 func damage_formula(enemy: Object, move: Dictionary) -> int:
+	#MISS
+	if(BATTLE.AttackResult.MISS in BATTLE.attack_result):
+		BATTLE.attack_result = [BATTLE.AttackResult.MISS];
+		return 0;
+		
 	var ATK_stat: int;
 	var DEF_stat: int;
-	#var ATK_bonus = 0;
-	#var DEF_bonus = 0;
-	var CRIT_rate: float = get_critical_chance(0);
+	var _ATK_bonus = 0;
+	var _DEF_bonus = 0;
+	var CRIT_rate: float = get_critical_chance(4);
 	var CRIT_stat = 1.0;
 	var STAB: float = 1.0;
 	var burned = 1;
 	var effective_type1 = 1.0;
 	var effective_type2 = 1.0;
-
+	
+	#CRITICAL
 	if(CRIT_rate > randf()):
-		#DEF_bonus = 0;
-		BATTLE.emit_signal("critical_landed");
+		_DEF_bonus = 0;
+		BATTLE.critical_hit = true;
+		BATTLE.attack_result.push_front(BATTLE.AttackResult.CRITICAL);
 		CRIT_stat = 2.0;
-		
+	
+	#STAB
 	if(move.type in data.types): STAB = 1.5;
+	
+	#STATS
 	match move.category:
 		MOVES.AttackCategory.PHYSIC:
 			ATK_stat = data.battle_stats["ATK"];
@@ -169,12 +204,24 @@ func damage_formula(enemy: Object, move: Dictionary) -> int:
 			ATK_stat = data.battle_stats["S.ATK"];
 			DEF_stat = enemy.data.battle_stats["S.DEF"];
 			
+	#EFFECTIVE
 	effective_type1 = MOVES.type_effective(move.type, enemy.data.types[0]);
 	if (enemy.data.types.size() > 1):
 		effective_type2 = MOVES.type_effective(move.type, enemy.data.types[1]);
-	
-	if(effective_type1 == 0.0 || effective_type2 == 0.0):
-		BATTLE.emit_signal("not_effective");
+	if(
+		(effective_type1 == 2.0 && effective_type2 == 1.0) || 
+		(effective_type2 == 2.0 && effective_type1 == 1.0)
+	): BATTLE.attack_result.push_front(BATTLE.AttackResult.EFFECTIVE);
+	elif(
+		(effective_type1 == 0.5 && effective_type2 == 1.0) || 
+		(effective_type2 == 0.5 && effective_type1 == 1.0)
+	): BATTLE.attack_result.push_front(BATTLE.AttackResult.LOW);
+	elif(effective_type1 == 2.0 && effective_type2 == 2.0):
+		BATTLE.attack_result.push_front(BATTLE.AttackResult.FULMINATE);
+	elif(effective_type1 == 0.5 && effective_type2 == 0.5): 
+		BATTLE.attack_result.push_front(BATTLE.AttackResult.AWFULL);
+	elif(effective_type1 == 0.0 || effective_type2 == 0.0):
+		BATTLE.attack_result = [BATTLE.AttackResult.NONE];
 		return 0;
 	
 	var base_damage = floor(
@@ -183,7 +230,10 @@ func damage_formula(enemy: Object, move: Dictionary) -> int:
 		) * burned + 2.0);
 		
 	var random: float = get_random_float();
-	var damage = (base_damage * CRIT_stat * STAB * effective_type1 * effective_type2 * random);
+	var total_base = base_damage * CRIT_stat * STAB;
+	var damage = (total_base * effective_type1 * effective_type2 * random);
+	if(BATTLE.attack_result.size() == 0): 
+		BATTLE.attack_result = [BATTLE.AttackResult.NORMAL];
 	return custom_round(damage, random);
 
 func get_random_float() -> float:
@@ -197,13 +247,13 @@ func get_random_float() -> float:
 func custom_round(number, random_float) -> int:
 	var integer_part = int(number);
 	var decimal_part = number - integer_part;
-	if 0.5 <= decimal_part and decimal_part <= 0.59 and random_float != 1:
+	if 0.5 <= decimal_part and decimal_part <= 0.59 and random_float != 1.0:
 		return floor(number);
 	else:
 		return round(number);
 
 func get_critical_chance(stage: int) -> float:
-	var critical_stages = [1.0/16.0, 1.0/8.0, 1.0/4.0 ,1.0/3.0 ,1.0/2.0];
+	var critical_stages = [1.0/16.0, 1.0/8.0, 1.0/4.0 ,1.0/3.0 ,1.0/2.0, 1.0/1.0];
 	return critical_stages[stage];
 
 #EXP

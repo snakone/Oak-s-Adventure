@@ -41,5 +41,6 @@ centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
+y_sort_enabled = true
 position = Vector2(8, 24)
 shape = SubResource("RectangleShape2D_8o73j")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://xa22fo13s7np"]
+[gd_scene load_steps=12 format=3 uid="uid://xa22fo13s7np"]
 
 [ext_resource type="Script" path="res://Scenes/NPC/npc.gd" id="1_chn85"]
 [ext_resource type="Texture2D" uid="uid://cd3146vuujwx6" path="res://Sprites/NPC/mom.png" id="2_0d8cd"]
@@ -6,8 +6,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u6ea3"]
 size = Vector2(16, 16)
 
-[sub_resource type="Animation" id="Animation_8yqu0"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_w4ngi"]
+resource_name = "HealPokemon"
+length = 12.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -15,11 +16,26 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 1.8, 4.3, 4.6, 4.9, 7.8, 8.1, 8.4, 10.4, 10.9, 11.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [0]
+"values": [0, 1, 2, 3, 2, 1, 4, 1, 0, 5, 0]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(4.3, 4.9, 7.8, 8.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(16, 0), Vector2(16, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_8yqu0"]
+length = 0.001
 
 [sub_resource type="Animation" id="Animation_xgi3o"]
 resource_name = "moveDown"
@@ -91,6 +107,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dhyey"]
 _data = {
+"HealPokemon": SubResource("Animation_w4ngi"),
 "RESET": SubResource("Animation_8yqu0"),
 "moveDown": SubResource("Animation_xgi3o"),
 "moveLeft": SubResource("Animation_2kdkl"),

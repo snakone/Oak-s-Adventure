@@ -27,3 +27,26 @@
 - EXP and Level UP
 - Escape from Battle
 - Switch Pokémon
+
+# 0.5
+- Animated Pokémon Sprites (Gen V)
+- Attack States (Effective, Critical, etc...)
+- Improved Spawn Pokeball Animation
+
+# 0.5.1
+- Switch Pokémon on Party
+- General Battle Improves
+
+# 0.5.2
+- New Maps Route01 and Calderock
+- Pokémon Center / Healing
+- Dialog Selection
+
+# 0.5.3
+- Overall fixing - Indented Code
+- Shared Doors
+- Calderock Houses
+
+# 0.5.4
+- Pokémon PC
+- Boxes - Move Pokémon

@@ -1,0 +1,169 @@
+[gd_scene load_steps=8 format=3 uid="uid://ddhlfhadhc4uo"]
+
+[ext_resource type="Script" path="res://Scenes/Battle/Moves/quick_attack.gd" id="1_k5mcb"]
+[ext_resource type="AudioStream" uid="uid://dfgegx0bnvnp5" path="res://Assets/Sounds/Moves/Quick Attack.mp3" id="2_hx0s5"]
+[ext_resource type="Texture2D" uid="uid://c7esgd7pdwvov" path="res://Assets/UI/Battle/Moves/take_tackle_hit.png" id="3_wiuw8"]
+
+[sub_resource type="Animation" id="Animation_0vd60"]
+resource_name = "Attack"
+length = 1.2
+step = 0.05
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.4, 0.75),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"emit_on_hit"
+}, {
+"args": [],
+"method": &"play_effective_sound"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TakeHit:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(174, 42)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TakeHit:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.4, 0.45, 0.55),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/3/type = "audio"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AudioStreamPlayer")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0735523,
+"stream": ExtResource("2_hx0s5")
+}],
+"times": PackedFloat32Array(0.15)
+}
+tracks/3/use_blend = true
+
+[sub_resource type="Animation" id="Animation_y5fnp"]
+resource_name = "EnemyAttack"
+length = 1.2
+step = 0.05
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.4, 0.75),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"emit_on_hit"
+}, {
+"args": [],
+"method": &"play_effective_sound"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TakeHit:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(60, 97)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TakeHit:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.4, 0.45, 0.55),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/3/type = "audio"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AudioStreamPlayer")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0736,
+"stream": ExtResource("2_hx0s5")
+}],
+"times": PackedFloat32Array(0.15)
+}
+tracks/3/use_blend = true
+
+[sub_resource type="Animation" id="Animation_1er17"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TakeHit:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qndqo"]
+_data = {
+"Attack": SubResource("Animation_0vd60"),
+"EnemyAttack": SubResource("Animation_y5fnp"),
+"RESET": SubResource("Animation_1er17")
+}
+
+[node name="QuickAttack" type="Node2D"]
+script = ExtResource("1_k5mcb")
+move_sprite = true
+move_name = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_qndqo")
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -5.0
+
+[node name="TakeHit" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(60, 97)
+texture = ExtResource("3_wiuw8")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]

@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://c1jpjnn8vng8l"]
+
+[ext_resource type="Script" path="res://Scenes/Maps/Houses/Route_00/farmer_house.gd" id="1_ji7vl"]
+[ext_resource type="AudioStream" uid="uid://boqgmu2280oq0" path="res://Assets/Sounds/Lappet Town.ogg" id="2_el0mk"]
+[ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="3_4e6iy"]
+[ext_resource type="PackedScene" uid="uid://d2epp7hdwcu10" path="res://Tilesets/farmer_house.tscn" id="4_topl6"]
+[ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="5_52tbc"]
+
+[node name="OakFarmerHouse" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_ji7vl")
+song = ExtResource("2_el0mk")
+
+[node name="Oak" parent="." instance=ExtResource("3_4e6iy")]
+y_sort_enabled = true
+position = Vector2(64, 112)
+
+[node name="TileMap" parent="." instance=ExtResource("4_topl6")]
+
+[node name="Shape" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Shape"]
+polygon = PackedVector2Array(64, 128, 0, 128, 0, 0, 160, 0, 160, 128, 80, 128, 80, 144, 176, 144, 176, -16, -16, -16, -16, 144, 64, 144)
+
+[node name="OakFarmerDoor" parent="." instance=ExtResource("5_52tbc")]
+position = Vector2(64, 128)
+next_scene = "res://Scenes/Maps/Routes/route_00.tscn"
+spawn_position = Vector2(304, 80)
+animated = false
+type = 1

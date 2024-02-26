@@ -103,7 +103,7 @@ _data = {
 
 [node name="TallGrass" type="Node2D"]
 script = ExtResource("1_jt238")
-encounters = Array[int]([0])
+encounters = Array[int]([1])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 y_sort_enabled = true
@@ -130,7 +130,7 @@ libraries = {
 [node name="TextureRect" type="TextureRect" parent="."]
 visible = false
 show_behind_parent = true
-z_index = 2
+z_index = 1
 y_sort_enabled = true
 texture_filter = 1
 offset_right = 40.0
@@ -140,6 +140,7 @@ texture = ExtResource("3_r7poi")
 stretch_mode = 2
 
 [node name="GrassEffect" parent="." instance=ExtResource("4_52u5o")]
+z_index = 1
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -5.0

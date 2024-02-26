@@ -1,0 +1,150 @@
+[gd_scene load_steps=15 format=3 uid="uid://dgrt08phhewaf"]
+
+[ext_resource type="Script" path="res://Scenes/Maps/calderock_village.gd" id="1_tvowd"]
+[ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="2_4a8rc"]
+[ext_resource type="PackedScene" uid="uid://b6mqi2pnykjf4" path="res://Tilesets/calderock_village.tscn" id="2_4hxry"]
+[ext_resource type="AudioStream" uid="uid://bi78mjmfdwonj" path="res://Assets/Sounds/Calderock Village.ogg" id="2_vn3j6"]
+[ext_resource type="PackedScene" uid="uid://7xfnwfbcafod" path="res://Objects/music_note.tscn" id="3_227hw"]
+[ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="4_h8pxt"]
+[ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="5_21k3g"]
+[ext_resource type="AudioStream" uid="uid://7ufcq8cj32hk" path="res://Assets/Sounds/Door exit.ogg" id="6_3hbvu"]
+[ext_resource type="Texture2D" uid="uid://d008qrj8cfei6" path="res://Sprites/NPC/old_man.png" id="6_51cw5"]
+[ext_resource type="Texture2D" uid="uid://cbr4fclp61d42" path="res://Sprites/NPC/yellow_girl.png" id="7_wv01r"]
+[ext_resource type="Texture2D" uid="uid://cboc8dgq1u70r" path="res://Sprites/poke_center_door_open.png" id="10_5hbyn"]
+[ext_resource type="AudioStream" uid="uid://cihltj3h07xqb" path="res://Assets/Sounds/Door slide.ogg" id="11_uaraq"]
+[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="12_81tun"]
+[ext_resource type="Texture2D" uid="uid://ct6pytu35pewk" path="res://Sprites/door_old_man_open.png" id="13_oa1ud"]
+
+[node name="CalderockVillage" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_tvowd")
+song = ExtResource("2_vn3j6")
+
+[node name="Oak" parent="." instance=ExtResource("2_4a8rc")]
+position = Vector2(112, 32)
+
+[node name="TileMap" parent="." instance=ExtResource("2_4hxry")]
+
+[node name="OldMan" parent="." instance=ExtResource("5_21k3g")]
+position = Vector2(240, 208)
+texture = ExtResource("6_51cw5")
+state = 1
+interval = 5.0
+dialog_id = 21
+
+[node name="YellowGirl" parent="." instance=ExtResource("5_21k3g")]
+position = Vector2(112, 96)
+texture = ExtResource("7_wv01r")
+possitive_limits = Vector2(3, 3)
+negative_limits = Vector2(-2, -2)
+interval = 5.0
+dialog_id = 22
+
+[node name="Banners" type="Node2D" parent="."]
+
+[node name="HaroldBanner" parent="Banners" instance=ExtResource("12_81tun")]
+position = Vector2(400, 96)
+dialog_id = 31
+
+[node name="Route02Banner" parent="Banners" instance=ExtResource("12_81tun")]
+position = Vector2(144, 48)
+dialog_id = 30
+
+[node name="CalderockBanner" parent="Banners" instance=ExtResource("12_81tun")]
+position = Vector2(304, 208)
+dialog_id = 29
+
+[node name="Music" parent="Banners" instance=ExtResource("12_81tun")]
+position = Vector2(16, 304)
+dialog_id = 36
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="PokeCenterDoor" parent="Doors" instance=ExtResource("4_h8pxt")]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(368, 240)
+next_scene = "res://Scenes/Maps/Shared/poke_center.tscn"
+enter_direction = 2
+spawn_position = Vector2(112, 128)
+sprite_image = ExtResource("10_5hbyn")
+DOOR_ENTER = ExtResource("11_uaraq")
+category = 2
+shared = true
+
+[node name="PokeShopDoor" parent="Doors" instance=ExtResource("4_h8pxt")]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(464, 240)
+next_scene = "res://Scenes/Maps/Shared/poke_shop.tscn"
+enter_direction = 2
+spawn_position = Vector2(64, 112)
+sprite_image = ExtResource("10_5hbyn")
+DOOR_ENTER = ExtResource("11_uaraq")
+category = 2
+shared = true
+
+[node name="House01Door" parent="Doors" instance=ExtResource("4_h8pxt")]
+z_index = 1
+position = Vector2(288, 80)
+next_scene = "res://Scenes/Maps/Houses/Calderock/house_01.tscn"
+enter_direction = 2
+spawn_position = Vector2(64, 112)
+animated = false
+DOOR_ENTER = ExtResource("6_3hbvu")
+
+[node name="HaroldDoor" parent="Doors" instance=ExtResource("4_h8pxt")]
+z_index = 1
+position = Vector2(432, 80)
+next_scene = "res://Scenes/Maps/Houses/Calderock/house_02.tscn"
+enter_direction = 2
+spawn_position = Vector2(80, 128)
+sprite_image = ExtResource("13_oa1ud")
+offset = Vector2(0, -8)
+
+[node name="DoorLeft" parent="Doors" instance=ExtResource("4_h8pxt")]
+z_index = 3
+y_sort_enabled = true
+position = Vector2(240, 416)
+scale = Vector2(1, 0.5)
+next_scene = "res://Scenes/Maps/Routes/route_01.tscn"
+spawn_position = Vector2(112, 80)
+animated = false
+DOOR_ENTER = ExtResource("6_3hbvu")
+category = 1
+
+[node name="DoorRight" parent="Doors" instance=ExtResource("4_h8pxt")]
+z_index = 3
+y_sort_enabled = true
+position = Vector2(256, 416)
+scale = Vector2(1, 0.5)
+next_scene = "res://Scenes/Maps/Routes/route_01.tscn"
+spawn_position = Vector2(128, 80)
+animated = false
+DOOR_ENTER = ExtResource("6_3hbvu")
+category = 1
+
+[node name="Playground" type="Node2D" parent="."]
+
+[node name="Do" parent="Playground" instance=ExtResource("3_227hw")]
+position = Vector2(32, 336)
+
+[node name="Re" parent="Playground" instance=ExtResource("3_227hw")]
+position = Vector2(48, 336)
+note = 1
+
+[node name="Mi" parent="Playground" instance=ExtResource("3_227hw")]
+position = Vector2(48, 352)
+note = 2
+
+[node name="Fa" parent="Playground" instance=ExtResource("3_227hw")]
+position = Vector2(48, 368)
+note = 3
+
+[node name="Sol" parent="Playground" instance=ExtResource("3_227hw")]
+position = Vector2(32, 368)
+note = 4
+
+[node name="La" parent="Playground" instance=ExtResource("3_227hw")]
+position = Vector2(32, 352)
+note = 5
