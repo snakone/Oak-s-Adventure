@@ -38,6 +38,14 @@ You still can download the original files from [Sprite Resource](https://www.spr
 I spend a lot of time editing the original files, that's why the graphical content is not available for everyone.
 Let's say at least i want to have exclusive content for the game, knowing it's 100% inspired in Pokémon.
 
+## Galery
+
+![Custom Maps](https://i.ibb.co/vqCfCFj/galery1.png "Custom Maps")
+![Battle](https://i.ibb.co/cQCjZKB/galery2.png "Pokémon Battle")
+![Pokémon Center](https://i.ibb.co/vLxQn1m/galery3.png "Pokémon Boxes")
+
+You can watch more updates on [Youtube](https://www.youtube.com/@AllisonCode).
+
 ## Download Godot Engine
 Download [Godot](https://godotengine.org/) for free and start your own journey!
 
