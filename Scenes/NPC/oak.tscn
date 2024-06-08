@@ -473,6 +473,7 @@ graph_offset = Vector2(0, -35.0207)
 
 [node name="Oak" type="CharacterBody2D" groups=["Persist"]]
 collision_mask = 14
+safe_margin = 0.001
 script = ExtResource("1_4ift8")
 
 [node name="Area2D" type="Area2D" parent="."]

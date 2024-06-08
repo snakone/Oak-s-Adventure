@@ -23,7 +23,7 @@ position = Vector2(112, 80)
 [node name="TileMap" parent="." instance=ExtResource("2_qk12y")]
 
 [node name="SwitchPraire" parent="." instance=ExtResource("4_t8xqo")]
-position = Vector2(128, 492)
+position = Vector2(128, 504)
 scale = Vector2(2, 1)
 next_scene = "res://Scenes/Maps/praire_town.tscn"
 enter_direction = 3
@@ -39,8 +39,8 @@ dialog_id = 19
 [node name="DoorLeft" parent="." instance=ExtResource("8_kepij")]
 z_index = 1
 y_sort_enabled = true
-position = Vector2(112, 76)
-scale = Vector2(1, 0.2)
+position = Vector2(112, 72)
+scale = Vector2(1, 0.5)
 next_scene = "res://Scenes/Maps/calderock_village.tscn"
 enter_direction = 2
 spawn_position = Vector2(240, 384)
@@ -51,8 +51,8 @@ category = 1
 [node name="DoorRight" parent="." instance=ExtResource("8_kepij")]
 z_index = 1
 y_sort_enabled = true
-position = Vector2(128, 76)
-scale = Vector2(1, 0.2)
+position = Vector2(128, 72)
+scale = Vector2(1, 0.5)
 next_scene = "res://Scenes/Maps/calderock_village.tscn"
 enter_direction = 2
 spawn_position = Vector2(256, 384)
@@ -67,3 +67,8 @@ dialog_id = 17
 [node name="BannerFountain" parent="." instance=ExtResource("10_8en64")]
 position = Vector2(64, 368)
 dialog_id = 18
+
+[node name="CollisionPolygon2D" parent="BannerFountain/DialogArea" index="0"]
+polygon = PackedVector2Array(12, 12, 12, 28, 4, 28, 4, 12)
+
+[editable path="BannerFountain"]

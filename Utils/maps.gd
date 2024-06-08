@@ -58,30 +58,30 @@ func get_map_name(get_string = false) -> String:
 const CONNECTIONS = {
 	"PraireTown": {
 		"Route00": {
-			Vector2(16, 246): Vector2(16, 0),
-			Vector2(32, 246): Vector2(32, 0),
-			Vector2(48, 246): Vector2(48, 0),
-			Vector2(64, 246): Vector2(64, 0),
-			Vector2(80, 246): Vector2(80, 0),
+			Vector2(16, 256): Vector2(16, 0),
+			Vector2(32, 256): Vector2(32, 0),
+			Vector2(48, 256): Vector2(48, 0),
+			Vector2(64, 256): Vector2(64, 0),
+			Vector2(80, 256): Vector2(80, 0),
 		},
 		"Route01": {
-			Vector2(272, -5): Vector2(112, 464),
-			Vector2(288, -5): Vector2(128, 464)
+			Vector2(272, -16): Vector2(112, 464),
+			Vector2(288, -16): Vector2(128, 464)
 		}
 	},
 	"Route00": {
 		"PraireTown": {
-			Vector2(16, -5): Vector2(16, 240),
-			Vector2(32, -5): Vector2(32, 240),
-			Vector2(48, -5): Vector2(48, 240),
-			Vector2(64, -5): Vector2(64, 240),
-			Vector2(80, -5): Vector2(80, 240)
+			Vector2(16, -16): Vector2(16, 240),
+			Vector2(32, -16): Vector2(32, 240),
+			Vector2(48, -16): Vector2(48, 240),
+			Vector2(64, -16): Vector2(64, 240),
+			Vector2(80, -16): Vector2(80, 240)
 		}
 	},
 	"Route01": {
 		"PraireTown": {
-			Vector2(112, 470): Vector2(272, 0),
-			Vector2(128, 470): Vector2(288, 0),
+			Vector2(112, 480): Vector2(272, 0),
+			Vector2(128, 480): Vector2(288, 0),
 		}
 	},
 	"PokeCenter": {

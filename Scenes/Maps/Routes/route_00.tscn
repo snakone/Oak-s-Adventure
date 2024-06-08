@@ -33,7 +33,7 @@ spawn_position = Vector2(64, 112)
 sprite_image = ExtResource("5_xxc6b")
 
 [node name="SwitchScene" parent="." instance=ExtResource("3_yop7n")]
-position = Vector2(56, -12)
+position = Vector2(56, -24)
 scale = Vector2(5, 1)
 collision_priority = 2.0
 next_scene = "res://Scenes/Maps/praire_town.tscn"

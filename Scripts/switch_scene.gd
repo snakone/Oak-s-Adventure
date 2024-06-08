@@ -4,7 +4,7 @@ extends Area2D
 @export var enter_direction = GLOBAL.Directions.UP;
 @export var new_map: MAPS.Locations;
 
-var can_be_entered = true;
+var can_be_entered = false;
 var next_scene_directon: Vector2;
 
 func _ready():
@@ -13,8 +13,8 @@ func _ready():
 func _on_body_entered(body):
 	check_direction();
 	if(can_be_entered && body.name == "Oak"):
-		GLOBAL.last_direction = next_scene_directon;
 		MAPS.position_before_scene = body.position;
+		GLOBAL.last_direction = next_scene_directon;
 		MAPS.last_map = MAPS.get_map_name(true);
 		enter_scene();
 
