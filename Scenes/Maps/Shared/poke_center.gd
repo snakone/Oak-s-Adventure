@@ -13,7 +13,6 @@ const BATTLE_BALL_SHAKE = preload("res://Assets/Sounds/Battle ball shake.ogg");
 var heal_anim_duration = 11;
 var party: Array = [];
 var party_size: int = 0;
-var show_screen_poke = true;
 var index = 0;
 var selection_category = GLOBAL.SelectionCategory.HEAL;
 
@@ -33,10 +32,12 @@ func handle_heal() -> void:
 	if(GLOBAL.healing): return;
 	GLOBAL.healing = true;
 	party = PARTY.get_party();
+	party_size = party.size();
 	await GLOBAL.timeout(0.2);
 	GLOBAL.start_dialog.emit(24);
 	npc_player.play("HealPokemon");
-	anim_player.play("PokeballHeal");
+	var anim_name = "PokeballHeal_" + str(party_size);
+	anim_player.play(anim_name);
 	await GLOBAL.timeout(heal_anim_duration);
 	PARTY.healh_party_pokemon();
 	GLOBAL.start_dialog.emit(25);
@@ -44,15 +45,12 @@ func handle_heal() -> void:
 	await GLOBAL.timeout(0.2);
 	GLOBAL.healing = false;
 
-func start_timer(show_poke = true) -> void:
-	show_screen_poke = show_poke;
+func start_timer(_show_poke = true) -> void:
 	timer.start();
 
 func stop_timer() -> void: 
 	timer.stop();
 	await GLOBAL.timeout(timer.wait_time);
-	poke_preview.texture = null;
-	poke_preview.visible = false;
 	index = 0;
 
 func play_heal_sound() -> void:

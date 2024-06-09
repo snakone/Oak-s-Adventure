@@ -644,7 +644,6 @@ text = "BOX"
 position = Vector2(89, 30)
 texture = ExtResource("10_jv6p7")
 vframes = 6
-frame = 5
 
 [node name="ArrowRight" type="Sprite2D" parent="Node2D/Boxes/Previous"]
 position = Vector2(233, 30)
@@ -684,7 +683,6 @@ text = "BOX"
 position = Vector2(89, 30)
 texture = ExtResource("10_jv6p7")
 vframes = 6
-frame = 5
 
 [node name="ArrowRight" type="Sprite2D" parent="Node2D/Boxes/Next"]
 position = Vector2(233, 30)
