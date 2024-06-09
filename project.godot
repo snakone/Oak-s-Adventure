@@ -29,6 +29,7 @@ SETTINGS="*res://Utils/settings.gd"
 BATTLE="*res://Utils/battle.gd"
 MOVES="*res://Utils/moves.gd"
 EXP="*res://Utils/experience.gd"
+BOXES="*res://Utils/boxes.gd"
 
 [display]
 

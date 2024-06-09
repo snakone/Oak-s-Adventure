@@ -88,7 +88,7 @@ var LIBRARY: Dictionary = {
 		"name": "Quick Attack",
 		"type": Types.NORMAL,
 		"category": AttackCategory.PHYSIC,
-		"power": 90,
+		"power": 30,
 		"accuracy": 100,
 		"pp": 30,
 		"total_pp": 30,

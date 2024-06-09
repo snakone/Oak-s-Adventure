@@ -67,7 +67,7 @@ var selected_party_index: int = 0;
 var panel_open_before_pick = false;
 
 func _ready() -> void:
-	boxes_length = GLOBAL.boxes_background.keys().size();
+	boxes_length = BOXES.boxes_background.keys().size();
 	update_hand();
 	update_box();
 	var current_party = PARTY.get_party();
@@ -112,7 +112,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	update_hand();
 
 func update_hand() -> void:
-	hand.position = GLOBAL.HAND_POSITIONS[current_hand_pos];
+	hand.position = BOXES.HAND_POSITIONS[current_hand_pos];
 	set_index();
 	if(!party_panel_opened):
 		#BOX
@@ -133,7 +133,7 @@ func update_hand() -> void:
 		else: close.frame = 1;
 		#ACTIVE
 		if(!holding && is_pokemon_in_box()):
-			var poke = GLOBAL.boxes_array[current_box - 1][current_index];
+			var poke = BOXES.boxes_array[current_box - 1][current_index];
 			set_active(poke);
 		elif(!holding): remove_active();
 	else:
@@ -147,11 +147,11 @@ func update_box() -> void:
 	set_current_box();
 	if(current_box == 1):
 		set_next_box();
-		previous_sprite.texture = GLOBAL.boxes_background[boxes_length].texture;
-		previous_name.text = GLOBAL.boxes_background[boxes_length].name;
+		previous_sprite.texture = BOXES.boxes_background[boxes_length].texture;
+		previous_name.text = BOXES.boxes_background[boxes_length].name;
 	elif(current_box == boxes_length):
-		next_sprite.texture = GLOBAL.boxes_background[1].texture;
-		next_name.text = GLOBAL.boxes_background[1].name;
+		next_sprite.texture = BOXES.boxes_background[1].texture;
+		next_name.text = BOXES.boxes_background[1].name;
 		set_previous_box();
 	else:
 		set_next_box();
@@ -161,16 +161,16 @@ func update_box() -> void:
 	changing_box = false;
 
 func update_ui(box: Node2D, box_index: int) -> void:
-	for i in range(len(GLOBAL.boxes_array[box_index - 1])):
-		var poke = GLOBAL.boxes_array[box_index - 1][i];
+	for i in range(len(BOXES.boxes_array[box_index - 1])):
+		var poke = BOXES.boxes_array[box_index - 1][i];
 		if(poke != null):
 			var sprite = Sprite2D.new();
 			sprite.vframes = 2;
 			sprite.centered = false;
 			sprite.texture = poke.data.party_texture;
 			sprite.name = poke.data.uuid;
-			if(i in GLOBAL.BOXES_SLOTS):
-				sprite.position = GLOBAL.BOXES_SLOTS[i];
+			if(i in BOXES.BOXES_SLOTS):
+				sprite.position = BOXES.BOXES_SLOTS[i];
 			box.add_child(sprite);
 
 #SELECT
@@ -222,7 +222,7 @@ func add_sprite() -> void:
 		holding_sprite.offset.y = 6;
 		hand.get_node("Sprite2D").add_child(holding_sprite);
 		current_node.queue_free();
-		GLOBAL.boxes_array[current_box - 1][selected_index] = null;
+		BOXES.boxes_array[current_box - 1][selected_index] = null;
 	else:
 		holding_sprite.offset = Vector2(2.5, 12.4);
 		hand.get_node("Sprite2D").add_child(holding_sprite);
@@ -242,21 +242,21 @@ func remove_sprite() -> void:
 	update_all_boxes();
 
 func swap_pokes() -> void:
-	var boxes_copy = GLOBAL.boxes_array.duplicate(true);
+	var boxes_copy = BOXES.boxes_array.duplicate(true);
 	var party_copy = party.duplicate(true);
 	if(party_panel_opened != panel_open_before_pick):
 		#SWAP PARTY -> BOX
 		if(panel_open_before_pick):
 			party_copy[selected_party_index] = boxes_copy[current_box - 1][current_index];
 			boxes_copy[current_box - 1][current_index] = holding_poke;
-			GLOBAL.boxes_array = boxes_copy;
+			BOXES.boxes_array = boxes_copy;
 			party = party_copy;
 			return;
 		#SWAP BOX -> PARTY
 		else:
 			boxes_copy[selected_box - 1][selected_index] = party_copy[current_party_index];
 			party_copy[current_party_index] = holding_poke;
-			GLOBAL.boxes_array = boxes_copy;
+			BOXES.boxes_array = boxes_copy;
 			party = party_copy;
 			return;
 		
@@ -264,7 +264,7 @@ func swap_pokes() -> void:
 	if(!party_panel_opened):
 		boxes_copy[selected_box - 1][selected_index] = boxes_copy[current_box - 1][current_index];
 		boxes_copy[current_box - 1][current_index] = holding_poke;
-		GLOBAL.boxes_array = boxes_copy;
+		BOXES.boxes_array = boxes_copy;
 	#PARTY SWAP
 	else:
 		if(selected_party_index == current_party_index):
@@ -419,7 +419,7 @@ func handle_LEFT() -> void:
 #CHECKERS
 func is_pokemon_in_box() -> bool:
 	if(current_hand_pos.y < 0): return false;
-	if(GLOBAL.boxes_array[current_box - 1][current_index] != null):
+	if(BOXES.boxes_array[current_box - 1][current_index] != null):
 		return true;
 	return false;
 
@@ -438,7 +438,7 @@ func save_data_before_pick() -> void:
 		selected_index = current_index;
 		selected_box = current_box;
 		selected_hand_pos = current_hand_pos;
-		var copy = GLOBAL.boxes_array.duplicate();
+		var copy = BOXES.boxes_array.duplicate();
 		holding_poke = copy[current_box - 1][selected_index];
 		current_node = pokemon_box.get_node(holding_poke.data.uuid);
 		holding_sprite.texture = holding_poke.data.party_texture;
@@ -466,18 +466,18 @@ func set_holding_sprite() -> void:
 
 func set_current_box() -> void:
 	boxes.position = Vector2.ZERO;
-	box_sprite.texture = GLOBAL.boxes_background[current_box].texture;
-	box_name.text = GLOBAL.boxes_background[current_box].name;
+	box_sprite.texture = BOXES.boxes_background[current_box].texture;
+	box_name.text = BOXES.boxes_background[current_box].name;
 
 func set_next_box() -> void:
 	var next_index = current_box + 1;
-	next_sprite.texture = GLOBAL.boxes_background[next_index].texture;
-	next_name.text = GLOBAL.boxes_background[next_index].name;
+	next_sprite.texture = BOXES.boxes_background[next_index].texture;
+	next_name.text = BOXES.boxes_background[next_index].name;
 
 func set_previous_box() -> void:
 	var previous_index = current_box - 1;
-	previous_sprite.texture = GLOBAL.boxes_background[previous_index].texture;
-	previous_name.text = GLOBAL.boxes_background[previous_index].name;
+	previous_sprite.texture = BOXES.boxes_background[previous_index].texture;
+	previous_name.text = BOXES.boxes_background[previous_index].name;
 
 func set_active(poke: Node) -> void:
 	active_name.text = poke.name;
