@@ -18,7 +18,8 @@ enum Locations {
 	CALDEROCK_VILLAGE,
 	POKE_CENTER,
 	POKE_SHOP,
-	HOUSE_01
+	HOUSE_01,
+	ROUTE_02
 }
 
 const location_array = [
@@ -31,7 +32,8 @@ const location_array = [
 	"PokeCenter",
 	"PokeShop",
 	"House01",
-	"House02"
+	"House02",
+	"Route02"
 ];
 
 const location_string = {
@@ -44,7 +46,8 @@ const location_string = {
 	"PokeCenter": "POKéMON Center",
 	"PokeShop": "POKéMON Shop",
 	"House01": "House of ????",
-	"House02": "Harold's House"
+	"House02": "Harold's House",
+	"Route02": "Route 02"
 }
 
 func get_map_name(get_string = false) -> String:
@@ -89,6 +92,26 @@ const CONNECTIONS = {
 	},
 	"PokeShop": {
 		"CalderockVillage": Vector2(464, 256)
+	},
+	"CalderockVillage": {
+		"Route02": {
+			Vector2(80, -16): Vector2(96, 640),
+			Vector2(96, -16): Vector2(112, 640),
+			Vector2(112, -16): Vector2(128, 640),
+			Vector2(128, -16): Vector2(144, 640),
+			Vector2(144, -16): Vector2(160, 640),
+			Vector2(160, -16): Vector2(176, 640)
+		}
+	},
+	"Route02": {
+		"CalderockVillage": {
+			Vector2(96, 656): Vector2(80, 0),
+			Vector2(112, 656): Vector2(96, 0),
+			Vector2(128, 656): Vector2(112, 0),
+			Vector2(144, 656): Vector2(128, 0),
+			Vector2(160, 656): Vector2(144, 0),
+			Vector2(176, 656): Vector2(160, 0)
+		}
 	}
 }
 
@@ -98,6 +121,12 @@ const ENCOUNTERS = {
 			POKEDEX.Pokedex.PIDGEY: 60.0,
 			POKEDEX.Pokedex.RATTATA: 40.0
 		}
+	},
+	"Route02": {
+		1: {
+			POKEDEX.Pokedex.BULBASAUR: 50.0,
+			POKEDEX.Pokedex.CHARMANDER: 50.0,
+		}
 	}
 }
 
@@ -106,6 +135,7 @@ func get_next_map() -> String:
 	var switch = {
 		"Route00": "res://Scenes/Maps/Routes/route_00.tscn",
 		"Route01": "res://Scenes/Maps/Routes/route_01.tscn",
+		"Route02": "res://Scenes/Maps/Routes/route_02.tscn",
 		"PraireTown": "res://Scenes/Maps/praire_town.tscn",
 		"CalderockVillage": "res://Scenes/Maps/calderock_village.tscn"
 	}

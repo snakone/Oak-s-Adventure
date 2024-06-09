@@ -49,7 +49,7 @@ func enter_house() -> void:
 	await GLOBAL.timeout(.1);
 	if(shared && type == GLOBAL.DoorType.OUT): next_scene = MAPS.get_next_map();
 	if(next_scene != ""):
-		if(type == GLOBAL.DoorType.IN && shared): 
+		if(type == GLOBAL.DoorType.IN): 
 			MAPS.last_map = MAPS.get_map_name(true);
 		GLOBAL.last_used_door = self.name;
 		get_node("/root/SceneManager").transition_to_scene(next_scene);

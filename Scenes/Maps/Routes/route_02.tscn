@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=3 uid="uid://d2g4ik02vopjf"]
+
+[ext_resource type="Script" path="res://Scenes/Maps/Routes/route_02.gd" id="1_u0jk8"]
+[ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="2_qwllh"]
+[ext_resource type="PackedScene" uid="uid://bvw5fcmbvktu" path="res://Tilesets/route02_tileset.tscn" id="3_dtabd"]
+[ext_resource type="PackedScene" uid="uid://cqktd3b4r0pk2" path="res://Scripts/switch_scene.tscn" id="4_fu5kt"]
+[ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="5_mrapx"]
+[ext_resource type="AudioStream" uid="uid://7ufcq8cj32hk" path="res://Assets/Sounds/Door exit.ogg" id="6_2lw6p"]
+[ext_resource type="Texture2D" uid="uid://dmj5soshdtatb" path="res://Sprites/long_house_door_open.png" id="6_gcsmm"]
+
+[node name="Route02" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_u0jk8")
+
+[node name="Oak" parent="." instance=ExtResource("2_qwllh")]
+y_sort_enabled = true
+position = Vector2(128, 528)
+
+[node name="TileMap" parent="." instance=ExtResource("3_dtabd")]
+
+[node name="SwitchScene" parent="." instance=ExtResource("4_fu5kt")]
+position = Vector2(144, 680)
+scale = Vector2(6, 1)
+next_scene = "res://Scenes/Maps/calderock_village.tscn"
+enter_direction = 3
+new_map = 5
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="LongHouseDoor" parent="Doors" instance=ExtResource("5_mrapx")]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(336, 48)
+next_scene = "res://Scenes/Maps/Houses/Calderock/house_01.tscn"
+enter_direction = 2
+spawn_position = Vector2(64, 112)
+sprite_image = ExtResource("6_gcsmm")
+DOOR_ENTER = ExtResource("6_2lw6p")

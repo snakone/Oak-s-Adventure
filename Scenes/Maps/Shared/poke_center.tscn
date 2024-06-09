@@ -19,33 +19,6 @@
 [ext_resource type="Texture2D" uid="uid://djt0g0fdssjsp" path="res://Sprites/pokeball_heal_animation_flash_five.png" id="13_5ajxw"]
 [ext_resource type="PackedScene" uid="uid://d3jj2t8g5va8g" path="res://Scripts/pc_area.tscn" id="13_q1t2n"]
 
-[sub_resource type="Animation" id="Animation_3nsuj"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HealAnimation/Screen:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [1]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Timer:wait_time")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.3]
-}
-
 [sub_resource type="Animation" id="Animation_oi0r0"]
 resource_name = "PokeballHeal_1"
 length = 9.5
@@ -805,6 +778,33 @@ tracks/8/keys = {
 "values": [ExtResource("10_ltsu3")]
 }
 
+[sub_resource type="Animation" id="Animation_3nsuj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HealAnimation/Screen:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Timer:wait_time")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.3]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_x4sxd"]
 _data = {
 "PokeballHeal_1": SubResource("Animation_oi0r0"),
@@ -873,13 +873,6 @@ vframes = 3
 visible = false
 position = Vector2(95, 32)
 texture = ExtResource("9_apvcv")
-hframes = 4
-frame = 2
-
-[node name="Flash2" type="Sprite2D" parent="HealAnimation"]
-visible = false
-position = Vector2(95, 32)
-texture = ExtResource("10_ltsu3")
 hframes = 4
 frame = 2
 

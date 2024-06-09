@@ -1,7 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bx6puh2tlx1xe"]
+[gd_scene load_steps=12 format=3 uid="uid://bx6puh2tlx1xe"]
 
 [ext_resource type="Script" path="res://scene_manager.gd" id="1_fy5xl"]
 [ext_resource type="PackedScene" uid="uid://drehjofe2bwo0" path="res://Scenes/UI/menu.tscn" id="3_8d0bi"]
+[ext_resource type="Texture2D" uid="uid://5ixh15ujl8bs" path="res://Sprites/dpad.png" id="3_jr47j"]
+[ext_resource type="Texture2D" uid="uid://cv4w3w8hg1ie" path="res://Sprites/dpad-cross.png" id="4_wn78i"]
+[ext_resource type="Texture2D" uid="uid://pmgnyaysw0h7" path="res://Sprites/AB-buttons.png" id="5_bujko"]
+[ext_resource type="Texture2D" uid="uid://bw4t5trgb1jlg" path="res://Sprites/AB-buttons_only.png" id="6_hk6is"]
 
 [sub_resource type="Animation" id="Animation_ty746"]
 resource_name = "FadeToBlack"
@@ -71,6 +75,12 @@ _data = {
 "StartBattle": SubResource("Animation_2ga72")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bmwy1"]
+size = Vector2(15.5, 14.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kxk5r"]
+radius = 12.0
+
 [node name="SceneManager" type="Node2D" groups=["Persist"]]
 script = ExtResource("1_fy5xl")
 next_scene = "res://Scenes/Maps/praire_town.tscn"
@@ -95,3 +105,94 @@ libraries = {
 
 [node name="Song" type="AudioStreamPlayer" parent="."]
 volume_db = -69.974
+
+[node name="Controls" type="CanvasLayer" parent="."]
+layer = 10
+visible = false
+
+[node name="D-PAD" type="TextureRect" parent="Controls"]
+self_modulate = Color(1, 1, 1, 0.537255)
+top_level = true
+layout_direction = 2
+offset_left = 6.0
+offset_top = 102.0
+offset_right = 41.0
+offset_bottom = 137.0
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("3_jr47j")
+expand_mode = 1
+
+[node name="D-PAD-inner" type="TextureRect" parent="Controls"]
+self_modulate = Color(1, 1, 1, 0.827451)
+layout_direction = 2
+offset_left = 6.0
+offset_top = 102.0
+offset_right = 41.0
+offset_bottom = 137.0
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("4_wn78i")
+expand_mode = 1
+
+[node name="AB" type="TextureRect" parent="Controls"]
+self_modulate = Color(1, 1, 1, 0.631373)
+offset_left = 184.0
+offset_top = 114.0
+offset_right = 234.0
+offset_bottom = 154.0
+texture = ExtResource("5_bujko")
+expand_mode = 1
+
+[node name="AB-inner" type="TextureRect" parent="Controls"]
+self_modulate = Color(1, 1, 1, 0.505882)
+offset_left = 184.0
+offset_top = 114.0
+offset_right = 234.0
+offset_bottom = 154.0
+texture = ExtResource("6_hk6is")
+expand_mode = 1
+
+[node name="Left" type="TouchScreenButton" parent="Controls"]
+top_level = true
+z_index = 1
+position = Vector2(16.5, 128.5)
+scale = Vector2(1, 1.5)
+shape = SubResource("RectangleShape2D_bmwy1")
+passby_press = true
+action = "moveLeft"
+
+[node name="Top" type="TouchScreenButton" parent="Controls"]
+top_level = true
+z_index = 1
+position = Vector2(32.5, 113.5)
+scale = Vector2(1.5, 1)
+shape = SubResource("RectangleShape2D_bmwy1")
+passby_press = true
+action = "moveUp"
+
+[node name="Right" type="TouchScreenButton" parent="Controls"]
+top_level = true
+z_index = 1
+position = Vector2(47.5, 128.5)
+scale = Vector2(1, 1.5)
+shape = SubResource("RectangleShape2D_bmwy1")
+passby_press = true
+action = "moveRight"
+
+[node name="Down" type="TouchScreenButton" parent="Controls"]
+top_level = true
+z_index = 1
+position = Vector2(32.5, 143.5)
+scale = Vector2(1.5, 1)
+shape = SubResource("RectangleShape2D_bmwy1")
+passby_press = true
+action = "moveDown"
+
+[node name="A-Button" type="TouchScreenButton" parent="Controls"]
+position = Vector2(222, 126)
+shape = SubResource("CircleShape2D_kxk5r")
+action = "space"
+
+[node name="B-Button" type="TouchScreenButton" parent="Controls"]
+position = Vector2(196, 142)
+shape = SubResource("CircleShape2D_kxk5r")
+action = "backMenu"

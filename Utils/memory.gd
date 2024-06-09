@@ -17,6 +17,7 @@ func _load() -> void:
 	if !FileAccess.file_exists(SAVE_PATH):
 		print("Error, no Save File to load.");
 		GLOBAL.no_saved_data = true;
+		get_node("/root/SceneManager").transition_to_scene("res://Scenes/Maps/praire_town.tscn", true, false);
 		return;
 		
 	var save_file = FileAccess.open(SAVE_PATH, FileAccess.READ)
