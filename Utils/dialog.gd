@@ -36,7 +36,7 @@ const LIBRARY: Dictionary = {
 	4: {
 		"arr": [
 				["Oh, it looks like there's no mail today!"],
-				["Maybe I should find a boy to bring me the mail sometimes."]
+				["Maybe I should find a boy to bring me the\nmail sometimes. Yes that's it!"]
 			],
 		"type": Type.OBJECT,
 		"direction": GLOBAL.Directions.UP,
@@ -169,8 +169,10 @@ const LIBRARY: Dictionary = {
 		"arr": [
 			["Long time no see, Professor."],
 			["self:Hey Harold, how are you?"],
-			["I heard that a strange POKéMON has been seen near the Black Mountain."],
+			["Fine. I have some news..."],
+			["I heard that a strange POKéMON\nhas been seen near the Black Mountain."],
 			["self:Mm!? What it can be?"],
+			["self:Maybe I should go to investigate."],
 		],
 		"type": Type.NPC,
 		"direction": GLOBAL.Directions.ALL,
@@ -184,7 +186,6 @@ const LIBRARY: Dictionary = {
 		],
 		"type": Type.NPC,
 		"direction": GLOBAL.Directions.ALL,
-		"npc_name": "Daisy",
 		"marker": true
 	},
 	23: {
@@ -269,7 +270,6 @@ const LIBRARY: Dictionary = {
 			["You booted up the PC."]
 		],
 		"type": Type.PC,
-		"direction": GLOBAL.Directions.UP,
 		"marker": true
 	},
 	33: {
@@ -277,7 +277,6 @@ const LIBRARY: Dictionary = {
 			["Which PC should be accessed?"]
 		],
 		"type": Type.PC,
-		"direction": GLOBAL.Directions.UP,
 		"marker": false
 	},
 	34: {
@@ -303,6 +302,35 @@ const LIBRARY: Dictionary = {
 			["Accessed Bill\'s PC."],
 			["POKéMON Storage System opened."]
 			],
+		"type": Type.PC,
+		"marker": true
+	},
+	38: {
+		"arr": [["Julieta's House."]],
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
+	},
+	39: {
+		"arr": [["Route 02 - Calderock Garden."]],
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
+	},
+	40: {
+		"arr": [
+			["There are trainers in this route."],
+			["They will encourage you to do a Pokémon battle! Be ready. Kiaaa!!!"]
+		],
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
+		"marker": true
+	},
+	41: {
+		"arr": [
+			["For the trainers out there:"],
+			["POKéMON lives in grass. Step on at your own risk."]
+		],
 		"type": Type.OBJECT,
 		"direction": GLOBAL.Directions.UP,
 		"marker": true

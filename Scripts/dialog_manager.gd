@@ -28,9 +28,11 @@ func _ready() -> void:
 	var text_string = dialog_data.arr[0][0];
 	if(dialog_data.type ==  DIALOG.Type.NPC):
 		npc_dialog = true;
-		whos_talking = dialog_data.npc_name;
+		if("npc_name" in dialog_data):
+			whos_talking = dialog_data.npc_name;
+		elif(oak_prefix in text_string):
+			whos_talking = "Oak";
 		text_string = add_prefix(text_string);
-
 	for i in range(1):
 		for j in range(len(text_string)):
 			await timer.timeout;
@@ -72,9 +74,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			label.text = label.text.erase(0, label.text.find("\n") + 1);
 			var text_string = dialog_data.arr[current_index][current_line];
+			if(oak_prefix in text_string): whos_talking = "Oak";
 			if(npc_dialog):
 				text_string = add_prefix(text_string);
-				whos_talking = dialog_data.npc_name;
+				if("npc_name" in dialog_data): 
+					whos_talking = dialog_data.npc_name;
 				
 			for j in range(len(text_string)):
 				await timer.timeout;

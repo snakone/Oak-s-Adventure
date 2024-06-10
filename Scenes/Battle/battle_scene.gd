@@ -175,7 +175,8 @@ func start_attack(delay = 0.0, sound = true) -> void:
 		await BATTLE.attack_finished;
 		delay = hp_bar_anim_duration + 0.3;
 		#SECOND ATTACK
-		if(BATTLE.AttackResult.NORMAL not in BATTLE.attack_result):
+		if(BATTLE.AttackResult.NORMAL not in BATTLE.attack_result &&
+			BATTLE.AttackResult.MISS not in BATTLE.attack_result):
 			await BATTLE.attack_check_done;
 			delay = 0.2;
 		start_attack(delay, false);
@@ -333,13 +334,22 @@ func handle_death(state: Dictionary) -> void:
 func add_animation_and_play(move: Dictionary) -> void:
 	var move_list = MovesAnimations.new();
 	var animation = move_list.get_move_animation(move.name.to_lower());
-	call_deferred("add_child", animation);
-	if(BATTLE.current_turn == BATTLE.Turn.PLAYER): 
-		animation.play_attack(player_sprite, BATTLE.current_turn);
-	elif(BATTLE.current_turn == BATTLE.Turn.ENEMY): 
-		animation.play_attack(enemy_sprite, BATTLE.current_turn);
-	await BATTLE.attack_finished;
-	animation.call_deferred("queue_free");
+	#MISSED
+	if(BATTLE.AttackResult.MISS in BATTLE.attack_result):
+		var target = pokemon;
+		if(BATTLE.current_turn == BATTLE.Turn.ENEMY): target = enemy;
+		dialog.show_missed(target.name);
+		await BATTLE.quick_dialog_end;
+		BATTLE.attack_finished.emit();
+		update_battle_ui(false, false, true);
+	else:
+		call_deferred("add_child", animation);
+		if(BATTLE.current_turn == BATTLE.Turn.PLAYER): 
+			animation.play_attack(player_sprite, BATTLE.current_turn);
+		elif(BATTLE.current_turn == BATTLE.Turn.ENEMY): 
+			animation.play_attack(enemy_sprite, BATTLE.current_turn);
+		await BATTLE.attack_finished;
+		animation.call_deferred("queue_free");
 
 #LISTENERS
 func _on_move_hit() -> void:
@@ -351,7 +361,8 @@ func _on_move_hit() -> void:
 
 func after_dialog_attack() -> void:
 	await GLOBAL.timeout(.2);
-	if(BATTLE.AttackResult.NORMAL not in BATTLE.attack_result):
+	if(BATTLE.AttackResult.NORMAL not in BATTLE.attack_result &&
+		BATTLE.AttackResult.MISS not in BATTLE.attack_result):
 		await BATTLE.attack_check_done;
 		await GLOBAL.timeout(0.2);
 	if(enemy.data.death || pokemon.data.death || 
@@ -409,12 +420,8 @@ func check_battle_state() -> void:
 		await BATTLE.quick_dialog_end;
 		BATTLE.attack_check_done.emit();
 		return;
-	#MISSED
+	#MISS
 	if(BATTLE.AttackResult.MISS in BATTLE.attack_result):
-		var target = pokemon;
-		if(BATTLE.current_turn == BATTLE.Turn.ENEMY): target = enemy;
-		dialog.show_missed(target.name);
-		await BATTLE.quick_dialog_end;
 		BATTLE.attack_check_done.emit();
 		return;
 	#CRITICAL HIT
@@ -437,6 +444,7 @@ func check_battle_state() -> void:
 	elif(BATTLE.AttackResult.AWFULL in BATTLE.attack_result):
 		dialog.show_awfull();
 		await BATTLE.quick_dialog_end;
+	
 	await GLOBAL.timeout(0.1);
 	BATTLE.attack_check_done.emit();
 	

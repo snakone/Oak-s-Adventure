@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dgrt08phhewaf"]
+[gd_scene load_steps=16 format=3 uid="uid://dgrt08phhewaf"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/calderock_village.gd" id="1_tvowd"]
 [ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="2_4a8rc"]
@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://7xfnwfbcafod" path="res://Objects/music_note.tscn" id="3_227hw"]
 [ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="4_h8pxt"]
 [ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="5_21k3g"]
-[ext_resource type="TileSet" uid="uid://cxl08215wglhd" path="res://Tilesets/praire_town_tileset.tres" id="5_i41al"]
 [ext_resource type="AudioStream" uid="uid://7ufcq8cj32hk" path="res://Assets/Sounds/Door exit.ogg" id="6_3hbvu"]
 [ext_resource type="Texture2D" uid="uid://d008qrj8cfei6" path="res://Sprites/NPC/old_man.png" id="6_51cw5"]
 [ext_resource type="Texture2D" uid="uid://cbr4fclp61d42" path="res://Sprites/NPC/yellow_girl.png" id="7_wv01r"]
@@ -26,7 +25,6 @@ song = ExtResource("2_vn3j6")
 position = Vector2(112, 32)
 
 [node name="TileMap" parent="." instance=ExtResource("2_4hxry")]
-tile_set = ExtResource("5_i41al")
 
 [node name="OldMan" parent="." instance=ExtResource("5_21k3g")]
 position = Vector2(240, 208)
