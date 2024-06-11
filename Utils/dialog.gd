@@ -46,7 +46,7 @@ const LIBRARY: Dictionary = {
 		"arr": [
 				["Oak's Little Market."],
 				["We have the best selection of items."],
-				["Don't miss it!"]
+				["Don't miss out!"]
 			],
 		"type": Type.OBJECT,
 		"direction": GLOBAL.Directions.UP,
@@ -148,11 +148,10 @@ const LIBRARY: Dictionary = {
 		"arr": [
 			["Jumping over ledges is so fun!"],
 			["self: Mmm I think I should try aswell!"],
-			["That's the spirit!"]
+			["That's the spirit!"],
 		],
 		"type": Type.NPC,
 		"direction": GLOBAL.Directions.ALL,
-		"npc_name": "Scott",
 		"marker": true
 	},
 	20: {
@@ -172,7 +171,7 @@ const LIBRARY: Dictionary = {
 			["Fine. I have some news..."],
 			["I heard that a strange POKéMON\nhas been seen near the Black Mountain."],
 			["self:Mm!? What it can be?"],
-			["self:Maybe I should go to investigate."],
+			["self:Maybe I should go to investigate."]
 		],
 		"type": Type.NPC,
 		"direction": GLOBAL.Directions.ALL,
@@ -182,7 +181,7 @@ const LIBRARY: Dictionary = {
 	22: {
 		"arr": [
 			["I like this fountains a lot! Hehe."],
-			["self:They are quite relaxing."],
+			["self:Indeed. They are quite relaxing."],
 		],
 		"type": Type.NPC,
 		"direction": GLOBAL.Directions.ALL,

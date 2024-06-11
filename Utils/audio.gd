@@ -3,19 +3,20 @@ extends Node
 const BICYCLE = preload("res://Assets/Sounds/Bicycle.ogg");
 const BATTLE_WILD = preload("res://Assets/Sounds/Battle wild.ogg");
 const BATTLE_VICTORY_WILD = preload("res://Assets/Sounds/Battle victory wild.ogg");
+const SONG_PATH = "/root/SceneManager/Song";
 
 var audio: AudioStreamPlayer;
-var current_song_id: int;
 var current_song: AudioStream;
 
 func _ready():
-	audio = get_node("/root/SceneManager/Song");
+	audio = get_node(SONG_PATH);
 	audio.connect("finished", _on_song_finished);
 
 func play(song: AudioStream) -> void:
-	if(!song): return;
-	if(current_song_id == song.get_instance_id()): return;
-	current_song_id = song.get_instance_id();
+	if(!song || (
+			current_song && 
+			current_song.get_instance_id() == song.get_instance_id()
+	)): return;
 	current_song = song;
 	if(GLOBAL.on_bike): return;
 	stop_and_play(song);
@@ -38,7 +39,7 @@ func _on_song_finished() -> void:
 		if(BATTLE.on_victory): stop_and_play(BATTLE_VICTORY_WILD);
 		else: stop_and_play(BATTLE_WILD);
 	elif(GLOBAL.on_bike): stop_and_play(BICYCLE);
-	else: audio.play();
+	else: stop_and_play_last_song();
 
 func stop_and_play(song: AudioStream) -> void:
 	audio.stop();

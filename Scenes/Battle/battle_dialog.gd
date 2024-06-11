@@ -12,7 +12,7 @@ const wait_quick_dialog = 0.2;
 
 var pressed = false;
 var array: Array
-var line: int
+var line: int;
 var current_text: String = "";
 var participant: Object;
 

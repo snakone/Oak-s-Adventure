@@ -30,8 +30,7 @@ var screen_loaded = ScreenLoaded.NONE;
 var can_use_menu = true;
 
 func _ready():
-	if(SETTINGS.selected_marker):
-		nine_rect.texture = SETTINGS.selected_marker;
+	if(SETTINGS.selected_marker): nine_rect.texture = SETTINGS.selected_marker;
 	scene_manager = get_parent();
 	control.visible = false;
 	update_cursor();
@@ -51,12 +50,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		GLOBAL.on_pc
 	): return;
 	
+	#BIKE ON/OFF
 	if(
 		Input.is_action_just_pressed("bike") && 
 		!GLOBAL.inside_house && 
 		!GLOBAL.menu_open
 	): GLOBAL.emit_signal("get_on_bike", !GLOBAL.on_bike);
 	
+	#BIKE INSIDE HOUSE
 	if(
 		Input.is_action_just_pressed("bike") && 
 		GLOBAL.inside_house && 

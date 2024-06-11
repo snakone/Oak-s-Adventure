@@ -61,11 +61,6 @@ func _on_timer_timeout() -> void:
 	audio.stop();
 	audio.stream = BATTLE_BALL_SHAKE;
 	audio.play();
-	#if(show_screen_poke):
-		#var texture = party[index].data.party_texture;
-		#poke_preview.visible = true;
-		#poke_preview.texture = texture;
-		#index += 1;
 
 func _on_selection_value_select(value: int, category) -> void:
 	if(category != selection_category): return;

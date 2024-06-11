@@ -26,13 +26,14 @@ func _ready() -> void:
 	marker.visible = false;
 	label.text = "";
 	var text_string = dialog_data.arr[0][0];
+	
+	#SET NPC NAME
 	if(dialog_data.type ==  DIALOG.Type.NPC):
 		npc_dialog = true;
-		if("npc_name" in dialog_data):
-			whos_talking = dialog_data.npc_name;
-		elif(oak_prefix in text_string):
-			whos_talking = "Oak";
+		if("npc_name" in dialog_data): whos_talking = dialog_data.npc_name;
+		elif(oak_prefix in text_string): whos_talking = "Oak";
 		text_string = add_prefix(text_string);
+	
 	for i in range(1):
 		for j in range(len(text_string)):
 			await timer.timeout;
@@ -61,34 +62,33 @@ func _unhandled_input(event: InputEvent) -> void:
 		label.text = "";
 		play_audio(CONFIRM);
 		
+		#CONTINUE
 		if current_line >= len(dialog_data.arr[current_index]):
 			label.text = ""
 			current_index += 1
 			current_line = 0
 		
+		#END
 		if current_index >= len(dialog_data.arr):
 			timer.stop();
 			dialog_closed = true;
 			await audio.finished;
 			if(dialog_data.marker): GLOBAL.emit_signal("close_dialog");
+		#WRITE
 		else:
 			label.text = label.text.erase(0, label.text.find("\n") + 1);
 			var text_string = dialog_data.arr[current_index][current_line];
 			if(oak_prefix in text_string): whos_talking = "Oak";
 			if(npc_dialog):
 				text_string = add_prefix(text_string);
-				if("npc_name" in dialog_data): 
-					whos_talking = dialog_data.npc_name;
+				if("npc_name" in dialog_data): whos_talking = dialog_data.npc_name;
 				
 			for j in range(len(text_string)):
 				await timer.timeout;
 				label.text += text_string[j];
 				
 			#SELECTION
-			if(
-				dialog_data.arr.size() - 1 == current_index &&
-				"selection" in dialog_data
-			):
+			if(dialog_data.arr.size() - 1 == current_index && "selection" in dialog_data):
 				show_selection();
 				return;
 			marker.visible = dialog_data.marker;
@@ -108,16 +108,19 @@ func add_prefix(text: String) -> String:
 			whos_talking = "Oak";
 			text = text.replace(oak_prefix, "");
 		label.text += "[b]" + whos_talking + "[/b]: ";
+	
 	return text;
 
 #SELECTION
 func _on_selection_value_select(value: int, _id) -> void:
 	match value:
-		int(GLOBAL.BinaryOptions.YES): close_selection(dialog_data.selection.sound);
-		int(GLOBAL.BinaryOptions.NO): close_selection();
+		int(GLOBAL.BinaryOptions.YES): 
+			close_selection(dialog_data.selection.sound);
+		int(GLOBAL.BinaryOptions.NO): 
+			close_selection();
 
 func close_selection(stream: AudioStream = CLOSE_MENU) -> void:
-	if(dialog_data.selection.sound != null):
+	if(stream != null):
 		play_audio(stream);
 		await audio.finished;
 	GLOBAL.emit_signal("close_dialog");

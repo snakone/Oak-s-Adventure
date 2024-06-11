@@ -398,19 +398,6 @@ func _on_selection_value_select(
 			player_info.visible = false;
 		int(GLOBAL.BinaryOptions.NO): _on_check_can_escape();
 
-func check_learn_move(poke: Object, new_level: int) -> void:
-	var new_move_index = float(poke.data.move_set[new_level]);
-	if(new_move_index in poke.data.moves):
-		await GLOBAL.timeout(0.2);
-		BATTLE.dialog_finished.emit();
-		return;
-	var new_move = MOVES.get_move(new_move_index);
-	poke.learn_move(new_move.id);
-	await GLOBAL.timeout(0.1);
-	dialog.set_current_text("");
-	play_audio(BATTLE.BATTLE_SOUNDS.MOVE_LEARN);
-	dialog.start([poke.name + " learned " + new_move.name.to_upper() + "!"]);
-
 #CHECKERS
 func check_battle_state() -> void:
 	await BATTLE.ui_updated;
@@ -468,6 +455,19 @@ func check_battle_state() -> void:
 			"dialog": [pokemon.data.name + " fainted!"]
 		}
 		handle_death(state);
+
+func check_learn_move(poke: Object, new_level: int) -> void:
+	var new_move_index = float(poke.data.move_set[new_level]);
+	if(new_move_index in poke.data.moves):
+		await GLOBAL.timeout(0.2);
+		BATTLE.dialog_finished.emit();
+		return;
+	var new_move = MOVES.get_move(new_move_index);
+	poke.learn_move(new_move.id);
+	await GLOBAL.timeout(0.1);
+	dialog.set_current_text("");
+	play_audio(BATTLE.BATTLE_SOUNDS.MOVE_LEARN);
+	dialog.start([poke.name + " learned " + new_move.name.to_upper() + "!"]);
 
 # CHECK NEXT
 func check_for_next_pokemon() -> void:

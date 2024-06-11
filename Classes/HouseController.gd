@@ -7,9 +7,9 @@ class_name HouseController;
 @export var song: AudioStream;
 
 func _ready():
-	if(song): AUDIO.play(song);
-	GLOBAL.inside_house = true;
 	set_camera();
+	GLOBAL.inside_house = true;
+	if(song): AUDIO.play(song);
 	oak.set_blend_direction(GLOBAL.last_direction);
 	
 	if(MAPS.spawn_position):

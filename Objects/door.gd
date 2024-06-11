@@ -28,12 +28,15 @@ func _ready():
 func _on_body_entered(body) -> void:
 	check_direction();
 	if(can_be_opened && body.name == "Oak"):
-		if(category == GLOBAL.DoorCategory.TUNNEL): body.visible = false;
 		MAPS.spawn_position = spawn_position;
+		if(category == GLOBAL.DoorCategory.TUNNEL): body.visible = false;
+		# DOOR TYPE
 		if(type == GLOBAL.DoorType.IN): audio.stream = DOOR_ENTER;
 		else:
 			audio.stream = DOOR_EXIT;
 			audio.play();
+			
+		# ANIMATED
 		if(animated): anim_player.play("Open");
 		else:
 			if(type == GLOBAL.DoorType.IN): audio.play();

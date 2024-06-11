@@ -159,6 +159,7 @@ const BOXES_SLOTS = {
 	29: Vector2(120, 88),
 }
 
+# 15 BOXES
 var boxes_array = [
 	get_empty_box(),
 	get_empty_box(),
