@@ -186,6 +186,7 @@ func start_attack(delay = 0.0, sound = true) -> void:
 	if(BATTLE.AttackResult.NORMAL not in BATTLE.attack_result):
 		await BATTLE.attack_check_done;
 	
+	#TURN FINISHED
 	await GLOBAL.timeout(0.2);
 	BATTLE.player_attacked = false;
 	BATTLE.enemy_attacked = false;
@@ -280,6 +281,7 @@ func level_up_animation() -> void:
 	await battle_anim_player.animation_finished;
 	update_battle_ui(false, true);
 	update_player_health();
+	#DIALOG
 	var grew = pokemon.data.name + " grew to Level ";
 	dialog.level_up([grew + str(pokemon.data.level) + "!"], pokemon);
 	await BATTLE.level_up_stats_end;

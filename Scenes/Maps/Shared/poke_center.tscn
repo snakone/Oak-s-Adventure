@@ -817,11 +817,12 @@ _data = {
 }
 
 [node name="PokeCenter" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_u7137")
 song = ExtResource("2_oet7p")
 
 [node name="Oak" parent="." instance=ExtResource("1_cst2t")]
-position = Vector2(112, 64)
+position = Vector2(96, 96)
 
 [node name="TileMap" parent="." instance=ExtResource("3_6pyhj")]
 
@@ -832,7 +833,7 @@ type = 1
 DOOR_EXIT = ExtResource("5_1blax")
 shared = true
 
-[node name="NPC" parent="." instance=ExtResource("7_1jicx")]
+[node name="Joy" parent="." instance=ExtResource("7_1jicx")]
 show_behind_parent = true
 position = Vector2(112, 30)
 texture = ExtResource("8_d1bba")
@@ -845,10 +846,10 @@ can_down = false
 interval = 10.0
 dialog_id = 23
 
-[node name="CollisionShape2D" parent="NPC" index="1"]
+[node name="CollisionShape2D" parent="Joy" index="1"]
 position = Vector2(8, 26)
 
-[node name="CollisionPolygon2D" parent="NPC/TalkArea" index="0"]
+[node name="CollisionPolygon2D" parent="Joy/TalkArea" index="0"]
 polygon = PackedVector2Array(4, 4, 4, -12, 12, -12, 12, 4, 28, 4, 28, 12, 12, 12, 12, 50, 4, 50, 4, 12, -12, 12, -12, 4)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
@@ -901,4 +902,4 @@ position = Vector2(176, 16)
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 
-[editable path="NPC"]
+[editable path="Joy"]

@@ -2,6 +2,11 @@ extends Node
 
 const SAVE_PATH = "user://save.poke";
 
+func _ready():
+	await GLOBAL.timeout(1);
+	_load();
+
+#SAVE
 func _save() -> void:
 	var save_file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	var save_nodes = get_tree().get_nodes_in_group(GLOBAL.group_name);
@@ -13,6 +18,7 @@ func _save() -> void:
 			save_file.store_line(JSON.stringify(data))
 	save_file.close();
 
+#LOAD
 func _load() -> void:
 	if !FileAccess.file_exists(SAVE_PATH):
 		print("Error, no Save File to load.");
@@ -33,7 +39,3 @@ func _load() -> void:
 		elif(data.has("player")): GLOBAL.player_data_to_load = data;
 	GLOBAL.no_saved_data = false;
 	save_file.close();
-	
-func _ready():
-	await GLOBAL.timeout(1);
-	_load();

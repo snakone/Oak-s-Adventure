@@ -102,6 +102,6 @@ autoplay = "Bounce"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_lcq8j")
-volume_db = -15.0
+volume_db = -8.0
 
 [node name="Selection" parent="." instance=ExtResource("7_mmu53")]

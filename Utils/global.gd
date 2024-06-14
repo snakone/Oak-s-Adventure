@@ -26,6 +26,7 @@ enum DoorType { IN, OUT }
 enum BinaryOptions { YES, NO }
 enum DoorCategory { DOOR, TUNNEL }
 enum SelectionCategory { BINARY, HEAL }
+enum NPCStates { MOVING, IDLE }
 
 const TILE_SIZE: int = 16;
 const WINDOW_SIZE = Vector2(15, 10);

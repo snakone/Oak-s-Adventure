@@ -472,6 +472,7 @@ transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition
 graph_offset = Vector2(0, -35.0207)
 
 [node name="Oak" type="CharacterBody2D" groups=["Persist"]]
+y_sort_enabled = true
 collision_mask = 14
 safe_margin = 0.001
 script = ExtResource("1_4ift8")
@@ -556,7 +557,7 @@ target_position = Vector2(0, 8)
 collision_mask = 4
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-volume_db = -20.0
+volume_db = -8.0
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]

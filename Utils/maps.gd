@@ -3,6 +3,7 @@ extends Node
 var position_before_scene = Vector2.ZERO;
 var spawn_position = Vector2.ZERO;
 var last_map;
+var npc_shared_list: Array[int] = [];
 
 func get_map_size_and_emit(tilemap: TileMap) -> Vector2:
 	var size = tilemap.get_used_rect().size;
@@ -141,3 +142,51 @@ func get_next_map() -> String:
 	}
 	
 	return switch[last_map];
+
+func reset_npc_shared_list() -> void: npc_shared_list = [];
+
+@onready var NPC_SHARED_MAP = {
+	1: {
+		"dialog_id": 42,
+		"texture": load("res://Sprites/NPC/green_girl.png"),
+		"frames": 4,
+		"state": GLOBAL.NPCStates.IDLE,
+		"can_left": false,
+		"can_right": false,
+		"can_up": false,
+		"can_down": true,
+		"possitive_limits": Vector2.ZERO,
+		"negative_limits": Vector2.ZERO,
+		"interval": 2,
+		"position": Vector2(192, 80)
+	},
+	2: {
+		"dialog_id": 43,
+		"texture": load("res://Sprites/NPC/yellow_cap_guy.png"),
+		"frames": 12,
+		"state": GLOBAL.NPCStates.MOVING,
+		"can_left": true,
+		"can_right": true,
+		"can_up": true,
+		"can_down": true,
+		"possitive_limits": Vector2(1, 1),
+		"negative_limits": Vector2.ZERO,
+		"interval": 1,
+		"position": Vector2(48, 80),
+		"sprite_offset": Vector2(0, -3)
+	},
+	3: {
+		"dialog_id": 46,
+		"texture": load("res://Sprites/NPC/orange_girl.png"),
+		"frames": 12,
+		"state": GLOBAL.NPCStates.MOVING,
+		"can_left": true,
+		"can_right": true,
+		"can_up": true,
+		"can_down": true,
+		"possitive_limits": Vector2(2, 3),
+		"negative_limits": Vector2(0, -1),
+		"interval": 5,
+		"position": Vector2(112, 48)
+	}
+}

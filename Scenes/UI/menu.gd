@@ -91,6 +91,7 @@ func select_option() -> void:
 		MenuOptions.SAVE: handle_save()
 		MenuOptions.EXIT: close_menu()
 
+#CLOSE
 func close_menu() -> void:
 	play_audio(GUI_MENU_CLOSE);
 	control.visible = false;

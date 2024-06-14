@@ -62,17 +62,20 @@ func input() -> void:
 		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
 		visible = false;
 		BATTLE.state = BATTLE.States.MENU;
+	#START ATTACK
 	elif Input.is_action_just_pressed("space") and !BATTLE.attack_pressed: 
 		BATTLE.start_attack.emit();
 		visible = false;
 		return;
 	
+	#CURSOR POSITION
 	var new_position = BATTLE.ATTACK_CURSOR[cursor_index.y][cursor_index.x];
 	if(!BATTLE.can_move_attack_cursor(new_position, player_attacks)):
 		cursor_index = pre_position;
 		return;
 	attack_cursor.position = new_position;
 	
+	#NEW POSITION
 	if (pre_position != cursor_index): 
 		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
 		set_attack_slot();

@@ -23,6 +23,7 @@
 - Battle System
 - Pokémon Center
 - Pokémon PC and Boxes
+- Dialog System with Selection and Responses
 
 ## Credits
 
@@ -50,7 +51,7 @@ You can watch more updates on [Youtube](https://www.youtube.com/@AllisonCode).
 Download [Godot](https://godotengine.org/) for free and start your own journey!
 
 ## Version
-v.0.5.4
+v.0.5.5
 
 ### All Rights reserved to
 &copy;2024 Pokémon. ©1995 - 2024 Nintendo/Creatures Inc./GAME FREAK inc. TM, ®Nintendo.

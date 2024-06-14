@@ -334,4 +334,72 @@ const LIBRARY: Dictionary = {
 		"direction": GLOBAL.Directions.UP,
 		"marker": true
 	},
+	42: {
+		"arr": [
+			["Bill created the POKéMON storage system."],
+			["I just stored my extra POKÉMON on that PC."],
+			["Technology is just amazing!"]
+		],
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
+		"marker": true
+	},
+	43: {
+		"arr": [
+			["Hey! Do you know how to use the PC?"],
+		],
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
+		"marker": false,
+		"selection": {
+			"category": GLOBAL.SelectionCategory.BINARY,
+			"sound": preload("res://Assets/Sounds/confirm.wav"),
+			"id": 1,
+			"selected": GLOBAL.BinaryOptions.NO
+		},
+		"response": {
+			1: {
+				GLOBAL.BinaryOptions.YES: {
+					"dialog_id": 45
+				},
+				GLOBAL.BinaryOptions.NO: {
+					"dialog_id": 44
+				}
+			}
+		} 
+	},
+	44: {
+		"arr": [
+			["After you turn on the PC you can select\n3 different options. Let me explain them:"],
+			["1. Bill\'s PC: Store and manage your POKéMON."],
+			["2. Oak\'s PC: Manage and store your ITEMS."],
+			["3. POKéDEX Check: It will evaluate your\nregistered POKéMON. Give it a try!"],
+			["self: Alright, thanks for the explanation."]
+		],
+		"starter": 43,
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
+		"marker": true,
+		"end": true
+	},
+	45: {
+		"arr": [
+			["Okay, I thought older people didn\'t know how\nto use this new technology."],
+		],
+		"starter": 43,
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
+		"marker": true,
+		"end": true
+	},
+	46: {
+		"arr": [
+			["I could spend all day shoping!"],
+			["Even though my boyfriend's wallet is fading\nfast."],
+			["self: What the..."]
+		],
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
+		"marker": true
+	},
 }

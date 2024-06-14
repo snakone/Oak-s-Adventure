@@ -17,7 +17,6 @@ script = ExtResource("1_3hn5p")
 song = ExtResource("10_gcas7")
 
 [node name="Oak" parent="." instance=ExtResource("2_5a1f2")]
-y_sort_enabled = true
 position = Vector2(48, 112)
 input_pickable = true
 

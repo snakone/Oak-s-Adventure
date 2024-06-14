@@ -24,6 +24,7 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 		else: convert_battle_moves();
 		if("total_exp" not in data): set_exp_by_level();
 		if("uuid" not in data): data.uuid = uuid.v4();
+		if(data.current_hp == 0): data.death = true;
 
 #ATTACK
 func attack(enemy: Object, move: Dictionary) -> Dictionary:
@@ -124,7 +125,8 @@ func set_battle_moves() -> void:
 #HP ANIM
 func set_hp_anim_duration_after_damage(damage: int, enemy: Object) -> void:
 	var total = BATTLE.min_hp_anim_duration;
-	if(damage < 10): total = 0.3;
+	if(damage < 10 && damage >= 3): total = 0.3;
+	if(damage < 2): total = 0.1;
 	elif(damage < 20 && damage != 1 && enemy.data.level > 50): total = 0.4;
 	elif((damage < 10 && damage != 1 && enemy.data.level < 30)): total = 0.2
 	elif(damage >= 30 && enemy.data.battle_stats["HP"] <= 30): total = 1.0;
@@ -210,6 +212,8 @@ func damage_formula(enemy: Object, move: Dictionary) -> int:
 	effective_type1 = MOVES.type_effective(move.type, enemy.data.types[0]);
 	if (enemy.data.types.size() > 1):
 		effective_type2 = MOVES.type_effective(move.type, enemy.data.types[1]);
+		
+	#RESULT
 	if(
 		(effective_type1 == 2.0 && effective_type2 == 1.0) || 
 		(effective_type2 == 2.0 && effective_type1 == 1.0)

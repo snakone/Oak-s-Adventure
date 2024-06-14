@@ -27,6 +27,12 @@ extends CanvasLayer
 
 const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg");
 const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
+const GUI_STORAGE_HIDE_PARTY_PANEL = preload("res://Assets/Sounds/GUI storage hide party panel.ogg");
+const GUI_STORAGE_SHOW_PARTY_PANEL = preload("res://Assets/Sounds/GUI storage show party panel.ogg");
+const GUI_STORAGE_PICK_UP = preload("res://Assets/Sounds/GUI storage pick up.ogg");
+const GUI_STORAGE_PUT_DOWN = preload("res://Assets/Sounds/GUI storage put down.ogg");
+const GUI_SEL_BUZZER = preload("res://Assets/Sounds/GUI sel buzzer.ogg");
+
 enum Slots { FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH }
 
 enum Positions {
@@ -113,6 +119,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func update_hand() -> void:
 	hand.position = BOXES.HAND_POSITIONS[current_hand_pos];
+	var hand_node = hand.get_node("Sprite2D");
 	set_index();
 	if(!party_panel_opened):
 		#BOX
@@ -125,11 +132,18 @@ func update_hand() -> void:
 		if(current_hand_pos.y < 0): hand.get_node("Shadow").visible = false;
 		else: hand.get_node("Shadow").visible = true;
 		#FLIP
-		if(current_hand_pos.y == int(Positions.OPTIONS)): 
-			hand.get_node("Sprite2D").flip_v = true;
-		else: hand.get_node("Sprite2D").flip_v = false;
+		if(current_hand_pos.y == int(Positions.OPTIONS) && !holding): 
+			hand_node.flip_v = true;
+		else: hand_node.flip_v = false;
+		if(holding && current_hand_pos.y == int(Positions.OPTIONS)):
+			hand_node.offset.y = -10;
+			holding_sprite.offset.y = - 8;
+		else:
+			hand_node.offset.y = 0;
+			holding_sprite.offset.y = 6;
 		#CLOSE
-		if(current_hand_pos == Vector2(1, -2)): close.frame = 0;
+		if(current_hand_pos == Vector2(1, -2)):
+			box_anim_player.play("CloseSelected");
 		else: close.frame = 1;
 		#ACTIVE
 		if(!holding && is_pokemon_in_box()):
@@ -204,6 +218,9 @@ func pick_poke() -> void:
 
 #DROP
 func drop_poke() -> void:
+	if(is_party_empty(party) && !party_panel_opened):
+		play_audio(GUI_SEL_BUZZER);
+		return;
 	picking = true;
 	if(!party_panel_opened): anim_hand.play("Drop");
 	else: anim_hand.play("DropParty");
@@ -229,14 +246,13 @@ func add_sprite() -> void:
 		party[selected_party_index] = null;
 		var slot = party_slots[int(selected_party_index)];
 		slot.visible = false;
+	play_audio(GUI_STORAGE_PICK_UP);
 
 func remove_sprite() -> void:
-	if(!party_panel_opened):
-		hand.get_node("Sprite2D").remove_child(holding_sprite);
-		holding_sprite.offset.y = 0;
-	else:
-		hand.get_node("Sprite2D").remove_child(holding_sprite);
-		holding_sprite.offset = Vector2(-1, 0);
+	hand.get_node("Sprite2D").remove_child(holding_sprite);
+	play_audio(GUI_STORAGE_PUT_DOWN);
+	if(!party_panel_opened): holding_sprite.offset.y = 0;
+	else: holding_sprite.offset = Vector2(-1, 0);
 	swap_pokes();
 	set_party_panel();
 	update_all_boxes();
@@ -274,14 +290,15 @@ func swap_pokes() -> void:
 		party_copy[current_party_index] = holding_poke;
 		party = party_copy;
 
-#PARTY
+#PARTY PANEL
 func open_party_panel() -> void:
 	if(party_panel_opened): return;
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(GUI_STORAGE_SHOW_PARTY_PANEL);
 	party_panel_opened = true;
 	party_anim_player.play("Show");
 	await party_anim_player.animation_finished;
 	hand.get_node("Sprite2D").flip_v = false;
+	hand.get_node("Sprite2D").offset.y = 0;
 	current_hand_pos = Vector2(6, 0);
 	update_hand();
 	if(holding): 
@@ -290,7 +307,7 @@ func open_party_panel() -> void:
 
 func close_party_panel() -> void:
 	if(!party_panel_opened): return;
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(GUI_STORAGE_HIDE_PARTY_PANEL);
 	party_anim_player.play("Hide");
 	await party_anim_player.animation_finished;
 	party_panel_opened = false;
@@ -384,6 +401,7 @@ func handle_RIGHT() -> void:
 			current_hand_pos.x = 0;
 		if(holding): 
 			current_hand_pos.x -= 1;
+			play_audio(GUI_SEL_BUZZER);
 			return;
 	elif(current_hand_pos.y >= 0 && current_hand_pos.x > 5):
 		current_hand_pos.x = 0;
@@ -412,6 +430,7 @@ func handle_LEFT() -> void:
 			current_hand_pos.x = 1;
 		if(holding):
 			current_hand_pos.x += 1;
+			play_audio(GUI_SEL_BUZZER);
 			return;
 	elif(current_hand_pos.y >= 0 && current_hand_pos.x < 0):
 		current_hand_pos.x = 5;
@@ -527,7 +546,7 @@ func remove_children() -> void:
 		var childs = box.get_children();
 		for child in childs: box.remove_child(child);
 
-func move_null_to_end():
+func move_null_to_end() -> void:
 	var nulls = 0;
 	var array = [];
 	for i in range(party.size()):
@@ -539,6 +558,11 @@ func move_null_to_end():
 func remove_active() -> void:
 	active.visible = false;
 	inactive.visible = true;
+
+func is_party_empty(arr: Array) -> bool:
+	for poke in arr:
+		if poke != null: return false
+	return true;
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;

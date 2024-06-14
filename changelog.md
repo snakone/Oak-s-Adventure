@@ -50,3 +50,8 @@
 # 0.5.4
 - Pokémon PC
 - Boxes - Move Pokémon
+
+# 0.5.5
+- Shared NPC
+- Dialog Responses
+- Route 02
