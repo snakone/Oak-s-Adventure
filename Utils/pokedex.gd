@@ -66,7 +66,7 @@ var LIBRARY: Array = [
 			"TOTAL": 318
 		},
 		"move_set": {
-			51: 3
+			14: 3
 		}
 	},
 	{
@@ -183,7 +183,7 @@ var LIBRARY: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/PIDGEY.ogg"),
 		"moves": [3],
 		"exp_type": BATTLE.ExpType.SLACK,
-		"base_exp": 40,
+		"base_exp": 2000,
 		"category": Category.NORMAL,
 		"sprites": "res://Sprites/Animated/Pidgey/pidgey.tscn",
 		"offset": Vector2.ZERO,
@@ -209,7 +209,7 @@ var LIBRARY: Array = [
 		"shout": preload("res://Assets/Sounds/Pokemon/RATTATA.ogg"),
 		"moves": [3],
 		"exp_type": BATTLE.ExpType.MEDIUM,
-		"base_exp": 4000,
+		"base_exp": 2000,
 		"category": Category.NORMAL,
 		"sprites": "res://Sprites/Animated/Rattata/rattata.tscn",
 		"offset": Vector2.ZERO,

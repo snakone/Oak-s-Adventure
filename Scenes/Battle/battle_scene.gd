@@ -175,7 +175,8 @@ func start_attack(delay = 0.0, sound = true) -> void:
 		await BATTLE.attack_finished;
 		delay = hp_bar_anim_duration + 0.3;
 		#SECOND ATTACK
-		if(BATTLE.AttackResult.NORMAL not in BATTLE.attack_result):
+		if(BATTLE.AttackResult.NORMAL not in BATTLE.attack_result &&
+			BATTLE.AttackResult.MISS not in BATTLE.attack_result):
 			await BATTLE.attack_check_done;
 			delay = 0.2;
 		start_attack(delay, false);
@@ -185,6 +186,7 @@ func start_attack(delay = 0.0, sound = true) -> void:
 	if(BATTLE.AttackResult.NORMAL not in BATTLE.attack_result):
 		await BATTLE.attack_check_done;
 	
+	#TURN FINISHED
 	await GLOBAL.timeout(0.2);
 	BATTLE.player_attacked = false;
 	BATTLE.enemy_attacked = false;
@@ -279,6 +281,7 @@ func level_up_animation() -> void:
 	await battle_anim_player.animation_finished;
 	update_battle_ui(false, true);
 	update_player_health();
+	#DIALOG
 	var grew = pokemon.data.name + " grew to Level ";
 	dialog.level_up([grew + str(pokemon.data.level) + "!"], pokemon);
 	await BATTLE.level_up_stats_end;
@@ -333,13 +336,22 @@ func handle_death(state: Dictionary) -> void:
 func add_animation_and_play(move: Dictionary) -> void:
 	var move_list = MovesAnimations.new();
 	var animation = move_list.get_move_animation(move.name.to_lower());
-	call_deferred("add_child", animation);
-	if(BATTLE.current_turn == BATTLE.Turn.PLAYER): 
-		animation.play_attack(player_sprite, BATTLE.current_turn);
-	elif(BATTLE.current_turn == BATTLE.Turn.ENEMY): 
-		animation.play_attack(enemy_sprite, BATTLE.current_turn);
-	await BATTLE.attack_finished;
-	animation.call_deferred("queue_free");
+	#MISSED
+	if(BATTLE.AttackResult.MISS in BATTLE.attack_result):
+		var target = pokemon;
+		if(BATTLE.current_turn == BATTLE.Turn.ENEMY): target = enemy;
+		dialog.show_missed(target.name);
+		await BATTLE.quick_dialog_end;
+		BATTLE.attack_finished.emit();
+		update_battle_ui(false, false, true);
+	else:
+		call_deferred("add_child", animation);
+		if(BATTLE.current_turn == BATTLE.Turn.PLAYER): 
+			animation.play_attack(player_sprite, BATTLE.current_turn);
+		elif(BATTLE.current_turn == BATTLE.Turn.ENEMY): 
+			animation.play_attack(enemy_sprite, BATTLE.current_turn);
+		await BATTLE.attack_finished;
+		animation.call_deferred("queue_free");
 
 #LISTENERS
 func _on_move_hit() -> void:
@@ -351,7 +363,8 @@ func _on_move_hit() -> void:
 
 func after_dialog_attack() -> void:
 	await GLOBAL.timeout(.2);
-	if(BATTLE.AttackResult.NORMAL not in BATTLE.attack_result):
+	if(BATTLE.AttackResult.NORMAL not in BATTLE.attack_result &&
+		BATTLE.AttackResult.MISS not in BATTLE.attack_result):
 		await BATTLE.attack_check_done;
 		await GLOBAL.timeout(0.2);
 	if(enemy.data.death || pokemon.data.death || 
@@ -387,19 +400,6 @@ func _on_selection_value_select(
 			player_info.visible = false;
 		int(GLOBAL.BinaryOptions.NO): _on_check_can_escape();
 
-func check_learn_move(poke: Object, new_level: int) -> void:
-	var new_move_index = float(poke.data.move_set[new_level]);
-	if(new_move_index in poke.data.moves):
-		await GLOBAL.timeout(0.2);
-		BATTLE.dialog_finished.emit();
-		return;
-	var new_move = MOVES.get_move(new_move_index);
-	poke.learn_move(new_move.id);
-	await GLOBAL.timeout(0.1);
-	dialog.set_current_text("");
-	play_audio(BATTLE.BATTLE_SOUNDS.MOVE_LEARN);
-	dialog.start([poke.name + " learned " + new_move.name.to_upper() + "!"]);
-
 #CHECKERS
 func check_battle_state() -> void:
 	await BATTLE.ui_updated;
@@ -409,12 +409,8 @@ func check_battle_state() -> void:
 		await BATTLE.quick_dialog_end;
 		BATTLE.attack_check_done.emit();
 		return;
-	#MISSED
+	#MISS
 	if(BATTLE.AttackResult.MISS in BATTLE.attack_result):
-		var target = pokemon;
-		if(BATTLE.current_turn == BATTLE.Turn.ENEMY): target = enemy;
-		dialog.show_missed(target.name);
-		await BATTLE.quick_dialog_end;
 		BATTLE.attack_check_done.emit();
 		return;
 	#CRITICAL HIT
@@ -437,6 +433,7 @@ func check_battle_state() -> void:
 	elif(BATTLE.AttackResult.AWFULL in BATTLE.attack_result):
 		dialog.show_awfull();
 		await BATTLE.quick_dialog_end;
+	
 	await GLOBAL.timeout(0.1);
 	BATTLE.attack_check_done.emit();
 	
@@ -460,6 +457,19 @@ func check_battle_state() -> void:
 			"dialog": [pokemon.data.name + " fainted!"]
 		}
 		handle_death(state);
+
+func check_learn_move(poke: Object, new_level: int) -> void:
+	var new_move_index = float(poke.data.move_set[new_level]);
+	if(new_move_index in poke.data.moves):
+		await GLOBAL.timeout(0.2);
+		BATTLE.dialog_finished.emit();
+		return;
+	var new_move = MOVES.get_move(new_move_index);
+	poke.learn_move(new_move.id);
+	await GLOBAL.timeout(0.1);
+	dialog.set_current_text("");
+	play_audio(BATTLE.BATTLE_SOUNDS.MOVE_LEARN);
+	dialog.start([poke.name + " learned " + new_move.name.to_upper() + "!"]);
 
 # CHECK NEXT
 func check_for_next_pokemon() -> void:

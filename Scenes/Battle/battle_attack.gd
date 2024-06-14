@@ -11,6 +11,13 @@ extends Node2D
 @onready var attack_04 = $Attack04;
 @onready var player_attacks = [attack_01, attack_02, attack_03, attack_04];
 
+const CURSOR_MAP = {
+	Vector2.ZERO: BATTLE.Moves.FIRST,
+	Vector2.RIGHT: BATTLE.Moves.SECOND,
+	Vector2.DOWN: BATTLE.Moves.THIRD,
+	Vector2(1, 1): BATTLE.Moves.FOURTH
+}
+
 var selected_attack = BATTLE.Moves.FIRST;
 var cursor_index = Vector2.ZERO;
 var player_moves = [];
@@ -26,6 +33,7 @@ func get_enemy_random_attack() -> Dictionary:
 	var randomIndex = randi() % enemy_moves.size();
 	return enemy_moves[randomIndex];
 
+#UI ONLY
 func set_pokemon_moves(moves: Array) -> void:
 	reset();
 	player_moves = moves;
@@ -38,7 +46,7 @@ func set_enemy_moves(moves: Array) -> void:
 	for move in moves:
 		enemy_moves.push_back(MOVES.get_move(move));
 
-#ATTACKS
+#INPUT ATTACKS
 func input() -> void:
 	BATTLE.attack_pressed = false;
 	var pre_position = cursor_index;
@@ -54,26 +62,27 @@ func input() -> void:
 		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
 		visible = false;
 		BATTLE.state = BATTLE.States.MENU;
+	#START ATTACK
 	elif Input.is_action_just_pressed("space") and !BATTLE.attack_pressed: 
 		BATTLE.start_attack.emit();
 		visible = false;
 		return;
-		
+	
+	#CURSOR POSITION
 	var new_position = BATTLE.ATTACK_CURSOR[cursor_index.y][cursor_index.x];
 	if(!BATTLE.can_move_attack_cursor(new_position, player_attacks)):
 		cursor_index = pre_position;
 		return;
 	attack_cursor.position = new_position;
+	
+	#NEW POSITION
 	if (pre_position != cursor_index): 
 		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
 		set_attack_slot();
-	update_attack_ui();
+		update_attack_ui();
 
 func set_attack_slot() -> void:
-	if(cursor_index == Vector2.ZERO): selected_attack = BATTLE.Moves.FIRST;
-	elif(cursor_index == Vector2.RIGHT): selected_attack = BATTLE.Moves.SECOND;
-	elif(cursor_index == Vector2.DOWN): selected_attack = BATTLE.Moves.THIRD;
-	elif(cursor_index == Vector2(1, 1)): selected_attack = BATTLE.Moves.FOURTH;
+	selected_attack = CURSOR_MAP[cursor_index];
 
 func update_attack_ui() -> void:
 	var current_attack = player_moves[selected_attack];

@@ -11,6 +11,7 @@ extends Area2D
 @export var category: GLOBAL.DoorCategory = GLOBAL.DoorCategory.DOOR;
 @export var shared: bool = false;
 @export var offset: Vector2 = Vector2.ZERO;
+@export var npc_list: Array[int] = [];
 
 @onready var anim_player = $AnimationPlayer;
 @onready var sprite_2d = $Sprite2D;
@@ -28,12 +29,15 @@ func _ready():
 func _on_body_entered(body) -> void:
 	check_direction();
 	if(can_be_opened && body.name == "Oak"):
-		if(category == GLOBAL.DoorCategory.TUNNEL): body.visible = false;
 		MAPS.spawn_position = spawn_position;
+		if(category == GLOBAL.DoorCategory.TUNNEL): body.visible = false;
+		#DOOR TYPE
 		if(type == GLOBAL.DoorType.IN): audio.stream = DOOR_ENTER;
 		else:
 			audio.stream = DOOR_EXIT;
 			audio.play();
+			
+		#ANIMATED
 		if(animated): anim_player.play("Open");
 		else:
 			if(type == GLOBAL.DoorType.IN): audio.play();
@@ -45,12 +49,16 @@ func check_direction() -> void:
 		can_be_opened = door_open_direction == GLOBAL.last_direction && (
 			next_scene != "" || shared);
 
+#ENTER
 func enter_house() -> void:
 	await GLOBAL.timeout(.1);
-	if(shared && type == GLOBAL.DoorType.OUT): next_scene = MAPS.get_next_map();
+	if(shared && type == GLOBAL.DoorType.OUT): 
+		next_scene = MAPS.get_next_map();
+		MAPS.reset_npc_shared_list();
 	if(next_scene != ""):
-		if(type == GLOBAL.DoorType.IN && shared): 
+		if(type == GLOBAL.DoorType.IN): 
 			MAPS.last_map = MAPS.get_map_name(true);
+			if(shared): MAPS.npc_shared_list = npc_list;
 		GLOBAL.last_used_door = self.name;
 		get_node("/root/SceneManager").transition_to_scene(next_scene);
 

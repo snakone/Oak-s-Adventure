@@ -27,6 +27,12 @@ extends CanvasLayer
 
 const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg");
 const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
+const GUI_STORAGE_HIDE_PARTY_PANEL = preload("res://Assets/Sounds/GUI storage hide party panel.ogg");
+const GUI_STORAGE_SHOW_PARTY_PANEL = preload("res://Assets/Sounds/GUI storage show party panel.ogg");
+const GUI_STORAGE_PICK_UP = preload("res://Assets/Sounds/GUI storage pick up.ogg");
+const GUI_STORAGE_PUT_DOWN = preload("res://Assets/Sounds/GUI storage put down.ogg");
+const GUI_SEL_BUZZER = preload("res://Assets/Sounds/GUI sel buzzer.ogg");
+
 enum Slots { FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH }
 
 enum Positions {
@@ -67,7 +73,7 @@ var selected_party_index: int = 0;
 var panel_open_before_pick = false;
 
 func _ready() -> void:
-	boxes_length = GLOBAL.boxes_background.keys().size();
+	boxes_length = BOXES.boxes_background.keys().size();
 	update_hand();
 	update_box();
 	var current_party = PARTY.get_party();
@@ -112,7 +118,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	update_hand();
 
 func update_hand() -> void:
-	hand.position = GLOBAL.HAND_POSITIONS[current_hand_pos];
+	hand.position = BOXES.HAND_POSITIONS[current_hand_pos];
+	var hand_node = hand.get_node("Sprite2D");
 	set_index();
 	if(!party_panel_opened):
 		#BOX
@@ -125,15 +132,22 @@ func update_hand() -> void:
 		if(current_hand_pos.y < 0): hand.get_node("Shadow").visible = false;
 		else: hand.get_node("Shadow").visible = true;
 		#FLIP
-		if(current_hand_pos.y == int(Positions.OPTIONS)): 
-			hand.get_node("Sprite2D").flip_v = true;
-		else: hand.get_node("Sprite2D").flip_v = false;
+		if(current_hand_pos.y == int(Positions.OPTIONS) && !holding): 
+			hand_node.flip_v = true;
+		else: hand_node.flip_v = false;
+		if(holding && current_hand_pos.y == int(Positions.OPTIONS)):
+			hand_node.offset.y = -10;
+			holding_sprite.offset.y = - 8;
+		else:
+			hand_node.offset.y = 0;
+			holding_sprite.offset.y = 6;
 		#CLOSE
-		if(current_hand_pos == Vector2(1, -2)): close.frame = 0;
+		if(current_hand_pos == Vector2(1, -2)):
+			box_anim_player.play("CloseSelected");
 		else: close.frame = 1;
 		#ACTIVE
 		if(!holding && is_pokemon_in_box()):
-			var poke = GLOBAL.boxes_array[current_box - 1][current_index];
+			var poke = BOXES.boxes_array[current_box - 1][current_index];
 			set_active(poke);
 		elif(!holding): remove_active();
 	else:
@@ -147,11 +161,11 @@ func update_box() -> void:
 	set_current_box();
 	if(current_box == 1):
 		set_next_box();
-		previous_sprite.texture = GLOBAL.boxes_background[boxes_length].texture;
-		previous_name.text = GLOBAL.boxes_background[boxes_length].name;
+		previous_sprite.texture = BOXES.boxes_background[boxes_length].texture;
+		previous_name.text = BOXES.boxes_background[boxes_length].name;
 	elif(current_box == boxes_length):
-		next_sprite.texture = GLOBAL.boxes_background[1].texture;
-		next_name.text = GLOBAL.boxes_background[1].name;
+		next_sprite.texture = BOXES.boxes_background[1].texture;
+		next_name.text = BOXES.boxes_background[1].name;
 		set_previous_box();
 	else:
 		set_next_box();
@@ -161,16 +175,16 @@ func update_box() -> void:
 	changing_box = false;
 
 func update_ui(box: Node2D, box_index: int) -> void:
-	for i in range(len(GLOBAL.boxes_array[box_index - 1])):
-		var poke = GLOBAL.boxes_array[box_index - 1][i];
+	for i in range(len(BOXES.boxes_array[box_index - 1])):
+		var poke = BOXES.boxes_array[box_index - 1][i];
 		if(poke != null):
 			var sprite = Sprite2D.new();
 			sprite.vframes = 2;
 			sprite.centered = false;
 			sprite.texture = poke.data.party_texture;
 			sprite.name = poke.data.uuid;
-			if(i in GLOBAL.BOXES_SLOTS):
-				sprite.position = GLOBAL.BOXES_SLOTS[i];
+			if(i in BOXES.BOXES_SLOTS):
+				sprite.position = BOXES.BOXES_SLOTS[i];
 			box.add_child(sprite);
 
 #SELECT
@@ -204,6 +218,9 @@ func pick_poke() -> void:
 
 #DROP
 func drop_poke() -> void:
+	if(is_party_empty(party) && !party_panel_opened):
+		play_audio(GUI_SEL_BUZZER);
+		return;
 	picking = true;
 	if(!party_panel_opened): anim_hand.play("Drop");
 	else: anim_hand.play("DropParty");
@@ -222,41 +239,40 @@ func add_sprite() -> void:
 		holding_sprite.offset.y = 6;
 		hand.get_node("Sprite2D").add_child(holding_sprite);
 		current_node.queue_free();
-		GLOBAL.boxes_array[current_box - 1][selected_index] = null;
+		BOXES.boxes_array[current_box - 1][selected_index] = null;
 	else:
 		holding_sprite.offset = Vector2(2.5, 12.4);
 		hand.get_node("Sprite2D").add_child(holding_sprite);
 		party[selected_party_index] = null;
 		var slot = party_slots[int(selected_party_index)];
 		slot.visible = false;
+	play_audio(GUI_STORAGE_PICK_UP);
 
 func remove_sprite() -> void:
-	if(!party_panel_opened):
-		hand.get_node("Sprite2D").remove_child(holding_sprite);
-		holding_sprite.offset.y = 0;
-	else:
-		hand.get_node("Sprite2D").remove_child(holding_sprite);
-		holding_sprite.offset = Vector2(-1, 0);
+	hand.get_node("Sprite2D").remove_child(holding_sprite);
+	play_audio(GUI_STORAGE_PUT_DOWN);
+	if(!party_panel_opened): holding_sprite.offset.y = 0;
+	else: holding_sprite.offset = Vector2(-1, 0);
 	swap_pokes();
 	set_party_panel();
 	update_all_boxes();
 
 func swap_pokes() -> void:
-	var boxes_copy = GLOBAL.boxes_array.duplicate(true);
+	var boxes_copy = BOXES.boxes_array.duplicate(true);
 	var party_copy = party.duplicate(true);
 	if(party_panel_opened != panel_open_before_pick):
 		#SWAP PARTY -> BOX
 		if(panel_open_before_pick):
 			party_copy[selected_party_index] = boxes_copy[current_box - 1][current_index];
 			boxes_copy[current_box - 1][current_index] = holding_poke;
-			GLOBAL.boxes_array = boxes_copy;
+			BOXES.boxes_array = boxes_copy;
 			party = party_copy;
 			return;
 		#SWAP BOX -> PARTY
 		else:
 			boxes_copy[selected_box - 1][selected_index] = party_copy[current_party_index];
 			party_copy[current_party_index] = holding_poke;
-			GLOBAL.boxes_array = boxes_copy;
+			BOXES.boxes_array = boxes_copy;
 			party = party_copy;
 			return;
 		
@@ -264,7 +280,7 @@ func swap_pokes() -> void:
 	if(!party_panel_opened):
 		boxes_copy[selected_box - 1][selected_index] = boxes_copy[current_box - 1][current_index];
 		boxes_copy[current_box - 1][current_index] = holding_poke;
-		GLOBAL.boxes_array = boxes_copy;
+		BOXES.boxes_array = boxes_copy;
 	#PARTY SWAP
 	else:
 		if(selected_party_index == current_party_index):
@@ -274,14 +290,15 @@ func swap_pokes() -> void:
 		party_copy[current_party_index] = holding_poke;
 		party = party_copy;
 
-#PARTY
+#PARTY PANEL
 func open_party_panel() -> void:
 	if(party_panel_opened): return;
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(GUI_STORAGE_SHOW_PARTY_PANEL);
 	party_panel_opened = true;
 	party_anim_player.play("Show");
 	await party_anim_player.animation_finished;
 	hand.get_node("Sprite2D").flip_v = false;
+	hand.get_node("Sprite2D").offset.y = 0;
 	current_hand_pos = Vector2(6, 0);
 	update_hand();
 	if(holding): 
@@ -290,7 +307,7 @@ func open_party_panel() -> void:
 
 func close_party_panel() -> void:
 	if(!party_panel_opened): return;
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(GUI_STORAGE_HIDE_PARTY_PANEL);
 	party_anim_player.play("Hide");
 	await party_anim_player.animation_finished;
 	party_panel_opened = false;
@@ -384,6 +401,7 @@ func handle_RIGHT() -> void:
 			current_hand_pos.x = 0;
 		if(holding): 
 			current_hand_pos.x -= 1;
+			play_audio(GUI_SEL_BUZZER);
 			return;
 	elif(current_hand_pos.y >= 0 && current_hand_pos.x > 5):
 		current_hand_pos.x = 0;
@@ -412,6 +430,7 @@ func handle_LEFT() -> void:
 			current_hand_pos.x = 1;
 		if(holding):
 			current_hand_pos.x += 1;
+			play_audio(GUI_SEL_BUZZER);
 			return;
 	elif(current_hand_pos.y >= 0 && current_hand_pos.x < 0):
 		current_hand_pos.x = 5;
@@ -419,7 +438,7 @@ func handle_LEFT() -> void:
 #CHECKERS
 func is_pokemon_in_box() -> bool:
 	if(current_hand_pos.y < 0): return false;
-	if(GLOBAL.boxes_array[current_box - 1][current_index] != null):
+	if(BOXES.boxes_array[current_box - 1][current_index] != null):
 		return true;
 	return false;
 
@@ -438,7 +457,7 @@ func save_data_before_pick() -> void:
 		selected_index = current_index;
 		selected_box = current_box;
 		selected_hand_pos = current_hand_pos;
-		var copy = GLOBAL.boxes_array.duplicate();
+		var copy = BOXES.boxes_array.duplicate();
 		holding_poke = copy[current_box - 1][selected_index];
 		current_node = pokemon_box.get_node(holding_poke.data.uuid);
 		holding_sprite.texture = holding_poke.data.party_texture;
@@ -466,18 +485,18 @@ func set_holding_sprite() -> void:
 
 func set_current_box() -> void:
 	boxes.position = Vector2.ZERO;
-	box_sprite.texture = GLOBAL.boxes_background[current_box].texture;
-	box_name.text = GLOBAL.boxes_background[current_box].name;
+	box_sprite.texture = BOXES.boxes_background[current_box].texture;
+	box_name.text = BOXES.boxes_background[current_box].name;
 
 func set_next_box() -> void:
 	var next_index = current_box + 1;
-	next_sprite.texture = GLOBAL.boxes_background[next_index].texture;
-	next_name.text = GLOBAL.boxes_background[next_index].name;
+	next_sprite.texture = BOXES.boxes_background[next_index].texture;
+	next_name.text = BOXES.boxes_background[next_index].name;
 
 func set_previous_box() -> void:
 	var previous_index = current_box - 1;
-	previous_sprite.texture = GLOBAL.boxes_background[previous_index].texture;
-	previous_name.text = GLOBAL.boxes_background[previous_index].name;
+	previous_sprite.texture = BOXES.boxes_background[previous_index].texture;
+	previous_name.text = BOXES.boxes_background[previous_index].name;
 
 func set_active(poke: Node) -> void:
 	active_name.text = poke.name;
@@ -527,7 +546,7 @@ func remove_children() -> void:
 		var childs = box.get_children();
 		for child in childs: box.remove_child(child);
 
-func move_null_to_end():
+func move_null_to_end() -> void:
 	var nulls = 0;
 	var array = [];
 	for i in range(party.size()):
@@ -539,6 +558,11 @@ func move_null_to_end():
 func remove_active() -> void:
 	active.visible = false;
 	inactive.visible = true;
+
+func is_party_empty(arr: Array) -> bool:
+	for poke in arr:
+		if poke != null: return false
+	return true;
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;

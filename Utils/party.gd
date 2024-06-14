@@ -7,7 +7,8 @@ var active_pokemon: Dictionary;
 
 const ERASE_PROPS = [
 	"sprites", "party_texture", "shout", "stats", "battle_stages", 
-	"battle_stats", "offset", "scale", "move_set", "box_offset", "box_scale"
+	"battle_stats", "battle_moves", "offset", "scale", "move_set", 
+	"box_offset", "box_scale"
 ];
 
 func _ready(): add_to_group(GLOBAL.group_name);

@@ -16,11 +16,11 @@ script = ExtResource("1_yq5el")
 song = ExtResource("2_f2w0n")
 
 [node name="Oak" parent="." instance=ExtResource("3_6c5hn")]
-position = Vector2(32, 80)
+position = Vector2(112, 48)
 
 [node name="TileMap" parent="." instance=ExtResource("4_onct5")]
 
-[node name="Vendor" parent="." instance=ExtResource("7_ui2od")]
+[node name="Kevin" parent="." instance=ExtResource("7_ui2od")]
 position = Vector2(32, 48)
 texture = ExtResource("6_uhm56")
 frames = 4
@@ -30,11 +30,11 @@ can_up = false
 interval = 5.0
 dialog_id = 26
 
-[node name="CollisionShape2D" parent="Vendor" index="1"]
+[node name="CollisionShape2D" parent="Kevin" index="1"]
 position = Vector2(16, 16)
 scale = Vector2(2, 2)
 
-[node name="CollisionPolygon2D" parent="Vendor/TalkArea" index="0"]
+[node name="CollisionPolygon2D" parent="Kevin/TalkArea" index="0"]
 polygon = PackedVector2Array(4, 4, 4, -12, 12, -12, 12, 4, 44, 4, 44, 12, 12, 12, 12, 44, 4, 44, 4, 12, -12, 12, -12, 4)
 
 [node name="PokeShopDoor" parent="." instance=ExtResource("5_p4a23")]
@@ -56,4 +56,4 @@ dialog_id = 27
 position = Vector2(144, 16)
 dialog_id = 27
 
-[editable path="Vendor"]
+[editable path="Kevin"]

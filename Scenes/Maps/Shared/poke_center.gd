@@ -2,7 +2,7 @@ extends HouseController
 
 @onready var poke_center_door: Area2D = $PokeCenterDoor;
 @onready var audio: AudioStreamPlayer = $AudioStreamPlayer;
-@onready var npc_player: AnimationPlayer = $NPC/AnimationPlayer
+@onready var joy_animation: AnimationPlayer = $Joy/AnimationPlayer;
 @onready var anim_player: AnimationPlayer = $AnimationPlayer;
 @onready var timer: Timer = $Timer;
 @onready var poke_preview: Sprite2D = $HealAnimation/PokePreview;
@@ -13,9 +13,22 @@ const BATTLE_BALL_SHAKE = preload("res://Assets/Sounds/Battle ball shake.ogg");
 var heal_anim_duration = 11;
 var party: Array = [];
 var party_size: int = 0;
-var show_screen_poke = true;
 var index = 0;
-var selection_category = GLOBAL.SelectionCategory.HEAL;
+
+var npc_properties = [
+	"texture",
+	"position",
+	"frames",
+	"positive_limits",
+	"negative_limits",
+	"state",
+	"can_left",
+	"can_right",
+	"can_up",
+	"can_down",
+	"interval",
+	"dialog_id"
+];
 
 func _ready() -> void:
 	super();
@@ -33,10 +46,12 @@ func handle_heal() -> void:
 	if(GLOBAL.healing): return;
 	GLOBAL.healing = true;
 	party = PARTY.get_party();
+	party_size = party.size();
 	await GLOBAL.timeout(0.2);
 	GLOBAL.start_dialog.emit(24);
-	npc_player.play("HealPokemon");
-	anim_player.play("PokeballHeal");
+	joy_animation.play("HealPokemon");
+	var anim_name = "PokeballHeal_" + str(party_size);
+	anim_player.play(anim_name);
 	await GLOBAL.timeout(heal_anim_duration);
 	PARTY.healh_party_pokemon();
 	GLOBAL.start_dialog.emit(25);
@@ -44,15 +59,12 @@ func handle_heal() -> void:
 	await GLOBAL.timeout(0.2);
 	GLOBAL.healing = false;
 
-func start_timer(show_poke = true) -> void:
-	show_screen_poke = show_poke;
+func start_timer(_show_poke = true) -> void:
 	timer.start();
 
 func stop_timer() -> void: 
 	timer.stop();
 	await GLOBAL.timeout(timer.wait_time);
-	poke_preview.texture = null;
-	poke_preview.visible = false;
 	index = 0;
 
 func play_heal_sound() -> void:
@@ -63,13 +75,8 @@ func _on_timer_timeout() -> void:
 	audio.stop();
 	audio.stream = BATTLE_BALL_SHAKE;
 	audio.play();
-	#if(show_screen_poke):
-		#var texture = party[index].data.party_texture;
-		#poke_preview.visible = true;
-		#poke_preview.texture = texture;
-		#index += 1;
 
 func _on_selection_value_select(value: int, category) -> void:
-	if(category != selection_category): return;
+	if(category != GLOBAL.SelectionCategory.HEAL): return;
 	match value:
 		int(GLOBAL.BinaryOptions.YES): handle_heal();

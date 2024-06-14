@@ -115,6 +115,7 @@ func move(delta) -> void:
 	playback.travel("Move");
 	if(GLOBAL.on_bike): percent_moved += BIKE_SPEED * delta;
 	else: percent_moved += SPEED * delta;
+	
 	round_percent_move();
 	var ledge_colliding = (
 		ledge_ray_cast_2d.is_colliding() && 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://ivj6tbkbl3wy"]
+[gd_scene load_steps=42 format=3 uid="uid://ivj6tbkbl3wy"]
 
 [ext_resource type="Script" path="res://Scenes/UI/pokemon_boxes.gd" id="1_wdni0"]
 [ext_resource type="Shader" path="res://Scenes/UI/animated_background.gdshader" id="2_mfosh"]
@@ -312,6 +312,22 @@ tracks/5/keys = {
 "values": [0, 1, 2, 3, 4, 5]
 }
 
+[sub_resource type="Animation" id="Animation_87yxm"]
+resource_name = "CloseSelected"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../Close/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
 [sub_resource type="Animation" id="Animation_fa341"]
 resource_name = "Next"
 length = 0.6
@@ -394,10 +410,23 @@ tracks/3/keys = {
 "update": 1,
 "values": [1]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../../Close/Sprite2D:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tltli"]
 _data = {
 "BoxSelected": SubResource("Animation_tf7y2"),
+"CloseSelected": SubResource("Animation_87yxm"),
 "Next": SubResource("Animation_fa341"),
 "Previous": SubResource("Animation_o4ucu"),
 "RESET": SubResource("Animation_e51tc")
@@ -644,7 +673,6 @@ text = "BOX"
 position = Vector2(89, 30)
 texture = ExtResource("10_jv6p7")
 vframes = 6
-frame = 5
 
 [node name="ArrowRight" type="Sprite2D" parent="Node2D/Boxes/Previous"]
 position = Vector2(233, 30)
@@ -684,7 +712,6 @@ text = "BOX"
 position = Vector2(89, 30)
 texture = ExtResource("10_jv6p7")
 vframes = 6
-frame = 5
 
 [node name="ArrowRight" type="Sprite2D" parent="Node2D/Boxes/Next"]
 position = Vector2(233, 30)

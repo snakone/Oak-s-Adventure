@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://b6hbe8lus8fv2"]
+[gd_scene load_steps=12 format=3 uid="uid://b6hbe8lus8fv2"]
 
 [ext_resource type="Script" path="res://Scripts/dialog_manager.gd" id="1_xrosg"]
 [ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="2_sr88g"]
 [ext_resource type="Texture2D" uid="uid://c0dpipa5sqguj" path="res://Assets/UI/dialog_bg.png" id="2_uokyr"]
 [ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/Fonts/power clear.ttf" id="4_c420i"]
 [ext_resource type="Texture2D" uid="uid://bynrkxrintj5r" path="res://Assets/UI/triangle.png" id="5_hcghe"]
+[ext_resource type="FontFile" uid="uid://bqhxhi032wwfk" path="res://Assets/Fonts/power clear bold.ttf" id="5_tndgo"]
 [ext_resource type="AudioStream" uid="uid://cfl2vuycupxn1" path="res://Assets/Sounds/confirm.wav" id="6_lcq8j"]
 [ext_resource type="PackedScene" uid="uid://d1n3rqipshb3u" path="res://Scenes/UI/menu_selection.tscn" id="7_mmu53"]
 
@@ -69,17 +70,17 @@ patch_margin_bottom = 6
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 clip_contents = false
 offset_left = 16.0
-offset_top = 126.0
+offset_top = 127.0
 offset_right = 222.0
-offset_bottom = 152.0
+offset_bottom = 153.0
 theme = ExtResource("2_sr88g")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 theme_override_constants/line_separation = 2
 theme_override_fonts/normal_font = ExtResource("4_c420i")
-theme_override_fonts/bold_font = ExtResource("4_c420i")
-theme_override_font_sizes/normal_font_size = 13
-theme_override_font_sizes/bold_font_size = 13
+theme_override_fonts/bold_font = ExtResource("5_tndgo")
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/bold_font_size = 12
 bbcode_enabled = true
 text = "How are you?"
 fit_content = true
@@ -101,6 +102,6 @@ autoplay = "Bounce"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_lcq8j")
-volume_db = -15.0
+volume_db = -8.0
 
 [node name="Selection" parent="." instance=ExtResource("7_mmu53")]

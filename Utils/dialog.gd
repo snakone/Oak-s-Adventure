@@ -36,7 +36,7 @@ const LIBRARY: Dictionary = {
 	4: {
 		"arr": [
 				["Oh, it looks like there's no mail today!"],
-				["Maybe I should find a boy to bring me the mail sometimes."]
+				["Maybe I should find a boy to bring me the\nmail sometimes. Yes that's it!"]
 			],
 		"type": Type.OBJECT,
 		"direction": GLOBAL.Directions.UP,
@@ -46,7 +46,7 @@ const LIBRARY: Dictionary = {
 		"arr": [
 				["Oak's Little Market."],
 				["We have the best selection of items."],
-				["Don't miss it!"]
+				["Don't miss out!"]
 			],
 		"type": Type.OBJECT,
 		"direction": GLOBAL.Directions.UP,
@@ -148,11 +148,10 @@ const LIBRARY: Dictionary = {
 		"arr": [
 			["Jumping over ledges is so fun!"],
 			["self: Mmm I think I should try aswell!"],
-			["That's the spirit!"]
+			["That's the spirit!"],
 		],
 		"type": Type.NPC,
 		"direction": GLOBAL.Directions.ALL,
-		"npc_name": "Scott",
 		"marker": true
 	},
 	20: {
@@ -169,8 +168,10 @@ const LIBRARY: Dictionary = {
 		"arr": [
 			["Long time no see, Professor."],
 			["self:Hey Harold, how are you?"],
-			["I heard that a strange POKéMON has been seen near the Black Mountain."],
+			["Fine. I have some news..."],
+			["I heard that a strange POKéMON\nhas been seen near the Black Mountain."],
 			["self:Mm!? What it can be?"],
+			["self:Maybe I should go to investigate."]
 		],
 		"type": Type.NPC,
 		"direction": GLOBAL.Directions.ALL,
@@ -180,11 +181,10 @@ const LIBRARY: Dictionary = {
 	22: {
 		"arr": [
 			["I like this fountains a lot! Hehe."],
-			["self:They are quite relaxing."],
+			["self:Indeed. They are quite relaxing."],
 		],
 		"type": Type.NPC,
 		"direction": GLOBAL.Directions.ALL,
-		"npc_name": "Daisy",
 		"marker": true
 	},
 	23: {
@@ -269,7 +269,6 @@ const LIBRARY: Dictionary = {
 			["You booted up the PC."]
 		],
 		"type": Type.PC,
-		"direction": GLOBAL.Directions.UP,
 		"marker": true
 	},
 	33: {
@@ -277,7 +276,6 @@ const LIBRARY: Dictionary = {
 			["Which PC should be accessed?"]
 		],
 		"type": Type.PC,
-		"direction": GLOBAL.Directions.UP,
 		"marker": false
 	},
 	34: {
@@ -303,8 +301,105 @@ const LIBRARY: Dictionary = {
 			["Accessed Bill\'s PC."],
 			["POKéMON Storage System opened."]
 			],
+		"type": Type.PC,
+		"marker": true
+	},
+	38: {
+		"arr": [["Julieta's House."]],
 		"type": Type.OBJECT,
 		"direction": GLOBAL.Directions.UP,
+		"marker": true
+	},
+	39: {
+		"arr": [["Route 02 - Calderock Garden."]],
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
+	},
+	40: {
+		"arr": [
+			["There are trainers in this route."],
+			["They will encourage you to do a Pokémon battle! Be ready. Kiaaa!!!"]
+		],
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
+		"marker": true
+	},
+	41: {
+		"arr": [
+			["For the trainers out there:"],
+			["POKéMON lives in grass. Step on at your own risk."]
+		],
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
+	},
+	42: {
+		"arr": [
+			["Bill created the POKéMON storage system."],
+			["I just stored my extra POKÉMON on that PC."],
+			["Technology is just amazing!"]
+		],
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
+		"marker": true
+	},
+	43: {
+		"arr": [
+			["Hey! Do you know how to use the PC?"],
+		],
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
+		"marker": false,
+		"selection": {
+			"category": GLOBAL.SelectionCategory.BINARY,
+			"sound": preload("res://Assets/Sounds/confirm.wav"),
+			"id": 1,
+			"selected": GLOBAL.BinaryOptions.NO
+		},
+		"response": {
+			1: {
+				GLOBAL.BinaryOptions.YES: {
+					"dialog_id": 45
+				},
+				GLOBAL.BinaryOptions.NO: {
+					"dialog_id": 44
+				}
+			}
+		} 
+	},
+	44: {
+		"arr": [
+			["After you turn on the PC you can select\n3 different options. Let me explain them:"],
+			["1. Bill\'s PC: Store and manage your POKéMON."],
+			["2. Oak\'s PC: Manage and store your ITEMS."],
+			["3. POKéDEX Check: It will evaluate your\nregistered POKéMON. Give it a try!"],
+			["self: Alright, thanks for the explanation."]
+		],
+		"starter": 43,
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
+		"marker": true,
+		"end": true
+	},
+	45: {
+		"arr": [
+			["Okay, I thought older people didn\'t know how\nto use this new technology."],
+		],
+		"starter": 43,
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
+		"marker": true,
+		"end": true
+	},
+	46: {
+		"arr": [
+			["I could spend all day shoping!"],
+			["Even though my boyfriend's wallet is fading\nfast."],
+			["self: What the..."]
+		],
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.ALL,
 		"marker": true
 	},
 }

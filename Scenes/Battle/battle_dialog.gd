@@ -12,7 +12,7 @@ const wait_quick_dialog = 0.2;
 
 var pressed = false;
 var array: Array
-var line: int
+var line: int;
 var current_text: String = "";
 var participant: Object;
 
@@ -132,6 +132,7 @@ func switch(input_arr: Array) -> void:
 			await timer.timeout;
 			current_text += input_arr[i][j];
 			label.text = current_text;
+	
 	await GLOBAL.timeout(1);
 	timer.stop();
 	current_text = "";
@@ -160,7 +161,6 @@ func escape(input_arr: Array) -> void:
 func escape_input() -> void:
 	if(pressed): return;
 	if Input.is_action_just_pressed("space"):
-
 		pressed = true;
 		BATTLE.state = BATTLE.States.NONE;
 		play_audio(CONFIRM);
@@ -192,7 +192,7 @@ func next_pokemon(input_arr: Array) -> void:
 	pressed = false;
 	BATTLE.dialog_finished.emit();
 
-#QUICK - SHOW AND CLOSE
+#QUICK DIALOG - SHOW AND CLOSE
 func quick(input_arr: Array, delay = 0.6) -> void:
 	BATTLE.state = BATTLE.States.NONE;
 	pressed = true;

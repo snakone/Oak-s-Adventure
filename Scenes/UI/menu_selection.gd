@@ -22,12 +22,17 @@ func _ready():
 
 func set_visibility(
 	value: bool,
-	category = GLOBAL.SelectionCategory.BINARY
+	data = {
+		"category": GLOBAL.SelectionCategory.BINARY,
+		"selected": GLOBAL.BinaryOptions.YES
+	}
 ) -> void:
 	if(value): BATTLE.can_use_menu = false;
-	await GLOBAL.timeout(0.2);
+	await GLOBAL.timeout(0.1);
 	visible = value;
-	id = category;
+	id = data.category;
+	if("selected" in data): selected_option = data.selected;
+	update_cursor();
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(

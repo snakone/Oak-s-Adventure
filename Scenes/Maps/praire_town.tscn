@@ -17,20 +17,19 @@ script = ExtResource("1_3hn5p")
 song = ExtResource("10_gcas7")
 
 [node name="Oak" parent="." instance=ExtResource("2_5a1f2")]
-y_sort_enabled = true
 position = Vector2(48, 112)
 input_pickable = true
 
 [node name="TileMap" parent="." instance=ExtResource("2_28j7f")]
 
 [node name="SwitchRoute01" parent="." instance=ExtResource("4_nqgbe")]
-position = Vector2(288, -12)
+position = Vector2(288, -24)
 scale = Vector2(2, 1)
 next_scene = "res://Scenes/Maps/Routes/route_01.tscn"
 new_map = 4
 
 [node name="SwitchRoute00" parent="." instance=ExtResource("4_nqgbe")]
-position = Vector2(56, 268)
+position = Vector2(56, 280)
 scale = Vector2(5, 1)
 next_scene = "res://Scenes/Maps/Routes/route_00.tscn"
 enter_direction = 3
@@ -53,6 +52,9 @@ dialog_id = 4
 position = Vector2(192, 80)
 dialog_id = 5
 
+[node name="CollisionPolygon2D" parent="Banner/DialogArea" index="0"]
+polygon = PackedVector2Array(12, 12, 12, 28, 4, 28, 4, 12)
+
 [node name="Box" parent="." instance=ExtResource("9_255gx")]
 position = Vector2(112, 48)
 dialog_id = 7
@@ -65,3 +67,5 @@ state = 1
 can_up = false
 interval = 3.0
 dialog_id = 20
+
+[editable path="Banner"]

@@ -4,7 +4,7 @@ extends CanvasLayer
 @onready var label = $RichTextLabel;
 @onready var marker = $Marker;
 @onready var audio = $AudioStreamPlayer;
-@onready var selection: NinePatchRect = $Selection;
+@onready var menu_selection: NinePatchRect = $Selection;
 
 const CONFIRM = preload("res://Assets/Sounds/confirm.wav");
 const CLOSE_MENU = preload("res://Assets/Sounds/close menu.mp3");
@@ -26,11 +26,14 @@ func _ready() -> void:
 	marker.visible = false;
 	label.text = "";
 	var text_string = dialog_data.arr[0][0];
+	
+	#SET NPC NAME
 	if(dialog_data.type ==  DIALOG.Type.NPC):
 		npc_dialog = true;
-		whos_talking = dialog_data.npc_name;
+		if("npc_name" in dialog_data): whos_talking = dialog_data.npc_name;
+		elif(oak_prefix in text_string): whos_talking = "Oak";
 		text_string = add_prefix(text_string);
-
+	
 	for i in range(1):
 		for j in range(len(text_string)):
 			await timer.timeout;
@@ -55,36 +58,36 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if Input.is_action_just_pressed("space") and !pressed:
 		marker.visible = false;
+		whos_talking = "";
 		pressed = true;
 		label.text = "";
 		play_audio(CONFIRM);
-		
+		#CONTINUE
 		if current_line >= len(dialog_data.arr[current_index]):
-			label.text = ""
-			current_index += 1
-			current_line = 0
-		
+			label.text = "";
+			current_index += 1;
+			current_line = 0;
+		#END
 		if current_index >= len(dialog_data.arr):
 			timer.stop();
 			dialog_closed = true;
 			await audio.finished;
 			if(dialog_data.marker): GLOBAL.emit_signal("close_dialog");
+		#WRITE
 		else:
 			label.text = label.text.erase(0, label.text.find("\n") + 1);
 			var text_string = dialog_data.arr[current_index][current_line];
+			if(oak_prefix in text_string): whos_talking = "Oak";
 			if(npc_dialog):
+				if("npc_name" in dialog_data): whos_talking = dialog_data.npc_name;
 				text_string = add_prefix(text_string);
-				whos_talking = dialog_data.npc_name;
 				
 			for j in range(len(text_string)):
 				await timer.timeout;
 				label.text += text_string[j];
-				
 			#SELECTION
-			if(
-				dialog_data.arr.size() - 1 == current_index &&
-				"selection" in dialog_data
-			):
+			if(dialog_data.arr.size() - 1 == current_index && 
+				"selection" in dialog_data):
 				show_selection();
 				return;
 			marker.visible = dialog_data.marker;
@@ -92,11 +95,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		await GLOBAL.timeout(0.2);
 		pressed = false;
 
+#SHOW
 func show_selection() -> void:
 	must_select = true;
 	marker.visible = false;
 	await GLOBAL.timeout(0.1);
-	selection.set_visibility(true, dialog_data.selection.category);
+	menu_selection.set_visibility(true, dialog_data.selection);
 	
 func add_prefix(text: String) -> String:
 	if(whos_talking != ""):
@@ -108,15 +112,28 @@ func add_prefix(text: String) -> String:
 
 #SELECTION
 func _on_selection_value_select(value: int, _id) -> void:
-	match value:
-		int(GLOBAL.BinaryOptions.YES): close_selection(dialog_data.selection.sound);
-		int(GLOBAL.BinaryOptions.NO): close_selection();
+	match_selection_and_close(value);
 
-func close_selection(stream: AudioStream = CLOSE_MENU) -> void:
-	if(dialog_data.selection.sound != null):
-		play_audio(stream);
-		await audio.finished;
+func match_selection_and_close(value: int) -> void:
+	var sound = dialog_data.selection.sound;
+	match value:
+		int(GLOBAL.BinaryOptions.YES): close_selection(value, sound);
+		int(GLOBAL.BinaryOptions.NO): close_selection(value);
+
+#CLOSE
+func close_selection(value: int, stream: AudioStream = CLOSE_MENU) -> void:
+	play_audio(stream);
+	await audio.finished;
 	GLOBAL.emit_signal("close_dialog");
+	check_for_responses(value);
+
+#RESPONSES
+func check_for_responses(value: int) -> void:
+	if("response" in dialog_data && "selection" in dialog_data):
+		var selection_id = dialog_data["selection"].id;
+		var current_response = dialog_data["response"][selection_id];
+		var dialog_id: int = current_response[value].dialog_id;
+		GLOBAL.start_dialog.emit(dialog_id);
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;

@@ -40,14 +40,18 @@ func input() -> void:
 		match_input();
 
 func match_input() -> void:
+	#ATTACK
 	if(cursor_index == Vector2.ZERO):
 		attack_selection.visible = true;
 		BATTLE.state = BATTLE.States.FIGHT;
 		BATTLE.update_attack_ui.emit();
+	#BAG
 	elif (cursor_index == Vector2.RIGHT): pass
 		#bag.visible = true;
 		#current_state = States.BAG;
+	#PARTY
 	elif(cursor_index == Vector2.DOWN): open_party();
+	#ESCAPE
 	elif(cursor_index == Vector2(1, 1)):
 		BATTLE.state = BATTLE.States.NONE;
 		BATTLE.check_can_escape.emit();
@@ -64,14 +68,14 @@ func open_party() -> void:
 	GLOBAL.party_open = true;
 	scene_manager.transition_to_scene(party_screen_path, true, false)
 
-func play_audio(stream: AudioStream) -> void:
-	audio.stream = stream;
-	audio.play();
-
 func _on_pokemon_select_party(_name) -> void:
 	dialog_label.text = "";
 	cursor_index = Vector2.ZERO;
 	cursor.position = BATTLE.MENU_CURSOR[0][0];
+
+func play_audio(stream: AudioStream) -> void:
+	audio.stream = stream;
+	audio.play();
 
 func connect_signals() -> void:
 	PARTY.connect("selected_pokemon_party", _on_pokemon_select_party);

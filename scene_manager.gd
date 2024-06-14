@@ -4,6 +4,7 @@ extends Node2D
 
 @onready var anim_player = $Transition/AnimationPlayer;
 @onready var current_scene = $CurrentScene;
+@onready var controls: CanvasLayer = $Controls;
 
 const BATTLE_SCENE = preload("res://Scenes/Battle/battle_scene.tscn")
 const DIALOG_MANAGER = preload("res://Scripts/dialog_manager.tscn");
@@ -14,8 +15,7 @@ const not_save_scenes = [
 	"res://Scenes/UI/party_screen.tscn",
 	"res://Scenes/UI/profile.tscn",
 	"res://Scenes/UI/pokemon_boxes.tscn"
-	];
-
+];
 
 var dialogue_inst: CanvasLayer;
 var battle_inst: CanvasLayer;
@@ -26,6 +26,7 @@ var should_remove_child: bool;
 
 func _ready():
 	listen_to_signals();
+	#if(OS.get_name() == 'Android'): controls.visible = true;
 
 #SCENES
 func transition_to_scene(
