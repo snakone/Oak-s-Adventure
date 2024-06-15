@@ -35,7 +35,7 @@ func create_climate(size: Vector2) -> void:
 	var time = Time.get_time_dict_from_system();
 	climate_canvas = CanvasLayer.new();
 	if("hour" in time):
-		if(time.hour >= 6 && time.hour <= 18):
+		#if(time.hour >= 6 && time.hour < 18):
 			_on_climate_change(GLOBAL.Climate.DAY);
 			return;
 	climate_canvas.layer = 0;

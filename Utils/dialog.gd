@@ -436,4 +436,12 @@ const LIBRARY: Dictionary = {
 		"direction": GLOBAL.Directions.UP,
 		"marker": true
 	},
+	53: {
+		"arr": [
+			["In honour of Geraint who defened\nCalderock Village long ago."],
+		],
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
+	},
 }

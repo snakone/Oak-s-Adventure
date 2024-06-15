@@ -23,7 +23,7 @@ signal time_of_day_changed(new_time_of_day);
 enum Directions { LEFT, RIGHT, UP, DOWN, NONE, ALL }
 enum FacingDirection { LEFT, RIGHT, UP, DOWN };
 enum Genders { MALE, FEMALE }
-enum SaveType { PLAYER, SCENE, PARTY, BOXES }
+enum SaveType { PLAYER, SCENE, PARTY, BOXES, NPC }
 enum DoorType { IN, OUT }
 enum BinaryOptions { YES, NO }
 enum DoorCategory { DOOR, TUNNEL }

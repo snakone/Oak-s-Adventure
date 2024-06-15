@@ -15,21 +15,6 @@ var party: Array = [];
 var party_size: int = 0;
 var index = 0;
 
-var npc_properties = [
-	"texture",
-	"position",
-	"frames",
-	"positive_limits",
-	"negative_limits",
-	"state",
-	"can_left",
-	"can_right",
-	"can_up",
-	"can_down",
-	"interval",
-	"dialog_id"
-];
-
 func _ready() -> void:
 	super();
 	check_out_scene();

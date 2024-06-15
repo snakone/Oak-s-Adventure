@@ -6,6 +6,8 @@ var last_map;
 var npc_shared_list: Array[int] = [];
 var must_flip_sprite = false;
 
+func _ready(): add_to_group(GLOBAL.group_name);
+
 func get_map_size_and_emit(tilemap: TileMap) -> Vector2:
 	var size = tilemap.get_used_rect().size;
 	GLOBAL.emit_signal("on_tile_map_changed", size, Vector2.ZERO);
@@ -207,3 +209,16 @@ func reset_npc_shared_list() -> void: npc_shared_list = [];
 		"position": Vector2(112, 48)
 	}
 }
+
+#SAVE
+func save() -> Dictionary:
+	var data = {
+		"save_type": GLOBAL.SaveType.NPC,
+		"path": get_path(),
+		"npc_list": npc_shared_list
+	}
+	return data;
+
+#LOAD
+func load(data: Dictionary) -> void:
+	if("npc_list" in data): npc_shared_list.assign(data["npc_list"]);

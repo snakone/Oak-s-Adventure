@@ -82,15 +82,22 @@ position = Vector2(336, 64)
 position = Vector2(352, 64)
 
 [node name="Custom" type="TileMap" parent="."]
+z_index = -1
+y_sort_enabled = true
 tile_set = ExtResource("6_ik80n")
 format = 2
 layer_0/name = "Water"
+layer_0/y_sort_enabled = true
+layer_0/z_index = -1
 layer_0/tile_data = PackedInt32Array(1048592, 65537, 0, 1114128, 65537, 1, 1048593, 65537, 0, 1114129, 65537, 1, 1048594, 65537, 0, 1114130, 65537, 1, 1179666, 65537, 2, 1179665, 65537, 2, 1114131, 131073, 1, 1179667, 131073, 2, 1048595, 131073, 0, 1179664, 65537, 2, 1114127, 65537, 1, 1048591, 65537, 0, 1114126, 1, 1, 1048590, 1, 0, 1179663, 65537, 2, 1179662, 1, 2, 655367, 65541, 0, 655369, 196613, 0, 655370, 262149, 0, 458765, 5, 0, 458766, 65541, 0, 458767, 131077, 0, 458768, 196613, 0, 458769, 262149, 0)
 layer_1/name = "Objects"
 layer_1/z_index = 1
 layer_1/tile_data = PackedInt32Array(131081, 2097155, 22, 327710, 1245187, 17, 1703967, 1245187, 17, 1835039, 1245187, 17)
 
 [node name="Lights" type="Node2D" parent="." groups=["Lights"]]
+light_mask = 0
+visibility_layer = 0
+y_sort_enabled = true
 
 [node name="PointLight2D" parent="Lights" instance=ExtResource("7_5hlq4")]
 
@@ -112,4 +119,6 @@ position = Vector2(12, 296)
 position = Vector2(200, 488)
 
 [node name="PointLight2D8" parent="Lights" instance=ExtResource("7_5hlq4")]
+light_mask = 0
+visibility_layer = 0
 position = Vector2(265, 200)

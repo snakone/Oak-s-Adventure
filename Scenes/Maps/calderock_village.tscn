@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dgrt08phhewaf"]
+[gd_scene load_steps=18 format=3 uid="uid://dgrt08phhewaf"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/calderock_village.gd" id="1_tvowd"]
 [ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="2_4a8rc"]
@@ -15,6 +15,8 @@
 [ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="12_81tun"]
 [ext_resource type="Texture2D" uid="uid://ct6pytu35pewk" path="res://Sprites/door_old_man_open.png" id="13_oa1ud"]
 [ext_resource type="PackedScene" uid="uid://cqktd3b4r0pk2" path="res://Scripts/switch_scene.tscn" id="15_trqgt"]
+[ext_resource type="PackedScene" uid="uid://cumbmhk511bu0" path="res://Objects/Animated/reflection.tscn" id="16_vul2g"]
+[ext_resource type="Texture2D" uid="uid://c275a7yet42ru" path="res://Sprites/Animated/Water Reflections/2x4.png" id="17_hvtr5"]
 
 [node name="CalderockVillage" type="Node2D"]
 y_sort_enabled = true
@@ -157,3 +159,8 @@ position = Vector2(128, -24)
 scale = Vector2(6, 1)
 next_scene = "res://Scenes/Maps/Routes/route_02.tscn"
 new_map = 9
+
+[node name="Reflection" parent="." node_paths=PackedStringArray("oak") instance=ExtResource("16_vul2g")]
+light_mask = 2
+oak = NodePath("../Oak")
+light_texture = ExtResource("17_hvtr5")

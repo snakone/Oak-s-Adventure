@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cbsymn8f5k46q"]
+[gd_scene load_steps=9 format=3 uid="uid://cbsymn8f5k46q"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/Houses/PraireTown/oak_house.gd" id="1_ukk3f"]
 [ext_resource type="AudioStream" uid="uid://boqgmu2280oq0" path="res://Assets/Sounds/Lappet Town.ogg" id="2_mneog"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="5_sapte"]
 [ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="6_2lk47"]
 [ext_resource type="PackedScene" uid="uid://d3jj2t8g5va8g" path="res://Scripts/pc_area.tscn" id="7_dg8u4"]
+[ext_resource type="Texture2D" uid="uid://bo4s3nvdnfukw" path="res://Sprites/PC_home.png" id="8_cfj3g"]
 
 [node name="OakHouse" type="Node2D"]
 y_sort_enabled = true
@@ -55,4 +56,6 @@ dialog_id = 16
 
 [node name="PC" parent="." instance=ExtResource("7_dg8u4")]
 position = Vector2(112, 0)
-show_sprite = false
+texture = ExtResource("8_cfj3g")
+offset_sprite = Vector2(2, -13)
+on_top = true
