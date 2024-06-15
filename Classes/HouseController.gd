@@ -13,11 +13,15 @@ func _ready():
 	check_npc_spawn();
 	GLOBAL.inside_house = true;
 	if(song): AUDIO.play(song);
-	oak.set_blend_direction(GLOBAL.last_direction);
+	var direction = GLOBAL.last_direction;
 	
 	if(MAPS.spawn_position):
 		oak.position = MAPS.spawn_position;
 		MAPS.spawn_position = null;
+	
+	if(MAPS.must_flip_sprite): direction *= -1;
+	oak.set_blend_direction(direction);
+	MAPS.must_flip_sprite = false;
 
 func set_camera() -> void:
 	var size: Vector2 = tilemap.get_used_rect().size;
@@ -28,8 +32,8 @@ func set_camera() -> void:
 
 func check_npc_spawn() -> void:
 	if(MAPS.npc_shared_list.size() > 0):
-		for i in MAPS.npc_shared_list:
-			var npc = MAPS.NPC_SHARED_MAP[i];
+		for index in MAPS.npc_shared_list:
+			var npc = MAPS.NPC_SHARED_MAP[index];
 			create_npc(npc);
 
 func create_npc(npc: Dictionary) -> void:

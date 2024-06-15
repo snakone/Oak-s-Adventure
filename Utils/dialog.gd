@@ -17,16 +17,6 @@ const LIBRARY: Dictionary = {
 		"direction": GLOBAL.Directions.ALL,
 		"marker": true
 		},
-	2: {
-		"arr": [
-			["Today is a great day!"],
-			["self:Sure it is!"]
-		],
-		"npc_name": "Mom",
-		"type": Type.NPC,
-		"direction": GLOBAL.Directions.ALL,
-		"marker": true
-		},
 	3: {
 		"arr": [["There are several types of seeds inside."]],
 		"type": Type.OBJECT,
@@ -147,7 +137,7 @@ const LIBRARY: Dictionary = {
 	19: {
 		"arr": [
 			["Jumping over ledges is so fun!"],
-			["self: Mmm I think I should try aswell!"],
+			["self:Mmm I think I should try aswell!"],
 			["That's the spirit!"],
 		],
 		"type": Type.NPC,
@@ -202,9 +192,7 @@ const LIBRARY: Dictionary = {
 		},
 	},
 	24: {
-		"arr": [
-			["Ok. Just one moment please."]
-		],
+		"arr": [["Ok. Just one moment please."]],
 		"type": Type.NPC,
 		"direction": GLOBAL.Directions.ALL,
 		"npc_name": "Joy",
@@ -265,16 +253,12 @@ const LIBRARY: Dictionary = {
 		"marker": true
 	},
 	32: {
-		"arr": [
-			["You booted up the PC."]
-		],
+		"arr": [["You booted up the PC."]],
 		"type": Type.PC,
 		"marker": true
 	},
 	33: {
-		"arr": [
-			["Which PC should be accessed?"]
-		],
+		"arr": [["Which PC should be accessed?"]],
 		"type": Type.PC,
 		"marker": false
 	},
@@ -300,7 +284,7 @@ const LIBRARY: Dictionary = {
 		"arr": [
 			["Accessed Bill\'s PC."],
 			["POKéMON Storage System opened."]
-			],
+		],
 		"type": Type.PC,
 		"marker": true
 	},
@@ -319,7 +303,7 @@ const LIBRARY: Dictionary = {
 	40: {
 		"arr": [
 			["There are trainers in this route."],
-			["They will encourage you to do a Pokémon battle! Be ready. Kiaaa!!!"]
+			["They will encourage you to do a POKéMON\nbattle! Be ready. Kiaaa!!!"]
 		],
 		"type": Type.NPC,
 		"direction": GLOBAL.Directions.ALL,
@@ -359,12 +343,8 @@ const LIBRARY: Dictionary = {
 		},
 		"response": {
 			1: {
-				GLOBAL.BinaryOptions.YES: {
-					"dialog_id": 45
-				},
-				GLOBAL.BinaryOptions.NO: {
-					"dialog_id": 44
-				}
+				GLOBAL.BinaryOptions.YES: {"dialog_id": 45},
+				GLOBAL.BinaryOptions.NO: {"dialog_id": 44}
 			}
 		} 
 	},
@@ -374,7 +354,7 @@ const LIBRARY: Dictionary = {
 			["1. Bill\'s PC: Store and manage your POKéMON."],
 			["2. Oak\'s PC: Manage and store your ITEMS."],
 			["3. POKéDEX Check: It will evaluate your\nregistered POKéMON. Give it a try!"],
-			["self: Alright, thanks for the explanation."]
+			["self:Alright, thanks for the explanation."]
 		],
 		"starter": 43,
 		"type": Type.NPC,
@@ -395,11 +375,65 @@ const LIBRARY: Dictionary = {
 	46: {
 		"arr": [
 			["I could spend all day shoping!"],
-			["Even though my boyfriend's wallet is fading\nfast."],
-			["self: What the..."]
+			["Even though my boyfriend's wallet is fading\nfast. What can I do? Auww! Sniff.. Sniff.."],
+			["self:What the..."]
 		],
 		"type": Type.NPC,
 		"direction": GLOBAL.Directions.ALL,
+		"marker": true
+	},
+	47: {
+		"arr": [
+			["How scary! Why is this in here?"],
+		],
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.ALL,
+		"marker": true
+	},
+	48: {
+		"arr": [
+			["Here's a original copy of \"Catch a Dragon\""],
+			["Mmm? A Dragon Trainer!?"]
+		],
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
+	},
+	49: {
+		"arr": [
+			["I can see a huge field from here."],
+			["What the hell is this place? A hidden\nunderground?"]
+		],
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
+	},
+	50: {
+		"arr": [
+			["It looks like an outdoor place. Are we\nreally underground? This is so strange..."]
+		],
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
+	},
+	51: {
+		"arr": [
+			["Several books about Dragon POKéMON\nand effectiveness moves. Interesting..."],
+			["\"Get the most effectiveness moves\",\n\"Can your Dragon be your friend?\""],
+			["Those are some of the titles I found."]
+		],
+		"type": Type.OBJECT,
+		"direction": GLOBAL.Directions.UP,
+		"marker": true
+	},
+	52: {
+		"arr": [
+			["Who are you? The pass is restricted."],
+			["self:I\'m Professor Oak, known throughout the region. Can I investigate this place?"],
+			["Guess no. You better go back the way you\ncame Professor."]
+		],
+		"type": Type.NPC,
+		"direction": GLOBAL.Directions.UP,
 		"marker": true
 	},
 }

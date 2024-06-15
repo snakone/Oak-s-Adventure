@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://ca0it3m1tg38u"]
+[gd_scene load_steps=8 format=3 uid="uid://ca0it3m1tg38u"]
 
 [ext_resource type="TileSet" uid="uid://cxl08215wglhd" path="res://Tilesets/praire_town_tileset.tres" id="1_eg7kx"]
 [ext_resource type="PackedScene" uid="uid://dj2oqc22fbd0m" path="res://Scenes/Nature/flowers.tscn" id="2_01nin"]
+[ext_resource type="PackedScene" uid="uid://dkb6nh2g33h56" path="res://Libraries/Lights/yellow_light.tscn" id="7_xlk2u"]
 [ext_resource type="TileSet" uid="uid://c2hq3j8q2clja" path="res://Tilesets/custom_nature.tres" id="8_2q2o8"]
 [ext_resource type="PackedScene" uid="uid://cc02mcfctdy8w" path="res://Scenes/Nature/blue_berry.tscn" id="8_i2kbx"]
 [ext_resource type="PackedScene" uid="uid://cgeldutawki0f" path="res://Scenes/Nature/red_berry.tscn" id="9_f507k"]
@@ -22,7 +23,7 @@ layer_1/tile_data = PackedInt32Array(0, 393216, 12, 65536, 393216, 12, 131072, 3
 layer_2/name = "Objects"
 layer_2/y_sort_enabled = true
 layer_2/z_index = 1
-layer_2/tile_data = PackedInt32Array(262161, 1245186, 23, 262166, 1245184, 3, 196630, 1245184, 4, 65554, 6, 0, 131090, 6, 1, 196626, 6, 2, 262162, 6, 3, 65555, 65542, 0, 131091, 65542, 1, 196627, 65542, 2, 262163, 65542, 3, 65556, 131078, 0, 131092, 131078, 1, 327700, 131078, 4, 65557, 196614, 0, 131093, 196614, 1, 196629, 196614, 2, 327701, 196614, 4, 262164, 131078, 3, 262165, 196614, 3, 196628, 131078, 2, 327698, 1507328, 3)
+layer_2/tile_data = PackedInt32Array(262161, 1245186, 23, 262166, 1245184, 3, 196630, 1245184, 4, 65554, 6, 0, 131090, 6, 1, 196626, 6, 2, 262162, 6, 3, 65555, 65542, 0, 131091, 65542, 1, 196627, 65542, 2, 262163, 65542, 3, 65556, 131078, 0, 131092, 131078, 1, 327700, 131078, 4, 65557, 196614, 0, 131093, 196614, 1, 196629, 196614, 2, 327701, 196614, 4, 262164, 131078, 3, 262165, 196614, 3, 196628, 131078, 2, 327698, 1507328, 3, 65547, 2752514, 2, 131083, 2752514, 3)
 
 [node name="Nature" type="Node2D" parent="."]
 y_sort_enabled = true
@@ -68,3 +69,8 @@ layer_1/name = "Objects"
 layer_1/y_sort_enabled = true
 layer_1/z_index = 1
 layer_1/tile_data = PackedInt32Array(131088, 2424835, 25, 196624, 2424835, 26, 131089, 2490371, 25, 196625, 2490371, 26, 65544, 1835011, 4, 131080, 1835011, 5, 65545, 1900547, 4, 131081, 1900547, 5, 65546, 1966083, 4, 131082, 1966083, 5, 65548, 1835011, 4, 131084, 1835011, 5, 65549, 1900547, 4, 131085, 1900547, 5, 65550, 1966083, 4, 131086, 1966083, 5, 589826, 2293763, 11, 655362, 2293763, 12, 589827, 2293763, 11, 655363, 2293763, 12, 589828, 2293763, 11, 655364, 2293763, 12, 589829, 2293763, 11, 655365, 2293763, 12)
+
+[node name="Lights" type="Node2D" parent="." groups=["Lights"]]
+
+[node name="PointLight2D" parent="Lights" instance=ExtResource("7_xlk2u")]
+position = Vector2(184, 24)

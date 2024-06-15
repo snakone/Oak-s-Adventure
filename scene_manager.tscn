@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bx6puh2tlx1xe"]
+[gd_scene load_steps=13 format=3 uid="uid://bx6puh2tlx1xe"]
 
 [ext_resource type="Script" path="res://scene_manager.gd" id="1_fy5xl"]
 [ext_resource type="PackedScene" uid="uid://drehjofe2bwo0" path="res://Scenes/UI/menu.tscn" id="3_8d0bi"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cv4w3w8hg1ie" path="res://Sprites/dpad-cross.png" id="4_wn78i"]
 [ext_resource type="Texture2D" uid="uid://pmgnyaysw0h7" path="res://Sprites/AB-buttons.png" id="5_bujko"]
 [ext_resource type="Texture2D" uid="uid://bw4t5trgb1jlg" path="res://Sprites/AB-buttons_only.png" id="6_hk6is"]
+[ext_resource type="Script" path="res://Utils/climate.gd" id="7_08ate"]
 
 [sub_resource type="Animation" id="Animation_ty746"]
 resource_name = "FadeToBlack"
@@ -196,3 +197,10 @@ action = "space"
 position = Vector2(196, 142)
 shape = SubResource("CircleShape2D_kxk5r")
 action = "backMenu"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 60.0
+autostart = true
+script = ExtResource("7_08ate")
+
+[connection signal="timeout" from="Timer" to="Timer" method="_on_timeout"]

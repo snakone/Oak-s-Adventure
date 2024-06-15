@@ -12,6 +12,7 @@ extends Area2D
 @export var shared: bool = false;
 @export var offset: Vector2 = Vector2.ZERO;
 @export var npc_list: Array[int] = [];
+@export var flip_after_enter = false;
 
 @onready var anim_player = $AnimationPlayer;
 @onready var sprite_2d = $Sprite2D;
@@ -52,9 +53,11 @@ func check_direction() -> void:
 #ENTER
 func enter_house() -> void:
 	await GLOBAL.timeout(.1);
+	#SHARED AND OUT
 	if(shared && type == GLOBAL.DoorType.OUT): 
 		next_scene = MAPS.get_next_map();
 		MAPS.reset_npc_shared_list();
+	#GO TO SCENE
 	if(next_scene != ""):
 		if(type == GLOBAL.DoorType.IN): 
 			MAPS.last_map = MAPS.get_map_name(true);
@@ -64,6 +67,6 @@ func enter_house() -> void:
 
 func check_close_animation() -> void:
 	if(GLOBAL.last_used_door == self.name && type == GLOBAL.DoorType.IN):
-		await GLOBAL.timeout(0.3);
+		await GLOBAL.timeout(0.4);
 		anim_player.play("Close");
 		GLOBAL.last_used_door = "";

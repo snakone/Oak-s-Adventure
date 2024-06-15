@@ -1,0 +1,124 @@
+[gd_scene load_steps=9 format=3 uid="uid://c0fenxit1jsqq"]
+
+[ext_resource type="Script" path="res://Scenes/Maps/Houses/Route_02/julieta_underground-right.gd" id="1_8lcv7"]
+[ext_resource type="AudioStream" uid="uid://p2ulb6w4y8hx" path="res://Assets/Sounds/Radio - Oak.ogg" id="2_uden2"]
+[ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="3_phawa"]
+[ext_resource type="TileSet" uid="uid://b2dmoptqyrvi" path="res://Tilesets/poke_buildings.tres" id="4_wjksh"]
+[ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="5_3tad3"]
+[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="6_sqmcq"]
+[ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="7_0qolq"]
+[ext_resource type="Texture2D" uid="uid://d4lhnf3i807s7" path="res://Sprites/NPC/aqua_man.png" id="8_psycg"]
+
+[node name="JulietaUndergroundRight" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_8lcv7")
+song = ExtResource("2_uden2")
+
+[node name="Oak" parent="." instance=ExtResource("3_phawa")]
+position = Vector2(0, 48)
+
+[node name="TileMap" type="TileMap" parent="."]
+y_sort_enabled = true
+tile_set = ExtResource("4_wjksh")
+format = 2
+layer_0/name = "Ground"
+layer_0/y_sort_enabled = true
+layer_0/z_index = -1
+layer_0/tile_data = PackedInt32Array(0, 4, 0, 65536, 4, 1, 131072, 4, 2, 196608, 4, 3, 262144, 4, 4, 327680, 4, 5, 393216, 4, 6, 458752, 4, 7, 524288, 4, 8, 1, 65540, 0, 65537, 65540, 1, 131073, 65540, 2, 196609, 65540, 3, 262145, 65540, 4, 327681, 65540, 5, 393217, 65540, 6, 458753, 65540, 7, 524289, 65540, 8, 2, 131076, 0, 65538, 131076, 1, 131074, 131076, 2, 196610, 131076, 3, 262146, 131076, 4, 327682, 131076, 5, 393218, 131076, 6, 458754, 131076, 7, 524290, 131076, 8, 3, 196612, 0, 65539, 196612, 1, 131075, 196612, 2, 196611, 196612, 3, 262147, 196612, 4, 327683, 196612, 5, 393219, 196612, 6, 458755, 196612, 7, 524291, 196612, 8, 4, 262148, 0, 65540, 262148, 1, 131076, 262148, 2, 196612, 262148, 3, 262148, 262148, 4, 327684, 262148, 5, 393220, 262148, 6, 458756, 262148, 7, 524292, 262148, 8, 5, 327684, 0, 65541, 327684, 1, 131077, 327684, 2, 196613, 327684, 3, 262149, 327684, 4, 327685, 327684, 5, 393221, 327684, 6, 458757, 327684, 7, 524293, 327684, 8, 6, 393220, 0, 65542, 393220, 1, 131078, 393220, 2, 196614, 393220, 3, 262150, 393220, 4, 327686, 393220, 5, 393222, 393220, 6, 458758, 393220, 7, 524294, 393220, 8, 7, 458756, 0, 65543, 458756, 1, 131079, 458756, 2, 196615, 458756, 3, 262151, 458756, 4, 327687, 458756, 5, 393223, 458756, 6, 458759, 458756, 7, 524295, 458756, 8, 8, 524292, 0, 65544, 524292, 1, 131080, 524292, 2, 196616, 524292, 3, 262152, 524292, 4, 327688, 524292, 5, 393224, 524292, 6, 458760, 524292, 7, 524296, 524292, 8, 9, 589828, 0, 65545, 589828, 1, 131081, 589828, 2, 196617, 589828, 3, 262153, 589828, 4, 327689, 589828, 5, 393225, 589828, 6, 458761, 589828, 7, 524297, 589828, 8, 10, 655364, 0, 65546, 655364, 1, 131082, 655364, 2, 196618, 655364, 3, 262154, 655364, 4, 327690, 655364, 5, 393226, 655364, 6, 458762, 655364, 7, 524298, 655364, 8, 11, 720900, 0, 65547, 720900, 1, 131083, 720900, 2, 196619, 720900, 3, 262155, 720900, 4, 327691, 720900, 5, 393227, 720900, 6, 458763, 720900, 7, 524299, 720900, 8, 12, 786436, 0, 65548, 786436, 1, 131084, 786436, 2, 196620, 786436, 3, 262156, 786436, 4, 327692, 786436, 5, 393228, 786436, 6, 458764, 786436, 7, 524300, 786436, 8, 13, 851972, 0, 65549, 851972, 1, 131085, 851972, 2, 196621, 851972, 3, 262157, 851972, 4, 327693, 851972, 5, 393229, 851972, 6, 458765, 851972, 7, 524301, 851972, 8)
+layer_1/name = "Objects"
+layer_1/y_sort_enabled = true
+layer_1/z_index = 1
+layer_1/tile_data = PackedInt32Array(327680, 393218, 0, 393216, 393218, 1, 458752, 393218, 2, 327681, 458754, 0, 393217, 458754, 1, 458753, 458754, 2, 327682, 524290, 0, 393218, 524290, 1, 458754, 524290, 2, 327683, 589826, 0, 393219, 589826, 1, 458755, 589826, 2, 327684, 655362, 0, 393220, 655362, 1, 458756, 655362, 2, 327685, 720898, 0, 393221, 720898, 1, 458757, 720898, 2, 458764, 2752519, 8, 524300, 2752519, 9, 458765, 2818055, 8, 524301, 2818055, 9)
+
+[node name="Shape" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Shape"]
+polygon = PackedVector2Array(-16, 160, 240, 160, 240, -16, -16, -16, -16, 48, 0, 48, 0, 0, 224, 0, 224, 144, -16, 144)
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="Door" parent="Doors" instance=ExtResource("5_3tad3")]
+position = Vector2(-16, 48)
+next_scene = "res://Scenes/Maps/Houses/Route_02/julieta_underground.tscn"
+enter_direction = 0
+spawn_position = Vector2(208, 48)
+animated = false
+DOOR_ENTER = null
+DOOR_EXIT = null
+category = 1
+
+[node name="CollisionShape2D" parent="Doors/Door" index="0"]
+position = Vector2(8, 8)
+
+[node name="Door2" parent="Doors" instance=ExtResource("5_3tad3")]
+position = Vector2(-16, 64)
+next_scene = "res://Scenes/Maps/Houses/Route_02/julieta_underground.tscn"
+enter_direction = 0
+spawn_position = Vector2(208, 64)
+animated = false
+DOOR_ENTER = null
+DOOR_EXIT = null
+category = 1
+
+[node name="CollisionShape2D" parent="Doors/Door2" index="0"]
+position = Vector2(8, 8)
+
+[node name="Door3" parent="Doors" instance=ExtResource("5_3tad3")]
+position = Vector2(-16, 80)
+next_scene = "res://Scenes/Maps/Houses/Route_02/julieta_underground.tscn"
+enter_direction = 0
+spawn_position = Vector2(208, 80)
+animated = false
+DOOR_ENTER = null
+DOOR_EXIT = null
+category = 1
+
+[node name="CollisionShape2D" parent="Doors/Door3" index="0"]
+position = Vector2(8, 8)
+
+[node name="Door4" parent="Doors" instance=ExtResource("5_3tad3")]
+position = Vector2(-16, 128)
+next_scene = "res://Scenes/Maps/Houses/Route_02/julieta_underground.tscn"
+enter_direction = 0
+spawn_position = Vector2(208, 128)
+animated = false
+DOOR_ENTER = null
+DOOR_EXIT = null
+category = 1
+
+[node name="CollisionShape2D" parent="Doors/Door4" index="0"]
+position = Vector2(8, 8)
+
+[node name="Window" parent="." instance=ExtResource("6_sqmcq")]
+position = Vector2(48, 16)
+dialog_id = 50
+
+[node name="Window2" parent="." instance=ExtResource("6_sqmcq")]
+position = Vector2(80, 16)
+dialog_id = 50
+
+[node name="Library" parent="." instance=ExtResource("6_sqmcq")]
+position = Vector2(128, 16)
+dialog_id = 51
+
+[node name="Library2" parent="." instance=ExtResource("6_sqmcq")]
+position = Vector2(112, 16)
+dialog_id = 51
+
+[node name="Aqua" parent="." instance=ExtResource("7_0qolq")]
+position = Vector2(192, 32)
+texture = ExtResource("8_psycg")
+frames = 4
+state = 1
+can_left = false
+can_right = false
+can_up = false
+interval = 5.0
+dialog_id = 52
+
+[editable path="Doors/Door"]
+[editable path="Doors/Door2"]
+[editable path="Doors/Door3"]
+[editable path="Doors/Door4"]

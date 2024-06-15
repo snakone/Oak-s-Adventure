@@ -18,6 +18,8 @@ signal close_battle;
 signal open_pc();
 signal close_pc();
 
+signal time_of_day_changed(new_time_of_day);
+
 enum Directions { LEFT, RIGHT, UP, DOWN, NONE, ALL }
 enum FacingDirection { LEFT, RIGHT, UP, DOWN };
 enum Genders { MALE, FEMALE }
@@ -27,6 +29,7 @@ enum BinaryOptions { YES, NO }
 enum DoorCategory { DOOR, TUNNEL }
 enum SelectionCategory { BINARY, HEAL }
 enum NPCStates { MOVING, IDLE }
+enum Climate { DAY, NIGHT }
 
 const TILE_SIZE: int = 16;
 const WINDOW_SIZE = Vector2(15, 10);
@@ -65,6 +68,7 @@ var on_pc = false;
 
 #VALUES
 var current_money = 0;
+var current_time_of_day: Climate;
 
 const blends = [
 	"parameters/Idle/blend_position", 

@@ -44,6 +44,7 @@ Let's say at least i want to have exclusive content for the game, knowing it's 1
 ![Custom Maps](https://i.ibb.co/vqCfCFj/galery1.png "Custom Maps")
 ![Battle](https://i.ibb.co/cQCjZKB/galery2.png "Pokémon Battle")
 ![Pokémon Center](https://i.ibb.co/vLxQn1m/galery3.png "Pokémon Boxes")
+![Profile](https://i.ibb.co/J2ZyFv4/profile.png "Oak's Profile")
 
 You can watch more updates on [Youtube](https://www.youtube.com/@AllisonCode).
 

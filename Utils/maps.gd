@@ -4,6 +4,7 @@ var position_before_scene = Vector2.ZERO;
 var spawn_position = Vector2.ZERO;
 var last_map;
 var npc_shared_list: Array[int] = [];
+var must_flip_sprite = false;
 
 func get_map_size_and_emit(tilemap: TileMap) -> Vector2:
 	var size = tilemap.get_used_rect().size;
@@ -20,7 +21,9 @@ enum Locations {
 	POKE_CENTER,
 	POKE_SHOP,
 	HOUSE_01,
-	ROUTE_02
+	ROUTE_02,
+	JULIETA_HOUSE,
+	JULIETA_UNDERGROUND
 }
 
 const location_array = [
@@ -34,7 +37,10 @@ const location_array = [
 	"PokeShop",
 	"House01",
 	"House02",
-	"Route02"
+	"Route02",
+	"JulietaHouse",
+	"JulietaUnderground",
+	"JulietaUndergroundRight"
 ];
 
 const location_string = {
@@ -48,7 +54,10 @@ const location_string = {
 	"PokeShop": "POKéMON Shop",
 	"House01": "House of ????",
 	"House02": "Harold's House",
-	"Route02": "Route 02"
+	"Route02": "Route 02",
+	"JulietaHouse": "Julieta's House",
+	"JulietaUnderground": "Julieta's Undergr.",
+	"JulietaUndergroundRight": "Julieta's Undergr."
 }
 
 func get_map_name(get_string = false) -> String:
@@ -113,6 +122,14 @@ const CONNECTIONS = {
 			Vector2(160, 656): Vector2(144, 0),
 			Vector2(176, 656): Vector2(160, 0)
 		}
+	},
+	"JulietaUnderground": {
+		"JulietaUndergroundRight": {
+			Vector2(208, 48): Vector2(0, 48),
+			Vector2(208, 64): Vector2(0, 64),
+			Vector2(208, 80): Vector2(0, 80),
+			Vector2(208, 128): Vector2(0, 128),
+		}
 	}
 }
 
@@ -171,7 +188,7 @@ func reset_npc_shared_list() -> void: npc_shared_list = [];
 		"can_down": true,
 		"possitive_limits": Vector2(1, 1),
 		"negative_limits": Vector2.ZERO,
-		"interval": 1,
+		"interval": 5,
 		"position": Vector2(48, 80),
 		"sprite_offset": Vector2(0, -3)
 	},

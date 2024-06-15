@@ -9,6 +9,7 @@ extends Node2D
 const BATTLE_SCENE = preload("res://Scenes/Battle/battle_scene.tscn")
 const DIALOG_MANAGER = preload("res://Scripts/dialog_manager.tscn");
 const PC_SCENE = preload("res://Scenes/UI/pc_player.tscn");
+const TIME_BETWEEN_SCENES = 1.2;
 
 const not_save_scenes = [
 	"res://Scenes/UI/save_scene.tscn", 
@@ -20,7 +21,6 @@ const not_save_scenes = [
 var dialogue_inst: CanvasLayer;
 var battle_inst: CanvasLayer;
 var pc_inst: CanvasLayer;
-
 var last_scene = "res://Scenes/Maps/praire_town.tscn";
 var should_remove_child: bool;
 
@@ -45,7 +45,7 @@ func transition_to_scene(
 	
 func on_finish_transition() -> void:
 	create_new_scene();
-	await GLOBAL.timeout(0.8);
+	await GLOBAL.timeout(TIME_BETWEEN_SCENES);
 	GLOBAL.on_transition = false;
 
 func create_new_scene() -> void:

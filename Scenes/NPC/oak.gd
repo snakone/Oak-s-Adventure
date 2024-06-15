@@ -302,6 +302,7 @@ func _on_end_battle() -> void:
 func _on_enter_door_animation(area: Area2D) -> void:
 	door_type = area.type;
 	var delay = 0.15;
+	if(area.flip_after_enter): MAPS.must_flip_sprite = true;
 	if(area.category == GLOBAL.DoorCategory.TUNNEL): delay = 0;
 	if(GLOBAL.on_bike && area.category != GLOBAL.DoorCategory.TUNNEL): 
 		get_off_bike(false);
