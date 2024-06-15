@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://cn2jssalmf12l"]
 
-[ext_resource type="Script" path="res://Scenes/Maps/praire_town.gd" id="1_3hn5p"]
+[ext_resource type="Script" path="res://Scenes/Maps/Towns/praire_town.gd" id="1_3hn5p"]
 [ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="2_5a1f2"]
 [ext_resource type="PackedScene" uid="uid://dtqibwgq2g60b" path="res://Tilesets/praire_town_tileset.tscn" id="2_28j7f"]
 [ext_resource type="PackedScene" uid="uid://cqktd3b4r0pk2" path="res://Scripts/switch_scene.tscn" id="4_nqgbe"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://d2g4ik02vopjf"]
+[gd_scene load_steps=15 format=3 uid="uid://d2g4ik02vopjf"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/Routes/route_02.gd" id="1_u0jk8"]
 [ext_resource type="AudioStream" uid="uid://diqgw4biy1o7s" path="res://Assets/Sounds/Route02.ogg" id="2_mjqvb"]
@@ -11,6 +11,9 @@
 [ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="8_cjrqs"]
 [ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="9_t442b"]
 [ext_resource type="Texture2D" uid="uid://c3pj5i1hel1v1" path="res://Sprites/NPC/karate_guy.png" id="10_hy55j"]
+[ext_resource type="PackedScene" uid="uid://cumbmhk511bu0" path="res://Objects/Animated/reflection.tscn" id="12_yy10r"]
+[ext_resource type="Texture2D" uid="uid://lxiejt48txrq" path="res://Sprites/Animated/Water Reflections/2x4_rock.png" id="13_2osby"]
+[ext_resource type="Texture2D" uid="uid://cxbafy18bad1p" path="res://Sprites/Animated/Water Reflections/3x6_rock.png" id="14_wjoh6"]
 
 [node name="Route02" type="Node2D"]
 y_sort_enabled = true
@@ -25,7 +28,7 @@ position = Vector2(336, 64)
 [node name="SwitchScene" parent="." instance=ExtResource("4_fu5kt")]
 position = Vector2(144, 680)
 scale = Vector2(6, 1)
-next_scene = "res://Scenes/Maps/calderock_village.tscn"
+next_scene = "res://Scenes/Maps/Towns/calderock_village.tscn"
 enter_direction = 3
 new_map = 5
 
@@ -66,3 +69,22 @@ dialog_id = 47
 [node name="Statue" parent="Objects" instance=ExtResource("8_cjrqs")]
 position = Vector2(176, 352)
 dialog_id = 53
+
+[node name="Reflection" parent="." node_paths=PackedStringArray("oak") instance=ExtResource("12_yy10r")]
+oak = NodePath("../Oak")
+light_texture = ExtResource("13_2osby")
+
+[node name="PointLight2D" parent="Reflection" index="1"]
+position = Vector2(360, 460)
+texture = ExtResource("13_2osby")
+
+[node name="Reflection2" parent="." node_paths=PackedStringArray("oak") instance=ExtResource("12_yy10r")]
+oak = NodePath("../Oak")
+light_texture = ExtResource("14_wjoh6")
+
+[node name="PointLight2D" parent="Reflection2" index="1"]
+position = Vector2(368, 180)
+texture = ExtResource("14_wjoh6")
+
+[editable path="Reflection"]
+[editable path="Reflection2"]

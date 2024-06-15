@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://mehsprarmnqn"]
+[gd_scene load_steps=13 format=3 uid="uid://mehsprarmnqn"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/Routes/route_00.gd" id="1_4sei8"]
 [ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="1_7s0sy"]
@@ -10,6 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="7_agnbx"]
 [ext_resource type="Texture2D" uid="uid://cas7pala8455i" path="res://Sprites/NPC/gary.png" id="8_k38dg"]
 [ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="9_08sj1"]
+[ext_resource type="PackedScene" uid="uid://cumbmhk511bu0" path="res://Objects/Animated/reflection.tscn" id="11_k8ik8"]
+[ext_resource type="Texture2D" uid="uid://cphc4sd4sd7am" path="res://Sprites/Animated/Water Reflections/2x2.png" id="12_bpss8"]
 
 [node name="Route00" type="Node2D"]
 y_sort_enabled = true
@@ -35,7 +37,7 @@ sprite_image = ExtResource("5_xxc6b")
 position = Vector2(56, -24)
 scale = Vector2(5, 1)
 collision_priority = 2.0
-next_scene = "res://Scenes/Maps/praire_town.tscn"
+next_scene = "res://Scenes/Maps/Towns/praire_town.tscn"
 
 [node name="Gary" parent="." instance=ExtResource("7_agnbx")]
 position = Vector2(128, 160)
@@ -51,3 +53,13 @@ dialog_id = 6
 position = Vector2(352, 48)
 dialog_id = 3
 metadata/_edit_group_ = true
+
+[node name="Reflection" parent="." node_paths=PackedStringArray("oak") instance=ExtResource("11_k8ik8")]
+oak = NodePath("../Oak")
+light_texture = ExtResource("12_bpss8")
+
+[node name="PointLight2D" parent="Reflection" index="1"]
+position = Vector2(319, 149)
+texture = ExtResource("12_bpss8")
+
+[editable path="Reflection"]

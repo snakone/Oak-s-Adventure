@@ -156,8 +156,8 @@ func get_next_map() -> String:
 		"Route00": "res://Scenes/Maps/Routes/route_00.tscn",
 		"Route01": "res://Scenes/Maps/Routes/route_01.tscn",
 		"Route02": "res://Scenes/Maps/Routes/route_02.tscn",
-		"PraireTown": "res://Scenes/Maps/praire_town.tscn",
-		"CalderockVillage": "res://Scenes/Maps/calderock_village.tscn"
+		"PraireTown": "res://Scenes/Maps/Towns/praire_town.tscn",
+		"CalderockVillage": "res://Scenes/Maps/Towns/calderock_village.tscn"
 	}
 	
 	return switch[last_map];

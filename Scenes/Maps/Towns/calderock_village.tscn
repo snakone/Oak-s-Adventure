@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://dgrt08phhewaf"]
 
-[ext_resource type="Script" path="res://Scenes/Maps/calderock_village.gd" id="1_tvowd"]
+[ext_resource type="Script" path="res://Scenes/Maps/Towns/calderock_village.gd" id="1_tvowd"]
 [ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="2_4a8rc"]
 [ext_resource type="PackedScene" uid="uid://b6mqi2pnykjf4" path="res://Tilesets/calderock_village.tscn" id="2_4hxry"]
 [ext_resource type="AudioStream" uid="uid://bi78mjmfdwonj" path="res://Assets/Sounds/Calderock Village.ogg" id="2_vn3j6"]
@@ -164,3 +164,8 @@ new_map = 9
 light_mask = 2
 oak = NodePath("../Oak")
 light_texture = ExtResource("17_hvtr5")
+
+[node name="PointLight2D" parent="Reflection" index="1"]
+position = Vector2(269, 277)
+
+[editable path="Reflection"]

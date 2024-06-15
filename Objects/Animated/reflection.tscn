@@ -26,9 +26,9 @@ script = ExtResource("1_bwuie")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(0, 0.607843, 1, 0.490196)
+z_index = 1
 y_sort_enabled = true
 material = SubResource("ShaderMaterial_6wm2w")
-position = Vector2(289, 260)
 texture = ExtResource("3_l2ra3")
 centered = false
 offset = Vector2(0, 16)
@@ -38,7 +38,6 @@ vframes = 4
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 y_sort_enabled = true
-position = Vector2(269, 277)
 energy = 1.01
 blend_mode = 2
 texture = ExtResource("4_g4w37")

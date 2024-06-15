@@ -480,7 +480,6 @@ margins = Vector2i(14, 6)
 37:16/0/physics_layer_0/angular_velocity = 0.0
 33:8/size_in_atlas = Vector2i(2, 2)
 33:8/0 = 0
-33:8/0/texture_origin = Vector2i(0, 4)
 33:8/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 33:8/0/physics_layer_0/angular_velocity = 0.0
 33:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)

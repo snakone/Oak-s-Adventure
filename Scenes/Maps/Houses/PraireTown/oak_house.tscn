@@ -30,7 +30,7 @@ polygon = PackedVector2Array(-32, 80, 128, 80, 128, -64, -128, -64, -128, 80, -4
 
 [node name="OakDoor" parent="." instance=ExtResource("5_sapte")]
 position = Vector2(80, 144)
-next_scene = "res://Scenes/Maps/praire_town.tscn"
+next_scene = "res://Scenes/Maps/Towns/praire_town.tscn"
 spawn_position = Vector2(48, 96)
 animated = false
 type = 1

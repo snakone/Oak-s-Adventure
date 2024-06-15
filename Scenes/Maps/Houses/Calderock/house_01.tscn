@@ -16,7 +16,7 @@ position = Vector2(64, 112)
 
 [node name="House01Door" parent="." instance=ExtResource("4_ad61t")]
 position = Vector2(64, 128)
-next_scene = "res://Scenes/Maps/calderock_village.tscn"
+next_scene = "res://Scenes/Maps/Towns/calderock_village.tscn"
 spawn_position = Vector2(288, 96)
 animated = false
 type = 1

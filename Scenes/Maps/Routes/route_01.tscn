@@ -24,7 +24,7 @@ position = Vector2(112, 80)
 [node name="SwitchPraire" parent="." instance=ExtResource("4_t8xqo")]
 position = Vector2(128, 504)
 scale = Vector2(2, 1)
-next_scene = "res://Scenes/Maps/praire_town.tscn"
+next_scene = "res://Scenes/Maps/Towns/praire_town.tscn"
 enter_direction = 3
 
 [node name="GreenGuy" parent="." instance=ExtResource("5_ldwwl")]
@@ -40,7 +40,7 @@ z_index = 1
 y_sort_enabled = true
 position = Vector2(112, 72)
 scale = Vector2(1, 0.5)
-next_scene = "res://Scenes/Maps/calderock_village.tscn"
+next_scene = "res://Scenes/Maps/Towns/calderock_village.tscn"
 enter_direction = 2
 spawn_position = Vector2(240, 384)
 animated = false
@@ -52,7 +52,7 @@ z_index = 1
 y_sort_enabled = true
 position = Vector2(128, 72)
 scale = Vector2(1, 0.5)
-next_scene = "res://Scenes/Maps/calderock_village.tscn"
+next_scene = "res://Scenes/Maps/Towns/calderock_village.tscn"
 enter_direction = 2
 spawn_position = Vector2(256, 384)
 animated = false
