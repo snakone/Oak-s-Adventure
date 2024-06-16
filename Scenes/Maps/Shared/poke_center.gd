@@ -5,7 +5,6 @@ extends HouseController
 @onready var joy_animation: AnimationPlayer = $Joy/AnimationPlayer;
 @onready var anim_player: AnimationPlayer = $AnimationPlayer;
 @onready var timer: Timer = $Timer;
-@onready var poke_preview: Sprite2D = $HealAnimation/PokePreview;
 
 const POKEMON_HEAL = preload("res://Assets/Sounds/pokemon heal.mp3");
 const BATTLE_BALL_SHAKE = preload("res://Assets/Sounds/Battle ball shake.ogg");

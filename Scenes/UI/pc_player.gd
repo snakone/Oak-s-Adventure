@@ -19,7 +19,6 @@ var options_length = PcOptions.keys().size();
 var scene_manager: Node2D;
 
 func _ready() -> void:
-	GLOBAL.on_pc = true;
 	set_marker();
 	start_dialog();
 	scene_manager = get_parent();
@@ -41,7 +40,6 @@ func _on_scene_opened(value: bool, node_name: String) -> void:
 		can_use_menu = true;
 		process_mode = Node.PROCESS_MODE_INHERIT;
 		nine_rect.visible = true;
-		GLOBAL.on_boxes = false;
 	scene_manager.get_node(node_name).queue_free();
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -51,7 +49,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		!event.is_pressed() ||
 		event.is_echo() ||
 		GLOBAL.on_battle ||
-		GLOBAL.party_open ||
 		!can_use_menu
 	): return;
 	if(Input.is_action_just_pressed("backMenu")): close_menu();
@@ -90,9 +87,9 @@ func select_storage() -> void:
 	nine_rect.visible = false;
 	GLOBAL.start_dialog.emit(37);
 	await GLOBAL.close_dialog;
-	GLOBAL.on_boxes = true;
 	play_audio(PC_ACCESS);
 	await audio.finished;
+	GLOBAL.on_overlay = true;
 	scene_manager.transition_to_scene(POKEMON_BOXES, true, false);
 	process_mode = Node.PROCESS_MODE_DISABLED;
 

@@ -63,9 +63,8 @@ func _physics_process(delta) -> void:
 		stop ||
 		player_state == PlayerState.TURNING || 
 		GLOBAL.dialog_open || 
-		GLOBAL.party_open ||
-		GLOBAL.menu_open ||
-		GLOBAL.on_pc
+		GLOBAL.on_overlay ||
+		GLOBAL.menu_open
 	): return;
 	elif(!is_moving && !GLOBAL.on_transition): process_player_input();
 	elif(input_direction != Vector2.ZERO && !stuck_on_door): move(delta);

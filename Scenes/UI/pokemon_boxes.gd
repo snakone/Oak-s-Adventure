@@ -90,8 +90,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		!event.is_pressed() ||
 		event.is_echo() ||
 		GLOBAL.on_battle ||
-		!GLOBAL.on_boxes ||
 		changing_box ||
+		GLOBAL.menu_open ||
 		picking ||
 		closing
 	): return;

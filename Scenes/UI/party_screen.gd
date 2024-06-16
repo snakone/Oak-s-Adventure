@@ -141,7 +141,7 @@ func set_active_option(value: State) -> void:
 			if(switch_mode): label.text = cancel_switch_sentence;
 			else: label.text = exit_sentence;
 
-func _input(event) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if(
 		!event is InputEventKey ||
 		GLOBAL.on_transition || 
@@ -315,7 +315,7 @@ func close_party(sound = true, reset_list = true) -> void:
 		if(reset_list): reset();
 		return;
 	closing = true;
-	GLOBAL.party_open = false;
+	GLOBAL.on_overlay = false;
 	if(sound): play_audio(GUI_MENU_CLOSE);
 	await GLOBAL.timeout(.2);
 	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/PartyScreen");

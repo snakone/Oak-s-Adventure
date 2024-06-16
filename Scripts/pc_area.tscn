@@ -112,7 +112,6 @@ shape = SubResource("RectangleShape2D_qwe52")
 visible = false
 texture = ExtResource("2_aujt1")
 centered = false
-offset = Vector2(0, -8)
 hframes = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

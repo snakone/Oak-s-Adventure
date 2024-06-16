@@ -890,6 +890,7 @@ wait_time = 0.3
 [node name="PC" parent="." instance=ExtResource("13_q1t2n")]
 position = Vector2(176, 16)
 texture = ExtResource("18_npe1b")
+offset_sprite = Vector2(0, -8)
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 

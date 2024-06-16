@@ -1,0 +1,311 @@
+[gd_scene load_steps=8 format=3 uid="uid://coqv4qqrp1ie"]
+
+[ext_resource type="Script" path="res://Scenes/UI/pokedex_screen.gd" id="1_tq43h"]
+[ext_resource type="Texture2D" uid="uid://cx73yapygovt5" path="res://Assets/UI/Pokedex/content_background.png" id="2_nney6"]
+[ext_resource type="Texture2D" uid="uid://cly1dbwgxdt86" path="res://Assets/UI/Pokedex/list_background.png" id="3_42kpn"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="3_bce6p"]
+[ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="4_22h8k"]
+[ext_resource type="Texture2D" uid="uid://bfnlj6t53rl5p" path="res://Assets/UI/ui_arrow_left_right.png" id="5_w27vx"]
+[ext_resource type="Texture2D" uid="uid://fjoek3x2almt" path="res://Assets/UI/Pokedex/numerical.png" id="6_mv7f6"]
+
+[node name="PokedexScreen" type="CanvasLayer"]
+layer = 4
+script = ExtResource("1_tq43h")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -20.0
+
+[node name="Index" type="Node2D" parent="."]
+visible = false
+
+[node name="Background" type="TextureRect" parent="Index"]
+offset_right = 240.0
+offset_bottom = 160.0
+texture = ExtResource("2_nney6")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Index"]
+custom_minimum_size = Vector2(128, 116)
+layout_direction = 2
+offset_left = 10.0
+offset_top = 22.0
+offset_right = 138.0
+offset_bottom = 138.0
+follow_focus = true
+scroll_vertical = 81
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Index/ScrollContainer"]
+y_sort_enabled = true
+custom_minimum_size = Vector2(128, 116)
+layout_direction = 2
+layout_mode = 2
+
+[node name="ListTitle" type="RichTextLabel" parent="Index/ScrollContainer/VBoxContainer"]
+y_sort_enabled = true
+clip_contents = false
+custom_minimum_size = Vector2(0, 11)
+layout_mode = 2
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(1, 0.54902, 0.223529, 1)
+theme_override_colors/font_shadow_color = Color(0.807843, 0.258824, 0.223529, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+text = "POKéMON LIST"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+
+[node name="Numerical" type="RichTextLabel" parent="Index/ScrollContainer/VBoxContainer"]
+y_sort_enabled = true
+clip_contents = false
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+text = "    NUMERICAL MODE"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+
+[node name="HabitatTitle" type="RichTextLabel" parent="Index/ScrollContainer/VBoxContainer"]
+y_sort_enabled = true
+custom_minimum_size = Vector2(0, 11)
+layout_mode = 2
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(1, 0.54902, 0.223529, 1)
+theme_override_colors/font_shadow_color = Color(0.807843, 0.258824, 0.223529, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+text = "POKéMON HABITATS"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+
+[node name="Grassland" type="RichTextLabel" parent="Index/ScrollContainer/VBoxContainer"]
+y_sort_enabled = true
+clip_contents = false
+custom_minimum_size = Vector2(0, 11)
+layout_mode = 2
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+text = "    Grassland POKéMON"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+
+[node name="Water" type="RichTextLabel" parent="Index/ScrollContainer/VBoxContainer"]
+y_sort_enabled = true
+clip_contents = false
+custom_minimum_size = Vector2(0, 11)
+layout_mode = 2
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+text = "    Water's-edge POKéMON"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+
+[node name="Sea" type="RichTextLabel" parent="Index/ScrollContainer/VBoxContainer"]
+y_sort_enabled = true
+clip_contents = false
+custom_minimum_size = Vector2(0, 11)
+layout_mode = 2
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+text = "    Sea POKéMON"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+
+[node name="Cave" type="RichTextLabel" parent="Index/ScrollContainer/VBoxContainer"]
+y_sort_enabled = true
+clip_contents = false
+custom_minimum_size = Vector2(0, 11)
+layout_mode = 2
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+text = "    Cave POKéMON"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+
+[node name="Mountain" type="RichTextLabel" parent="Index/ScrollContainer/VBoxContainer"]
+y_sort_enabled = true
+clip_contents = false
+custom_minimum_size = Vector2(0, 11)
+layout_mode = 2
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+text = "    Mountain POKéMON"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+
+[node name="Rough" type="RichTextLabel" parent="Index/ScrollContainer/VBoxContainer"]
+y_sort_enabled = true
+clip_contents = false
+custom_minimum_size = Vector2(0, 11)
+layout_mode = 2
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+text = "    Rough-terrain POKéMON"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+
+[node name="Urban" type="RichTextLabel" parent="Index/ScrollContainer/VBoxContainer"]
+y_sort_enabled = true
+clip_contents = false
+custom_minimum_size = Vector2(0, 11)
+layout_mode = 2
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+text = "    Urban POKéMON"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+
+[node name="Rare" type="RichTextLabel" parent="Index/ScrollContainer/VBoxContainer"]
+y_sort_enabled = true
+clip_contents = false
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+text = "    Rare POKéMON"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+
+[node name="Other" type="RichTextLabel" parent="Index/ScrollContainer/VBoxContainer"]
+y_sort_enabled = true
+clip_contents = false
+custom_minimum_size = Vector2(0, 11)
+layout_mode = 2
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(1, 0.54902, 0.223529, 1)
+theme_override_colors/font_shadow_color = Color(0.807843, 0.258824, 0.223529, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+text = "OTHER"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+
+[node name="Close" type="RichTextLabel" parent="Index/ScrollContainer/VBoxContainer"]
+y_sort_enabled = true
+clip_contents = false
+custom_minimum_size = Vector2(0, 11)
+layout_mode = 2
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+text = "    CLOSE POKéDEX"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+
+[node name="Cursor" type="TextureRect" parent="Index"]
+offset_left = 12.0
+offset_top = 127.5
+offset_right = 21.0
+offset_bottom = 137.5
+texture = ExtResource("5_w27vx")
+stretch_mode = 2
+
+[node name="Habitat" type="TextureRect" parent="Index"]
+offset_left = 168.0
+offset_top = 88.0
+offset_right = 232.0
+offset_bottom = 136.0
+texture = ExtResource("6_mv7f6")
+
+[node name="Seen" type="RichTextLabel" parent="Index"]
+y_sort_enabled = true
+clip_contents = false
+custom_minimum_size = Vector2(0, 11)
+offset_left = 216.0
+offset_top = 27.0
+offset_right = 222.0
+offset_bottom = 38.0
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(1, 0.54902, 0.223529, 1)
+theme_override_colors/font_shadow_color = Color(0.807843, 0.258824, 0.223529, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+text = "4"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+
+[node name="Owned" type="RichTextLabel" parent="Index"]
+y_sort_enabled = true
+clip_contents = false
+custom_minimum_size = Vector2(0, 11)
+offset_left = 216.0
+offset_top = 55.0
+offset_right = 222.0
+offset_bottom = 66.0
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(1, 0.54902, 0.223529, 1)
+theme_override_colors/font_shadow_color = Color(0.807843, 0.258824, 0.223529, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+text = "2"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+
+[node name="List" type="Node2D" parent="."]
+visible = false
+
+[node name="Background" type="TextureRect" parent="List"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_42kpn")
+
+[node name="PageList" type="Node2D" parent="List"]
+
+[node name="PageInfo" type="Node2D" parent="List"]
+
+[node name="PageHabitat" type="Node2D" parent="List"]

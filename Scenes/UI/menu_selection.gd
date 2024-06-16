@@ -40,7 +40,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		!event.is_pressed() ||
 		event.is_echo() ||
 		!visible ||
-		GLOBAL.party_open ||
+		GLOBAL.on_overlay ||
 		!event is InputEventKey
 	): return;
 	

@@ -58,7 +58,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		event.is_echo() ||
 		!event.is_pressed() ||
 		GLOBAL.menu_open ||
-		dialog.pressed
+		dialog.pressed ||
+		!GLOBAL.on_battle
 	): return;
 	match BATTLE.state:
 		BATTLE.States.MENU: menu.input();

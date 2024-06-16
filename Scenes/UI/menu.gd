@@ -8,7 +8,8 @@ extends CanvasLayer
 enum ScreenLoaded { NONE, MENU, POKEDEX, PARTY, BAG, OAK, SAVE, OPTIONS }
 enum MenuOptions { POKEDEX, PARTY, BAG, OAK, SAVE, OPTIONS, EXIT }
 
-const party_screen_path = "res://Scenes/UI/party_screen.tscn";                                                      
+const party_screen_path = "res://Scenes/UI/party_screen.tscn";
+const pokedex_screen_path = "res://Scenes/UI/pokedex_screen.tscn";                                                      
 const save_scene_path = "res://Scenes/UI/save_scene.tscn";
 const party_screen_node =  "CurrentScene/PartyScreen";
 const save_scene_node =  "CurrentScene/SaveScene";
@@ -21,6 +22,7 @@ const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg");
 const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg");
 const TRAINER_CARD_OPEN = preload("res://Assets/Sounds/GUI trainer card open.ogg");
 const GUI_SAVE_CHOICE = preload("res://Assets/Sounds/GUI save choice.ogg");
+const GUI_POKEDEX_OPEN = preload("res://Assets/Sounds/GUI pokedex open.ogg")
 
 var options_length = MenuOptions.keys().size();
 var selected_option = 0;
@@ -45,9 +47,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		event.is_echo() ||
 		GLOBAL.dialog_open ||
 		GLOBAL.on_battle ||
-		GLOBAL.party_open ||
-		!can_use_menu ||
-		GLOBAL.on_pc
+		GLOBAL.on_overlay ||
+		!can_use_menu
 	): return;
 	
 	#BIKE ON/OFF
@@ -86,6 +87,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func select_option() -> void:
 	match(selected_option):
+		MenuOptions.POKEDEX: open_pokedex()
 		MenuOptions.PARTY: open_party()
 		MenuOptions.OAK: open_profile()
 		MenuOptions.SAVE: handle_save()
@@ -101,11 +103,21 @@ func close_menu() -> void:
 	GLOBAL.emit_signal("menu_opened", false);
 	update_cursor();
 
+#POKEDEX
+func open_pokedex() -> void:
+	can_use_menu = false;
+	screen_loaded = ScreenLoaded.POKEDEX;
+	GLOBAL.on_overlay = true;
+	play_audio(GUI_POKEDEX_OPEN);
+	await audio.finished;
+	control.visible = false;
+	scene_manager.transition_to_scene(pokedex_screen_path, true, false);
+
 #PARTY
 func open_party() -> void:
 	can_use_menu = false;
 	screen_loaded = ScreenLoaded.PARTY;
-	GLOBAL.party_open = true;
+	GLOBAL.on_overlay = true;
 	play_audio(GUI_SEL_DECISION);
 	await audio.finished;
 	if(!GLOBAL.on_battle):
@@ -114,15 +126,10 @@ func open_party() -> void:
 	scene_manager.transition_to_scene(party_screen_path, true, false);
 
 func _on_scene_opened(value: bool, node_name: String) -> void:
-	if(GLOBAL.on_boxes): return;
 	#CLOSED
-	if(!value):
-		if(!GLOBAL.on_battle):
-			can_use_menu = true;
-			control.visible = true;
-			screen_loaded = ScreenLoaded.MENU;
-			process_mode = Node.PROCESS_MODE_INHERIT;
-		scene_manager.get_node(node_name).queue_free();
+	if(GLOBAL.on_overlay || value): return;
+	if(!GLOBAL.on_battle && GLOBAL.menu_open): activate_menu();
+	scene_manager.get_node(node_name).queue_free();
 
 #PROFILE
 func open_profile() -> void:
@@ -178,6 +185,12 @@ func connect_signals() -> void:
 func update_cursor() -> void:
 	var perct = (selected_option % options_length) * 16;
 	cursor.position.y = 12 + perct;
+
+func activate_menu() -> void:
+	can_use_menu = true;
+	control.visible = true;
+	screen_loaded = ScreenLoaded.MENU;
+	process_mode = Node.PROCESS_MODE_INHERIT;
 
 func _on_player_moving(value: bool) -> void: is_player_moving = value;
 

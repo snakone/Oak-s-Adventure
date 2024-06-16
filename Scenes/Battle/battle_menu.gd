@@ -18,7 +18,7 @@ func _ready() -> void:
 
 #MENU STATE
 func input() -> void:
-	if(!BATTLE.can_use_menu || GLOBAL.party_open): return;
+	if(!BATTLE.can_use_menu || GLOBAL.on_overlay): return;
 	if Input.is_action_just_pressed("moveLeft") && cursor_index.x > 0:
 		cursor_index.x -= 1;
 		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
@@ -65,7 +65,7 @@ func set_marker() -> void:
 
 func open_party() -> void:
 	BATTLE.state = BATTLE.States.NONE;
-	GLOBAL.party_open = true;
+	GLOBAL.on_overlay = true;
 	scene_manager.transition_to_scene(party_screen_path, true, false)
 
 func _on_pokemon_select_party(_name) -> void:

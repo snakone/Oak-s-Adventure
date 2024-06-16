@@ -1,7 +1,7 @@
 [gd_scene load_steps=42 format=3 uid="uid://ivj6tbkbl3wy"]
 
 [ext_resource type="Script" path="res://Scenes/UI/pokemon_boxes.gd" id="1_wdni0"]
-[ext_resource type="Shader" path="res://Scenes/UI/animated_background.gdshader" id="2_mfosh"]
+[ext_resource type="Shader" path="res://Scenes/UI/Shaders/animated_bg.gdshader" id="2_mfosh"]
 [ext_resource type="Texture2D" uid="uid://dxrfpyiioyrs2" path="res://Assets/UI/Boxes/anim_background.png" id="3_asy8o"]
 [ext_resource type="Texture2D" uid="uid://d2288bnr5xm0q" path="res://Assets/UI/Boxes/hand.png" id="4_35d71"]
 [ext_resource type="Texture2D" uid="uid://ctbmbcy0tn2f8" path="res://Assets/UI/Boxes/data_inactive.png" id="4_l0lo0"]
