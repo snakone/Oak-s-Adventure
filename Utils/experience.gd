@@ -68,7 +68,7 @@ func get_exp_given_by_pokemon(
 	battle_type: BATTLE.Type,
 	participants: int = 1
 ) -> int:
-	var base_exp = POKEDEX.get_pokemon_prop(enemy.name, "base_exp");
+	var base_exp = POKEDEX.get_pokemon_prop(enemy.data.number, "base_exp");
 	var type = 1.0;
 	var lucky_egg = 1.0;
 	

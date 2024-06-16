@@ -135,7 +135,7 @@ func set_hp_anim_duration_after_damage(damage: int, enemy: Object) -> void:
 
 #BASE STATS
 func get_base_stats() -> void: 
-	data.stats = POKEDEX.get_pokemon_prop(name, "stats");
+	data.stats = POKEDEX.get_pokemon_prop(data.number, "stats");
 
 #RESOURCES
 func get_resources() -> void:

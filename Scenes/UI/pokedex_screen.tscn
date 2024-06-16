@@ -1,12 +1,48 @@
-[gd_scene load_steps=8 format=3 uid="uid://coqv4qqrp1ie"]
+[gd_scene load_steps=12 format=3 uid="uid://coqv4qqrp1ie"]
 
 [ext_resource type="Script" path="res://Scenes/UI/pokedex_screen.gd" id="1_tq43h"]
-[ext_resource type="Texture2D" uid="uid://cx73yapygovt5" path="res://Assets/UI/Pokedex/content_background.png" id="2_nney6"]
+[ext_resource type="Texture2D" uid="uid://cx73yapygovt5" path="res://Assets/UI/Pokedex/index_background.png" id="2_nney6"]
 [ext_resource type="Texture2D" uid="uid://cly1dbwgxdt86" path="res://Assets/UI/Pokedex/list_background.png" id="3_42kpn"]
 [ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="3_bce6p"]
 [ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="4_22h8k"]
 [ext_resource type="Texture2D" uid="uid://bfnlj6t53rl5p" path="res://Assets/UI/ui_arrow_left_right.png" id="5_w27vx"]
 [ext_resource type="Texture2D" uid="uid://fjoek3x2almt" path="res://Assets/UI/Pokedex/numerical.png" id="6_mv7f6"]
+[ext_resource type="Texture2D" uid="uid://dmt1sgwftqmcc" path="res://Assets/UI/Pokedex/pokedex_arrow_up.png" id="8_ldmsw"]
+[ext_resource type="Texture2D" uid="uid://dabmedes08vwg" path="res://Assets/UI/Pokedex/pokedex_arrow_down.png" id="9_yjvm8"]
+
+[sub_resource type="Animation" id="Animation_fbxwe"]
+resource_name = "Arrows"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ArrowDown:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(155, 128), Vector2(155, 125), Vector2(155, 128)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ArrowUp:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(155, 32), Vector2(155, 35), Vector2(155, 32)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_s6lka"]
+_data = {
+"Arrows": SubResource("Animation_fbxwe")
+}
 
 [node name="PokedexScreen" type="CanvasLayer"]
 layer = 4
@@ -31,7 +67,7 @@ offset_top = 22.0
 offset_right = 138.0
 offset_bottom = 138.0
 follow_focus = true
-scroll_vertical = 81
+scroll_vertical = 96
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
@@ -197,13 +233,28 @@ context_menu_enabled = true
 [node name="Rare" type="RichTextLabel" parent="Index/ScrollContainer/VBoxContainer"]
 y_sort_enabled = true
 clip_contents = false
-custom_minimum_size = Vector2(0, 14)
+custom_minimum_size = Vector2(0, 11)
 layout_mode = 2
 theme = ExtResource("3_bce6p")
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 0
 theme_override_fonts/normal_font = ExtResource("4_22h8k")
 text = "    Rare POKéMON"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+
+[node name="Legendary" type="RichTextLabel" parent="Index/ScrollContainer/VBoxContainer"]
+y_sort_enabled = true
+clip_contents = false
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+text = "    Legendary POKéMON"
 fit_content = true
 scroll_active = false
 autowrap_mode = 0
@@ -241,14 +292,6 @@ scroll_active = false
 autowrap_mode = 0
 context_menu_enabled = true
 
-[node name="Cursor" type="TextureRect" parent="Index"]
-offset_left = 12.0
-offset_top = 127.5
-offset_right = 21.0
-offset_bottom = 137.5
-texture = ExtResource("5_w27vx")
-stretch_mode = 2
-
 [node name="Habitat" type="TextureRect" parent="Index"]
 offset_left = 168.0
 offset_top = 88.0
@@ -260,9 +303,9 @@ texture = ExtResource("6_mv7f6")
 y_sort_enabled = true
 clip_contents = false
 custom_minimum_size = Vector2(0, 11)
-offset_left = 216.0
+offset_left = 220.0
 offset_top = 27.0
-offset_right = 222.0
+offset_right = 226.0
 offset_bottom = 38.0
 theme = ExtResource("3_bce6p")
 theme_override_colors/default_color = Color(1, 0.54902, 0.223529, 1)
@@ -280,10 +323,10 @@ context_menu_enabled = true
 y_sort_enabled = true
 clip_contents = false
 custom_minimum_size = Vector2(0, 11)
-offset_left = 216.0
-offset_top = 55.0
-offset_right = 222.0
-offset_bottom = 66.0
+offset_left = 220.0
+offset_top = 51.0
+offset_right = 226.0
+offset_bottom = 62.0
 theme = ExtResource("3_bce6p")
 theme_override_colors/default_color = Color(1, 0.54902, 0.223529, 1)
 theme_override_colors/font_shadow_color = Color(0.807843, 0.258824, 0.223529, 1)
@@ -297,7 +340,6 @@ autowrap_mode = 0
 context_menu_enabled = true
 
 [node name="List" type="Node2D" parent="."]
-visible = false
 
 [node name="Background" type="TextureRect" parent="List"]
 offset_right = 40.0
@@ -306,6 +348,44 @@ texture = ExtResource("3_42kpn")
 
 [node name="PageList" type="Node2D" parent="List"]
 
+[node name="ScrollContainer" type="ScrollContainer" parent="List/PageList"]
+custom_minimum_size = Vector2(204, 116)
+layout_direction = 2
+offset_left = 22.0
+offset_top = 22.0
+offset_right = 150.0
+offset_bottom = 138.0
+vertical_scroll_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="List/PageList/ScrollContainer"]
+layout_mode = 2
+
 [node name="PageInfo" type="Node2D" parent="List"]
 
 [node name="PageHabitat" type="Node2D" parent="List"]
+
+[node name="Arrows" type="Node2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Arrows"]
+libraries = {
+"": SubResource("AnimationLibrary_s6lka")
+}
+autoplay = "Arrows"
+
+[node name="ArrowUp" type="Sprite2D" parent="Arrows"]
+visible = false
+position = Vector2(155, 32)
+texture = ExtResource("8_ldmsw")
+
+[node name="ArrowDown" type="Sprite2D" parent="Arrows"]
+visible = false
+position = Vector2(155, 128)
+texture = ExtResource("9_yjvm8")
+
+[node name="Cursor" type="TextureRect" parent="."]
+offset_left = 8.0
+offset_top = 23.5
+offset_right = 17.0
+offset_bottom = 33.5
+texture = ExtResource("5_w27vx")
+stretch_mode = 2

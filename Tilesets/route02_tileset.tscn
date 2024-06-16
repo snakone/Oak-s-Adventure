@@ -2358,86 +2358,170 @@ y_sort_enabled = true
 [node name="TallGrass" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(32, 304)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass2" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(96, 304)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass3" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(144, 288)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass4" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(32, 336)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass5" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(48, 288)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass6" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(32, 288)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass7" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(112, 288)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass8" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(48, 256)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass9" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(32, 240)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass10" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(32, 272)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass11" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(128, 272)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass12" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(64, 352)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass13" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(96, 272)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass14" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(80, 272)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass15" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(80, 288)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass16" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(96, 320)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass17" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(64, 320)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass18" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(48, 320)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass19" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(32, 368)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass20" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(48, 384)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="TallGrass22" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(112, 336)
 encounters = Array[int]([1, 4])
+zone = 0
+battle_type = 0
+level_range = [5, 6]
+zone_number = 1
 
 [node name="Ledges" parent="." instance=ExtResource("24_k3wpl")]
 layer_0/tile_data = PackedInt32Array(131073, 0, 0, 131074, 65536, 0, 131075, 65536, 0, 131076, 65536, 0, 131077, 131072, 0)

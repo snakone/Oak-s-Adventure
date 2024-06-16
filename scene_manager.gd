@@ -15,7 +15,8 @@ const not_save_scenes = [
 	"res://Scenes/UI/save_scene.tscn", 
 	"res://Scenes/UI/party_screen.tscn",
 	"res://Scenes/UI/profile.tscn",
-	"res://Scenes/UI/pokemon_boxes.tscn"
+	"res://Scenes/UI/pokemon_boxes.tscn",
+	"res://Scenes/UI/pokedex_screen.tscn"
 ];
 
 var dialogue_inst: CanvasLayer;

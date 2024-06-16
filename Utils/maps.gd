@@ -138,14 +138,14 @@ const CONNECTIONS = {
 const ENCOUNTERS = {
 	"Route01": {
 		1: {
-			POKEDEX.Pokedex.PIDGEY: 60.0,
-			POKEDEX.Pokedex.RATTATA: 40.0
+			POKEDEX.PokedexEnum.PIDGEY: 60.0,
+			POKEDEX.PokedexEnum.RATTATA: 40.0
 		}
 	},
 	"Route02": {
 		1: {
-			POKEDEX.Pokedex.BULBASAUR: 50.0,
-			POKEDEX.Pokedex.CHARMANDER: 50.0,
+			POKEDEX.PokedexEnum.BULBASAUR: 50.0,
+			POKEDEX.PokedexEnum.CHARMANDER: 50.0,
 		}
 	}
 }

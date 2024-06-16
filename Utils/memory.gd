@@ -31,11 +31,11 @@ func _load() -> void:
 		var json = JSON.new();
 		json.parse(save_file.get_line())
 		var data = json.get_data();
-		if(data.has("path") && has_node(data["path"])):
+		if(data && data.has("path") && has_node(data["path"])):
 			var node: Node = get_node(data["path"]);
 			if(node.has_method("load")): node.load(data);
 			else: 
 				print("Node '%s' is missing a load function, skipped" % node.name)
-		elif(data.has("player")): GLOBAL.player_data_to_load = data;
+		elif(data && data.has("player")): GLOBAL.player_data_to_load = data;
 	GLOBAL.no_saved_data = false;
 	save_file.close();

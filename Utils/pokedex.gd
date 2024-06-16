@@ -3,7 +3,7 @@ extends Node
 enum Category { NORMAL, LEGENDARY, SINGULAR, SPECIAL, NONE, STARTER }
 const MISSINGNO = preload("res://Assets/UI/Pokemon/missingno.png");
 
-enum Pokedex {
+enum PokedexEnum {
 	BULBASAUR = 1,
 	IVYSAUR = 2,
 	CHARMANDER = 4,
@@ -18,9 +18,46 @@ enum Pokedex {
 	RAYQUAZA = 384
 }
 
-func get_pokemon(index):
+var pokedex_showcase = [
+	{ "number": PokedexEnum.BULBASAUR, "seen": false, "owned": false, "name": "BULBASAUR" },
+	{ "number": PokedexEnum.IVYSAUR, "seen": false, "owned": false, "name": "IVYSAUR" },
+	{ "number": PokedexEnum.CHARMANDER, "seen": true, "owned": false, "name": "CHARMANDER" },
+	{ "number": PokedexEnum.SQUIRTLE, "seen": false, "owned": false, "name": "SQUIRTLE" },
+	{ "number": PokedexEnum.BEEDRILL, "seen": false, "owned": false, "name": "BEEDRILL" },
+	{ "number": PokedexEnum.PIDGEY, "seen": false, "owned": false, "name": "PIDGEY" },
+	{ "number": PokedexEnum.RATTATA, "seen": true, "owned": true, "name": "RATTATA" },
+	{ "number": PokedexEnum.PIKACHU, "seen": false, "owned": false, "name": "PIKACHU" },
+	{ "number": PokedexEnum.GEODUDE, "seen": false, "owned": false, "name": "GEODUDE" },
+	{ "number": PokedexEnum.HORSEA, "seen": true, "owned": false, "name": "HORSEA" },
+	{ "number": PokedexEnum.HOOH, "seen": true, "owned": true, "name": "HO-OH" },
+	{ "number": PokedexEnum.RAYQUAZA, "seen": false, "owned": false, "name": "RAYQUAZA" }
+];
+
+func _ready(): add_to_group(GLOBAL.group_name);
+
+func get_showcase() -> Array:
+	showcase_check();
+	var index = get_showcase_last_index();
+	var copy = pokedex_showcase.duplicate(true);
+	copy.resize(index + 1);
+	return copy;
+
+func get_pokemon(index) -> Variant:
 	for poke in LIBRARY:
 		if(poke.number == index): return poke.duplicate();
+	return null;
+
+func get_pokemon_showcase(index) -> Variant:
+	for poke in pokedex_showcase:
+		if(poke.number == index): return poke.duplicate();
+	return null;
+
+func showcase_check() -> void:
+	for i in range(0, pokedex_showcase.size()):
+		var poke = pokedex_showcase[i];
+		if(poke): 
+			if(!poke.seen && !poke.owned): pokedex_showcase[i] = null;
+			elif(poke.owned && !poke.seen): pokedex_showcase[i].seen = true;
 
 func get_poke_resources(poke_name: String):
 	for poke in LIBRARY:
@@ -36,14 +73,42 @@ func get_poke_resources(poke_name: String):
 				"box_offset": poke.box_offset
 			};
 
-func get_pokemon_prop(poke_name: String, key: String):
+func get_pokemon_prop(index: int, key: String):
 	for poke in LIBRARY:
-		if(poke.name == poke_name): return poke[key];
+		if(poke.number == index): return poke[key];
+
+func get_showcase_last_index() -> int:
+	if(pokedex_showcase.size() == 0): return -1;
+	for i in range(pokedex_showcase.size() - 1, -1, -1):
+		if(pokedex_showcase[i] != null): return i;
+	return -1;
+
+func add_pokemon_to_showcase(pokemon = null) -> void:
+	if(pokemon != null):
+		var last_index = get_showcase_last_index();
+		if(last_index == pokemon.number || last_index == -1): return;
+		
+		for i in range(last_index + 1, pokemon.number): 
+			pokedex_showcase.append(null);
+		pokedex_showcase.append(pokemon);
+
+#SAVE
+func save() -> Dictionary:
+	var data := {
+		"save_type": GLOBAL.SaveType.POKEDEX,
+		"pokedex_showcase": pokedex_showcase,
+		"path": get_path()
+	}
+	return data;
+
+func load(data: Dictionary) -> void:
+	if("pokedex_showcase" in data): 
+		pokedex_showcase = data["pokedex_showcase"];
 
 var LIBRARY: Array = [
 	{
 		"name": "BULBASAUR",
-		"number": Pokedex.BULBASAUR,
+		"number": PokedexEnum.BULBASAUR,
 		"types": [MOVES.Types.GRASS],
 		"party_texture": preload("res://Assets/UI/Pokemon/bulbasaur/icon.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/BULBASAUR.ogg"),
@@ -71,7 +136,7 @@ var LIBRARY: Array = [
 	},
 	{
 		"name": "IVYSAUR",
-		"number": Pokedex.IVYSAUR,
+		"number": PokedexEnum.IVYSAUR,
 		"types": [MOVES.Types.GRASS, MOVES.Types.POISON],
 		"party_texture": preload("res://Assets/UI/Pokemon/ivysaur/icon.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/IVYSAUR.ogg"),
@@ -97,7 +162,7 @@ var LIBRARY: Array = [
 	},
 	{
 		"name": "CHARMANDER",
-		"number": Pokedex.CHARMANDER,
+		"number": PokedexEnum.CHARMANDER,
 		"types": [MOVES.Types.FIRE],
 		"party_texture": preload("res://Assets/UI/Pokemon/charmander/icon.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/CHARMANDER.ogg"),
@@ -123,7 +188,7 @@ var LIBRARY: Array = [
 	}, 
 	{
 		"name": "SQUIRTLE",
-		"number": Pokedex.SQUIRTLE,
+		"number": PokedexEnum.SQUIRTLE,
 		"types": [MOVES.Types.WATER],
 		"party_texture": preload("res://Assets/UI/Pokemon/squirtle/icon.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/SQUIRTLE.ogg"),
@@ -151,7 +216,7 @@ var LIBRARY: Array = [
 	},
 	{
 		"name": "BEEDRILL",
-		"number": Pokedex.BEEDRILL,
+		"number": PokedexEnum.BEEDRILL,
 		"types": [MOVES.Types.BUG, MOVES.Types.POISON],
 		"party_texture": preload("res://Assets/UI/Pokemon/beedrill/icon.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/BEEDRILL.ogg"),
@@ -177,7 +242,7 @@ var LIBRARY: Array = [
 	},
 	{
 		"name": "PIDGEY",
-		"number": Pokedex.PIDGEY,
+		"number": PokedexEnum.PIDGEY,
 		"types": [MOVES.Types.NORMAL, MOVES.Types.FLYING],
 		"party_texture": preload("res://Assets/UI/Pokemon/pidgey/icon.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/PIDGEY.ogg"),
@@ -203,7 +268,7 @@ var LIBRARY: Array = [
 	},
 	{
 		"name": "RATTATA",
-		"number": Pokedex.RATTATA,
+		"number": PokedexEnum.RATTATA,
 		"types": [MOVES.Types.NORMAL],
 		"party_texture": preload("res://Assets/UI/Pokemon/rattata/icon.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/RATTATA.ogg"),
@@ -229,7 +294,7 @@ var LIBRARY: Array = [
 	},
 	{
 		"name": "PIKACHU",
-		"number": Pokedex.PIKACHU,
+		"number": PokedexEnum.PIKACHU,
 		"types": [MOVES.Types.ELECTRIC],
 		"party_texture": preload("res://Assets/UI/Pokemon/pikachu/icon.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/PIKACHU.ogg"),
@@ -255,7 +320,7 @@ var LIBRARY: Array = [
 	},
 	{
 		"name": "GEODUDE",
-		"number": Pokedex.GEODUDE,
+		"number": PokedexEnum.GEODUDE,
 		"types": [MOVES.Types.ROCK, MOVES.Types.GROUND],
 		"party_texture": preload("res://Assets/UI/Pokemon/geodude/icon.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/GEODUDE.ogg"),
@@ -281,7 +346,7 @@ var LIBRARY: Array = [
 	},
 	{
 		"name": "HORSEA",
-		"number": Pokedex.HORSEA,
+		"number": PokedexEnum.HORSEA,
 		"types": [MOVES.Types.WATER],
 		"party_texture": preload("res://Assets/UI/Pokemon/horsea/icon.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/HORSEA.ogg"),
@@ -307,7 +372,7 @@ var LIBRARY: Array = [
 	},
 	{
 		"name": "HO-OH",
-		"number": Pokedex.HOOH,
+		"number": PokedexEnum.HOOH,
 		"types": [MOVES.Types.FIRE, MOVES.Types.FLYING],
 		"party_texture": preload("res://Assets/UI/Pokemon/ho-oh/icon.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/HOOH.ogg"),
@@ -333,7 +398,7 @@ var LIBRARY: Array = [
 	},
 	{
 		"name": "RAYQUAZA",
-		"number": Pokedex.RAYQUAZA,
+		"number": PokedexEnum.RAYQUAZA,
 		"types": [MOVES.Types.DRAGON, MOVES.Types.FLYING],
 		"party_texture": preload("res://Assets/UI/Pokemon/rayquaza/icon.png"),
 		"shout": preload("res://Assets/Sounds/Pokemon/RAYQUAZA.ogg"),

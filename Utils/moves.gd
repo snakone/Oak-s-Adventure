@@ -10,6 +10,11 @@ func load_move_with_pp(move: Dictionary):
 	move_data.pp = move.pp;
 	return move_data;
 
+func get_type_sprite(type: Types) -> Variant:
+	if(type in sprites_types):
+		return sprites_types[type];
+	return null;
+
 enum Types {
 	NORMAL,
 	FIRE,
@@ -245,4 +250,24 @@ const MOVE_ANIMATION = {
 			]
 		}
 	}
+}
+
+@onready var sprites_types = {
+	Types.NORMAL: load("res://Assets/UI/Types/normal.png"),
+	Types.FIRE: load("res://Assets/UI/Types/fire.png"),
+	Types.WATER: load("res://Assets/UI/Types/water.png"),
+	Types.GRASS: load("res://Assets/UI/Types/grass.png"),
+	Types.ELECTRIC: load("res://Assets/UI/Types/electric.png"),
+	Types.ICE: load("res://Assets/UI/Types/ice.png"),
+	Types.FIGHTING: load("res://Assets/UI/Types/fight.png"),
+	Types.POISON: load("res://Assets/UI/Types/poison.png"),
+	Types.GROUND: load("res://Assets/UI/Types/ground.png"),
+	Types.FLYING: load("res://Assets/UI/Types/flying.png"),
+	Types.PSYCHIC: load("res://Assets/UI/Types/psychic.png"),
+	Types.BUG: load("res://Assets/UI/Types/bug.png"),
+	Types.ROCK: load("res://Assets/UI/Types/rock.png"),
+	Types.GHOST: load("res://Assets/UI/Types/ghost.png"),
+	Types.DRAGON: load("res://Assets/UI/Types/dragon.png"),
+	Types.DARK: load("res://Assets/UI/Types/dark.png"),
+	Types.STEEL: load("res://Assets/UI/Types/steel.png"),
 }
