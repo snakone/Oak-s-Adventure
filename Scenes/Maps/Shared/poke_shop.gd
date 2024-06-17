@@ -6,6 +6,6 @@ func _ready() -> void:
 	check_out_scene();
 
 func check_out_scene() -> void:
-	if(self.name in MAPS.CONNECTIONS &&
-		MAPS.last_map in MAPS.CONNECTIONS[self.name]): 
-			poke_shop_door.spawn_position = MAPS.CONNECTIONS[self.name][MAPS.last_map];
+	if(self.name in LIBRARIES.MAPS.CONNECTIONS &&
+		MAPS.last_map in LIBRARIES.MAPS.CONNECTIONS[self.name]): 
+			poke_shop_door.spawn_position = LIBRARIES.MAPS.CONNECTIONS[self.name][MAPS.last_map];

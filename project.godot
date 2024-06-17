@@ -30,6 +30,8 @@ BATTLE="*res://Utils/battle.gd"
 MOVES="*res://Utils/moves.gd"
 EXP="*res://Utils/experience.gd"
 BOXES="*res://Utils/boxes.gd"
+LIBRARIES="*res://Utils/libraries.gd"
+ENUMS="*res://Utils/enums.gd"
 
 [display]
 

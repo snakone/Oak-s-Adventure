@@ -16,14 +16,6 @@ const save_scene_node =  "CurrentScene/SaveScene";
 const profile_scene_path = "res://Scenes/UI/profile.tscn";
 const profile_scene_node = "CurrentScene/Profile";
 
-const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
-const GUI_MENU_OPEN = preload("res://Assets/Sounds/GUI menu open.ogg");
-const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg");
-const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg");
-const TRAINER_CARD_OPEN = preload("res://Assets/Sounds/GUI trainer card open.ogg");
-const GUI_SAVE_CHOICE = preload("res://Assets/Sounds/GUI save choice.ogg");
-const GUI_POKEDEX_OPEN = preload("res://Assets/Sounds/GUI pokedex open.ogg")
-
 var options_length = MenuOptions.keys().size();
 var selected_option = 0;
 var is_player_moving = false;
@@ -95,7 +87,7 @@ func select_option() -> void:
 
 #CLOSE
 func close_menu() -> void:
-	play_audio(GUI_MENU_CLOSE);
+	play_audio(LIBRARIES.SOUNDS.GUI_MENU_CLOSE);
 	control.visible = false;
 	GLOBAL.menu_open = false;
 	screen_loaded = ScreenLoaded.NONE;
@@ -108,7 +100,7 @@ func open_pokedex() -> void:
 	can_use_menu = false;
 	screen_loaded = ScreenLoaded.POKEDEX;
 	GLOBAL.on_overlay = true;
-	play_audio(GUI_POKEDEX_OPEN);
+	play_audio(LIBRARIES.SOUNDS.GUI_POKEDEX_OPEN);
 	await audio.finished;
 	control.visible = false;
 	scene_manager.transition_to_scene(pokedex_screen_path, true, false);
@@ -118,7 +110,7 @@ func open_party() -> void:
 	can_use_menu = false;
 	screen_loaded = ScreenLoaded.PARTY;
 	GLOBAL.on_overlay = true;
-	play_audio(GUI_SEL_DECISION);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 	await audio.finished;
 	if(!GLOBAL.on_battle):
 		control.visible = false;
@@ -135,7 +127,7 @@ func _on_scene_opened(value: bool, node_name: String) -> void:
 func open_profile() -> void:
 	can_use_menu = false;
 	screen_loaded = ScreenLoaded.OAK;
-	play_audio(TRAINER_CARD_OPEN);
+	play_audio(LIBRARIES.SOUNDS.TRAINER_CARD_OPEN);
 	await audio.finished;
 	control.visible = false;
 	scene_manager.transition_to_scene(profile_scene_path, true, false);
@@ -143,32 +135,32 @@ func open_profile() -> void:
 	can_use_menu = true;
 
 func close_profile() -> void:
-	play_audio(GUI_SEL_DECISION);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 	_on_scene_opened(false, profile_scene_node);
 
 func handle_MENU() -> void:
-	play_audio(GUI_MENU_OPEN);
+	play_audio(LIBRARIES.SOUNDS.GUI_MENU_OPEN);
 	control.visible = true;
 	screen_loaded = ScreenLoaded.MENU;
 	GLOBAL.emit_signal("menu_opened", true);
 	GLOBAL.menu_open = true;
 
 func handle_DOWN() -> void:
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	selected_option += 1;
 	if(selected_option > options_length - 1): 
 		selected_option = MenuOptions.POKEDEX;
 	update_cursor();
 
 func handle_UP() -> void:
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	if(selected_option == MenuOptions.POKEDEX): 
 		selected_option = MenuOptions.EXIT;
 	else: selected_option -= 1;
 	update_cursor();
 
 func handle_save() -> void:
-	play_audio(GUI_SAVE_CHOICE);
+	play_audio(LIBRARIES.SOUNDS.GUI_SAVE_CHOICE);
 	control.visible = false;
 	GLOBAL.menu_open = false;
 	screen_loaded = ScreenLoaded.NONE;

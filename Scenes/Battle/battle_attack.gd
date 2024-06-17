@@ -88,7 +88,7 @@ func update_attack_ui() -> void:
 	var current_attack = player_moves[selected_attack];
 	var type_node = attack_selection_info.get_node("Type");
 	var pp_node = attack_selection_info.get_node("PP/Value");
-	type_node.text = MOVES.TYPES[int(current_attack.type + 1)];
+	type_node.text = LIBRARIES.MOVES.TYPES[int(current_attack.type + 1)];
 	pp_node.text = str(current_attack.pp) + "/" + str(current_attack.total_pp);
 
 func reset() -> void:

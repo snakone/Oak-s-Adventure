@@ -5,28 +5,22 @@ extends NinePatchRect
 @onready var cursor = $Cursor;
 @onready var audio = $AudioStreamPlayer;
 
-const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg");
-const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg");
-
 var selected_option = 0;
-var options_length = GLOBAL.BinaryOptions.keys().size();
-var id: GLOBAL.SelectionCategory;
+var options_length = ENUMS.BinaryOptions.keys().size();
+var id: ENUMS.SelectionCategory;
 
 func _ready():
 	position = selection_position;
 	update_cursor();
 	visible = false;
-	
-	if(SETTINGS.selected_marker):
-		texture = SETTINGS.selected_marker;
+	if(SETTINGS.selected_marker): texture = SETTINGS.selected_marker;
 
 func set_visibility(
 	value: bool,
 	data = {
-		"category": GLOBAL.SelectionCategory.BINARY,
-		"selected": GLOBAL.BinaryOptions.YES
-	}
-) -> void:
+		"category": ENUMS.SelectionCategory.BINARY,
+		"selected": ENUMS.BinaryOptions.YES
+	}) -> void:
 	if(value): BATTLE.can_use_menu = false;
 	await GLOBAL.timeout(0.1);
 	visible = value;
@@ -53,16 +47,16 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif(Input.is_action_just_pressed("space")): select_option();
 
 func handle_DOWN() -> void:
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	selected_option += 1;
 	if(selected_option > options_length - 1): 
-		selected_option = int(GLOBAL.BinaryOptions.YES);
+		selected_option = int(ENUMS.BinaryOptions.YES);
 	update_cursor();
 
 func handle_UP() -> void:
-	play_audio(GUI_SEL_CURSOR);
-	if(selected_option == GLOBAL.BinaryOptions.YES): 
-		selected_option = int(GLOBAL.BinaryOptions.NO);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
+	if(selected_option == ENUMS.BinaryOptions.YES): 
+		selected_option = int(ENUMS.BinaryOptions.NO);
 	else: selected_option -= 1;
 	update_cursor();
 

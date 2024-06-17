@@ -1,14 +1,14 @@
 extends Area2D
 
 @export_file("*.tscn") var next_scene: String;
-@export var enter_direction = GLOBAL.Directions.UP;
+@export var enter_direction = ENUMS.Directions.UP;
 @export var spawn_position = Vector2.ZERO;
 @export var animated = true;
 @export var sprite_image: Texture;
-@export var type: GLOBAL.DoorType;
+@export var type: ENUMS.DoorType;
 @export var DOOR_ENTER: AudioStream = preload("res://Assets/Sounds/Door enter.ogg");
 @export var DOOR_EXIT: AudioStream = preload("res://Assets/Sounds/Door exit.ogg");
-@export var category: GLOBAL.DoorCategory = GLOBAL.DoorCategory.DOOR;
+@export var category: ENUMS.DoorCategory = ENUMS.DoorCategory.DOOR;
 @export var shared: bool = false;
 @export var offset: Vector2 = Vector2.ZERO;
 @export var npc_list: Array[int] = [];
@@ -31,9 +31,9 @@ func _on_body_entered(body) -> void:
 	check_direction();
 	if(can_be_opened && body.name == "Oak"):
 		MAPS.spawn_position = spawn_position;
-		if(category == GLOBAL.DoorCategory.TUNNEL): body.visible = false;
+		if(category == ENUMS.DoorCategory.TUNNEL): body.visible = false;
 		#DOOR TYPE
-		if(type == GLOBAL.DoorType.IN): audio.stream = DOOR_ENTER;
+		if(type == ENUMS.DoorType.IN): audio.stream = DOOR_ENTER;
 		else:
 			audio.stream = DOOR_EXIT;
 			audio.play();
@@ -41,7 +41,7 @@ func _on_body_entered(body) -> void:
 		#ANIMATED
 		if(animated): anim_player.play("Open");
 		else:
-			if(type == GLOBAL.DoorType.IN): audio.play();
+			if(type == ENUMS.DoorType.IN): audio.play();
 			enter_house();
 	elif(!can_be_opened): GLOBAL.emit_signal("cant_enter_door", self);
 
@@ -54,19 +54,19 @@ func check_direction() -> void:
 func enter_house() -> void:
 	await GLOBAL.timeout(.1);
 	#SHARED AND OUT
-	if(shared && type == GLOBAL.DoorType.OUT): 
+	if(shared && type == ENUMS.DoorType.OUT): 
 		next_scene = MAPS.get_next_map();
 		MAPS.reset_npc_shared_list();
 	#GO TO SCENE
 	if(next_scene != ""):
-		if(type == GLOBAL.DoorType.IN): 
+		if(type == ENUMS.DoorType.IN): 
 			MAPS.last_map = MAPS.get_map_name(true);
 			if(shared): MAPS.npc_shared_list = npc_list;
 		GLOBAL.last_used_door = self.name;
 		get_node("/root/SceneManager").transition_to_scene(next_scene);
 
 func check_close_animation() -> void:
-	if(GLOBAL.last_used_door == self.name && type == GLOBAL.DoorType.IN):
+	if(GLOBAL.last_used_door == self.name && type == ENUMS.DoorType.IN):
 		await GLOBAL.timeout(0.4);
 		anim_player.play("Close");
 		GLOBAL.last_used_door = "";

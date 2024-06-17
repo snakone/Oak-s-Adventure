@@ -495,7 +495,6 @@ enter_direction = 2
 spawn_position = Vector2(48, 32)
 animated = false
 DOOR_ENTER = ExtResource("8_03405")
-DOOR_EXIT = null
 flip_after_enter = true
 
 [editable path="Books"]

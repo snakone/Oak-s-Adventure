@@ -389,17 +389,17 @@ func _on_health_timer_timeout() -> void:
 #MENU SELECTION
 func _on_selection_value_select(
 	value: int,
-	id: GLOBAL.SelectionCategory
+	id: ENUMS.SelectionCategory
 ) -> void:
-	if(id != GLOBAL.SelectionCategory.BINARY): return;
+	if(id != ENUMS.SelectionCategory.BINARY): return;
 	dialog.set_current_text("");
 	play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
 	match value:
-		int(GLOBAL.BinaryOptions.YES): 
+		int(ENUMS.BinaryOptions.YES): 
 			menu.open_party();
 			await GLOBAL.timeout(1);
 			player_info.visible = false;
-		int(GLOBAL.BinaryOptions.NO): _on_check_can_escape();
+		int(ENUMS.BinaryOptions.NO): _on_check_can_escape();
 
 #CHECKERS
 func check_battle_state() -> void:

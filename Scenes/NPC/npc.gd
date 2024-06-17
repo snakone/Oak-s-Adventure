@@ -7,7 +7,7 @@ enum Directions {
 
 @export var texture: Texture;
 @export var frames: int = 12
-@export var state: GLOBAL.NPCStates = GLOBAL.NPCStates.MOVING;
+@export var state: ENUMS.NPCStates = ENUMS.NPCStates.MOVING;
 @export var can_left: bool = true
 @export var can_right: bool = true
 @export var can_up: bool = true
@@ -47,16 +47,16 @@ func _on_timer_timeout() -> void:
 	
 	match random_int:
 		Directions.WALK_LEFT: 
-			if(can_left && state == GLOBAL.NPCStates.MOVING): 
+			if(can_left && state == ENUMS.NPCStates.MOVING): 
 				handle_direction(Vector2.LEFT);
 		Directions.WALK_RIGHT: 
-			if(can_right && state == GLOBAL.NPCStates.MOVING): 
+			if(can_right && state == ENUMS.NPCStates.MOVING): 
 				handle_direction(Vector2.RIGHT);
 		Directions.WALK_UP: 
-			if(can_up && state == GLOBAL.NPCStates.MOVING):
+			if(can_up && state == ENUMS.NPCStates.MOVING):
 				handle_direction(Vector2.UP);
 		Directions.WALK_DOWN: 
-			if(can_down && state == GLOBAL.NPCStates.MOVING): 
+			if(can_down && state == ENUMS.NPCStates.MOVING): 
 				handle_direction(Vector2.DOWN);
 		Directions.LOOK_DOWN: if(can_down): sprite.frame = 0;
 		Directions.LOOK_UP: if(can_up): sprite.frame = 1;

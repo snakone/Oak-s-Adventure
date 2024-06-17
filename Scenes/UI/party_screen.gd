@@ -13,11 +13,6 @@ extends CanvasLayer
 
 const RED_BAR = preload("res://Assets/UI/red_bar.png");
 const YELLOW_BAR = preload("res://Assets/UI/yellow_bar.png");
-const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg");
-const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
-const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg");
-const GUI_PARTY_SWITCH = preload("res://Assets/Sounds/GUI party switch.ogg");
-
 const POKEMON_BACKGROUND = preload("res://Assets/UI/standby_pokemon_background.png");
 const MAIN_POKEMON_BACKGROUND = preload("res://Assets/UI/main_pokemon_background.png");
 const BACKGROUND_DEAD = preload("res://Assets/UI/standby_pokemon_background_dead.png");
@@ -225,7 +220,7 @@ func select_input() -> void:
 	elif(switch_mode):
 		switch_pokemon();
 		return;
-	play_audio(GUI_SEL_DECISION);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 	
 	#OPEN SELECT
 	if(
@@ -245,7 +240,7 @@ func select_input() -> void:
 #SWITCH
 func switch_pokemon() -> void:
 	switching = true;
-	play_audio(GUI_SEL_DECISION);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 	
 	var slots_array = [
 		slots[selected_slot].get_node("Switch"),
@@ -253,7 +248,7 @@ func switch_pokemon() -> void:
 	];
 	
 	#OUT
-	play_audio(GUI_PARTY_SWITCH);
+	play_audio(LIBRARIES.SOUNDS.GUI_PARTY_SWITCH);
 	for anim_player in slots_array:
 		anim_player.play("SwitchOut");
 	await GLOBAL.timeout(switch_anim_duration);
@@ -267,7 +262,7 @@ func switch_pokemon() -> void:
 	await GLOBAL.timeout(0.1);
 	
 	#IN
-	play_audio(GUI_PARTY_SWITCH);
+	play_audio(LIBRARIES.SOUNDS.GUI_PARTY_SWITCH);
 	for anim_player in slots_array:
 		anim_player.play("SwitchIn");
 	await GLOBAL.timeout(switch_anim_duration);
@@ -283,7 +278,7 @@ func select_pokemon() -> void:
 	var poke = PARTY.get_pokemon(poke_name);
 	#BATTLE
 	if(GLOBAL.on_battle):
-		play_audio(GUI_SEL_DECISION);
+		play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 		if(poke.data.death):
 			label.text = poke_name + " can't fight!";
 			return;
@@ -308,7 +303,7 @@ func select_poke_and_change(poke_name: String) -> void:
 #CLOSE
 func close_party(sound = true, reset_list = true) -> void:
 	if(switch_mode):
-		if(sound): play_audio(GUI_SEL_DECISION);
+		if(sound): play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 		label.text = default_sentence;
 		switch_mode = false;
 		current_switch_slot = null;
@@ -316,7 +311,7 @@ func close_party(sound = true, reset_list = true) -> void:
 		return;
 	closing = true;
 	GLOBAL.on_overlay = false;
-	if(sound): play_audio(GUI_MENU_CLOSE);
+	if(sound): play_audio(LIBRARIES.SOUNDS.GUI_MENU_CLOSE);
 	await GLOBAL.timeout(.2);
 	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/PartyScreen");
 	if(GLOBAL.on_battle): BATTLE.state = BATTLE.States.MENU;
@@ -334,7 +329,7 @@ func switch_slot() -> void:
 	else: panel.texture = BACKGROUND_SWITCH;
 
 func handle_DOWN() -> void:
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	if(select_open):
 		select_DOWN();
 		return;
@@ -343,7 +338,7 @@ func handle_DOWN() -> void:
 		selected_slot = int(Slots.FIRST);
 
 func handle_UP() -> void:
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	if(select_open): 
 		select_UP();
 		return;
@@ -352,12 +347,12 @@ func handle_UP() -> void:
 
 func handle_RIGHT() -> void:
 	if(select_open): return;
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	selected_slot = int(last_slot_before_moving_left);
 
 func handle_LEFT() -> void:
 	if(select_open): return;
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	last_slot_before_moving_left = int(selected_slot);
 	selected_slot = int(Slots.FIRST);
 
@@ -385,7 +380,7 @@ func select_UP() -> void:
 
 #CLOSE SELECT
 func close_select(sound = true) -> void:
-	if(sound): play_audio(GUI_SEL_CURSOR);
+	if(sound): play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	select_open = false;
 	select.visible = false;
 	select_index = int(SelectSlot.FIRST);

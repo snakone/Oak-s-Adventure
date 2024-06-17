@@ -125,8 +125,8 @@ func _on_selection_value_select(value: int, _id) -> void:
 func match_selection_and_close(value: int) -> void:
 	var sound = dialog_data.selection.sound;
 	match value:
-		int(GLOBAL.BinaryOptions.YES): close_selection(value, sound);
-		int(GLOBAL.BinaryOptions.NO): close_selection(value);
+		int(ENUMS.BinaryOptions.YES): close_selection(value, sound);
+		int(ENUMS.BinaryOptions.NO): close_selection(value);
 
 #CLOSE
 func close_selection(value: int, stream: AudioStream = CLOSE_MENU) -> void:

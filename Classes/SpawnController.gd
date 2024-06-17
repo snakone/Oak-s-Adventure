@@ -25,18 +25,18 @@ func _ready():
 	#COMING FROM SCENE
 	if(MAPS.position_before_scene && MAPS.last_map != null):
 		if(
-			MAPS.last_map in MAPS.CONNECTIONS &&
-			self.name in MAPS.CONNECTIONS[MAPS.last_map] &&
-			MAPS.position_before_scene in MAPS.CONNECTIONS[MAPS.last_map][name]
+			MAPS.last_map in LIBRARIES.MAPS.CONNECTIONS &&
+			self.name in LIBRARIES.MAPS.CONNECTIONS[MAPS.last_map] &&
+			MAPS.position_before_scene in LIBRARIES.MAPS.CONNECTIONS[MAPS.last_map][name]
 		):
-			oak.position = MAPS.CONNECTIONS[MAPS.last_map][name][MAPS.position_before_scene];
+			oak.position = LIBRARIES.MAPS.CONNECTIONS[MAPS.last_map][name][MAPS.position_before_scene];
 
 func create_climate(size: Vector2) -> void:
 	var time = Time.get_time_dict_from_system();
 	climate_canvas = CanvasLayer.new();
 	if("hour" in time):
 		if(time.hour >= 6 && time.hour < 18):
-			_on_climate_change(GLOBAL.Climate.DAY);
+			_on_climate_change(ENUMS.Climate.DAY);
 			return;
 	climate_canvas.layer = 0;
 	var night = ColorRect.new();
@@ -44,10 +44,10 @@ func create_climate(size: Vector2) -> void:
 	night.self_modulate = Color(0, 0, 0, 0.98);
 	climate_canvas.add_child(night);
 	call_deferred("add_child", climate_canvas);
-	_on_climate_change(GLOBAL.Climate.NIGHT);
+	_on_climate_change(ENUMS.Climate.NIGHT);
 
-func _on_climate_change(time: GLOBAL.Climate) -> void:
+func _on_climate_change(time: ENUMS.Climate) -> void:
 	var nodes = get_tree().get_nodes_in_group("Lights");
 	for light in nodes:
-		light.visible = time == GLOBAL.Climate.NIGHT;
-	climate_canvas.visible = time == GLOBAL.Climate.NIGHT;
+		light.visible = time == ENUMS.Climate.NIGHT;
+	climate_canvas.visible = time == ENUMS.Climate.NIGHT;

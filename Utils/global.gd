@@ -10,7 +10,7 @@ signal bike_inside;
 signal start_dialog(id: int);
 signal close_dialog;
 signal on_tile_map_changed(size: Vector2, camera_offset: Vector2);
-signal selection_value_select(value: BinaryOptions, category: SelectionCategory);
+signal selection_value_select(value: ENUMS.BinaryOptions, category: ENUMS.SelectionCategory);
 
 signal start_battle(battle_data: Dictionary);
 signal close_battle;
@@ -19,17 +19,6 @@ signal open_pc();
 signal close_pc();
 
 signal time_of_day_changed(new_time_of_day);
-
-enum Directions { LEFT, RIGHT, UP, DOWN, NONE, ALL }
-enum FacingDirection { LEFT, RIGHT, UP, DOWN };
-enum Genders { MALE, FEMALE }
-enum SaveType { PLAYER, SCENE, PARTY, BOXES, NPC, POKEDEX }
-enum DoorType { IN, OUT }
-enum BinaryOptions { YES, NO }
-enum DoorCategory { DOOR, TUNNEL }
-enum SelectionCategory { BINARY, HEAL }
-enum NPCStates { MOVING, IDLE }
-enum Climate { DAY, NIGHT }
 
 const TILE_SIZE: int = 16;
 const WINDOW_SIZE = Vector2(15, 10);
@@ -45,8 +34,8 @@ const DIRECTIONS: Array = [
 ];
 
 var player_data_to_load = null;
-var last_direction = DIRECTIONS[Directions.DOWN];
-var facing_direction = FacingDirection.UP;
+var last_direction = DIRECTIONS[ENUMS.Directions.DOWN];
+var facing_direction = ENUMS.FacingDirection.UP;
 var last_used_door: String;
 var spawn_location = null;
 var camera_connected = false;
@@ -66,7 +55,7 @@ var on_overlay = false;
 
 #VALUES
 var current_money = 0;
-var current_time_of_day: Climate;
+var current_time_of_day: ENUMS.Climate;
 
 const blends = [
 	"parameters/Idle/blend_position", 
@@ -75,10 +64,10 @@ const blends = [
 
 func need_to_turn(input_direction: Vector2) -> bool:
 	var new_facing_direction;
-	if(input_direction.x < 0): new_facing_direction = FacingDirection.LEFT
-	elif(input_direction.x > 0): new_facing_direction = FacingDirection.RIGHT
-	elif(input_direction.y < 0): new_facing_direction = FacingDirection.UP
-	elif(input_direction.y > 0): new_facing_direction = FacingDirection.DOWN
+	if(input_direction.x < 0): new_facing_direction = ENUMS.FacingDirection.LEFT
+	elif(input_direction.x > 0): new_facing_direction = ENUMS.FacingDirection.RIGHT
+	elif(input_direction.y < 0): new_facing_direction = ENUMS.FacingDirection.UP
+	elif(input_direction.y > 0): new_facing_direction = ENUMS.FacingDirection.DOWN
 	
 	if(facing_direction != new_facing_direction):
 		facing_direction = new_facing_direction;

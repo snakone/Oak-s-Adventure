@@ -4,13 +4,7 @@ extends CanvasLayer
 @onready var nine_rect: NinePatchRect = $Control/NinePatchRect;
 @onready var cursor: TextureRect = $Control/NinePatchRect/Cursor;
 
-const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg");
-const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
-const CONFIRM = preload("res://Assets/Sounds/confirm.wav");
-const PC_ACCESS = preload("res://Assets/Sounds/PC access.ogg");
-
 const POKEMON_BOXES = "res://Scenes/UI/pokemon_boxes.tscn";
-
 enum PcOptions { BILL, OAK, POKEDEX, OFF }
 
 var can_use_menu = false;
@@ -25,7 +19,7 @@ func _ready() -> void:
 	GLOBAL.connect("scene_opened", _on_scene_opened);
 
 func start_dialog() -> void:
-	play_audio(CONFIRM);
+	play_audio(LIBRARIES.SOUNDS.CONFIRM);
 	GLOBAL.start_dialog.emit(32);
 	await GLOBAL.close_dialog;
 	GLOBAL.start_dialog.emit(33);
@@ -61,21 +55,21 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif(Input.is_action_just_pressed("space")): select_option();
 
 func handle_DOWN() -> void:
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	selected_option += 1;
 	if(selected_option > options_length - 1): 
 		selected_option = PcOptions.BILL;
 	update_cursor();
 
 func handle_UP() -> void:
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	if(selected_option == PcOptions.BILL): 
 		selected_option = PcOptions.OFF;
 	else: selected_option -= 1;
 	update_cursor();
 
 func select_option() -> void:
-	play_audio(CONFIRM);
+	play_audio(LIBRARIES.SOUNDS.CONFIRM);
 	match(selected_option):
 		PcOptions.BILL: select_storage()
 		PcOptions.OAK: select_oak()
@@ -87,7 +81,7 @@ func select_storage() -> void:
 	nine_rect.visible = false;
 	GLOBAL.start_dialog.emit(37);
 	await GLOBAL.close_dialog;
-	play_audio(PC_ACCESS);
+	play_audio(LIBRARIES.SOUNDS.PC_ACCESS);
 	await audio.finished;
 	GLOBAL.on_overlay = true;
 	scene_manager.transition_to_scene(POKEMON_BOXES, true, false);
@@ -101,7 +95,7 @@ func select_pokedex() -> void:
 
 func close_menu() -> void:
 	can_use_menu = false;
-	play_audio(GUI_MENU_CLOSE);
+	play_audio(LIBRARIES.SOUNDS.GUI_MENU_CLOSE);
 	nine_rect.visible = false;
 	await audio.finished;
 	GLOBAL.close_pc.emit();

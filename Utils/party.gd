@@ -106,7 +106,7 @@ func get_party_as_json() -> Array:
 
 func save() -> Dictionary:
 	var data := {
-		"save_type": GLOBAL.SaveType.PARTY,
+		"save_type": ENUMS.SaveType.PARTY,
 		"party": get_party_as_json(),
 		"path": get_path()
 	}

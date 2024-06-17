@@ -1,0 +1,86 @@
+extends Node
+
+enum PokedexIndexOptions {
+	NUMERICAL,
+	GRASS,
+	WATER,
+	SEA,
+	CAVE,
+	MOUNTAIN,
+	ROUGH,
+	URBAN,
+	RARE,
+	LEGENDARY,
+	CLOSE
+}
+
+enum Directions { LEFT, RIGHT, UP, DOWN, NONE, ALL }
+enum FacingDirection { LEFT, RIGHT, UP, DOWN };
+enum Genders { MALE, FEMALE }
+enum SaveType { PLAYER, SCENE, PARTY, BOXES, NPC, POKEDEX }
+enum DoorType { IN, OUT }
+enum BinaryOptions { YES, NO }
+enum DoorCategory { DOOR, TUNNEL }
+enum SelectionCategory { BINARY, HEAL }
+enum NPCStates { MOVING, IDLE }
+enum Climate { DAY, NIGHT }
+
+enum Locations {
+	PRAIRE_TOWN,
+	OAK_HOUSE,
+	ROUTE_00,
+	OAK_FARMER_HOUSE,
+	ROUTE_01,
+	CALDEROCK_VILLAGE,
+	POKE_CENTER,
+	POKE_SHOP,
+	HOUSE_01,
+	ROUTE_02,
+	JULIETA_HOUSE,
+	JULIETA_UNDERGROUND
+}
+
+enum Types {
+	NORMAL,
+	FIRE,
+	WATER,
+	GRASS,
+	ELECTRIC,
+	ICE,
+	FIGHTING,
+	POISON,
+	GROUND,
+	FLYING,
+	PSYCHIC,
+	BUG,
+	ROCK,
+	GHOST,
+	DRAGON,
+	DARK,
+	STEEL,
+	FAIRY
+}
+
+enum AttackCategory { PHYSIC, SPECIAL, STATUS, NONE }
+
+enum MoveNames {
+	TACKLE,
+	QUICK_ATTACK
+}
+
+enum Pokedex {
+	BULBASAUR = 1,
+	IVYSAUR = 2,
+	CHARMANDER = 4,
+	SQUIRTLE = 7,
+	BEEDRILL = 15,
+	PIDGEY = 16,
+	RATTATA = 19,
+	PIKACHU = 25,
+	GEODUDE = 74,
+	HORSEA = 116,
+	HOOH = 250,
+	RAYQUAZA = 384
+}
+
+enum PokemonCategory { NORMAL, LEGENDARY, SINGULAR, SPECIAL, NONE, STARTER }

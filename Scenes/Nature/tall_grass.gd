@@ -4,7 +4,7 @@ extends Node2D
 @onready var texture_rect = $TextureRect;
 @onready var grass_effect = $GrassEffect;
 
-@export var encounters: Array[POKEDEX.PokedexEnum];
+@export var encounters: Array[ENUMS.Pokedex];
 @export var zone: BATTLE.Zones;
 @export var battle_type: BATTLE.Type; 
 @export var level_range = [5, 6];
@@ -53,9 +53,9 @@ func check_for_battle(body: CharacterBody2D) -> void:
 		texture_rect.visible = true;
 		call_deferred("set_process", Node.PROCESS_MODE_DISABLED);
 
-func get_random_pokemon() -> POKEDEX.PokedexEnum:
+func get_random_pokemon() -> ENUMS.Pokedex:
 	var map = MAPS.get_map_name(true);
-	var map_encounters = MAPS.ENCOUNTERS[map][zone_number];
+	var map_encounters = LIBRARIES.MAPS.ENCOUNTERS[map][zone_number];
 	encounters.sort_custom(func(x, y): 
 		return map_encounters[x] < map_encounters[y]);
 	var random = randf_range(0.0, 99.0);

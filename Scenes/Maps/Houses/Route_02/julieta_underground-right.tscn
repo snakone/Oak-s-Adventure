@@ -45,8 +45,6 @@ next_scene = "res://Scenes/Maps/Houses/Route_02/julieta_underground.tscn"
 enter_direction = 0
 spawn_position = Vector2(208, 48)
 animated = false
-DOOR_ENTER = null
-DOOR_EXIT = null
 category = 1
 
 [node name="CollisionShape2D" parent="Doors/Door" index="0"]
@@ -58,8 +56,6 @@ next_scene = "res://Scenes/Maps/Houses/Route_02/julieta_underground.tscn"
 enter_direction = 0
 spawn_position = Vector2(208, 64)
 animated = false
-DOOR_ENTER = null
-DOOR_EXIT = null
 category = 1
 
 [node name="CollisionShape2D" parent="Doors/Door2" index="0"]
@@ -71,8 +67,6 @@ next_scene = "res://Scenes/Maps/Houses/Route_02/julieta_underground.tscn"
 enter_direction = 0
 spawn_position = Vector2(208, 80)
 animated = false
-DOOR_ENTER = null
-DOOR_EXIT = null
 category = 1
 
 [node name="CollisionShape2D" parent="Doors/Door3" index="0"]
@@ -84,8 +78,6 @@ next_scene = "res://Scenes/Maps/Houses/Route_02/julieta_underground.tscn"
 enter_direction = 0
 spawn_position = Vector2(208, 128)
 animated = false
-DOOR_ENTER = null
-DOOR_EXIT = null
 category = 1
 
 [node name="CollisionShape2D" parent="Doors/Door4" index="0"]

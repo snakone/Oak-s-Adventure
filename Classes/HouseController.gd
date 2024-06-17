@@ -33,7 +33,7 @@ func set_camera() -> void:
 func check_npc_spawn() -> void:
 	if(MAPS.npc_shared_list.size() > 0):
 		for index in MAPS.npc_shared_list:
-			var npc = MAPS.NPC_SHARED_MAP[index];
+			var npc = LIBRARIES.MAPS.NPC_SHARED_MAP[index];
 			create_npc(npc);
 
 func create_npc(npc: Dictionary) -> void:

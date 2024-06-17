@@ -6,9 +6,6 @@ extends HouseController
 @onready var anim_player: AnimationPlayer = $AnimationPlayer;
 @onready var timer: Timer = $Timer;
 
-const POKEMON_HEAL = preload("res://Assets/Sounds/pokemon heal.mp3");
-const BATTLE_BALL_SHAKE = preload("res://Assets/Sounds/Battle ball shake.ogg");
-
 var heal_anim_duration = 11;
 var party: Array = [];
 var party_size: int = 0;
@@ -22,9 +19,9 @@ func _ready() -> void:
 	GLOBAL.connect("selection_value_select", _on_selection_value_select);
 
 func check_out_scene() -> void:
-	if(self.name in MAPS.CONNECTIONS &&
-		MAPS.last_map in MAPS.CONNECTIONS[self.name]): 
-			poke_center_door.spawn_position = MAPS.CONNECTIONS[self.name][MAPS.last_map];
+	if(self.name in LIBRARIES.MAPS.CONNECTIONS &&
+		MAPS.last_map in LIBRARIES.MAPS.CONNECTIONS[self.name]): 
+			poke_center_door.spawn_position = LIBRARIES.MAPS.CONNECTIONS[self.name][MAPS.last_map];
 
 func handle_heal() -> void:
 	if(GLOBAL.healing): return;
@@ -52,15 +49,15 @@ func stop_timer() -> void:
 	index = 0;
 
 func play_heal_sound() -> void:
-	audio.stream = POKEMON_HEAL;
+	audio.stream = LIBRARIES.SOUNDS.POKEMON_HEAL;
 	audio.play();
 
 func _on_timer_timeout() -> void:
 	audio.stop();
-	audio.stream = BATTLE_BALL_SHAKE;
+	audio.stream = LIBRARIES.SOUNDS.BATTLE_BALL_SHAKE;
 	audio.play();
 
 func _on_selection_value_select(value: int, category) -> void:
-	if(category != GLOBAL.SelectionCategory.HEAL): return;
+	if(category != ENUMS.SelectionCategory.HEAL): return;
 	match value:
-		int(GLOBAL.BinaryOptions.YES): handle_heal();
+		int(ENUMS.BinaryOptions.YES): handle_heal();

@@ -4,7 +4,7 @@ class_name Move
 
 @export var audio_file: AudioStream = null;
 @export var move_sprite = false;
-@export var move_name: MOVES.MoveNames;
+@export var move_name: ENUMS.MoveNames;
 
 @onready var anim_player = $AnimationPlayer;
 @onready var audio = $AudioStreamPlayer;
@@ -45,7 +45,7 @@ func _on_animation_finished(_name):
 
 func attack() -> void:
 	var tween = get_tree().create_tween();
-	var move = MOVES.MOVE_ANIMATION[move_name];
+	var move = LIBRARIES.MOVES.MOVE_ANIMATION[move_name];
 	var key_value = current_sprite[move.property];
 	var array =  move.values.player;
 	if(current_turn == Turn.ENEMY): array = move.values.enemy;

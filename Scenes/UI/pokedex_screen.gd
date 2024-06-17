@@ -8,31 +8,13 @@ extends CanvasLayer
 @onready var seen: RichTextLabel = $Index/Seen;
 @onready var owned: RichTextLabel = $Index/Owned;
 @onready var anim_arrows: AnimationPlayer = $Arrows/AnimationPlayer;
-@onready var arrow_up: Sprite2D = $Arrows/ArrowUp;
-@onready var arrow_down: Sprite2D = $Arrows/ArrowDown;
-
-const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
-const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg");
-const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg");
+@onready var red_arrow_up: Sprite2D = $Arrows/ArrowUp;
+@onready var red_arrow_down: Sprite2D = $Arrows/ArrowDown;
 
 const MAX_INDEX_SCROLL_HEIGHT = 96;
 const INDEX_ITEM_HEIGHT = 15;
 const LIST_ITEM_HEIGHT = 16;
 const ITEM_scene = preload("res://Scenes/UI/pokedex_item.tscn");
-
-enum SelectOptions {
-	NUMERICAL,
-	GRASS,
-	WATER,
-	SEA,
-	CAVE,
-	MOUNTAIN,
-	ROUGH,
-	URBAN,
-	RARE,
-	LEGENDARY,
-	CLOSE
-}
 
 enum Views { INDEX, LIST, INFO, AREA }
 
@@ -41,58 +23,17 @@ enum Views { INDEX, LIST, INFO, AREA }
 	Views.LIST: $List
 }
 
-var selected_option = int(SelectOptions.NUMERICAL);
+var red_arrow_positions = {
+	Views.INDEX: 155,
+	Views.LIST: 226
+}
+
+var selected_option = int(ENUMS.PokedexIndexOptions.NUMERICAL);
 var selected_view = int(Views.INDEX);
 var list_size: int;
 var showcase = [];
 var pokedex_created = false;
-
-@onready var options = {
-	SelectOptions.NUMERICAL: {
-		"texture": load("res://Assets/UI/Pokedex/numerical.png"),
-		"cursor": Vector2(12, 35.5)
-	},
-	SelectOptions.GRASS: {
-		"texture": load("res://Assets/UI/Pokedex/grass.png"),
-		"cursor": Vector2(12, 69.5)
-	},
-	SelectOptions.WATER: {
-		"texture": load("res://Assets/UI/Pokedex/water.png"),
-		"cursor": Vector2(12, 84.5)
-	},
-	SelectOptions.SEA: {
-		"texture": load("res://Assets/UI/Pokedex/sea.png"),
-		"cursor": Vector2(12, 99.5)
-	},
-	SelectOptions.CAVE: {
-		"texture": load("res://Assets/UI/Pokedex/cave.png"),
-		"cursor": Vector2(12, 99.5)
-	},
-	SelectOptions.MOUNTAIN: {
-		"texture": load("res://Assets/UI/Pokedex/mountain.png"),
-		"cursor": Vector2(12, 99.5)
-	},
-	SelectOptions.ROUGH: {
-		"texture": load("res://Assets/UI/Pokedex/rough.png"),
-		"cursor": Vector2(12, 99.5)
-	},
-	SelectOptions.URBAN: {
-		"texture": load("res://Assets/UI/Pokedex/urban.png"),
-		"cursor": Vector2(12, 99.5)
-	},
-	SelectOptions.RARE: {
-		"texture": load("res://Assets/UI/Pokedex/rare.png"),
-		"cursor": Vector2(12, 99.5)
-	},
-	SelectOptions.LEGENDARY: {
-		"texture": load("res://Assets/UI/Pokedex/legendary.png"),
-		"cursor": Vector2(12, 93.5)
-	},
-	SelectOptions.CLOSE: {
-		"texture": load("res://Assets/UI/Pokedex/close.png"),
-		"cursor": Vector2(12, 126.5)
-	}
-}
+var index_options;
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_INHERIT;
@@ -100,7 +41,8 @@ func _ready() -> void:
 	showcase = POKEDEX.get_showcase();
 	index_container.scroll_vertical = 0;
 	pokedex_container.scroll_vertical = 0;
-	list_size = SelectOptions.keys().size();
+	list_size = ENUMS.PokedexIndexOptions.keys().size();
+	index_options = LIBRARIES.POKEDEX.index_options;
 	update_cursor();
 	set_arrows(false, true);
 
@@ -137,7 +79,7 @@ func handle_index_select() -> void:
 	var last_option = list_size - 1;
 	match selected_option:
 		#NUMERICAL
-		SelectOptions.NUMERICAL: go_to_list();
+		ENUMS.PokedexIndexOptions.NUMERICAL: go_to_list();
 		#CANCEL
 		last_option: close_pokedex();
 
@@ -146,24 +88,24 @@ func change_view(view: Views) -> void:
 	var current_node = view_list[int(selected_view)];
 	var next_node = view_list[int(view)];
 	if(current_node): current_node.visible = false;
-	play_audio(GUI_SEL_DECISION);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 	selected_view = int(view);
 	if(next_node): next_node.visible = true;
 
 func handle_DOWN() -> void:
 	var size: int;
 	match selected_view:
-		Views.INDEX: 
-			size = list_size;
-			select_habitat();
+		Views.INDEX: size = list_size;
 		Views.LIST: size = showcase.size()
+		
 	if(selected_option == size - 1): return;
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	selected_option += 1;
+	if(selected_view == Views.INDEX): select_habitat();
 
 func handle_UP() -> void:
 	if(selected_option == 0): return;
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	selected_option -= 1;
 	if(selected_view == Views.INDEX): select_habitat();
 
@@ -172,12 +114,14 @@ func go_to_index() -> void:
 	selected_option = 0;
 	change_view(Views.INDEX);
 	update_cursor();
+	update_red_arrow_position();
 
 #LIST VIEW
 func go_to_list() -> void:
 	selected_option = 0;
 	change_view(Views.LIST);
 	if(!pokedex_created): create_pokedex();
+	update_red_arrow_position();
 
 #CLOSE
 func handle_can_close() -> void:
@@ -185,32 +129,25 @@ func handle_can_close() -> void:
 		Views.INDEX: close_pokedex()
 		Views.LIST: go_to_index()
 
-func close_pokedex() -> void:
-	GLOBAL.on_overlay = false;
-	play_audio(GUI_MENU_CLOSE);
-	await GLOBAL.timeout(.2);
-	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/PokedexScreen");
-	process_mode = Node.PROCESS_MODE_DISABLED;
-
 func update_cursor() -> void:
 	var size = showcase.size();
 	match selected_view:
 		Views.INDEX:
-			var cursor_option = options[selected_option];
+			var cursor_option = index_options[selected_option];
 			if("cursor" in cursor_option): cursor.position = cursor_option.cursor;
 		Views.LIST:
 			var position: Vector2;
-			if(selected_option == 0): position = Vector2(8, 23.5);
+			if(selected_option == 0): position = Vector2(5, 23.5);
 			elif(size != 0 && selected_option < 5):
-				position = Vector2(8, ((selected_option % size) * 16) + 23.5);
+				position = Vector2(5, ((selected_option % size) * 16) + 23.5);
 			elif(size != 0 && selected_option >= 5 && selected_option + 2 < size - 1):
-				position = Vector2(8, 87.5);
+				position = Vector2(5, 87.5);
 			elif(selected_option + 2 == size - 1): 
-				position = Vector2(8, 95.5);
+				position = Vector2(5, 95.5);
 			elif(selected_option + 1 == size - 1):
-				position = Vector2(8, 111.5);
+				position = Vector2(5, 111.5);
 			elif(selected_option == size - 1):
-				position = Vector2(8, 127.5);
+				position = Vector2(5, 127.5);
 			if(position != Vector2.ZERO): cursor.position = position;
 
 func update_scroll() -> void:
@@ -224,16 +161,22 @@ func update_index_scroll() -> void:
 	var scroll = get_index_scroll(selected_option);
 	index_container.scroll_vertical = scroll;
 	set_arrows(selected_option > 3, selected_option < (list_size - 2));
-	
+
 func update_list_scroll() -> void:
 	update_cursor();
 	if(selected_option + 2 > showcase.size() - 1): return;
 	var scroll = get_list_scroll(selected_option);
 	pokedex_container.scroll_vertical = scroll;
+	set_arrows(selected_option > 4, selected_option + 2 < (showcase.size() - 1));
+
+func update_red_arrow_position() -> void:
+	var position_x = red_arrow_positions[selected_view];
+	red_arrow_down.position.x = position_x;
+	red_arrow_up.position.x = position_x;
 
 func set_arrows(up: bool, down: bool) -> void:
-	arrow_up.visible = up;
-	arrow_down.visible = down;
+	red_arrow_up.visible = up;
+	red_arrow_down.visible = down;
 
 func get_index_scroll(selected: int) -> int:
 	if(selected < 4): return 0;
@@ -268,7 +211,7 @@ func create_pokedex() -> void:
 			data = {
 				"number": format_number(poke.number),
 				"owned": poke.owned,
-				"name": poke.name,
+				"name": POKEDEX.get_pokemon_prop(poke.number, 'name'),
 				"type1_texture": type1_texture,
 				"type2_texture": type2_texture
 			}
@@ -287,8 +230,15 @@ func get_poke_types(index: int) -> Array:
 
 #HABITAT SPRITE
 func select_habitat() -> void:
-	var opt = options[int(selected_option)];
+	var opt = index_options[int(selected_option)];
 	if("texture" in opt): habitat.texture = opt.texture;
+
+func close_pokedex() -> void:
+	GLOBAL.on_overlay = false;
+	play_audio(LIBRARIES.SOUNDS.GUI_MENU_CLOSE);
+	await GLOBAL.timeout(.2);
+	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/PokedexScreen");
+	process_mode = Node.PROCESS_MODE_DISABLED;
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;

@@ -158,6 +158,7 @@ note = 5
 position = Vector2(128, -24)
 scale = Vector2(6, 1)
 next_scene = "res://Scenes/Maps/Routes/route_02.tscn"
+enter_direction = 2
 new_map = 9
 
 [node name="Reflection" parent="." node_paths=PackedStringArray("oak") instance=ExtResource("16_vul2g")]

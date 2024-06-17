@@ -1,8 +1,8 @@
 extends Area2D
 
 @export_file("*.tscn") var next_scene: String;
-@export var enter_direction = GLOBAL.Directions.UP;
-@export var new_map: MAPS.Locations;
+@export var enter_direction = ENUMS.Directions.UP;
+@export var new_map: ENUMS.Locations;
 
 var can_be_entered = false;
 var next_scene_directon: Vector2;

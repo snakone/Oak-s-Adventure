@@ -44,7 +44,6 @@ enter_direction = 2
 spawn_position = Vector2(32, 32)
 animated = false
 DOOR_ENTER = ExtResource("6_hss3k")
-DOOR_EXIT = null
 flip_after_enter = true
 
 [node name="Doors" type="Node2D" parent="."]
@@ -55,8 +54,6 @@ next_scene = "res://Scenes/Maps/Houses/Route_02/julieta_underground-right.tscn"
 enter_direction = 1
 spawn_position = Vector2(0, 48)
 animated = false
-DOOR_ENTER = null
-DOOR_EXIT = null
 category = 1
 
 [node name="CollisionShape2D" parent="Doors/Door" index="0"]
@@ -68,8 +65,6 @@ next_scene = "res://Scenes/Maps/Houses/Route_02/julieta_underground-right.tscn"
 enter_direction = 1
 spawn_position = Vector2(0, 64)
 animated = false
-DOOR_ENTER = null
-DOOR_EXIT = null
 category = 1
 
 [node name="CollisionShape2D" parent="Doors/Door2" index="0"]
@@ -81,8 +76,6 @@ next_scene = "res://Scenes/Maps/Houses/Route_02/julieta_underground-right.tscn"
 enter_direction = 1
 spawn_position = Vector2(0, 80)
 animated = false
-DOOR_ENTER = null
-DOOR_EXIT = null
 category = 1
 
 [node name="CollisionShape2D" parent="Doors/Door3" index="0"]
@@ -94,8 +87,6 @@ next_scene = "res://Scenes/Maps/Houses/Route_02/julieta_underground-right.tscn"
 enter_direction = 1
 spawn_position = Vector2(0, 128)
 animated = false
-DOOR_ENTER = null
-DOOR_EXIT = null
 category = 1
 
 [node name="CollisionShape2D" parent="Doors/Door4" index="0"]

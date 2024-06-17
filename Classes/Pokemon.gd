@@ -40,7 +40,7 @@ func attack(enemy: Object, move: Dictionary) -> Dictionary:
 		BATTLE.attack_result.push_front(BATTLE.AttackResult.MISS);
 		
 	match move.category:
-		MOVES.AttackCategory.PHYSIC, MOVES.AttackCategory.SPECIAL:
+		ENUMS.AttackCategory.PHYSIC, ENUMS.AttackCategory.SPECIAL:
 			var damage = min(damage_formula(enemy, move), enemy.data.current_hp);
 			set_hp_anim_duration_after_damage(damage, enemy);
 			enemy.data.current_hp = max(0, enemy.data.current_hp - damage);
@@ -86,7 +86,7 @@ func bye() -> void:
 #ENEMY
 func set_enemy() -> void:
 	match data.category:
-		POKEDEX.Category.NORMAL, POKEDEX.Category.STARTER:
+		ENUMS.PokemonCategory.NORMAL, ENUMS.PokemonCategory.STARTER:
 			data.gender = [0, 1][randi() % 2];
 	data.current_hp = data.battle_stats["HP"];
 
@@ -201,17 +201,17 @@ func damage_formula(enemy: Object, move: Dictionary) -> int:
 	
 	#STATS
 	match move.category:
-		MOVES.AttackCategory.PHYSIC:
+		ENUMS.AttackCategory.PHYSIC:
 			ATK_stat = data.battle_stats["ATK"];
 			DEF_stat = enemy.data.battle_stats["DEF"];
-		MOVES.AttackCategory.SPECIAL:
+		ENUMS.AttackCategory.SPECIAL:
 			ATK_stat = data.battle_stats["S.ATK"];
 			DEF_stat = enemy.data.battle_stats["S.DEF"];
 			
 	#EFFECTIVE
-	effective_type1 = MOVES.type_effective(move.type, enemy.data.types[0]);
+	effective_type1 = LIBRARIES.MOVES.type_effective(move.type, enemy.data.types[0]);
 	if (enemy.data.types.size() > 1):
-		effective_type2 = MOVES.type_effective(move.type, enemy.data.types[1]);
+		effective_type2 = LIBRARIES.MOVES.type_effective(move.type, enemy.data.types[1]);
 		
 	#RESULT
 	if(

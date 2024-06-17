@@ -38,6 +38,8 @@ position = Vector2(56, -24)
 scale = Vector2(5, 1)
 collision_priority = 2.0
 next_scene = "res://Scenes/Maps/Towns/praire_town.tscn"
+enter_direction = 2
+new_map = 0
 
 [node name="Gary" parent="." instance=ExtResource("7_agnbx")]
 position = Vector2(128, 160)

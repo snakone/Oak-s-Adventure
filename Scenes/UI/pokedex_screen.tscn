@@ -17,26 +17,26 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("ArrowDown:position")
+tracks/0/path = NodePath("ArrowDown:position:y")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.3, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(155, 128), Vector2(155, 125), Vector2(155, 128)]
+"values": [128.0, 125.0, 128.0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("ArrowUp:position")
+tracks/1/path = NodePath("ArrowUp:position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.3, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(155, 32), Vector2(155, 35), Vector2(155, 32)]
+"values": [32.0, 35.0, 32.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_s6lka"]
@@ -349,11 +349,11 @@ texture = ExtResource("3_42kpn")
 [node name="PageList" type="Node2D" parent="List"]
 
 [node name="ScrollContainer" type="ScrollContainer" parent="List/PageList"]
-custom_minimum_size = Vector2(204, 116)
+custom_minimum_size = Vector2(220, 116)
 layout_direction = 2
-offset_left = 22.0
+offset_left = 14.0
 offset_top = 22.0
-offset_right = 150.0
+offset_right = 234.0
 offset_bottom = 138.0
 vertical_scroll_mode = 3
 
@@ -379,7 +379,7 @@ texture = ExtResource("8_ldmsw")
 
 [node name="ArrowDown" type="Sprite2D" parent="Arrows"]
 visible = false
-position = Vector2(155, 128)
+position = Vector2(225, 128)
 texture = ExtResource("9_yjvm8")
 
 [node name="Cursor" type="TextureRect" parent="."]

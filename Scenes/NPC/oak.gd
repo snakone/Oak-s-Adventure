@@ -21,10 +21,6 @@ const BIKE_SPEED = 6;
 
 const bike_texture = preload("res://Sprites/oak_bike.png");
 const oak_texture = preload("res://Sprites/oak_sprite.png");
-const CONFIRM = preload("res://Assets/Sounds/confirm.wav");
-const BLOCK = preload("res://Assets/Sounds/Player bump.ogg");
-const PLAYER_JUMP = preload("res://Assets/Sounds/Player jump.ogg");
-
 enum PlayerState { IDLE, TURNING, WALKING };
 
 #DATA
@@ -47,7 +43,7 @@ var can_talk = false;
 #OBJECTS
 var chair_direction: Vector2;
 var cant_enter_door_direction: Vector2;
-var door_type: GLOBAL.DoorType;
+var door_type: ENUMS.DoorType;
 
 var dialog_data: Dictionary;
 var dialog_id: int;
@@ -80,7 +76,7 @@ func process_player_input() -> void:
 		set_blend_direction(input_direction);
 		update_block_rays();
 		#STUCK ON DOOR
-		if(stuck_on_door && door_type == GLOBAL.DoorType.IN):
+		if(stuck_on_door && door_type == ENUMS.DoorType.IN):
 			playback.travel("Idle");
 			await GLOBAL.timeout(1);
 			stuck_on_door = false;
@@ -128,7 +124,7 @@ func move(delta) -> void:
 		!ledge_colliding && 
 		!GLOBAL.on_transition
 	):
-		audio.stream = BLOCK;
+		audio.stream = LIBRARIES.SOUNDS.BLOCK;
 		audio.play();
 		
 	elif(ledge_colliding || jumping_over_ledge): check_ledges();
@@ -162,7 +158,8 @@ func check_ledges() -> void:
 
 #JUMP
 func jump() -> void:
-	if(!audio.is_playing() && !jumping_over_ledge): play_audio(PLAYER_JUMP);
+	if(!audio.is_playing() && !jumping_over_ledge): 
+		play_audio(LIBRARIES.SOUNDS.PLAYER_JUMP);
 	jumping_over_ledge = true;
 	var new_position = input_direction.y * GLOBAL.TILE_SIZE * percent_moved;
 	position.y = GLOBAL.get_jumping_curvature(start_position.y, new_position);
@@ -270,7 +267,7 @@ func start_dialog_state(id: int) -> void:
 	GLOBAL.emit_signal("start_dialog", id);
 	playback.travel("Idle");
 	reset_moving();
-	play_audio(CONFIRM);
+	play_audio(LIBRARIES.SOUNDS.CONFIRM);
 
 #BATTLE
 func check_for_battle() -> void:
@@ -302,8 +299,8 @@ func _on_enter_door_animation(area: Area2D) -> void:
 	door_type = area.type;
 	var delay = 0.15;
 	if(area.flip_after_enter): MAPS.must_flip_sprite = true;
-	if(area.category == GLOBAL.DoorCategory.TUNNEL): delay = 0;
-	if(GLOBAL.on_bike && area.category != GLOBAL.DoorCategory.TUNNEL): 
+	if(area.category == ENUMS.DoorCategory.TUNNEL): delay = 0;
+	if(GLOBAL.on_bike && area.category != ENUMS.DoorCategory.TUNNEL): 
 		get_off_bike(false);
 	var tween = get_tree().create_tween();
 	tween.tween_property(sprite, "modulate:a", 0, delay);
@@ -313,7 +310,7 @@ func _on_enter_door_animation(area: Area2D) -> void:
 func _on_cant_enter_door(_area: Area2D) -> void:
 	stuck_on_door = true;
 	playback.travel("Idle");
-	play_audio(BLOCK);
+	play_audio(LIBRARIES.SOUNDS.BLOCK);
 	await audio.finished;
 	var tween = get_tree().create_tween().set_trans(Tween.TRANS_ELASTIC);
 	tween.tween_property(
@@ -341,7 +338,7 @@ func _on_sit_on_chair_animation(area: Area2D) -> void:
 #SAVE
 func save() -> Dictionary:
 	var data := {
-		"save_type": GLOBAL.SaveType.PLAYER,
+		"save_type": ENUMS.SaveType.PLAYER,
 		"player": self.name,
 		"position.x": position.x,
 		"position.y": position.y,

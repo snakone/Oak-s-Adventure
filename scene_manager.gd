@@ -94,7 +94,7 @@ func go_battle(): call_deferred("add_child", battle_inst);
 func save() -> Dictionary:
 	if(next_scene in not_save_scenes): next_scene = last_scene;
 	var data = {
-		"save_type": GLOBAL.SaveType.SCENE,
+		"save_type": ENUMS.SaveType.SCENE,
 		"path": get_path(),
 		"scene": next_scene,
 		"last_map": MAPS.last_map
