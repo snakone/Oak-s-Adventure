@@ -195,30 +195,38 @@ func create_pokedex() -> void:
 		var item = ITEM_scene.instantiate();
 		
 		if(poke == null):
-			data = {
-				"number": format_number(index + 1),
-				"owned": false,
-				"name": '------------',
-				"type1_texture":  null,
-				"type2_texture": null
-			}
+			data = create_item_data(format_number(index + 1), false, '------------');
 		else:
 			var types = get_poke_types(poke.number);
 			var type1_texture = MOVES.get_type_sprite(types[0]);
 			var type2_texture = null;
 			if(types.size() > 1):
 				type2_texture = MOVES.get_type_sprite(types[1]);
-			data = {
-				"number": format_number(poke.number),
-				"owned": poke.owned,
-				"name": POKEDEX.get_pokemon_prop(poke.number, 'name'),
-				"type1_texture": type1_texture,
-				"type2_texture": type2_texture
-			}
-		
+			data = create_item_data(
+				format_number(poke.number), 
+				poke.owned,
+				POKEDEX.get_pokemon_prop(poke.number, 'name'),
+				type1_texture,
+				type2_texture
+			);
 		item.set_data(data);
 		pokedex_container.get_node("VBoxContainer").add_child(item);
 		pokedex_created = true;
+
+func create_item_data(
+	number: String, 
+	owned: bool, 
+	poke_name: String, 
+	type1_texture: Texture = null, 
+	type2_texture: Texture = null
+	) -> Dictionary:
+	return {
+		"number": number,
+		"owned": owned,
+		"name": poke_name,
+		"type1_texture": type1_texture,
+		"type2_texture": type2_texture
+	}
 
 func format_number(num: int) -> String:
 	if(num < 10): return 'No00' + str(num);

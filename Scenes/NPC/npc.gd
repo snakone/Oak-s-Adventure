@@ -81,21 +81,22 @@ func move(new_direction: Vector2) -> void:
 
 #LISTENERS
 func _on_start_dialog(id: int) -> void:
-	await GLOBAL.timeout(.1);
+	await get_tree().process_frame;
 	var pre_data = DIALOG.get_dialog(id);
 	#CHECK IS THE CORRECT DIALOG AND NPC
 	if("starter" in pre_data):
 		if(pre_data.starter != dialog_id):
 			return;
 	elif(dialog_id != id): return;
-	
-	is_talking = true;
-	dialog_data = pre_data;
+		
 	var last_direction = GLOBAL.last_direction;
 	if(last_direction == Vector2.UP): sprite.frame = 0;
 	elif(last_direction == Vector2.DOWN): sprite.frame = 1;
 	elif(last_direction == Vector2.RIGHT): sprite.frame = 2;
 	elif(last_direction == Vector2.LEFT): sprite.frame = 3;
+		
+	is_talking = true;
+	dialog_data = pre_data;
 
 func _on_close_dialog() -> void:
 	await GLOBAL.timeout(.1);
@@ -107,7 +108,7 @@ func _on_close_dialog() -> void:
 			dialog_data.starter == dialog_id && 
 			!dialog_data["end"]
 		)): return;
-	
+		
 	is_talking = false;
 	dialog_data = {};
 

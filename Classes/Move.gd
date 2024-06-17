@@ -15,9 +15,9 @@ const default_volume = -10;
 var current_sprite: AnimatedSprite2D;
 var current_turn = Turn.NONE;
 
-func play_attack(sprite: AnimatedSprite2D, turn: Turn) -> void:
+func play_attack(sprite: AnimatedSprite2D) -> void:
 	current_sprite = sprite;
-	current_turn = turn;
+	current_turn = BATTLE.current_turn;
 	await GLOBAL.timeout(0.1);
 	if(sprite != null):
 		if(current_turn == Turn.PLAYER): 
@@ -38,7 +38,7 @@ func play_sound(sound = audio_file, volume = default_volume) -> void:
 
 func play_effective_sound() -> void:
 	audio.stop();
-	play_sound(BATTLE.BATTLE_SOUNDS.DAMAGE_NORMAL, -15);
+	play_sound(LIBRARIES.SOUNDS.DAMAGE_NORMAL, -15);
 
 func _on_animation_finished(_name):
 	BATTLE.attack_finished.emit();

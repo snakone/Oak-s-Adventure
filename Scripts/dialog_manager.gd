@@ -6,9 +6,6 @@ extends CanvasLayer
 @onready var audio = $AudioStreamPlayer;
 @onready var menu_selection: NinePatchRect = $Selection;
 
-const CONFIRM = preload("res://Assets/Sounds/confirm.wav");
-const CLOSE_MENU = preload("res://Assets/Sounds/close menu.mp3");
-
 const oak_prefix = "self:";
 var dialog_data: Dictionary;
 var current_index: int = 0;
@@ -66,7 +63,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		whos_talking = "";
 		pressed = true;
 		label.text = "";
-		play_audio(CONFIRM);
+		play_audio(LIBRARIES.SOUNDS.CONFIRM);
 		#CONTINUE
 		if current_line >= len(dialog_data.arr[current_index]):
 			label.text = "";
@@ -129,7 +126,10 @@ func match_selection_and_close(value: int) -> void:
 		int(ENUMS.BinaryOptions.NO): close_selection(value);
 
 #CLOSE
-func close_selection(value: int, stream: AudioStream = CLOSE_MENU) -> void:
+func close_selection(
+	value: int, 
+	stream: AudioStream = LIBRARIES.SOUNDS.CLOSE_MENU
+) -> void:
 	play_audio(stream);
 	await audio.finished;
 	GLOBAL.emit_signal("close_dialog");

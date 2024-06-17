@@ -1,7 +1,5 @@
 extends Node2D
 
-const CONFIRM = preload("res://Assets/Sounds/confirm.wav");
-const PKMN_LEVEL_UP = preload("res://Assets/Sounds/Pkmn level up.ogg");
 const wait_quick_dialog = 0.2;
 
 @onready var timer: Timer = $Timer
@@ -18,7 +16,7 @@ var participant: Object;
 
 #DIALOG STATE
 func start(input_arr: Array) -> void:
-	BATTLE.state = BATTLE.States.DIALOG;
+	BATTLE.state = ENUMS.BattleStates.DIALOG;
 	pressed = true;
 	marker.visible = false;
 	visible = true;
@@ -43,10 +41,10 @@ func input() -> void:
 	if Input.is_action_just_pressed("space"):
 		marker.visible = false;
 		pressed = true;
-		play_audio(CONFIRM);
+		play_audio(LIBRARIES.SOUNDS.CONFIRM);
 		await audio.finished;
 		if line < len(array): next_dialog();
-		elif(BATTLE.state != BATTLE.States.LEVELLING): end_dialog();
+		elif(BATTLE.state != ENUMS.BattleStates.LEVELLING): end_dialog();
 
 #NEXT
 func next_dialog() -> void:
@@ -71,7 +69,7 @@ func levelling_input() -> void:
 	if(pressed): return;
 	if Input.is_action_just_pressed("space"):
 		pressed = true;
-		play_audio(CONFIRM);
+		play_audio(LIBRARIES.SOUNDS.CONFIRM);
 		await audio.finished;
 		if(BATTLE.level_up_panel_visible):
 			if(BATTLE.can_close_level_up_panel): 
@@ -102,11 +100,11 @@ func attack(input_arr: Array) -> void:
 
 #LEVEL UP
 func level_up(input_arr: Array, poke: Object) -> void:
-	BATTLE.state = BATTLE.States.LEVELLING;
+	BATTLE.state = ENUMS.BattleStates.LEVELLING;
 	participant = poke;
 	current_text = "";
 	level_up_timer.start();
-	play_audio(PKMN_LEVEL_UP, 0.3, -5);
+	play_audio(LIBRARIES.SOUNDS.PKMN_LEVEL_UP, 0.3, -5);
 	
 	for i in range(1):
 		for j in range(len(input_arr[i])):
@@ -120,7 +118,7 @@ func level_up(input_arr: Array, poke: Object) -> void:
 
 #SWITCH
 func switch(input_arr: Array) -> void:
-	BATTLE.state = BATTLE.States.SWITCHING;
+	BATTLE.state = ENUMS.BattleStates.SWITCHING;
 	BATTLE.can_use_menu = false;
 	marker.visible = false;
 	visible = true;
@@ -140,7 +138,7 @@ func switch(input_arr: Array) -> void:
 
 #ESCAPE
 func escape(input_arr: Array) -> void:
-	BATTLE.state = BATTLE.States.ESCAPING;
+	BATTLE.state = ENUMS.BattleStates.ESCAPING;
 	pressed = true;
 	marker.visible = false;
 	visible = true;
@@ -162,8 +160,8 @@ func escape_input() -> void:
 	if(pressed): return;
 	if Input.is_action_just_pressed("space"):
 		pressed = true;
-		BATTLE.state = BATTLE.States.NONE;
-		play_audio(CONFIRM);
+		BATTLE.state = ENUMS.BattleStates.NONE;
+		play_audio(LIBRARIES.SOUNDS.CONFIRM);
 		await audio.finished;
 		marker.visible = false;
 		await GLOBAL.timeout(.2);
@@ -174,7 +172,7 @@ func escape_input() -> void:
 
 #NEXT POKEMON
 func next_pokemon(input_arr: Array) -> void:
-	BATTLE.state = BATTLE.States.NONE;
+	BATTLE.state = ENUMS.BattleStates.NONE;
 	pressed = true;
 	marker.visible = false;
 	visible = true;
@@ -194,7 +192,7 @@ func next_pokemon(input_arr: Array) -> void:
 
 #QUICK DIALOG - SHOW AND CLOSE
 func quick(input_arr: Array, delay = 0.6) -> void:
-	BATTLE.state = BATTLE.States.NONE;
+	BATTLE.state = ENUMS.BattleStates.NONE;
 	pressed = true;
 	marker.visible = false;
 	visible = true;
@@ -224,13 +222,13 @@ func end_dialog() -> void:
 		!BATTLE.intro_dialog && 
 		!BATTLE.pokemon_death && 
 		!BATTLE.enemy_death &&
-		BATTLE.state != BATTLE.States.ESCAPING
+		BATTLE.state != ENUMS.BattleStates.ESCAPING
 	): close(0);
 	
-	BATTLE.state = BATTLE.States.NONE;
+	BATTLE.state = ENUMS.BattleStates.NONE;
 	BATTLE.dialog_finished.emit();
 	await GLOBAL.timeout(0.3);
-	if(!BATTLE.exp_loop): BATTLE.state = BATTLE.States.MENU;
+	if(!BATTLE.exp_loop): BATTLE.state = ENUMS.BattleStates.MENU;
 
 #EFFECTIVE
 func show_effective() -> void:

@@ -116,7 +116,6 @@ func move(delta) -> void:
 		ledge_ray_cast_2d.is_colliding() && 
 		input_direction == Vector2.DOWN
 	);
-	
 	#BLOCK SOUND
 	if(
 		block_ray_cast_2d.is_colliding() && 
@@ -277,7 +276,7 @@ func check_for_battle() -> void:
 		await GLOBAL.timeout(.4);
 		#AUDIO
 		match(battle_data.type):
-			BATTLE.Type.WILD: AUDIO.play_battle_wild();
+			ENUMS.BattleType.WILD: AUDIO.play_battle_wild();
 		#START
 		GLOBAL.emit_signal("start_battle", battle_data);
 		call_deferred("set_process", Node.PROCESS_MODE_DISABLED);

@@ -1,4 +1,5 @@
 extends HouseController
+
 @onready var poke_shop_door: Area2D = $PokeShopDoor;
 
 func _ready() -> void:

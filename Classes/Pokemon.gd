@@ -37,7 +37,7 @@ func attack(enemy: Object, move: Dictionary) -> Dictionary:
 	
 	move.pp -= 1;
 	if(float(move.accuracy) / 100 < randf()):
-		BATTLE.attack_result.push_front(BATTLE.AttackResult.MISS);
+		BATTLE.attack_result.push_front(ENUMS.AttackResult.MISS);
 		
 	match move.category:
 		ENUMS.AttackCategory.PHYSIC, ENUMS.AttackCategory.SPECIAL:
@@ -174,8 +174,8 @@ func health_formula(base: int, iv_value: int) -> int:
 #DAMAGE FORMULA
 func damage_formula(enemy: Object, move: Dictionary) -> int:
 	#MISS
-	if(BATTLE.AttackResult.MISS in BATTLE.attack_result):
-		BATTLE.attack_result = [BATTLE.AttackResult.MISS];
+	if(ENUMS.AttackResult.MISS in BATTLE.attack_result):
+		BATTLE.attack_result = [ENUMS.AttackResult.MISS];
 		return 0;
 		
 	var ATK_stat: int;
@@ -193,7 +193,7 @@ func damage_formula(enemy: Object, move: Dictionary) -> int:
 	if(CRIT_rate > randf()):
 		_DEF_bonus = 0;
 		BATTLE.critical_hit = true;
-		BATTLE.attack_result.push_front(BATTLE.AttackResult.CRITICAL);
+		BATTLE.attack_result.push_front(ENUMS.AttackResult.CRITICAL);
 		CRIT_stat = 2.0;
 	
 	#STAB
@@ -217,17 +217,17 @@ func damage_formula(enemy: Object, move: Dictionary) -> int:
 	if(
 		(effective_type1 == 2.0 && effective_type2 == 1.0) || 
 		(effective_type2 == 2.0 && effective_type1 == 1.0)
-	): BATTLE.attack_result.push_front(BATTLE.AttackResult.EFFECTIVE);
+	): BATTLE.attack_result.push_front(ENUMS.AttackResult.EFFECTIVE);
 	elif(
 		(effective_type1 == 0.5 && effective_type2 == 1.0) || 
 		(effective_type2 == 0.5 && effective_type1 == 1.0)
-	): BATTLE.attack_result.push_front(BATTLE.AttackResult.LOW);
+	): BATTLE.attack_result.push_front(ENUMS.AttackResult.LOW);
 	elif(effective_type1 == 2.0 && effective_type2 == 2.0):
-		BATTLE.attack_result.push_front(BATTLE.AttackResult.FULMINATE);
+		BATTLE.attack_result.push_front(ENUMS.AttackResult.FULMINATE);
 	elif(effective_type1 == 0.5 && effective_type2 == 0.5): 
-		BATTLE.attack_result.push_front(BATTLE.AttackResult.AWFULL);
+		BATTLE.attack_result.push_front(ENUMS.AttackResult.AWFULL);
 	elif(effective_type1 == 0.0 || effective_type2 == 0.0):
-		BATTLE.attack_result = [BATTLE.AttackResult.NONE];
+		BATTLE.attack_result = [ENUMS.AttackResult.NONE];
 		return 0;
 	
 	var base_damage = floor(
@@ -239,7 +239,7 @@ func damage_formula(enemy: Object, move: Dictionary) -> int:
 	var total_base = base_damage * CRIT_stat * STAB;
 	var damage = (total_base * effective_type1 * effective_type2 * random);
 	if(BATTLE.attack_result.size() == 0): 
-		BATTLE.attack_result = [BATTLE.AttackResult.NORMAL];
+		BATTLE.attack_result = [ENUMS.AttackResult.NORMAL];
 	return custom_round(damage, random);
 
 func get_random_float() -> float:

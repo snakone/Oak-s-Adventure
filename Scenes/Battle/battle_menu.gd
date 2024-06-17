@@ -21,29 +21,29 @@ func input() -> void:
 	if(!BATTLE.can_use_menu || GLOBAL.on_overlay): return;
 	if Input.is_action_just_pressed("moveLeft") && cursor_index.x > 0:
 		cursor_index.x -= 1;
-		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
+		play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 	elif Input.is_action_just_pressed("moveRight") && cursor_index.x < 1:
 		cursor_index.x += 1;
-		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
+		play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 	elif Input.is_action_just_pressed("moveDown") && cursor_index.y < 1:
 		cursor_index.y += 1;
-		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
+		play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 	elif Input.is_action_just_pressed("moveUp") && cursor_index.y > 0:
 		cursor_index.y -= 1;
-		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
+		play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 	
 	cursor.position = BATTLE.MENU_CURSOR[cursor_index.y][cursor_index.x];
 	
 	#SELECTION
 	if Input.is_action_just_pressed("space"):
-		play_audio(BATTLE.BATTLE_SOUNDS.CONFIRM);
+		play_audio(LIBRARIES.SOUNDS.CONFIRM);
 		match_input();
 
 func match_input() -> void:
 	#ATTACK
 	if(cursor_index == Vector2.ZERO):
 		attack_selection.visible = true;
-		BATTLE.state = BATTLE.States.FIGHT;
+		BATTLE.state = ENUMS.BattleStates.FIGHT;
 		BATTLE.update_attack_ui.emit();
 	#BAG
 	elif (cursor_index == Vector2.RIGHT): pass
@@ -53,18 +53,18 @@ func match_input() -> void:
 	elif(cursor_index == Vector2.DOWN): open_party();
 	#ESCAPE
 	elif(cursor_index == Vector2(1, 1)):
-		BATTLE.state = BATTLE.States.NONE;
+		BATTLE.state = ENUMS.BattleStates.NONE;
 		BATTLE.check_can_escape.emit();
 
 func set_label(text: String) -> void: label.text = text;
 
 #MARKERS
 func set_marker() -> void:
-	var markers = BATTLE.get_markers(SETTINGS.selected_type);
+	var markers = LIBRARIES.BATTLE.get_markers(SETTINGS.selected_type);
 	background.texture = markers.menu;
 
 func open_party() -> void:
-	BATTLE.state = BATTLE.States.NONE;
+	BATTLE.state = ENUMS.BattleStates.NONE;
 	GLOBAL.on_overlay = true;
 	scene_manager.transition_to_scene(party_screen_path, true, false)
 

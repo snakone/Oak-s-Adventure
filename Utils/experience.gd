@@ -1,14 +1,14 @@
 extends Node
 
-func get_exp_by_level(exp_type: BATTLE.ExpType, level: float) -> float:
+func get_exp_by_level(exp_type: ENUMS.ExpType, level: float) -> float:
 	if(level == 1): return 0.0;
 	match exp_type:
-		BATTLE.ExpType.ERRATIC: return floor(get_erratic_exp(level));
-		BATTLE.ExpType.FAST: return floor(get_fast_exp(level));
-		BATTLE.ExpType.MEDIUM: return floor(get_medium_exp(level));
-		BATTLE.ExpType.SLOW: return floor(get_slow_exp(level));
-		BATTLE.ExpType.SLACK: return floor(get_slack_exp(level));
-		BATTLE.ExpType.FLUCTUATING: return floor(get_fluctuating_exp(level));
+		ENUMS.ExpType.ERRATIC: return floor(get_erratic_exp(level));
+		ENUMS.ExpType.FAST: return floor(get_fast_exp(level));
+		ENUMS.ExpType.MEDIUM: return floor(get_medium_exp(level));
+		ENUMS.ExpType.SLOW: return floor(get_slow_exp(level));
+		ENUMS.ExpType.SLACK: return floor(get_slack_exp(level));
+		ENUMS.ExpType.FLUCTUATING: return floor(get_fluctuating_exp(level));
 	return 0.0;
 
 #ERRATIC
@@ -55,7 +55,7 @@ func rest(num) -> float:
 	return num
 
 func get_exp_for_next_level(
-	type: BATTLE.ExpType,
+	type: ENUMS.ExpType,
 	current_exp: int,
 	level: int
 ) -> int:
@@ -65,7 +65,7 @@ func get_exp_for_next_level(
 
 func get_exp_given_by_pokemon(
 	enemy: Object,
-	battle_type: BATTLE.Type,
+	battle_type: ENUMS.BattleType,
 	participants: int = 1
 ) -> int:
 	var base_exp = POKEDEX.get_pokemon_prop(enemy.data.number, "base_exp");
@@ -73,7 +73,7 @@ func get_exp_given_by_pokemon(
 	var lucky_egg = 1.0;
 	
 	match battle_type:
-		BATTLE.Type.TRAINER, BATTLE.Type.SPECIAL, BATTLE.Type.ELITE: type = 1.5;
+		ENUMS.BattleType.TRAINER, ENUMS.BattleType.SPECIAL, ENUMS.BattleType.ELITE: type = 1.5;
 	
 	var base = ((base_exp * enemy.data.level) / 7.0);
 	return floor(base * (1.0 / float(participants)) * lucky_egg * type);

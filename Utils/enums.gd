@@ -84,3 +84,29 @@ enum Pokedex {
 }
 
 enum PokemonCategory { NORMAL, LEGENDARY, SINGULAR, SPECIAL, NONE, STARTER }
+
+enum AttackResult { 
+	NORMAL, 
+	CRITICAL, 
+	EFFECTIVE,
+	LOW, 
+	MISS, 
+	NONE, 
+	FULMINATE, 
+	AWFULL
+}
+
+enum BattleStates {
+	MENU = 0, 
+	FIGHT = 1,
+	DIALOG = 2, 
+	ATTACKING = 3,
+	LEVELLING = 4,
+	SWITCHING = 5,
+	ESCAPING = 6,
+	NONE = 7, 
+}
+
+enum BattleType { WILD, TRAINER, ELITE, SPECIAL, NONE }
+enum ExpType { ERRATIC, FAST, MEDIUM, SLOW, SLACK, FLUCTUATING }
+enum BattleZones { FIELD = 0, GRASS = 1, SNOW = 2 }

@@ -26,73 +26,8 @@ signal participant_exp_end();
 #MENU
 signal end_battle();
 
-enum Type { WILD, TRAINER, ELITE, SPECIAL, NONE }
-enum ExpType { ERRATIC, FAST, MEDIUM, SLOW, SLACK, FLUCTUATING }
-enum Zones { FIELD = 0, GRASS = 1, SNOW = 2 }
 enum Moves { FIRST, SECOND, THIRD, FOURTH }
 enum Turn { PLAYER, ENEMY, NONE }
-
-enum AttackResult { 
-	NORMAL, 
-	CRITICAL, 
-	EFFECTIVE,
-	LOW, 
-	MISS, 
-	NONE, 
-	FULMINATE, 
-	AWFULL
-}
-
-enum States {
-	MENU = 0, 
-	FIGHT = 1,
-	DIALOG = 2, 
-	ATTACKING = 3,
-	LEVELLING = 4,
-	SWITCHING = 5,
-	ESCAPING = 6,
-	NONE = 7, 
-}
-
-#MARKERS
-const BACKGROUND_ORANGE = preload("res://Assets/UI/Battle/attack_select_background_orange.png");
-const BACKGROUND_GREEN = preload("res://Assets/UI/Battle/attack_select_background_green.png");
-const BACKGROUND_BLUE = preload("res://Assets/UI/Battle/attack_select_background_blue.png");
-const MAIN_MENU_ORANGE = preload("res://Assets/UI/Battle/main_menu_orange.png");
-const MAIN_MENU_GREEN = preload("res://Assets/UI/Battle/main_menu_green.png");
-const MAIN_MENU_BLUE = preload("res://Assets/UI/Battle/main_menu_blue.png");
-
-#FIELD
-const FIELD_BG = preload("res://Assets/UI/Battle/Backgrounds/field_bg.png");
-const FIELD_BASE_0 = preload("res://Assets/UI/Battle/Backgrounds/field_base0.png");
-const FIELD_BASE_1 = preload("res://Assets/UI/Battle/Backgrounds/field_base1.png");
-
-#GRASS
-const GRASS_01 = preload("res://Assets/UI/Battle/Backgrounds/grass_01.png");
-const GRASS_BASE_0 = preload("res://Assets/UI/Battle/Backgrounds/grass_base0.png");
-const GRASS_BASE_1 = preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png");
-
-#SNOW
-const SNOW_BG = preload("res://Assets/UI/Battle/Backgrounds/snow_bg.png");
-const SNOW_BASE_0 = preload("res://Assets/UI/Battle/Backgrounds/snow_base0.png");
-const SNOW_BASE_1 = preload("res://Assets/UI/Battle/Backgrounds/snow_base1.png");
-
-#BARS
-const RED_BAR = preload("res://Assets/UI/red_bar.png");
-const YELLOW_BAR = preload("res://Assets/UI/yellow_bar.png");
-const GREEN_BAR = preload("res://Assets/UI/green_bar.png");
-
-#SOUNDS
-const BATTLE_SOUNDS = {
-	"CONFIRM": preload("res://Assets/Sounds/confirm.wav"),
-	"GUI_SEL_DECISION": preload("res://Assets/Sounds/GUI sel decision.ogg"),
-	"GUI_MENU_CLOSE": preload("res://Assets/Sounds/GUI menu close.ogg"),
-	"BATTLE_FLEE": preload("res://Assets/Sounds/Battle flee.ogg"),
-	"EXP_GAIN_PKM": preload("res://Assets/Sounds/pkm_exp_gain.mp3"),
-	"EXP_FULL": preload("res://Assets/Sounds/exp_full.mp3"),
-	"DAMAGE_NORMAL": preload("res://Assets/Sounds/Battle damage normal.ogg"),
-	"MOVE_LEARN": preload("res://Assets/Sounds/Pkmn move learnt.ogg")
-}
 
 const tile_density = 325.0;
 var modifire = 1.0;
@@ -105,8 +40,8 @@ const default_exp_duration = 1.2;
 
 var level_up_panel_visible = false;
 var can_close_level_up_panel = false;
-var type = Type.NONE;
-var state = States.NONE;
+var type = ENUMS.BattleType.NONE;
+var state = ENUMS.BattleStates.NONE;
 var pokemon_death = false;
 var enemy_death = false;
 var intro_dialog = true;
@@ -128,28 +63,10 @@ var player_attack = 0;
 var enemy_attack = 0;
 var attacks_set = false;
 
-@onready var ZONES_ARRAY = [
-	{
-		"background": FIELD_BG,
-		"enemy_ground": FIELD_BASE_1,
-		"player_ground": FIELD_BASE_0
-	},
-	{
-		"background": GRASS_01,
-		"enemy_ground": GRASS_BASE_1,
-		"player_ground": GRASS_BASE_0
-	},
-	{
-		"background": SNOW_BG,
-		"enemy_ground": SNOW_BASE_1,
-		"player_ground": SNOW_BASE_0
-	},
-];
-
 func reset_state(reset_type = true) -> void:
 	can_use_menu = false;
 	intro_dialog = true;
-	state = BATTLE.States.NONE;
+	state = ENUMS.BattleStates.NONE;
 	pokemon_death = false;
 	enemy_death = false;
 	level_up_panel_visible = false;
@@ -160,7 +77,7 @@ func reset_state(reset_type = true) -> void:
 	enemy_attacked = false;
 	current_turn = Turn.NONE;
 	attack_pressed = false;
-	if(reset_type): type = Type.NONE;
+	if(reset_type): type = ENUMS.BattleType.NONE;
 	can_use_next_pokemon = false;
 	participants = [];
 	exp_loop = false;
@@ -193,43 +110,22 @@ const ATTACK_CURSOR: Array = [
 	[Vector2(11, 144.5), Vector2(84, 144.5)]
 ];
 
-func get_battle_textures(zone: BATTLE.Zones): return ZONES_ARRAY[zone];
-
-func get_markers(marker_type: SETTINGS.Markers):
-	match marker_type:
-		SETTINGS.Markers.ORANGE:
-			return {
-				"menu": MAIN_MENU_ORANGE,
-				"attack": BACKGROUND_ORANGE
-			}
-		SETTINGS.Markers.BLUE:
-			return {
-				"menu": MAIN_MENU_BLUE,
-				"attack": BACKGROUND_BLUE
-			}
-		SETTINGS.Markers.GREEN:
-			return {
-				"menu": MAIN_MENU_GREEN,
-				"attack": BACKGROUND_GREEN
-			}
+func get_battle_textures(zone: ENUMS.BattleZones): 
+	return LIBRARIES.BATTLE.ZONES_ARRAY[zone];
 
 func can_move_attack_cursor(
 	new_position: Vector2,
-	player_attacks: Array
+	attacks: Array
 ) -> bool:
-	var attack2_position = ATTACK_CURSOR[0][1];
-	var attack2_text = player_attacks[1].text;
-	var attack3_position = ATTACK_CURSOR[1][0];
-	var attack3_text = player_attacks[2].text;
-	var attack4_position = ATTACK_CURSOR[1][1];
-	var attack4_text = player_attacks[3].text;
+	const index = [
+		{ "pos": ATTACK_CURSOR[0][1], "i": 1 },
+		{ "pos": ATTACK_CURSOR[1][0], "i": 2 },
+		{ "pos": ATTACK_CURSOR[1][1], "i": 3 }
+	];
 	
-	if(
-		(new_position == attack2_position && attack2_text == "") ||
-		(new_position == attack3_position && attack3_text == "") ||
-		(new_position == attack4_position && attack4_text == "")
-	): return false;
-	return true;
+	for attack in index:
+		if (new_position == attack["pos"] && attacks[attack["i"]].text == ""): return false
+	return true
 
 func can_pokemon_scape(pokemon: Object, enemy: Object) -> bool:
 	var poke_speed = pokemon.data.battle_stats["SPD"];
@@ -238,18 +134,16 @@ func can_pokemon_scape(pokemon: Object, enemy: Object) -> bool:
 	escape_attempts += 1;
 	
 	if(poke_speed >= enemy_speed): return true;
-	else:
-		var odd = floor(int(floor(
-			((poke_speed * 128.0) / enemy_speed) + (30.0 * escape_attempts))) % 256
-		);
-		return random < odd;
+	else: return random < get_odd_number(poke_speed, enemy_speed, escape_attempts);
+
+func get_odd_number(spd: int, enemy_spd: int, attemps: int) -> int:
+	return floor(int(floor(
+		((spd * 128.0) / enemy_spd) + (30.0 * attemps))) % 256
+	);
 
 func add_participant(poke: Object) -> void:
-	var already = false;
 	for participant in participants:
-		if(participant.name == poke.name):
-			already = true;
-			break;
-	if(!already): participants.push_front(poke);
+		if(participant.name == poke.name): return;
+	participants.push_front(poke);
 
 func remove_participant(poke: Object) -> void: participants.erase(poke);

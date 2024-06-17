@@ -6,8 +6,8 @@ extends Area2D
 @export var animated = true;
 @export var sprite_image: Texture;
 @export var type: ENUMS.DoorType;
-@export var DOOR_ENTER: AudioStream = preload("res://Assets/Sounds/Door enter.ogg");
-@export var DOOR_EXIT: AudioStream = preload("res://Assets/Sounds/Door exit.ogg");
+@export var DOOR_ENTER: AudioStream = LIBRARIES.SOUNDS.DOOR_ENTER;
+@export var DOOR_EXIT: AudioStream = LIBRARIES.SOUNDS.DOOR_EXIT;
 @export var category: ENUMS.DoorCategory = ENUMS.DoorCategory.DOOR;
 @export var shared: bool = false;
 @export var offset: Vector2 = Vector2.ZERO;

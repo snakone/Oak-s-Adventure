@@ -5,8 +5,8 @@ extends Node2D
 @onready var grass_effect = $GrassEffect;
 
 @export var encounters: Array[ENUMS.Pokedex];
-@export var zone: BATTLE.Zones;
-@export var battle_type: BATTLE.Type; 
+@export var zone: ENUMS.BattleZones;
+@export var battle_type: ENUMS.BattleType; 
 @export var level_range = [5, 6];
 @export var zone_number: int = 1;
 
