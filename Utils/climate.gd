@@ -14,12 +14,14 @@ func get_initial_time_of_day() -> ENUMS.Climate:
 func _on_timeout() -> void:
 	var current_time = Time.get_time_dict_from_system();
 	var hour = current_time.hour;
-	var range = hour >= 6 && hour <= 18;
-	var should_change_to_day = range && GLOBAL.current_time_of_day != ENUMS.Climate.DAY;
-	
+	var range_day = hour >= 6 && hour <= 18;
+	var range_night = hour < 6 && hour >= 18;
+	var should_change_to_day = range_day && GLOBAL.current_time_of_day != ENUMS.Climate.DAY;
+	var should_change_to_night = range_night && GLOBAL.current_time_of_day != ENUMS.Climate.NIGHT;
+
 	if(should_change_to_day):
 		GLOBAL.current_time_of_day = ENUMS.Climate.DAY;
 		GLOBAL.emit_signal("time_of_day_changed", ENUMS.Climate.DAY);
-	else:
+	elif(should_change_to_night):
 		GLOBAL.current_time_of_day = ENUMS.Climate.NIGHT;
 		GLOBAL.emit_signal("time_of_day_changed", ENUMS.Climate.NIGHT);

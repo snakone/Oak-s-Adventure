@@ -10,10 +10,7 @@ func _ready():
 	audio.connect("finished", _on_song_finished);
 
 func play(song: AudioStream) -> void:
-	if(!song || (
-			current_song && 
-			current_song.get_instance_id() == song.get_instance_id()
-	)): return;
+	if(!song || is_same_song(song)): return;
 	current_song = song;
 	if(GLOBAL.on_bike): return;
 	stop_and_play(song);
@@ -29,14 +26,23 @@ func stop_battle_and_play_last_song() -> void:
 func play_battle_win() -> void:
 	BATTLE.on_victory = true;
 	match BATTLE.type:
-		ENUMS.BattleType.WILD: stop_and_play(LIBRARIES.SOUNDS.BATTLE_VICTORY_WILD);
+		ENUMS.BattleType.WILD: 
+			stop_and_play(LIBRARIES.SOUNDS.BATTLE_VICTORY_WILD);
 
 func _on_song_finished() -> void:
 	if(GLOBAL.on_battle): 
-		if(BATTLE.on_victory): stop_and_play(LIBRARIES.SOUNDS.BATTLE_VICTORY_WILD);
-		else: stop_and_play(LIBRARIES.SOUNDS.BATTLE_WILD);
+		if(BATTLE.on_victory): 
+			stop_and_play(LIBRARIES.SOUNDS.BATTLE_VICTORY_WILD);
+		else: 
+			stop_and_play(LIBRARIES.SOUNDS.BATTLE_WILD);
 	elif(GLOBAL.on_bike): stop_and_play(LIBRARIES.SOUNDS.BICYCLE);
 	else: stop_and_play_last_song();
+
+func is_same_song(song: AudioStream) -> bool:
+	return (
+		current_song && song &&
+		current_song.get_instance_id() == song.get_instance_id()
+	);
 
 func stop_and_play(song: AudioStream) -> void:
 	audio.stop();

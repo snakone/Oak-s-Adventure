@@ -1,15 +1,10 @@
 extends StaticBody2D
 
-enum Directions { 
-	WALK_LEFT, WALK_RIGHT, WALK_UP, WALK_DOWN, 
-	LOOK_LEFT, LOOK_RIGHT, LOOK_UP, LOOK_DOWN, NONE
-}
-
 @export var texture: Texture;
-@export var frames: int = 12
+@export var frames: int = 12;
 @export var state: ENUMS.NPCStates = ENUMS.NPCStates.MOVING;
-@export var can_left: bool = true
-@export var can_right: bool = true
+@export var can_left: bool = true;
+@export var can_right: bool = true;
 @export var can_up: bool = true
 @export var can_down: bool = true;
 @export var possitive_limits: Vector2;
@@ -32,37 +27,40 @@ var dialog_data: Dictionary;
 
 func _ready() -> void:
 	connect_signals();
+	assign_npc();
+	timer.start();
+
+func assign_npc() -> void:
 	sprite.hframes = frames
 	sprite.texture = texture;
 	sprite.offset = sprite_offset;
 	timer.wait_time = interval;
 	limits_possitive = position + (possitive_limits * GLOBAL.TILE_SIZE);
 	limits_negative = position + (negative_limits * GLOBAL.TILE_SIZE);
-	timer.start();
 
 func _on_timer_timeout() -> void:
 	if(is_talking): return;
 	randomize(); 
-	var random_int: int = randi_range(0, Directions.size() - 1);
+	var random_int: int = randi_range(0, ENUMS.NPCDirections.size() - 1);
 	
 	match random_int:
-		Directions.WALK_LEFT: 
+		ENUMS.NPCDirections.WALK_LEFT: 
 			if(can_left && state == ENUMS.NPCStates.MOVING): 
 				handle_direction(Vector2.LEFT);
-		Directions.WALK_RIGHT: 
+		ENUMS.NPCDirections.WALK_RIGHT: 
 			if(can_right && state == ENUMS.NPCStates.MOVING): 
 				handle_direction(Vector2.RIGHT);
-		Directions.WALK_UP: 
+		ENUMS.NPCDirections.WALK_UP: 
 			if(can_up && state == ENUMS.NPCStates.MOVING):
 				handle_direction(Vector2.UP);
-		Directions.WALK_DOWN: 
+		ENUMS.NPCDirections.WALK_DOWN: 
 			if(can_down && state == ENUMS.NPCStates.MOVING): 
 				handle_direction(Vector2.DOWN);
-		Directions.LOOK_DOWN: if(can_down): sprite.frame = 0;
-		Directions.LOOK_UP: if(can_up): sprite.frame = 1;
-		Directions.LOOK_LEFT: if(can_left): sprite.frame = 2;
-		Directions.LOOK_RIGHT: if(can_right): sprite.frame = 3;
-		Directions.NONE: return;
+		ENUMS.NPCDirections.LOOK_DOWN: if(can_down): sprite.frame = 0;
+		ENUMS.NPCDirections.LOOK_UP: if(can_up): sprite.frame = 1;
+		ENUMS.NPCDirections.LOOK_LEFT: if(can_left): sprite.frame = 2;
+		ENUMS.NPCDirections.LOOK_RIGHT: if(can_right): sprite.frame = 3;
+		ENUMS.NPCDirections.NONE: return;
 
 func handle_direction(next_step: Vector2) -> void:
 	if(inside_player_area || is_player_moving): return;

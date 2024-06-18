@@ -32,11 +32,11 @@ enum Turn { PLAYER, ENEMY, NONE }
 const tile_density = 325.0;
 var modifire = 1.0;
 
-const min_hp_anim_duration = 1.2;
-const max_hp_anim_duration = 3;
+const MIN_HP_ANIM = 1.2;
+const MAX_HP_ANIM = 3;
 const GREEN_BAR_PERCT = 0.51;
 const YELLOW_BAR_PERCT = 0.2;
-const default_exp_duration = 1.2;
+const EXP_DURATION = 1.2;
 
 var level_up_panel_visible = false;
 var can_close_level_up_panel = false;
@@ -124,7 +124,10 @@ func can_move_attack_cursor(
 	];
 	
 	for attack in index:
-		if (new_position == attack["pos"] && attacks[attack["i"]].text == ""): return false
+		if (
+			new_position == attack["pos"] && 
+			attacks[attack["i"]].text == ""
+		): return false
 	return true
 
 func can_pokemon_scape(pokemon: Object, enemy: Object) -> bool:

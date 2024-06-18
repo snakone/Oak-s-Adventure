@@ -2,23 +2,16 @@ extends NinePatchRect;
 
 var stats: Dictionary;
 
-@onready var hp_plus: RichTextLabel = $HBoxContainer/VBoxContainer/HP/Plus;
-@onready var attack_plus: RichTextLabel = $HBoxContainer/VBoxContainer/ATK/Plus;
-@onready var def_plus: RichTextLabel = $HBoxContainer/VBoxContainer/DEF/Plus;
-@onready var s_atk_plus: RichTextLabel = $HBoxContainer/VBoxContainer2/S_ATK/Plus;
-@onready var s_def_plus: RichTextLabel = $HBoxContainer/VBoxContainer2/S_DEF/Plus;
-@onready var speed_plus: RichTextLabel = $HBoxContainer/VBoxContainer2/SPEED/Plus;
-
 @onready var audio: AudioStreamPlayer = $AudioStreamPlayer;
-@onready var anim_player: AnimationPlayer = $AnimationPlayer
+@onready var anim_player: AnimationPlayer = $AnimationPlayer;
 
 @onready var plus_values = {
-	"HP": hp_plus,
-	"ATK": attack_plus,
-	"DEF": def_plus,
-	"S.ATK": s_atk_plus,
-	"S.DEF": s_def_plus,
-	"SPD": speed_plus,
+	"HP": $HBoxContainer/VBoxContainer/HP/Plus,
+	"ATK": $HBoxContainer/VBoxContainer/ATK/Plus,
+	"DEF": $HBoxContainer/VBoxContainer/DEF/Plus,
+	"S.ATK": $HBoxContainer/VBoxContainer2/S_ATK/Plus,
+	"S.DEF": $HBoxContainer/VBoxContainer2/S_DEF/Plus,
+	"SPD": $HBoxContainer/VBoxContainer2/SPEED/Plus,
 }
 
 func show_panel(

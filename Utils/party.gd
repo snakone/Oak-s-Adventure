@@ -93,14 +93,7 @@ func get_party_as_json() -> Array:
 	for poke in current_party:
 		var new_data = poke.data.duplicate();
 		for prop in ERASE_PROPS: new_data.erase(prop);
-		var new_moves = [];
-		for move in poke.data.battle_moves.duplicate():
-			new_moves.push_back({
-				"name": move.name,
-				"pp": move.pp,
-				"id": move.id
-			})
-		new_data.battle_moves = new_moves;
+		new_data.battle_moves = poke.create_moves();
 		array.push_back(new_data);
 	return array;
 

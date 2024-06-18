@@ -29,19 +29,9 @@ func get_boxes_as_json() -> Array:
 				var poke = boxes_array[i][j];
 				var new_data = poke.data.duplicate();
 				for prop in PARTY.ERASE_PROPS: new_data.erase(prop);
-				new_data.battle_moves = create_moves(poke);
+				new_data.battle_moves = poke.create_moves();
 				array[i][j] = new_data;
 	return array;
-	
-func create_moves(poke: Dictionary) -> Array:
-	var new_moves = [];
-	for move in poke.data.battle_moves.duplicate():
-		new_moves.push_back({
-			"name": move.name,
-			"pp": move.pp,
-			"id": move.id
-		})
-	return new_moves;
 
 func save() -> Dictionary:
 	var data := {

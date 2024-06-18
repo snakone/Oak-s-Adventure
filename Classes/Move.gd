@@ -9,13 +9,16 @@ class_name Move
 @onready var anim_player = $AnimationPlayer;
 @onready var audio = $AudioStreamPlayer;
 
+const TAKE_TACKLE_HIT = preload("res://Assets/UI/Battle/Moves/take_tackle_hit.png");
 enum Turn { PLAYER, ENEMY, NONE }
 const default_volume = -10;
 
+var take_hit: Sprite2D;
 var current_sprite: AnimatedSprite2D;
 var current_turn = Turn.NONE;
 
 func play_attack(sprite: AnimatedSprite2D) -> void:
+	check_take_hit();
 	current_sprite = sprite;
 	current_turn = BATTLE.current_turn;
 	await GLOBAL.timeout(0.1);
@@ -37,6 +40,7 @@ func play_sound(sound = audio_file, volume = default_volume) -> void:
 	audio.play();
 
 func play_effective_sound() -> void:
+	if(take_hit.texture == null): return;
 	audio.stop();
 	play_sound(LIBRARIES.SOUNDS.DAMAGE_NORMAL, -15);
 
@@ -57,3 +61,9 @@ func attack() -> void:
 			key_value + stat.value, 
 			stat.duration
 		);
+
+func check_take_hit() -> void:
+	take_hit = get_node("TakeHit");
+	if(ENUMS.AttackResult.NONE in BATTLE.attack_result):
+		take_hit.texture = null;
+	else: take_hit.texture = TAKE_TACKLE_HIT;

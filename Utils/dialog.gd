@@ -6,6 +6,25 @@ func get_dialog(id: int) -> Dictionary:
 	if(id in LIBRARY): return LIBRARY[id];
 	return { "arr": [[]], "type": Type.NONE };
 
+const QUICK_DIALOGS = {
+	ENUMS.AttackResult.EFFECTIVE: {
+		BATTLE.Turn.ENEMY: "Ouch! It's super effective!",
+		BATTLE.Turn.PLAYER: "It's super effective!"
+	},
+	ENUMS.AttackResult.LOW: {
+		BATTLE.Turn.ENEMY: "Well! Not very effective!",
+		BATTLE.Turn.PLAYER: "Not very effective!"
+	},
+	ENUMS.AttackResult.FULMINATE: {
+		BATTLE.Turn.ENEMY: "Arghh! That was fulminate!",
+		BATTLE.Turn.PLAYER: "Wow! That was fulminate!"
+	},
+	ENUMS.AttackResult.AWFULL: {
+		BATTLE.Turn.ENEMY: "Is the enemy drunk!?",
+		BATTLE.Turn.PLAYER: "Puff! Better change the move!"
+	}
+}
+
 const LIBRARY: Dictionary = {
 	1: {
 		"arr": [

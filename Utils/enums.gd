@@ -110,3 +110,8 @@ enum BattleStates {
 enum BattleType { WILD, TRAINER, ELITE, SPECIAL, NONE }
 enum ExpType { ERRATIC, FAST, MEDIUM, SLOW, SLACK, FLUCTUATING }
 enum BattleZones { FIELD = 0, GRASS = 1, SNOW = 2 }
+
+enum NPCDirections { 
+	WALK_LEFT, WALK_RIGHT, WALK_UP, WALK_DOWN, 
+	LOOK_LEFT, LOOK_RIGHT, LOOK_UP, LOOK_DOWN, NONE
+}

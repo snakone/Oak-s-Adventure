@@ -54,14 +54,10 @@ func rest(num) -> float:
 	elif(num == 2): return 0.014;
 	return num
 
-func get_exp_for_next_level(
-	type: ENUMS.ExpType,
-	current_exp: int,
-	level: int
-) -> int:
-	var new_level = level + 1;
-	var exp_next_level = floor(get_exp_by_level(type, new_level));
-	return floor(exp_next_level - current_exp);
+func get_exp_for_next_level(data: Dictionary) -> int:
+	var new_level = data.level + 1;
+	var exp_next_level = floor(get_exp_by_level(data.type, new_level));
+	return floor(exp_next_level - data.current_exp);
 
 func get_exp_given_by_pokemon(
 	enemy: Object,

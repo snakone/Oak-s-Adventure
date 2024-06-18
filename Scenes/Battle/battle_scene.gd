@@ -33,8 +33,9 @@ extends Node
 const MovesAnimations = preload("res://Scenes/Battle/Moves/moves_animations.gd");
 const SECOND_ATTACK_DELAY = 0.2;
 const TURN_FINISH_DELAY = 0.2;
-var HP_ANIM_DURATION = BATTLE.min_hp_anim_duration;
+var HP_ANIM_DURATION = BATTLE.MIN_HP_ANIM;
 const PLAYER_DIST_MARGIN = 6;
+const DIALOG_TIME_WHEN_MISSED = 1.5;
 var HP_ELLAPSED = 0.0;
 
 var pokemon: Object;
@@ -97,71 +98,6 @@ func set_battle_ui() -> void:
 	set_battle_texture();
 	set_markers();
 	update_battle_ui(false, true);
-
-func set_pokemon() -> void: 
-	pokemon = PARTY.get_active_pokemon();
-	set_pokemon_health_color(floor(pokemon.data.current_hp));
-	BATTLE.add_participant(pokemon);
-
-#PLAYER UI
-func set_player_ui() -> void:
-	var name_node = player_info.get_node("Name");
-	var gender_node = player_info.get_node("Gender");
-	var level_node = player_info.get_node("Level");
-	set_name_and_gender(name_node, gender_node, pokemon.data);
-	set_sprites(player_sprite, pokemon.data);
-	set_level(level_node, pokemon.data);
-	selection.set_pokemon_moves(pokemon.data.battle_moves);
-	set_exp(pokemon);
-	exp_bar.scale.x = get_new_exp_bar_size();
-	update_player_health();
-	player_sprite.play("Back");
-
-#ENEMY UI
-func set_enemy_ui() -> void:
-	var new_enemy = POKEDEX.get_pokemon(battle_data["enemy"]);
-	enemy = Pokemon.new(new_enemy, true, battle_data.levels);
-	var enemy_name = enemy_info.get_node("Name");
-	var gender_node = enemy_info.get_node("Gender");
-	var level_node = enemy_info.get_node("Level");
-	set_name_and_gender(enemy_name, gender_node, enemy.data);
-	set_sprites(enemy_sprite, enemy.data);
-	set_level(level_node, enemy.data);
-	selection.set_enemy_moves(enemy.data.moves);
-	enemy_sprite.play("Front");
-
-func set_name_and_gender(
-	name_node: RichTextLabel, 
-	gender_node: Sprite2D,
-	data: Dictionary
-) -> void:
-	name_node.text = data.name;
-	var width = name_node.get_content_width();
-		
-	if "gender" in data:
-		gender_node.frame = data.gender;
-		gender_node.position.x = width + name_node.position.x + PLAYER_DIST_MARGIN;
-		gender_node.visible = true;
-
-func set_sprites(sprite: AnimatedSprite2D, data: Dictionary) -> void:
-	sprite.sprite_frames = data.sprites.sprite_frames;
-	sprite.offset = data.offset;
-	sprite.scale = data.scale;
-
-func set_level(info: RichTextLabel, data: Dictionary) -> void:
-	info.text = "Lv" + str(data.level);
-
-#TEXTURES
-func set_battle_texture() -> void:
-	var battle_textures = BATTLE.get_battle_textures(battle_data.zone);
-	battle_background.texture = battle_textures.background;
-	player_ground.texture = battle_textures.player_ground;
-	enemy_ground.texture = battle_textures.enemy_ground;
-
-#MARKERS
-func set_markers() -> void:
-	var markers = LIBRARIES.BATTLE.get_markers(SETTINGS.selected_type);
-	attack_background.texture = markers.attack;
 
 #ATTACK
 func start_attack(delay = 0.0, sound = true) -> void:
@@ -294,7 +230,7 @@ func animate_hp_bar(target: Dictionary, new_size: float) -> void:
 	await tween.finished;
 
 #HEALTH BAR - LEFT ALIGNED
-func update_player_health(value = pokemon.data.current_hp) -> void: 
+func update_player_health(value = pokemon.data.current_hp) -> void:
 	var health = str(pokemon.data.battle_stats["HP"]) + " / " + str(value);
 	player_info.get_node("HP").text = health;
 
@@ -306,7 +242,7 @@ func update_exp_bar(delay = 0.0) -> void:
 	tween.tween_property(
 		exp_bar, "scale:x",
 		clampf(new_size, 0.0, 1.0),
-		BATTLE.default_exp_duration
+		BATTLE.EXP_DURATION
 	);
 	play_audio(LIBRARIES.SOUNDS.EXP_GAIN_PKM);
 	await tween.finished;
@@ -324,18 +260,22 @@ func level_up_animation() -> void:
 	await battle_anim_player.animation_finished;
 	update_battle_ui(false, true);
 	update_player_health();
-	#DIALOG
+	await create_level_up_dialog();
+	await check_new_moves();
+	update_exp_bar(0.5);
+	level_up_timer.stop();
+
+func create_level_up_dialog() -> void:
 	var grew = pokemon.data.name + " grew to Level ";
 	dialog.level_up([grew + str(pokemon.data.level) + "!"], pokemon);
 	await BATTLE.level_up_stats_end;
 	dialog.set_label("");
-	#CHECK NEW MOVES
+
+func check_new_moves() -> void:
 	var new_level = int(pokemon.data.level);
 	if(new_level in pokemon.data.move_set.keys()):
 		check_learn_move(pokemon, new_level);
 		await BATTLE.dialog_finished;
-	update_exp_bar(0.5);
-	level_up_timer.stop();
 
 #LEVEL UP STATS
 func show_level_up_panel(participant: Object) -> void:
@@ -358,13 +298,7 @@ func handle_death(state: Dictionary) -> void:
 	await BATTLE.dialog_finished;
 	#ENEMY DEATH - EXP
 	if("exp" in state):
-		pokemon.data.total_exp += state.exp;
-		exp_to_next_level -= state.exp;
-		update_exp_bar();
-		await BATTLE.experience_end;
-		await GLOBAL.timeout(0.6);
-		dialog.reset_text();
-		enemy.free();
+		await give_exp(state);
 		#PARTICIPANTS EXP
 		if(BATTLE.participants.size() > 1):
 			BATTLE.exp_loop = true;
@@ -375,33 +309,50 @@ func handle_death(state: Dictionary) -> void:
 	#PLAYER DEATH
 	else: check_for_next_pokemon();
 
+func give_exp(state: Dictionary) -> void:
+	pokemon.data.total_exp += state.exp;
+	exp_to_next_level -= state.exp;
+	update_exp_bar();
+	await BATTLE.experience_end;
+	await GLOBAL.timeout(0.6);
+	dialog.reset_text();
+	enemy.free();
+
 #MOVE ANIMATION
 func add_animation_and_play(move: Dictionary) -> void:
 	var move_list = MovesAnimations.new();
 	var animation = move_list.get_move_animation(move.name.to_lower());
 	#MISSED
-	if(ENUMS.AttackResult.MISS in BATTLE.attack_result):
-		var target = pokemon;
-		if(BATTLE.current_turn == BATTLE.Turn.ENEMY): target = enemy;
-		dialog.show_missed(target.name);
-		await BATTLE.quick_dialog_end;
-		BATTLE.attack_finished.emit();
-		update_battle_ui(false, false, true);
-	else:
-		call_deferred("add_child", animation);
-		if(BATTLE.current_turn == BATTLE.Turn.PLAYER): 
-			animation.play_attack(player_sprite);
-		elif(BATTLE.current_turn == BATTLE.Turn.ENEMY): 
-			animation.play_attack(enemy_sprite);
-		await BATTLE.attack_finished;
-		animation.call_deferred("queue_free");
+	if(
+		ENUMS.AttackResult.MISS in BATTLE.attack_result && 
+		ENUMS.AttackResult.NONE not in BATTLE.attack_result
+	): await handle_missed_attack();
+	else: await handle_success_attack(animation);
+
+func handle_success_attack(animation: Node2D) -> void:
+	call_deferred("add_child", animation);
+	if(BATTLE.current_turn == BATTLE.Turn.PLAYER): 
+		animation.play_attack(player_sprite);
+	elif(BATTLE.current_turn == BATTLE.Turn.ENEMY): 
+		animation.play_attack(enemy_sprite);
+	await BATTLE.attack_finished;
+	animation.call_deferred("queue_free");
+
+func handle_missed_attack() -> void:
+	var target = pokemon;
+	if(BATTLE.current_turn == BATTLE.Turn.ENEMY): target = enemy;
+	dialog.show_missed(target.name, DIALOG_TIME_WHEN_MISSED);
+	await BATTLE.quick_dialog_end;
+	BATTLE.attack_finished.emit();
+	update_battle_ui(false, false, true);
 
 #LISTENERS
 func _on_move_hit() -> void:
-	if(BATTLE.current_turn == BATTLE.Turn.PLAYER): 
-		battle_anim_player.play("DamageEnemy");
-	else: battle_anim_player.play("DamagePlayer")
-	await battle_anim_player.animation_finished;
+	if(ENUMS.AttackResult.NONE not in BATTLE.attack_result):
+		if(BATTLE.current_turn == BATTLE.Turn.PLAYER): 
+			battle_anim_player.play("DamageEnemy");
+		else: battle_anim_player.play("DamagePlayer")
+		await battle_anim_player.animation_finished;
 	update_battle_ui(true, false, true);
 
 func after_dialog_attack() -> void:
@@ -413,18 +364,6 @@ func after_dialog_attack() -> void:
 	dialog.visible = false;
 	await GLOBAL.timeout(.2);
 	BATTLE.state = ENUMS.BattleStates.MENU;
-
-#HEALTH TIMEOUT
-func _on_health_timer_timeout() -> void:
-	var progress = HP_ELLAPSED / HP_ANIM_DURATION;
-	if (HP_ELLAPSED < HP_ANIM_DURATION):
-		var target_hp = int(pokemon.data.current_hp);
-		if(BATTLE.current_turn == BATTLE.Turn.PLAYER): 
-			target_hp = int(enemy.data.current_hp);
-		var current_hp = lerp(int(health_before_attack), target_hp, progress);
-		set_health_color(floor(current_hp));
-		HP_ELLAPSED += health_timer.wait_time;
-	else: stop_health_timer();
 
 #MENU SELECTION
 func _on_selection_value_select(
@@ -446,7 +385,7 @@ func check_battle_state() -> void:
 	await BATTLE.ui_updated;
 	#NON EFFECTIVE
 	if(ENUMS.AttackResult.NONE in BATTLE.attack_result):
-		dialog.show_non_effective();
+		dialog.show_non_effective(DIALOG_TIME_WHEN_MISSED);
 		await BATTLE.quick_dialog_end;
 		BATTLE.attack_check_done.emit();
 		return;
@@ -458,26 +397,12 @@ func check_battle_state() -> void:
 	if(ENUMS.AttackResult.CRITICAL in BATTLE.attack_result):
 		dialog.show_critical();
 		await BATTLE.quick_dialog_end;
-	#EFFECTIVE HIT
-	if(ENUMS.AttackResult.EFFECTIVE in BATTLE.attack_result):
-		dialog.show_effective();
-		await BATTLE.quick_dialog_end;
-	#LOW EFFECTIVE HIT
-	elif(ENUMS.AttackResult.LOW in BATTLE.attack_result):
-		dialog.show_low();
-		await BATTLE.quick_dialog_end;
-	#FULMINATE
-	elif(ENUMS.AttackResult.FULMINATE in BATTLE.attack_result):
-		dialog.show_fulminate();
-		await BATTLE.quick_dialog_end;
-	#AWFULL
-	elif(ENUMS.AttackResult.AWFULL in BATTLE.attack_result):
-		dialog.show_awfull();
-		await BATTLE.quick_dialog_end;
-	
+	#EFFECTIVENESS
+	dialog.check_effective_dialog();
+	await BATTLE.quick_dialog_end;
 	await GLOBAL.timeout(0.1);
 	BATTLE.attack_check_done.emit();
-	check_death_after_attack();
+	if(any_death()): check_death_after_attack();
 
 #CHECK DEATH
 func check_death_after_attack() -> void:
@@ -493,13 +418,12 @@ func check_death_after_attack() -> void:
 			],
 			"exp": poke_exp
 		}
-		handle_death(state);
 	elif(BATTLE.pokemon_death):
 		state = {
 			"anim": "PlayerFaint",
 			"dialog": [pokemon.data.name + " fainted!"]
 		}
-		handle_death(state);
+	handle_death(state);
 
 func check_learn_move(poke: Object, new_level: int) -> void:
 	var new_move_index = float(poke.data.move_set[new_level]);
@@ -518,18 +442,22 @@ func check_learn_move(poke: Object, new_level: int) -> void:
 func check_for_next_pokemon() -> void:
 	BATTLE.remove_participant(pokemon);
 	var next = PARTY.get_next_pokemon();
-	if(next != null):
-		BATTLE.can_use_next_pokemon = true;
-		await GLOBAL.timeout(0.2);
-		dialog.next_pokemon(["Use next POKéMON?"]);
-		await BATTLE.dialog_finished;
-		await GLOBAL.timeout(0.1);
-		menu_selection.set_visibility(true);
-	else:
-		await GLOBAL.timeout(0.8);
-		dialog.start(["No POKéMON left!\n", "You returned to the last safe spot..."]);
-		await BATTLE.dialog_finished;
-		end_battle();
+	if(next != null): await handle_can_use_pokemon()
+	else: await handle_no_pokemon_left()
+
+func handle_can_use_pokemon() -> void:
+	BATTLE.can_use_next_pokemon = true;
+	await GLOBAL.timeout(0.2);
+	dialog.next_pokemon(["Use next POKéMON?"]);
+	await BATTLE.dialog_finished;
+	await GLOBAL.timeout(0.1);
+	menu_selection.set_visibility(true);
+	
+func handle_no_pokemon_left() -> void:
+	await GLOBAL.timeout(0.8);
+	dialog.start(["No POKéMON left!\n", "You returned to the last safe spot..."]);
+	await BATTLE.dialog_finished;
+	end_battle();
 
 #PARTY
 func _on_party_pokemon_select(_poke_name: String) -> void:
@@ -547,6 +475,9 @@ func reset_state_and_get_next_pokemon() -> void:
 	anim_player.play("In");
 	dialog.start(["It's your turn now!\n", "Go " + pokemon.data.name + "!"]);
 	await BATTLE.dialog_finished;
+	await start_switch_animation();
+
+func start_switch_animation() -> void:
 	anim_player.play("Go");
 	await anim_player.animation_finished;
 	battle_anim_player.play("Idle");
@@ -608,14 +539,26 @@ func close_dialog_and_show_menu(time: float) -> void:
 
 #TIMER
 func start_health_timer() -> void:
-	health_timer.wait_time = max((HP_ANIM_DURATION / current_damage) * 1.5, 0.04);
+	health_timer.wait_time = max((HP_ANIM_DURATION / current_damage) * 0.8, 0.05);
 	health_timer.start();
 
 func stop_health_timer() -> void:
 	health_timer.stop();
 	HP_ELLAPSED = 0.0;
-	if(BATTLE.current_turn == BATTLE.Turn.ENEMY): 
+	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
 		update_player_health(pokemon.data.current_hp);
+
+#HEALTH TIMEOUT
+func _on_health_timer_timeout() -> void:
+	var progress = HP_ELLAPSED / HP_ANIM_DURATION;
+	if (HP_ELLAPSED < HP_ANIM_DURATION):
+		var target_hp = int(pokemon.data.current_hp);
+		if(BATTLE.current_turn == BATTLE.Turn.PLAYER): 
+			target_hp = int(enemy.data.current_hp);
+		var current_hp = lerp(int(health_before_attack), target_hp, progress);
+		set_health_color(floor(current_hp));
+		HP_ELLAPSED += health_timer.wait_time;
+	else: stop_health_timer();
 
 #GETTERS
 func get_new_exp_bar_size() -> float:
@@ -625,10 +568,12 @@ func get_new_exp_bar_size() -> float:
 
 func get_attack_target(get_self = false) -> Dictionary:
 	var target: Dictionary;
-	if(BATTLE.current_turn == BATTLE.Turn.ENEMY || get_self): target = {
-		"current_hp": pokemon.data.current_hp,
-		"total_hp": pokemon.data.battle_stats["HP"],
-		"bar": player_hp_bar}
+	if(BATTLE.current_turn == BATTLE.Turn.ENEMY || get_self): 
+		target = {
+			"current_hp": pokemon.data.current_hp,
+			"total_hp": pokemon.data.battle_stats["HP"],
+			"bar": player_hp_bar
+			}
 	else: target = {
 		"current_hp": enemy.data.current_hp,
 		"total_hp": enemy.data.battle_stats["HP"],
@@ -636,6 +581,70 @@ func get_attack_target(get_self = false) -> Dictionary:
 	return target;
 
 #SETTERS
+func set_pokemon() -> void: 
+	pokemon = PARTY.get_active_pokemon();
+	set_pokemon_health_color(floor(pokemon.data.current_hp));
+	BATTLE.add_participant(pokemon);
+
+#PLAYER UI
+func set_player_ui() -> void:
+	var name_node = player_info.get_node("Name");
+	var gender_node = player_info.get_node("Gender");
+	var level_node = player_info.get_node("Level");
+	set_name_and_gender(name_node, gender_node, pokemon.data);
+	set_sprites(player_sprite, pokemon.data);
+	set_level(level_node, pokemon.data);
+	selection.set_pokemon_moves(pokemon.data.battle_moves);
+	set_exp(pokemon);
+	exp_bar.scale.x = get_new_exp_bar_size();
+	player_sprite.play("Back");
+
+#ENEMY UI
+func set_enemy_ui() -> void:
+	var new_enemy = POKEDEX.get_pokemon(battle_data["enemy"]);
+	enemy = Pokemon.new(new_enemy, true, battle_data.levels);
+	var enemy_name = enemy_info.get_node("Name");
+	var gender_node = enemy_info.get_node("Gender");
+	var level_node = enemy_info.get_node("Level");
+	set_name_and_gender(enemy_name, gender_node, enemy.data);
+	set_sprites(enemy_sprite, enemy.data);
+	set_level(level_node, enemy.data);
+	selection.set_enemy_moves(enemy.data.moves);
+	enemy_sprite.play("Front");
+
+#TEXTURES
+func set_battle_texture() -> void:
+	var battle_textures = BATTLE.get_battle_textures(battle_data.zone);
+	battle_background.texture = battle_textures.background;
+	player_ground.texture = battle_textures.player_ground;
+	enemy_ground.texture = battle_textures.enemy_ground;
+
+#MARKERS
+func set_markers() -> void:
+	var markers = LIBRARIES.BATTLE.get_markers(SETTINGS.selected_type);
+	attack_background.texture = markers.attack;
+
+func set_name_and_gender(
+	name_node: RichTextLabel, 
+	gender_node: Sprite2D,
+	data: Dictionary
+) -> void:
+	name_node.text = data.name;
+	var width = name_node.get_content_width();
+		
+	if "gender" in data:
+		gender_node.frame = data.gender;
+		gender_node.position.x = width + name_node.position.x + PLAYER_DIST_MARGIN;
+		gender_node.visible = true;
+
+func set_sprites(sprite: AnimatedSprite2D, data: Dictionary) -> void:
+	sprite.sprite_frames = data.sprites.sprite_frames;
+	sprite.offset = data.offset;
+	sprite.scale = data.scale;
+
+func set_level(info: RichTextLabel, data: Dictionary) -> void:
+	info.text = "Lv" + str(data.level);
+
 func set_exp(poke: Object) -> void:
 	base_exp_level = poke.get_exp_by_level();
 	base_exp_to_next_level = EXP.get_exp_by_level(poke.data.exp_type, poke.data.level + 1);
@@ -668,20 +677,22 @@ func give_exp_to_participants(state: Dictionary) -> void:
 			dialog.start([participant.name + " gained " + str(state.exp) + " EXP."]);
 			await BATTLE.dialog_finished;
 			await GLOBAL.timeout(0.2);
-			while(exp_to_next_level <= 0.0):
-				diff_stats = participant.level_up();
-				play_audio(LIBRARIES.SOUNDS.EXP_FULL);
-				set_exp(participant);
-				await GLOBAL.timeout(0.2);
-				var grew = participant.data.name + " grew to Level ";
-				dialog.level_up([grew + str(participant.data.level) + "!"], participant);
-				await BATTLE.level_up_stats_end;
-				dialog.reset_text();
-				var new_level = int(participant.data.level);
-				if(new_level in participant.data.move_set.keys()):
-					check_learn_move(participant, new_level);
-					await BATTLE.dialog_finished;
+			while(exp_to_next_level <= 0.0): await level_up_participant(participant)
 	BATTLE.participant_exp_end.emit();
+
+func level_up_participant(participant: Object) -> void:
+	diff_stats = participant.level_up();
+	play_audio(LIBRARIES.SOUNDS.EXP_FULL);
+	set_exp(participant);
+	await GLOBAL.timeout(0.2);
+	var grew = participant.data.name + " grew to Level ";
+	dialog.level_up([grew + str(participant.data.level) + "!"], participant);
+	await BATTLE.level_up_stats_end;
+	dialog.reset_text();
+	var new_level = int(participant.data.level);
+	if(new_level in participant.data.move_set.keys()):
+		check_learn_move(participant, new_level);
+		await BATTLE.dialog_finished;
 
 func need_to_check_attack() -> bool:
 	var not_normal = ENUMS.AttackResult.NORMAL not in BATTLE.attack_result;

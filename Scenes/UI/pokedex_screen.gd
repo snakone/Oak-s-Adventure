@@ -68,7 +68,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		Input.is_action_just_pressed("ui_up")): handle_UP();
 	#SELECT
 	elif(Input.is_action_just_pressed("space")): select_slot();
-	
+		
 	update_scroll();
 
 func select_slot() -> void:
@@ -136,19 +136,19 @@ func update_cursor() -> void:
 			var cursor_option = index_options[selected_option];
 			if("cursor" in cursor_option): cursor.position = cursor_option.cursor;
 		Views.LIST:
-			var position: Vector2;
-			if(selected_option == 0): position = Vector2(5, 23.5);
-			elif(size != 0 && selected_option < 5):
-				position = Vector2(5, ((selected_option % size) * 16) + 23.5);
-			elif(size != 0 && selected_option >= 5 && selected_option + 2 < size - 1):
-				position = Vector2(5, 87.5);
-			elif(selected_option + 2 == size - 1): 
-				position = Vector2(5, 95.5);
-			elif(selected_option + 1 == size - 1):
-				position = Vector2(5, 111.5);
-			elif(selected_option == size - 1):
-				position = Vector2(5, 127.5);
-			if(position != Vector2.ZERO): cursor.position = position;
+			var y_position = get_cursor_y(selected_option, size);
+			if(y_position != 0.0): cursor.position = Vector2(5, y_position);
+
+func get_cursor_y(option: int, size: int) -> float:
+	if(option == 0): return 23.5
+	elif(size != 0):
+		if(option < 5):
+			return (option % size) * 16 + 23.5;
+		elif option + 2 < size - 1: return 87.5;
+		elif option + 2 == size - 1: return 95.5;
+		elif option + 1 == size - 1: return 111.5;
+		elif option == size - 1: return 127.5;
+	return 0.0;
 
 func update_scroll() -> void:
 	match selected_view:
@@ -158,14 +158,14 @@ func update_scroll() -> void:
 #SCROLL
 func update_index_scroll() -> void:
 	update_cursor();
-	var scroll = get_index_scroll(selected_option);
+	var scroll = get_scroll(selected_option);
 	index_container.scroll_vertical = scroll;
 	set_arrows(selected_option > 3, selected_option < (list_size - 2));
 
 func update_list_scroll() -> void:
 	update_cursor();
 	if(selected_option + 2 > showcase.size() - 1): return;
-	var scroll = get_list_scroll(selected_option);
+	var scroll = get_scroll(selected_option);
 	pokedex_container.scroll_vertical = scroll;
 	set_arrows(selected_option > 4, selected_option + 2 < (showcase.size() - 1));
 
@@ -178,14 +178,16 @@ func set_arrows(up: bool, down: bool) -> void:
 	red_arrow_up.visible = up;
 	red_arrow_down.visible = down;
 
-func get_index_scroll(selected: int) -> int:
-	if(selected < 4): return 0;
-	elif(selected >= list_size - 2): return MAX_INDEX_SCROLL_HEIGHT;
-	return (selected - 3) * INDEX_ITEM_HEIGHT;
-
-func get_list_scroll(selected: int) -> int:
-	if(selected < 5): return 0;
-	return (selected - 4) * LIST_ITEM_HEIGHT;
+func get_scroll(selected: int) -> int:
+	match selected_view:
+		Views.INDEX:
+			if(selected < 4): return 0;
+			elif(selected >= list_size - 2): return MAX_INDEX_SCROLL_HEIGHT;
+			return (selected - 3) * INDEX_ITEM_HEIGHT;
+		Views.LIST:
+			if(selected < 5): return 0;
+			return (selected - 4) * LIST_ITEM_HEIGHT;
+		_: return 0;
 
 #CREATE POKEDEX SHOWCASE
 func create_pokedex() -> void:
@@ -194,35 +196,38 @@ func create_pokedex() -> void:
 		var data = {};
 		var item = ITEM_scene.instantiate();
 		
-		if(poke == null):
-			data = create_item_data(format_number(index + 1), false, '------------');
+		if(poke == null): 
+			data = create_item_data(format_number(index + 1));
 		else:
-			var types = get_poke_types(poke.number);
-			var type1_texture = MOVES.get_type_sprite(types[0]);
-			var type2_texture = null;
-			if(types.size() > 1):
-				type2_texture = MOVES.get_type_sprite(types[1]);
+			var types = convert_types(poke);
 			data = create_item_data(
 				format_number(poke.number), 
 				poke.owned,
 				POKEDEX.get_pokemon_prop(poke.number, 'name'),
-				type1_texture,
-				type2_texture
+				types[0],
+				types[1]
 			);
 		item.set_data(data);
 		pokedex_container.get_node("VBoxContainer").add_child(item);
 		pokedex_created = true;
 
+func convert_types(poke: Dictionary) -> Array:
+	var types = get_poke_types(poke.number);
+	var type1_texture = MOVES.get_type_sprite(types[0]);
+	var type2_texture = null;
+	if(types.size() > 1): type2_texture = MOVES.get_type_sprite(types[1]);
+	return [type1_texture, type2_texture];
+
 func create_item_data(
 	number: String, 
-	owned: bool, 
-	poke_name: String, 
+	is_owned: bool = false, 
+	poke_name: String = '------------', 
 	type1_texture: Texture = null, 
 	type2_texture: Texture = null
 	) -> Dictionary:
 	return {
 		"number": number,
-		"owned": owned,
+		"owned": is_owned,
 		"name": poke_name,
 		"type1_texture": type1_texture,
 		"type2_texture": type2_texture

@@ -24,15 +24,9 @@ func _ready() -> void:
 	label.text = "";
 	var text_string = dialog_data.arr[0][0];
 	
-	#SET NPC NAME
-	if(dialog_data.type ==  DIALOG.Type.NPC):
-		npc_dialog = true;
-		if("npc_name" in dialog_data): whos_talking = dialog_data.npc_name;
-		elif(oak_prefix in text_string): whos_talking = "Oak";
-	
-	#OBJECT
-	elif(dialog_data.type ==  DIALOG.Type.OBJECT):
-		if(oak_prefix in text_string): whos_talking = "Oak";
+	match dialog_data.type:
+		DIALOG.Type.NPC: handle_NPC(text_string);
+		DIALOG.Type.OBJECT: handle_object(text_string)
 	
 	text_string = add_prefix(text_string);
 	
@@ -47,6 +41,15 @@ func _ready() -> void:
 	if("selection" in dialog_data && !dialog_data.marker):
 		show_selection();
 
+func handle_NPC(text_string: String) -> void:
+	if(dialog_data.type ==  DIALOG.Type.NPC):
+		npc_dialog = true;
+		if("npc_name" in dialog_data): whos_talking = dialog_data.npc_name;
+		elif(oak_prefix in text_string): whos_talking = "Oak";
+
+func handle_object(text_string: String) -> void:
+	if(oak_prefix in text_string): whos_talking = "Oak";
+
 func _unhandled_input(event: InputEvent) -> void:
 	if(
 		!event is InputEventKey || 
@@ -59,37 +62,16 @@ func _unhandled_input(event: InputEvent) -> void:
 	): return;
 	
 	if Input.is_action_just_pressed("space") and !pressed:
-		marker.visible = false;
-		whos_talking = "";
-		pressed = true;
-		label.text = "";
-		play_audio(LIBRARIES.SOUNDS.CONFIRM);
-		#CONTINUE
-		if current_line >= len(dialog_data.arr[current_index]):
-			label.text = "";
-			current_index += 1;
-			current_line = 0;
-		#END
-		if current_index >= len(dialog_data.arr):
-			timer.stop();
-			dialog_closed = true;
-			await audio.finished;
-			if(dialog_data.marker): GLOBAL.emit_signal("close_dialog");
-		#WRITE
-		else:
-			label.text = label.text.erase(0, label.text.find("\n") + 1);
-			var text_string = dialog_data.arr[current_index][current_line];
-			#SELF DIALOG
-			if(oak_prefix in text_string): whos_talking = "Oak";
-			#NPC DIALOG
-			if(npc_dialog && "npc_name" in dialog_data): 
-				whos_talking = dialog_data.npc_name;
-			
-			text_string = add_prefix(text_string);
-			
-			for j in range(len(text_string)):
+		handle_accept();
+		if current_line >= len(dialog_data.arr[current_index]): 
+			handle_continue();
+		if current_index >= len(dialog_data.arr): 
+			await handle_end();
+		else: 
+			var text = add_prefix(handle_write());
+			for j in range(len(text)):
 				await timer.timeout;
-				label.text += text_string[j];
+				label.text += text[j];
 			#SELECTION
 			if(dialog_data.arr.size() - 1 == current_index && 
 				"selection" in dialog_data):
@@ -100,13 +82,41 @@ func _unhandled_input(event: InputEvent) -> void:
 		await GLOBAL.timeout(0.2);
 		pressed = false;
 
+func handle_accept() -> void:
+	marker.visible = false;
+	whos_talking = "";
+	pressed = true;
+	label.text = "";
+	play_audio(LIBRARIES.SOUNDS.CONFIRM);
+
+func handle_continue() -> void:
+	label.text = "";
+	current_index += 1;
+	current_line = 0;
+
+func handle_write() -> String:
+	label.text = label.text.erase(0, label.text.find("\n") + 1);
+	var text_string = dialog_data.arr[current_index][current_line];
+	#SELF DIALOG
+	if(oak_prefix in text_string): whos_talking = "Oak";
+	#NPC DIALOG
+	if(npc_dialog && "npc_name" in dialog_data): 
+		whos_talking = dialog_data.npc_name;
+	return text_string;
+
+func handle_end() -> void:
+	timer.stop();
+	dialog_closed = true;
+	await audio.finished;
+	if(dialog_data.marker): GLOBAL.emit_signal("close_dialog");
+
 #SHOW
 func show_selection() -> void:
 	must_select = true;
 	marker.visible = false;
 	await GLOBAL.timeout(0.1);
 	menu_selection.set_visibility(true, dialog_data.selection);
-	
+
 func add_prefix(text: String) -> String:
 	if(whos_talking != ""):
 		if(text.left(len(oak_prefix)) == oak_prefix): 
@@ -128,7 +138,7 @@ func match_selection_and_close(value: int) -> void:
 #CLOSE
 func close_selection(
 	value: int, 
-	stream: AudioStream = LIBRARIES.SOUNDS.CLOSE_MENU
+	stream: AudioStream = LIBRARIES.SOUNDS.GUI_MENU_CLOSE
 ) -> void:
 	play_audio(stream);
 	await audio.finished;

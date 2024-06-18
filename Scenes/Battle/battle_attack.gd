@@ -4,12 +4,7 @@ extends Node2D
 @onready var attack_selection_info = $SelectionInfo;
 @onready var attack_cursor = $AttackCursor;
 @onready var audio: AudioStreamPlayer = $"../AudioPlayer";
-
-@onready var attack_01 = $Attack01;
-@onready var attack_02 = $Attack02;
-@onready var attack_03 = $Attack03;
-@onready var attack_04 = $Attack04;
-@onready var player_attacks = [attack_01, attack_02, attack_03, attack_04];
+@onready var player_attacks = [$Attack01, $Attack02, $Attack03, $Attack04];
 
 const CURSOR_MAP = {
 	Vector2.ZERO: BATTLE.Moves.FIRST,

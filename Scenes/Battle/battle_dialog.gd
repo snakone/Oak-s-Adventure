@@ -9,7 +9,7 @@ const wait_quick_dialog = 0.2;
 @onready var level_up_timer: Timer = $LevelUpTimer
 
 var pressed = false;
-var array: Array
+var array: Array;
 var line: int;
 var current_text: String = "";
 var participant: Object;
@@ -230,14 +230,24 @@ func end_dialog() -> void:
 	await GLOBAL.timeout(0.3);
 	if(!BATTLE.exp_loop): BATTLE.state = ENUMS.BattleStates.MENU;
 
-#EFFECTIVE
-func show_effective() -> void:
+func check_effective_dialog() -> void:
+	if(BATTLE.attack_result.size() == 0): return;
+	var result = BATTLE.attack_result[0];
+	if(result in DIALOG.QUICK_DIALOGS):
+		var dialog = DIALOG.QUICK_DIALOGS[result];
+		if(BATTLE.current_turn in dialog):
+			var text = dialog[BATTLE.current_turn];
+			await GLOBAL.timeout(wait_quick_dialog);
+			quick([text]);
+
+#MISSED DIALOG
+func show_missed(target_name: String, delay = 0.6) -> void:
 	BATTLE.can_use_menu = false;
-	var text = "It's super effective!";
+	var text = "Oh no! Attack missed!";
 	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
-		text = "Ouch! " + text;
+		text = "Phew! " + target_name + " missed!";
 	await GLOBAL.timeout(wait_quick_dialog);
-	quick([text]);
+	quick([text], delay);
 
 #CRITICAL
 func show_critical() -> void:
@@ -246,52 +256,17 @@ func show_critical() -> void:
 	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
 		text = "Oh no! A critical Hit!";
 	await GLOBAL.timeout(wait_quick_dialog);
-	quick([text]);
-
-#LOW EFFECTIVE
-func show_low() -> void:
-	BATTLE.can_use_menu = false;
-	var text = "Not very effective!";
-	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
-		text = "Well! " + text;
-	await GLOBAL.timeout(wait_quick_dialog);
-	quick([text]);
-
-#FULMINATE
-func show_fulminate() -> void:
-	BATTLE.can_use_menu = false;
-	var text = "Wow! That was fulminate!";
-	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
-		text = "Arghh! That was fulminate!";
-	await GLOBAL.timeout(wait_quick_dialog);
-	quick([text]);
-
-#AWFULL
-func show_awfull() -> void:
-	BATTLE.can_use_menu = false;
-	var text = "Puff! Better change the move!";
-	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
-		text = "Is the enemy drunk!?";
-	await GLOBAL.timeout(wait_quick_dialog);
+	BATTLE.attack_result.erase(ENUMS.AttackResult.CRITICAL);
 	quick([text]);
 
 #NO EFFECTIVE
-func show_non_effective() -> void:
+func show_non_effective(delay = 0.6) -> void:
 	BATTLE.can_use_menu = false;
 	var text = "This move type won't work!";
 	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
 		text = "Alright! that hasn't any effect!";
 	await GLOBAL.timeout(wait_quick_dialog);
-	quick([text]);
-
-#MISSED DIALOG
-func show_missed(target_name: String) -> void:
-	BATTLE.can_use_menu = false;
-	var text = "Oh no! Attack missed!";
-	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
-		text = "Phew! " + target_name + " missed!";
-	await GLOBAL.timeout(wait_quick_dialog);
-	quick([text]);
+	quick([text], delay);
 
 #CLOSE
 func close(time: float) -> void:

@@ -11,19 +11,25 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 		name = poke.name;
 		data = poke;
 		data.active = false;
+		#GENERAL
 		if("death" not in data): data.death = false;
+		if("IV" not in data): data.IV = set_random_IV();
+		if("uuid" not in data): data.uuid = uuid.v4();
+		#STATS/ASSETS
 		get_base_stats();
 		get_resources();
-		if("IV" not in data): data.IV = set_random_IV();
-		if(enemy && levels.size() == 1): levels.push_front(levels[0]);
-		if(enemy): data.level = randi_range(levels[0], levels[1]);
+		#ENEMY
+		if(enemy):
+			if(levels.size() == 1): levels.push_front(levels[0]);
+			data.level = randi_range(levels[0], levels[1]);
+		#BATTLE
 		if("battle_stats" not in data): set_battle_stats();
-		if(enemy): set_enemy();
 		data.battle_stages = set_battle_stages();
 		if("battle_moves" not in data): set_battle_moves();
 		else: convert_battle_moves();
+		if(enemy): set_enemy();
+		#EXP
 		if("total_exp" not in data): set_exp_by_level();
-		if("uuid" not in data): data.uuid = uuid.v4();
 		if(data.current_hp == 0): data.death = true;
 
 #ATTACK
@@ -37,12 +43,13 @@ func attack(enemy: Object, move: Dictionary) -> Dictionary:
 	
 	move.pp -= 1;
 	if(float(move.accuracy) / 100 < randf()):
-		BATTLE.attack_result.push_front(ENUMS.AttackResult.MISS);
+		BATTLE.attack_result.push_back(ENUMS.AttackResult.MISS);
 		
 	match move.category:
 		ENUMS.AttackCategory.PHYSIC, ENUMS.AttackCategory.SPECIAL:
-			var damage = min(damage_formula(enemy, move), enemy.data.current_hp);
-			set_hp_anim_duration_after_damage(damage, enemy);
+			var amount = LIBRARIES.FORMULAS.damage_formula(enemy, move, data);
+			var damage = min(amount, enemy.data.current_hp);
+			set_hp_anim_duration(damage, enemy);
 			enemy.data.current_hp = max(0, enemy.data.current_hp - damage);
 			if(enemy.data.current_hp <= 0): enemy.bye();
 			return {
@@ -61,9 +68,11 @@ func level_up() -> Dictionary:
 	data.level = min(data.level + 1, 100);
 	var old_battle_stats = data.battle_stats;
 	set_battle_stats();
+	var hp_difference = data.battle_stats["HP"] - old_battle_stats["HP"];
+	data.current_hp += hp_difference;
 	
 	return {
-		"HP": data.battle_stats["HP"] - old_battle_stats["HP"],
+		"HP": hp_difference,
 		"ATK": data.battle_stats["ATK"] - old_battle_stats["ATK"],
 		"DEF": data.battle_stats["DEF"] - old_battle_stats["DEF"],
 		"S.ATK": data.battle_stats["S.ATK"] - old_battle_stats["S.ATK"],
@@ -76,6 +85,16 @@ func learn_move(id: int) -> void:
 	var new_move = MOVES.get_move(id).duplicate();
 	new_move.pp = new_move.total_pp;
 	data.battle_moves.push_back(new_move);
+
+func create_moves() -> Array:
+	var new_moves = [];
+	for move in data.battle_moves.duplicate():
+		new_moves.push_back({
+			"name": move.name,
+			"pp": move.pp,
+			"id": move.id
+		})
+	return new_moves;
 
 #DIE
 func bye() -> void:
@@ -97,10 +116,12 @@ func set_battle_stats() -> void:
 		var value = data.IV[key];
 		var stat_base = data.stats[key];
 		var nature = 1.0;
-		if(key != "HP"): 
-			data.battle_stats[key] = stat_formula(stat_base, value, nature);
-		elif(key == "HP"): 
-			data.battle_stats[key] = health_formula(stat_base, value);
+		if(key != "HP"):
+			var stat = LIBRARIES.FORMULAS.stat_formula(stat_base, value, nature, data.level);
+			data.battle_stats[key] = stat;
+		elif(key == "HP"):
+			var stat = LIBRARIES.FORMULAS.health_formula(stat_base, value, data.level);
+			data.battle_stats[key] = stat;
 
 #IV
 func set_random_IV() -> Dictionary:
@@ -123,15 +144,17 @@ func set_battle_moves() -> void:
 	data.battle_moves = array;
 
 #HP ANIM
-func set_hp_anim_duration_after_damage(damage: int, enemy: Object) -> void:
-	var total = BATTLE.min_hp_anim_duration;
-	if(damage < 10 && damage >= 3): total = 0.3;
-	if(damage < 2): total = 0.1;
-	elif(damage < 20 && damage != 1 && enemy.data.level > 50): total = 0.4;
-	elif((damage < 10 && damage != 1 && enemy.data.level < 30)): total = 0.2
+func set_hp_anim_duration(damage: int, enemy: Object) -> void:
+	var total = BATTLE.MIN_HP_ANIM;
+	if(damage < 2): total = 0.15;
+	elif(damage < 20 && damage != 1 && enemy.data.level > 50): total = 0.5;
+	elif(
+		(damage < 10 && damage != 1 && enemy.data.level < 30) || 
+		(damage < 10 && damage >= 3)): 
+			total = 0.3;
 	elif(damage >= 30 && enemy.data.battle_stats["HP"] <= 30): total = 1.0;
-	print("HP BAR DURATION: ", total);
-	BATTLE.emit_signal("hp_bar_anim_duration", total);
+	print("HP BAR DURATION: ", total * 1.1);
+	BATTLE.emit_signal("hp_bar_anim_duration", total * 1.1);
 
 #BASE STATS
 func get_base_stats() -> void: 
@@ -158,117 +181,13 @@ func convert_battle_moves() -> void:
 		array.push_back(MOVES.load_move_with_pp(move).duplicate());
 	data.battle_moves = array;
 
-#FORMULAS
-
-#STATS
-func stat_formula(
-	base: int,
-	iv_value: int,
-	nature: float
-) -> int:
-	return floor((((((2 * base) + iv_value) * data.level) / 100) + 5) * nature);
-
-func health_formula(base: int, iv_value: int) -> int:
-	return floor(((((2 * base) + iv_value) * data.level) / 100) + data.level + 10);
-
-#DAMAGE FORMULA
-func damage_formula(enemy: Object, move: Dictionary) -> int:
-	#MISS
-	if(ENUMS.AttackResult.MISS in BATTLE.attack_result):
-		BATTLE.attack_result = [ENUMS.AttackResult.MISS];
-		return 0;
-		
-	var ATK_stat: int;
-	var DEF_stat: int;
-	var _ATK_bonus = 0;
-	var _DEF_bonus = 0;
-	var CRIT_rate: float = get_critical_chance(0);
-	var CRIT_stat = 1.0;
-	var STAB: float = 1.0;
-	var burned = 1;
-	var effective_type1 = 1.0;
-	var effective_type2 = 1.0;
-	
-	#CRITICAL
-	if(CRIT_rate > randf()):
-		_DEF_bonus = 0;
-		BATTLE.critical_hit = true;
-		BATTLE.attack_result.push_front(ENUMS.AttackResult.CRITICAL);
-		CRIT_stat = 2.0;
-	
-	#STAB
-	if(move.type in data.types): STAB = 1.5;
-	
-	#STATS
-	match move.category:
-		ENUMS.AttackCategory.PHYSIC:
-			ATK_stat = data.battle_stats["ATK"];
-			DEF_stat = enemy.data.battle_stats["DEF"];
-		ENUMS.AttackCategory.SPECIAL:
-			ATK_stat = data.battle_stats["S.ATK"];
-			DEF_stat = enemy.data.battle_stats["S.DEF"];
-			
-	#EFFECTIVE
-	effective_type1 = LIBRARIES.MOVES.type_effective(move.type, enemy.data.types[0]);
-	if (enemy.data.types.size() > 1):
-		effective_type2 = LIBRARIES.MOVES.type_effective(move.type, enemy.data.types[1]);
-		
-	#RESULT
-	if(
-		(effective_type1 == 2.0 && effective_type2 == 1.0) || 
-		(effective_type2 == 2.0 && effective_type1 == 1.0)
-	): BATTLE.attack_result.push_front(ENUMS.AttackResult.EFFECTIVE);
-	elif(
-		(effective_type1 == 0.5 && effective_type2 == 1.0) || 
-		(effective_type2 == 0.5 && effective_type1 == 1.0)
-	): BATTLE.attack_result.push_front(ENUMS.AttackResult.LOW);
-	elif(effective_type1 == 2.0 && effective_type2 == 2.0):
-		BATTLE.attack_result.push_front(ENUMS.AttackResult.FULMINATE);
-	elif(effective_type1 == 0.5 && effective_type2 == 0.5): 
-		BATTLE.attack_result.push_front(ENUMS.AttackResult.AWFULL);
-	elif(effective_type1 == 0.0 || effective_type2 == 0.0):
-		BATTLE.attack_result = [ENUMS.AttackResult.NONE];
-		return 0;
-	
-	var base_damage = floor(
-			((2.0 * float(data.level) / 5.0 + 2.0) * 
-				move.power * float(ATK_stat) / float(DEF_stat) / 50.0
-		) * burned + 2.0);
-		
-	var random: float = get_random_float();
-	var total_base = base_damage * CRIT_stat * STAB;
-	var damage = (total_base * effective_type1 * effective_type2 * random);
-	if(BATTLE.attack_result.size() == 0): 
-		BATTLE.attack_result = [ENUMS.AttackResult.NORMAL];
-	return custom_round(damage, random);
-
-func get_random_float() -> float:
-	var modifier = 0.99;
-	if(data.level < 50.0): modifier = 1;
-	var num_steps = int((modifier - 0.85) / 0.01)
-	var random_index = randi_range(0, num_steps);
-	var random_float = 0.85 + random_index * 0.01;
-	return random_float;
-
-func custom_round(number, random_float) -> int:
-	var integer_part = int(number);
-	var decimal_part = number - integer_part;
-	if 0.5 <= decimal_part and decimal_part <= 0.59 and random_float != 1.0:
-		return floor(number);
-	else:
-		return round(number);
-
-func get_critical_chance(stage: int) -> float:
-	var critical_stages = [1.0/16.0, 1.0/8.0, 1.0/4.0 ,1.0/3.0 ,1.0/2.0, 1.0/1.0];
-	return critical_stages[stage];
-
 #EXP
 func set_exp_by_level() -> void:
 	var total_exp = EXP.get_exp_by_level(data.exp_type, data.level);
 	data.total_exp = floor(total_exp);
 
 func get_exp_to_next_level() -> int:
-	var exp_till_next = EXP.get_exp_for_next_level(data.exp_type, data.total_exp, data.level);
+	var exp_till_next = EXP.get_exp_for_next_level(data);
 	return exp_till_next;
 
 func get_exp_by_level() -> int:
