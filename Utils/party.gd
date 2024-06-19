@@ -6,9 +6,9 @@ var current_party = [];
 var active_pokemon: Dictionary;
 
 const ERASE_PROPS = [
-	"sprites", "party_texture", "shout", "stats", "battle_stages", 
-	"battle_stats", "battle_moves", "offset", "scale", "move_set", 
-	"box_offset", "box_scale"
+	"party_texture", "stats", "battle_stages", 
+	"battle_stats", "battle_moves", "move_set", 
+	"display", "specie", "sprites"
 ];
 
 func _ready(): add_to_group(GLOBAL.group_name);

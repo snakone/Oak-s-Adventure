@@ -230,8 +230,8 @@ func end_dialog() -> void:
 	await GLOBAL.timeout(0.3);
 	if(!BATTLE.exp_loop): BATTLE.state = ENUMS.BattleStates.MENU;
 
-func check_effective_dialog() -> void:
-	if(BATTLE.attack_result.size() == 0): return;
+func check_effective_dialog() -> bool:
+	if(BATTLE.attack_result.size() == 0): return false;
 	var result = BATTLE.attack_result[0];
 	if(result in DIALOG.QUICK_DIALOGS):
 		var dialog = DIALOG.QUICK_DIALOGS[result];
@@ -239,6 +239,8 @@ func check_effective_dialog() -> void:
 			var text = dialog[BATTLE.current_turn];
 			await GLOBAL.timeout(wait_quick_dialog);
 			quick([text]);
+			return true;
+	return false;
 
 #MISSED DIALOG
 func show_missed(target_name: String, delay = 0.6) -> void:

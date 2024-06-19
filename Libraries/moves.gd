@@ -55,7 +55,7 @@ var LIST: Dictionary = {
 	3: {
 		"id": 3,
 		"name": "Quick Attack",
-		"type": ENUMS.Types.NORMAL,
+		"type": ENUMS.Types.FIRE,
 		"category": ENUMS.AttackCategory.PHYSIC,
 		"power": 30,
 		"accuracy": 100,

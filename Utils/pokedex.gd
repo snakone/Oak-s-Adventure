@@ -2,17 +2,16 @@ extends Node
 
 const MISSINGNO = preload("res://Assets/UI/Pokemon/missingno.png");
 
-var pokedex_showcase: Array;
+var pokedex_showcase: Array = [];
 
 func _ready(): 
 	add_to_group(GLOBAL.group_name);
-	pokedex_showcase = LIBRARIES.POKEDEX.pokedex_showcase.duplicate(true);
 
 func get_showcase() -> Array:
 	showcase_check();
 	var index = get_showcase_last_index();
 	var copy = pokedex_showcase.duplicate(true);
-	copy.resize(index + 1);
+	copy.resize(index);
 	return copy;
 
 func get_pokemon(index) -> Variant:
@@ -36,14 +35,10 @@ func get_poke_resources(poke_name: String):
 	for poke in LIBRARIES.POKEDEX.LIST:
 		if(poke.name == poke_name):
 			return {
-				"party_texture": poke.party_texture,
-				"shout": poke.shout,
 				"sprites": str(poke.sprites),
-				"offset": poke.offset,
-				"scale": poke.scale,
 				"move_set": poke.move_set,
-				"box_scale": poke.box_scale,
-				"box_offset": poke.box_offset
+				"display": poke.display,
+				"specie": poke.specie
 			};
 
 func get_pokemon_prop(index: int, key: String):
@@ -51,17 +46,22 @@ func get_pokemon_prop(index: int, key: String):
 		if(poke.number == index): return poke[key];
 
 func get_showcase_last_index() -> int:
-	if(pokedex_showcase.size() == 0): return -1;
+	if(pokedex_showcase.size() == 0): return 0;
 	for i in range(pokedex_showcase.size() - 1, -1, -1):
-		if(pokedex_showcase[i] != null): return i;
+		if(pokedex_showcase[i] != null): return pokedex_showcase[i].number;
 	return -1;
 
 func add_pokemon_to_showcase(pokemon = null) -> void:
 	if(pokemon != null):
 		var last_index = get_showcase_last_index();
+		#REPEATED
 		if(last_index == pokemon.number || last_index == -1): return;
-		
-		for i in range(last_index + 1, pokemon.number): 
+		#IF LOWER ASSIGN TO CURRENT LIST
+		if(last_index > pokemon.number):
+			pokedex_showcase[pokemon.number - 1] = pokemon;
+			return;
+		#GREATER - CREATE NULLS TILL NEW POKEMON
+		for i in range(last_index, pokemon.number - 1): 
 			pokedex_showcase.append(null);
 		pokedex_showcase.append(pokemon);
 

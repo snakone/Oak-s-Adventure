@@ -10,7 +10,7 @@
 - Made from scratch
 - Custom Made Sprites
 
-## Features
+## Implementation
 
 - Camera auto adjust to TileMap
 - Auto Spawn Location

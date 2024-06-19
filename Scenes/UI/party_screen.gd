@@ -418,7 +418,7 @@ func create_party_list() -> void:
 		
 		#STATS
 		var poke = party[index];
-		pokemon_node.texture = poke.data.party_texture;
+		pokemon_node.texture = poke.data.specie.party_texture;
 		if("gender" in poke.data):
 			gender_node.visible = true;
 			gender_node.frame = poke.data.gender;

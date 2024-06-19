@@ -398,8 +398,8 @@ func check_battle_state() -> void:
 		dialog.show_critical();
 		await BATTLE.quick_dialog_end;
 	#EFFECTIVENESS
-	dialog.check_effective_dialog();
-	await BATTLE.quick_dialog_end;
+	var should_check = await dialog.check_effective_dialog();
+	if(should_check): await BATTLE.quick_dialog_end;
 	await GLOBAL.timeout(0.1);
 	BATTLE.attack_check_done.emit();
 	if(any_death()): check_death_after_attack();
@@ -611,6 +611,15 @@ func set_enemy_ui() -> void:
 	set_level(level_node, enemy.data);
 	selection.set_enemy_moves(enemy.data.moves);
 	enemy_sprite.play("Front");
+	
+	var showcase_poke = { 
+		"number": enemy.data.number, 
+		"seen": true, 
+		"owned": false, 
+		"name": enemy.data.name 
+	}
+	
+	POKEDEX.add_pokemon_to_showcase(showcase_poke);
 
 #TEXTURES
 func set_battle_texture() -> void:
@@ -639,8 +648,8 @@ func set_name_and_gender(
 
 func set_sprites(sprite: AnimatedSprite2D, data: Dictionary) -> void:
 	sprite.sprite_frames = data.sprites.sprite_frames;
-	sprite.offset = data.offset;
-	sprite.scale = data.scale;
+	sprite.offset = data.display.offset.battle;
+	sprite.scale = data.display.scale.battle;
 
 func set_level(info: RichTextLabel, data: Dictionary) -> void:
 	info.text = "Lv" + str(data.level);
@@ -701,12 +710,12 @@ func need_to_check_attack() -> bool:
 
 #AUDIO
 func play_shout_pokemon() -> void:
-	audio_player.stream = pokemon.data.shout;
+	audio_player.stream = pokemon.data.specie.shout;
 	audio_player.play();
 
 func play_shout_enemy() -> void:
 	await GLOBAL.timeout(0.2);
-	play_audio(enemy.data.shout);
+	play_audio(enemy.data.specie.shout);
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;

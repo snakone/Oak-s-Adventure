@@ -168,7 +168,7 @@ func update_ui(box: Node2D, box_index: int) -> void:
 			var sprite = Sprite2D.new();
 			sprite.vframes = 2;
 			sprite.centered = false;
-			sprite.texture = poke.data.party_texture;
+			sprite.texture = poke.data.specie.party_texture;
 			sprite.name = poke.data.uuid;
 			if(i in LIBRARIES.BOXES.BOXES_SLOTS):
 				sprite.position = LIBRARIES.BOXES.BOXES_SLOTS[i];
@@ -453,7 +453,7 @@ func save_data_before_pick() -> void:
 		var copy = party.duplicate();
 		holding_poke = copy[selected_party_index];
 		current_node = party_panel.get_child(selected_party_index + 1).get_node("Poke");
-		holding_sprite.texture = holding_poke.data.party_texture;
+		holding_sprite.texture = holding_poke.data.specie.party_texture;
 		holding_sprite.scale = Vector2(0.8, 0.8);
 
 func set_index() -> void:
@@ -490,8 +490,8 @@ func set_active(poke: Node) -> void:
 	active_sprite.sprite_frames = poke.data.sprites.sprite_frames;
 	active_level.text = "Lv" + str(poke.data.level);
 	active_sprite.play("Front");
-	active_sprite.scale = poke.data.box_scale;
-	active_sprite.offset = poke.data.box_offset;
+	active_sprite.scale = poke.data.display.scale.box;
+	active_sprite.offset = poke.data.display.offset.box;
 	if("gender" in poke.data):
 		active_gender.frame = poke.data.gender;
 		active_level.position.x = 20;
@@ -514,7 +514,7 @@ func set_party_panel() -> void:
 		if(poke != null):
 			slot.visible = true;
 			poke_node.visible = true;
-			poke_node.texture = poke.data.party_texture;
+			poke_node.texture = poke.data.specie.party_texture;
 		else: slot.visible = false;
 
 func update_all_boxes() -> void:

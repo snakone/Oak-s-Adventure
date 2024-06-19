@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://coqv4qqrp1ie"]
+[gd_scene load_steps=16 format=3 uid="uid://coqv4qqrp1ie"]
 
 [ext_resource type="Script" path="res://Scenes/UI/pokedex_screen.gd" id="1_tq43h"]
 [ext_resource type="Texture2D" uid="uid://cx73yapygovt5" path="res://Assets/UI/Pokedex/index_background.png" id="2_nney6"]
@@ -7,7 +7,11 @@
 [ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="4_22h8k"]
 [ext_resource type="Texture2D" uid="uid://bfnlj6t53rl5p" path="res://Assets/UI/ui_arrow_left_right.png" id="5_w27vx"]
 [ext_resource type="Texture2D" uid="uid://fjoek3x2almt" path="res://Assets/UI/Pokedex/numerical.png" id="6_mv7f6"]
+[ext_resource type="Texture2D" uid="uid://bvgxhagu7odgk" path="res://Assets/UI/Pokedex/info_background.png" id="7_2f0tt"]
+[ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/Fonts/power clear.ttf" id="8_0bn4f"]
 [ext_resource type="Texture2D" uid="uid://dmt1sgwftqmcc" path="res://Assets/UI/Pokedex/pokedex_arrow_up.png" id="8_ldmsw"]
+[ext_resource type="FontFile" uid="uid://bqhxhi032wwfk" path="res://Assets/Fonts/power clear bold.ttf" id="9_qf070"]
+[ext_resource type="SpriteFrames" uid="uid://cgrep68metxry" path="res://Sprites/Animated/Beedrill/beedrill.tres" id="9_urat2"]
 [ext_resource type="Texture2D" uid="uid://dabmedes08vwg" path="res://Assets/UI/Pokedex/pokedex_arrow_down.png" id="9_yjvm8"]
 
 [sub_resource type="Animation" id="Animation_fbxwe"]
@@ -52,7 +56,6 @@ script = ExtResource("1_tq43h")
 volume_db = -20.0
 
 [node name="Index" type="Node2D" parent="."]
-visible = false
 
 [node name="Background" type="TextureRect" parent="Index"]
 offset_right = 240.0
@@ -340,6 +343,7 @@ autowrap_mode = 0
 context_menu_enabled = true
 
 [node name="List" type="Node2D" parent="."]
+visible = false
 
 [node name="Background" type="TextureRect" parent="List"]
 offset_right = 40.0
@@ -363,6 +367,218 @@ layout_mode = 2
 [node name="PageInfo" type="Node2D" parent="List"]
 
 [node name="PageHabitat" type="Node2D" parent="List"]
+
+[node name="Info" type="Node2D" parent="."]
+
+[node name="Background" type="TextureRect" parent="Info"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("7_2f0tt")
+
+[node name="Number" type="RichTextLabel" parent="Info"]
+clip_contents = false
+layout_direction = 2
+offset_left = 12.0
+offset_top = 29.0
+offset_right = 38.0
+offset_bottom = 40.0
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0.243137, 0.243137, 0.243137, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_constants/line_separation = 7
+theme_override_constants/text_highlight_v_padding = 46
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+theme_override_fonts/bold_font = ExtResource("4_22h8k")
+theme_override_font_sizes/normal_font_size = 7
+text = "No001"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Name" type="RichTextLabel" parent="Info"]
+clip_contents = false
+layout_direction = 2
+offset_left = 36.0
+offset_top = 25.0
+offset_right = 116.0
+offset_bottom = 36.0
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0.0901961, 0.0823529, 0.0862745, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_constants/line_separation = 7
+theme_override_constants/text_highlight_v_padding = 46
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+theme_override_fonts/bold_font = ExtResource("4_22h8k")
+theme_override_font_sizes/normal_font_size = 13
+text = "BULBASAUR"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Description" type="RichTextLabel" parent="Info"]
+clip_contents = false
+offset_left = 12.0
+offset_top = 99.0
+offset_right = 225.0
+offset_bottom = 132.0
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_constants/line_separation = 2
+theme_override_fonts/normal_font = ExtResource("8_0bn4f")
+theme_override_fonts/bold_font = ExtResource("9_qf070")
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/bold_font_size = 12
+bbcode_enabled = true
+text = "There is a plant seed on its back right from the day this POKéMON is born. The seed slowly grows larger."
+fit_content = true
+scroll_active = false
+text_direction = 1
+language = "Eng"
+
+[node name="Type" type="Node2D" parent="Info"]
+
+[node name="Label" type="RichTextLabel" parent="Info/Type"]
+clip_contents = false
+layout_direction = 2
+offset_left = 12.0
+offset_top = 45.0
+offset_right = 38.0
+offset_bottom = 56.0
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0.0588235, 0.0588235, 0.0588235, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_constants/line_separation = 7
+theme_override_constants/text_highlight_v_padding = 46
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+theme_override_fonts/bold_font = ExtResource("4_22h8k")
+theme_override_font_sizes/normal_font_size = 9
+text = "POKéMON"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Value" type="RichTextLabel" parent="Info/Type"]
+clip_contents = false
+layout_direction = 2
+offset_left = 52.0
+offset_top = 45.0
+offset_right = 78.0
+offset_bottom = 56.0
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0.243137, 0.243137, 0.243137, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_constants/line_separation = 7
+theme_override_constants/text_highlight_v_padding = 46
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+theme_override_fonts/bold_font = ExtResource("4_22h8k")
+theme_override_font_sizes/normal_font_size = 9
+text = "????????????"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Height" type="Node2D" parent="Info"]
+
+[node name="Label" type="RichTextLabel" parent="Info/Height"]
+clip_contents = false
+layout_direction = 2
+offset_left = 12.0
+offset_top = 60.0
+offset_right = 38.0
+offset_bottom = 71.0
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0.0588235, 0.0588235, 0.0588235, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_constants/line_separation = 7
+theme_override_constants/text_highlight_v_padding = 46
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+theme_override_fonts/bold_font = ExtResource("4_22h8k")
+theme_override_font_sizes/normal_font_size = 9
+text = "Height"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Value" type="RichTextLabel" parent="Info/Height"]
+clip_contents = false
+layout_direction = 2
+offset_left = 52.0
+offset_top = 60.0
+offset_right = 78.0
+offset_bottom = 71.0
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0.243137, 0.243137, 0.243137, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_constants/line_separation = 7
+theme_override_constants/text_highlight_v_padding = 46
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+theme_override_fonts/bold_font = ExtResource("4_22h8k")
+theme_override_font_sizes/normal_font_size = 9
+text = "??'??\""
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Weight" type="Node2D" parent="Info"]
+
+[node name="Label" type="RichTextLabel" parent="Info/Weight"]
+clip_contents = false
+layout_direction = 2
+offset_left = 12.0
+offset_top = 73.0
+offset_right = 38.0
+offset_bottom = 84.0
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0.0588235, 0.0588235, 0.0588235, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_constants/line_separation = 7
+theme_override_constants/text_highlight_v_padding = 46
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+theme_override_fonts/bold_font = ExtResource("4_22h8k")
+theme_override_font_sizes/normal_font_size = 9
+text = "Weight"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Value" type="RichTextLabel" parent="Info/Weight"]
+clip_contents = false
+layout_direction = 2
+offset_left = 52.0
+offset_top = 73.0
+offset_right = 78.0
+offset_bottom = 84.0
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0.243137, 0.243137, 0.243137, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_constants/line_separation = 7
+theme_override_constants/text_highlight_v_padding = 46
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+theme_override_fonts/bold_font = ExtResource("4_22h8k")
+theme_override_font_sizes/normal_font_size = 9
+text = "????.? lbs."
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Sprites" type="Node2D" parent="Info"]
+
+[node name="Front" type="AnimatedSprite2D" parent="Info/Sprites"]
+position = Vector2(132, 32)
+sprite_frames = ExtResource("9_urat2")
+animation = &"Front"
+centered = false
+offset = Vector2(-20, -11)
+
+[node name="Back" type="AnimatedSprite2D" parent="Info/Sprites"]
+position = Vector2(180, 32)
+sprite_frames = ExtResource("9_urat2")
+animation = &"Back"
+centered = false
+offset = Vector2(-3, -12)
+
+[node name="Area" type="Node2D" parent="."]
 
 [node name="Arrows" type="Node2D" parent="."]
 
