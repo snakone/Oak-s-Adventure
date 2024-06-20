@@ -9,7 +9,7 @@ extends CanvasLayer
 const oak_prefix = "self:";
 var dialog_data: Dictionary;
 var current_index: int = 0;
-var current_line: int = 2;
+var current_line: int = 1;
 var pressed: bool = true;
 var dialog_closed = false;
 var npc_dialog = false;

@@ -60,9 +60,9 @@ func get_random_pokemon() -> ENUMS.Pokedex:
 		return map_encounters[x] < map_encounters[y]);
 	var random = randf_range(0.0, 99.0);
 	var accumulated = 0.0;
-
+	
 	for key in encounters:
 		accumulated += map_encounters[key];
 		if random < accumulated: return key;
-
+		
 	return encounters[-1];

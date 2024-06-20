@@ -24,11 +24,11 @@ extends Node
 @onready var audio = $AudioPlayer;
 @onready var battle_anim_player = $BattleAnimationPlayer;
 @onready var battle_background = $Background;
-@onready var attack_background = $Selection/Background;
+@onready var attack_background = $Attacks/Background;
 @onready var menu_selection: NinePatchRect = $MenuSelection;
 @onready var menu: Node2D = $Menu
 @onready var dialog: Node2D = $Dialog;
-@onready var selection: Node2D = $Selection;
+@onready var attacks: Node2D = $Attacks;
 
 const MovesAnimations = preload("res://Scenes/Battle/Moves/moves_animations.gd");
 const SECOND_ATTACK_DELAY = 0.2;
@@ -68,7 +68,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	): return;
 	match BATTLE.state:
 		ENUMS.BattleStates.MENU: menu.input();
-		ENUMS.BattleStates.FIGHT: selection.input();
+		ENUMS.BattleStates.FIGHT: attacks.input();
 		#States.BAG: #bag_input(event)
 		ENUMS.BattleStates.DIALOG: dialog.input();
 		ENUMS.BattleStates.LEVELLING: dialog.levelling_input();
@@ -132,8 +132,8 @@ func determine_priority() -> bool:
 	var priority = pokemon.data.battle_stats.SPD >= enemy.data.battle_stats.SPD
 		
 	if (!BATTLE.attacks_set):
-		BATTLE.player_attack = selection.get_player_attack();
-		BATTLE.enemy_attack = selection.get_enemy_random_attack();
+		BATTLE.player_attack = attacks.get_player_attack();
+		BATTLE.enemy_attack = attacks.get_enemy_random_attack();
 		BATTLE.attacks_set = true;
 		
 	if (BATTLE.enemy_attack.priority > BATTLE.player_attack.priority):
@@ -198,7 +198,7 @@ func handle_attack(target: Object, move: Dictionary, sound = true) -> void:
 	await BATTLE.dialog_finished;
 	add_animation_and_play(move);
 	BATTLE.attack_pressed = false;
-	selection.update_attack_ui();
+	attacks.update_attack_ui();
 	check_battle_state();
 
 func fake_attack() -> void:
@@ -461,7 +461,7 @@ func handle_no_pokemon_left() -> void:
 
 #PARTY
 func _on_party_pokemon_select(_poke_name: String) -> void:
-	selection.reset();
+	attacks.reset();
 	if(BATTLE.can_use_next_pokemon): reset_state_and_get_next_pokemon();
 	else: switch_pokemon();
 
@@ -490,7 +490,7 @@ func switch_pokemon() -> void:
 	await GLOBAL.timeout(.2);
 	dialog.switch([pokemon.name + " that's enough!"]);
 	await BATTLE.dialog_finished;
-	selection.reset();
+	attacks.reset();
 	anim_player.play("Switch");
 	await anim_player.animation_finished;
 	fake_attack();
@@ -572,8 +572,7 @@ func get_attack_target(get_self = false) -> Dictionary:
 		target = {
 			"current_hp": pokemon.data.current_hp,
 			"total_hp": pokemon.data.battle_stats["HP"],
-			"bar": player_hp_bar
-			}
+			"bar": player_hp_bar}
 	else: target = {
 		"current_hp": enemy.data.current_hp,
 		"total_hp": enemy.data.battle_stats["HP"],
@@ -594,7 +593,7 @@ func set_player_ui() -> void:
 	set_name_and_gender(name_node, gender_node, pokemon.data);
 	set_sprites(player_sprite, pokemon.data);
 	set_level(level_node, pokemon.data);
-	selection.set_pokemon_moves(pokemon.data.battle_moves);
+	attacks.set_pokemon_moves(pokemon.data.battle_moves);
 	set_exp(pokemon);
 	exp_bar.scale.x = get_new_exp_bar_size();
 	player_sprite.play("Back");
@@ -609,7 +608,7 @@ func set_enemy_ui() -> void:
 	set_name_and_gender(enemy_name, gender_node, enemy.data);
 	set_sprites(enemy_sprite, enemy.data);
 	set_level(level_node, enemy.data);
-	selection.set_enemy_moves(enemy.data.moves);
+	attacks.set_enemy_moves(enemy.data.moves);
 	enemy_sprite.play("Front");
 	
 	var showcase_poke = { 

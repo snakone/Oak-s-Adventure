@@ -47,8 +47,6 @@ var index_options = {
 	}
 }
 
-var pokedex_showcase = [];
-
 var LIST: Array = [
 	{
 		"name": "BULBASAUR",
@@ -210,7 +208,7 @@ var LIST: Array = [
 		"display": {
 			"offset": {
 				"battle": Vector2.ZERO,
-				"box": Vector2.ZERO,
+				"box": Vector2(3, 0),
 				"pokedex": {
 					"front": Vector2.ZERO,
 					"back": Vector2.ZERO
@@ -218,7 +216,7 @@ var LIST: Array = [
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
-				"box": Vector2(0.8, 0.8),
+				"box": Vector2(0.7, 0.7),
 				"pokedex": {
 					"front": Vector2(0.8, 0.8),
 					"back": Vector2(0.8, 0.8)
@@ -260,7 +258,7 @@ var LIST: Array = [
 				"battle": Vector2.ZERO,
 				"box": Vector2(-22, -18),
 				"pokedex": {
-					"front": Vector2(-20, -11),
+					"front": Vector2(-21, -11),
 					"back": Vector2(-3, -11)
 				}
 			},
@@ -304,9 +302,9 @@ var LIST: Array = [
 		"display": {
 			"offset": {
 				"battle": Vector2.ZERO,
-				"box": Vector2(1, 0),
+				"box": Vector2(2, -1),
 				"pokedex": {
-					"front": Vector2.ZERO,
+					"front": Vector2(2, 0),
 					"back": Vector2.ZERO
 				}
 			},
@@ -607,3 +605,26 @@ var LIST: Array = [
 		"move_set": {}
 	},
 ];
+
+var ABILITIES = {
+	ENUMS.Ability.AIR_LOCK: {
+		"name": "Air Lock",
+		"description": "Eliminates the effects of the weather.",
+		"apply": func(): BATTLE.current_weather = BATTLE.Weather.NONE
+	},
+	ENUMS.Ability.ARENA_TRAP: {
+		"name": "Arena Trap",
+		"description": "Prevents the foe from fleeing.",
+		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
+	},
+	ENUMS.Ability.BATTLE_ARMOR: {
+		"name": "Battle Armor",
+		"description": "The POKéMON is protected against critical hits.",
+		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
+	},
+	ENUMS.Ability.BLAZE: {
+		"name": "Blaze",
+		"description": "Powers up Fire-type moves in a pinch.",
+		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
+	}
+}

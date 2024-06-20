@@ -101,7 +101,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	#SELECT
 	elif(Input.is_action_just_pressed("space")): select_slot();
 	#MENU/CRY
-	elif(Input.is_action_just_pressed("menu")): handle_menu()
+	elif(Input.is_action_just_pressed("menu")): handle_cry()
 		
 	update_scroll();
 	await GLOBAL.timeout(0.2);
@@ -111,6 +111,8 @@ func select_slot() -> void:
 	match selected_view:
 		Views.INDEX: handle_index_select()
 		Views.LIST: handle_list_select()
+		Views.INFO: go_to_area()
+		Views.AREA: go_to_index()
 
 func handle_index_select() -> void:
 	var last_option = list_size - 1;
@@ -124,11 +126,14 @@ func handle_list_select() -> void:
 	if(is_poke_in_showcase(selected_option + 1)):
 		go_to_info();
 
-func handle_menu() -> void:
-	if(selected_view != int(Views.INFO)): return;
-	if(selected_pokemon != null):
-		if(audio.playing): return;
-		play_audio(selected_pokemon.data.specie.shout);
+func handle_cry() -> void:
+	if(
+		selected_view != int(Views.INFO) || 
+		selected_view != int(Views.AREA) ||
+		selected_pokemon == null
+	): return;
+	if(audio.playing): return;
+	play_audio(selected_pokemon.data.specie.shout);
 
 #VIEW
 func change_view(view: Views) -> void:
@@ -185,7 +190,7 @@ func go_to_list() -> void:
 	update_red_arrow_position();
 	update_red_arrow_visibility(false, true);
 	cursor.visible = true;
-	
+
 #INFO VIEW
 func go_to_info() -> void:
 	selected_pokemon = null;
@@ -196,12 +201,19 @@ func go_to_info() -> void:
 	selected_pokemon = Pokemon.new(data, true);
 	set_pokemon_info();
 
+#AREA VIEW
+func go_to_area() -> void:
+	change_view(Views.AREA);
+	update_red_arrow_visibility(false, false);
+	cursor.visible = false;
+
 #CLOSE
 func handle_can_close() -> void:
 	match selected_view:
 		Views.INDEX: close_pokedex()
 		Views.LIST: go_to_index()
 		Views.INFO: go_to_list()
+		Views.AREA: go_to_info()
 
 func update_cursor() -> void:
 	match selected_view:
@@ -383,8 +395,8 @@ func select_habitat() -> void:
 
 #SEEN
 func get_seen_pokemon() -> void:
-	var filtererd = showcase.filter(func(poke): return poke != null);
-	var data = filtererd.reduce(func(acc, curr): return {
+	var filtered = showcase.filter(func(poke): return poke != null);
+	var data = filtered.reduce(func(acc, curr): return {
 		"seen": int(acc.seen) + int(curr.seen),
 		"owned": int(acc.owned) + int(curr.owned) 
 	}, {"seen": 0, "owned": 0});
@@ -396,7 +408,8 @@ func get_list_size() -> int:
 	var size: int;
 	match selected_view:
 		Views.INDEX: size = list_size;
-		Views.LIST: size = showcase_size
+		Views.LIST: size = showcase_size;
+		_: size = 0;
 	return size;
 
 func is_pokemon_owned(index: int) -> bool:

@@ -8,11 +8,11 @@
 [ext_resource type="Texture2D" uid="uid://bfnlj6t53rl5p" path="res://Assets/UI/ui_arrow_left_right.png" id="5_w27vx"]
 [ext_resource type="Texture2D" uid="uid://fjoek3x2almt" path="res://Assets/UI/Pokedex/numerical.png" id="6_mv7f6"]
 [ext_resource type="Texture2D" uid="uid://bvgxhagu7odgk" path="res://Assets/UI/Pokedex/info_background.png" id="7_2f0tt"]
-[ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/Fonts/power clear.ttf" id="8_0bn4f"]
 [ext_resource type="Texture2D" uid="uid://dmt1sgwftqmcc" path="res://Assets/UI/Pokedex/pokedex_arrow_up.png" id="8_ldmsw"]
 [ext_resource type="FontFile" uid="uid://bqhxhi032wwfk" path="res://Assets/Fonts/power clear bold.ttf" id="9_qf070"]
 [ext_resource type="SpriteFrames" uid="uid://cgrep68metxry" path="res://Sprites/Animated/Beedrill/beedrill.tres" id="9_urat2"]
 [ext_resource type="Texture2D" uid="uid://dabmedes08vwg" path="res://Assets/UI/Pokedex/pokedex_arrow_down.png" id="9_yjvm8"]
+[ext_resource type="Texture2D" uid="uid://bu760yp0d84e7" path="res://Assets/UI/Pokedex/area_background.png" id="10_xyvlb"]
 
 [sub_resource type="Animation" id="Animation_fbxwe"]
 resource_name = "Arrows"
@@ -369,6 +369,7 @@ layout_mode = 2
 [node name="PageHabitat" type="Node2D" parent="List"]
 
 [node name="Info" type="Node2D" parent="."]
+visible = false
 
 [node name="Background" type="TextureRect" parent="Info"]
 offset_right = 40.0
@@ -418,16 +419,16 @@ autowrap_mode = 0
 [node name="Description" type="RichTextLabel" parent="Info"]
 clip_contents = false
 offset_left = 12.0
-offset_top = 99.0
-offset_right = 225.0
-offset_bottom = 132.0
+offset_top = 100.0
+offset_right = 228.0
+offset_bottom = 133.0
 theme = ExtResource("3_bce6p")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
-theme_override_constants/line_separation = 2
-theme_override_fonts/normal_font = ExtResource("8_0bn4f")
+theme_override_constants/line_separation = 5
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
 theme_override_fonts/bold_font = ExtResource("9_qf070")
-theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/normal_font_size = 10
 theme_override_font_sizes/bold_font_size = 12
 bbcode_enabled = true
 text = "There is a plant seed on its back right from the day this POKéMON is born. The seed slowly grows larger."
@@ -579,6 +580,12 @@ centered = false
 offset = Vector2(-3, -12)
 
 [node name="Area" type="Node2D" parent="."]
+visible = false
+
+[node name="TextureRect" type="TextureRect" parent="Area"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("10_xyvlb")
 
 [node name="Arrows" type="Node2D" parent="."]
 

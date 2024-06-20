@@ -28,6 +28,7 @@ signal end_battle();
 
 enum Moves { FIRST, SECOND, THIRD, FOURTH }
 enum Turn { PLAYER, ENEMY, NONE }
+enum Weather { RAINING, DROUGH, SANDSTORM, NONE }
 
 const tile_density = 325.0;
 var modifire = 1.0;
@@ -62,6 +63,7 @@ var attack_result = [];
 var player_attack = 0;
 var enemy_attack = 0;
 var attacks_set = false;
+var current_weather = int(Weather.NONE);
 
 func reset_state(reset_type = true) -> void:
 	can_use_menu = false;
@@ -87,6 +89,7 @@ func reset_state(reset_type = true) -> void:
 	player_attack = 0;
 	enemy_attack = 0;
 	attacks_set = false;
+	current_weather = int(Weather.NONE);
 
 func pokemon_encounter() -> bool:
 	randomize();

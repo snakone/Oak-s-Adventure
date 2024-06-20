@@ -122,6 +122,44 @@ func set_battle_stats() -> void:
 		elif(key == "HP"):
 			var stat = LIBRARIES.FORMULAS.health_formula(stat_base, value, data.level);
 			data.battle_stats[key] = stat;
+		
+	#ABILITIES
+	data.battle_stats["can_scape"] = true;
+	data.battle_stats["protect_critical"] = false;
+	data.battle_stats["in_pinch"] = false;
+	data.battle_stats["can_lower_stats"] = {
+		"all": true,
+		"ATK": true,
+		"accuracy": true
+	};
+	data.battle_stats["charmed"] = false;
+	data.battle_stats["self_destruction"] = true;
+	data.battle_stats["awake_fast"] = false;
+	data.battle_stats["contact"] = {
+		"burn": false,
+		"paralysis": false,
+		"sleep": false,
+		"poison": false
+	};
+	data.battle_stats["on_status"] = false;
+	data.battle_stats["inmune"] = {
+		"poison": false,
+		"sleep": false,
+		"ground": false,
+		"paralysis": false,
+		"frozen": false,
+		"confused": false,
+		"charm": false,
+		"recoil": false,
+		"sound": false,
+		"ko": false
+	}
+	data.battle_stats["add_effect"] = false;
+	data.battle_stats["block_effect"] = false;
+	data.battle_stats["can_switch"] = true;
+	data.battle_stats["wonder"] = false;
+	
+	
 
 #IV
 func set_random_IV() -> Dictionary:

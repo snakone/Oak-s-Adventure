@@ -1761,17 +1761,17 @@ visible = false
 [node name="Berries" type="Node2D" parent="Bag"]
 visible = false
 
-[node name="Selection" type="Node2D" parent="."]
+[node name="Attacks" type="Node2D" parent="."]
 visible = false
 z_index = 1
 script = ExtResource("20_qqf6l")
 metadata/_edit_lock_ = true
 
-[node name="Background" type="Sprite2D" parent="Selection"]
+[node name="Background" type="Sprite2D" parent="Attacks"]
 position = Vector2(120, 136)
 texture = ExtResource("9_iv4im")
 
-[node name="Attack01" type="RichTextLabel" parent="Selection"]
+[node name="Attack01" type="RichTextLabel" parent="Attacks"]
 visible = false
 offset_left = 17.0
 offset_top = 123.0
@@ -1783,7 +1783,7 @@ theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 theme_override_fonts/normal_font = ExtResource("7_6nkkf")
 theme_override_font_sizes/normal_font_size = 10
 
-[node name="Attack02" type="RichTextLabel" parent="Selection"]
+[node name="Attack02" type="RichTextLabel" parent="Attacks"]
 visible = false
 offset_left = 90.0
 offset_top = 123.0
@@ -1795,7 +1795,7 @@ theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 theme_override_fonts/normal_font = ExtResource("7_6nkkf")
 theme_override_font_sizes/normal_font_size = 10
 
-[node name="Attack03" type="RichTextLabel" parent="Selection"]
+[node name="Attack03" type="RichTextLabel" parent="Attacks"]
 visible = false
 offset_left = 17.0
 offset_top = 140.0
@@ -1807,7 +1807,7 @@ theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 theme_override_fonts/normal_font = ExtResource("7_6nkkf")
 theme_override_font_sizes/normal_font_size = 10
 
-[node name="Attack04" type="RichTextLabel" parent="Selection"]
+[node name="Attack04" type="RichTextLabel" parent="Attacks"]
 visible = false
 offset_left = 90.0
 offset_top = 140.0
@@ -1819,18 +1819,18 @@ theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 theme_override_fonts/normal_font = ExtResource("7_6nkkf")
 theme_override_font_sizes/normal_font_size = 10
 
-[node name="AttackCursor" type="Sprite2D" parent="Selection"]
+[node name="AttackCursor" type="Sprite2D" parent="Attacks"]
 z_index = 1
 position = Vector2(11, 127.5)
 scale = Vector2(0.9, 0.9)
 texture = ExtResource("8_t1ksm")
 
-[node name="SelectionInfo" type="Node2D" parent="Selection"]
+[node name="SelectionInfo" type="Node2D" parent="Attacks"]
 z_index = 1
 
-[node name="PP" type="Node2D" parent="Selection/SelectionInfo"]
+[node name="PP" type="Node2D" parent="Attacks/SelectionInfo"]
 
-[node name="Label" type="RichTextLabel" parent="Selection/SelectionInfo/PP"]
+[node name="Label" type="RichTextLabel" parent="Attacks/SelectionInfo/PP"]
 clip_contents = false
 offset_left = 172.0
 offset_top = 122.0
@@ -1841,7 +1841,7 @@ theme_override_colors/default_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 text = "PP"
 
-[node name="Value" type="RichTextLabel" parent="Selection/SelectionInfo/PP"]
+[node name="Value" type="RichTextLabel" parent="Attacks/SelectionInfo/PP"]
 clip_contents = false
 offset_left = 198.0
 offset_top = 122.0
@@ -1852,7 +1852,7 @@ theme_override_colors/default_color = Color(0.439216, 0.439216, 0.439216, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 text = "34/35"
 
-[node name="Type" type="RichTextLabel" parent="Selection/SelectionInfo"]
+[node name="Type" type="RichTextLabel" parent="Attacks/SelectionInfo"]
 offset_left = 169.0
 offset_top = 140.0
 offset_right = 234.0

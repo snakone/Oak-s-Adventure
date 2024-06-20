@@ -3,7 +3,7 @@ extends Node2D
 @onready var cursor = $MenuCursor;
 @onready var label = $Label;
 @onready var background = $Background;
-@onready var attack_selection: Node2D = $"../Selection";
+@onready var attack_selection: Node2D = $"../Attacks";
 @onready var audio: AudioStreamPlayer = $"../AudioPlayer";
 @onready var dialog_label: RichTextLabel = $"../Dialog/Label";
 
