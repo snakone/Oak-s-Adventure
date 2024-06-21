@@ -166,7 +166,7 @@ func handle_save() -> void:
 	screen_loaded = ScreenLoaded.NONE;
 	selected_option = MenuOptions.POKEDEX;
 	scene_manager.transition_to_scene(save_scene_path, false, false);
-	GLOBAL.emit_signal("start_dialog", 10);
+	GLOBAL.start_dialog.emit(10);
 	update_cursor();
 
 func connect_signals() -> void:

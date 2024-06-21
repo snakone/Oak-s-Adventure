@@ -75,6 +75,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		ENUMS.BattleStates.ESCAPING: dialog.escape_input();
 
 func battle_wild() -> void:
+	AUDIO.play_battle_wild();
 	anim_player.play("Start");
 	await BATTLE.dialog_finished;
 	anim_player.play("Go");
@@ -370,7 +371,7 @@ func _on_selection_value_select(
 	value: int,
 	id: ENUMS.SelectionCategory
 ) -> void:
-	if(id != ENUMS.SelectionCategory.BINARY): return;
+	if(id != ENUMS.SelectionCategory.BATTLE): return;
 	dialog.set_current_text("");
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 	match value:
@@ -451,7 +452,10 @@ func handle_can_use_pokemon() -> void:
 	dialog.next_pokemon(["Use next POKéMON?"]);
 	await BATTLE.dialog_finished;
 	await GLOBAL.timeout(0.1);
-	menu_selection.set_visibility(true);
+	menu_selection.set_visibility(true, {
+		"category": ENUMS.SelectionCategory.BATTLE,
+		"selected": ENUMS.BinaryOptions.YES
+	});
 	
 func handle_no_pokemon_left() -> void:
 	await GLOBAL.timeout(0.8);

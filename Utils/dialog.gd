@@ -463,4 +463,33 @@ const LIBRARY: Dictionary = {
 		"direction": ENUMS.Directions.UP,
 		"marker": true
 	},
+	54: {
+		"arr": [
+			["Hello, I am waiting for my girlfriend. We used\nto meet in this place at night"]
+		],
+		"type": Type.NPC,
+		"direction": ENUMS.Directions.ALL,
+		"marker": true
+	},
+	55: {
+		"arr": [
+			["I feel a bit tired. Lay on bed?"],
+		],
+		"type": Type.OBJECT,
+		"direction": ENUMS.Directions.RIGHT,
+		"marker": false,
+		"selection": {
+			"category": ENUMS.SelectionCategory.SLEEP,
+			"sound": preload("res://Assets/Sounds/confirm.wav"),
+			"selected": ENUMS.BinaryOptions.YES,
+		}
+	},
+	56: {
+		"arr": [
+			["Nice! I feel much better now!"],
+		],
+		"type": Type.NPC,
+		"direction": ENUMS.Directions.ALL,
+		"marker": true,
+	},
 }

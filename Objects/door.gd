@@ -48,7 +48,7 @@ func _on_body_entered(body) -> void:
 func check_direction() -> void:
 	if(door_open_direction != Vector2.ZERO):
 		can_be_opened = door_open_direction == GLOBAL.last_direction && (
-			next_scene != "" || shared);
+			next_scene != "" || shared); #OUT
 
 #ENTER
 func enter_house() -> void:
@@ -57,13 +57,16 @@ func enter_house() -> void:
 	if(shared && type == ENUMS.DoorType.OUT): 
 		next_scene = MAPS.get_next_map();
 		MAPS.reset_npc_shared_list();
+		MAPS.on_shared_scene = false;
 	#GO TO SCENE
 	if(next_scene != ""):
 		if(type == ENUMS.DoorType.IN): 
 			MAPS.last_map = MAPS.get_map_name(true);
-			if(shared): MAPS.npc_shared_list = npc_list;
+			if(shared): 
+				MAPS.npc_shared_list = npc_list;
+				MAPS.on_shared_scene = true;
 		GLOBAL.last_used_door = self.name;
-		get_node("/root/SceneManager").transition_to_scene(next_scene);
+		GLOBAL.go_to_scene(next_scene);
 
 func check_close_animation() -> void:
 	if(GLOBAL.last_used_door == self.name && type == ENUMS.DoorType.IN):

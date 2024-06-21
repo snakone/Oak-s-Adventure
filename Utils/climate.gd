@@ -19,9 +19,13 @@ func _on_timeout() -> void:
 	var should_change_to_day = range_day && GLOBAL.current_time_of_day != ENUMS.Climate.DAY;
 	var should_change_to_night = range_night && GLOBAL.current_time_of_day != ENUMS.Climate.NIGHT;
 
-	if(should_change_to_day):
+	if(should_change_to_day): change_to_day();
+	elif(should_change_to_night): change_to_night();
+
+func change_to_day() -> void:
 		GLOBAL.current_time_of_day = ENUMS.Climate.DAY;
 		GLOBAL.emit_signal("time_of_day_changed", ENUMS.Climate.DAY);
-	elif(should_change_to_night):
+
+func change_to_night() -> void:
 		GLOBAL.current_time_of_day = ENUMS.Climate.NIGHT;
 		GLOBAL.emit_signal("time_of_day_changed", ENUMS.Climate.NIGHT);

@@ -21,7 +21,7 @@ enum SaveType { PLAYER, SCENE, PARTY, BOXES, NPC, POKEDEX }
 enum DoorType { IN, OUT }
 enum BinaryOptions { YES, NO }
 enum DoorCategory { DOOR, TUNNEL }
-enum SelectionCategory { BINARY, HEAL }
+enum SelectionCategory { BINARY, HEAL, SLEEP, BATTLE }
 enum NPCStates { MOVING, IDLE }
 enum Climate { DAY, NIGHT }
 

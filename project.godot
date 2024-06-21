@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Oak's Adventure"
 config/description="Pokémon Ruby & Shappire inspired Game"
-config/version="0.5.5"
+config/version="0.5.6"
 run/main_scene="res://scene_manager.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 

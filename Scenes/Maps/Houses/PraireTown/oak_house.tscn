@@ -59,3 +59,7 @@ position = Vector2(112, 0)
 texture = ExtResource("8_cfj3g")
 offset_sprite = Vector2(2, -13)
 on_top = true
+
+[node name="Sleep" parent="." instance=ExtResource("6_2lk47")]
+position = Vector2(208, 0)
+dialog_id = 55

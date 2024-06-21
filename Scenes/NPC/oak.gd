@@ -16,11 +16,12 @@ const BIKE_SPEED = 6;
 @onready var dialog_rays = [npc_ray_cast_2d, object_ray_cast_2d];
 
 @onready var audio = $AudioStreamPlayer;
-@onready var anim_player = $AnimationPlayer;
 @onready var playback = anim_tree.get("parameters/playback");
 
 const bike_texture = preload("res://Sprites/oak_bike.png");
 const oak_texture = preload("res://Sprites/oak_sprite.png");
+const SLEEP_TIME = 5;
+var sleep_scene = "res://Scenes/Miscellania/sleep_scene.tscn";
 enum PlayerState { IDLE, TURNING, WALKING };
 
 #DATA
@@ -34,11 +35,11 @@ var battle_data: Dictionary;
 #STATES
 var jumping_over_ledge = false;
 var is_moving: bool = false;
-var sit_on_chair = false;
 var stuck_on_door = false;
 var stop = false;
 var ready_to_battle = false;
 var can_talk = false;
+var sleeping = false;
 
 #OBJECTS
 var chair_direction: Vector2;
@@ -60,7 +61,8 @@ func _physics_process(delta) -> void:
 		player_state == PlayerState.TURNING || 
 		GLOBAL.dialog_open || 
 		GLOBAL.on_overlay ||
-		GLOBAL.menu_open
+		GLOBAL.menu_open ||
+		sleeping
 	): return;
 	elif(!is_moving && !GLOBAL.on_transition): process_player_input();
 	elif(input_direction != Vector2.ZERO && !stuck_on_door): move(delta);
@@ -81,14 +83,8 @@ func process_player_input() -> void:
 			await GLOBAL.timeout(1);
 			stuck_on_door = false;
 			return;
-		#SIT ON CHAIR
-		if(
-			sit_on_chair && 
-			block_ray_cast_2d.is_colliding() && 
-			input_direction == chair_direction
-		): return;
 		#TURN
-		if(GLOBAL.need_to_turn(input_direction) && !sit_on_chair):
+		if(GLOBAL.need_to_turn(input_direction)):
 			player_state = PlayerState.TURNING;
 			playback.travel("Turn");
 		#DEFAULT
@@ -96,7 +92,7 @@ func process_player_input() -> void:
 			start_position = position;
 			is_moving = true;
 			GLOBAL.emit_signal("player_moving", true);
-	elif(!sit_on_chair): playback.travel("Idle");
+	else: playback.travel("Idle");
 
 func set_direction() -> void:
 	if(input_direction.y == 0): 
@@ -181,7 +177,7 @@ func _on_get_on_bike(value: bool):
 func _on_bike_inside() -> void:
 	playback.travel("Idle");
 	reset_moving();
-	GLOBAL.emit_signal("start_dialog", 13);
+	GLOBAL.start_dialog.emit(13);
 
 func get_on_bike():
 	AUDIO.play_bike();
@@ -201,8 +197,6 @@ func get_off_bike(stop_sound = true):
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if("Door" in area.name && area.can_be_opened): 
 		_on_enter_door_animation(area);
-	elif("Chair" in area.name): 
-		_on_sit_on_chair_animation(area);
 	elif("TalkArea" in area.name || "DialogArea" in area.name): 
 		_on_talk_area_entered(area);
 
@@ -214,8 +208,7 @@ func _on_talk_area_entered(object: Area2D) -> void:
 	area_types.push_front(dialog_data.type);
 
 func _on_area_2d_area_exited(area: Area2D) -> void:
-	if("Chair" in area.name): sit_on_chair = false;
-	elif("TalkArea" in area.name || "DialogArea" in area.name): 
+	if("TalkArea" in area.name || "DialogArea" in area.name): 
 		can_talk = false;
 		area_types = [DIALOG.Type.NONE];
 
@@ -274,9 +267,6 @@ func check_for_battle() -> void:
 		playback.travel("Idle");
 		stop = true;
 		await GLOBAL.timeout(.4);
-		#AUDIO
-		match(battle_data.type):
-			ENUMS.BattleType.WILD: AUDIO.play_battle_wild();
 		#START
 		GLOBAL.emit_signal("start_battle", battle_data);
 		call_deferred("set_process", Node.PROCESS_MODE_DISABLED);
@@ -325,15 +315,30 @@ func _on_cant_enter_door(_area: Area2D) -> void:
 	position = start_position;
 	start_dialog_state(12);
 
-#CHAIR
-func _on_sit_on_chair_animation(area: Area2D) -> void:
-	await GLOBAL.timeout(.2);
-	if(is_moving): return;
-	chair_direction = area.sit_direction;
-	set_blend_direction(chair_direction);
-	playback.travel("Chair");
-	sit_on_chair = true;
+#SELECTION
+func _on_selection_value_select(
+	value: ENUMS.BinaryOptions,
+	category: ENUMS.SelectionCategory
+) -> void:
+	if(value == ENUMS.BinaryOptions.NO): return;
+	match category:
+		ENUMS.SelectionCategory.SLEEP: handle_sleep()
 
+#SLEEP ZZZ
+func handle_sleep() -> void:
+	sleeping = true;
+	playback.travel("SleepFromLeft");
+	await GLOBAL.timeout(1);
+	GLOBAL.go_to_scene(sleep_scene, true, false);
+	await GLOBAL.timeout(SLEEP_TIME);
+	PARTY.healh_party_pokemon();
+	playback.travel("WakeToLeft");
+	await GLOBAL.timeout(1);
+	GLOBAL.start_dialog.emit(56);
+	await GLOBAL.close_dialog;
+	sleeping = false;
+	set_blend_direction(GLOBAL.DIRECTIONS[ENUMS.Directions.LEFT]);
+	
 #SAVE
 func save() -> Dictionary:
 	var data := {
@@ -363,13 +368,6 @@ func check_load_from_file():
 		GLOBAL.current_money = data["money"];
 
 #UTILS
-func connect_signals() -> void:
-	GLOBAL.connect("cant_enter_door", _on_cant_enter_door);
-	GLOBAL.connect("menu_opened", _on_menu_opened);
-	GLOBAL.connect("get_on_bike", _on_get_on_bike);
-	GLOBAL.connect("bike_inside", _on_bike_inside);
-	GLOBAL.connect("close_battle", _on_end_battle);
-
 func set_blend_direction(direction: Vector2) -> void:
 	for path in GLOBAL.blends: anim_tree.set(path, direction);
 
@@ -397,3 +395,11 @@ func finished_turning() -> void: player_state = PlayerState.IDLE;
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;
 	audio.play();
+
+func connect_signals() -> void:
+	GLOBAL.connect("cant_enter_door", _on_cant_enter_door);
+	GLOBAL.connect("menu_opened", _on_menu_opened);
+	GLOBAL.connect("get_on_bike", _on_get_on_bike);
+	GLOBAL.connect("bike_inside", _on_bike_inside);
+	GLOBAL.connect("close_battle", _on_end_battle);
+	GLOBAL.connect("selection_value_select", _on_selection_value_select);

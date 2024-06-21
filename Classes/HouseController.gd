@@ -22,6 +22,7 @@ func _ready():
 	if(MAPS.must_flip_sprite): direction *= -1;
 	oak.set_blend_direction(direction);
 	MAPS.must_flip_sprite = false;
+	show_visit_panel();
 
 func set_camera() -> void:
 	var size: Vector2 = tilemap.get_used_rect().size;
@@ -42,3 +43,6 @@ func create_npc(npc: Dictionary) -> void:
 		for key in npc.keys():
 			scene.set(key, npc[key])
 		call_deferred("add_child", scene);
+
+func show_visit_panel(delay: float = 0.0) -> void:
+	GLOBAL.emit_signal("visit_panel", self.name, delay);

@@ -66,7 +66,7 @@ func set_marker() -> void:
 func open_party() -> void:
 	BATTLE.state = ENUMS.BattleStates.NONE;
 	GLOBAL.on_overlay = true;
-	scene_manager.transition_to_scene(party_screen_path, true, false)
+	GLOBAL.go_to_scene(party_screen_path, true, false)
 
 func _on_pokemon_select_party(_name) -> void:
 	dialog_label.text = "";

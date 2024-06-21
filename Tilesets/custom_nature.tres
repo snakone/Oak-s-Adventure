@@ -584,6 +584,7 @@ texture = ExtResource("3_nydhq")
 36:8/0/y_sort_origin = 1
 36:8/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 36:8/0/physics_layer_0/angular_velocity = 0.0
+36:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 8, 8, 8, 8, 24, -8, 24)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mbsa8"]
 texture = ExtResource("4_fqc51")

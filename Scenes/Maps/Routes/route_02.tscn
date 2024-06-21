@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://d2g4ik02vopjf"]
+[gd_scene load_steps=16 format=3 uid="uid://d2g4ik02vopjf"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/Routes/route_02.gd" id="1_u0jk8"]
 [ext_resource type="AudioStream" uid="uid://diqgw4biy1o7s" path="res://Assets/Sounds/Route02.ogg" id="2_mjqvb"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://cumbmhk511bu0" path="res://Objects/Animated/reflection.tscn" id="12_yy10r"]
 [ext_resource type="Texture2D" uid="uid://lxiejt48txrq" path="res://Sprites/Animated/Water Reflections/2x4_rock.png" id="13_2osby"]
 [ext_resource type="Texture2D" uid="uid://cxbafy18bad1p" path="res://Sprites/Animated/Water Reflections/3x6_rock.png" id="14_wjoh6"]
+[ext_resource type="Texture2D" uid="uid://cp7xtnvcaixri" path="res://Sprites/NPC/lonely_guy.png" id="15_d2to0"]
 
 [node name="Route02" type="Node2D"]
 y_sort_enabled = true
@@ -37,7 +38,6 @@ position = Vector2(144, 464)
 texture = ExtResource("10_hy55j")
 possitive_limits = Vector2(1, 1)
 negative_limits = Vector2(-1, -2)
-interval = 4.0
 dialog_id = 40
 
 [node name="Doors" type="Node2D" parent="."]
@@ -85,6 +85,15 @@ light_texture = ExtResource("14_wjoh6")
 [node name="PointLight2D" parent="Reflection2" index="1"]
 position = Vector2(368, 180)
 texture = ExtResource("14_wjoh6")
+
+[node name="LonelyGuy" parent="." instance=ExtResource("9_t442b")]
+position = Vector2(400, 336)
+texture = ExtResource("15_d2to0")
+frames = 4
+state = 1
+interval = 5.0
+dialog_id = 54
+schedule = 1
 
 [editable path="Reflection"]
 [editable path="Reflection2"]

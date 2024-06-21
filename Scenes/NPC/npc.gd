@@ -12,6 +12,7 @@ extends StaticBody2D
 @export var interval: float = 1.0;
 @export var dialog_id = 1;
 @export var sprite_offset = Vector2(0, -4);
+@export var schedule: ENUMS.Climate = ENUMS.Climate.DAY;
 
 @onready var block_ray_cast_2d = $BlockRayCast2D;
 @onready var timer = $Timer;
@@ -26,6 +27,7 @@ var is_player_moving = false;
 var dialog_data: Dictionary;
 
 func _ready() -> void:
+	if(schedule != GLOBAL.current_time_of_day): queue_free();
 	connect_signals();
 	assign_npc();
 	timer.start();
@@ -40,10 +42,17 @@ func assign_npc() -> void:
 
 func _on_timer_timeout() -> void:
 	if(is_talking): return;
-	randomize(); 
-	var random_int: int = randi_range(0, ENUMS.NPCDirections.size() - 1);
 	
-	match random_int:
+	match state:
+		ENUMS.NPCStates.MOVING:
+			randomize(); 
+			var random_int: int = randi_range(0, ENUMS.NPCDirections.size() - 1);
+			handle_moving(random_int);
+			handle_idle(random_int);
+		ENUMS.NPCStates.IDLE: handle_idle(null);
+		
+func handle_moving(random: int) -> void:
+	match random:
 		ENUMS.NPCDirections.WALK_LEFT: 
 			if(can_left && state == ENUMS.NPCStates.MOVING): 
 				handle_direction(Vector2.LEFT);
@@ -56,6 +65,12 @@ func _on_timer_timeout() -> void:
 		ENUMS.NPCDirections.WALK_DOWN: 
 			if(can_down && state == ENUMS.NPCStates.MOVING): 
 				handle_direction(Vector2.DOWN);
+	
+func handle_idle(random: Variant) -> void:
+	if(random == null):
+		randomize(); 
+		random = randi_range(4, ENUMS.NPCDirections.size() - 1);
+	match random:
 		ENUMS.NPCDirections.LOOK_DOWN: if(can_down): sprite.frame = 0;
 		ENUMS.NPCDirections.LOOK_UP: if(can_up): sprite.frame = 1;
 		ENUMS.NPCDirections.LOOK_LEFT: if(can_left): sprite.frame = 2;

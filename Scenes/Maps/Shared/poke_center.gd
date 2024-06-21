@@ -18,11 +18,6 @@ func _ready() -> void:
 	party_size = party.size();
 	GLOBAL.connect("selection_value_select", _on_selection_value_select);
 
-func check_out_scene() -> void:
-	if(self.name in LIBRARIES.MAPS.CONNECTIONS &&
-		MAPS.last_map in LIBRARIES.MAPS.CONNECTIONS[self.name]): 
-			poke_center_door.spawn_position = LIBRARIES.MAPS.CONNECTIONS[self.name][MAPS.last_map];
-
 func handle_heal() -> void:
 	if(GLOBAL.healing): return;
 	GLOBAL.healing = true;
@@ -61,3 +56,8 @@ func _on_selection_value_select(value: int, category) -> void:
 	if(category != ENUMS.SelectionCategory.HEAL): return;
 	match value:
 		int(ENUMS.BinaryOptions.YES): handle_heal();
+
+func check_out_scene() -> void:
+	if(self.name in LIBRARIES.MAPS.CONNECTIONS &&
+		MAPS.last_map in LIBRARIES.MAPS.CONNECTIONS[self.name]): 
+			poke_center_door.spawn_position = LIBRARIES.MAPS.CONNECTIONS[self.name][MAPS.last_map];

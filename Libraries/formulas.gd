@@ -1,5 +1,7 @@
 extends Node
 
+const DEFAULT_CRITICAL = 1;
+
 #STATS
 func stat_formula(
 	base: int,
@@ -19,7 +21,7 @@ func damage_formula(enemy: Object, move: Dictionary, data: Dictionary) -> int:
 	var DEF_stat: int;
 	var _ATK_bonus = 0;
 	var _DEF_bonus = 0;
-	var CRIT_rate: float = get_critical_chance(5);
+	var CRIT_rate: float = get_critical_chance(DEFAULT_CRITICAL);
 	var CRIT_stat = 1.0;
 	var STAB: float = 1.0;
 	var burned = 1;

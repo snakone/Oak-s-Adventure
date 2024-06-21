@@ -23,5 +23,4 @@ func check_direction():
 		can_be_entered = next_scene_directon == GLOBAL.last_direction;
 
 func enter_scene():
-	if(next_scene):
-		get_node("/root/SceneManager").transition_to_scene(next_scene, false);
+	if(next_scene): GLOBAL.go_to_scene(next_scene, false);

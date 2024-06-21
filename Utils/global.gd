@@ -63,6 +63,12 @@ const blends = [
 	'parameters/Move/blend_position', 
 	'parameters/Turn/blend_position'];
 
+func go_to_scene(
+	next_scene: String,
+	animated = true,
+	remove = true
+): get_node("/root/SceneManager").transition_to_scene(next_scene, animated, remove);
+
 func need_to_turn(input_direction: Vector2) -> bool:
 	var new_facing_direction;
 	if(input_direction.x < 0): new_facing_direction = ENUMS.FacingDirection.LEFT

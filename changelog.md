@@ -55,3 +55,8 @@
 - Shared NPC
 - Dialog Responses
 - Route 02
+
+# 0.5.6
+- Pokédex List
+- Water Reflection
+- Night/Day + Lights
