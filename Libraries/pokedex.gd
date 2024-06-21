@@ -63,6 +63,7 @@ var LIST: Array = [
 			"value": "Seed",
 			"height": "2'04\"",
 			"weight": "15.2 lbs.",
+			"footprint": preload("res://Assets/UI/Pokemon/bulbasaur/footprint.png"),
 			"description": "There is a plant seed on its back right from the day this POKéMON is born. The seed slowly grows larger."
 		},
 		"display": {
@@ -111,6 +112,7 @@ var LIST: Array = [
 			"value": "Seed",
 			"height": "3'03\"",
 			"weight": "28.7 lbs.",
+			"footprint": preload("res://Assets/UI/Pokemon/ivysaur/footprint.png"),
 			"description": "There is a plant bulb on its back. When it absorbs nutrients, the bulb is said to blossom into a large flower."
 		},
 		"display": {
@@ -157,6 +159,7 @@ var LIST: Array = [
 			"value": "Lizard",
 			"height": "2'00\"",
 			"weight": "18.7 lbs.",
+			"footprint": preload("res://Assets/UI/Pokemon/charmander/footprint.png"),
 			"description": "From the time it is born, a flame burns at the tip of its tail. Its life would end if the flame were to go out."
 		},
 		"display": {
@@ -203,6 +206,7 @@ var LIST: Array = [
 			"value": "Tiny Turle",
 			"height": "1'08\"",
 			"weight": "19.8 lbs.",
+			"footprint": preload("res://Assets/UI/Pokemon/squirtle/footprint.png"),
 			"description": "Its shell is not just for protection. Its rounded shape and the grooves on its surface minimize resistance in water, enabling SQUIRTLE to swim at high speeds."
 		},
 		"display": {
@@ -251,6 +255,7 @@ var LIST: Array = [
 			"value": "Poison Bee",
 			"height": "3'03\"",
 			"weight": "65.0 lbs.",
+			"footprint": preload("res://Assets/UI/Pokemon/beedrill/footprint.png"),
 			"description": "It can take down any opponent with its powerful poison stingers. It sometimes attacks in swarms."
 		},
 		"display": {
@@ -297,6 +302,7 @@ var LIST: Array = [
 			"value": "Tiny Bird",
 			"height": "1'00\"",
 			"weight": "4.0 lbs.",
+			"footprint": preload("res://Assets/UI/Pokemon/pidgey/footprint.png"),
 			"description": "It has an extremely sharp sense of direction. It can unerringly return home to its nest, however far it may be removed from its familiar surroundings."
 		},
 		"display": {
@@ -343,6 +349,7 @@ var LIST: Array = [
 			"value": "Mouse",
 			"height": "1'00\"",
 			"weight": "7.7 lbs.",
+			"footprint": preload("res://Assets/UI/Pokemon/rattata/footprint.png"),
 			"description": "Living wherever there is food available, it ceaselessly scavenges for edibles the entire day."
 		},
 		"display": {
@@ -389,6 +396,7 @@ var LIST: Array = [
 			"value": "Mouse",
 			"height": "1'04\"",
 			"weight": "13.2 lbs.",
+			"footprint": preload("res://Assets/UI/Pokemon/pikachu/footprint.png"),
 			"description": "It stores electricity in the electric sacs on its cheeks. When it releases pent-up energy in a burst, the electric power is equal to a lightning bolt."
 		},
 		"display": {
@@ -435,6 +443,7 @@ var LIST: Array = [
 			"value": "Rock",
 			"height": "1'04\"",
 			"weight": "44.1 lbs.",
+			"footprint": preload("res://Assets/UI/Pokemon/geodude/footprint.png"),
 			"description": "It climbs mountain paths using only the power of its arms. Because they look just like boulders lining paths, hikers may step on them without noticing."
 		},
 		"display": {
@@ -481,6 +490,7 @@ var LIST: Array = [
 			"value": "Dragon",
 			"height": "1'04\"",
 			"weight": "17.6 lbs.",
+			"footprint": preload("res://Assets/UI/Pokemon/horsea/footprint.png"),
 			"description": "By cleverly flicking the fins on its back side to side, it moves in any direction while facing forward. It spits ink to escape if it senses danger.",
 		},
 		"display": {
@@ -527,6 +537,7 @@ var LIST: Array = [
 			"value": "Rainbow",
 			"height": "12'06\"",
 			"weight": "438.7 lbs.",
+			"footprint": preload("res://Assets/UI/Pokemon/ho-oh/footprint.png"),
 			"description": "Its feathers--which glow in seven colors depending on the angle at which they are struck by light--are thought to bring joy. It is said to live at the foot of a rainbow.",
 		},
 		"display": {
@@ -573,6 +584,7 @@ var LIST: Array = [
 			"value": "Sky High",
 			"height": "23'00\"",
 			"weight": "455.3 lbs.",
+			"footprint": preload("res://Assets/UI/Pokemon/rayquaza/footprint.png"),
 			"description": "A POKéMON that flies endlessly in the ozone layer. It is said it would descend to the ground if KYOGRE and GROUDON were to fight."
 		},
 		"display": {
@@ -580,16 +592,16 @@ var LIST: Array = [
 				"battle": Vector2(0, -10),
 				"box": Vector2(-30, -30),
 				"pokedex": {
-					"front": Vector2.ZERO,
-					"back": Vector2.ZERO
+					"front": Vector2(-34, -18),
+					"back": Vector2(-12, -23)
 				}
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
 				"box": Vector2(0.6, 0.6),
 				"pokedex": {
-					"front": Vector2(0.8, 0.8),
-					"back": Vector2(0.8, 0.8)
+					"front": Vector2(0.6, 0.6),
+					"back": Vector2(0.58, 0.58)
 				}
 			}
 		},

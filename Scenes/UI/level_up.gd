@@ -1,6 +1,7 @@
 extends NinePatchRect;
 
 var stats: Dictionary;
+var IVs: Dictionary;
 
 @onready var audio: AudioStreamPlayer = $AudioStreamPlayer;
 @onready var anim_player: AnimationPlayer = $AnimationPlayer;
@@ -15,18 +16,19 @@ var stats: Dictionary;
 }
 
 func show_panel(
-	battle_stats: Dictionary,
-	battle_diff_stats: Dictionary
+	data: Dictionary,
+	diff_stats: Dictionary,
 ) -> void:
 	anim_player.play("RESET");
-	stats = battle_stats;
-	for key in battle_diff_stats.keys():
-		plus_values[key].text = "+" + str(battle_diff_stats[key]);
+	stats = data.battle_stats;
+	IVs = data.IV;
+	for key in data.IV.keys():
+		plus_values[key].text = "+" + str(diff_stats[key]);
 	visible = true;
 
 func show_total_stats() -> void:
 	anim_player.play("DefaultColor");
-	for key in stats.keys():
+	for key in IVs.keys():
 		plus_values[key].text = str(stats[key]);
 	BATTLE.can_close_level_up_panel = true;
 

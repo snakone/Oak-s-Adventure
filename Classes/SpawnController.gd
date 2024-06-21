@@ -21,6 +21,7 @@ func _ready():
 	if(MAPS.spawn_position):
 		oak.position = MAPS.spawn_position;
 		MAPS.spawn_position = null;
+		show_visit_panel(0.5);
 		return;
 	#COMING FROM SCENE
 	if(MAPS.position_before_scene && MAPS.last_map != null):
@@ -29,7 +30,10 @@ func _ready():
 			self.name in LIBRARIES.MAPS.CONNECTIONS[MAPS.last_map] &&
 			MAPS.position_before_scene in LIBRARIES.MAPS.CONNECTIONS[MAPS.last_map][name]
 		):
-			oak.position = LIBRARIES.MAPS.CONNECTIONS[MAPS.last_map][name][MAPS.position_before_scene];
+			var map_position = LIBRARIES.MAPS.CONNECTIONS[MAPS.last_map];
+			oak.position = map_position[name][MAPS.position_before_scene];
+			
+	show_visit_panel();
 
 func create_climate(size: Vector2) -> void:
 	var time = Time.get_time_dict_from_system();
@@ -51,3 +55,6 @@ func _on_climate_change(time: ENUMS.Climate) -> void:
 	for light in nodes:
 		light.visible = time == ENUMS.Climate.NIGHT;
 	climate_canvas.visible = time == ENUMS.Climate.NIGHT;
+
+func show_visit_panel(delay: float = 0.0) -> void:
+	GLOBAL.emit_signal("visit_panel", self.name, delay);

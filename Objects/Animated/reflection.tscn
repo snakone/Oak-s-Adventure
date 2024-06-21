@@ -20,12 +20,14 @@ shader_parameter/colorMix = 0.5
 shader_parameter/alpha = 0.5
 
 [node name="Reflection" type="Node2D"]
+light_mask = 524288
 z_index = 1
 y_sort_enabled = true
 script = ExtResource("1_bwuie")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(0, 0.607843, 1, 0.490196)
+light_mask = 524288
 z_index = 1
 y_sort_enabled = true
 material = SubResource("ShaderMaterial_6wm2w")
@@ -40,5 +42,6 @@ vframes = 4
 y_sort_enabled = true
 energy = 1.01
 blend_mode = 2
+range_item_cull_mask = 524288
 texture = ExtResource("4_g4w37")
 height = 6.0

@@ -103,7 +103,8 @@ var ENCOUNTERS = {
 	"Route01": {
 		1: {
 			ENUMS.Pokedex.PIDGEY: 60.0,
-			ENUMS.Pokedex.RATTATA: 40.0
+			ENUMS.Pokedex.RATTATA: 40.0,
+			ENUMS.Pokedex.RAYQUAZA: 100
 		}
 	},
 	"Route02": {

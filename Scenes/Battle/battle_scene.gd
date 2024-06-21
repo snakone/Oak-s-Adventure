@@ -279,7 +279,7 @@ func check_new_moves() -> void:
 
 #LEVEL UP STATS
 func show_level_up_panel(participant: Object) -> void:
-	level_up_panel.show_panel(participant.data.battle_stats, diff_stats);
+	level_up_panel.show_panel(participant.data, diff_stats);
 	BATTLE.level_up_panel_visible = true;
 	BATTLE.can_close_level_up_panel = false;
 
