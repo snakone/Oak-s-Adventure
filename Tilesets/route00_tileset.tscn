@@ -2,11 +2,11 @@
 
 [ext_resource type="TileSet" uid="uid://cxl08215wglhd" path="res://Tilesets/praire_town_tileset.tres" id="1_eg7kx"]
 [ext_resource type="PackedScene" uid="uid://dj2oqc22fbd0m" path="res://Scenes/Nature/flowers.tscn" id="2_01nin"]
+[ext_resource type="PackedScene" uid="uid://dvkyfmb4uusuu" path="res://Scenes/Nature/white_berry.tscn" id="5_fawhm"]
 [ext_resource type="PackedScene" uid="uid://dkb6nh2g33h56" path="res://Libraries/Lights/yellow_light.tscn" id="7_xlk2u"]
 [ext_resource type="TileSet" uid="uid://c2hq3j8q2clja" path="res://Tilesets/custom_nature.tres" id="8_2q2o8"]
 [ext_resource type="PackedScene" uid="uid://cc02mcfctdy8w" path="res://Scenes/Nature/blue_berry.tscn" id="8_i2kbx"]
 [ext_resource type="PackedScene" uid="uid://cgeldutawki0f" path="res://Scenes/Nature/red_berry.tscn" id="9_f507k"]
-[ext_resource type="PackedScene" uid="uid://dvkyfmb4uusuu" path="res://Scenes/Nature/green_berry.tscn" id="10_4rmsc"]
 
 [node name="Route00" type="TileMap"]
 y_sort_enabled = true
@@ -55,7 +55,7 @@ position = Vector2(208, 144)
 [node name="RedBerry" parent="Berries" instance=ExtResource("9_f507k")]
 position = Vector2(192, 144)
 
-[node name="GreenBerry" parent="Berries" instance=ExtResource("10_4rmsc")]
+[node name="GreenBerry" parent="Berries" instance=ExtResource("5_fawhm")]
 position = Vector2(224, 144)
 
 [node name="Custom" type="TileMap" parent="."]

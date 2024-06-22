@@ -195,7 +195,7 @@ func set_hp_anim_duration(damage: int, enemy: Object) -> void:
 	BATTLE.emit_signal("hp_bar_anim_duration", total * 1.1);
 
 #BASE STATS
-func get_base_stats() -> void: 
+func get_base_stats() -> void:
 	data.stats = POKEDEX.get_pokemon_prop(data.number, "stats");
 
 #RESOURCES

@@ -19,3 +19,8 @@ const MAIN_BACKGROUND_SWITCH = preload("res://Assets/UI/main_pokemon_background_
 const RED_BAR = preload("res://Assets/UI/red_bar.png");
 const YELLOW_BAR = preload("res://Assets/UI/yellow_bar.png");
 const GREEN_BAR = preload("res://Assets/UI/green_bar.png");
+
+#BAG
+const TITLE_ITEMS = preload("res://Assets/UI/Bag/title_items.png");
+const TITLE_KEY = preload("res://Assets/UI/Bag/title_key.png");
+const TITLE_POKEBALL = preload("res://Assets/UI/Bag/title_pokeball.png");

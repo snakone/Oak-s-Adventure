@@ -11,10 +11,9 @@ enum MenuOptions { POKEDEX, PARTY, BAG, OAK, SAVE, OPTIONS, EXIT }
 const party_screen_path = "res://Scenes/UI/party_screen.tscn";
 const pokedex_screen_path = "res://Scenes/UI/pokedex_screen.tscn";                                                      
 const save_scene_path = "res://Scenes/UI/save_scene.tscn";
-const party_screen_node =  "CurrentScene/PartyScreen";
-const save_scene_node =  "CurrentScene/SaveScene";
 const profile_scene_path = "res://Scenes/UI/profile.tscn";
 const profile_scene_node = "CurrentScene/Profile";
+const bag_screen_path = "res://Scenes/UI/bag_screen.tscn";
 
 var options_length = MenuOptions.keys().size();
 var selected_option = 0;
@@ -81,6 +80,7 @@ func select_option() -> void:
 	match(selected_option):
 		MenuOptions.POKEDEX: open_pokedex()
 		MenuOptions.PARTY: open_party()
+		MenuOptions.BAG: open_bag()
 		MenuOptions.OAK: open_profile()
 		MenuOptions.SAVE: handle_save()
 		MenuOptions.EXIT: close_menu()
@@ -103,7 +103,7 @@ func open_pokedex() -> void:
 	play_audio(LIBRARIES.SOUNDS.GUI_POKEDEX_OPEN);
 	await audio.finished;
 	control.visible = false;
-	scene_manager.transition_to_scene(pokedex_screen_path, true, false);
+	GLOBAL.go_to_scene(pokedex_screen_path, true, false);
 
 #PARTY
 func open_party() -> void:
@@ -115,13 +115,7 @@ func open_party() -> void:
 	if(!GLOBAL.on_battle):
 		control.visible = false;
 		process_mode = Node.PROCESS_MODE_DISABLED;
-	scene_manager.transition_to_scene(party_screen_path, true, false);
-
-func _on_scene_opened(value: bool, node_name: String) -> void:
-	#CLOSED
-	if(GLOBAL.on_overlay || value): return;
-	if(!GLOBAL.on_battle && GLOBAL.menu_open): activate_menu();
-	scene_manager.get_node(node_name).queue_free();
+	GLOBAL.go_to_scene(party_screen_path, true, false);
 
 #PROFILE
 func open_profile() -> void:
@@ -130,9 +124,27 @@ func open_profile() -> void:
 	play_audio(LIBRARIES.SOUNDS.TRAINER_CARD_OPEN);
 	await audio.finished;
 	control.visible = false;
-	scene_manager.transition_to_scene(profile_scene_path, true, false);
+	GLOBAL.go_to_scene(profile_scene_path, true, false);
 	await GLOBAL.timeout(0.8)
 	can_use_menu = true;
+	
+#BAG
+func open_bag() -> void:
+	can_use_menu = false;
+	screen_loaded = ScreenLoaded.BAG;
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
+	await audio.finished;
+	if(GLOBAL.on_battle):
+		pass
+	control.visible = false;
+	process_mode = Node.PROCESS_MODE_DISABLED;
+	GLOBAL.go_to_scene(bag_screen_path, true, false);
+
+func _on_scene_opened(value: bool, node_name: String) -> void:
+	#CLOSED
+	if(GLOBAL.on_overlay || value): return;
+	if(!GLOBAL.on_battle && GLOBAL.menu_open): activate_menu();
+	scene_manager.get_node(node_name).queue_free();
 
 func close_profile() -> void:
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
@@ -165,7 +177,7 @@ func handle_save() -> void:
 	GLOBAL.menu_open = false;
 	screen_loaded = ScreenLoaded.NONE;
 	selected_option = MenuOptions.POKEDEX;
-	scene_manager.transition_to_scene(save_scene_path, false, false);
+	GLOBAL.go_to_scene(save_scene_path, false, false);
 	GLOBAL.start_dialog.emit(10);
 	update_cursor();
 

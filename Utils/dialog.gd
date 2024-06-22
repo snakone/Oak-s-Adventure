@@ -403,10 +403,10 @@ const LIBRARY: Dictionary = {
 	},
 	47: {
 		"arr": [
-			["How scary! Why is this in here?"],
+			["A statue of DRAGONITE, a mystic Dragon."],
 		],
 		"type": Type.OBJECT,
-		"direction": ENUMS.Directions.ALL,
+		"direction": ENUMS.Directions.UP,
 		"marker": true
 	},
 	48: {
@@ -465,7 +465,7 @@ const LIBRARY: Dictionary = {
 	},
 	54: {
 		"arr": [
-			["Hello, I am waiting for my girlfriend. We used\nto meet in this place at night"]
+			["Hello, I am waiting for my girlfriend. We used\nto meet in this place at night. Where's she?"]
 		],
 		"type": Type.NPC,
 		"direction": ENUMS.Directions.ALL,
@@ -487,6 +487,24 @@ const LIBRARY: Dictionary = {
 	56: {
 		"arr": [
 			["Nice! I feel much better now!"],
+		],
+		"type": Type.NPC,
+		"direction": ENUMS.Directions.ALL,
+		"marker": true,
+	},
+	57: {
+		"arr": [
+			["Calderock's Trainers Battleground."],
+		],
+		"type": Type.OBJECT,
+		"direction": ENUMS.Directions.UP,
+		"marker": true,
+	},
+	58: {
+		"arr": [
+			["I can\'t stop watching POKéMON battles! It\nreminds me of my childhood."],
+			["self: Hold my beer and watch carefully!"],
+			["Ohh, I will cheer for you. Good luck! Hehehe."]
 		],
 		"type": Type.NPC,
 		"direction": ENUMS.Directions.ALL,

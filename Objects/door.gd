@@ -13,6 +13,7 @@ extends Area2D
 @export var offset: Vector2 = Vector2.ZERO;
 @export var npc_list: Array[int] = [];
 @export var flip_after_enter = false;
+@export var muted = false;
 
 @onready var anim_player = $AnimationPlayer;
 @onready var sprite_2d = $Sprite2D;
@@ -36,12 +37,12 @@ func _on_body_entered(body) -> void:
 		if(type == ENUMS.DoorType.IN): audio.stream = DOOR_ENTER;
 		else:
 			audio.stream = DOOR_EXIT;
-			audio.play();
+			if(!muted): audio.play();
 			
 		#ANIMATED
 		if(animated): anim_player.play("Open");
 		else:
-			if(type == ENUMS.DoorType.IN): audio.play();
+			if(type == ENUMS.DoorType.IN && !muted): audio.play();
 			enter_house();
 	elif(!can_be_opened): GLOBAL.emit_signal("cant_enter_door", self);
 

@@ -15,15 +15,15 @@ enum PokedexIndexOptions {
 }
 
 enum Directions { LEFT, RIGHT, UP, DOWN, NONE, ALL }
-enum FacingDirection { LEFT, RIGHT, UP, DOWN };
+enum FacingDirection { DOWN, UP, LEFT, RIGHT };
 enum Genders { MALE, FEMALE }
-enum SaveType { PLAYER, SCENE, PARTY, BOXES, NPC, POKEDEX }
+enum SaveType { PLAYER, SCENE, PARTY, BOXES, NPC, POKEDEX, BAG }
 enum DoorType { IN, OUT }
 enum BinaryOptions { YES, NO }
 enum DoorCategory { DOOR, TUNNEL }
 enum SelectionCategory { BINARY, HEAL, SLEEP, BATTLE }
 enum NPCStates { MOVING, IDLE }
-enum Climate { DAY, NIGHT }
+enum Climate { DAY, NIGHT, ANY }
 
 enum Locations {
 	PRAIRE_TOWN,
@@ -118,9 +118,10 @@ enum NPCDirections {
 
 enum AbilityType {
 	SPAWN,
-	BATTLE,
+	AFTER_SELF_TURN,
 	AFTER_ENEMY_TURN,
-	
+	AFTER_HIT,
+	BEFORE_HIT
 }
 
 enum Ability {
@@ -197,4 +198,11 @@ enum Ability {
 	WATER_VEIL,
 	WHITE_SMOKE,
 	WONDER_GUARD
+}
+
+enum BagScreen { ITEMS, KEY, POKEBALL }
+
+enum Item {
+	POKEBALL,
+	GREATBALL
 }

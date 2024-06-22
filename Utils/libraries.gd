@@ -8,3 +8,4 @@ var MOVES = preload("res://Libraries/moves.gd").new();
 var IMAGES = preload("res://Libraries/images.gd").new();
 var BATTLE = preload("res://Libraries/battle.gd").new();
 var FORMULAS = preload("res://Libraries/formulas.gd").new();
+var ITEMS = preload("res://Libraries/items.gd").new();

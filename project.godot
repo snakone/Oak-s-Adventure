@@ -32,6 +32,7 @@ EXP="*res://Utils/experience.gd"
 BOXES="*res://Utils/boxes.gd"
 LIBRARIES="*res://Utils/libraries.gd"
 ENUMS="*res://Utils/enums.gd"
+BAG="*res://Utils/bag.gd"
 
 [display]
 

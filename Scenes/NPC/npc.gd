@@ -12,7 +12,8 @@ extends StaticBody2D
 @export var interval: float = 1.0;
 @export var dialog_id = 1;
 @export var sprite_offset = Vector2(0, -4);
-@export var schedule: ENUMS.Climate = ENUMS.Climate.DAY;
+@export var schedule: ENUMS.Climate = ENUMS.Climate.ANY;
+@export var facing_direction: ENUMS.FacingDirection = ENUMS.FacingDirection.DOWN;
 
 @onready var block_ray_cast_2d = $BlockRayCast2D;
 @onready var timer = $Timer;
@@ -27,16 +28,24 @@ var is_player_moving = false;
 var dialog_data: Dictionary;
 
 func _ready() -> void:
-	if(schedule != GLOBAL.current_time_of_day): queue_free();
+	check_schedule();
 	connect_signals();
 	assign_npc();
 	timer.start();
+
+func check_schedule() -> void:
+	if(
+		schedule != GLOBAL.current_time_of_day && 
+		schedule != ENUMS.Climate.ANY
+	): 
+		queue_free();
 
 func assign_npc() -> void:
 	sprite.hframes = frames
 	sprite.texture = texture;
 	sprite.offset = sprite_offset;
 	timer.wait_time = interval;
+	sprite.frame = int(facing_direction);
 	limits_possitive = position + (possitive_limits * GLOBAL.TILE_SIZE);
 	limits_negative = position + (negative_limits * GLOBAL.TILE_SIZE);
 
@@ -112,16 +121,14 @@ func _on_start_dialog(id: int) -> void:
 	dialog_data = pre_data;
 
 func _on_close_dialog() -> void:
-	await GLOBAL.timeout(.1);
 	#CHECK WHAT NPC DIALOG TO CLOSE
 	if(
 		"response" in dialog_data || 
 		(
 			"starter" in dialog_data && 
 			dialog_data.starter == dialog_id && 
-			!dialog_data["end"]
+			dialog_data["end"] == false
 		)): return;
-		
 	is_talking = false;
 	dialog_data = {};
 
