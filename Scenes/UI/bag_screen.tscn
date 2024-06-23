@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://btxhpuysydebb"]
+[gd_scene load_steps=15 format=3 uid="uid://btxhpuysydebb"]
 
 [ext_resource type="Script" path="res://Scenes/UI/bag_screen.gd" id="1_ktl1u"]
 [ext_resource type="Texture2D" uid="uid://cfbmw8r0x2btl" path="res://Assets/UI/Bag/bag_background_red.png" id="2_abwes"]
@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://baogl13wr704i" path="res://Assets/UI/Bag/title_items.png" id="4_76cw7"]
 [ext_resource type="Texture2D" uid="uid://dmt1sgwftqmcc" path="res://Assets/UI/Pokedex/pokedex_arrow_up.png" id="5_yh1hj"]
 [ext_resource type="Texture2D" uid="uid://dabmedes08vwg" path="res://Assets/UI/Pokedex/pokedex_arrow_down.png" id="6_svt0g"]
-[ext_resource type="PackedScene" uid="uid://1s62smgp6yrv" path="res://Scenes/UI/bag_item.tscn" id="7_kqvsc"]
 [ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="7_y72n4"]
 [ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="8_grt04"]
 [ext_resource type="FontFile" uid="uid://bqhxhi032wwfk" path="res://Assets/Fonts/power clear bold.ttf" id="9_j1b26"]
@@ -40,6 +39,30 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector2(12, 103), Vector2(9, 103), Vector2(12, 103)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ArrowUp:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(224, 18), Vector2(224, 15), Vector2(224, 18)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ArrowDown:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(224, 94), Vector2(224, 97), Vector2(224, 94)]
 }
 
 [sub_resource type="Animation" id="Animation_pvc3e"]
@@ -84,15 +107,16 @@ offset_bottom = 40.0
 texture = ExtResource("2_abwes")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-volume_db = -20.0
+volume_db = -3.905
 
 [node name="Items" type="Node2D" parent="."]
+visible = false
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Items"]
 offset_left = 96.0
 offset_top = 12.0
 offset_right = 226.0
-offset_bottom = 98.0
+offset_bottom = 88.0
 size_flags_vertical = 3
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
@@ -102,19 +126,14 @@ custom_minimum_size = Vector2(130, 86)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="BagItem" parent="Items/ScrollContainer/VBoxContainer" instance=ExtResource("7_kqvsc")]
-layout_mode = 2
-
-[node name="BagItem2" parent="Items/ScrollContainer/VBoxContainer" instance=ExtResource("7_kqvsc")]
-layout_mode = 2
-
 [node name="Pokeball" type="Node2D" parent="."]
+visible = false
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Pokeball"]
 offset_left = 96.0
 offset_top = 12.0
 offset_right = 226.0
-offset_bottom = 98.0
+offset_bottom = 88.0
 size_flags_vertical = 3
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
@@ -124,19 +143,14 @@ custom_minimum_size = Vector2(130, 86)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="BagItem" parent="Pokeball/ScrollContainer/VBoxContainer" instance=ExtResource("7_kqvsc")]
-layout_mode = 2
-
-[node name="BagItem2" parent="Pokeball/ScrollContainer/VBoxContainer" instance=ExtResource("7_kqvsc")]
-layout_mode = 2
-
 [node name="Key" type="Node2D" parent="."]
+visible = false
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Key"]
 offset_left = 96.0
 offset_top = 12.0
 offset_right = 226.0
-offset_bottom = 98.0
+offset_bottom = 88.0
 size_flags_vertical = 3
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
@@ -147,7 +161,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="BagSprite" type="Sprite2D" parent="."]
-position = Vector2(39, 67)
+position = Vector2(40, 67)
 texture = ExtResource("3_526gb")
 hframes = 3
 frame = 2
@@ -174,6 +188,16 @@ rotation = -1.5708
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("6_svt0g")
 
+[node name="ArrowUp" type="Sprite2D" parent="Arrows"]
+position = Vector2(224, 18)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("5_yh1hj")
+
+[node name="ArrowDown" type="Sprite2D" parent="Arrows"]
+position = Vector2(224, 94)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("6_svt0g")
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Arrows"]
 libraries = {
 "": SubResource("AnimationLibrary_kylpd")
@@ -189,7 +213,7 @@ offset_bottom = 154.0
 theme = ExtResource("7_y72n4")
 theme_override_colors/default_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0.156863, 0.156863, 0.156863, 1)
-theme_override_constants/line_separation = 5
+theme_override_constants/line_separation = 6
 theme_override_fonts/normal_font = ExtResource("8_grt04")
 theme_override_fonts/bold_font = ExtResource("9_j1b26")
 theme_override_font_sizes/normal_font_size = 10

@@ -56,7 +56,7 @@ var red_arrow_positions = {
 	Views.AREA: 226
 }
 
-var selected_option = int(ENUMS.PokedexIndexOptions.NUMERICAL);
+var selected_option = 0;
 var selected_view = int(Views.INDEX);
 var list_size: int;
 var showcase_size: int;
@@ -181,8 +181,7 @@ func handle_LEFT() -> void:
 	if(selected_option == 0): return;
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	right_or_left = true;
-	selected_option -= 5;
-	if(selected_option < 0): selected_option = 0;
+	selected_option = max(0, selected_option - 5);
 
 #INDEX VIEW
 func go_to_index() -> void:
@@ -237,17 +236,24 @@ func update_cursor() -> void:
 			if("cursor" in cursor_option): cursor.position = cursor_option.cursor;
 		Views.LIST:
 			var y_position = get_cursor_y(selected_option, showcase_size);
+			print("y: ", y_position)
 			if(y_position != 0.0): cursor.position = Vector2(5, y_position);
 
 func get_cursor_y(option: int, size: int) -> float:
-	if(option == 0): return 23.5
+	if(option == 0): return 23.5;
 	elif(size != 0):
+		print("option: ", option)
+		print("size: ", size)
+		
 		if(option < 5):
-			return (option % size) * 16 + 23.5;
-		elif option + 2 < size - 1: return 87.5;
-		elif option + 2 == size - 1: return 95.5;
-		elif option + 1 == size - 1: return 111.5;
-		elif option == size - 1: return 127.5;
+			return (option % size) * LIST_ITEM_HEIGHT + 23.5;
+		elif(size < 7 && option >= 5): return 103.5;
+		elif(size == 7 && option == 5): return 103.5;
+		elif(size == 7 && option == 6): return 119.5;
+		elif(option + 2 < size - 1): return 87.5;  
+		elif(option + 2 == size - 1): return 95.5;
+		elif(option + 1 == size - 1): return 111.5;
+		elif(option == size - 1): return 127.5;
 	return 0.0;
 
 func update_scroll() -> void:
@@ -264,10 +270,11 @@ func update_index_scroll() -> void:
 
 func update_list_scroll() -> void:
 	update_cursor();
-	if(selected_option + 2 > showcase.size() - 1 && !right_or_left): return;
+	if(selected_option + 2 > showcase_size - 1 && !right_or_left): return;
 	var scroll = get_scroll(selected_option);
+	print("scroll: ", scroll)
 	pokedex_container.scroll_vertical = scroll;
-	set_arrows(selected_option > 4, selected_option + 2 < showcase.size() - 1);
+	set_arrows(selected_option > 4, showcase_size > 7 && selected_option + 2 < showcase_size - 1);
 
 #ARROWS
 func update_arrow_position() -> void:
@@ -293,7 +300,7 @@ func get_scroll(selected: int) -> int:
 #CREATE POKEDEX SHOWCASE
 func create_pokedex() -> void:
 	if(pokedex_created): return;
-	for index in range(0, showcase.size()):
+	for index in range(0, showcase_size):
 		var poke = showcase[index];
 		var data = {};
 		var item = ITEM_scene.instantiate();

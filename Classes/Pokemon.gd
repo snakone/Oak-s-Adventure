@@ -15,6 +15,10 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 		if("death" not in data): data.death = false;
 		if("IV" not in data): data.IV = set_random_IV();
 		if("uuid" not in data): data.uuid = uuid.v4();
+		if("exp_type" not in data): 
+			data.exp_type = POKEDEX.get_pokemon_prop(data.number, 'exp_type');
+		if("types" not in data):
+			data.types = POKEDEX.get_pokemon_prop(data.number, 'types');
 		#STATS/ASSETS
 		get_base_stats();
 		get_resources();

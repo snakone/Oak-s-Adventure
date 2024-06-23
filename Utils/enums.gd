@@ -71,8 +71,14 @@ enum MoveNames {
 enum Pokedex {
 	BULBASAUR = 1,
 	IVYSAUR = 2,
+	VENUSAUR = 3,
 	CHARMANDER = 4,
+	CHARMELEON = 5,
+	CHARIZARD = 6,
 	SQUIRTLE = 7,
+	WARTORTLE = 8,
+	BLASTOISE = 9,
+	CATERPIE = 10,
 	BEEDRILL = 15,
 	PIDGEY = 16,
 	RATTATA = 19,
@@ -200,9 +206,11 @@ enum Ability {
 	WONDER_GUARD
 }
 
-enum BagScreen { ITEMS, KEY, POKEBALL }
+enum BagScreen { ITEMS, POKEBALL, KEY }
 
 enum Item {
 	POKEBALL,
-	GREATBALL
+	GREATBALL,
+	ULTRABALL,
+	MASTERBALL
 }

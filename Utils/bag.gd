@@ -2,10 +2,7 @@ extends Node
 
 var last_bag_screen = int(ENUMS.BagScreen.ITEMS);
 
-var items = [
-	{ "id": ENUMS.Item.POKEBALL, "amount": 2 },
-	{ "id": ENUMS.Item.GREATBALL, "amount": 1 }
-];
+var items = [];
 
 func _ready(): add_to_group(GLOBAL.group_name);
 

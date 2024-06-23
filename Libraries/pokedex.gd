@@ -144,6 +144,53 @@ var LIST: Array = [
 		},
 		"move_set": {}
 	},
+{
+		"name": "VENUSAUR",
+		"number": ENUMS.Pokedex.VENUSAUR,
+		"types": [ENUMS.Types.GRASS, ENUMS.Types.POISON],
+		"moves": [1],
+		"exp_type": ENUMS.ExpType.SLACK,
+		"base_exp": 141,
+		"category": ENUMS.PokemonCategory.STARTER,
+		"sprites": "res://Sprites/Animated/Venusaur/venusaur.tscn",
+		"specie": {
+			"party_texture": preload("res://Assets/UI/Pokemon/venusaur/icon.png"),
+			"shout": preload("res://Assets/Sounds/Pokemon/VENUSAUR.ogg"),
+			"value": "Seed",
+			"height": "3'03\"",
+			"weight": "28.7 lbs.",
+			"footprint": preload("res://Assets/UI/Pokemon/venusaur/footprint.png"),
+			"description": "There is a plant bulb on its back. When it absorbs nutrients, the bulb is said to blossom into a large flower."
+		},
+		"display": {
+			"offset": {
+				"battle": Vector2.ZERO,
+				"box": Vector2(-7, -6),
+				"pokedex": {
+					"front": Vector2.ZERO,
+					"back": Vector2.ZERO
+				}
+			},
+			"scale": {
+				"battle": Vector2(0.8, 0.8),
+				"box": Vector2(0.75, 0.75),
+				"pokedex": {
+					"front": Vector2(0.8, 0.8),
+					"back": Vector2(0.8, 0.8)
+				}
+			}
+		},
+		"stats": {
+			"HP": 60,
+			"ATK": 62,
+			"DEF": 63,
+			"S.ATK": 80,
+			"S.DEF": 80,
+			"SPD": 60,
+			"TOTAL": 405
+		},
+		"move_set": {}
+	},
 	{
 		"name": "CHARMANDER",
 		"number": ENUMS.Pokedex.CHARMANDER,
@@ -191,6 +238,100 @@ var LIST: Array = [
 		},
 		"move_set": {}
 	}, 
+{
+		"name": "CHARMELEON",
+		"number": ENUMS.Pokedex.CHARMELEON,
+		"types": [ENUMS.Types.FIRE],
+		"moves": [1],
+		"exp_type": ENUMS.ExpType.SLACK,
+		"base_exp": 65,
+		"category": ENUMS.PokemonCategory.STARTER,
+		"sprites": "res://Sprites/Animated/Charmeleon/charmeleon.tscn",
+		"specie": {
+			"party_texture": preload("res://Assets/UI/Pokemon/charmeleon/icon.png"),
+			"shout": preload("res://Assets/Sounds/Pokemon/CHARMELEON.ogg"),
+			"value": "Lizard",
+			"height": "2'00\"",
+			"weight": "18.7 lbs.",
+			"footprint": preload("res://Assets/UI/Pokemon/charmeleon/footprint.png"),
+			"description": "From the time it is born, a flame burns at the tip of its tail. Its life would end if the flame were to go out."
+		},
+		"display": {
+			"offset": {
+				"battle": Vector2.ZERO,
+				"box": Vector2.ZERO,
+				"pokedex": {
+					"front": Vector2(0, 4),
+					"back": Vector2(0, 1)
+				}
+			},
+			"scale": {
+				"battle": Vector2(0.8, 0.8),
+				"box": Vector2(0.8, 0.8),
+				"pokedex": {
+					"front": Vector2(0.8, 0.8),
+					"back": Vector2(0.8, 0.8)
+				}
+			}
+		},
+		"stats": {
+			"HP": 39,
+			"ATK": 52,
+			"DEF": 43,
+			"S.ATK": 60,
+			"S.DEF": 50,
+			"SPD": 65,
+			"TOTAL": 309
+		},
+		"move_set": {}
+	},
+	{
+		"name": "CHARIZARD",
+		"number": ENUMS.Pokedex.CHARIZARD,
+		"types": [ENUMS.Types.FIRE, ENUMS.Types.FLYING],
+		"moves": [1],
+		"exp_type": ENUMS.ExpType.SLACK,
+		"base_exp": 65,
+		"category": ENUMS.PokemonCategory.STARTER,
+		"sprites": "res://Sprites/Animated/Charizard/charizard.tscn",
+		"specie": {
+			"party_texture": preload("res://Assets/UI/Pokemon/charizard/icon.png"),
+			"shout": preload("res://Assets/Sounds/Pokemon/CHARIZARD.ogg"),
+			"value": "Lizard",
+			"height": "2'00\"",
+			"weight": "18.7 lbs.",
+			"footprint": preload("res://Assets/UI/Pokemon/charizard/footprint.png"),
+			"description": "From the time it is born, a flame burns at the tip of its tail. Its life would end if the flame were to go out."
+		},
+		"display": {
+			"offset": {
+				"battle": Vector2.ZERO,
+				"box": Vector2.ZERO,
+				"pokedex": {
+					"front": Vector2(0, 4),
+					"back": Vector2(0, 1)
+				}
+			},
+			"scale": {
+				"battle": Vector2(0.8, 0.8),
+				"box": Vector2(0.8, 0.8),
+				"pokedex": {
+					"front": Vector2(0.8, 0.8),
+					"back": Vector2(0.8, 0.8)
+				}
+			}
+		},
+		"stats": {
+			"HP": 39,
+			"ATK": 52,
+			"DEF": 43,
+			"S.ATK": 60,
+			"S.DEF": 50,
+			"SPD": 65,
+			"TOTAL": 309
+		},
+		"move_set": {}
+	},
 	{
 		"name": "SQUIRTLE",
 		"number": ENUMS.Pokedex.SQUIRTLE,
@@ -207,6 +348,153 @@ var LIST: Array = [
 			"height": "1'08\"",
 			"weight": "19.8 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/squirtle/footprint.png"),
+			"description": "Its shell is not just for protection. Its rounded shape and the grooves on its surface minimize resistance in water, enabling SQUIRTLE to swim at high speeds."
+		},
+		"display": {
+			"offset": {
+				"battle": Vector2.ZERO,
+				"box": Vector2(3, 0),
+				"pokedex": {
+					"front": Vector2.ZERO,
+					"back": Vector2.ZERO
+				}
+			},
+			"scale": {
+				"battle": Vector2(0.8, 0.8),
+				"box": Vector2(0.7, 0.7),
+				"pokedex": {
+					"front": Vector2(0.8, 0.8),
+					"back": Vector2(0.8, 0.8)
+				}
+			}
+		},
+		"stats": {
+			"HP": 44,
+			"ATK": 48,
+			"DEF": 65,
+			"S.ATK": 50,
+			"S.DEF": 64,
+			"SPD": 43,
+			"TOTAL": 314
+		},
+		"move_set": {
+			4: 3
+		}
+	},
+	{
+		"name": "WARTORTLE",
+		"number": ENUMS.Pokedex.WARTORTLE,
+		"types": [ENUMS.Types.WATER],
+		"moves": [1],
+		"exp_type": ENUMS.ExpType.SLACK,
+		"base_exp": 66,
+		"category": ENUMS.PokemonCategory.STARTER,
+		"sprites": "res://Sprites/Animated/Wartortle/wartortle.tscn",
+		"specie": {
+			"party_texture": preload("res://Assets/UI/Pokemon/wartortle/icon.png"),
+			"shout": preload("res://Assets/Sounds/Pokemon/WARTORTLE.ogg"),
+			"value": "Tiny Turle",
+			"height": "1'08\"",
+			"weight": "19.8 lbs.",
+			"footprint": preload("res://Assets/UI/Pokemon/wartortle/footprint.png"),
+			"description": "Its shell is not just for protection. Its rounded shape and the grooves on its surface minimize resistance in water, enabling SQUIRTLE to swim at high speeds."
+		},
+		"display": {
+			"offset": {
+				"battle": Vector2.ZERO,
+				"box": Vector2(3, 0),
+				"pokedex": {
+					"front": Vector2.ZERO,
+					"back": Vector2.ZERO
+				}
+			},
+			"scale": {
+				"battle": Vector2(0.8, 0.8),
+				"box": Vector2(0.7, 0.7),
+				"pokedex": {
+					"front": Vector2(0.8, 0.8),
+					"back": Vector2(0.8, 0.8)
+				}
+			}
+		},
+		"stats": {
+			"HP": 44,
+			"ATK": 48,
+			"DEF": 65,
+			"S.ATK": 50,
+			"S.DEF": 64,
+			"SPD": 43,
+			"TOTAL": 314
+		},
+		"move_set": {
+			4: 3
+		}
+	},
+	{
+		"name": "BLASTOISE",
+		"number": ENUMS.Pokedex.BLASTOISE,
+		"types": [ENUMS.Types.WATER],
+		"moves": [1],
+		"exp_type": ENUMS.ExpType.SLACK,
+		"base_exp": 66,
+		"category": ENUMS.PokemonCategory.STARTER,
+		"sprites": "res://Sprites/Animated/Blastoise/blastoise.tscn",
+		"specie": {
+			"party_texture": preload("res://Assets/UI/Pokemon/blastoise/icon.png"),
+			"shout": preload("res://Assets/Sounds/Pokemon/BLASTOISE.ogg"),
+			"value": "Tiny Turle",
+			"height": "1'08\"",
+			"weight": "19.8 lbs.",
+			"footprint": preload("res://Assets/UI/Pokemon/blastoise/footprint.png"),
+			"description": "Its shell is not just for protection. Its rounded shape and the grooves on its surface minimize resistance in water, enabling SQUIRTLE to swim at high speeds."
+		},
+		"display": {
+			"offset": {
+				"battle": Vector2.ZERO,
+				"box": Vector2(3, 0),
+				"pokedex": {
+					"front": Vector2.ZERO,
+					"back": Vector2.ZERO
+				}
+			},
+			"scale": {
+				"battle": Vector2(0.8, 0.8),
+				"box": Vector2(0.7, 0.7),
+				"pokedex": {
+					"front": Vector2(0.8, 0.8),
+					"back": Vector2(0.8, 0.8)
+				}
+			}
+		},
+		"stats": {
+			"HP": 44,
+			"ATK": 48,
+			"DEF": 65,
+			"S.ATK": 50,
+			"S.DEF": 64,
+			"SPD": 43,
+			"TOTAL": 314
+		},
+		"move_set": {
+			4: 3
+		}
+	},
+	{
+		"name": "CATERPIE",
+		"number": ENUMS.Pokedex.CATERPIE,
+		"types": [ENUMS.Types.BUG],
+		"moves": [1],
+		"exp_type": ENUMS.ExpType.SLACK,
+		"base_exp": 66,
+		"category": ENUMS.PokemonCategory.NORMAL,
+		"sprites": "res://Sprites/Animated/Caterpie/caterpie.tscn",
+		"specie": {
+			"party_texture": preload("res://Assets/UI/Pokemon/caterpie/icon.png"),
+			"shout": preload("res://Assets/Sounds/Pokemon/CATERPIE.ogg"),
+			"value": "Tiny Turle",
+			"height": "1'08\"",
+			"weight": "19.8 lbs.",
+			"footprint": preload("res://Assets/UI/Pokemon/caterpie/footprint.png"),
 			"description": "Its shell is not just for protection. Its rounded shape and the grooves on its surface minimize resistance in water, enabling SQUIRTLE to swim at high speeds."
 		},
 		"display": {
