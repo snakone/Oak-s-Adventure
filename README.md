@@ -24,6 +24,8 @@
 - Pokémon Center
 - Pokémon PC and Boxes
 - Dialog System with Selection and Responses
+- Pokédex View and Registration
+- Bag and Items/Pickable System
 
 ## Credits
 
@@ -45,6 +47,8 @@ Let's say at least i want to have exclusive content for the game, knowing it's 1
 ![Battle](https://i.ibb.co/cQCjZKB/galery2.png "Pokémon Battle")
 ![Pokémon Center](https://i.ibb.co/vLxQn1m/galery3.png "Pokémon Boxes")
 ![Profile](https://i.ibb.co/J2ZyFv4/profile.png "Oak's Profile")
+![Pokédex](https://i.ibb.co/3hpr0zv/pokedex.png "Pokédex Screen")
+![Bag](https://i.ibb.co/Gc9PR19/bag.png "Bag Screen")
 
 You can watch more updates on [Youtube](https://www.youtube.com/@AllisonCode).
 
@@ -52,7 +56,7 @@ You can watch more updates on [Youtube](https://www.youtube.com/@AllisonCode).
 Download [Godot](https://godotengine.org/) for free and start your own journey!
 
 ## Version
-v.0.5.6
+v.0.5.7
 
 ### All Rights reserved to
 &copy;2024 Pokémon. ©1995 - 2024 Nintendo/Creatures Inc./GAME FREAK inc. TM, ®Nintendo.

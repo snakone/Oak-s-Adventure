@@ -76,12 +76,18 @@ polygon = PackedVector2Array(12, 12, 12, 28, 4, 28, 4, 12)
 position = Vector2(144, 240)
 dialog_id = 41
 
-[node name="Pickable" parent="." instance=ExtResource("11_f05qo")]
-position = Vector2(48, 128)
+[node name="Pickables" type="Node2D" parent="."]
 
-[node name="Object" parent="." instance=ExtResource("11_f05qo")]
+[node name="Object2" parent="Pickables" instance=ExtResource("11_f05qo")]
+position = Vector2(48, 128)
+area = 4
+number = 1
+
+[node name="Object" parent="Pickables" instance=ExtResource("11_f05qo")]
 position = Vector2(96, 112)
 pickable = 1
 amount = 2
+area = 4
+number = 1
 
 [editable path="BannerFountain"]

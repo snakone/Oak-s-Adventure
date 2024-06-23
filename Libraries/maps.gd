@@ -1,22 +1,5 @@
 extends Node
 
-const location_array = [
-	"PraireTown",
-	"OakHouse",
-	"Route00",
-	"OakFarmerHouse",
-	"Route01",
-	"CalderockVillage",
-	"PokeCenter",
-	"PokeShop",
-	"House01",
-	"House02",
-	"Route02",
-	"JulietaHouse",
-	"JulietaUnderground",
-	"JulietaUndergroundRight"
-];
-
 const location_string = {
 	"PraireTown": "Praire Town",
 	"OakHouse": "Oak's House",

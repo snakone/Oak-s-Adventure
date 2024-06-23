@@ -9,6 +9,17 @@ var on_shared_scene = false;
 
 func _ready(): add_to_group(GLOBAL.group_name);
 
+var pickable_by_map = {
+	ENUMS.Locations.ROUTE_01: {
+		ENUMS.Item.POKEBALL: {
+			1: false
+		},
+		ENUMS.Item.GREATBALL: {
+			1: false
+		}
+	}
+}
+
 func get_map_size_and_emit(tilemap: TileMap) -> Vector2:
 	var size = tilemap.get_used_rect().size;
 	GLOBAL.emit_signal("on_tile_map_changed", size, Vector2.ZERO);
@@ -43,7 +54,8 @@ func save() -> Dictionary:
 		"save_type": ENUMS.SaveType.NPC,
 		"path": get_path(),
 		"npc_list": npc_shared_list,
-		"on_shared_scene": on_shared_scene
+		"on_shared_scene": on_shared_scene,
+		"pickable": pickable_by_map
 	}
 	return data;
 
@@ -51,3 +63,4 @@ func save() -> Dictionary:
 func load(data: Dictionary) -> void:
 	if("npc_list" in data): npc_shared_list.assign(data["npc_list"]);
 	if("on_shared_scene" in data): on_shared_scene = data["on_shared_scene"];
+	if("pickable" in data): pickable_by_map = data["pickable"];

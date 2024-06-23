@@ -60,3 +60,9 @@
 - Pokédex List
 - Water Reflection
 - Night/Day + Lights
+
+# 0.5.7
+- Bag
+- Pickable Items
+- Water Reflection
+- General Fixes
