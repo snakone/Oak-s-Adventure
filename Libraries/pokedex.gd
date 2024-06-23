@@ -57,6 +57,10 @@ var LIST: Array = [
 		"base_exp": 64,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Bulbasaur/bulbasaur.tscn",
+		"nature": {
+			"default": ENUMS.Ability.OVERGROW,
+			"hidden": ENUMS.Ability.CHLOROPHYLL
+		},
 		"specie": {
 			"party_texture": preload("res://Assets/UI/Pokemon/bulbasaur/icon.png"),
 			"shout": preload("res://Assets/Sounds/Pokemon/BULBASAUR.ogg"),
@@ -106,6 +110,10 @@ var LIST: Array = [
 		"base_exp": 141,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Ivysaur/ivysaur.tscn",
+		"nature": {
+			"default": ENUMS.Ability.OVERGROW,
+			"hidden": ENUMS.Ability.CHLOROPHYLL
+		},
 		"specie": {
 			"party_texture": preload("res://Assets/UI/Pokemon/ivysaur/icon.png"),
 			"shout": preload("res://Assets/Sounds/Pokemon/IVYSAUR.ogg"),
@@ -150,21 +158,25 @@ var LIST: Array = [
 		"types": [ENUMS.Types.GRASS, ENUMS.Types.POISON],
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.SLACK,
-		"base_exp": 141,
+		"base_exp": 236,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Venusaur/venusaur.tscn",
+		"nature": {
+			"default": ENUMS.Ability.OVERGROW,
+			"hidden": ENUMS.Ability.CHLOROPHYLL
+		},
 		"specie": {
 			"party_texture": preload("res://Assets/UI/Pokemon/venusaur/icon.png"),
 			"shout": preload("res://Assets/Sounds/Pokemon/VENUSAUR.ogg"),
 			"value": "Seed",
-			"height": "3'03\"",
-			"weight": "28.7 lbs.",
+			"height": "6'07\"",
+			"weight": "220.5 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/venusaur/footprint.png"),
-			"description": "There is a plant bulb on its back. When it absorbs nutrients, the bulb is said to blossom into a large flower."
+			"description": "VENUSAUR’s flower is said to take on vivid colors if it gets plenty of nutrition and sunlight. The flower’s aroma soothes the emotions of people."
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2.ZERO,
+				"battle": Vector2(0, -4),
 				"box": Vector2(-7, -6),
 				"pokedex": {
 					"front": Vector2.ZERO,
@@ -181,13 +193,13 @@ var LIST: Array = [
 			}
 		},
 		"stats": {
-			"HP": 60,
-			"ATK": 62,
-			"DEF": 63,
-			"S.ATK": 80,
-			"S.DEF": 80,
-			"SPD": 60,
-			"TOTAL": 405
+			"HP": 80,
+			"ATK": 82,
+			"DEF": 83,
+			"S.ATK": 1000,
+			"S.DEF": 100,
+			"SPD": 80,
+			"TOTAL": 525
 		},
 		"move_set": {}
 	},
@@ -200,6 +212,10 @@ var LIST: Array = [
 		"base_exp": 65,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Charmander/charmander.tscn",
+		"nature": {
+			"default": ENUMS.Ability.BLAZE,
+			"hidden": ENUMS.Ability.SOLAR_POWER
+		},
 		"specie": {
 			"party_texture": preload("res://Assets/UI/Pokemon/charmander/icon.png"),
 			"shout": preload("res://Assets/Sounds/Pokemon/CHARMANDER.ogg"),
@@ -244,21 +260,25 @@ var LIST: Array = [
 		"types": [ENUMS.Types.FIRE],
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.SLACK,
-		"base_exp": 65,
+		"base_exp": 142,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Charmeleon/charmeleon.tscn",
+		"nature": {
+			"default": ENUMS.Ability.BLAZE,
+			"hidden": ENUMS.Ability.SOLAR_POWER
+		},
 		"specie": {
 			"party_texture": preload("res://Assets/UI/Pokemon/charmeleon/icon.png"),
 			"shout": preload("res://Assets/Sounds/Pokemon/CHARMELEON.ogg"),
-			"value": "Lizard",
-			"height": "2'00\"",
-			"weight": "18.7 lbs.",
+			"value": "Flame",
+			"height": "3'07\"",
+			"weight": "41.9 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/charmeleon/footprint.png"),
-			"description": "From the time it is born, a flame burns at the tip of its tail. Its life would end if the flame were to go out."
+			"description": "Without pity, its sharp claws destroy foes. If it encounters a strong enemy, it becomes agitated, and the flame on its tail flares with a bluish white color."
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2.ZERO,
+				"battle": Vector2(9, -4),
 				"box": Vector2.ZERO,
 				"pokedex": {
 					"front": Vector2(0, 4),
@@ -275,13 +295,13 @@ var LIST: Array = [
 			}
 		},
 		"stats": {
-			"HP": 39,
-			"ATK": 52,
-			"DEF": 43,
-			"S.ATK": 60,
-			"S.DEF": 50,
-			"SPD": 65,
-			"TOTAL": 309
+			"HP": 58,
+			"ATK": 64,
+			"DEF": 58,
+			"S.ATK": 80,
+			"S.DEF": 65,
+			"SPD": 80,
+			"TOTAL": 405
 		},
 		"move_set": {}
 	},
@@ -291,21 +311,25 @@ var LIST: Array = [
 		"types": [ENUMS.Types.FIRE, ENUMS.Types.FLYING],
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.SLACK,
-		"base_exp": 65,
+		"base_exp": 267,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Charizard/charizard.tscn",
+		"nature": {
+			"default": ENUMS.Ability.BLAZE,
+			"hidden": ENUMS.Ability.SOLAR_POWER
+		},
 		"specie": {
 			"party_texture": preload("res://Assets/UI/Pokemon/charizard/icon.png"),
 			"shout": preload("res://Assets/Sounds/Pokemon/CHARIZARD.ogg"),
-			"value": "Lizard",
-			"height": "2'00\"",
-			"weight": "18.7 lbs.",
+			"value": "Flame",
+			"height": "5'07\"",
+			"weight": "199.5 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/charizard/footprint.png"),
-			"description": "From the time it is born, a flame burns at the tip of its tail. Its life would end if the flame were to go out."
+			"description": "A CHARIZARD flies about in search of strong opponents. It breathes intense flames that can melt any material. However, it will never torch a weaker foe."
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2.ZERO,
+				"battle": Vector2(2, -15),
 				"box": Vector2.ZERO,
 				"pokedex": {
 					"front": Vector2(0, 4),
@@ -313,7 +337,7 @@ var LIST: Array = [
 				}
 			},
 			"scale": {
-				"battle": Vector2(0.8, 0.8),
+				"battle": Vector2(0.7, 0.7),
 				"box": Vector2(0.8, 0.8),
 				"pokedex": {
 					"front": Vector2(0.8, 0.8),
@@ -322,13 +346,13 @@ var LIST: Array = [
 			}
 		},
 		"stats": {
-			"HP": 39,
-			"ATK": 52,
-			"DEF": 43,
-			"S.ATK": 60,
-			"S.DEF": 50,
-			"SPD": 65,
-			"TOTAL": 309
+			"HP": 78,
+			"ATK": 84,
+			"DEF": 78,
+			"S.ATK": 109,
+			"S.DEF": 85,
+			"SPD": 100,
+			"TOTAL": 534
 		},
 		"move_set": {}
 	},
@@ -338,9 +362,13 @@ var LIST: Array = [
 		"types": [ENUMS.Types.WATER],
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.SLACK,
-		"base_exp": 66,
+		"base_exp": 63,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Squirtle/squirtle.tscn",
+		"nature": {
+			"default": ENUMS.Ability.TORRENT,
+			"hidden": ENUMS.Ability.RAIN_DISH
+		},
 		"specie": {
 			"party_texture": preload("res://Assets/UI/Pokemon/squirtle/icon.png"),
 			"shout": preload("res://Assets/Sounds/Pokemon/SQUIRTLE.ogg"),
@@ -387,17 +415,21 @@ var LIST: Array = [
 		"types": [ENUMS.Types.WATER],
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.SLACK,
-		"base_exp": 66,
+		"base_exp": 142,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Wartortle/wartortle.tscn",
+		"nature": {
+			"default": ENUMS.Ability.TORRENT,
+			"hidden": ENUMS.Ability.RAIN_DISH
+		},
 		"specie": {
 			"party_texture": preload("res://Assets/UI/Pokemon/wartortle/icon.png"),
 			"shout": preload("res://Assets/Sounds/Pokemon/WARTORTLE.ogg"),
-			"value": "Tiny Turle",
-			"height": "1'08\"",
-			"weight": "19.8 lbs.",
+			"value": "Turle",
+			"height": "3'03\"",
+			"weight": "49.6 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/wartortle/footprint.png"),
-			"description": "Its shell is not just for protection. Its rounded shape and the grooves on its surface minimize resistance in water, enabling SQUIRTLE to swim at high speeds."
+			"description": "Its large tail is covered with rich, thick fur that deepens in color with age. The scratches on its shell are evidence of this POKéMON’s toughness in battle."
 		},
 		"display": {
 			"offset": {
@@ -418,13 +450,13 @@ var LIST: Array = [
 			}
 		},
 		"stats": {
-			"HP": 44,
-			"ATK": 48,
-			"DEF": 65,
-			"S.ATK": 50,
-			"S.DEF": 64,
-			"SPD": 43,
-			"TOTAL": 314
+			"HP": 59,
+			"ATK": 63,
+			"DEF": 80,
+			"S.ATK": 65,
+			"S.DEF": 80,
+			"SPD": 58,
+			"TOTAL": 405
 		},
 		"move_set": {
 			4: 3
@@ -436,21 +468,25 @@ var LIST: Array = [
 		"types": [ENUMS.Types.WATER],
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.SLACK,
-		"base_exp": 66,
+		"base_exp": 239,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Blastoise/blastoise.tscn",
+		"nature": {
+			"default": ENUMS.Ability.TORRENT,
+			"hidden": ENUMS.Ability.RAIN_DISH
+		},
 		"specie": {
 			"party_texture": preload("res://Assets/UI/Pokemon/blastoise/icon.png"),
 			"shout": preload("res://Assets/Sounds/Pokemon/BLASTOISE.ogg"),
-			"value": "Tiny Turle",
-			"height": "1'08\"",
-			"weight": "19.8 lbs.",
+			"value": "Shellfish",
+			"height": "5'03\"",
+			"weight": "188.5 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/blastoise/footprint.png"),
-			"description": "Its shell is not just for protection. Its rounded shape and the grooves on its surface minimize resistance in water, enabling SQUIRTLE to swim at high speeds."
+			"description": "The waterspouts that protrude from its shell are highly accurate. Their bullets of water can precisely nail tin cans from a distance of over 160 feet."
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2.ZERO,
+				"battle": Vector2(0, -5),
 				"box": Vector2(3, 0),
 				"pokedex": {
 					"front": Vector2.ZERO,
@@ -467,13 +503,13 @@ var LIST: Array = [
 			}
 		},
 		"stats": {
-			"HP": 44,
-			"ATK": 48,
-			"DEF": 65,
-			"S.ATK": 50,
-			"S.DEF": 64,
-			"SPD": 43,
-			"TOTAL": 314
+			"HP": 79,
+			"ATK": 83,
+			"DEF": 100,
+			"S.ATK": 85,
+			"S.DEF": 105,
+			"SPD": 78,
+			"TOTAL": 530
 		},
 		"move_set": {
 			4: 3
@@ -484,18 +520,22 @@ var LIST: Array = [
 		"number": ENUMS.Pokedex.CATERPIE,
 		"types": [ENUMS.Types.BUG],
 		"moves": [1],
-		"exp_type": ENUMS.ExpType.SLACK,
-		"base_exp": 66,
+		"exp_type": ENUMS.ExpType.MEDIUM,
+		"base_exp": 39,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Caterpie/caterpie.tscn",
+		"nature": {
+			"default": ENUMS.Ability.SHIELD_DUST,
+			"hidden": ENUMS.Ability.RUN_AWAY
+		},
 		"specie": {
 			"party_texture": preload("res://Assets/UI/Pokemon/caterpie/icon.png"),
 			"shout": preload("res://Assets/Sounds/Pokemon/CATERPIE.ogg"),
-			"value": "Tiny Turle",
-			"height": "1'08\"",
-			"weight": "19.8 lbs.",
+			"value": "Worm",
+			"height": "1'00\"",
+			"weight": "6.4 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/caterpie/footprint.png"),
-			"description": "Its shell is not just for protection. Its rounded shape and the grooves on its surface minimize resistance in water, enabling SQUIRTLE to swim at high speeds."
+			"description": "Its voracious appetite compels it to devour leaves bigger than itself without hesitation. It releases a terribly strong odor from its antennae."
 		},
 		"display": {
 			"offset": {
@@ -516,13 +556,13 @@ var LIST: Array = [
 			}
 		},
 		"stats": {
-			"HP": 44,
-			"ATK": 48,
-			"DEF": 65,
-			"S.ATK": 50,
-			"S.DEF": 64,
-			"SPD": 43,
-			"TOTAL": 314
+			"HP": 45,
+			"ATK": 30,
+			"DEF": 35,
+			"S.ATK": 20,
+			"S.DEF": 20,
+			"SPD": 45,
+			"TOTAL": 195
 		},
 		"move_set": {
 			4: 3
@@ -537,6 +577,10 @@ var LIST: Array = [
 		"base_exp": 159,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Beedrill/beedrill.tscn",
+		"nature": {
+			"default": ENUMS.Ability.SWARM,
+			"hidden": ENUMS.Ability.SNIPER
+		},
 		"specie": {
 			"party_texture": preload("res://Assets/UI/Pokemon/beedrill/icon.png"),
 			"shout": preload("res://Assets/Sounds/Pokemon/BEEDRILL.ogg"),
@@ -581,9 +625,13 @@ var LIST: Array = [
 		"types": [ENUMS.Types.NORMAL, ENUMS.Types.FLYING],
 		"moves": [3],
 		"exp_type": ENUMS.ExpType.SLACK,
-		"base_exp": 2000,
+		"base_exp": 50,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Pidgey/pidgey.tscn",
+		"nature": {
+			"default": ENUMS.Ability.KEEN_EYE,
+			"hidden": ENUMS.Ability.BIG_PECKS
+		},
 		"specie": {
 			"party_texture": preload("res://Assets/UI/Pokemon/pidgey/icon.png"),
 			"shout": preload("res://Assets/Sounds/Pokemon/PIDGEY.ogg"),
@@ -628,9 +676,13 @@ var LIST: Array = [
 		"types": [ENUMS.Types.NORMAL],
 		"moves": [3],
 		"exp_type": ENUMS.ExpType.MEDIUM,
-		"base_exp": 2000,
+		"base_exp": 51,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Rattata/rattata.tscn",
+		"nature": {
+			"default": ENUMS.Ability.RUN_AWAY,
+			"hidden": ENUMS.Ability.HUSTLE
+		},
 		"specie": {
 			"party_texture": preload("res://Assets/UI/Pokemon/rattata/icon.png"),
 			"shout": preload("res://Assets/Sounds/Pokemon/RATTATA.ogg"),
@@ -678,6 +730,10 @@ var LIST: Array = [
 		"base_exp": 82,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Pikachu/pikachu.tscn",
+		"nature": {
+			"default": ENUMS.Ability.STATIC,
+			"hidden": ENUMS.Ability.LIGHTING_ROD
+		},
 		"specie": {
 			"party_texture": preload("res://Assets/UI/Pokemon/pikachu/icon.png"),
 			"shout": preload("res://Assets/Sounds/Pokemon/PIKACHU.ogg"),
@@ -725,6 +781,10 @@ var LIST: Array = [
 		"base_exp": 86,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Geodude/geodude.tscn",
+		"nature": {
+			"default": ENUMS.Ability.STATIC,
+			"hidden": ENUMS.Ability.LIGHTING_ROD
+		},
 		"specie": {
 			"party_texture": preload("res://Assets/UI/Pokemon/geodude/icon.png"),
 			"shout": preload("res://Assets/Sounds/Pokemon/GEODUDE.ogg"),
@@ -772,6 +832,10 @@ var LIST: Array = [
 		"base_exp": 83,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Horsea/horsea.tscn",
+		"nature": {
+			"default": ENUMS.Ability.SWITH_SWIM,
+			"hidden": ENUMS.Ability.DAMP
+		},
 		"specie": {
 			"party_texture": preload("res://Assets/UI/Pokemon/horsea/icon.png"),
 			"shout": preload("res://Assets/Sounds/Pokemon/HORSEA.ogg"),
@@ -819,6 +883,10 @@ var LIST: Array = [
 		"base_exp": 220,
 		"category": ENUMS.PokemonCategory.LEGENDARY,
 		"sprites": "res://Sprites/Animated/Ho-oh/ho-oh.tscn",
+		"nature": {
+			"default": ENUMS.Ability.PRESSURE,
+			"hidden": ENUMS.Ability.REGENERATOR
+		},
 		"specie": {
 			"party_texture": preload("res://Assets/UI/Pokemon/ho-oh/icon.png"),
 			"shout": preload("res://Assets/Sounds/Pokemon/HOOH.ogg"),
@@ -866,6 +934,10 @@ var LIST: Array = [
 		"base_exp": 220,
 		"category": ENUMS.PokemonCategory.LEGENDARY,
 		"sprites": "res://Sprites/Animated/Rayquaza/rayquaza.tscn",
+		"nature": {
+			"default": ENUMS.Ability.AIR_LOCK,
+			"hidden": null
+		},
 		"specie": {
 			"party_texture": preload("res://Assets/UI/Pokemon/rayquaza/icon.png"),
 			"shout": preload("res://Assets/Sounds/Pokemon/RAYQUAZA.ogg"),

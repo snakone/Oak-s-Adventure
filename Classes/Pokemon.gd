@@ -19,6 +19,8 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 			data.exp_type = POKEDEX.get_pokemon_prop(data.number, 'exp_type');
 		if("types" not in data):
 			data.types = POKEDEX.get_pokemon_prop(data.number, 'types');
+		if("nature" not in data):
+			data.nature = POKEDEX.get_pokemon_prop(data.number, 'nature');
 		#STATS/ASSETS
 		get_base_stats();
 		get_resources();

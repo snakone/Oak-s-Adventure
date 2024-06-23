@@ -31,3 +31,4 @@ const MOVE_LEARN = preload("res://Assets/Sounds/Pkmn move learnt.ogg");
 const PKMN_LEVEL_UP = preload("res://Assets/Sounds/Pkmn level up.ogg");
 const DOOR_ENTER = preload("res://Assets/Sounds/Door enter.ogg");
 const DOOR_EXIT = preload("res://Assets/Sounds/Door exit.ogg");
+const ITEM_GET = preload("res://Assets/Sounds/Item get.ogg");

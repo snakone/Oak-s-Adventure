@@ -63,6 +63,13 @@ func _on_start_dialog(id: int) -> void:
 	GLOBAL.dialog_open = true;
 	call_deferred("add_child", dialogue_inst);
 
+func _on_create_dialog(id: int, arr: Array) -> void:
+	if(dialogue_inst != null): _on_close_dialog();
+	dialogue_inst = DIALOG_MANAGER.instantiate();
+	dialogue_inst.create(id, arr);
+	GLOBAL.dialog_open = true;
+	call_deferred("add_child", dialogue_inst);
+
 func _on_close_dialog() -> void:
 	GLOBAL.dialog_open = false;
 	dialogue_inst.call_deferred("queue_free");
@@ -110,6 +117,7 @@ func load(data: Dictionary) -> void:
 func listen_to_signals() -> void:
 	GLOBAL.connect("start_dialog", _on_start_dialog);
 	GLOBAL.connect("close_dialog", _on_close_dialog);
+	GLOBAL.connect("create_dialog", _on_create_dialog);
 	GLOBAL.connect("start_battle", _on_start_battle);
 	GLOBAL.connect("close_battle", _on_end_battle);
 	GLOBAL.connect("open_pc", _on_open_pc);

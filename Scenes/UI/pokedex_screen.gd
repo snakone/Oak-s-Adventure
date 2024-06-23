@@ -236,15 +236,11 @@ func update_cursor() -> void:
 			if("cursor" in cursor_option): cursor.position = cursor_option.cursor;
 		Views.LIST:
 			var y_position = get_cursor_y(selected_option, showcase_size);
-			print("y: ", y_position)
 			if(y_position != 0.0): cursor.position = Vector2(5, y_position);
 
 func get_cursor_y(option: int, size: int) -> float:
 	if(option == 0): return 23.5;
 	elif(size != 0):
-		print("option: ", option)
-		print("size: ", size)
-		
 		if(option < 5):
 			return (option % size) * LIST_ITEM_HEIGHT + 23.5;
 		elif(size < 7 && option >= 5): return 103.5;
@@ -272,7 +268,6 @@ func update_list_scroll() -> void:
 	update_cursor();
 	if(selected_option + 2 > showcase_size - 1 && !right_or_left): return;
 	var scroll = get_scroll(selected_option);
-	print("scroll: ", scroll)
 	pokedex_container.scroll_vertical = scroll;
 	set_arrows(selected_option > 4, showcase_size > 7 && selected_option + 2 < showcase_size - 1);
 

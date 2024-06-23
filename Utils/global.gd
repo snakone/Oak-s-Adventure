@@ -9,12 +9,15 @@ signal get_on_bike(value: bool);
 signal bike_inside;
 signal start_dialog(id: int);
 signal close_dialog;
+signal create_dialog(text: Array);
 signal on_tile_map_changed(size: Vector2, camera_offset: Vector2);
 signal selection_value_select(value: ENUMS.BinaryOptions, category: ENUMS.SelectionCategory);
 signal visit_panel(map: String, delay: float);
 
 signal start_battle(battle_data: Dictionary);
 signal close_battle;
+
+signal pick_item(pickable: Dictionary);
 
 signal open_pc();
 signal close_pc();

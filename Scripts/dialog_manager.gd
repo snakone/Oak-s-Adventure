@@ -18,6 +18,14 @@ var must_select = false;
 
 func set_data(id: int) -> void: dialog_data = DIALOG.get_dialog(id);
 
+func create(id: int, array: Array) -> void:
+	var data = DIALOG.get_dialog(id);
+	dialog_data = {
+		"type": data.type,
+		"marker": data.marker,
+		"arr": array
+	}
+
 func _ready() -> void:
 	GLOBAL.connect("selection_value_select", _on_selection_value_select);
 	marker.visible = false;

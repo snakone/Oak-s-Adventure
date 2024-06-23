@@ -11,6 +11,14 @@ func get_item_by_id(id: ENUMS.Item) -> Variant:
 		if(item["id"] == id): return item;
 	return null;
 
+func add_item(id: ENUMS.Item, amount: int) -> void:
+	for i in range(0, items.size()):
+		var item = items[i];
+		if(item.id == id):
+			items[i].amount += amount;
+			return;
+	items.push_back({"id": id, "amount": amount});
+
 func save() -> Dictionary:
 	var data := {
 		"save_type": ENUMS.SaveType.BAG,

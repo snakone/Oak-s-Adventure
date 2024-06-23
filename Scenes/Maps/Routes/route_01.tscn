@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://doemf40ma8wva"]
+[gd_scene load_steps=12 format=3 uid="uid://doemf40ma8wva"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/Routes/route_01.gd" id="1_ma7kd"]
 [ext_resource type="AudioStream" uid="uid://xjfw4vmtoyty" path="res://Assets/Sounds/Route01.ogg" id="2_0k0wu"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="8_kepij"]
 [ext_resource type="AudioStream" uid="uid://7ufcq8cj32hk" path="res://Assets/Sounds/Door exit.ogg" id="9_add08"]
 [ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="10_8en64"]
+[ext_resource type="PackedScene" uid="uid://b7tnfx6otwaju" path="res://Scripts/pickable_area.tscn" id="11_f05qo"]
 
 [node name="Route01" type="Node2D"]
 y_sort_enabled = true
@@ -74,5 +75,13 @@ polygon = PackedVector2Array(12, 12, 12, 28, 4, 28, 4, 12)
 [node name="BannerGrass" parent="." instance=ExtResource("10_8en64")]
 position = Vector2(144, 240)
 dialog_id = 41
+
+[node name="Pickable" parent="." instance=ExtResource("11_f05qo")]
+position = Vector2(48, 128)
+
+[node name="Object" parent="." instance=ExtResource("11_f05qo")]
+position = Vector2(96, 112)
+pickable = 1
+amount = 2
 
 [editable path="BannerFountain"]

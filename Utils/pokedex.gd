@@ -4,8 +4,7 @@ const MISSINGNO = preload("res://Assets/UI/Pokemon/missingno.png");
 
 var pokedex_showcase: Array = [];
 
-func _ready(): 
-	add_to_group(GLOBAL.group_name);
+func _ready(): add_to_group(GLOBAL.group_name);
 
 func get_showcase() -> Array:
 	showcase_check();

@@ -1,6 +1,6 @@
 extends Node
 
-enum Type { NPC, OBJECT, SYSTEM, PC, NONE }
+enum Type { NPC, OBJECT, SYSTEM, PC, NONE, PICKABLE }
 
 func get_dialog(id: int) -> Dictionary:
 	if(id in LIBRARY): return LIBRARY[id];
@@ -508,6 +508,10 @@ const LIBRARY: Dictionary = {
 		],
 		"type": Type.NPC,
 		"direction": ENUMS.Directions.ALL,
+		"marker": true,
+	},
+	59: {
+		"type": Type.PICKABLE,
 		"marker": true,
 	},
 }

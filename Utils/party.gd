@@ -9,7 +9,7 @@ const ERASE_PROPS = [
 	"party_texture", "stats", "battle_stages", 
 	"battle_stats", "battle_moves", "move_set", 
 	"display", "specie", "sprites", "base_exp",
-	"category", "exp_type", "types"
+	"category", "exp_type", "types", "nature"
 ];
 
 func _ready(): add_to_group(GLOBAL.group_name);

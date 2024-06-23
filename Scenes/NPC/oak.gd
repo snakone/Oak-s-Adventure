@@ -40,6 +40,7 @@ var stop = false;
 var ready_to_battle = false;
 var can_talk = false;
 var sleeping = false;
+var can_pick = false;
 
 #OBJECTS
 var chair_direction: Vector2;
@@ -48,6 +49,8 @@ var door_type: ENUMS.DoorType;
 
 var dialog_data: Dictionary;
 var dialog_id: int;
+
+var pickable_data: Variant;
 
 func _ready():
 	connect_signals();
@@ -74,6 +77,7 @@ func _physics_process(delta) -> void:
 func process_player_input() -> void:
 	set_direction();
 	check_for_dialogs();
+	check_for_pickables();
 	if(input_direction != Vector2.ZERO):
 		set_blend_direction(input_direction);
 		update_block_rays();
@@ -195,22 +199,43 @@ func get_off_bike(stop_sound = true):
 
 # LISTENERS
 func _on_area_2d_area_entered(area: Area2D) -> void:
+	if(area == null): return;
 	if("Door" in area.name && area.can_be_opened): 
 		_on_enter_door_animation(area);
 	elif("TalkArea" in area.name || "DialogArea" in area.name): 
 		_on_talk_area_entered(area);
+	elif("PickableArea" in area.name): _on_pickable_area_entered(area);
 
-func _on_talk_area_entered(object: Area2D) -> void:
-	await GLOBAL.timeout(.2);
+func _on_talk_area_entered(area: Area2D) -> void:
+	if(area == null): return;
+	await GLOBAL.timeout(.1);
 	can_talk = true;
-	dialog_id = object.get_parent().dialog_id;
+	dialog_id = area.get_parent().dialog_id;
 	dialog_data = DIALOG.get_dialog(dialog_id);
-	area_types.push_front(dialog_data.type);
+	area_types = [dialog_data.type];
+
+func _on_pickable_area_entered(area: Area2D) -> void:
+	if(area == null): return;
+	await GLOBAL.timeout(.1);
+	can_pick = true;
+	var parent = area.get_parent();
+	area_types = [DIALOG.Type.PICKABLE];
+	pickable_data = {
+		"pickable": parent.pickable,
+		"direction": parent.direction,
+		"id": parent.id
+	}
 
 func _on_area_2d_area_exited(area: Area2D) -> void:
+	if(area == null): return;
+	await GLOBAL.timeout(.1);
 	if("TalkArea" in area.name || "DialogArea" in area.name): 
 		can_talk = false;
-		area_types = [DIALOG.Type.NONE];
+		dialog_id = -1;
+	elif("PickableArea" in area.name): 
+		can_pick = false;
+		pickable_data = null;
+	area_types = [DIALOG.Type.NONE];
 
 #MENU
 func _on_menu_opened(value: bool) -> void:
@@ -224,15 +249,13 @@ func _on_menu_opened(value: bool) -> void:
 #CHECKERS
 func check_position_out_bounds():
 	if fmod(position.x, GLOBAL.TILE_SIZE) != 0.0 && percent_moved >= 1:
-		#position.x = floor(position.x / GLOBAL.TILE_SIZE) * GLOBAL.TILE_SIZE;
 		print("WARNING: OUT OF BOUNDS (X)");
 	elif(fmod(position.y, GLOBAL.TILE_SIZE) != 0.0) && percent_moved >= 1:
-		#position.y = floor(position.y / GLOBAL.TILE_SIZE) * GLOBAL.TILE_SIZE;
 		print("WARNING: OUT OF BOUNDS (Y)");
 
 #DIALOGS
 func check_for_dialogs() -> void:
-	if(!can_talk): return;
+	if(!can_talk || dialog_id == -1): return;
 	if Input.is_action_just_pressed("space"):
 		var desired_step: Vector2 = GLOBAL.last_direction * (GLOBAL.TILE_SIZE / 2.0);
 		update_dialog_rays(desired_step);
@@ -250,6 +273,17 @@ func check_for_dialogs() -> void:
 			object_ray_cast_2d.is_colliding()
 		): GLOBAL.emit_signal("open_pc");
 
+#PICKABLES
+func check_for_pickables() -> void:
+	if(!can_pick || pickable_data == null): return;
+	if Input.is_action_just_pressed("space"):
+		var desired_step: Vector2 = GLOBAL.last_direction * (GLOBAL.TILE_SIZE / 2.0);
+		update_dialog_rays(desired_step);
+		if(
+			DIALOG.Type.PICKABLE in area_types && 
+			object_ray_cast_2d.is_colliding()
+		): open_pickable_dialog();
+
 func open_object_dialog():
 	var direction = GLOBAL.DIRECTIONS[dialog_data.direction];
 	if(direction != GLOBAL.last_direction && direction != Vector2.INF): return;
@@ -260,6 +294,17 @@ func start_dialog_state(id: int) -> void:
 	playback.travel("Idle");
 	reset_moving();
 	play_audio(LIBRARIES.SOUNDS.CONFIRM);
+
+func open_pickable_dialog() -> void:
+	var direction = GLOBAL.DIRECTIONS[pickable_data.direction];
+	if(direction != GLOBAL.last_direction && direction != Vector2.INF): return;
+	start_pickable_state();
+
+func start_pickable_state() -> void:
+	GLOBAL.emit_signal("pick_item", pickable_data);
+	playback.travel("Idle");
+	reset_moving();
+	play_audio(LIBRARIES.SOUNDS.ITEM_GET);
 
 #BATTLE
 func check_for_battle() -> void:

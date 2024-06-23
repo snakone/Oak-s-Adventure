@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://dvi1e10qdwgbb" path="res://Assets/UI/Boxes/box1.png" id="6_uwq0w"]
 [ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="7_qe0k8"]
 [ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/Fonts/power clear.ttf" id="8_acmja"]
-[ext_resource type="SpriteFrames" uid="uid://b3wcl5edyh1yv" path="res://Sprites/Animated/Charmander/charmander.tres" id="8_jqjr3"]
+[ext_resource type="SpriteFrames" uid="uid://dt1msl66wieu" path="res://Sprites/Animated/Charmander/charmander.tres" id="8_jqjr3"]
 [ext_resource type="Texture2D" uid="uid://c6r4pxbkouh4t" path="res://Assets/UI/Boxes/party_poke.png" id="8_yqdca"]
 [ext_resource type="Texture2D" uid="uid://ck8uwfwvnjnic" path="res://Assets/UI/Boxes/close.png" id="9_or3r2"]
 [ext_resource type="Texture2D" uid="uid://cce8ahdqmj40s" path="res://Assets/UI/gender_icons.png" id="10_hgb2c"]
