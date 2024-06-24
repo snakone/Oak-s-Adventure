@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://b7tnfx6otwaju"]
+[gd_scene load_steps=3 format=3 uid="uid://b7tnfx6otwaju"]
 
 [ext_resource type="Script" path="res://Scripts/pickable_area.gd" id="1_hpxoo"]
-[ext_resource type="Texture2D" uid="uid://ciui6tnwpjh5j" path="res://Sprites/pickable.png" id="2_npl3j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3bw1k"]
 size = Vector2(16, 16)
@@ -22,5 +21,4 @@ position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_3bw1k")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_npl3j")
 centered = false

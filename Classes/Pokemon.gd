@@ -15,12 +15,8 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 		if("death" not in data): data.death = false;
 		if("IV" not in data): data.IV = set_random_IV();
 		if("uuid" not in data): data.uuid = uuid.v4();
-		if("exp_type" not in data): 
-			data.exp_type = POKEDEX.get_pokemon_prop(data.number, 'exp_type');
-		if("types" not in data):
-			data.types = POKEDEX.get_pokemon_prop(data.number, 'types');
-		if("nature" not in data):
-			data.nature = POKEDEX.get_pokemon_prop(data.number, 'nature');
+		#EXTRA PROPS
+		get_extra_props();
 		#STATS/ASSETS
 		get_base_stats();
 		get_resources();
@@ -199,6 +195,16 @@ func set_hp_anim_duration(damage: int, enemy: Object) -> void:
 	elif(damage >= 30 && enemy.data.battle_stats["HP"] <= 30): total = 1.0;
 	print("HP BAR DURATION: ", total * 1.1);
 	BATTLE.emit_signal("hp_bar_anim_duration", total * 1.1);
+
+func get_extra_props() -> void:
+	if("exp_type" not in data): 
+		data.exp_type = POKEDEX.get_pokemon_prop(data.number, 'exp_type');
+	if("types" not in data):
+		data.types = POKEDEX.get_pokemon_prop(data.number, 'types');
+	if("nature" not in data):
+		data.nature = POKEDEX.get_pokemon_prop(data.number, 'nature');
+	if("item" not in data):
+		data.item = null;
 
 #BASE STATS
 func get_base_stats() -> void:

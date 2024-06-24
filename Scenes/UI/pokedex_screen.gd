@@ -269,7 +269,10 @@ func update_list_scroll() -> void:
 	if(selected_option + 2 > showcase_size - 1 && !right_or_left): return;
 	var scroll = get_scroll(selected_option);
 	pokedex_container.scroll_vertical = scroll;
-	set_arrows(selected_option > 4, showcase_size > 7 && selected_option + 2 < showcase_size - 1);
+	set_arrows(
+		selected_option > 4, 
+		showcase_size > 7 && (selected_option + 2 < showcase_size - 1)
+	);
 
 #ARROWS
 func update_arrow_position() -> void:

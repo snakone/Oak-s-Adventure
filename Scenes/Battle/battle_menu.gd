@@ -8,6 +8,8 @@ extends Node2D
 @onready var dialog_label: RichTextLabel = $"../Dialog/Label";
 
 const party_screen_path = "res://Scenes/UI/party_screen.tscn";
+const bag_screen_path = "res://Scenes/UI/bag_screen.tscn";
+
 var cursor_index = Vector2.ZERO;
 var scene_manager: Node2D;
 
@@ -46,9 +48,7 @@ func match_input() -> void:
 		BATTLE.state = ENUMS.BattleStates.FIGHT;
 		BATTLE.update_attack_ui.emit();
 	#BAG
-	elif (cursor_index == Vector2.RIGHT): pass
-		#bag.visible = true;
-		#current_state = States.BAG;
+	elif (cursor_index == Vector2.RIGHT): open_bag();
 	#PARTY
 	elif(cursor_index == Vector2.DOWN): open_party();
 	#ESCAPE
@@ -66,7 +66,12 @@ func set_marker() -> void:
 func open_party() -> void:
 	BATTLE.state = ENUMS.BattleStates.NONE;
 	GLOBAL.on_overlay = true;
-	GLOBAL.go_to_scene(party_screen_path, true, false)
+	GLOBAL.go_to_scene(party_screen_path, true, false);
+
+func open_bag() -> void:
+	BATTLE.state = ENUMS.BattleStates.NONE;
+	GLOBAL.on_overlay = true;
+	GLOBAL.go_to_scene(bag_screen_path, true, false);
 
 func _on_pokemon_select_party(_name) -> void:
 	dialog_label.text = "";

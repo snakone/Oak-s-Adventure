@@ -12,10 +12,13 @@ func _ready(): add_to_group(GLOBAL.group_name);
 var pickable_by_map = {
 	ENUMS.Locations.ROUTE_01: {
 		ENUMS.Item.POKEBALL: {
-			1: false
+			"1": false
 		},
 		ENUMS.Item.GREATBALL: {
-			1: false
+			"1": false
+		},
+		ENUMS.Item.POTION: {
+			"1": false
 		}
 	}
 }

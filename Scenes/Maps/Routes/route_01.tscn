@@ -78,16 +78,9 @@ dialog_id = 41
 
 [node name="Pickables" type="Node2D" parent="."]
 
-[node name="Object2" parent="Pickables" instance=ExtResource("11_f05qo")]
-position = Vector2(48, 128)
-area = 4
-number = 1
-
 [node name="Object" parent="Pickables" instance=ExtResource("11_f05qo")]
-position = Vector2(96, 112)
-pickable = 1
-amount = 2
+position = Vector2(64, 128)
+pickable = 4
 area = 4
-number = 1
 
 [editable path="BannerFountain"]

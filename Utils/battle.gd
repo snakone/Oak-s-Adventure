@@ -31,7 +31,7 @@ enum Turn { PLAYER, ENEMY, NONE }
 enum Weather { RAINING, DROUGH, SANDSTORM, NONE }
 
 const tile_density = 325.0;
-var modifire = 1.0;
+var modifire = 1.1;
 
 const MIN_HP_ANIM = 1.2;
 const MAX_HP_ANIM = 3;

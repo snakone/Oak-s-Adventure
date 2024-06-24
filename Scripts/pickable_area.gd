@@ -4,7 +4,10 @@ extends StaticBody2D
 @export var amount = 1;
 @export var direction = ENUMS.Directions.ALL;
 @export var area: ENUMS.Locations;
-@export var number: int;
+@export var number: int = 1;
+@export var texture = preload("res://Sprites/pickable.png");
+
+@onready var sprite_2d: Sprite2D = $Sprite2D
 
 const PICKABLE_DIALOG = 59;
 
@@ -15,6 +18,7 @@ func _ready() -> void:
 	GLOBAL.connect("pick_item", _on_pick_item);
 	id = uuid.v4();
 	check_if_already_picked();
+	if(texture): sprite_2d.texture = texture;
 
 func check_if_already_picked() -> void:
 	if(str(area) in MAPS.pickable_by_map):
@@ -30,7 +34,11 @@ func _on_pick_item(data: Dictionary) -> void:
 	if(data.id != id): return;
 	var item = BAG.get_item_by_id(data.pickable);
 	handle_pick();
-	GLOBAL.emit_signal("create_dialog", PICKABLE_DIALOG, generate_text(item.name, amount));
+	GLOBAL.emit_signal(
+		"create_dialog", 
+		PICKABLE_DIALOG, 
+		generate_text(item.name, amount)
+	);
 	BAG.add_item(data.pickable, amount);
 	MAPS.pickable_by_map[str(area)][str(pickable)][str(number)] = true;
 	await GLOBAL.timeout(0.2);

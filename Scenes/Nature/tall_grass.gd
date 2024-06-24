@@ -3,6 +3,7 @@ extends Node2D
 @onready var animation_player = $AnimationPlayer;
 @onready var texture_rect = $TextureRect;
 @onready var grass_effect = $GrassEffect;
+@onready var audio: AudioStreamPlayer = $AudioStreamPlayer;
 
 @export var encounters: Array[ENUMS.Pokedex];
 @export var zone: ENUMS.BattleZones;

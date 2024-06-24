@@ -75,8 +75,8 @@ var LIST: Array = [
 				"battle": Vector2.ZERO,
 				"box": Vector2.ZERO,
 				"pokedex": {
-					"front": Vector2(5, 3),
-					"back": Vector2(7, 3)
+					"front": Vector2(11, 3),
+					"back": Vector2(15, 3)
 				}
 			},
 			"scale": {
@@ -128,16 +128,16 @@ var LIST: Array = [
 				"battle": Vector2.ZERO,
 				"box": Vector2(-7, -6),
 				"pokedex": {
-					"front": Vector2.ZERO,
-					"back": Vector2.ZERO
+					"front": Vector2(0, -1),
+					"back": Vector2(4, 3)
 				}
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
 				"box": Vector2(0.75, 0.75),
 				"pokedex": {
-					"front": Vector2(0.8, 0.8),
-					"back": Vector2(0.8, 0.8)
+					"front": Vector2(0.7, 0.7),
+					"back": Vector2(0.7, 0.7)
 				}
 			}
 		},
@@ -179,16 +179,16 @@ var LIST: Array = [
 				"battle": Vector2(0, -4),
 				"box": Vector2(-7, -6),
 				"pokedex": {
-					"front": Vector2.ZERO,
-					"back": Vector2.ZERO
+					"front": Vector2(-18, -3),
+					"back": Vector2(-4, -1)
 				}
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
 				"box": Vector2(0.75, 0.75),
 				"pokedex": {
-					"front": Vector2(0.8, 0.8),
-					"back": Vector2(0.8, 0.8)
+					"front": Vector2(0.6, 0.6),
+					"back": Vector2(0.6, 0.6)
 				}
 			}
 		},
@@ -230,8 +230,8 @@ var LIST: Array = [
 				"battle": Vector2.ZERO,
 				"box": Vector2.ZERO,
 				"pokedex": {
-					"front": Vector2(0, 4),
-					"back": Vector2(0, 1)
+					"front": Vector2(6, 4),
+					"back": Vector2(6, 1)
 				}
 			},
 			"scale": {
@@ -281,16 +281,16 @@ var LIST: Array = [
 				"battle": Vector2(9, -4),
 				"box": Vector2.ZERO,
 				"pokedex": {
-					"front": Vector2(0, 4),
-					"back": Vector2(0, 1)
+					"front": Vector2(4, -1),
+					"back": Vector2(-2, -4)
 				}
 			},
 			"scale": {
-				"battle": Vector2(0.8, 0.8),
+				"battle": Vector2(0.75, 0.75),
 				"box": Vector2(0.8, 0.8),
 				"pokedex": {
-					"front": Vector2(0.8, 0.8),
-					"back": Vector2(0.8, 0.8)
+					"front": Vector2(0.7, 0.7),
+					"back": Vector2(0.68, 0.68)
 				}
 			}
 		},
@@ -332,16 +332,16 @@ var LIST: Array = [
 				"battle": Vector2(2, -15),
 				"box": Vector2.ZERO,
 				"pokedex": {
-					"front": Vector2(0, 4),
-					"back": Vector2(0, 1)
+					"front": Vector2(-14, -16),
+					"back": Vector2(-12, -12)
 				}
 			},
 			"scale": {
 				"battle": Vector2(0.7, 0.7),
 				"box": Vector2(0.8, 0.8),
 				"pokedex": {
-					"front": Vector2(0.8, 0.8),
-					"back": Vector2(0.8, 0.8)
+					"front": Vector2(0.65, 0.65),
+					"back": Vector2(0.65, 0.65)
 				}
 			}
 		},
@@ -486,7 +486,7 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2(0, -5),
+				"battle": Vector2(-1, -7),
 				"box": Vector2(3, 0),
 				"pokedex": {
 					"front": Vector2.ZERO,
@@ -539,7 +539,7 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2.ZERO,
+				"battle": Vector2(1, 0),
 				"box": Vector2(3, 0),
 				"pokedex": {
 					"front": Vector2.ZERO,
@@ -547,7 +547,7 @@ var LIST: Array = [
 				}
 			},
 			"scale": {
-				"battle": Vector2(0.8, 0.8),
+				"battle": Vector2(0.7, 0.7),
 				"box": Vector2(0.7, 0.7),
 				"pokedex": {
 					"front": Vector2(0.8, 0.8),

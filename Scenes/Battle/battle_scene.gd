@@ -3,7 +3,7 @@ extends Node
 #PLAYER
 @onready var player_info = $Info/PlayerInfo;
 @onready var player_sprite = $UI/PlayerSprite;
-@onready var audio_player = $UI/PlayerSprite/AudioPlayer;
+@onready var player_audio = $UI/PlayerSprite/AudioPlayer;
 @onready var player_ground = $Ground/PlayerGround;
 @onready var player_hp_bar = $Info/PlayerInfo/PlayerHPBar;
 @onready var exp_bar = $Info/PlayerInfo/ExpBar;
@@ -11,6 +11,7 @@ extends Node
 @onready var info_background: Sprite2D = $Info/PlayerInfo/Background;
 @onready var level_up_panel: NinePatchRect = $UI/NinePatchRect;
 @onready var level_up_timer: Timer = $Dialog/LevelUpTimer;
+@onready var status_audio: AudioStreamPlayer = $Info/AudioStreamPlayer;
 
 #ENEMY
 @onready var enemy_info = $Info/EnemyInfo;
@@ -21,7 +22,7 @@ extends Node
 #BATTLE
 @onready var bag = $Bag;
 @onready var anim_player = $AnimationPlayer;
-@onready var audio = $AudioPlayer;
+@onready var battle_audio = $AudioPlayer;
 @onready var battle_anim_player = $BattleAnimationPlayer;
 @onready var battle_background = $Background;
 @onready var attack_background = $Attacks/Background;
@@ -47,6 +48,7 @@ var base_exp_to_next_level = 0;
 var health_before_attack = 0.0;
 var diff_stats: Dictionary;
 var current_damage: int;
+var on_critical_status = false;
 
 func _ready():
 	BATTLE.reset_state();
@@ -230,11 +232,6 @@ func animate_hp_bar(target: Dictionary, new_size: float) -> void:
 	start_health_timer();
 	await tween.finished;
 
-#HEALTH BAR - LEFT ALIGNED
-func update_player_health(value = pokemon.data.current_hp) -> void:
-	var health = str(pokemon.data.battle_stats["HP"]) + " / " + str(value);
-	player_info.get_node("HP").text = health;
-
 func update_exp_bar(delay = 0.0) -> void:
 	await GLOBAL.timeout(delay);
 	var new_size = get_new_exp_bar_size();
@@ -355,6 +352,8 @@ func _on_move_hit() -> void:
 		else: battle_anim_player.play("DamagePlayer")
 		await battle_anim_player.animation_finished;
 	update_battle_ui(true, false, true);
+	await BATTLE.ui_updated;
+	if(BATTLE.current_turn == BATTLE.Turn.ENEMY): check_status();
 
 func after_dialog_attack() -> void:
 	await GLOBAL.timeout(.2);
@@ -443,8 +442,8 @@ func check_learn_move(poke: Object, new_level: int) -> void:
 func check_for_next_pokemon() -> void:
 	BATTLE.remove_participant(pokemon);
 	var next = PARTY.get_next_pokemon();
-	if(next != null): await handle_can_use_pokemon()
-	else: await handle_no_pokemon_left()
+	if(next != null): await handle_can_use_pokemon();
+	else: await handle_no_pokemon_left();
 
 func handle_can_use_pokemon() -> void:
 	BATTLE.can_use_next_pokemon = true;
@@ -501,6 +500,12 @@ func switch_pokemon() -> void:
 	await BATTLE.attack_finished;
 	battle_anim_player.play("Idle");
 	BATTLE.can_use_menu = true;
+
+func reset_status() -> void:
+	on_critical_status = false;
+	if(player_audio.playing):
+		await player_audio.finished;
+	check_status();
 
 #ESCAPE
 func _on_check_can_escape() -> void:
@@ -585,9 +590,12 @@ func get_attack_target(get_self = false) -> Dictionary:
 
 #SETTERS
 func set_pokemon() -> void: 
-	pokemon = PARTY.get_active_pokemon();
+	pokemon = PARTY.get_next_pokemon();
 	set_pokemon_health_color(floor(pokemon.data.current_hp));
 	BATTLE.add_participant(pokemon);
+
+func check_hp_status() -> void:
+	set_pokemon_health_color(floor(pokemon.data.current_hp));
 
 #PLAYER UI
 func set_player_ui() -> void:
@@ -662,6 +670,7 @@ func set_exp(poke: Object) -> void:
 	base_exp_to_next_level = EXP.get_exp_by_level(poke.data.exp_type, poke.data.level + 1);
 	exp_to_next_level = base_exp_to_next_level - poke.data.total_exp;
 
+#HEALTH BAR - LEFT ALIGNED
 func set_pokemon_health_color(value: float) -> void:
 	update_player_health(int(value));
 	var perct = value / float(pokemon.data.battle_stats["HP"]);
@@ -673,12 +682,20 @@ func set_health_color(value: float) -> void:
 	var perct = value / float(target.total_hp);
 	check_health_bar_color(perct, target.bar);
 
+func update_player_health(value = pokemon.data.current_hp) -> void:
+	var health = str(pokemon.data.battle_stats["HP"]) + " / " + str(value);
+	player_info.get_node("HP").text = health;
+
 func check_health_bar_color(perct: float, health_bar: Sprite2D) -> void:
+	on_critical_status = false;
 	if(perct >= BATTLE.GREEN_BAR_PERCT): 
 		health_bar.texture = LIBRARIES.IMAGES.GREEN_BAR;
 	elif(perct < BATTLE.GREEN_BAR_PERCT && perct > BATTLE.YELLOW_BAR_PERCT): 
 		health_bar.texture = LIBRARIES.IMAGES.YELLOW_BAR;
-	elif(perct < BATTLE.YELLOW_BAR_PERCT): health_bar.texture = LIBRARIES.IMAGES.RED_BAR;
+	elif(perct < BATTLE.YELLOW_BAR_PERCT && perct > 0.0):
+		health_bar.texture = LIBRARIES.IMAGES.RED_BAR;
+		if(BATTLE.current_turn != BATTLE.Turn.PLAYER):
+			on_critical_status = true;
 
 #PARTICIPANT EXP
 func give_exp_to_participants(state: Dictionary) -> void:
@@ -713,16 +730,24 @@ func need_to_check_attack() -> bool:
 
 #AUDIO
 func play_shout_pokemon() -> void:
-	audio_player.stream = pokemon.data.specie.shout;
-	audio_player.play();
+	player_audio.stream = pokemon.data.specie.shout;
+	player_audio.play();
+
+func check_status() -> void:
+	if(on_critical_status):
+		status_audio.stream = LIBRARIES.SOUNDS.LOW_HEALTH_POKEMON;
+		status_audio.play();
+	else: status_audio.stop()
+
+func _on_status_audio_finished() -> void: check_status();
 
 func play_shout_enemy() -> void:
 	await GLOBAL.timeout(0.2);
 	play_audio(enemy.data.specie.shout);
 
 func play_audio(stream: AudioStream) -> void:
-	audio.stream = stream;
-	audio.play();
+	battle_audio.stream = stream;
+	battle_audio.play();
 
 #UTILS
 func show_total_stats_panel() -> void: level_up_panel.show_total_stats();
