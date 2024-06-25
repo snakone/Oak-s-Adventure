@@ -6,6 +6,8 @@ extends CanvasLayer
 @onready var audio = $AudioStreamPlayer;
 @onready var menu_selection: NinePatchRect = $Selection;
 
+signal line_ended();
+
 const oak_prefix = "self:";
 var dialog_data: Dictionary;
 var current_index: int = 0;
@@ -15,6 +17,8 @@ var dialog_closed = false;
 var npc_dialog = false;
 var whos_talking: String;
 var must_select = false;
+var text_size: int = 0;
+var end_line = false;
 
 func set_data(id: int) -> void: dialog_data = DIALOG.get_dialog(id);
 
@@ -34,20 +38,22 @@ func _ready() -> void:
 	
 	match dialog_data.type:
 		DIALOG.Type.NPC: handle_NPC(text_string);
-		DIALOG.Type.OBJECT: handle_object(text_string)
+		DIALOG.Type.OBJECT: handle_object(text_string);
 	
 	text_string = add_prefix(text_string);
-	
-	for i in range(1):
-		for j in range(len(text_string)):
-			await timer.timeout;
-			label.text += text_string[j];
-	
+	label.text = text_string;
+	await write();
 	await GLOBAL.timeout(0.2);
 	pressed = false;
 	marker.visible = dialog_data.marker;
 	if("selection" in dialog_data && !dialog_data.marker):
 		show_selection();
+
+func write() -> void:
+	end_line = false;
+	label.visible_characters = 0;
+	text_size = get_filtered_length(label.text);
+	await line_ended;
 
 func handle_NPC(text_string: String) -> void:
 	if(dialog_data.type ==  DIALOG.Type.NPC):
@@ -70,16 +76,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	): return;
 	
 	if Input.is_action_just_pressed("space") and !pressed:
+		end_line = false;
 		handle_accept();
 		if current_line >= len(dialog_data.arr[current_index]): 
 			handle_continue();
 		if current_index >= len(dialog_data.arr): 
 			await handle_end();
-		else: 
-			var text = add_prefix(handle_write());
-			for j in range(len(text)):
-				await timer.timeout;
-				label.text += text[j];
+		else:
+			label.text = add_prefix(handle_write());
+			await write();
 			#SELECTION
 			if(dialog_data.arr.size() - 1 == current_index && 
 				"selection" in dialog_data):
@@ -103,7 +108,6 @@ func handle_continue() -> void:
 	current_line = 0;
 
 func handle_write() -> String:
-	label.text = label.text.erase(0, label.text.find("\n") + 1);
 	var text_string = dialog_data.arr[current_index][current_line];
 	#SELF DIALOG
 	if(oak_prefix in text_string): whos_talking = "Oak";
@@ -130,7 +134,7 @@ func add_prefix(text: String) -> String:
 		if(text.left(len(oak_prefix)) == oak_prefix): 
 			whos_talking = "Oak";
 			text = text.replace(oak_prefix, "");
-		label.text += "[b]" + whos_talking + "[/b]: ";
+		return "[b]" + whos_talking + "[/b]: " + text;
 	return text;
 
 #SELECTION
@@ -164,3 +168,14 @@ func check_for_responses(value: int) -> void:
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;
 	audio.play();
+
+func _on_timer_timeout() -> void:
+	if(label.visible_characters >= text_size && !end_line):
+		end_line = true;
+		emit_signal("line_ended");
+		return;
+	label.visible_characters += 1;
+
+func get_filtered_length(original: String) -> int:
+	var filtered_string = original.replace("[b]", "").replace("[/b]", "")
+	return filtered_string.length()

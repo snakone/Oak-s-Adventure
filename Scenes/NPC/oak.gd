@@ -270,8 +270,10 @@ func check_for_dialogs() -> void:
 		): open_object_dialog();
 		elif(
 			DIALOG.Type.PC in area_types &&
-			object_ray_cast_2d.is_colliding()
-		): GLOBAL.emit_signal("open_pc");
+			object_ray_cast_2d.is_colliding() && !GLOBAL.on_pc
+		): 
+			GLOBAL.on_pc = true;
+			GLOBAL.emit_signal("open_pc");
 
 #PICKABLES
 func check_for_pickables() -> void:

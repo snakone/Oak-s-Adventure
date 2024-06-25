@@ -151,6 +151,8 @@ func connect_signals() -> void:
 
 func _on_npc_area_body_entered(body): if("Oak" in body.name): 
 	inside_player_area = true;
+	if(body.position == position):
+		position.y += 16;
 
 func _on_npc_area_body_exited(body): if("Oak" in body.name): 
 	inside_player_area = false;

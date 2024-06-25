@@ -95,7 +95,7 @@ func check_intro_dialog() -> void:
 
 #UI
 func set_battle_ui() -> void:
-	set_pokemon();
+	set_pokemon(true);
 	set_player_ui();
 	set_enemy_ui();
 	set_battle_texture();
@@ -313,7 +313,7 @@ func give_exp(state: Dictionary) -> void:
 	update_exp_bar();
 	await BATTLE.experience_end;
 	await GLOBAL.timeout(0.6);
-	dialog.reset_text();
+	dialog.set_label("");
 	enemy.free();
 
 #MOVE ANIMATION
@@ -353,7 +353,9 @@ func _on_move_hit() -> void:
 		await battle_anim_player.animation_finished;
 	update_battle_ui(true, false, true);
 	await BATTLE.ui_updated;
-	if(BATTLE.current_turn == BATTLE.Turn.ENEMY): check_status();
+	if(BATTLE.current_turn != BATTLE.Turn.PLAYER): 
+		await GLOBAL.timeout(0.2);
+		check_status_after_attack();
 
 func after_dialog_attack() -> void:
 	await GLOBAL.timeout(.2);
@@ -371,7 +373,7 @@ func _on_selection_value_select(
 	id: ENUMS.SelectionCategory
 ) -> void:
 	if(id != ENUMS.SelectionCategory.BATTLE): return;
-	dialog.set_current_text("");
+	dialog.set_label("");
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 	match value:
 		int(ENUMS.BinaryOptions.YES): 
@@ -434,7 +436,7 @@ func check_learn_move(poke: Object, new_level: int) -> void:
 	var new_move = MOVES.get_move(new_move_index);
 	poke.learn_move(new_move.id);
 	await GLOBAL.timeout(0.1);
-	dialog.set_current_text("");
+	dialog.set_label("");
 	play_audio(LIBRARIES.SOUNDS.MOVE_LEARN);
 	dialog.start([poke.name + " learned " + new_move.name.to_upper() + "!"]);
 
@@ -485,7 +487,7 @@ func start_switch_animation() -> void:
 	await anim_player.animation_finished;
 	battle_anim_player.play("Idle");
 	BATTLE.state = ENUMS.BattleStates.MENU;
-	dialog.set_current_text("");
+	dialog.set_label("");
 
 func switch_pokemon() -> void:
 	battle_anim_player.stop();
@@ -589,8 +591,11 @@ func get_attack_target(get_self = false) -> Dictionary:
 	return target;
 
 #SETTERS
-func set_pokemon() -> void: 
-	pokemon = PARTY.get_next_pokemon();
+func set_pokemon(next = false) -> void:
+	if(next):
+		pokemon = PARTY.get_next_pokemon();
+	else:
+		pokemon = PARTY.get_active_pokemon();
 	set_pokemon_health_color(floor(pokemon.data.current_hp));
 	BATTLE.add_participant(pokemon);
 
@@ -687,7 +692,8 @@ func update_player_health(value = pokemon.data.current_hp) -> void:
 	player_info.get_node("HP").text = health;
 
 func check_health_bar_color(perct: float, health_bar: Sprite2D) -> void:
-	on_critical_status = false;
+	if(BATTLE.current_turn != BATTLE.Turn.PLAYER):
+		on_critical_status = false;
 	if(perct >= BATTLE.GREEN_BAR_PERCT): 
 		health_bar.texture = LIBRARIES.IMAGES.GREEN_BAR;
 	elif(perct < BATTLE.GREEN_BAR_PERCT && perct > BATTLE.YELLOW_BAR_PERCT): 
@@ -717,7 +723,7 @@ func level_up_participant(participant: Object) -> void:
 	var grew = participant.data.name + " grew to Level ";
 	dialog.level_up([grew + str(participant.data.level) + "!"], participant);
 	await BATTLE.level_up_stats_end;
-	dialog.reset_text();
+	dialog.set_label("");
 	var new_level = int(participant.data.level);
 	if(new_level in participant.data.move_set.keys()):
 		check_learn_move(participant, new_level);
@@ -738,6 +744,12 @@ func check_status() -> void:
 		status_audio.stream = LIBRARIES.SOUNDS.LOW_HEALTH_POKEMON;
 		status_audio.play();
 	else: status_audio.stop()
+	
+func check_status_after_attack() -> void:
+	if(status_audio.playing || pokemon.data.death): return;
+	if(on_critical_status):
+		status_audio.stream = LIBRARIES.SOUNDS.LOW_HEALTH_POKEMON;
+		status_audio.play();
 
 func _on_status_audio_finished() -> void: check_status();
 

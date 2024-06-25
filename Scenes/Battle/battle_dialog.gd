@@ -3,33 +3,38 @@ extends Node2D
 const wait_quick_dialog = 0.2;
 
 @onready var timer: Timer = $Timer
-@onready var label = $Label;
+@onready var label: RichTextLabel = $Label;
 @onready var marker = $Marker;
 @onready var audio: AudioStreamPlayer = $"../AudioPlayer"
-@onready var level_up_timer: Timer = $LevelUpTimer
+@onready var level_up_timer: Timer = $LevelUpTimer;
+
+signal line_ended();
 
 var pressed = false;
 var array: Array;
 var line: int;
-var current_text: String = "";
 var participant: Object;
+var text_size: int = 0;
+var end_line = false;
+
+func write(arr: Array) -> void:
+	end_line = false;
+	label.visible_characters = 0;
+	label.text = arr[0];
+	text_size = label.text.length();
+	await line_ended;
 
 #DIALOG STATE
 func start(input_arr: Array) -> void:
 	BATTLE.state = ENUMS.BattleStates.DIALOG;
 	pressed = true;
+	end_line = false;
 	marker.visible = false;
 	visible = true;
-	array = input_arr.duplicate();
 	line = 1;
+	array = input_arr.duplicate();
 	timer.start();
-	
-	for i in range(line):
-		for j in range(len(input_arr[i])):
-			await timer.timeout;
-			current_text += input_arr[i][j];
-			label.text = current_text;
-	
+	await write(input_arr);
 	marker.visible = true;
 	await GLOBAL.timeout(.2);
 	pressed = false;
@@ -41,6 +46,7 @@ func input() -> void:
 	if Input.is_action_just_pressed("space"):
 		marker.visible = false;
 		pressed = true;
+		end_line = false;
 		play_audio(LIBRARIES.SOUNDS.CONFIRM);
 		await audio.finished;
 		if line < len(array): next_dialog();
@@ -49,13 +55,7 @@ func input() -> void:
 #NEXT
 func next_dialog() -> void:
 	if(BATTLE.enemy_death && !BATTLE.on_victory): AUDIO.play_battle_win();
-	current_text = current_text.erase(0, current_text.find("\n") + 1)
-	label.text = current_text;
-	if current_text.find("\n") == -1:
-		for i in range(len(array[line])):
-			await timer.timeout
-			current_text += array[line][i];
-			label.text = current_text;
+	await write([array[line]]);
 	line += 1;
 	await GLOBAL.timeout(.2);
 	pressed = false;
@@ -87,31 +87,17 @@ func levelling_input() -> void:
 func attack(input_arr: Array) -> void:
 	visible = true;
 	timer.start();
-	
-	for i in range(1):
-		for j in range(len(input_arr[i])):
-			await timer.timeout;
-			current_text += input_arr[i][j];
-			label.text = current_text;
-	
-	await GLOBAL.timeout(.8);
-	current_text = "";
+	await write(input_arr);
+	await GLOBAL.timeout(.2);
 	BATTLE.dialog_finished.emit();
 
 #LEVEL UP
 func level_up(input_arr: Array, poke: Object) -> void:
 	BATTLE.state = ENUMS.BattleStates.LEVELLING;
 	participant = poke;
-	current_text = "";
 	level_up_timer.start();
 	play_audio(LIBRARIES.SOUNDS.PKMN_LEVEL_UP, 0.3, -5);
-	
-	for i in range(1):
-		for j in range(len(input_arr[i])):
-			await level_up_timer.timeout;
-			current_text += input_arr[i][j];
-			label.text = current_text;
-	
+	await write(input_arr);
 	marker.visible = true;
 	await GLOBAL.timeout(0.2);
 	pressed = false;
@@ -124,16 +110,9 @@ func switch(input_arr: Array) -> void:
 	visible = true;
 	line = 1;
 	timer.start();
-	
-	for i in range(line):
-		for j in range(len(input_arr[i])):
-			await timer.timeout;
-			current_text += input_arr[i][j];
-			label.text = current_text;
-	
+	await write(input_arr);
 	await GLOBAL.timeout(1);
 	timer.stop();
-	current_text = "";
 	BATTLE.dialog_finished.emit();
 
 #ESCAPE
@@ -144,13 +123,7 @@ func escape(input_arr: Array) -> void:
 	visible = true;
 	line = 1;
 	timer.start();
-	
-	for i in range(line):
-		for j in range(len(input_arr[i])):
-			await timer.timeout;
-			current_text += input_arr[i][j];
-			label.text = current_text;
-
+	await write(input_arr);
 	marker.visible = true;
 	await GLOBAL.timeout(.2);
 	pressed = false;
@@ -167,7 +140,6 @@ func escape_input() -> void:
 		await GLOBAL.timeout(.2);
 		BATTLE.dialog_finished.emit();
 		pressed = false;
-		current_text = "";
 		label.text = "";
 
 #NEXT POKEMON
@@ -176,16 +148,10 @@ func next_pokemon(input_arr: Array) -> void:
 	pressed = true;
 	marker.visible = false;
 	visible = true;
-	array = input_arr.duplicate();
 	line = 1;
+	array = input_arr.duplicate();
 	timer.start();
-	
-	for i in range(line):
-		for j in range(len(input_arr[i])):
-			await timer.timeout;
-			current_text += input_arr[i][j];
-			label.text = current_text;
-	
+	await write(array);
 	await GLOBAL.timeout(.2);
 	pressed = false;
 	BATTLE.dialog_finished.emit();
@@ -196,27 +162,20 @@ func quick(input_arr: Array, delay = 0.6) -> void:
 	pressed = true;
 	marker.visible = false;
 	visible = true;
-	array = input_arr.duplicate();
 	line = 1;
+	array = input_arr.duplicate();
 	timer.start();
-	
-	for i in range(line):
-		for j in range(len(input_arr[i])):
-			await timer.timeout;
-			current_text += input_arr[i][j];
-			label.text = current_text;
-	
+	await write(array);
 	await GLOBAL.timeout(delay);
 	pressed = false;
 	BATTLE.quick_dialog_end.emit();
-	reset_text();
+	set_label("");
 	await GLOBAL.timeout(wait_quick_dialog);
 	BATTLE.can_use_menu = true;
 
 #END
 func end_dialog() -> void:
 	timer.stop();
-	current_text = "";
 	pressed = (BATTLE.enemy_death || BATTLE.pokemon_death);
 	if(
 		!BATTLE.intro_dialog && 
@@ -277,14 +236,16 @@ func close(time: float) -> void:
 	BATTLE.can_use_menu = true;
 
 func set_label(text: String) -> void: label.text = text;
-func set_current_text(text: String) -> void: current_text = text;
-
-func reset_text() -> void:
-	set_label("");
-	set_current_text("");
 
 func play_audio(stream: AudioStream, delay = 0.0, volume = -10) -> void:
 	await GLOBAL.timeout(delay);
 	audio.volume_db = volume;
 	audio.stream = stream;
 	audio.play();
+
+func _on_timer_timeout() -> void:
+	if(label.visible_characters >= text_size && !end_line):
+		end_line = true;
+		emit_signal("line_ended");
+		return;
+	label.visible_characters += 1;

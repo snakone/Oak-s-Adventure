@@ -84,6 +84,7 @@ func _on_open_pc() -> void:
 func _on_close_pc() -> void:
 	if(dialogue_inst != null): _on_close_dialog();
 	pc_inst.call_deferred("queue_free");
+	GLOBAL.on_pc = false;
 
 #BATTLE
 func _on_start_battle(battle_data: Dictionary):

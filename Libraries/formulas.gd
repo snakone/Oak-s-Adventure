@@ -1,6 +1,6 @@
 extends Node
 
-const DEFAULT_CRITICAL = 1;
+const DEFAULT_CRITICAL = 0;
 
 #STATS
 func stat_formula(

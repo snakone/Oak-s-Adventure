@@ -105,3 +105,5 @@ stream = ExtResource("6_lcq8j")
 volume_db = -8.0
 
 [node name="Selection" parent="." instance=ExtResource("7_mmu53")]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

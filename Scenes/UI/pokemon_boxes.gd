@@ -447,7 +447,7 @@ func save_data_before_pick() -> void:
 		var copy = BOXES.boxes_array.duplicate();
 		holding_poke = copy[current_box - 1][selected_index];
 		current_node = pokemon_box.get_node(holding_poke.data.uuid);
-		holding_sprite.texture = holding_poke.data.party_texture;
+		holding_sprite.texture = holding_poke.data.specie.party_texture;
 	else:
 		selected_party_index = current_hand_pos.y;
 		var copy = party.duplicate();
