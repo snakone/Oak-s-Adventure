@@ -28,7 +28,6 @@ func write(arr: Array) -> void:
 func start(input_arr: Array) -> void:
 	BATTLE.state = ENUMS.BattleStates.DIALOG;
 	pressed = true;
-	end_line = false;
 	marker.visible = false;
 	visible = true;
 	line = 1;

@@ -223,3 +223,10 @@ enum Item {
 	POTION,
 	SUPER_POTION
 }
+
+enum ItemEffect {
+	HEAL,
+	STATUS,
+	CATCH,
+	REVIVE
+}

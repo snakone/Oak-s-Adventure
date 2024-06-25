@@ -120,9 +120,17 @@ func select_slot() -> void:
 	if(!select_open): open_select(current_item);
 	else:
 		match select_index:
+			SelectSlot.FIRST, SelectSlot.SECOND, SelectSlot.THIRD: handle_input(current_item); 
 			SelectSlot.FOURTH: close_select();
 	#NORMAL PARTY
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
+	
+func handle_input(item: Dictionary) -> void:
+	match select_index:
+		SelectSlot.FIRST:
+			if(GLOBAL.on_battle):
+				GLOBAL.emit_signal("use_item", item);
+				close_bag();
 
 func open_select(current_item: Dictionary) -> void:
 	select_open = true;

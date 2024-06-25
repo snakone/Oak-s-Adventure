@@ -18,6 +18,7 @@ signal start_battle(battle_data: Dictionary);
 signal close_battle;
 
 signal pick_item(pickable: Dictionary);
+signal use_item(item: Dictionary);
 
 signal open_pc();
 signal close_pc();

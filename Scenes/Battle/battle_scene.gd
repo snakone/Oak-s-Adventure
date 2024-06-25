@@ -761,6 +761,22 @@ func play_audio(stream: AudioStream) -> void:
 	battle_audio.stream = stream;
 	battle_audio.play();
 
+#ITEMS
+func _on_use_item(item: Dictionary) -> void:
+	on_critical_status = false;
+	match item.effect:
+		ENUMS.ItemEffect.HEAL:
+			if("action" in item):
+				var value = item.action.call(pokemon.data);
+				print(value)
+				update_battle_ui(true, true);
+				await BATTLE.ui_updated;
+				await GLOBAL.timeout(0.5);
+				check_status();
+		ENUMS.ItemEffect.CATCH:
+			print(item);
+	fake_attack();
+
 #UTILS
 func show_total_stats_panel() -> void: level_up_panel.show_total_stats();
 func go_switch_dialog() -> void: dialog.switch(["Let's go " + pokemon.name + "!"]);
@@ -781,4 +797,5 @@ func connect_signals() -> void:
 	BATTLE.connect("start_attack", start_attack);
 	PARTY.connect("selected_pokemon_party", _on_party_pokemon_select);
 	GLOBAL.connect("selection_value_select", _on_selection_value_select);
+	GLOBAL.connect("use_item", _on_use_item);
 	health_timer.connect("timeout", _on_health_timer_timeout);

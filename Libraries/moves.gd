@@ -47,7 +47,7 @@ var LIST: Dictionary = {
 		"priority": 0,
 		"effects": [
 			{
-				"apply": func set(enemy: Dictionary): enemy.data.battle_stages["ATK"] -= 1; 
+				"action": Callable(self, "growl")
 			}
 		],
 		"description": ""
@@ -230,3 +230,6 @@ var sprites_types = {
 	ENUMS.Types.DARK: preload("res://Assets/UI/Types/dark.png"),
 	ENUMS.Types.STEEL: preload("res://Assets/UI/Types/steel.png"),
 }
+
+func growl(data: Dictionary) -> void:
+	data.battle_stages["ATK"] -= 1;
