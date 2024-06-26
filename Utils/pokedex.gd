@@ -56,6 +56,7 @@ func add_pokemon_to_showcase(pokemon = null) -> void:
 		#REPEATED
 		if(last_index == pokemon.number || last_index == -1): return;
 		#IF LOWER ASSIGN TO CURRENT LIST
+		#TODO iF OWNED AND GET A SEEN
 		if(last_index > pokemon.number):
 			pokedex_showcase[pokemon.number - 1] = pokemon;
 			return;

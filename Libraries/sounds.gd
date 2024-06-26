@@ -33,3 +33,4 @@ const DOOR_ENTER = preload("res://Assets/Sounds/Door enter.ogg");
 const DOOR_EXIT = preload("res://Assets/Sounds/Door exit.ogg");
 const ITEM_GET = preload("res://Assets/Sounds/Item get.ogg");
 const LOW_HEALTH_POKEMON = preload("res://Assets/Sounds/low-health-critical-health-pokemon.mp3")
+const USE_ITEM_IN_PARTY = preload("res://Assets/Sounds/Use item in party.ogg");

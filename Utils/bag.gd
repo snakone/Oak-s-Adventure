@@ -19,6 +19,14 @@ func add_item(id: ENUMS.Item, amount: int) -> void:
 			return;
 	items.push_back({"id": id, "amount": amount});
 
+func remove_item(id: ENUMS.Item, amount: int = 1) -> void:
+	for i in range(0, items.size()):
+		var item = items[i];
+		if(item.id == id):
+			items[i].amount -= amount;
+			if(items[i].amount <= 0): items.erase(item);
+			return;
+
 func save() -> Dictionary:
 	var data := {
 		"save_type": ENUMS.SaveType.BAG,

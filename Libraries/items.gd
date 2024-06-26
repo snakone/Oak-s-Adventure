@@ -54,9 +54,11 @@ var LIST = [
 ];
 
 func potion(data: Dictionary) -> Variant:
-	data.current_hp += 20;
-	return 20;
+	var value = 20;
+	data.current_hp = min(data.battle_stats["HP"], data.current_hp + value);
+	return value;
 
 func super_potion(data: Dictionary) -> Variant:
-	data.current_hp += 50;
-	return 50;
+	var value = 50;
+	data.current_hp = min(data.battle_stats["HP"], data.current_hp + value);
+	return value;

@@ -49,6 +49,8 @@ var health_before_attack = 0.0;
 var diff_stats: Dictionary;
 var current_damage: int;
 var on_critical_status = false;
+var item_value: Variant = null;
+var hp_anim_velocity = 1;
 
 func _ready():
 	BATTLE.reset_state();
@@ -71,7 +73,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	match BATTLE.state:
 		ENUMS.BattleStates.MENU: menu.input();
 		ENUMS.BattleStates.FIGHT: attacks.input();
-		#States.BAG: #bag_input(event)
 		ENUMS.BattleStates.DIALOG: dialog.input();
 		ENUMS.BattleStates.LEVELLING: dialog.levelling_input();
 		ENUMS.BattleStates.ESCAPING: dialog.escape_input();
@@ -114,7 +115,7 @@ func start_attack(delay = 0.0, sound = true) -> void:
 	#ATTACK AGAIN
 	if(!all_attacked()):
 		await BATTLE.attack_finished;
-		delay = HP_ANIM_DURATION + 0.3;
+		delay = (HP_ANIM_DURATION * hp_anim_velocity) + 0.3;
 		#SECOND ATTACK
 		if(need_to_check_attack()):
 			await BATTLE.attack_check_done;
@@ -227,7 +228,7 @@ func update_battle_ui(
 
 func animate_hp_bar(target: Dictionary, new_size: float) -> void:
 	var tween = get_tree().create_tween();
-	tween.tween_property(target.bar, "scale:x", new_size, HP_ANIM_DURATION);
+	tween.tween_property(target.bar, "scale:x", new_size, (HP_ANIM_DURATION * hp_anim_velocity));
 	current_damage = int(max(0, int(health_before_attack) - int(target["current_hp"])));
 	start_health_timer();
 	await tween.finished;
@@ -353,9 +354,6 @@ func _on_move_hit() -> void:
 		await battle_anim_player.animation_finished;
 	update_battle_ui(true, false, true);
 	await BATTLE.ui_updated;
-	if(BATTLE.current_turn != BATTLE.Turn.PLAYER): 
-		await GLOBAL.timeout(0.2);
-		check_status_after_attack();
 
 func after_dialog_attack() -> void:
 	await GLOBAL.timeout(.2);
@@ -550,23 +548,23 @@ func close_dialog_and_show_menu(time: float) -> void:
 
 #TIMER
 func start_health_timer() -> void:
-	health_timer.wait_time = max((HP_ANIM_DURATION / current_damage) * 0.8, 0.05);
+	health_timer.wait_time = max(((HP_ANIM_DURATION * hp_anim_velocity) / 20) * 0.8, 0.05);
 	health_timer.start();
 
 func stop_health_timer() -> void:
 	health_timer.stop();
 	HP_ELLAPSED = 0.0;
-	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
+	item_value = null;
+	if(BATTLE.current_turn != BATTLE.Turn.PLAYER):
 		update_player_health(pokemon.data.current_hp);
 
 #HEALTH TIMEOUT
 func _on_health_timer_timeout() -> void:
-	var progress = HP_ELLAPSED / HP_ANIM_DURATION;
-	if (HP_ELLAPSED < HP_ANIM_DURATION):
-		var target_hp = int(pokemon.data.current_hp);
-		if(BATTLE.current_turn == BATTLE.Turn.PLAYER): 
-			target_hp = int(enemy.data.current_hp);
-		var current_hp = lerp(int(health_before_attack), target_hp, progress);
+	var hp_anim_total_duration = HP_ANIM_DURATION * hp_anim_velocity
+	var progress = HP_ELLAPSED / hp_anim_total_duration;
+	if (HP_ELLAPSED < hp_anim_total_duration):
+		var target_hp = get_target_hp();
+		var current_hp = lerp(int(health_before_attack), int(target_hp), progress);
 		set_health_color(floor(current_hp));
 		HP_ELLAPSED += health_timer.wait_time;
 	else: stop_health_timer();
@@ -590,17 +588,20 @@ func get_attack_target(get_self = false) -> Dictionary:
 		"bar": enemy_hp_bar}
 	return target;
 
+func get_target_hp() -> int:
+	if BATTLE.current_turn == BATTLE.Turn.PLAYER:
+		return int(enemy.data.current_hp)
+	elif item_value != null:
+		return min(pokemon.data.battle_stats["HP"], health_before_attack + item_value)
+	else:
+		return int(pokemon.data.current_hp)
+
 #SETTERS
 func set_pokemon(next = false) -> void:
-	if(next):
-		pokemon = PARTY.get_next_pokemon();
-	else:
-		pokemon = PARTY.get_active_pokemon();
-	set_pokemon_health_color(floor(pokemon.data.current_hp));
+	if(next): pokemon = PARTY.get_next_pokemon();
+	else: pokemon = PARTY.get_active_pokemon();
+	set_pokemon_health_color(floor(pokemon.data.current_hp), false);
 	BATTLE.add_participant(pokemon);
-
-func check_hp_status() -> void:
-	set_pokemon_health_color(floor(pokemon.data.current_hp));
 
 #PLAYER UI
 func set_player_ui() -> void:
@@ -676,32 +677,40 @@ func set_exp(poke: Object) -> void:
 	exp_to_next_level = base_exp_to_next_level - poke.data.total_exp;
 
 #HEALTH BAR - LEFT ALIGNED
-func set_pokemon_health_color(value: float) -> void:
+func set_pokemon_health_color(value: float, check = true) -> void:
 	update_player_health(int(value));
-	var perct = value / float(pokemon.data.battle_stats["HP"]);
-	check_health_bar_color(perct, player_hp_bar);
+	check_health_bar_color(value, check);
 
 func set_health_color(value: float) -> void:
-	var target = get_attack_target();
-	if(BATTLE.current_turn == BATTLE.Turn.ENEMY): update_player_health(int(value));
-	var perct = value / float(target.total_hp);
-	check_health_bar_color(perct, target.bar);
+	if(BATTLE.current_turn != BATTLE.Turn.PLAYER): 
+		update_player_health(int(value));
+	check_health_bar_color(value);
 
 func update_player_health(value = pokemon.data.current_hp) -> void:
+	value = min(value, pokemon.data.battle_stats["HP"]);
 	var health = str(pokemon.data.battle_stats["HP"]) + " / " + str(value);
 	player_info.get_node("HP").text = health;
 
-func check_health_bar_color(perct: float, health_bar: Sprite2D) -> void:
-	if(BATTLE.current_turn != BATTLE.Turn.PLAYER):
-		on_critical_status = false;
+func check_health_bar_color(value: float, check = true) -> void:
+	var target = get_attack_target(BATTLE.current_turn != BATTLE.Turn.PLAYER);
+	value = min(value, target.total_hp);
+	var perct = value / target.total_hp;
+	
+	if(BATTLE.current_turn != BATTLE.Turn.PLAYER): on_critical_status = false;
+	#GREEN
 	if(perct >= BATTLE.GREEN_BAR_PERCT): 
-		health_bar.texture = LIBRARIES.IMAGES.GREEN_BAR;
+		target.bar.texture = LIBRARIES.IMAGES.GREEN_BAR;
+		if(BATTLE.current_turn != BATTLE.Turn.PLAYER): reset_status();
+	#YELLOW
 	elif(perct < BATTLE.GREEN_BAR_PERCT && perct > BATTLE.YELLOW_BAR_PERCT): 
-		health_bar.texture = LIBRARIES.IMAGES.YELLOW_BAR;
+		target.bar.texture = LIBRARIES.IMAGES.YELLOW_BAR;
+		if(BATTLE.current_turn != BATTLE.Turn.PLAYER): reset_status();
+	#RED
 	elif(perct < BATTLE.YELLOW_BAR_PERCT && perct > 0.0):
-		health_bar.texture = LIBRARIES.IMAGES.RED_BAR;
+		target.bar.texture = LIBRARIES.IMAGES.RED_BAR;
 		if(BATTLE.current_turn != BATTLE.Turn.PLAYER):
 			on_critical_status = true;
+			if(check): check_status_after_attack();
 
 #PARTICIPANT EXP
 func give_exp_to_participants(state: Dictionary) -> void:
@@ -744,12 +753,10 @@ func check_status() -> void:
 		status_audio.stream = LIBRARIES.SOUNDS.LOW_HEALTH_POKEMON;
 		status_audio.play();
 	else: status_audio.stop()
-	
+
 func check_status_after_attack() -> void:
 	if(status_audio.playing || pokemon.data.death): return;
-	if(on_critical_status):
-		status_audio.stream = LIBRARIES.SOUNDS.LOW_HEALTH_POKEMON;
-		status_audio.play();
+	check_status();
 
 func _on_status_audio_finished() -> void: check_status();
 
@@ -766,16 +773,27 @@ func _on_use_item(item: Dictionary) -> void:
 	on_critical_status = false;
 	match item.effect:
 		ENUMS.ItemEffect.HEAL:
-			if("action" in item):
-				var value = item.action.call(pokemon.data);
-				print(value)
-				update_battle_ui(true, true);
-				await BATTLE.ui_updated;
-				await GLOBAL.timeout(0.5);
-				check_status();
+			if("action" in item): await item_heal(item);
 		ENUMS.ItemEffect.CATCH:
 			print(item);
 	fake_attack();
+
+#ITEM HEAL
+func item_heal(item: Dictionary) -> void:
+	health_before_attack = pokemon.data.current_hp;
+	item_value = item.action.call(pokemon.data);
+	hp_anim_velocity = 2;
+	HP_ANIM_DURATION = BATTLE.MIN_HP_ANIM;
+	await GLOBAL.timeout(0.2);
+	dialog.quick(["Oak used " + item.name + "."]);
+	await BATTLE.quick_dialog_end;
+	BAG.remove_item(item.id);
+	update_battle_ui(true, true);
+	play_audio(LIBRARIES.SOUNDS.USE_ITEM_IN_PARTY);
+	await BATTLE.ui_updated;
+	dialog.quick([pokemon.name + " restored " + str(item_value) + " HP."]);
+	await BATTLE.quick_dialog_end;
+	hp_anim_velocity = 1;
 
 #UTILS
 func show_total_stats_panel() -> void: level_up_panel.show_total_stats();

@@ -230,7 +230,3 @@ enum ItemEffect {
 	CATCH,
 	REVIVE
 }
-
-enum test {
- HING
-}
