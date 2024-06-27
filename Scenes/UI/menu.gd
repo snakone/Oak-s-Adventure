@@ -31,7 +31,8 @@ func _ready():
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(
-		!event is InputEventKey ||
+		(!event is InputEventKey &&
+		!event is InputEventScreenTouch) ||
 		is_player_moving || 
 		GLOBAL.on_transition || 
 		!event.is_pressed() ||

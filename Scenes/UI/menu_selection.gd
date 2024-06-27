@@ -30,12 +30,13 @@ func set_visibility(
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(
+		(!event is InputEventKey &&
+		!event is InputEventScreenTouch) ||
 		GLOBAL.on_transition || 
 		!event.is_pressed() ||
 		event.is_echo() ||
 		!visible ||
-		GLOBAL.on_overlay ||
-		!event is InputEventKey
+		GLOBAL.on_overlay
 	): return;
 	
 	if(

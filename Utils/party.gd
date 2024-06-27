@@ -2,7 +2,9 @@ extends Node
 
 signal selected_pokemon_party(poke_name: String);
 
-var current_party = [];
+@onready var current_party = [
+		Pokemon.new(LIBRARIES.POKEDEX.LIST[0], true),
+];
 var active_pokemon: Dictionary;
 
 const ERASE_PROPS = [
@@ -70,14 +72,6 @@ func healh_party_pokemon() -> void:
 		poke.data.current_hp = poke.data.battle_stats["HP"];
 
 func create_party_from_json(party: Array) -> Array:
-	#return [
-		#Pokemon.new(POKEDEX.LIBRARY[0]),
-		#Pokemon.new(POKEDEX.LIBRARY[1]),
-		#Pokemon.new(POKEDEX.LIBRARY[2]),
-		#Pokemon.new(POKEDEX.LIBRARY[3]),
-		#Pokemon.new(POKEDEX.LIBRARY[4]),
-		#Pokemon.new(POKEDEX.LIBRARY[5]),
-	#]
 	var created_party = [];
 	var already_active = false;
 	for index in range(party.size()):

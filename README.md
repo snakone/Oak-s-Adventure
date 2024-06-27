@@ -26,6 +26,7 @@
 - Dialog System with Selection and Responses
 - Pokédex View and Registration
 - Bag and Items/Pickable System
+- Android APK
 
 ## Credits
 
@@ -52,11 +53,14 @@ Let's say at least i want to have exclusive content for the game, knowing it's 1
 
 You can watch more updates on [Youtube](https://www.youtube.com/@AllisonCode).
 
+## Download the Game for Android - Free APK
+APK debug [Android](https://mega.nz/file/dpJj0ShL#0ChB1ql7UXlPIM-_xoUGndGHZcduL_2yEJWercZqugo)
+
 ## Download Godot Engine
 Download [Godot](https://godotengine.org/) for free and start your own journey!
 
 ## Version
-v.0.5.7
+v.0.5.8
 
 ### All Rights reserved to
 &copy;2024 Pokémon. ©1995 - 2024 Nintendo/Creatures Inc./GAME FREAK inc. TM, ®Nintendo.

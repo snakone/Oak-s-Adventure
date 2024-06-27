@@ -48,3 +48,6 @@ func stop_and_play(song: AudioStream) -> void:
 	audio.stop();
 	audio.stream = song;
 	audio.play();
+
+func stop() -> void:
+	audio.stop();

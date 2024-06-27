@@ -45,7 +45,7 @@ var LIST = [
 	{
 		"id": ENUMS.Item.SUPER_POTION,
 		"name": "SUPER POTION",
-		"description": "A spray-type wound medicine. It resotres the HP of one POKéMON by 50 points.",
+		"description": "A spray-type wound medicine. It restores the HP of one POKéMON by 50 points.",
 		"image": preload("res://Assets/UI/Items/SUPERPOTION.png"),
 		"type": ENUMS.BagScreen.ITEMS,
 		"effect": ENUMS.ItemEffect.HEAL,

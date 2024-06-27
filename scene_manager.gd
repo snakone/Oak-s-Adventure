@@ -28,7 +28,7 @@ var should_remove_child: bool;
 
 func _ready():
 	listen_to_signals();
-	#if(OS.get_name() == 'Android'): controls.visible = true;
+	if(OS.get_name() == 'Android'): controls.visible = true;
 
 #SCENES
 func transition_to_scene(

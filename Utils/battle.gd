@@ -64,6 +64,7 @@ var player_attack = 0;
 var enemy_attack = 0;
 var attacks_set = false;
 var current_weather = int(Weather.NONE);
+var on_action = false;
 
 func reset_state(reset_type = true) -> void:
 	can_use_menu = false;
@@ -90,6 +91,7 @@ func reset_state(reset_type = true) -> void:
 	enemy_attack = 0;
 	attacks_set = false;
 	current_weather = int(Weather.NONE);
+	on_action = false;
 
 func pokemon_encounter() -> bool:
 	randomize();
@@ -153,3 +155,11 @@ func add_participant(poke: Object) -> void:
 	participants.push_front(poke);
 
 func remove_participant(poke: Object) -> void: participants.erase(poke);
+
+func get_pokeball_texture(id: ENUMS.Item):
+	return pokeball_textures[id];
+
+@onready var pokeball_textures = {
+	ENUMS.Item.POKEBALL: preload("res://Assets/UI/Battle/pokeball_catch.png"),
+	ENUMS.Item.GREATBALL: preload("res://Assets/UI/Battle/greatball_catch.png")
+}

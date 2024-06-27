@@ -85,7 +85,8 @@ func init() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(
-		!event is InputEventKey ||
+		(!event is InputEventKey &&
+		!event is InputEventScreenTouch) ||
 		GLOBAL.on_transition || 
 		GLOBAL.dialog_open
 	): return;

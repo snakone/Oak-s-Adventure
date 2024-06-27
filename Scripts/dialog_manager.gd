@@ -66,7 +66,8 @@ func handle_object(text_string: String) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(
-		!event is InputEventKey || 
+		(!event is InputEventKey &&
+		!event is InputEventScreenTouch) ||
 		event.is_echo() ||
 		!event.is_pressed() ||
 		dialog_closed ||

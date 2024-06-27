@@ -1,7 +1,7 @@
 extends Node
 
 const SAVE_PATH = "user://save.poke";
-const DEFAULT_PATH = "res://Scenes/Maps/praire_town.tscn";
+const DEFAULT_PATH = "res://Scenes/Maps/Towns/praire_town.tscn";
 
 func _ready():
 	await GLOBAL.timeout(1);

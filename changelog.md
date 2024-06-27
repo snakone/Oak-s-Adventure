@@ -66,3 +66,8 @@
 - Pickable Items
 - Water Reflection
 - General Fixes
+
+# 0.5.8
+- Catch Pokémon
+- Use Combat Items
+- Android Controls

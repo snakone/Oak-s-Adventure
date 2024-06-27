@@ -1,13 +1,22 @@
-[gd_scene load_steps=14 format=3 uid="uid://bx6puh2tlx1xe"]
+[gd_scene load_steps=27 format=3 uid="uid://bx6puh2tlx1xe"]
 
 [ext_resource type="Script" path="res://scene_manager.gd" id="1_fy5xl"]
 [ext_resource type="PackedScene" uid="uid://c1oi0x3wlsdxf" path="res://Scripts/visit_panel.tscn" id="2_d2iu7"]
+[ext_resource type="Script" path="res://android_controls.gd" id="3_3dgar"]
 [ext_resource type="PackedScene" uid="uid://drehjofe2bwo0" path="res://Scenes/UI/menu.tscn" id="3_8d0bi"]
 [ext_resource type="Texture2D" uid="uid://5ixh15ujl8bs" path="res://Sprites/dpad.png" id="3_jr47j"]
-[ext_resource type="Texture2D" uid="uid://cv4w3w8hg1ie" path="res://Sprites/dpad-cross.png" id="4_wn78i"]
 [ext_resource type="Texture2D" uid="uid://pmgnyaysw0h7" path="res://Sprites/AB-buttons.png" id="5_bujko"]
-[ext_resource type="Texture2D" uid="uid://bw4t5trgb1jlg" path="res://Sprites/AB-buttons_only.png" id="6_hk6is"]
+[ext_resource type="Texture2D" uid="uid://cpnpaokkd3210" path="res://Sprites/a_button.png" id="6_mmjms"]
 [ext_resource type="Script" path="res://Utils/climate.gd" id="7_08ate"]
+[ext_resource type="Texture2D" uid="uid://d285ucn7ypjq4" path="res://Sprites/b_button.png" id="7_80r35"]
+[ext_resource type="Texture2D" uid="uid://dqs7osavk8l02" path="res://Sprites/right.png" id="8_tsre5"]
+[ext_resource type="Texture2D" uid="uid://52vscd5cgdgq" path="res://Sprites/left.png" id="9_yab5r"]
+[ext_resource type="Texture2D" uid="uid://yfdnco70wept" path="res://Sprites/up.png" id="10_6p3mh"]
+[ext_resource type="Texture2D" uid="uid://g5xx21secbec" path="res://Sprites/down.png" id="11_3udaw"]
+[ext_resource type="Texture2D" uid="uid://o0nfm63h14ah" path="res://Sprites/start.png" id="12_diavc"]
+[ext_resource type="Texture2D" uid="uid://2l3c6vgtqm5p" path="res://Sprites/select.png" id="12_mb4o5"]
+[ext_resource type="Texture2D" uid="uid://dupexwxni8n5g" path="res://Sprites/start_only.png" id="14_40jl4"]
+[ext_resource type="Texture2D" uid="uid://xs8u61maup8d" path="res://Sprites/select_only.png" id="15_wc47a"]
 
 [sub_resource type="Animation" id="Animation_ty746"]
 resource_name = "FadeToBlack"
@@ -77,11 +86,23 @@ _data = {
 "StartBattle": SubResource("Animation_2ga72")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bmwy1"]
-size = Vector2(15.5, 14.5)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nbxvl"]
+size = Vector2(17.5, 10.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v7ri1"]
+size = Vector2(10, 17.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a4g2h"]
+size = Vector2(16.5, 10.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rxxah"]
+size = Vector2(10, 18)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kxk5r"]
 radius = 12.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exmqf"]
+size = Vector2(20, 9)
 
 [node name="SceneManager" type="Node2D" groups=["Persist"]]
 script = ExtResource("1_fy5xl")
@@ -106,14 +127,15 @@ libraries = {
 }
 
 [node name="Song" type="AudioStreamPlayer" parent="."]
-volume_db = -38.306
+volume_db = -10.945
 
 [node name="Controls" type="CanvasLayer" parent="."]
 layer = 10
 visible = false
+script = ExtResource("3_3dgar")
 
 [node name="D-PAD" type="TextureRect" parent="Controls"]
-self_modulate = Color(1, 1, 1, 0.537255)
+self_modulate = Color(1, 1, 1, 0.270588)
 top_level = true
 layout_direction = 2
 offset_left = 6.0
@@ -124,19 +146,8 @@ scale = Vector2(1.5, 1.5)
 texture = ExtResource("3_jr47j")
 expand_mode = 1
 
-[node name="D-PAD-inner" type="TextureRect" parent="Controls"]
-self_modulate = Color(1, 1, 1, 0.827451)
-layout_direction = 2
-offset_left = 6.0
-offset_top = 102.0
-offset_right = 41.0
-offset_bottom = 137.0
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("4_wn78i")
-expand_mode = 1
-
 [node name="AB" type="TextureRect" parent="Controls"]
-self_modulate = Color(1, 1, 1, 0.631373)
+self_modulate = Color(1, 1, 1, 0.470588)
 offset_left = 184.0
 offset_top = 114.0
 offset_right = 234.0
@@ -144,60 +155,161 @@ offset_bottom = 154.0
 texture = ExtResource("5_bujko")
 expand_mode = 1
 
-[node name="AB-inner" type="TextureRect" parent="Controls"]
-self_modulate = Color(1, 1, 1, 0.505882)
-offset_left = 184.0
-offset_top = 114.0
-offset_right = 234.0
+[node name="Select" type="TextureRect" parent="Controls"]
+self_modulate = Color(1, 1, 1, 0.270588)
+offset_left = 96.0
+offset_top = 146.0
+offset_right = 115.0
 offset_bottom = 154.0
-texture = ExtResource("6_hk6is")
+texture = ExtResource("12_mb4o5")
 expand_mode = 1
 
-[node name="Left" type="TouchScreenButton" parent="Controls"]
+[node name="Start" type="TextureRect" parent="Controls"]
+self_modulate = Color(1, 1, 1, 0.270588)
+offset_left = 124.0
+offset_top = 146.0
+offset_right = 143.0
+offset_bottom = 154.0
+texture = ExtResource("12_diavc")
+expand_mode = 1
+
+[node name="Buttons" type="Node2D" parent="Controls"]
+
+[node name="Left" type="TouchScreenButton" parent="Controls/Buttons"]
 top_level = true
 z_index = 1
-position = Vector2(16.5, 128.5)
+position = Vector2(15.5, 128.5)
 scale = Vector2(1, 1.5)
-shape = SubResource("RectangleShape2D_bmwy1")
+shape = SubResource("RectangleShape2D_nbxvl")
 passby_press = true
 action = "moveLeft"
 
-[node name="Top" type="TouchScreenButton" parent="Controls"]
+[node name="Top" type="TouchScreenButton" parent="Controls/Buttons"]
 top_level = true
 z_index = 1
-position = Vector2(32.5, 113.5)
+position = Vector2(32, 112.5)
 scale = Vector2(1.5, 1)
-shape = SubResource("RectangleShape2D_bmwy1")
+shape = SubResource("RectangleShape2D_v7ri1")
 passby_press = true
 action = "moveUp"
 
-[node name="Right" type="TouchScreenButton" parent="Controls"]
+[node name="Right" type="TouchScreenButton" parent="Controls/Buttons"]
 top_level = true
 z_index = 1
-position = Vector2(47.5, 128.5)
+position = Vector2(48.5, 128.5)
 scale = Vector2(1, 1.5)
-shape = SubResource("RectangleShape2D_bmwy1")
+shape = SubResource("RectangleShape2D_a4g2h")
 passby_press = true
 action = "moveRight"
 
-[node name="Down" type="TouchScreenButton" parent="Controls"]
+[node name="Down" type="TouchScreenButton" parent="Controls/Buttons"]
 top_level = true
 z_index = 1
-position = Vector2(32.5, 143.5)
+position = Vector2(32.5, 145)
 scale = Vector2(1.5, 1)
-shape = SubResource("RectangleShape2D_bmwy1")
+shape = SubResource("RectangleShape2D_rxxah")
 passby_press = true
 action = "moveDown"
 
-[node name="A-Button" type="TouchScreenButton" parent="Controls"]
+[node name="A-Button" type="TouchScreenButton" parent="Controls/Buttons"]
 position = Vector2(222, 126)
 shape = SubResource("CircleShape2D_kxk5r")
 action = "space"
 
-[node name="B-Button" type="TouchScreenButton" parent="Controls"]
+[node name="B-Button" type="TouchScreenButton" parent="Controls/Buttons"]
 position = Vector2(196, 142)
 shape = SubResource("CircleShape2D_kxk5r")
 action = "backMenu"
+
+[node name="Start" type="TouchScreenButton" parent="Controls/Buttons"]
+top_level = true
+position = Vector2(134, 150)
+shape = SubResource("RectangleShape2D_exmqf")
+action = "menu"
+
+[node name="Select" type="TouchScreenButton" parent="Controls/Buttons"]
+top_level = true
+position = Vector2(105, 150)
+shape = SubResource("RectangleShape2D_exmqf")
+action = "bike"
+
+[node name="Active" type="Node2D" parent="Controls"]
+
+[node name="A" type="TextureRect" parent="Controls/Active"]
+visible = false
+offset_left = 213.0
+offset_top = 118.0
+offset_right = 230.0
+offset_bottom = 134.0
+texture = ExtResource("6_mmjms")
+expand_mode = 1
+
+[node name="B" type="TextureRect" parent="Controls/Active"]
+visible = false
+offset_left = 188.0
+offset_top = 134.0
+offset_right = 205.0
+offset_bottom = 150.0
+texture = ExtResource("7_80r35")
+expand_mode = 1
+
+[node name="Right" type="TextureRect" parent="Controls/Active"]
+visible = false
+offset_left = 6.0
+offset_top = 102.0
+offset_right = 41.0
+offset_bottom = 137.0
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("8_tsre5")
+expand_mode = 1
+
+[node name="Left" type="TextureRect" parent="Controls/Active"]
+visible = false
+offset_left = 6.0
+offset_top = 102.0
+offset_right = 41.0
+offset_bottom = 137.0
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("9_yab5r")
+expand_mode = 1
+
+[node name="Top" type="TextureRect" parent="Controls/Active"]
+visible = false
+offset_left = 6.0
+offset_top = 102.0
+offset_right = 41.0
+offset_bottom = 137.0
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("10_6p3mh")
+expand_mode = 1
+
+[node name="Down" type="TextureRect" parent="Controls/Active"]
+visible = false
+offset_left = 6.0
+offset_top = 102.0
+offset_right = 41.0
+offset_bottom = 137.0
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("11_3udaw")
+expand_mode = 1
+
+[node name="Start" type="TextureRect" parent="Controls/Active"]
+visible = false
+offset_left = 124.0
+offset_top = 146.0
+offset_right = 143.0
+offset_bottom = 154.0
+texture = ExtResource("14_40jl4")
+expand_mode = 1
+
+[node name="Select" type="TextureRect" parent="Controls/Active"]
+visible = false
+offset_left = 96.0
+offset_top = 146.0
+offset_right = 115.0
+offset_bottom = 154.0
+texture = ExtResource("15_wc47a")
+expand_mode = 1
 
 [node name="Climate" type="Timer" parent="."]
 wait_time = 60.0

@@ -34,6 +34,8 @@ const ITEM_scene = preload("res://Scenes/UI/bag_item.tscn");
 const LIST_ITEM_HEIGHT = 16;
 const CURSOR_HEIGHT_BOTTOM = 62;
 
+var picked = false;
+
 @onready var view_list = {
 	ENUMS.BagScreen.ITEMS: {
 		"node": $Items,
@@ -78,10 +80,12 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(
-		!event is InputEventKey ||
+		(!event is InputEventKey &&
+		!event is InputEventScreenTouch) ||
 		GLOBAL.on_transition ||
 		GLOBAL.dialog_open ||
-		Input.is_action_just_pressed("menu")
+		Input.is_action_just_pressed("menu") ||
+		picked
 	): return;
 	#CLOSE
 	if(Input.is_action_just_pressed("backMenu") && !select_open): 
@@ -129,6 +133,7 @@ func handle_input(item: Dictionary) -> void:
 	match select_index:
 		SelectSlot.FIRST:
 			if(GLOBAL.on_battle):
+				picked = true;
 				GLOBAL.emit_signal("use_item", item);
 				close_bag();
 
