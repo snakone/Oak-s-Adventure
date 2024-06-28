@@ -1,0 +1,171 @@
+[gd_scene load_steps=9 format=3 uid="uid://mlwf180q6xxm"]
+
+[ext_resource type="Script" path="res://Scenes/UI/summary_screen.gd" id="1_v6amm"]
+[ext_resource type="Texture2D" uid="uid://dn7tu5mk8rgu2" path="res://Assets/UI/Summary/background.png" id="2_stnxd"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="3_ie45p"]
+[ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="4_ofk7v"]
+[ext_resource type="SpriteFrames" uid="uid://qnt766smmqon" path="res://Sprites/Animated/Caterpie/caterpie.tres" id="5_keobr"]
+[ext_resource type="Texture2D" uid="uid://cce8ahdqmj40s" path="res://Assets/UI/gender_icons.png" id="6_t6bh8"]
+[ext_resource type="Texture2D" uid="uid://dqj6a17cyjseg" path="res://Assets/UI/Types/grass.png" id="7_hj8bq"]
+[ext_resource type="Texture2D" uid="uid://dqo2j0vakk18h" path="res://Assets/UI/Types/poison.png" id="8_ssdy4"]
+
+[node name="SummaryScreen" type="CanvasLayer"]
+layer = 5
+script = ExtResource("1_v6amm")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_stnxd")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="Info" type="Node2D" parent="."]
+
+[node name="Number" type="RichTextLabel" parent="Info"]
+clip_contents = false
+custom_minimum_size = Vector2(80, 10)
+layout_direction = 2
+offset_left = 169.0
+offset_top = 24.0
+offset_right = 249.0
+offset_bottom = 34.0
+theme = ExtResource("3_ie45p")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("4_ofk7v")
+theme_override_font_sizes/normal_font_size = 10
+text = "001"
+
+[node name="Name" type="RichTextLabel" parent="Info"]
+custom_minimum_size = Vector2(80, 10)
+layout_direction = 2
+offset_left = 169.0
+offset_top = 38.0
+offset_right = 249.0
+offset_bottom = 48.0
+theme = ExtResource("3_ie45p")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("4_ofk7v")
+theme_override_font_sizes/normal_font_size = 11
+text = "BULBASAUR"
+
+[node name="OT" type="RichTextLabel" parent="Info"]
+custom_minimum_size = Vector2(80, 10)
+layout_direction = 2
+offset_left = 169.0
+offset_top = 67.5
+offset_right = 249.0
+offset_bottom = 77.5
+theme = ExtResource("3_ie45p")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("4_ofk7v")
+theme_override_font_sizes/normal_font_size = 11
+text = "Oak"
+
+[node name="ID" type="RichTextLabel" parent="Info"]
+clip_contents = false
+custom_minimum_size = Vector2(80, 10)
+layout_direction = 2
+offset_left = 169.0
+offset_top = 83.5
+offset_right = 249.0
+offset_bottom = 93.5
+theme = ExtResource("3_ie45p")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("4_ofk7v")
+theme_override_font_sizes/normal_font_size = 10
+text = "65072"
+
+[node name="Item" type="RichTextLabel" parent="Info"]
+custom_minimum_size = Vector2(80, 10)
+layout_direction = 2
+offset_left = 169.0
+offset_top = 98.0
+offset_right = 249.0
+offset_bottom = 108.0
+theme = ExtResource("3_ie45p")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("4_ofk7v")
+theme_override_font_sizes/normal_font_size = 11
+text = "NONE"
+
+[node name="Nature" type="RichTextLabel" parent="Info"]
+custom_minimum_size = Vector2(80, 10)
+layout_direction = 2
+offset_left = 12.0
+offset_top = 118.0
+offset_right = 160.0
+offset_bottom = 128.0
+theme = ExtResource("3_ie45p")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("4_ofk7v")
+theme_override_font_sizes/normal_font_size = 11
+text = "NONE"
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(40, 43)
+sprite_frames = ExtResource("5_keobr")
+animation = &"Front"
+centered = false
+
+[node name="Specie" type="Node2D" parent="."]
+
+[node name="Level" type="RichTextLabel" parent="Specie"]
+clip_contents = false
+custom_minimum_size = Vector2(80, 10)
+layout_direction = 2
+offset_left = 6.0
+offset_top = 22.0
+offset_right = 86.0
+offset_bottom = 32.0
+theme = ExtResource("3_ie45p")
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.156863, 0.156863, 0.156863, 1)
+theme_override_fonts/normal_font = ExtResource("4_ofk7v")
+theme_override_font_sizes/normal_font_size = 9
+text = "Lv5"
+
+[node name="Name" type="RichTextLabel" parent="Specie"]
+clip_contents = false
+custom_minimum_size = Vector2(80, 10)
+layout_direction = 2
+offset_left = 38.0
+offset_top = 21.0
+offset_right = 118.0
+offset_bottom = 31.0
+theme = ExtResource("3_ie45p")
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.156863, 0.156863, 0.156863, 1)
+theme_override_fonts/normal_font = ExtResource("4_ofk7v")
+theme_override_font_sizes/normal_font_size = 10
+text = "BULBASAUR"
+
+[node name="Gender" type="Sprite2D" parent="Specie"]
+visible = false
+position = Vector2(106, 18)
+scale = Vector2(1.4, 1.4)
+texture = ExtResource("6_t6bh8")
+centered = false
+hframes = 2
+
+[node name="Types" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 50.0
+offset_right = 80.0
+offset_bottom = 30.0
+
+[node name="Type1" type="Sprite2D" parent="Types"]
+position = Vector2(135, 57)
+texture = ExtResource("7_hj8bq")
+
+[node name="Type2" type="Sprite2D" parent="Types"]
+visible = false
+position = Vector2(170, 57)
+texture = ExtResource("8_ssdy4")

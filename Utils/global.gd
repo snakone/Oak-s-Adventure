@@ -62,6 +62,7 @@ var on_pc = false;
 #VALUES
 var current_money = 0;
 var current_time_of_day: ENUMS.Climate;
+var summary_pokemon: Object;
 
 const blends = [
 	"parameters/Idle/blend_position", 

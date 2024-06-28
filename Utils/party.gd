@@ -2,16 +2,14 @@ extends Node
 
 signal selected_pokemon_party(poke_name: String);
 
-@onready var current_party = [
-		Pokemon.new(LIBRARIES.POKEDEX.LIST[0], true),
-];
+@onready var current_party = [];
 var active_pokemon: Dictionary;
 
 const ERASE_PROPS = [
 	"party_texture", "stats", "battle_stages", 
 	"battle_stats", "battle_moves", "move_set", 
 	"display", "specie", "sprites", "base_exp",
-	"category", "exp_type", "types", "nature"
+	"category", "exp_type", "types",
 ];
 
 func _ready(): add_to_group(GLOBAL.group_name);
@@ -20,6 +18,12 @@ func get_party() -> Array: return current_party;
 func set_party(party: Array) -> void: 
 	current_party = party;
 	reset_all_active(true);
+
+func add_pokemon_to_party(poke: Object) -> void:
+	if(current_party.size() == 6):
+		BOXES.add_pokemon_to_box(poke);
+		return;
+	current_party.push_back(poke);
 
 func get_active_pokemon() -> Object:
 	if(current_party):

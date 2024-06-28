@@ -6,6 +6,17 @@ func _ready():
 	add_to_group(GLOBAL.group_name);
 	boxes_array = LIBRARIES.BOXES.boxes_array.duplicate();
 
+func add_pokemon_to_box(poke: Object) -> void:
+	var index = find_first_empty_slot();
+	if(index != null): 
+		boxes_array[index.i][index.j] = poke;
+
+func find_first_empty_slot() -> Variant:
+	for i in range(0, boxes_array.size()):
+		for j in range(0, boxes_array[i].size()):
+			if(boxes_array[i][j] == null): return {"i": i, "j": j};
+	return null;
+
 func create_boxes_from_json(boxes: Array) -> Array:
 	for i in range(0, boxes.size()):
 		for j in range(0, boxes[i].size()):

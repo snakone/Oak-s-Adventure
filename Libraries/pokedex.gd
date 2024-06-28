@@ -57,7 +57,7 @@ var LIST: Array = [
 		"base_exp": 64,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Bulbasaur/bulbasaur.tscn",
-		"nature": {
+		"ability": {
 			"default": ENUMS.Ability.OVERGROW,
 			"hidden": ENUMS.Ability.CHLOROPHYLL
 		},
@@ -110,7 +110,7 @@ var LIST: Array = [
 		"base_exp": 141,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Ivysaur/ivysaur.tscn",
-		"nature": {
+		"ability": {
 			"default": ENUMS.Ability.OVERGROW,
 			"hidden": ENUMS.Ability.CHLOROPHYLL
 		},
@@ -161,7 +161,7 @@ var LIST: Array = [
 		"base_exp": 236,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Venusaur/venusaur.tscn",
-		"nature": {
+		"ability": {
 			"default": ENUMS.Ability.OVERGROW,
 			"hidden": ENUMS.Ability.CHLOROPHYLL
 		},
@@ -212,7 +212,7 @@ var LIST: Array = [
 		"base_exp": 65,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Charmander/charmander.tscn",
-		"nature": {
+		"ability": {
 			"default": ENUMS.Ability.BLAZE,
 			"hidden": ENUMS.Ability.SOLAR_POWER
 		},
@@ -263,7 +263,7 @@ var LIST: Array = [
 		"base_exp": 142,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Charmeleon/charmeleon.tscn",
-		"nature": {
+		"ability": {
 			"default": ENUMS.Ability.BLAZE,
 			"hidden": ENUMS.Ability.SOLAR_POWER
 		},
@@ -314,7 +314,7 @@ var LIST: Array = [
 		"base_exp": 267,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Charizard/charizard.tscn",
-		"nature": {
+		"ability": {
 			"default": ENUMS.Ability.BLAZE,
 			"hidden": ENUMS.Ability.SOLAR_POWER
 		},
@@ -365,7 +365,7 @@ var LIST: Array = [
 		"base_exp": 63,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Squirtle/squirtle.tscn",
-		"nature": {
+		"ability": {
 			"default": ENUMS.Ability.TORRENT,
 			"hidden": ENUMS.Ability.RAIN_DISH
 		},
@@ -418,7 +418,7 @@ var LIST: Array = [
 		"base_exp": 142,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Wartortle/wartortle.tscn",
-		"nature": {
+		"ability": {
 			"default": ENUMS.Ability.TORRENT,
 			"hidden": ENUMS.Ability.RAIN_DISH
 		},
@@ -471,7 +471,7 @@ var LIST: Array = [
 		"base_exp": 239,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Blastoise/blastoise.tscn",
-		"nature": {
+		"ability": {
 			"default": ENUMS.Ability.TORRENT,
 			"hidden": ENUMS.Ability.RAIN_DISH
 		},
@@ -524,7 +524,7 @@ var LIST: Array = [
 		"base_exp": 39,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Caterpie/caterpie.tscn",
-		"nature": {
+		"ability": {
 			"default": ENUMS.Ability.SHIELD_DUST,
 			"hidden": ENUMS.Ability.RUN_AWAY
 		},
@@ -577,7 +577,7 @@ var LIST: Array = [
 		"base_exp": 159,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Beedrill/beedrill.tscn",
-		"nature": {
+		"ability": {
 			"default": ENUMS.Ability.SWARM,
 			"hidden": ENUMS.Ability.SNIPER
 		},
@@ -628,7 +628,7 @@ var LIST: Array = [
 		"base_exp": 50,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Pidgey/pidgey.tscn",
-		"nature": {
+		"ability": {
 			"default": ENUMS.Ability.KEEN_EYE,
 			"hidden": ENUMS.Ability.BIG_PECKS
 		},
@@ -679,7 +679,7 @@ var LIST: Array = [
 		"base_exp": 51,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Rattata/rattata.tscn",
-		"nature": {
+		"ability": {
 			"default": ENUMS.Ability.RUN_AWAY,
 			"hidden": ENUMS.Ability.HUSTLE
 		},
@@ -730,7 +730,7 @@ var LIST: Array = [
 		"base_exp": 82,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Pikachu/pikachu.tscn",
-		"nature": {
+		"ability": {
 			"default": ENUMS.Ability.STATIC,
 			"hidden": ENUMS.Ability.LIGHTING_ROD
 		},
@@ -781,7 +781,7 @@ var LIST: Array = [
 		"base_exp": 86,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Geodude/geodude.tscn",
-		"nature": {
+		"ability": {
 			"default": ENUMS.Ability.STATIC,
 			"hidden": ENUMS.Ability.LIGHTING_ROD
 		},
@@ -832,7 +832,7 @@ var LIST: Array = [
 		"base_exp": 83,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Horsea/horsea.tscn",
-		"nature": {
+		"ability": {
 			"default": ENUMS.Ability.SWITH_SWIM,
 			"hidden": ENUMS.Ability.DAMP
 		},
@@ -883,7 +883,7 @@ var LIST: Array = [
 		"base_exp": 220,
 		"category": ENUMS.PokemonCategory.LEGENDARY,
 		"sprites": "res://Sprites/Animated/Ho-oh/ho-oh.tscn",
-		"nature": {
+		"ability": {
 			"default": ENUMS.Ability.PRESSURE,
 			"hidden": ENUMS.Ability.REGENERATOR
 		},
@@ -934,7 +934,7 @@ var LIST: Array = [
 		"base_exp": 220,
 		"category": ENUMS.PokemonCategory.LEGENDARY,
 		"sprites": "res://Sprites/Animated/Rayquaza/rayquaza.tscn",
-		"nature": {
+		"ability": {
 			"default": ENUMS.Ability.AIR_LOCK,
 			"hidden": null
 		},

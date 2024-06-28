@@ -108,3 +108,106 @@ func get_random_float(level: int) -> float:
 	var random_index = randi_range(0, num_steps);
 	var random_float = 0.85 + random_index * 0.01;
 	return random_float;
+
+func get_nature_multiplier(nature: ENUMS.Nature, key: String) -> float:
+	if(key in nature_multiplier[nature]): 
+		return nature_multiplier[nature][key];
+	return 1.0;
+
+var nature_multiplier = {
+	ENUMS.Nature.ADAMANT: {
+		"ATK": 1.1,
+		"S.ATK": 0.9
+	},
+	ENUMS.Nature.BASHFUL: {
+		"S.ATK": 1.0
+	},
+	ENUMS.Nature.BOLD: {
+		"DEF": 1.1,
+		"ATK": 0.9
+	},
+	ENUMS.Nature.BRAVE: {
+		"ATK": 1.1,
+		"SPD": 0.9
+	},
+	ENUMS.Nature.CALM: {
+		"S.DEF": 1.1,
+		"ATK": 0.9
+	},
+	ENUMS.Nature.CAREFUL: {
+		"S.DEF": 1.1,
+		"S.ATK": 0.9
+	},
+	ENUMS.Nature.DOCILE: {
+		"DEF": 1.0
+	},
+	ENUMS.Nature.GENTLE: {
+		"S.DEF": 1.1,
+		"DEF": 0.9
+	},
+	ENUMS.Nature.HARDY: {
+		"ATK": 1.0
+	},
+	ENUMS.Nature.HASTY: {
+		"SPD": 1.1,
+		"DEF": 0.9
+	},
+	ENUMS.Nature.IMPISH: {
+		"DEF": 1.1,
+		"S.ATK": 0.9
+	},
+	ENUMS.Nature.JOLLY: {
+		"SPD": 1.1,
+		"S.ATK": 0.9
+	},
+	ENUMS.Nature.LAX: {
+		"DEF": 1.1,
+		"S.DEF": 0.9
+	},
+	ENUMS.Nature.LONELY: {
+		"ATK": 1.1,
+		"DEF": 0.9
+	},
+	ENUMS.Nature.MILD: {
+		"S.ATK": 1.1,
+		"DEF": 0.9
+	},
+	ENUMS.Nature.MODEST: {
+		"S.ATK": 1.1,
+		"ATK": 0.9
+	},
+	ENUMS.Nature.NAIVE: {
+		"SPD": 1.1,
+		"S.DEF": 0.9
+	},
+	ENUMS.Nature.NAUGHTY: {
+		"ATK": 1.1,
+		"S.DEF": 0.9
+	},
+	ENUMS.Nature.QUIET: {
+		"S.ATK": 1.1,
+		"SPD": 0.9
+	},
+	ENUMS.Nature.QUIRKY: {
+		"S.DEF": 1.0
+	},
+	ENUMS.Nature.RASH: {
+		"S.ATK": 1.1,
+		"S.DEF": 0.9
+	},
+	ENUMS.Nature.RELAXED: {
+		"DEF": 1.1,
+		"SPD": 0.9
+	},
+	ENUMS.Nature.SASSY: {
+		"S.DEF": 1.1,
+		"SPD": 0.9
+	},
+	ENUMS.Nature.SERIOUS: {
+		"SPD": 1.0
+	},
+	ENUMS.Nature.TIMID: {
+		"SPD": 1.1,
+		"ATK": 0.9
+	}
+}

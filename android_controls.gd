@@ -49,7 +49,6 @@ func _on_button_pressed(button: TouchScreenButton):
 		'Select': active_select.visible = true;
 
 func _on_button_released(button: TouchScreenButton):
-	print(button.name)
 	match button.name:
 		'A-Button': active_a.visible = false;
 		'B-Button': active_b.visible = false;

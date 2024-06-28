@@ -53,11 +53,13 @@ func get_showcase_last_index() -> int:
 func add_pokemon_to_showcase(pokemon = null) -> void:
 	if(pokemon != null):
 		var last_index = get_showcase_last_index();
-		#REPEATED
-		if(last_index == pokemon.number || last_index == -1): return;
-		#IF LOWER ASSIGN TO CURRENT LIST
-		#TODO iF OWNED AND GET A SEEN
-		if(last_index > pokemon.number):
+		if(last_index == -1): return;
+		if(
+			int(pokemon.number - 1) in pokedex_showcase && 
+			pokedex_showcase[pokemon.number - 1].owned == true
+		): return;
+		#LOWER - ASSIGN TO CURRENT LIST
+		if(last_index >= pokemon.number):
 			pokedex_showcase[pokemon.number - 1] = pokemon;
 			return;
 		#GREATER - CREATE NULLS TILL NEW POKEMON

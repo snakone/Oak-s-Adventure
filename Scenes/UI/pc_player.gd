@@ -28,13 +28,12 @@ func start_dialog() -> void:
 	await GLOBAL.timeout(0.2);
 	can_use_menu = true;
 
-func _on_scene_opened(value: bool, node_name: String) -> void:
+func _on_scene_opened(value: bool, _node_name: String) -> void:
 	#CLOSED
 	if(!value):
 		can_use_menu = true;
 		process_mode = Node.PROCESS_MODE_INHERIT;
 		nine_rect.visible = true;
-	scene_manager.get_node(node_name).queue_free();
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(
@@ -46,6 +45,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		GLOBAL.on_battle ||
 		!can_use_menu
 	): return;
+	
 	if(Input.is_action_just_pressed("backMenu")): close_menu();
 	elif(
 		Input.is_action_just_pressed("moveDown") || 

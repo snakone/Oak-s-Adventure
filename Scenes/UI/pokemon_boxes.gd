@@ -43,6 +43,7 @@ var changing_box = false;
 var picking = false;
 var holding = false;
 var closing = false;
+var opening = false;
 var selected_index = 0;
 var current_index = 0;
 var selected_box = 1;
@@ -81,7 +82,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		changing_box ||
 		GLOBAL.menu_open ||
 		picking ||
-		closing
+		closing ||
+		opening
 	): return;
 	
 	if(Input.is_action_just_pressed("backMenu")): close_box();
@@ -281,6 +283,7 @@ func swap_pokes() -> void:
 #PARTY PANEL
 func open_party_panel() -> void:
 	if(party_panel_opened): return;
+	opening = true;
 	play_audio(LIBRARIES.SOUNDS.GUI_STORAGE_SHOW_PARTY_PANEL);
 	party_panel_opened = true;
 	party_anim_player.play("Show");
@@ -292,9 +295,11 @@ func open_party_panel() -> void:
 	if(holding): 
 		holding_sprite.scale = Vector2(0.8, 0.8);
 		holding_sprite.offset = Vector2(2.5, 12.4);
+	opening = false;
 
 func close_party_panel() -> void:
 	if(!party_panel_opened): return;
+	closing = true;
 	play_audio(LIBRARIES.SOUNDS.GUI_STORAGE_HIDE_PARTY_PANEL);
 	party_anim_player.play("Hide");
 	await party_anim_player.animation_finished;
@@ -305,6 +310,7 @@ func close_party_panel() -> void:
 	if(holding): 
 		holding_sprite.scale = Vector2(1, 1);
 		holding_sprite.offset = Vector2(-1, 6);
+	closing = false;
 
 func close_box() -> void:
 	#PARTY OPENED

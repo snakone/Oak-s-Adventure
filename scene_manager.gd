@@ -55,6 +55,9 @@ func create_new_scene() -> void:
 	var new_node = await load(next_scene).instantiate();
 	current_scene.call_deferred("add_child", new_node);
 
+func _on_scene_opened(value: bool, node_name: String) -> void:
+	if(value == false): get_node(node_name).queue_free();
+
 #DIALOGS
 func _on_start_dialog(id: int) -> void:
 	if(dialogue_inst != null): _on_close_dialog();
@@ -123,4 +126,5 @@ func listen_to_signals() -> void:
 	GLOBAL.connect("close_battle", _on_end_battle);
 	GLOBAL.connect("open_pc", _on_open_pc);
 	GLOBAL.connect("close_pc", _on_close_pc);
+	GLOBAL.connect("scene_opened", _on_scene_opened);
 

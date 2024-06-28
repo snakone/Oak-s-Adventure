@@ -117,7 +117,7 @@ func set_battle_stats() -> void:
 	for key in data.IV.keys():
 		var value = data.IV[key];
 		var stat_base = data.stats[key];
-		var nature = 1.0;
+		var nature = LIBRARIES.FORMULAS.get_nature_multiplier(data.nature, key);
 		if(key != "HP"):
 			var stat = LIBRARIES.FORMULAS.stat_formula(stat_base, value, nature, data.level);
 			data.battle_stats[key] = stat;
@@ -201,14 +201,21 @@ func get_extra_props() -> void:
 		data.exp_type = POKEDEX.get_pokemon_prop(data.number, 'exp_type');
 	if("types" not in data):
 		data.types = POKEDEX.get_pokemon_prop(data.number, 'types');
-	if("nature" not in data):
-		data.nature = POKEDEX.get_pokemon_prop(data.number, 'nature');
-	if("item" not in data):
-		data.item = null;
+	if("nature" not in data): data.nature = get_random_nature();
+	if("item" not in data): data.item = null;
+	if("ability" not in data):
+		data.ability = POKEDEX.get_pokemon_prop(data.number, 'ability').default;
+	elif(data.ability is Dictionary && "default" in data.ability):
+		data.ability = data.ability.default;
 
 #BASE STATS
 func get_base_stats() -> void:
 	data.stats = POKEDEX.get_pokemon_prop(data.number, "stats");
+
+func get_random_nature() -> ENUMS.Nature:
+	var keys = ENUMS.Nature.keys();
+	var index = randi() % keys.size();
+	return ENUMS.Nature[keys[index]];
 
 #RESOURCES
 func get_resources() -> void:

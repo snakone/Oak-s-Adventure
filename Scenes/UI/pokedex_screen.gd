@@ -88,8 +88,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		(!event is InputEventKey &&
 		!event is InputEventScreenTouch) ||
 		GLOBAL.on_transition || 
-		GLOBAL.dialog_open
+		GLOBAL.dialog_open ||
+		event.is_echo() ||
+		!event.is_pressed()
 	): return;
+	
 	#CLOSE
 	if(Input.is_action_just_pressed("backMenu")): 
 		handle_can_close();

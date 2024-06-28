@@ -43,7 +43,7 @@ func _on_pick_item(data: Dictionary) -> void:
 	MAPS.pickable_by_map[str(area)][str(pickable)][str(number)] = true;
 	await GLOBAL.timeout(0.2);
 	call_deferred("queue_free");
-	
+
 func handle_pick() -> void:
 	get_node("PickableArea").emit_signal("area_exited", self);
 	process_mode = Node.PROCESS_MODE_DISABLED;

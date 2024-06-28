@@ -785,10 +785,14 @@ func item_heal(item: Dictionary) -> void:
 	update_battle_ui(true, true);
 	play_audio(LIBRARIES.SOUNDS.USE_ITEM_IN_PARTY);
 	await BATTLE.ui_updated;
-	dialog.quick([pokemon.name + " restored " + str(item_value) + " HP."]);
+	dialog.quick([pokemon.name + " restored " + str(get_healed_value(item_value)) + " HP."]);
 	await BATTLE.quick_dialog_end;
 	hp_anim_velocity = 1;
 	fake_attack();
+
+func get_healed_value(val: int) -> int:
+	var diff = pokemon.data.battle_stats["HP"] - health_before_attack;
+	return min(diff, val);
 
 #CATCH
 func start_catch(item: Dictionary) -> void:
@@ -799,13 +803,16 @@ func start_catch(item: Dictionary) -> void:
 	anim_player.play("Catch");
 	await anim_player.animation_finished;
 	AUDIO.stop();
-	play_audio(LIBRARIES.SOUNDS.BATTLE_CAPTURE_SUCCESS);
-	await battle_audio.finished;
-	AUDIO.play_battle_win();
+	player_audio.stream = LIBRARIES.SOUNDS.BATTLE_CAPTURE_SUCCESS;
+	player_audio.play();
 	dialog.start([
 		"Gotcha! " + enemy.name + " captured!", 
 		enemy.name + " registered in the POKéDEX!"
 	]);
+	enemy.data.pokeball = item.id;
+	enemy.data.met = MAPS.get_map_name(true);
+	await player_audio.finished;
+	AUDIO.play_battle_win();
 	
 	var showcase_poke = { 
 		"number": enemy.data.number, 
@@ -815,6 +822,7 @@ func start_catch(item: Dictionary) -> void:
 	}
 	
 	POKEDEX.add_pokemon_to_showcase(showcase_poke);
+	PARTY.add_pokemon_to_party(enemy);
 	await BATTLE.dialog_finished;
 	end_battle();
 

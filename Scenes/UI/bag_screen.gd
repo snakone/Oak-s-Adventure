@@ -29,11 +29,9 @@ extends CanvasLayer
 }
 
 enum SelectSlot { FIRST, SECOND, THIRD, FOURTH }
-
 const ITEM_scene = preload("res://Scenes/UI/bag_item.tscn");
 const LIST_ITEM_HEIGHT = 16;
 const CURSOR_HEIGHT_BOTTOM = 62;
-
 var picked = false;
 
 @onready var view_list = {
@@ -84,9 +82,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		!event is InputEventScreenTouch) ||
 		GLOBAL.on_transition ||
 		GLOBAL.dialog_open ||
+		event.is_echo() ||
+		!event.is_pressed() ||
 		Input.is_action_just_pressed("menu") ||
 		picked
 	): return;
+	
 	#CLOSE
 	if(Input.is_action_just_pressed("backMenu") && !select_open): 
 		close_bag();

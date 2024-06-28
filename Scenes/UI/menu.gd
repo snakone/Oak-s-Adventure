@@ -18,13 +18,11 @@ const bag_screen_path = "res://Scenes/UI/bag_screen.tscn";
 var options_length = MenuOptions.keys().size();
 var selected_option = 0;
 var is_player_moving = false;
-var scene_manager: Node2D;
 var screen_loaded = ScreenLoaded.NONE;
 var can_use_menu = true;
 
 func _ready():
 	if(SETTINGS.selected_marker): nine_rect.texture = SETTINGS.selected_marker;
-	scene_manager = get_parent();
 	control.visible = false;
 	update_cursor();
 	connect_signals();
@@ -39,7 +37,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		event.is_echo() ||
 		GLOBAL.dialog_open ||
 		GLOBAL.on_battle ||
-		GLOBAL.on_overlay ||
 		!can_use_menu
 	): return;
 	
@@ -58,7 +55,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	): GLOBAL.emit_signal("bike_inside");
 
 	match (screen_loaded):
-		ScreenLoaded.NONE: if(Input.is_action_just_pressed("menu")): 
+		ScreenLoaded.NONE: if(Input.is_action_just_pressed("menu") && !GLOBAL.on_overlay): 
 			handle_MENU();
 		ScreenLoaded.MENU:
 			if(
@@ -104,6 +101,7 @@ func open_pokedex() -> void:
 	play_audio(LIBRARIES.SOUNDS.GUI_POKEDEX_OPEN);
 	await audio.finished;
 	control.visible = false;
+	process_mode = Node.PROCESS_MODE_DISABLED;
 	GLOBAL.go_to_scene(pokedex_screen_path, true, false);
 
 #PARTY
@@ -113,43 +111,42 @@ func open_party() -> void:
 	GLOBAL.on_overlay = true;
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 	await audio.finished;
-	if(!GLOBAL.on_battle):
-		control.visible = false;
-		process_mode = Node.PROCESS_MODE_DISABLED;
+	control.visible = false;
+	process_mode = Node.PROCESS_MODE_DISABLED;
 	GLOBAL.go_to_scene(party_screen_path, true, false);
 
 #PROFILE
 func open_profile() -> void:
 	can_use_menu = false;
 	screen_loaded = ScreenLoaded.OAK;
+	GLOBAL.on_overlay = true;
 	play_audio(LIBRARIES.SOUNDS.TRAINER_CARD_OPEN);
 	await audio.finished;
 	control.visible = false;
 	GLOBAL.go_to_scene(profile_scene_path, true, false);
-	await GLOBAL.timeout(0.8)
+	await GLOBAL.timeout(0.8);
 	can_use_menu = true;
-	
+
 #BAG
 func open_bag() -> void:
 	can_use_menu = false;
 	screen_loaded = ScreenLoaded.BAG;
+	GLOBAL.on_overlay = true;
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 	await audio.finished;
-	if(GLOBAL.on_battle):
-		pass
 	control.visible = false;
 	process_mode = Node.PROCESS_MODE_DISABLED;
 	GLOBAL.go_to_scene(bag_screen_path, true, false);
 
-func _on_scene_opened(value: bool, node_name: String) -> void:
+func _on_scene_opened(value: bool, _node_name: String) -> void:
 	#CLOSED
 	if(GLOBAL.on_overlay || value): return;
 	if(!GLOBAL.on_battle && GLOBAL.menu_open): activate_menu();
-	scene_manager.get_node(node_name).queue_free();
 
 func close_profile() -> void:
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
-	_on_scene_opened(false, profile_scene_node);
+	GLOBAL.on_overlay = false;
+	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/Profile");
 
 func handle_MENU() -> void:
 	play_audio(LIBRARIES.SOUNDS.GUI_MENU_OPEN);
