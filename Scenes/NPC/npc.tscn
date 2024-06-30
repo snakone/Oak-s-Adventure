@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://xa22fo13s7np"]
+[gd_scene load_steps=13 format=3 uid="uid://xa22fo13s7np"]
 
 [ext_resource type="Script" path="res://Scenes/NPC/npc.gd" id="1_chn85"]
 [ext_resource type="Texture2D" uid="uid://cd3146vuujwx6" path="res://Sprites/NPC/mom.png" id="2_0d8cd"]
+[ext_resource type="Texture2D" uid="uid://dw4d68apfehd2" path="res://Assets/UI/Battle/trainer_exclamation.png" id="3_sg2cn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u6ea3"]
 size = Vector2(16, 16)
@@ -168,6 +169,13 @@ collision_mask = 31
 
 [node name="TrainerTimer" type="Timer" parent="Trainer"]
 wait_time = 0.016
+
+[node name="Exclamation" type="TextureRect" parent="Trainer"]
+visible = false
+offset_top = -24.0
+offset_right = 16.0
+offset_bottom = -8.0
+texture = ExtResource("3_sg2cn")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="body_entered" from="StopArea" to="." method="_on_npc_area_body_entered"]

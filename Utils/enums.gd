@@ -266,3 +266,7 @@ enum NPCType {
 	ELITE,
 	LEADER
 }
+
+enum Trainer {
+	GREEN_GUY
+}

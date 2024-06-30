@@ -34,6 +34,7 @@ extends StaticBody2D
 @onready var trainer_container: Node2D = $Trainer;
 @onready var trainer_ray_cast_2d: RayCast2D = $Trainer/TrainerRayCast2D;
 @onready var trainer_timer: Timer = $Trainer/TrainerTimer;
+@onready var exclamation: TextureRect = $Trainer/Exclamation;
 
 var limits_possitive;
 var limits_negative;
@@ -207,7 +208,7 @@ func _on_trainer_timer_timeout() -> void:
 		if(not collider is CharacterBody2D): return;
 		trainer_timer.stop();
 		timer.stop();
-		start_walking_towards(collider);
+		await start_walking_towards(collider);
 		trainer_container.queue_free();
 
 #WALK
@@ -215,12 +216,19 @@ func start_walking_towards(oak: CharacterBody2D) -> void:
 	AUDIO.stop();
 	oak.trainer_insight = true;
 	await GLOBAL.timeout(0.2);
+	await show_trainer_exclamation();
 	var steps = get_intermediate_points(self.position, oak.position);
 	var direction = frame_directions[facing_direction];
 	for step in steps: 
 		await move(direction);
 	await GLOBAL.timeout(0.2);
 	await start_trainer_battle(oak, direction);
+
+func show_trainer_exclamation() -> void:
+	await GLOBAL.timeout(0.2);
+	exclamation.visible = true;
+	await GLOBAL.timeout(1);
+	exclamation.visible = false;
 
 #TRAINER BATTLE
 func start_trainer_battle(oak: CharacterBody2D, direction: Vector2) -> void:
