@@ -127,7 +127,7 @@ libraries = {
 }
 
 [node name="Song" type="AudioStreamPlayer" parent="."]
-volume_db = -33.231
+volume_db = -23.404
 
 [node name="Controls" type="CanvasLayer" parent="."]
 layer = 10

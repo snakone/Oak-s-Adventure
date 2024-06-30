@@ -52,13 +52,18 @@ var on_critical_status = false;
 var item_value: Variant = null;
 var hp_anim_velocity = 1;
 
+#TRAINER
+var trainer: Dictionary;
+
 func _ready():
 	BATTLE.reset_state();
 	connect_signals();
 	set_battle_ui();
 	BATTLE.type = battle_data.type;
+	AUDIO.play_battle_song();
 	match(battle_data.type):
 		ENUMS.BattleType.WILD: battle_wild();
+		ENUMS.BattleType.TRAINER: battle_trainer();
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(  
@@ -78,8 +83,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		ENUMS.BattleStates.LEVELLING: dialog.levelling_input();
 		ENUMS.BattleStates.ESCAPING: dialog.escape_input();
 
+#WILD
 func battle_wild() -> void:
-	AUDIO.play_battle_wild();
+	anim_player.play("Start");
+	await BATTLE.dialog_finished;
+	anim_player.play("Go");
+
+func battle_trainer() -> void:
 	anim_player.play("Start");
 	await BATTLE.dialog_finished;
 	anim_player.play("Go");
@@ -216,7 +226,8 @@ func update_battle_ui(
 	var new_size = float(target["current_hp"]) / float(target["total_hp"]);
 	
 	if(animated): await animate_hp_bar(target, new_size);
-	else: target.bar.scale.x = new_size;
+	else: 
+		target.bar.scale.x = new_size;
 	dialog.set_label("");
 	BATTLE.ui_updated.emit();
 	if(check_dialog): after_dialog_attack();
@@ -436,7 +447,7 @@ func handle_can_use_pokemon() -> void:
 		"category": ENUMS.SelectionCategory.BATTLE,
 		"selected": ENUMS.BinaryOptions.YES
 	});
-	
+
 func handle_no_pokemon_left() -> void:
 	await GLOBAL.timeout(0.8);
 	dialog.start(["No POKéMON left!\n", "You returned to the last safe spot..."]);
@@ -519,7 +530,7 @@ func end_battle() -> void:
 	PARTY.reset_all_active(true);
 
 func close_battle() -> void:
-	GLOBAL.emit_signal("close_battle");
+	GLOBAL.emit_signal("close_battle", battle_data);
 	AUDIO.stop_battle_and_play_last_song();
 	BATTLE.reset_state();
 
@@ -576,7 +587,7 @@ func set_player_ui() -> void:
 
 #ENEMY UI
 func set_enemy_ui() -> void:
-	var new_enemy = POKEDEX.get_pokemon(battle_data["enemy"]);
+	var new_enemy = POKEDEX.get_pokemon(battle_data["enemies"][0]);
 	enemy = Pokemon.new(new_enemy, true, battle_data.levels);
 	var enemy_name = enemy_info.get_node("Name");
 	var gender_node = enemy_info.get_node("Gender");

@@ -52,7 +52,8 @@ func input() -> void:
 
 #NEXT
 func next_dialog() -> void:
-	if(BATTLE.enemy_death && !BATTLE.on_victory): AUDIO.play_battle_win();
+	if(BATTLE.enemy_death && !BATTLE.on_victory): 
+		AUDIO.play_battle_win();
 	await write([array[line]]);
 	line += 1;
 	await GLOBAL.timeout(.2);

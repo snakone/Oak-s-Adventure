@@ -17,24 +17,30 @@ func play(song: AudioStream) -> void:
 
 func play_bike() -> void: if(!GLOBAL.on_bike): stop_and_play(LIBRARIES.SOUNDS.BICYCLE);
 func stop_and_play_last_song() -> void: stop_and_play(current_song);
-func play_battle_wild() -> void: stop_and_play(LIBRARIES.SOUNDS.BATTLE_WILD);
 
 func stop_battle_and_play_last_song() -> void:
 	if(GLOBAL.on_bike): stop_and_play(LIBRARIES.SOUNDS.BICYCLE);
 	else: stop_and_play(current_song);
+
+func play_battle_song() -> void: 
+	match BATTLE.type:
+		ENUMS.BattleType.WILD: 
+			stop_and_play(LIBRARIES.SOUNDS.BATTLE_WILD);
+		ENUMS.BattleType.TRAINER: 
+			stop_and_play(LIBRARIES.SOUNDS.BATTLE_TRAINER);
 
 func play_battle_win() -> void:
 	BATTLE.on_victory = true;
 	match BATTLE.type:
 		ENUMS.BattleType.WILD: 
 			stop_and_play(LIBRARIES.SOUNDS.BATTLE_VICTORY_WILD);
+		ENUMS.BattleType.TRAINER: 
+			stop_and_play(LIBRARIES.SOUNDS.BATTLE_VICTORY_TRAINER);
 
 func _on_song_finished() -> void:
 	if(GLOBAL.on_battle): 
-		if(BATTLE.on_victory): 
-			stop_and_play(LIBRARIES.SOUNDS.BATTLE_VICTORY_WILD);
-		else: 
-			stop_and_play(LIBRARIES.SOUNDS.BATTLE_WILD);
+		if(BATTLE.on_victory): play_battle_win();
+		else: play_battle_song();
 	elif(GLOBAL.on_bike): stop_and_play(LIBRARIES.SOUNDS.BICYCLE);
 	else: stop_and_play_last_song();
 

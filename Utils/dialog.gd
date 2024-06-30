@@ -514,4 +514,23 @@ const LIBRARY: Dictionary = {
 		"type": Type.PICKABLE,
 		"marker": true,
 	},
+	60: {
+		"arr": [
+			["Let met introduce you to the world of\nPOKéMON battles!"],
+			["self: Mmm ok, let's see how it goes."]
+		],
+		"type": Type.NPC,
+		"direction": ENUMS.Directions.ALL,
+		"marker": true,
+	},
+	61: {
+		"arr": [
+			["Well done! Your first battle win!"],
+			["self: Hehehe thank you!"], 
+			["self: Should I say... I once won the \nchampionship?"]
+		],
+		"type": Type.NPC,
+		"direction": ENUMS.Directions.ALL,
+		"marker": true,
+	},
 }

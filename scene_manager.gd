@@ -17,7 +17,8 @@ const not_save_scenes = [
 	"res://Scenes/UI/profile.tscn",
 	"res://Scenes/UI/pokemon_boxes.tscn",
 	"res://Scenes/UI/pokedex_screen.tscn",
-	"res://Scenes/UI/bag_screen.tscn"
+	"res://Scenes/UI/bag_screen.tscn",
+	"res://Scenes/UI/summary_screen.tscn"
 ];
 
 var dialogue_inst: CanvasLayer;
@@ -95,8 +96,8 @@ func _on_start_battle(battle_data: Dictionary):
 	battle_inst = BATTLE_SCENE.instantiate();
 	battle_inst.set_battle_data(battle_data);
 	anim_player.play("StartBattle");
-	
-func _on_end_battle() -> void:
+
+func _on_end_battle(_battle_data: Dictionary) -> void:
 	GLOBAL.on_battle = false;
 	battle_inst.call_deferred("queue_free");
 

@@ -31,7 +31,7 @@ func _on_area_2d_body_exited(_body):
 
 func active_effect() -> void: grass_effect.play();
 
-func _on_end_battle() -> void: 
+func _on_end_battle(_battle_data: Dictionary) -> void: 
 	call_deferred("set_process", Node.PROCESS_MODE_INHERIT);
 
 func reset_texture(value: bool): 
@@ -43,9 +43,8 @@ func check_for_battle(body: CharacterBody2D) -> void:
 	var battle = BATTLE.pokemon_encounter();
 	if(battle):
 		var index = get_random_pokemon();
-		GLOBAL.on_battle = true;
 		var battle_data = {
-			"enemy": index,
+			"enemies": [index],
 			"zone": zone,
 			"type": battle_type,
 			"levels": level_range

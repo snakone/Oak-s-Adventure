@@ -258,3 +258,11 @@ enum Nature {
 	SERIOUS,
 	TIMID
 }
+
+enum NPCType {
+	DEFAULT,
+	TRAINER,
+	SHOP,
+	ELITE,
+	LEADER
+}

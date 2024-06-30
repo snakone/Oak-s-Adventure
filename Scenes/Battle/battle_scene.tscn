@@ -1803,7 +1803,7 @@ texture = ExtResource("11_jd31m")
 [node name="HealthTimer" type="Timer" parent="Info/PlayerInfo"]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Info"]
-volume_db = -20.342
+volume_db = -16.0
 
 [node name="UI" type="Node2D" parent="."]
 

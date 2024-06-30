@@ -15,7 +15,7 @@ signal selection_value_select(value: ENUMS.BinaryOptions, category: ENUMS.Select
 signal visit_panel(map: String, delay: float);
 
 signal start_battle(battle_data: Dictionary);
-signal close_battle;
+signal close_battle(battle_data: Dictionary);
 
 signal pick_item(pickable: Dictionary);
 signal use_item(item: Dictionary);
