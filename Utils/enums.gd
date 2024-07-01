@@ -268,5 +268,6 @@ enum NPCType {
 }
 
 enum Trainer {
+	NONE,
 	GREEN_GUY
 }

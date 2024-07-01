@@ -170,7 +170,7 @@ collision_mask = 31
 [node name="TrainerTimer" type="Timer" parent="Trainer"]
 wait_time = 0.016
 
-[node name="Exclamation" type="TextureRect" parent="Trainer"]
+[node name="Exclamation" type="TextureRect" parent="."]
 visible = false
 offset_top = -24.0
 offset_right = 16.0

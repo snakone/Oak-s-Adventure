@@ -1,5 +1,6 @@
 extends StaticBody2D
 
+@export_group("NPC")
 @export var texture: Texture;
 @export var frames: int = 12;
 @export var state: ENUMS.NPCStates = ENUMS.NPCStates.MOVING;
@@ -22,19 +23,19 @@ extends StaticBody2D
 @onready var anim_player = $AnimationPlayer;
 
 #TRAINER
+@export_group("Trainer")
+@export var trainer_id: ENUMS.Trainer = ENUMS.Trainer.NONE;
+@export var end_dialog: int;
+@export var after_defeat_dialog: int;
 @export var battle_zone: ENUMS.BattleZones;
 @export var battle_pokemon: Array[ENUMS.Pokedex];
 @export var battle_range_level: Array[int];
-@export var trainer_id: int;
-@export var start_dialog: int;
-@export var defeat_dialog: int;
-@export var end_dialog: int;
 @export_range(1, 5) var view_range = 5;
 
 @onready var trainer_container: Node2D = $Trainer;
 @onready var trainer_ray_cast_2d: RayCast2D = $Trainer/TrainerRayCast2D;
 @onready var trainer_timer: Timer = $Trainer/TrainerTimer;
-@onready var exclamation: TextureRect = $Trainer/Exclamation;
+@onready var exclamation: TextureRect = $Exclamation;
 
 var limits_possitive;
 var limits_negative;
@@ -42,14 +43,17 @@ var is_talking = false;
 var inside_player_area = false;
 var is_player_moving = false;
 var dialog_data: Dictionary;
-var insight = false;
 var walking_towards = false;
+var already_defeated = false;
+var insight = false;
+
+var oak: CharacterBody2D;
 
 func _ready() -> void:
+	timer.start();
 	check_schedule();
 	connect_signals();
 	assign_npc();
-	timer.start();
 	check_if_trainer();
 
 func check_schedule() -> void:
@@ -60,8 +64,7 @@ func check_schedule() -> void:
 		queue_free();
 
 func check_if_trainer() -> void:
-	if(type != ENUMS.NPCType.TRAINER):
-		trainer_container.queue_free();
+	if(type != ENUMS.NPCType.TRAINER): trainer_container.queue_free();
 	else:
 		trainer_ray_cast_2d.target_position.y = view_range * GLOBAL.TILE_SIZE;
 		trainer_timer.start();
@@ -79,7 +82,6 @@ func assign_npc() -> void:
 
 func _on_timer_timeout() -> void:
 	if(is_talking): return;
-	
 	match state:
 		ENUMS.NPCStates.MOVING:
 			randomize(); 
@@ -87,7 +89,7 @@ func _on_timer_timeout() -> void:
 			handle_moving(random_int);
 			handle_idle(random_int);
 		ENUMS.NPCStates.IDLE: handle_idle(null);
-	if(type == ENUMS.NPCType.TRAINER):
+	if(type == ENUMS.NPCType.TRAINER && trainer_container != null):
 		update_trainer_raycast_direction();
 
 func handle_moving(random: int) -> void:
@@ -160,84 +162,65 @@ func move(new_direction: Vector2, duration = 0.4) -> void:
 func _on_start_dialog(id: int) -> void:
 	await get_tree().process_frame;
 	var pre_data = DIALOG.get_dialog(id);
-	#CHECK IS THE CORRECT DIALOG AND NPC
-	if("starter" in pre_data):
-		if(pre_data.starter != dialog_id):
-			return;
-	elif(dialog_id != id): return;
-		
-	var last_direction = GLOBAL.last_direction;
-	if(last_direction == Vector2.UP): sprite.frame = 0;
-	elif(last_direction == Vector2.DOWN): sprite.frame = 1;
-	elif(last_direction == Vector2.RIGHT): sprite.frame = 2;
-	elif(last_direction == Vector2.LEFT): sprite.frame = 3;
-		
+	if(!can_start_dialog(pre_data, id)): return;
 	is_talking = true;
 	dialog_data = pre_data;
+	if(walking_towards): return;
+	if(!insight): set_npc_direction();
+	if(
+		type == ENUMS.NPCType.TRAINER && 
+		!insight && 
+		trainer_container != null
+	): 
+		trainer_container.queue_free();
 
 func _on_close_dialog() -> void:
-	#CHECK WHAT NPC DIALOG TO CLOSE
-	if(
-		"response" in dialog_data || 
-		(
-			"starter" in dialog_data && 
-			dialog_data.starter == dialog_id && 
-			dialog_data["end"] == false
-		)): return;
+	if(!can_close_dialog()): return;
+	if(can_start_battle()):
+		if(!already_defeated):
+			if(!insight): set_npc_direction();
+			start_trainer_battle();
+			return;
+	elif(already_defeated): timer.start();
 	is_talking = false;
 	dialog_data = {};
-
-#TRAINER
-func update_trainer_raycast_direction() -> void:
-	match facing_direction:
-		ENUMS.FacingDirection.DOWN: trainer_ray_cast_2d.rotation_degrees = 0;
-		ENUMS.FacingDirection.UP: trainer_ray_cast_2d.rotation_degrees = 180.0;
-		ENUMS.FacingDirection.LEFT: trainer_ray_cast_2d.rotation_degrees = 90.0;
-		ENUMS.FacingDirection.RIGHT: trainer_ray_cast_2d.rotation_degrees = 270.0;
-
-var frame_directions = {
-	ENUMS.FacingDirection.DOWN: Vector2(0, 1) * GLOBAL.TILE_SIZE,
-	ENUMS.FacingDirection.UP: Vector2(0, -1) * GLOBAL.TILE_SIZE,
-	ENUMS.FacingDirection.LEFT: Vector2(-1, 0) * GLOBAL.TILE_SIZE,
-	ENUMS.FacingDirection.RIGHT: Vector2(1, 0) * GLOBAL.TILE_SIZE
-}
 
 func _on_trainer_timer_timeout() -> void:
 	if(trainer_ray_cast_2d.is_colliding()):
 		var collider = trainer_ray_cast_2d.get_collider();
 		if(not collider is CharacterBody2D): return;
+		insight = true;
 		trainer_timer.stop();
 		timer.stop();
-		await start_walking_towards(collider);
 		trainer_container.queue_free();
+		await start_walking_towards(collider);
 
-#WALK
-func start_walking_towards(oak: CharacterBody2D) -> void:
+#WALK TO PLAYER
+func start_walking_towards(collider: CharacterBody2D) -> void:
 	AUDIO.stop();
-	oak.trainer_insight = true;
+	walking_towards = true;
+	collider.trainer_insight = true;
 	await GLOBAL.timeout(0.2);
 	await show_trainer_exclamation();
-	var steps = get_intermediate_points(self.position, oak.position);
+	var steps = get_intermediate_points(self.position, collider.position);
 	var direction = frame_directions[facing_direction];
 	for step in steps: 
 		await move(direction);
 	await GLOBAL.timeout(0.2);
-	await start_trainer_battle(oak, direction);
+	await start_battle_dialog(collider, direction);
 
-func show_trainer_exclamation() -> void:
-	await GLOBAL.timeout(0.2);
-	exclamation.visible = true;
-	await GLOBAL.timeout(1);
-	exclamation.visible = false;
+func start_battle_dialog(collider: CharacterBody2D, direction: Vector2) -> void:
+	var next_direction = (direction / GLOBAL.TILE_SIZE) * -1;
+	collider.set_blend_direction(next_direction);
+	GLOBAL.last_direction = next_direction;
+	await GLOBAL.timeout(0.1);
+	collider.trainer_insight = false;
+	is_talking = true;
+	GLOBAL.start_dialog.emit(dialog_id);
 
 #TRAINER BATTLE
-func start_trainer_battle(oak: CharacterBody2D, direction: Vector2) -> void:
-	oak.set_blend_direction((direction / GLOBAL.TILE_SIZE) * -1);
-	await GLOBAL.timeout(0.1);
-	oak.trainer_insight = false;
-	GLOBAL.start_dialog.emit(start_dialog);
-	await GLOBAL.close_dialog;
-	
+func start_trainer_battle() -> void:
+	walking_towards = false;
 	var battle_data = {
 		"enemies": battle_pokemon,
 		"zone": battle_zone,
@@ -245,8 +228,37 @@ func start_trainer_battle(oak: CharacterBody2D, direction: Vector2) -> void:
 		"levels": battle_range_level,
 		"trainer_id": trainer_id
 	}
+	
 	oak.set_battle_data(battle_data);
 	oak.check_for_battle();
+	process_mode = Node.PROCESS_MODE_DISABLED;
+
+#END
+func _on_end_battle(battle_data: Dictionary) -> void:
+	process_mode = Node.PROCESS_MODE_INHERIT;
+	await GLOBAL.timeout(0.4);
+	if(is_same_trainer(battle_data)):
+		already_defeated = true;
+		type = ENUMS.NPCType.DEFAULT;
+		GLOBAL.start_dialog.emit(end_dialog);
+		await GLOBAL.close_dialog;
+		oak.dialog_id = after_defeat_dialog;
+		free_trainer_after_defeat();
+		insight = false;
+
+func show_trainer_exclamation(delay: float = 0.2) -> void:
+	if(!already_defeated):
+		await GLOBAL.timeout(delay);
+		exclamation.visible = true;
+		await GLOBAL.timeout(1);
+		exclamation.visible = false;
+
+func set_npc_direction() -> void:
+	var last_direction = GLOBAL.last_direction;
+	if(last_direction == Vector2.UP): sprite.frame = 0;
+	elif(last_direction == Vector2.DOWN): sprite.frame = 1;
+	elif(last_direction == Vector2.RIGHT): sprite.frame = 2;
+	elif(last_direction == Vector2.LEFT): sprite.frame = 3;
 
 #CHECKERS
 func check_limits(step: Vector2) -> Vector2:
@@ -260,6 +272,42 @@ func check_limits(step: Vector2) -> Vector2:
 		return Vector2.DOWN * GLOBAL.TILE_SIZE;
 	return step;
 
+func can_start_dialog(pre_data: Dictionary, id: int) -> bool:
+	if("starter" in pre_data):
+		if(pre_data.starter != dialog_id):
+			return false;
+	if(already_defeated): 
+		dialog_id = after_defeat_dialog;
+		return true;
+	elif(dialog_id != id): return false;
+	return true;
+
+func can_close_dialog() -> bool:
+	if("response" in dialog_data || 
+		(
+			"starter" in dialog_data && 
+			dialog_data.starter == dialog_id && 
+			dialog_data["end"] == false
+		)): return false;
+	return true;
+
+func can_start_battle() -> bool:
+	if(
+		type == ENUMS.NPCType.TRAINER && 
+		"trainer_id" in dialog_data && 
+		dialog_data.trainer_id == trainer_id
+		): return true;
+	return false;
+
+func is_same_trainer(battle_data: Dictionary) -> bool:
+	if(
+		battle_data.type == ENUMS.BattleType.TRAINER &&
+		"trainer_id" in battle_data && 
+		battle_data.trainer_id != null &&
+		trainer_id == battle_data.trainer_id
+		): return true;
+	return false;
+
 func connect_signals() -> void:
 	GLOBAL.connect("start_dialog", _on_start_dialog);
 	GLOBAL.connect("close_dialog", _on_close_dialog);
@@ -269,24 +317,22 @@ func connect_trainer_signals() -> void:
 	GLOBAL.connect("close_battle", _on_end_battle);
 	trainer_timer.connect("timeout", _on_trainer_timer_timeout);
 
-func _on_end_battle(battle_data: Dictionary) -> void:
-	await GLOBAL.timeout(0.4);
-	if(
-		battle_data.type == ENUMS.BattleType.TRAINER &&
-		"trainer_id" in battle_data && 
-		battle_data.trainer_id != null &&
-		trainer_id == battle_data.trainer_id
-		):
-		GLOBAL.start_dialog.emit(end_dialog);
-
 func _on_npc_area_body_entered(body): 
 	if("Oak" in body.name): inside_player_area = true;
 	if(body.position == position): position.y += 16;
+	oak = body;
 
 func _on_npc_area_body_exited(body): 
 	if("Oak" in body.name): inside_player_area = false;
 
 func _on_player_moving(value: bool) -> void: is_player_moving = value;
+
+func free_trainer_after_defeat() -> void:
+	if(state == ENUMS.NPCStates.IDLE):
+		can_down = true;
+		can_left = true;
+		can_right = true;
+		can_up = true;
 
 func get_intermediate_points(
 	start_point: Vector2, 
@@ -307,3 +353,18 @@ func get_intermediate_points(
 			points.append(Vector2(x, start_point.y));
 	
 	return points;
+
+#TRAINER
+func update_trainer_raycast_direction() -> void:
+	match facing_direction:
+		ENUMS.FacingDirection.DOWN: trainer_ray_cast_2d.rotation_degrees = 0;
+		ENUMS.FacingDirection.UP: trainer_ray_cast_2d.rotation_degrees = 180.0;
+		ENUMS.FacingDirection.LEFT: trainer_ray_cast_2d.rotation_degrees = 90.0;
+		ENUMS.FacingDirection.RIGHT: trainer_ray_cast_2d.rotation_degrees = 270.0;
+
+var frame_directions = {
+	ENUMS.FacingDirection.DOWN: Vector2(0, 1) * GLOBAL.TILE_SIZE,
+	ENUMS.FacingDirection.UP: Vector2(0, -1) * GLOBAL.TILE_SIZE,
+	ENUMS.FacingDirection.LEFT: Vector2(-1, 0) * GLOBAL.TILE_SIZE,
+	ENUMS.FacingDirection.RIGHT: Vector2(1, 0) * GLOBAL.TILE_SIZE
+}

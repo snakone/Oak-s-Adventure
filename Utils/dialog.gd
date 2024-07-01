@@ -1,6 +1,6 @@
 extends Node
 
-enum Type { NPC, OBJECT, SYSTEM, PC, NONE, PICKABLE }
+enum Type { NPC, OBJECT, SYSTEM, PC, NONE, PICKABLE, TRAINER }
 
 func get_dialog(id: int) -> Dictionary:
 	if(id in LIBRARY): return LIBRARY[id];
@@ -519,7 +519,8 @@ const LIBRARY: Dictionary = {
 			["Let met introduce you to the world of\nPOKéMON battles!"],
 			["self: Mmm ok, let's see how it goes."]
 		],
-		"type": Type.NPC,
+		"type": Type.TRAINER,
+		"trainer_id": ENUMS.Trainer.GREEN_GUY,
 		"direction": ENUMS.Directions.ALL,
 		"marker": true,
 	},
@@ -528,6 +529,15 @@ const LIBRARY: Dictionary = {
 			["Well done! Your first battle win!"],
 			["self: Hehehe thank you!"], 
 			["self: Should I say... I once won the \nchampionship?"]
+		],
+		"type": Type.TRAINER,
+		"trainer_id": ENUMS.Trainer.GREEN_GUY,
+		"direction": ENUMS.Directions.ALL,
+		"marker": true,
+	},
+	62: {
+		"arr": [
+			["Alright, you got me!"]
 		],
 		"type": Type.NPC,
 		"direction": ENUMS.Directions.ALL,
