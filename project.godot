@@ -33,6 +33,7 @@ BOXES="*res://Utils/boxes.gd"
 LIBRARIES="*res://Utils/libraries.gd"
 ENUMS="*res://Utils/enums.gd"
 BAG="*res://Utils/bag.gd"
+TRAINERS="*res://Utils/trainers.gd"
 
 [display]
 

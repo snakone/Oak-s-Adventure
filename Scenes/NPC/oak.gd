@@ -240,6 +240,7 @@ func _on_area_2d_area_exited(area: Area2D) -> void:
 	if("TalkArea" in area.name || "DialogArea" in area.name): 
 		can_talk = false;
 		dialog_id = -1;
+		trainer = null;
 	elif("PickableArea" in area.name): 
 		can_pick = false;
 		pickable_data = null;
@@ -303,9 +304,7 @@ func check_for_pickables() -> void:
 		): open_pickable_dialog();
 
 func open_trainer_dialog() -> void:
-	#CHECK IF TRAINER DEFEATED
 	if(trainer != null && !trainer.already_defeated):
-		play_audio(LIBRARIES.SOUNDS.CONFIRM);
 		AUDIO.stop();
 		await trainer.show_trainer_exclamation(0);
 	start_dialog_state(dialog_id, trainer == null);

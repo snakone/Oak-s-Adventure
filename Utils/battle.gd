@@ -163,8 +163,3 @@ func remove_participant(poke: Object) -> void: participants.erase(poke);
 
 func get_pokeball_texture(id: ENUMS.Item):
 	return pokeball_textures[id];
-
-func get_trainer_by_id(id: ENUMS.Trainer) -> Variant:
-	if(id in LIBRARIES.TRAINERS.LIST):
-		return LIBRARIES.TRAINERS.LIST[id];
-	return null;

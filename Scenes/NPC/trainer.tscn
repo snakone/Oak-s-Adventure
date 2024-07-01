@@ -1,8 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://xa22fo13s7np"]
+[gd_scene load_steps=13 format=3 uid="uid://c77s86a2rfdbg"]
 
-[ext_resource type="Script" path="res://Scenes/NPC/npc.gd" id="1_chn85"]
-[ext_resource type="Texture2D" uid="uid://cd3146vuujwx6" path="res://Sprites/NPC/mom.png" id="2_0d8cd"]
-[ext_resource type="Texture2D" uid="uid://dw4d68apfehd2" path="res://Assets/UI/Battle/trainer_exclamation.png" id="3_sg2cn"]
+[ext_resource type="Script" path="res://Scenes/NPC/trainer.gd" id="1_lymys"]
+[ext_resource type="Texture2D" uid="uid://cd3146vuujwx6" path="res://Sprites/NPC/mom.png" id="2_p2hfy"]
+[ext_resource type="Texture2D" uid="uid://dw4d68apfehd2" path="res://Assets/UI/Battle/trainer_exclamation.png" id="3_q0k4k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u6ea3"]
 size = Vector2(16, 16)
@@ -115,16 +115,16 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_16cn7"]
 size = Vector2(58, 58)
 
-[node name="NPC" type="StaticBody2D"]
+[node name="Trainer" type="StaticBody2D"]
 y_sort_enabled = true
 collision_layer = 8
 collision_mask = 15
-script = ExtResource("1_chn85")
+script = ExtResource("1_lymys")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 1
 y_sort_enabled = true
-texture = ExtResource("2_0d8cd")
+texture = ExtResource("2_p2hfy")
 centered = false
 offset = Vector2(0, -4)
 hframes = 12
@@ -159,12 +159,25 @@ collision_layer = 16
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TalkArea"]
 polygon = PackedVector2Array(4, 4, 4, -12, 12, -12, 12, 4, 28, 4, 28, 12, 12, 12, 12, 28, 4, 28, 4, 12, -12, 12, -12, 4)
 
+[node name="Trainer" type="Node2D" parent="."]
+
+[node name="TrainerRayCast2D" type="RayCast2D" parent="Trainer"]
+position = Vector2(8, 8)
+rotation = 1.5708
+target_position = Vector2(0, 37)
+collision_mask = 31
+
+[node name="TrainerTimer" type="Timer" parent="Trainer"]
+wait_time = 0.016
+
 [node name="Exclamation" type="TextureRect" parent="."]
 visible = false
+z_index = 2
+y_sort_enabled = true
 offset_top = -24.0
 offset_right = 16.0
 offset_bottom = -8.0
-texture = ExtResource("3_sg2cn")
+texture = ExtResource("3_q0k4k")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="body_entered" from="StopArea" to="." method="_on_npc_area_body_entered"]

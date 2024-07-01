@@ -17,7 +17,7 @@ enum PokedexIndexOptions {
 enum Directions { LEFT, RIGHT, UP, DOWN, NONE, ALL }
 enum FacingDirection { DOWN, UP, LEFT, RIGHT };
 enum Genders { MALE, FEMALE }
-enum SaveType { PLAYER, SCENE, PARTY, BOXES, NPC, POKEDEX, BAG }
+enum SaveType { PLAYER, SCENE, PARTY, BOXES, NPC, POKEDEX, BAG, TRAINERS }
 enum DoorType { IN, OUT }
 enum BinaryOptions { YES, NO }
 enum DoorCategory { DOOR, TUNNEL }
@@ -269,5 +269,7 @@ enum NPCType {
 
 enum Trainer {
 	NONE,
-	GREEN_GUY
+	GREEN_GUY,
+	BLUE_GUY,
+	RED_GUY
 }

@@ -526,9 +526,9 @@ const LIBRARY: Dictionary = {
 	},
 	61: {
 		"arr": [
-			["Well done! Your first battle win!"],
+			["Well done! Your first battle victory!"],
 			["self: Hehehe thank you!"], 
-			["self: Should I say... I once won the \nchampionship?"]
+			["self: Should I say... I once won the \nchampionship? Mmm nevermind."]
 		],
 		"type": Type.TRAINER,
 		"trainer_id": ENUMS.Trainer.GREEN_GUY,
@@ -540,6 +540,33 @@ const LIBRARY: Dictionary = {
 			["Alright, you got me!"]
 		],
 		"type": Type.NPC,
+		"direction": ENUMS.Directions.ALL,
+		"marker": true,
+	},
+	63: {
+		"arr": [
+			["Welcome to the battleground!"],
+		],
+		"type": Type.TRAINER,
+		"trainer_id": ENUMS.Trainer.BLUE_GUY,
+		"direction": ENUMS.Directions.ALL,
+		"marker": true,
+	},
+	64: {
+		"arr": [
+			["Are you really a newbie trainer?"]
+		],
+		"type": Type.TRAINER,
+		"trainer_id": ENUMS.Trainer.BLUE_GUY,
+		"direction": ENUMS.Directions.ALL,
+		"marker": true,
+	},
+	65: {
+		"arr": [
+			["You are better than I thought"]
+		],
+		"type": Type.TRAINER,
+		"trainer_id": ENUMS.Trainer.BLUE_GUY,
 		"direction": ENUMS.Directions.ALL,
 		"marker": true,
 	},
