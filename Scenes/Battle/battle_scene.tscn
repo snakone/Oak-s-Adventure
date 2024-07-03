@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://3clfgm81x0yq"]
+[gd_scene load_steps=70 format=3 uid="uid://3clfgm81x0yq"]
 
 [ext_resource type="Script" path="res://Scenes/Battle/battle_scene.gd" id="1_vc7g5"]
 [ext_resource type="Shader" path="res://Scenes/UI/Shaders/flash.gdshader" id="2_hhjny"]
@@ -34,6 +34,9 @@
 [ext_resource type="Texture2D" uid="uid://dpfe8yroc7ll8" path="res://Assets/UI/Battle/Backgrounds/scroll_grass/grass_04.png" id="27_06oqu"]
 [ext_resource type="Texture2D" uid="uid://dd01fxyrvl7pl" path="res://Assets/UI/Battle/pokeball_catch.png" id="27_dkmrm"]
 [ext_resource type="Texture2D" uid="uid://divokpgmct8fi" path="res://Assets/UI/Battle/Backgrounds/scroll_grass/grass_05.png" id="28_dnnjq"]
+[ext_resource type="Texture2D" uid="uid://dwcp656essrwy" path="res://Assets/UI/Trainers/green_guy.png" id="28_hjefi"]
+[ext_resource type="Texture2D" uid="uid://cf4rgtonplhhi" path="res://Assets/UI/Battle/pokemon_counter_left_empty.png" id="29_6k11u"]
+[ext_resource type="Texture2D" uid="uid://clik1vi6xvkjk" path="res://Assets/UI/Battle/counter_pokeball_sprite.png" id="30_2sdaj"]
 [ext_resource type="AudioStream" uid="uid://c65pmmk1yu3rg" path="res://Assets/Sounds/spawnpokemon.mp3.wav" id="30_tmaf8"]
 [ext_resource type="AudioStream" uid="uid://c2utb5qs2iov7" path="res://Assets/Sounds/Battle ball drop.ogg" id="31_grrir"]
 [ext_resource type="AudioStream" uid="uid://dbeavy3hibyai" path="res://Assets/Sounds/Battle ball shake.ogg" id="31_ouhi6"]
@@ -355,10 +358,220 @@ tracks/11/keys = {
 "method": &"play_shout_pokemon"
 }, {
 "args": [],
-"method": &"check_intro_dialog"
+"method": &"check_wild_intro"
 }, {
 "args": [],
 "method": &"check_status"
+}]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("UI/PlayerSprite:position")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0, 1.8, 2.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(64, 97), Vector2(64, 105), Vector2(64, 97)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Background:material:shader_parameter/intensity")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(1.8, 2.1, 2.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("UI/PlayerSprite:scale")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(1.8, 2.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1, 1)]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("UI/PlayerSprite:material:shader_parameter/intensity")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(1.8, 2.25, 2.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [1.0, 1.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_ashb8"]
+resource_name = "GoTrainer"
+length = 4.0
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Info/PlayerInfo:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(300, 93), Vector2(182, 93)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Animation/Oak:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(60, 80), Vector2(-36, 80)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Animation/Oak:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("20_8lsng"), ExtResource("21_yqy66"), ExtResource("22_lr1rg"), ExtResource("23_jtn2l"), ExtResource("22_lr1rg")]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("UI/PlayerSprite:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Animation/Pokeball:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.7, 1, 1.2, 1.65),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(54, 68), Vector2(59, 70), Vector2(62, 86), Vector2(64, 105)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Animation/Pokeball:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.7, 1.65),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Animation/Pokeball:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.7, 0.92, 1.14, 1.35, 1.58),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 4.71239, 9.42478, 14.1372, 18.8496]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Info/PlayerInfo:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/8/type = "audio"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("AudioPlayer")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("30_tmaf8")
+}],
+"times": PackedFloat32Array(2)
+}
+tracks/8/use_blend = true
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Dialog/Label:text")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(1.9),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [""]
+}
+tracks/10/type = "method"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("BattleAnimationPlayer")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(2.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Idle", -1, 1.0, false],
+"method": &"play"
+}]
+}
+tracks/11/type = "method"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath(".")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(2.35, 2.5, 3.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"play_shout_pokemon"
+}, {
+"args": [],
+"method": &"check_status"
+}, {
+"args": [],
+"method": &"check_trainer_intro"
 }]
 }
 tracks/12/type = "value"
@@ -920,7 +1133,7 @@ tracks/10/keys = {
 "method": &"play_shout_enemy"
 }, {
 "args": [],
-"method": &"start_battle_dialog"
+"method": &"start_wild_battle"
 }]
 }
 tracks/11/type = "value"
@@ -1171,14 +1384,505 @@ tracks/15/keys = {
 "values": [Vector2(64, 97), Vector2(64, 105), Vector2(64, 105), Vector2(64, 97)]
 }
 
+[sub_resource type="Animation" id="Animation_an31v"]
+resource_name = "TrainerStart"
+length = 5.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Animation/TopRect:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(240, 80), Vector2(240, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Animation/BottomRect:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 3.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, -1), Vector2(1, 1e-05)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Ground/PlayerGround:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 3.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(308, 106), Vector2(64, 106)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(3.7),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"start_trainer_battle"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Animation/Oak:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 3.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(308, 80), Vector2(64, 80)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Scroll:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("UI/EnemySprite:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Trainer/Sprite2D:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Trainer/Sprite2D:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 3.4, 4.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.294118, 0.294118, 0.294118, 1), Color(0.294118, 0.294118, 0.294118, 1), Color(1, 1, 1, 1)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Trainer/Sprite2D:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0.6, 3.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-50, 34), Vector2(174, 34)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Ground/EnemyGround:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0.6, 3.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-102, 30), Vector2(122, 30)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Trainer/Counter/PlayerCounter:position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(3.4, 3.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(240, 88), Vector2(136, 88)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Trainer/Counter/TrainerCounter:position")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(3.4, 3.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-152, 10), Vector2(-48, 10)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Scroll/Grass:texture")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("27_06oqu"), ExtResource("28_dnnjq"), ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("27_06oqu"), ExtResource("28_dnnjq"), ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("27_06oqu"), ExtResource("28_dnnjq"), ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("27_06oqu"), ExtResource("28_dnnjq"), ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("27_06oqu"), ExtResource("28_dnnjq"), ExtResource("16_vfw16"), ExtResource("25_0jmh2"), ExtResource("26_sf7nx"), ExtResource("28_dnnjq"), ExtResource("26_sf7nx")]
+}
+tracks/14/type = "bezier"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Scroll:position:x")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.2, 0.5, 0.25, 0),
+"times": PackedFloat32Array(0, 3.4)
+}
+tracks/15/type = "bezier"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Scroll:position:y")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 1.5, -13.5, 80, -0.25, 0, 0.25, 0, 135, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 3.4, 4.2)
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("Trainer/Counter/PlayerCounter:visible")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("Trainer/Counter/TrainerCounter:visible")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("Trainer/Counter/Oak/Pokeball-1:position")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
+"times": PackedFloat32Array(3.9, 4.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(260, 88), Vector2(156, 88)]
+}
+tracks/19/type = "value"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath("Trainer/Counter/Oak/Pokeball-2:position")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = {
+"times": PackedFloat32Array(4.1, 4.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(270, 88), Vector2(166, 88)]
+}
+tracks/20/type = "value"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("Trainer/Counter/Oak/Pokeball-3:position")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = {
+"times": PackedFloat32Array(4.3, 4.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(280, 88), Vector2(176, 88)]
+}
+tracks/21/type = "value"
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/path = NodePath("Trainer/Counter/Oak/Pokeball-4:position")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/keys = {
+"times": PackedFloat32Array(4.5, 4.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(290, 88), Vector2(186, 88)]
+}
+tracks/22/type = "value"
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/path = NodePath("Trainer/Counter/Oak/Pokeball-5:position")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/keys = {
+"times": PackedFloat32Array(4.7, 4.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(300, 88), Vector2(196, 88)]
+}
+tracks/23/type = "value"
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/path = NodePath("Trainer/Counter/Oak/Pokeball-6:position")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/keys = {
+"times": PackedFloat32Array(4.9, 5.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(310, 88), Vector2(206, 88)]
+}
+tracks/24/type = "value"
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/path = NodePath("Trainer/Counter/Trainer/Pokeball-1:position")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/keys = {
+"times": PackedFloat32Array(3.9, 4.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-28, 10), Vector2(76, 10)]
+}
+tracks/25/type = "value"
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/path = NodePath("Trainer/Counter/Trainer/Pokeball-2:position")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/keys = {
+"times": PackedFloat32Array(4.1, 4.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-38, 10), Vector2(66, 10)]
+}
+tracks/26/type = "value"
+tracks/26/imported = false
+tracks/26/enabled = true
+tracks/26/path = NodePath("Trainer/Counter/Trainer/Pokeball-3:position")
+tracks/26/interp = 1
+tracks/26/loop_wrap = true
+tracks/26/keys = {
+"times": PackedFloat32Array(4.3, 4.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-48, 10), Vector2(56, 10)]
+}
+tracks/27/type = "value"
+tracks/27/imported = false
+tracks/27/enabled = true
+tracks/27/path = NodePath("Trainer/Counter/Trainer/Pokeball-4:position")
+tracks/27/interp = 1
+tracks/27/loop_wrap = true
+tracks/27/keys = {
+"times": PackedFloat32Array(4.5, 4.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-58, 10), Vector2(46, 10)]
+}
+tracks/28/type = "value"
+tracks/28/imported = false
+tracks/28/enabled = true
+tracks/28/path = NodePath("Trainer/Counter/Trainer/Pokeball-5:position")
+tracks/28/interp = 1
+tracks/28/loop_wrap = true
+tracks/28/keys = {
+"times": PackedFloat32Array(4.7, 4.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-68, 10), Vector2(36, 10)]
+}
+tracks/29/type = "value"
+tracks/29/imported = false
+tracks/29/enabled = true
+tracks/29/path = NodePath("Trainer/Counter/Trainer/Pokeball-6:position")
+tracks/29/interp = 1
+tracks/29/loop_wrap = true
+tracks/29/keys = {
+"times": PackedFloat32Array(4.9, 5.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-78, 10), Vector2(26, 10)]
+}
+tracks/30/type = "value"
+tracks/30/imported = false
+tracks/30/enabled = true
+tracks/30/path = NodePath("Scroll/Grass:visible")
+tracks/30/interp = 1
+tracks/30/loop_wrap = true
+tracks/30/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_khhma"]
+resource_name = "TrainerThrow"
+length = 2.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Trainer/Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(174, 34), Vector2(258, 34)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Trainer/Counter/Trainer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Trainer/Counter/TrainerCounter:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Trainer/Counter/TrainerCounter:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-48, 10), Vector2(0, 10)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Trainer/Counter/Trainer/Pokeball-1:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(76, 10), Vector2(356, 10)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Trainer/Counter/Trainer/Pokeball-2:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.2, 1.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(66, 10), Vector2(346, 10)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Trainer/Counter/Trainer/Pokeball-3:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.4, 1.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(56, 10), Vector2(336, 10)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Trainer/Counter/Trainer/Pokeball-4:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.6, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(46, 10), Vector2(326, 10)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Trainer/Counter/Trainer/Pokeball-5:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.8, 2.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(36, 10), Vector2(316, 10)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8lv3r"]
 _data = {
 "Catch": SubResource("Animation_j3jvg"),
 "Go": SubResource("Animation_06t66"),
+"GoTrainer": SubResource("Animation_ashb8"),
 "In": SubResource("Animation_nmcl2"),
 "RESET": SubResource("Animation_x0uak"),
 "Start": SubResource("Animation_2swml"),
-"Switch": SubResource("Animation_oyoyh")
+"Switch": SubResource("Animation_oyoyh"),
+"TrainerStart": SubResource("Animation_an31v"),
+"TrainerThrow": SubResource("Animation_khhma")
 }
 
 [sub_resource type="Animation" id="Animation_drt0x"]
@@ -1960,6 +2664,7 @@ text = "Type/FLYIN."
 position = Vector2(0, 127)
 
 [node name="Grass" type="Sprite2D" parent="Scroll"]
+visible = false
 position = Vector2(128, 73)
 texture = ExtResource("16_vfw16")
 
@@ -2006,18 +2711,18 @@ scale = Vector2(0.9, 0.9)
 texture = ExtResource("19_lwo1p")
 
 [node name="Oak" type="Sprite2D" parent="Animation"]
+z_index = 2
+y_sort_enabled = true
 position = Vector2(-36, 80)
 texture = ExtResource("20_8lsng")
 
 [node name="TopRect" type="ColorRect" parent="Animation"]
-visible = false
 z_index = 1
 offset_right = 240.0
 offset_bottom = 140.0
 color = Color(0, 0, 0, 1)
 
 [node name="BottomRect" type="ColorRect" parent="Animation"]
-visible = false
 z_index = 1
 offset_top = 160.0
 offset_right = 240.0
@@ -2034,6 +2739,111 @@ scale = Vector2(0.9, 0.9)
 texture = ExtResource("27_dkmrm")
 vframes = 32
 frame = 1
+
+[node name="Trainer" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Trainer"]
+modulate = Color(0.294118, 0.294118, 0.294118, 1)
+y_sort_enabled = true
+position = Vector2(-50, 34)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("28_hjefi")
+
+[node name="Counter" type="Node2D" parent="Trainer"]
+
+[node name="PlayerCounter" type="TextureRect" parent="Trainer/Counter"]
+offset_left = 240.0
+offset_top = 88.0
+offset_right = 392.0
+offset_bottom = 100.0
+texture = ExtResource("29_6k11u")
+stretch_mode = 2
+
+[node name="TrainerCounter" type="TextureRect" parent="Trainer/Counter"]
+offset_left = -152.0
+offset_top = 10.0
+offset_bottom = 50.0
+texture = ExtResource("29_6k11u")
+stretch_mode = 2
+flip_h = true
+
+[node name="Oak" type="Node2D" parent="Trainer/Counter"]
+
+[node name="Pokeball-1" type="Sprite2D" parent="Trainer/Counter/Oak"]
+position = Vector2(260, 88)
+texture = ExtResource("30_2sdaj")
+centered = false
+hframes = 4
+frame = 1
+
+[node name="Pokeball-2" type="Sprite2D" parent="Trainer/Counter/Oak"]
+position = Vector2(270, 88)
+texture = ExtResource("30_2sdaj")
+centered = false
+hframes = 4
+
+[node name="Pokeball-3" type="Sprite2D" parent="Trainer/Counter/Oak"]
+position = Vector2(280, 88)
+texture = ExtResource("30_2sdaj")
+centered = false
+hframes = 4
+
+[node name="Pokeball-4" type="Sprite2D" parent="Trainer/Counter/Oak"]
+position = Vector2(290, 88)
+texture = ExtResource("30_2sdaj")
+centered = false
+hframes = 4
+
+[node name="Pokeball-5" type="Sprite2D" parent="Trainer/Counter/Oak"]
+position = Vector2(300, 88)
+texture = ExtResource("30_2sdaj")
+centered = false
+hframes = 4
+
+[node name="Pokeball-6" type="Sprite2D" parent="Trainer/Counter/Oak"]
+position = Vector2(310, 88)
+texture = ExtResource("30_2sdaj")
+centered = false
+hframes = 4
+
+[node name="Trainer" type="Node2D" parent="Trainer/Counter"]
+
+[node name="Pokeball-1" type="Sprite2D" parent="Trainer/Counter/Trainer"]
+position = Vector2(-28, 10)
+texture = ExtResource("30_2sdaj")
+centered = false
+hframes = 4
+frame = 1
+
+[node name="Pokeball-2" type="Sprite2D" parent="Trainer/Counter/Trainer"]
+position = Vector2(-38, 10)
+texture = ExtResource("30_2sdaj")
+centered = false
+hframes = 4
+
+[node name="Pokeball-3" type="Sprite2D" parent="Trainer/Counter/Trainer"]
+position = Vector2(-48, 10)
+texture = ExtResource("30_2sdaj")
+centered = false
+hframes = 4
+
+[node name="Pokeball-4" type="Sprite2D" parent="Trainer/Counter/Trainer"]
+position = Vector2(-58, 10)
+texture = ExtResource("30_2sdaj")
+centered = false
+hframes = 4
+
+[node name="Pokeball-5" type="Sprite2D" parent="Trainer/Counter/Trainer"]
+position = Vector2(-68, 10)
+texture = ExtResource("30_2sdaj")
+centered = false
+hframes = 4
+
+[node name="Pokeball-6" type="Sprite2D" parent="Trainer/Counter/Trainer"]
+position = Vector2(-78, 10)
+texture = ExtResource("30_2sdaj")
+centered = false
+hframes = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

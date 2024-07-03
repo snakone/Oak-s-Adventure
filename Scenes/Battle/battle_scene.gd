@@ -19,6 +19,9 @@ extends Node
 @onready var enemy_hp_bar = $Info/EnemyInfo/EnemyHPBar;
 @onready var enemy_ground = $Ground/EnemyGround;
 
+#TRAINER
+@onready var trainer_sprite: Sprite2D = $Trainer/Sprite2D;
+
 #BATTLE
 @onready var anim_player = $AnimationPlayer;
 @onready var battle_audio = $AudioPlayer;
@@ -54,6 +57,7 @@ var hp_anim_velocity = 1;
 
 #TRAINER
 var trainer: Dictionary;
+var trainer_team: Array;
 
 func _ready():
 	BATTLE.reset_state();
@@ -89,27 +93,44 @@ func battle_wild() -> void:
 	await BATTLE.dialog_finished;
 	anim_player.play("Go");
 
+#TRAINER
 func battle_trainer() -> void:
-	anim_player.play("Start");
+	BATTLE.wild_intro = false;
+	anim_player.play("TrainerStart");
 	await BATTLE.dialog_finished;
-	anim_player.play("Go");
+	anim_player.play("TrainerThrow");
+	await anim_player.animation_finished;
+	await GLOBAL.timeout(0.5)
+	anim_player.play("GoTrainer");
 
-func start_battle_dialog() -> void:
+func start_wild_battle() -> void:
+	set_enemy_ui(battle_data["enemies"][0]);
 	dialog.start([
 		"A wild " + enemy.data.name + " appeared!\n", 
 		"Go " + pokemon.data.name + "!"]);
 
+func start_trainer_battle() -> void:
+	set_enemy_ui(battle_data["enemies"][0]);
+	trainer = BATTLE.get_trainer_by_id(battle_data.trainer_id);
+	dialog.start([trainer.name + " would like to battle!\n", 
+		trainer.name + " send out " + enemy.name + '!']);
+	#dialog.start(["Go " + pokemon.data.name + "!"]);
+
 #INTRO
-func check_intro_dialog() -> void:
+func check_wild_intro() -> void:
 	close_dialog_and_show_menu(.2);
 	menu.set_label("Ready! What will be your next move?");
-	BATTLE.intro_dialog = false;
+	BATTLE.wild_intro = false;
+
+func check_trainer_intro() -> void:
+	close_dialog_and_show_menu(.2);
+	menu.set_label("Ready! What will be your next move?");
+	BATTLE.trainer_intro = false;
 
 #UI
 func set_battle_ui() -> void:
 	set_pokemon(true);
 	set_player_ui();
-	set_enemy_ui();
 	set_battle_texture();
 	set_markers();
 	update_battle_ui(false, true);
@@ -586,8 +607,8 @@ func set_player_ui() -> void:
 	player_sprite.play("Back");
 
 #ENEMY UI
-func set_enemy_ui() -> void:
-	var new_enemy = POKEDEX.get_pokemon(battle_data["enemies"][0]);
+func set_enemy_ui(id: int) -> void:
+	var new_enemy = POKEDEX.get_pokemon(id);
 	enemy = Pokemon.new(new_enemy, true, battle_data.levels);
 	var enemy_name = enemy_info.get_node("Name");
 	var gender_node = enemy_info.get_node("Gender");

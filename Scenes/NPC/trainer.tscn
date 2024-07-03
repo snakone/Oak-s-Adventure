@@ -138,8 +138,7 @@ shape = SubResource("RectangleShape2D_u6ea3")
 [node name="BlockRayCast2D" type="RayCast2D" parent="."]
 position = Vector2(8, 8)
 target_position = Vector2(0, 8)
-collision_mask = 15
-collide_with_areas = true
+collision_mask = 31
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

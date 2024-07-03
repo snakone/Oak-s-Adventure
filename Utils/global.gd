@@ -58,6 +58,7 @@ var on_battle = false;
 var healing = false;
 var on_overlay = false;
 var on_pc = false;
+var insight = false;
 
 #VALUES
 var current_money = 0;

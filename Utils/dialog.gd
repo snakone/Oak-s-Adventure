@@ -563,10 +563,35 @@ const LIBRARY: Dictionary = {
 	},
 	65: {
 		"arr": [
-			["You are better than I thought"]
+			["You are better than I thought."]
+		],
+		"type": Type.NPC,
+		"direction": ENUMS.Directions.ALL,
+		"marker": true,
+	},
+	66: {
+		"arr": [
+			["Are you enjoying the battleground?"],
 		],
 		"type": Type.TRAINER,
-		"trainer_id": ENUMS.Trainer.BLUE_GUY,
+		"trainer_id": ENUMS.Trainer.RED_GUY,
+		"direction": ENUMS.Directions.ALL,
+		"marker": true,
+	},
+	67: {
+		"arr": [
+			["I think you are."]
+		],
+		"type": Type.TRAINER,
+		"trainer_id": ENUMS.Trainer.RED_GUY,
+		"direction": ENUMS.Directions.ALL,
+		"marker": true,
+	},
+	68: {
+		"arr": [
+			["Come next time!"]
+		],
+		"type": Type.NPC,
 		"direction": ENUMS.Directions.ALL,
 		"marker": true,
 	},

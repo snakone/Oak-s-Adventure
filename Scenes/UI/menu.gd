@@ -37,7 +37,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		event.is_echo() ||
 		GLOBAL.dialog_open ||
 		GLOBAL.on_battle ||
-		!can_use_menu
+		!can_use_menu ||
+		GLOBAL.insight
 	): return;
 	
 	#BIKE ON/OFF

@@ -16,7 +16,6 @@ extends NPC
 
 var walking_towards = false;
 var already_defeated = false;
-var insight = false;
 
 func _ready() -> void:
 	super();
@@ -45,7 +44,7 @@ func _on_start_dialog(id: int) -> void:
 	is_talking = true;
 	dialog_data = pre_data;
 	if(walking_towards): return;
-	if(!insight): 
+	if(!GLOBAL.insight): 
 		set_npc_direction();
 		if(trainer_container != null): 
 			trainer_container.queue_free();
@@ -61,7 +60,7 @@ func _on_trainer_timer_timeout() -> void:
 	if(trainer_ray_cast_2d.is_colliding()):
 		var collider = trainer_ray_cast_2d.get_collider();
 		if(not collider is CharacterBody2D): return;
-		insight = true;
+		GLOBAL.insight = true;
 		trainer_timer.stop();
 		trainer_container.queue_free();
 		await start_walking_towards(collider);
@@ -117,7 +116,7 @@ func _on_end_battle(battle_data: Dictionary) -> void:
 		oak.dialog_id = after_defeat_dialog;
 		dialog_id = after_defeat_dialog;
 		free_trainer_after_defeat();
-		insight = false;
+		GLOBAL.insight = false;
 		oak.battle_data = {};
 
 func show_trainer_exclamation(delay: float = 0.2) -> void:

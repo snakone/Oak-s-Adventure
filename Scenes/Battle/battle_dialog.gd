@@ -26,6 +26,7 @@ func write(arr: Array) -> void:
 
 #DIALOG STATE
 func start(input_arr: Array) -> void:
+	print("dialog start")
 	BATTLE.state = ENUMS.BattleStates.DIALOG;
 	pressed = true;
 	marker.visible = false;
@@ -42,6 +43,7 @@ func input() -> void:
 	await get_tree().process_frame;
 	if(pressed): return;
 	if Input.is_action_just_pressed("space"):
+		print("dialog input")
 		marker.visible = false;
 		pressed = true;
 		end_line = false;
@@ -58,7 +60,7 @@ func next_dialog() -> void:
 	line += 1;
 	await GLOBAL.timeout(.2);
 	pressed = false;
-	if(BATTLE.intro_dialog):
+	if(BATTLE.wild_intro || BATTLE.trainer_intro):
 		marker.visible = false;
 		end_dialog();
 	else: marker.visible = true;
@@ -196,10 +198,12 @@ func show_non_effective(delay = 0.6) -> void:
 
 #END
 func end_dialog() -> void:
+	print("end dialog")
 	timer.stop();
 	pressed = (BATTLE.enemy_death || BATTLE.pokemon_death);
 	if(
-		!BATTLE.intro_dialog && 
+		!BATTLE.wild_intro && 
+		!BATTLE.trainer_intro &&
 		!BATTLE.pokemon_death && 
 		!BATTLE.enemy_death &&
 		BATTLE.state != ENUMS.BattleStates.ESCAPING
@@ -224,6 +228,7 @@ func check_effective_dialog() -> bool:
 
 #CLOSE
 func close(time: float) -> void:
+	print("close dialog")
 	visible = false;
 	await GLOBAL.timeout(time);
 	if(!BATTLE.on_action): BATTLE.can_use_menu = true;

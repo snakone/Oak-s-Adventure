@@ -107,7 +107,7 @@ func handle_direction(next_step: Vector2) -> void:
 	var desired_step: Vector2 = check_limits(next_step * GLOBAL.TILE_SIZE);
 	block_ray_cast_2d.target_position = desired_step / 2;
 	block_ray_cast_2d.force_raycast_update();
-	if !block_ray_cast_2d.is_colliding(): 
+	if(!block_ray_cast_2d.is_colliding()): 
 		move(desired_step);
 
 func move(new_direction: Vector2, duration = 0.4) -> void:
@@ -186,9 +186,10 @@ func connect_signals() -> void:
 	GLOBAL.connect("player_moving", _on_player_moving);
 
 func _on_npc_area_body_entered(body): 
-	if("Oak" in body.name): inside_player_area = true;
+	if("Oak" in body.name): 
+		inside_player_area = true;
+		oak = body;
 	if(body.position == position): position.y += 16;
-	oak = body;
 
 func _on_npc_area_body_exited(body): 
 	if("Oak" in body.name): inside_player_area = false;

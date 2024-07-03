@@ -17,6 +17,7 @@ signal ui_updated();
 signal update_attack_ui();
 signal experience_end();
 signal hp_bar_anim_duration(duration: float);
+signal trainer_intro_end();
 
 #DIALOG
 signal dialog_finished();
@@ -50,7 +51,8 @@ var type = ENUMS.BattleType.NONE;
 var state = ENUMS.BattleStates.NONE;
 var pokemon_death = false;
 var enemy_death = false;
-var intro_dialog = true;
+var wild_intro = true;
+var trainer_intro = true;
 var can_use_menu = false;
 var escape_attempts = 0;
 var on_victory = false;
@@ -73,7 +75,8 @@ var on_action = false;
 
 func reset_state(reset_type = true) -> void:
 	can_use_menu = false;
-	intro_dialog = true;
+	wild_intro = true;
+	trainer_intro = true;
 	state = ENUMS.BattleStates.NONE;
 	pokemon_death = false;
 	enemy_death = false;
@@ -163,3 +166,9 @@ func remove_participant(poke: Object) -> void: participants.erase(poke);
 
 func get_pokeball_texture(id: ENUMS.Item):
 	return pokeball_textures[id];
+
+func get_trainer_by_id(id: ENUMS.Trainer) -> Variant:
+	if(id in LIBRARIES.TRAINERS.trainer_list):
+		return LIBRARIES.TRAINERS.trainer_list[id];
+	return null;
+

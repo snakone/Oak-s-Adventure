@@ -13,12 +13,12 @@ func get_showcase() -> Array:
 	copy.resize(index);
 	return copy;
 
-func get_pokemon(index) -> Variant:
+func get_pokemon(index: ENUMS.Pokedex) -> Variant:
 	for poke in LIBRARIES.POKEDEX.LIST:
 		if(poke.number == index): return poke.duplicate();
 	return null;
 
-func get_pokemon_showcase(index) -> Variant:
+func get_pokemon_showcase(index: ENUMS.Pokedex) -> Variant:
 	for poke in pokedex_showcase:
 		if(poke.number == index): return poke.duplicate();
 	return null;
