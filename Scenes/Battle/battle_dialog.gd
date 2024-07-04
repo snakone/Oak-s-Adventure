@@ -167,6 +167,7 @@ func quick(input_arr: Array, delay = 0.6) -> void:
 	set_label("");
 	await GLOBAL.timeout(wait_quick_dialog);
 	if(!BATTLE.on_action): BATTLE.can_use_menu = true;
+	if(BATTLE.trainer_intro): BATTLE.state = ENUMS.BattleStates.MENU;
 
 #MISSED DIALOG
 func show_missed(target_name: String, delay = 0.6) -> void:

@@ -306,6 +306,7 @@ func check_for_pickables() -> void:
 func open_trainer_dialog() -> void:
 	if(trainer != null && !trainer.already_defeated):
 		AUDIO.stop();
+		can_talk = false;
 		await trainer.show_trainer_exclamation(0);
 	start_dialog_state(dialog_id, trainer == null);
 

@@ -15,7 +15,7 @@ extends Node
 
 #ENEMY
 @onready var enemy_info = $Info/EnemyInfo;
-@onready var enemy_sprite = $UI/EnemySprite;
+@onready var enemy_sprite = $UI/Enemy/EnemySprite;
 @onready var enemy_hp_bar = $Info/EnemyInfo/EnemyHPBar;
 @onready var enemy_ground = $Ground/EnemyGround;
 
@@ -65,6 +65,7 @@ func _ready():
 	set_battle_ui();
 	BATTLE.type = battle_data.type;
 	AUDIO.play_battle_song();
+	set_enemy_ui(battle_data["enemies"][0]);
 	match(battle_data.type):
 		ENUMS.BattleType.WILD: battle_wild();
 		ENUMS.BattleType.TRAINER: battle_trainer();
@@ -100,21 +101,19 @@ func battle_trainer() -> void:
 	await BATTLE.dialog_finished;
 	anim_player.play("TrainerThrow");
 	await anim_player.animation_finished;
-	await GLOBAL.timeout(0.5)
+	await GLOBAL.timeout(0.5);
 	anim_player.play("GoTrainer");
+	dialog.quick(["Go " + pokemon.data.name + "!"]);
 
 func start_wild_battle() -> void:
-	set_enemy_ui(battle_data["enemies"][0]);
 	dialog.start([
 		"A wild " + enemy.data.name + " appeared!\n", 
 		"Go " + pokemon.data.name + "!"]);
 
 func start_trainer_battle() -> void:
-	set_enemy_ui(battle_data["enemies"][0]);
 	trainer = BATTLE.get_trainer_by_id(battle_data.trainer_id);
 	dialog.start([trainer.name + " would like to battle!\n", 
 		trainer.name + " send out " + enemy.name + '!']);
-	#dialog.start(["Go " + pokemon.data.name + "!"]);
 
 #INTRO
 func check_wild_intro() -> void:
