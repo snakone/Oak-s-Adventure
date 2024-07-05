@@ -117,7 +117,6 @@ func _on_end_battle(battle_data: Dictionary) -> void:
 		dialog_id = after_defeat_dialog;
 		free_trainer_after_defeat();
 		GLOBAL.insight = false;
-		oak.battle_data = {};
 
 func show_trainer_exclamation(delay: float = 0.2) -> void:
 	if(!already_defeated):

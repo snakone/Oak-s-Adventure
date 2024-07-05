@@ -26,7 +26,6 @@ func write(arr: Array) -> void:
 
 #DIALOG STATE
 func start(input_arr: Array) -> void:
-	print("dialog start")
 	BATTLE.state = ENUMS.BattleStates.DIALOG;
 	pressed = true;
 	marker.visible = false;
@@ -43,7 +42,6 @@ func input() -> void:
 	await get_tree().process_frame;
 	if(pressed): return;
 	if Input.is_action_just_pressed("space"):
-		print("dialog input")
 		marker.visible = false;
 		pressed = true;
 		end_line = false;
@@ -54,7 +52,7 @@ func input() -> void:
 
 #NEXT
 func next_dialog() -> void:
-	if(BATTLE.enemy_death && !BATTLE.on_victory): 
+	if(BATTLE.are_all_enemies_defeated() && !BATTLE.on_victory): 
 		AUDIO.play_battle_win();
 	await write([array[line]]);
 	line += 1;
@@ -199,7 +197,6 @@ func show_non_effective(delay = 0.6) -> void:
 
 #END
 func end_dialog() -> void:
-	print("end dialog")
 	timer.stop();
 	pressed = (BATTLE.enemy_death || BATTLE.pokemon_death);
 	if(
@@ -229,7 +226,6 @@ func check_effective_dialog() -> bool:
 
 #CLOSE
 func close(time: float) -> void:
-	print("close dialog")
 	visible = false;
 	await GLOBAL.timeout(time);
 	if(!BATTLE.on_action): BATTLE.can_use_menu = true;

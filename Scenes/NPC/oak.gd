@@ -61,20 +61,10 @@ func _ready():
 
 func _physics_process(delta) -> void:
 	GLOBAL.play_time += delta;
-	if(
-		stop ||
-		player_state == PlayerState.TURNING || 
-		GLOBAL.dialog_open || 
-		GLOBAL.on_overlay ||
-		GLOBAL.menu_open ||
-		sleeping
-	): return;
-	elif(!is_moving && !GLOBAL.on_transition): process_player_input();
-	elif(input_direction != Vector2.ZERO && !stuck_on_door): move(delta);
-	else:
-		playback.travel("Idle");
-		is_moving = false;
-		GLOBAL.emit_signal("player_moving", false);
+	if(!_can_process()): return;
+	elif(_can_input()): process_player_input();
+	elif(_can_move()): move(delta);
+	else: _idle_process();
 
 func process_player_input() -> void:
 	set_direction();
@@ -119,15 +109,9 @@ func move(delta) -> void:
 		input_direction == Vector2.DOWN
 	);
 	#BLOCK SOUND
-	if(
-		block_ray_cast_2d.is_colliding() && 
-		!audio.playing && 
-		!ledge_colliding && 
-		!GLOBAL.on_transition
-	):
+	if(should_play_block_sound(ledge_colliding)):
 		audio.stream = LIBRARIES.SOUNDS.BLOCK;
 		audio.play();
-		
 	elif(ledge_colliding || jumping_over_ledge): check_ledges();
 	elif(!block_ray_cast_2d.is_colliding()): check_moving();
 	else: reset_moving();
@@ -213,11 +197,7 @@ func _on_talk_area_entered(area: Area2D) -> void:
 	await GLOBAL.timeout(.1);
 	can_talk = true;
 	dialog_id = area.get_parent().dialog_id;
-	
-	if(
-		"TalkArea" in area.name && 
-		area.get_parent().type == ENUMS.NPCType.TRAINER
-	): 
+	if(is_area_trainer(area)): 
 		trainer = area.get_parent();
 	dialog_data = DIALOG.get_dialog(dialog_id);
 	area_types = [dialog_data.type];
@@ -236,15 +216,15 @@ func _on_pickable_area_entered(area: Area2D) -> void:
 
 func _on_area_2d_area_exited(area: Area2D) -> void:
 	if(area == null): return;
-	await GLOBAL.timeout(.1);
 	if("TalkArea" in area.name || "DialogArea" in area.name): 
 		can_talk = false;
 		dialog_id = -1;
-		trainer = null;
+		if(is_area_trainer(area)):
+			trainer = null;
+			trainer_insight = false;
 	elif("PickableArea" in area.name): 
 		can_pick = false;
 		pickable_data = null;
-	area_types = [DIALOG.Type.NONE];
 
 #MENU
 func _on_menu_opened(value: bool) -> void:
@@ -269,26 +249,15 @@ func check_for_dialogs() -> void:
 		var desired_step: Vector2 = GLOBAL.last_direction * (GLOBAL.TILE_SIZE / 2.0);
 		update_dialog_rays(desired_step);
 		#NPC
-		if(
-			DIALOG.Type.NPC in area_types && 
-			npc_ray_cast_2d.is_colliding() &&
-			!GLOBAL.healing
-			): start_dialog_state(dialog_id);
+		if(is_npc_dialog()): 
+			var collider = npc_ray_cast_2d.get_collider();
+			start_dialog_state(collider.dialog_id);
 		#TRAINER
-		elif(
-			DIALOG.Type.TRAINER in area_types && 
-			npc_ray_cast_2d.is_colliding()
-			): open_trainer_dialog();
+		elif(is_trainer_dialog()): open_trainer_dialog();
 		#OBJECT
-		elif(
-			DIALOG.Type.OBJECT in area_types &&
-			object_ray_cast_2d.is_colliding()
-		): open_object_dialog();
+		elif(is_object_dialog()): open_object_dialog();
 		#PC
-		elif(
-			DIALOG.Type.PC in area_types &&
-			object_ray_cast_2d.is_colliding() && !GLOBAL.on_pc
-		): 
+		elif(is_pc_dialog()): 
 			GLOBAL.on_pc = true;
 			GLOBAL.emit_signal("open_pc");
 
@@ -298,10 +267,7 @@ func check_for_pickables() -> void:
 	if Input.is_action_just_pressed("space"):
 		var desired_step: Vector2 = GLOBAL.last_direction * (GLOBAL.TILE_SIZE / 2.0);
 		update_dialog_rays(desired_step);
-		if(
-			DIALOG.Type.PICKABLE in area_types && 
-			object_ray_cast_2d.is_colliding()
-		): open_pickable_dialog();
+		if(is_pickable_dialog()): open_pickable_dialog();
 
 func open_trainer_dialog() -> void:
 	if(trainer != null && !trainer.already_defeated):
@@ -313,7 +279,8 @@ func open_trainer_dialog() -> void:
 func open_object_dialog() -> void:
 	var direction = GLOBAL.DIRECTIONS[dialog_data.direction];
 	if(direction != GLOBAL.last_direction && direction != Vector2.INF): return;
-	start_dialog_state(dialog_id);
+	var collider = object_ray_cast_2d.get_collider();
+	start_dialog_state(collider.dialog_id);
 
 func start_dialog_state(id: int, sound = true) -> void:
 	GLOBAL.start_dialog.emit(id);
@@ -353,6 +320,7 @@ func _on_end_battle(data: Dictionary) -> void:
 	call_deferred("set_process", Node.PROCESS_MODE_INHERIT);
 	BATTLE.coming_from_battle = true;
 	ready_to_battle = false;
+	battle_data = {};
 	if(data.type == ENUMS.BattleType.TRAINER):
 		area_types = [DIALOG.Type.NPC];
 		can_talk = true;
@@ -457,8 +425,8 @@ func update_dialog_rays(desired_step: Vector2) -> void:
 		ray.target_position = desired_step;
 		ray.force_raycast_update();
 
-func round_percent_move() -> void:
 # prevents jump when 2 tiles away and move towards a ledge
+func round_percent_move() -> void:
 	if(!jumping_over_ledge && percent_moved >= 0.99): percent_moved = 1;
 
 func show_dust_effect(value: bool) -> void:
@@ -466,6 +434,66 @@ func show_dust_effect(value: bool) -> void:
 	dust_effect.visible = value;
 
 func finished_turning() -> void: player_state = PlayerState.IDLE;
+func _can_input() -> bool: return !is_moving && !GLOBAL.on_transition;
+func _can_move() -> bool: return input_direction != Vector2.ZERO && !stuck_on_door;
+
+func _can_process() -> bool:
+	if(stop || sleeping ||
+	player_state == PlayerState.TURNING || 
+	GLOBAL.dialog_open || 
+	GLOBAL.on_overlay ||
+	GLOBAL.menu_open
+	): return false;
+	return true;
+
+func is_area_trainer(area: Area2D) -> bool:
+	if("TalkArea" in area.name && 
+		area.get_parent().type == ENUMS.NPCType.TRAINER):
+			return true;
+	return false;
+
+func is_npc_dialog() -> bool:
+	if(DIALOG.Type.NPC in area_types && 
+		npc_ray_cast_2d.is_colliding() && !GLOBAL.healing): 
+			return true;
+	return false;
+
+func is_trainer_dialog() -> bool:
+	if(DIALOG.Type.TRAINER in area_types && 
+		npc_ray_cast_2d.is_colliding()):
+			return true;
+	return false;
+
+func is_object_dialog() -> bool:
+	if(DIALOG.Type.OBJECT in area_types &&
+		object_ray_cast_2d.is_colliding()):
+			return true;
+	return false;
+
+func is_pc_dialog() -> bool:
+	if(DIALOG.Type.PC in area_types &&
+		object_ray_cast_2d.is_colliding() && !GLOBAL.on_pc):
+			return true;
+	return false;
+
+func is_pickable_dialog() -> bool:
+	if(DIALOG.Type.PICKABLE in area_types && 
+		object_ray_cast_2d.is_colliding()):
+			return true;
+	return false;
+
+func should_play_block_sound(ledge_colliding: bool) -> bool:
+	if(block_ray_cast_2d.is_colliding() && 
+		!audio.playing && 
+		!ledge_colliding && 
+		!GLOBAL.on_transition
+	): return true;
+	return false;
+
+func _idle_process() -> void:
+	playback.travel("Idle");
+	is_moving = false;
+	GLOBAL.emit_signal("player_moving", false);
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;

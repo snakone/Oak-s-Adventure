@@ -72,6 +72,7 @@ var enemy_attack = 0;
 var attacks_set = false;
 var current_weather = int(Weather.NONE);
 var on_action = false;
+var trainer_team = [];
 
 func reset_state(reset_type = true) -> void:
 	can_use_menu = false;
@@ -100,6 +101,30 @@ func reset_state(reset_type = true) -> void:
 	attacks_set = false;
 	current_weather = int(Weather.NONE);
 	on_action = false;
+	trainer_team = [];
+
+func reset_on_switch() -> void:
+	can_use_menu = false;
+	state = ENUMS.BattleStates.NONE;
+	pokemon_death = false;
+	enemy_death = false;
+	level_up_panel_visible = false;
+	can_close_level_up_panel = false;
+	escape_attempts = 0;
+	on_victory = false;
+	player_attacked = false;
+	enemy_attacked = false;
+	current_turn = Turn.NONE;
+	attack_pressed = false;
+	can_use_next_pokemon = false;
+	exp_loop = false;
+	critical_hit = false;
+	attack_missed = false;
+	attack_result = [];
+	player_attack = 0;
+	enemy_attack = 0;
+	on_action = false;
+	attacks_set = false;
 
 func pokemon_encounter() -> bool:
 	randomize();
@@ -172,3 +197,15 @@ func get_trainer_by_id(id: ENUMS.Trainer) -> Variant:
 		return LIBRARIES.TRAINERS.trainer_list[id];
 	return null;
 
+func are_all_enemies_defeated() -> bool:
+	return trainer_team.all(func(enemy): return enemy == -1);
+
+func get_next_trainer_pokemon() -> Variant:
+	for id in trainer_team:
+		if(id != -1): return id;
+	return null;
+
+func remove_trainer_pokemon(id: int) -> void:
+	for index in range(0, trainer_team.size()):
+		if(trainer_team[index] == id): 
+			trainer_team[index] = -1;
