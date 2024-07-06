@@ -10,7 +10,7 @@ extends Node
 @onready var health_timer = $Info/PlayerInfo/HealthTimer;
 @onready var info_background: Sprite2D = $Info/PlayerInfo/Background;
 @onready var level_up_panel: NinePatchRect = $UI/NinePatchRect;
-@onready var status_audio: AudioStreamPlayer = $Info/AudioStreamPlayer;
+@onready var status_audio: AudioStreamPlayer = $Info/StatusPlayer;
 @onready var dialog_timer: Timer = $Dialog/Timer;
 
 #ENEMY
@@ -24,7 +24,7 @@ extends Node
 
 #BATTLE
 @onready var anim_player = $AnimationPlayer;
-@onready var battle_audio = $AudioPlayer;
+@onready var battle_audio = $BattlePlayer;
 @onready var battle_anim_player = $BattleAnimationPlayer;
 @onready var battle_background = $Background;
 @onready var attack_background = $Attacks/Background;
@@ -139,7 +139,8 @@ func start_attack(delay = 0.0, sound = true) -> void:
 	var priority = determine_priority();
 	if((priority && !BATTLE.player_attacked) || BATTLE.enemy_attacked): 
 		pokemon_attack(sound);
-	else: enemy_attack(sound);
+	elif(!BATTLE.enemy_attacked || BATTLE.player_attacked): 
+		enemy_attack(sound);
 	if(any_death()): return;
 	#ATTACK AGAIN
 	if(!all_attacked()):
@@ -181,8 +182,7 @@ func pokemon_attack(sound = true) -> void:
 		BATTLE.Turn.PLAYER,
 		"player_attacked",
 		"enemy_death",
-		sound
-	)
+		sound)
 
 func enemy_attack(sound = true) -> void:
 	perform_attack(
@@ -192,8 +192,7 @@ func enemy_attack(sound = true) -> void:
 		BATTLE.Turn.ENEMY,
 		"enemy_attacked",
 		"pokemon_death",
-		sound
-	)
+		sound)
 
 func perform_attack(
 	attacker: Object, 
@@ -217,8 +216,10 @@ func handle_attack(target: Object, move: Dictionary, sound = true) -> void:
 	battle_anim_player.stop();
 	if(sound): play_audio(LIBRARIES.SOUNDS.CONFIRM);
 	var target_name = target.name + " use ";
-	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
-		target_name = "Wild " + target_name;
+	if(
+		BATTLE.type == ENUMS.BattleType.WILD && 
+		BATTLE.current_turn == BATTLE.Turn.ENEMY
+		): target_name = "Wild " + target_name;
 	dialog.attack([target_name + move.name.to_upper() + "."]);
 	await BATTLE.dialog_finished;
 	add_animation_and_play(move);
@@ -383,9 +384,10 @@ func handle_missed_attack() -> void:
 func _on_move_hit() -> void:
 	if(ENUMS.AttackResult.NONE not in BATTLE.attack_result):
 		if(BATTLE.current_turn == BATTLE.Turn.PLAYER): 
-			battle_anim_player.play("DamageEnemy");
-		else: battle_anim_player.play("DamagePlayer")
-		await battle_anim_player.animation_finished;
+			anim_player.play("DamageEnemy");
+		elif(BATTLE.current_turn == BATTLE.Turn.ENEMY): 
+			anim_player.play("DamagePlayer");
+		await anim_player.animation_finished;
 	update_battle_ui(true, false, true);
 	await BATTLE.ui_updated;
 

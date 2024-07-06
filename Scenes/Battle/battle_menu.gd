@@ -4,7 +4,7 @@ extends Node2D
 @onready var label = $Label;
 @onready var background = $Background;
 @onready var attack_selection: Node2D = $"../Attacks";
-@onready var audio: AudioStreamPlayer = $"../AudioPlayer";
+@onready var audio: AudioStreamPlayer = $"../BattlePlayer";
 @onready var dialog_label: RichTextLabel = $"../Dialog/Label";
 @onready var dialog: Node2D = $"../Dialog";
 

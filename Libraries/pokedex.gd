@@ -72,7 +72,7 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2.ZERO,
+				"battle": Vector2(0, 5),
 				"box": Vector2.ZERO,
 				"pokedex": {
 					"front": Vector2(11, 3),
@@ -227,7 +227,7 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2.ZERO,
+				"battle": Vector2(0, 3),
 				"box": Vector2.ZERO,
 				"pokedex": {
 					"front": Vector2(6, 4),
@@ -360,7 +360,7 @@ var LIST: Array = [
 		"name": "SQUIRTLE",
 		"number": ENUMS.Pokedex.SQUIRTLE,
 		"types": [ENUMS.Types.WATER],
-		"moves": [1],
+		"moves": [3],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 63,
 		"category": ENUMS.PokemonCategory.STARTER,
@@ -380,7 +380,7 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2(1, 0),
+				"battle": Vector2(1, 3),
 				"box": Vector2(3, 0),
 				"pokedex": {
 					"front": Vector2.ZERO,

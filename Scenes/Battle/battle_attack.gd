@@ -3,7 +3,7 @@ extends Node2D
 #ATTACKS
 @onready var attack_selection_info = $SelectionInfo;
 @onready var attack_cursor = $AttackCursor;
-@onready var audio: AudioStreamPlayer = $"../AudioPlayer";
+@onready var audio: AudioStreamPlayer = $"../BattlePlayer";
 @onready var player_attacks = [$Attack01, $Attack02, $Attack03, $Attack04];
 
 const CURSOR_MAP = {

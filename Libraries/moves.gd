@@ -55,7 +55,7 @@ var LIST: Dictionary = {
 	3: {
 		"id": 3,
 		"name": "Quick Attack",
-		"type": ENUMS.Types.FIRE,
+		"type": ENUMS.Types.NORMAL,
 		"category": ENUMS.AttackCategory.PHYSIC,
 		"power": 30,
 		"accuracy": 100,
@@ -176,7 +176,7 @@ var MOVE_ANIMATION = {
 				{ "value": Vector2(-5, 0), "duration": 0.15 },
 				{ "value": Vector2.ZERO, "duration": 0.11 },
 				{ "value": Vector2(12, 0), "duration": 0.1 },
-				{ "value": Vector2(18, 0), "duration": 0.1 },
+				{ "value": Vector2(16, 0), "duration": 0.1 },
 				{ "value": Vector2(15, 0), "duration": 0.1 },
 				{ "value": Vector2.ZERO, "duration": 0.2 }
 			],
@@ -184,7 +184,7 @@ var MOVE_ANIMATION = {
 				{ "value": Vector2(5, 0), "duration": 0.15 },
 				{ "value": Vector2.ZERO, "duration": 0.11 },
 				{ "value": Vector2(-12, 0), "duration": 0.1 },
-				{ "value": Vector2(-18, 0), "duration": 0.1 },
+				{ "value": Vector2(-16, 0), "duration": 0.1 },
 				{ "value": Vector2(-15, 0), "duration": 0.1 },
 				{ "value": Vector2.ZERO, "duration": 0.2 }
 			]

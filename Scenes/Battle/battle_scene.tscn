@@ -215,6 +215,84 @@ tracks/7/keys = {
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_5tpdf"]
+resource_name = "DamageEnemy"
+length = 0.65
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI/Enemy/EnemySprite:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65)
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Info/EnemyInfo:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.25, 0.35, 0.45, 0.55, 0.65),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(60, 22), Vector2(60, 24), Vector2(60, 22), Vector2(60, 24), Vector2(60, 22)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("UI/Enemy:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(174, 42), Vector2(178, 42), Vector2(174, 42)]
+}
+
+[sub_resource type="Animation" id="Animation_gnqvh"]
+resource_name = "DamagePlayer"
+length = 0.65
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI/PlayerSprite:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65)
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("UI/PlayerSprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(64, 97), Vector2(60, 97), Vector2(64, 97)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Info/PlayerInfo:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.25, 0.35, 0.45, 0.55, 0.65),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(180, 93), Vector2(180, 91), Vector2(180, 93), Vector2(180, 91), Vector2(180, 93)]
+}
+
 [sub_resource type="Animation" id="Animation_06t66"]
 resource_name = "Go"
 length = 2.5
@@ -318,7 +396,7 @@ tracks/7/keys = {
 tracks/8/type = "audio"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("AudioPlayer")
+tracks/8/path = NodePath("BattlePlayer")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -551,7 +629,7 @@ tracks/7/keys = {
 tracks/8/type = "audio"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("AudioPlayer")
+tracks/8/path = NodePath("BattlePlayer")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -1239,7 +1317,7 @@ tracks/35/keys = {
 tracks/36/type = "value"
 tracks/36/imported = false
 tracks/36/enabled = true
-tracks/36/path = NodePath("AudioPlayer:pitch_scale")
+tracks/36/path = NodePath("BattlePlayer:pitch_scale")
 tracks/36/interp = 1
 tracks/36/loop_wrap = true
 tracks/36/keys = {
@@ -1550,7 +1628,7 @@ tracks/5/keys = {
 tracks/6/type = "audio"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("AudioPlayer")
+tracks/6/path = NodePath("BattlePlayer")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -2382,7 +2460,7 @@ tracks/21/keys = {
 tracks/22/type = "audio"
 tracks/22/imported = false
 tracks/22/enabled = true
-tracks/22/path = NodePath("Info/AudioStreamPlayer")
+tracks/22/path = NodePath("Info/StatusPlayer")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/keys = {
@@ -2727,7 +2805,7 @@ tracks/21/keys = {
 tracks/22/type = "audio"
 tracks/22/imported = false
 tracks/22/enabled = true
-tracks/22/path = NodePath("Info/AudioStreamPlayer")
+tracks/22/path = NodePath("Info/StatusPlayer")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/keys = {
@@ -2767,6 +2845,8 @@ tracks/24/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8lv3r"]
 _data = {
 "Catch": SubResource("Animation_j3jvg"),
+"DamageEnemy": SubResource("Animation_5tpdf"),
+"DamagePlayer": SubResource("Animation_gnqvh"),
 "Go": SubResource("Animation_06t66"),
 "GoTrainer": SubResource("Animation_ashb8"),
 "In": SubResource("Animation_nmcl2"),
@@ -2777,86 +2857,6 @@ _data = {
 "TrainerStart": SubResource("Animation_an31v"),
 "TrainerSwitch": SubResource("Animation_ow1le"),
 "TrainerThrow": SubResource("Animation_khhma")
-}
-
-[sub_resource type="Animation" id="Animation_drt0x"]
-resource_name = "DamageEnemy"
-length = 0.65
-step = 0.05
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("UI/Enemy/EnemySprite:modulate:a")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0, 0, 0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65)
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Info/EnemyInfo:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.25, 0.35, 0.45, 0.55, 0.65),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(60, 22), Vector2(60, 24), Vector2(60, 22), Vector2(60, 24), Vector2(60, 22)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("UI/Enemy:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.1, 0.15, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(174, 42), Vector2(178, 42), Vector2(174, 42)]
-}
-
-[sub_resource type="Animation" id="Animation_udwta"]
-resource_name = "DamagePlayer"
-length = 0.65
-step = 0.05
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("UI/PlayerSprite:modulate:a")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0, 0, 0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65)
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("UI/PlayerSprite:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.1, 0.15, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(64, 97), Vector2(60, 97), Vector2(64, 97)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Info/PlayerInfo:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.25, 0.35, 0.45, 0.55, 0.65),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(180, 93), Vector2(180, 91), Vector2(180, 93), Vector2(180, 91), Vector2(180, 93)]
 }
 
 [sub_resource type="Animation" id="Animation_7cqpu"]
@@ -2880,7 +2880,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("AudioPlayer:volume_db")
+tracks/1/path = NodePath("BattlePlayer:volume_db")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -3062,7 +3062,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("AudioPlayer:volume_db")
+tracks/2/path = NodePath("BattlePlayer:volume_db")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -3124,7 +3124,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("AudioPlayer:volume_db")
+tracks/3/path = NodePath("BattlePlayer:volume_db")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -3196,8 +3196,6 @@ tracks/8/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hd5rc"]
 _data = {
-"DamageEnemy": SubResource("Animation_drt0x"),
-"DamagePlayer": SubResource("Animation_udwta"),
 "EnemyFaint": SubResource("Animation_7cqpu"),
 "FadetoBlack": SubResource("Animation_7h2mo"),
 "Idle": SubResource("Animation_8e0h4"),
@@ -3364,7 +3362,7 @@ texture = ExtResource("11_jd31m")
 
 [node name="HealthTimer" type="Timer" parent="Info/PlayerInfo"]
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Info"]
+[node name="StatusPlayer" type="AudioStreamPlayer" parent="Info"]
 volume_db = -16.0
 
 [node name="UI" type="Node2D" parent="."]
@@ -3378,7 +3376,7 @@ animation = &"Back"
 autoplay = "Back"
 
 [node name="AudioPlayer" type="AudioStreamPlayer" parent="UI/PlayerSprite"]
-volume_db = -20.0
+volume_db = -10.0
 
 [node name="NinePatchRect" parent="UI" instance=ExtResource("16_ymj5o")]
 offset_left = 130.0
@@ -3734,7 +3732,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hd5rc")
 }
 
-[node name="AudioPlayer" type="AudioStreamPlayer" parent="."]
+[node name="BattlePlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -10.0
 
 [node name="Song" type="AudioStreamPlayer" parent="."]
@@ -3745,5 +3743,5 @@ autoplay = true
 visible = false
 selection_position = Vector2(180, 32)
 
-[connection signal="finished" from="Info/AudioStreamPlayer" to="." method="_on_status_audio_finished"]
+[connection signal="finished" from="Info/StatusPlayer" to="." method="_on_status_audio_finished"]
 [connection signal="timeout" from="Dialog/Timer" to="Dialog" method="_on_timer_timeout"]

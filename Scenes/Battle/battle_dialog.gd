@@ -5,7 +5,7 @@ const wait_quick_dialog = 0.2;
 @onready var timer: Timer = $Timer
 @onready var label: RichTextLabel = $Label;
 @onready var marker = $Marker;
-@onready var audio: AudioStreamPlayer = $"../AudioPlayer"
+@onready var audio: AudioStreamPlayer = $"../BattlePlayer"
 
 signal line_ended();
 
@@ -57,7 +57,7 @@ func next_dialog() -> void:
 	line += 1;
 	await GLOBAL.timeout(.2);
 	pressed = false;
-	if(BATTLE.wild_intro || BATTLE.trainer_intro):
+	if(should_close_next_dialog()):
 		marker.visible = false;
 		end_dialog();
 	else: marker.visible = true;
@@ -244,6 +244,9 @@ func should_play_wild_win() -> void:
 		BATTLE.are_all_enemies_defeated() && 
 		!BATTLE.on_victory
 	): AUDIO.play_battle_win();
+
+func should_close_next_dialog() -> bool:
+	return (BATTLE.wild_intro || BATTLE.trainer_intro);
 
 func _on_timer_timeout() -> void:
 	if(label.visible_characters >= text_size && !end_line):

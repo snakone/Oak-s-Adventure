@@ -20,6 +20,11 @@ var pickable_by_map = {
 		ENUMS.Item.POTION: {
 			"1": false
 		}
+	},
+	ENUMS.Locations.ROUTE_02: {
+		ENUMS.Item.POKEBALL: {
+			"1": false
+		}
 	}
 }
 

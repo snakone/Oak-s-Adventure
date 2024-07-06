@@ -66,6 +66,13 @@ folder_colors={
 import/blender/enabled=false
 import/fbx/enabled=false
 
+[importer_defaults]
+
+texture={
+"compress/channel_pack": 1,
+"detect_3d/compress_to": 0
+}
+
 [input]
 
 moveRight={

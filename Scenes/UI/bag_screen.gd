@@ -129,11 +129,16 @@ func select_slot() -> void:
 			SelectSlot.FOURTH: close_select();
 	#NORMAL PARTY
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
-	
+
 func handle_input(item: Dictionary) -> void:
 	match select_index:
 		SelectSlot.FIRST:
 			if(GLOBAL.on_battle):
+				if(item.type == ENUMS.BagScreen.POKEBALL):
+					selected.text = "Can\'t catch\nTrainer POKéMON!";
+					await GLOBAL.timeout(2);
+					selected.text = item.name + " is selected.";
+					return;
 				picked = true;
 				GLOBAL.emit_signal("use_item", item);
 				close_bag();
