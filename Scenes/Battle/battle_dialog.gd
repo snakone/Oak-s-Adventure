@@ -52,8 +52,7 @@ func input() -> void:
 
 #NEXT
 func next_dialog() -> void:
-	if(BATTLE.are_all_enemies_defeated() && !BATTLE.on_victory): 
-		AUDIO.play_battle_win();
+	should_play_wild_win();
 	await write([array[line]]);
 	line += 1;
 	await GLOBAL.timeout(.2);
@@ -159,6 +158,7 @@ func quick(input_arr: Array, delay = 0.6) -> void:
 	line = 1;
 	array = input_arr.duplicate();
 	await write(array);
+	await get_tree().process_frame;
 	await GLOBAL.timeout(delay);
 	pressed = false;
 	BATTLE.quick_dialog_end.emit();
@@ -228,7 +228,8 @@ func check_effective_dialog() -> bool:
 func close(time: float) -> void:
 	visible = false;
 	await GLOBAL.timeout(time);
-	if(!BATTLE.on_action): BATTLE.can_use_menu = true;
+	if(!BATTLE.on_action && !BATTLE.on_victory): 
+		BATTLE.can_use_menu = true;
 
 func set_label(text: String) -> void: label.text = text;
 
@@ -237,6 +238,12 @@ func play_audio(stream: AudioStream, delay = 0.0, volume = -10) -> void:
 	audio.volume_db = volume;
 	audio.stream = stream;
 	audio.play();
+
+func should_play_wild_win() -> void:
+	if(BATTLE.type == ENUMS.BattleType.WILD && 
+		BATTLE.are_all_enemies_defeated() && 
+		!BATTLE.on_victory
+	): AUDIO.play_battle_win();
 
 func _on_timer_timeout() -> void:
 	if(label.visible_characters >= text_size && !end_line):

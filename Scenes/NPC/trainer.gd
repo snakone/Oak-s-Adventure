@@ -59,7 +59,7 @@ func _on_close_dialog() -> void:
 func _on_trainer_timer_timeout() -> void:
 	if(trainer_ray_cast_2d.is_colliding()):
 		var collider = trainer_ray_cast_2d.get_collider();
-		if(not collider is CharacterBody2D): return;
+		if(not collider is CharacterBody2D && collider.name != 'Oak'): return;
 		GLOBAL.insight = true;
 		trainer_timer.stop();
 		trainer_container.queue_free();

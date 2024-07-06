@@ -502,7 +502,7 @@ const LIBRARY: Dictionary = {
 	},
 	58: {
 		"arr": [
-			["I can\'t stop watching POKéMON battles! It\nreminds me of my childhood."],
+			["I can\'t stop watching POKéMON battles!\nIt reminds me of my childhood."],
 			["self: Hold my beer and watch carefully!"],
 			["Ohh, I will cheer for you. Good luck! Hehehe."]
 		],

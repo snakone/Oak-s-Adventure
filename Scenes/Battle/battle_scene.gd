@@ -102,9 +102,8 @@ func battle_trainer() -> void:
 	await BATTLE.dialog_finished;
 	anim_player.play("TrainerThrow");
 	await anim_player.animation_finished;
-	await get_tree().process_frame;
 	anim_player.play("GoTrainer");
-	dialog.quick(["Go " + pokemon.data.name + "!"]);
+	dialog.quick(["Go " + pokemon.data.name + "!"], 1);
 
 func start_wild_battle() -> void:
 	dialog.start([
@@ -119,12 +118,10 @@ func start_trainer_battle() -> void:
 #INTRO
 func check_wild_intro() -> void:
 	close_dialog_and_show_menu(.2);
-	menu.set_label("Ready! What will be your next move?");
 	BATTLE.wild_intro = false;
 
 func check_trainer_intro() -> void:
 	close_dialog_and_show_menu(.2);
-	menu.set_label("Ready! What will be your next move?");
 	BATTLE.trainer_intro = false;
 
 #UI
@@ -342,8 +339,8 @@ func check_for_next_trainer_pokemon() -> void:
 	dialog.next_pokemon(["Will Oak change POKéMON?"]);
 	await BATTLE.dialog_finished;
 	menu_selection.set_visibility(true, {
-		"category": ENUMS.SelectionCategory.SWITCH,
-		"selected": ENUMS.BinaryOptions.YES
+		"category": ENUMS.SelectionCategory.SWITCH_TRAINER,
+		"selected": ENUMS.BinaryOptions.NO
 	});
 
 func give_exp(state: Dictionary) -> void:
@@ -481,7 +478,7 @@ func handle_can_use_pokemon() -> void:
 	await BATTLE.dialog_finished;
 	await GLOBAL.timeout(0.1);
 	menu_selection.set_visibility(true, {
-		"category": ENUMS.SelectionCategory.BATTLE,
+		"category": ENUMS.SelectionCategory.NEXT_POKEMON,
 		"selected": ENUMS.BinaryOptions.YES
 	});
 
@@ -517,14 +514,18 @@ func start_switch_animation() -> void:
 	dialog.set_label("");
 
 func switch_pokemon() -> void:
-	battle_anim_player.stop();
+	#TODO if must switch enemy sprite it shown
+	if(!BATTLE.trainer_must_switch): battle_anim_player.stop();
 	dialog.visible = true;
 	await GLOBAL.timeout(.2);
 	dialog.switch([pokemon.name + " that's enough!"]);
 	await BATTLE.dialog_finished;
-	attacks.reset();
 	anim_player.play("Switch");
 	await anim_player.animation_finished;
+	if(BATTLE.trainer_must_switch):
+		await selection_switch_trainer_pokemon();
+		BATTLE.can_use_menu = true;
+		return;
 	fake_attack();
 	await BATTLE.attack_finished;
 	battle_anim_player.play("Idle");
@@ -563,8 +564,25 @@ func handle_scape() -> void:
 #CLOSE BATTLE
 func end_battle() -> void:
 	BATTLE.can_use_menu = false;
+	if(BATTLE.type == ENUMS.BattleType.TRAINER):
+		if(!BATTLE.on_victory): AUDIO.play_battle_win();
+		await end_trainer_battle();
 	battle_anim_player.play("FadetoBlack");
 	PARTY.reset_all_active(true);
+
+#END TRAINER
+func end_trainer_battle() -> void:
+	dialog.start(["Oak defeated " + trainer.name + "!"]);
+	await BATTLE.dialog_finished;
+	anim_player.play("TrainerIn");
+	await anim_player.animation_finished;
+	dialog.start([
+		trainer.battle_dialog, 
+		"Oak got $" + str(trainer.money) + " for winning!"
+	]);
+	await BATTLE.dialog_finished;
+	GLOBAL.current_money += trainer.money;
+	await GLOBAL.timeout(0.2);
 
 func close_battle() -> void:
 	GLOBAL.emit_signal("close_battle", battle_data);
@@ -796,35 +814,35 @@ func set_pokeball_slots(
 #MENU SELECTION
 func _on_selection_value_select(
 	value: int,
-	id: ENUMS.SelectionCategory
+	category: ENUMS.SelectionCategory
 ) -> void:
 	dialog.set_label("");
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
-	match id:
-		ENUMS.SelectionCategory.BATTLE:
+	match category:
+		ENUMS.SelectionCategory.NEXT_POKEMON:
 			match value:
-				int(ENUMS.BinaryOptions.YES): await selection_open_party(); 
+				int(ENUMS.BinaryOptions.YES): menu.open_party(); 
 				int(ENUMS.BinaryOptions.NO): _on_check_can_escape();
-		ENUMS.SelectionCategory.SWITCH:
+		ENUMS.SelectionCategory.SWITCH_TRAINER:
 			match value:
-				int(ENUMS.BinaryOptions.YES): await selection_open_party();
+				int(ENUMS.BinaryOptions.YES): 
+					BATTLE.trainer_must_switch = true;
+					menu.open_party();
 				int(ENUMS.BinaryOptions.NO): await selection_switch_trainer_pokemon();
 
 #SELECTIONS
-func selection_open_party() -> void:
-	menu.open_party();
-	await GLOBAL.timeout(1);
-	player_info.visible = false;
-
 func selection_switch_trainer_pokemon() -> void:
+	BATTLE.trainer_must_switch = false;
 	await GLOBAL.timeout(0.2);
 	anim_player.play("TrainerSwitch");
 	await GLOBAL.timeout(0.5);
+	BATTLE.reset_participants(pokemon);
+	set_exp(pokemon);
 	dialog.quick([trainer.name + ' send out ' + enemy.name + '!'], 1.5);
 	await anim_player.animation_finished;
-	close_dialog_and_show_menu(0.1);
-	menu.set_label("Ready! What will be your next move?");
+	close_dialog_and_show_menu(0.2);
 	BATTLE.state = ENUMS.BattleStates.MENU;
+	battle_anim_player.play("Idle");
 
 #AUDIO
 func play_shout_pokemon() -> void:
@@ -900,14 +918,13 @@ func start_catch(item: Dictionary) -> void:
 	enemy.data.met = MAPS.get_map_name(true);
 	await player_audio.finished;
 	AUDIO.play_battle_win();
-	
+		
 	var showcase_poke = { 
 		"number": enemy.data.number, 
 		"seen": true, 
 		"owned": true, 
-		"name": enemy.data.name 
-	}
-	
+		"name": enemy.data.name };
+		
 	POKEDEX.add_pokemon_to_showcase(showcase_poke);
 	PARTY.add_pokemon_to_party(enemy);
 	await BATTLE.dialog_finished;
@@ -919,6 +936,14 @@ func reset_attack_state() -> void:
 	BATTLE.enemy_attacked = false;
 	BATTLE.attacks_set = false;
 	battle_anim_player.play("Idle");
+
+#SCENE CLOSE
+func _on_scene_opened(value: bool, node_name: String) -> void:
+	if(!value):
+		match node_name:
+			"CurrentScene/PartyScreen": 
+				if(BATTLE.trainer_must_switch && !BATTLE.party_pokemon_selected):
+					await selection_switch_trainer_pokemon();
 
 func show_total_stats_panel() -> void: level_up_panel.show_total_stats();
 func go_switch_dialog() -> void: dialog.switch(["Let's go " + pokemon.name + "!"]);
@@ -941,4 +966,5 @@ func connect_signals() -> void:
 	PARTY.connect("selected_pokemon_party", _on_party_pokemon_select);
 	GLOBAL.connect("selection_value_select", _on_selection_value_select);
 	GLOBAL.connect("use_item", _on_use_item);
+	GLOBAL.connect("scene_opened", _on_scene_opened);
 	health_timer.connect("timeout", _on_health_timer_timeout);

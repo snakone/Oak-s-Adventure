@@ -6,6 +6,7 @@ extends Node2D
 @onready var attack_selection: Node2D = $"../Attacks";
 @onready var audio: AudioStreamPlayer = $"../AudioPlayer";
 @onready var dialog_label: RichTextLabel = $"../Dialog/Label";
+@onready var dialog: Node2D = $"../Dialog";
 
 const party_screen_path = "res://Scenes/UI/party_screen.tscn";
 const bag_screen_path = "res://Scenes/UI/bag_screen.tscn";
@@ -52,11 +53,17 @@ func match_input() -> void:
 	#PARTY
 	elif(cursor_index == Vector2.DOWN): open_party();
 	#ESCAPE
-	elif(cursor_index == Vector2(1, 1)):
+	elif(cursor_index == Vector2(1, 1)): check_if_can_run();
+
+func check_if_can_run() -> void:
+	if(BATTLE.type == ENUMS.BattleType.TRAINER):
+		dialog.quick(["Can\'t escape from a Trainer Battle!"], 1.5);
+		await BATTLE.quick_dialog_end;
+		dialog.close(0);
+		BATTLE.state = ENUMS.BattleStates.MENU
+	else:
 		BATTLE.state = ENUMS.BattleStates.NONE;
 		BATTLE.check_can_escape.emit();
-
-func set_label(text: String) -> void: label.text = text;
 
 #MARKERS
 func set_marker() -> void:

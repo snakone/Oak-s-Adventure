@@ -73,6 +73,8 @@ var attacks_set = false;
 var current_weather = int(Weather.NONE);
 var on_action = false;
 var trainer_team = [];
+var trainer_must_switch = false;
+var party_pokemon_selected = false;
 
 func reset_state(reset_type = true) -> void:
 	can_use_menu = false;
@@ -102,6 +104,7 @@ func reset_state(reset_type = true) -> void:
 	current_weather = int(Weather.NONE);
 	on_action = false;
 	trainer_team = [];
+	trainer_must_switch = false;
 
 func reset_on_switch() -> void:
 	can_use_menu = false;
@@ -125,6 +128,7 @@ func reset_on_switch() -> void:
 	enemy_attack = 0;
 	on_action = false;
 	attacks_set = false;
+	trainer_must_switch = false;
 
 func pokemon_encounter() -> bool:
 	randomize();
@@ -209,3 +213,6 @@ func remove_trainer_pokemon(id: int) -> void:
 	for index in range(0, trainer_team.size()):
 		if(trainer_team[index] == id): 
 			trainer_team[index] = -1;
+
+func reset_participants(poke: Object) -> void:
+	participants = participants.filter(func(p): return p.name == poke.name);

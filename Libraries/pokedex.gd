@@ -380,7 +380,7 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2.ZERO,
+				"battle": Vector2(1, 0),
 				"box": Vector2(3, 0),
 				"pokedex": {
 					"front": Vector2.ZERO,

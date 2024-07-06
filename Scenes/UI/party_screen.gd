@@ -68,7 +68,9 @@ func _ready():
 	create_party_list();
 	set_all_options();
 	set_active_option(State.ON);
-	if(GLOBAL.on_battle): select_cursor_default_position.pop_front();
+	if(GLOBAL.on_battle): 
+		select_cursor_default_position.pop_front();
+		BATTLE.party_pokemon_selected = false;
 	move_select_arrow();
 	if(SETTINGS.selected_marker):
 		nine_rect.texture = SETTINGS.selected_marker; 
@@ -196,7 +198,7 @@ func select_slot() -> void:
 			#POKEMON
 			Slots.FIRST, Slots.SECOND, Slots.THIRD, Slots.FOURTH, Slots.FIFTH, Slots.SIXTH:
 				select_input();
-
+		
 	#ON BATTLE
 	elif(select_open && GLOBAL.on_battle):
 		match select_index:
@@ -212,7 +214,7 @@ func select_slot() -> void:
 
 func select_input() -> void:
 	if(selected_slot == current_switch_slot && switch_mode):
-		close_party();
+		reset_switch_mode();
 		return;
 	elif(switch_mode):
 		switch_pokemon();
@@ -266,7 +268,7 @@ func switch_pokemon() -> void:
 	for anim_player in slots_array:
 		anim_player.play("SwitchIn");
 	await GLOBAL.timeout(switch_anim_duration);
-	close_party(false, false);
+	reset_switch_mode(false, false);
 	if(selected_slot == Slots.FIRST):
 		PARTY.reset_all_active(true);
 	await GLOBAL.timeout(0.2);
@@ -291,21 +293,19 @@ func select_pokemon() -> void:
 func select_poke_and_change(poke_name: String) -> void:
 	label.text = selected_sentence;
 	closing = true;
-	BATTLE.can_use_menu = false;
 	PARTY.reset_all_active();
 	PARTY.set_active_pokemon(poke_name);
+	if(GLOBAL.on_battle): 
+		BATTLE.party_pokemon_selected = true;
+		BATTLE.can_use_menu = false;
 	await GLOBAL.timeout(0.2);
 	close_party(false);
 	PARTY.emit_signal("selected_pokemon_party", poke_name);
 
 #CLOSE
 func close_party(sound = true, reset_list = true) -> void:
-	if(switch_mode):
-		if(sound): play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
-		label.text = default_sentence;
-		switch_mode = false;
-		current_switch_slot = null;
-		if(reset_list): reset();
+	if(switch_mode): 
+		reset_switch_mode(sound, reset_list);
 		return;
 	closing = true;
 	GLOBAL.on_overlay = false;
@@ -314,6 +314,13 @@ func close_party(sound = true, reset_list = true) -> void:
 	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/PartyScreen");
 	if(GLOBAL.on_battle): BATTLE.state = ENUMS.BattleStates.MENU;
 	process_mode = Node.PROCESS_MODE_DISABLED;
+
+func reset_switch_mode(sound = true, reset_list = true) -> void:
+	if(sound): play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
+	label.text = default_sentence;
+	switch_mode = false;
+	current_switch_slot = null;
+	if(reset_list): reset();
 
 #SWITCH SLOT
 func switch_slot() -> void:
@@ -429,9 +436,7 @@ func create_party_list() -> void:
 		var remain_hp_node = slot.get_node("RemainHP");
 		var health_node = slot.get_node("Health");
 		var status_node = slot.get_node("Status");
-		
 		status_node.visible = false;
-		
 		#STATS
 		var poke = party[index];
 		pokemon_node.texture = poke.data.specie.party_texture;
