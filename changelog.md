@@ -71,3 +71,8 @@
 - Catch Pokémon
 - Use Combat Items
 - Android Controls
+
+# 0.5.9
+- Trainer Encounter + Battle
+- Battle Fixes
+- Summary Screen

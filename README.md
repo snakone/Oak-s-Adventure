@@ -60,7 +60,7 @@ APK debug [Android](https://mega.nz/file/dpJj0ShL#0ChB1ql7UXlPIM-_xoUGndGHZcduL_
 Download [Godot](https://godotengine.org/) for free and start your own journey!
 
 ## Version
-v.0.5.8
+v.0.5.9
 
 ### All Rights reserved to
 &copy;2024 Pokémon. ©1995 - 2024 Nintendo/Creatures Inc./GAME FREAK inc. TM, ®Nintendo.
