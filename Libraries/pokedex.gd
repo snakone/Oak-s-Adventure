@@ -72,20 +72,17 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2(0, 5),
-				"box": Vector2.ZERO,
-				"pokedex": {
-					"front": Vector2(11, 3),
-					"back": Vector2(15, 3)
-				}
+				"battle": {
+					"front": Vector2(0, 5),
+					"back": Vector2.ZERO
+				},
+				"box": Vector2(5, 0),
+				"pokedex": Vector2(5, 9)
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
-				"box": Vector2(0.8, 0.8),
-				"pokedex": {
-					"front": Vector2(0.8, 0.8),
-					"back": Vector2(0.8, 0.8)
-				}
+				"box": Vector2(0.7, 0.7),
+				"pokedex": Vector2(0.8, 0.8)
 			}
 		},
 		"stats": {
@@ -125,20 +122,17 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2.ZERO,
+				"battle": {
+					"front": Vector2.ZERO,
+					"back": Vector2.ZERO
+				},
 				"box": Vector2(-7, -6),
-				"pokedex": {
-					"front": Vector2(0, -1),
-					"back": Vector2(4, 3)
-				}
+				"pokedex": Vector2(0, 2)
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
 				"box": Vector2(0.75, 0.75),
-				"pokedex": {
-					"front": Vector2(0.7, 0.7),
-					"back": Vector2(0.7, 0.7)
-				}
+				"pokedex": Vector2(0.7, 0.7)
 			}
 		},
 		"stats": {
@@ -176,20 +170,17 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2(0, -4),
-				"box": Vector2(-7, -6),
-				"pokedex": {
-					"front": Vector2(-18, -3),
-					"back": Vector2(-4, -1)
-				}
+				"battle": {
+					"front": Vector2(1, -4),
+					"back": Vector2.ZERO
+				},
+				"box": Vector2(-16, -12),
+				"pokedex": Vector2(-17, -16)
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
-				"box": Vector2(0.75, 0.75),
-				"pokedex": {
-					"front": Vector2(0.6, 0.6),
-					"back": Vector2(0.6, 0.6)
-				}
+				"box": Vector2(0.65, 0.65),
+				"pokedex": Vector2(0.75, 0.75)
 			}
 		},
 		"stats": {
@@ -227,20 +218,17 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2(0, 3),
-				"box": Vector2.ZERO,
-				"pokedex": {
-					"front": Vector2(6, 4),
-					"back": Vector2(6, 1)
-				}
+				"battle": {
+					"front": Vector2(1, 3),
+					"back": Vector2.ZERO
+				},
+				"box": Vector2(3, 2),
+				"pokedex": Vector2(6, 4)
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
-				"box": Vector2(0.8, 0.8),
-				"pokedex": {
-					"front": Vector2(0.8, 0.8),
-					"back": Vector2(0.8, 0.8)
-				}
+				"box": Vector2(0.7, 0.7),
+				"pokedex": Vector2(0.8, 0.8)
 			}
 		},
 		"stats": {
@@ -278,20 +266,17 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2(9, -4),
-				"box": Vector2.ZERO,
-				"pokedex": {
-					"front": Vector2(4, -1),
-					"back": Vector2(-2, -4)
-				}
+				"battle": {
+					"front": Vector2(12, -2),
+					"back": Vector2(-10, 0)
+				},
+				"box": Vector2(0, -5),
+				"pokedex": Vector2(7, -1)
 			},
 			"scale": {
 				"battle": Vector2(0.75, 0.75),
-				"box": Vector2(0.8, 0.8),
-				"pokedex": {
-					"front": Vector2(0.7, 0.7),
-					"back": Vector2(0.68, 0.68)
-				}
+				"box": Vector2(0.7, 0.7),
+				"pokedex": Vector2(0.7, 0.7)
 			}
 		},
 		"stats": {
@@ -329,20 +314,17 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2(2, -15),
-				"box": Vector2.ZERO,
-				"pokedex": {
-					"front": Vector2(-14, -16),
-					"back": Vector2(-12, -12)
-				}
+				"battle": {
+					"front": Vector2(3, -15),
+					"back": Vector2(-10, 0)
+				},
+				"box": Vector2(-14, -26),
+				"pokedex": Vector2(-10, -30)
 			},
 			"scale": {
 				"battle": Vector2(0.7, 0.7),
-				"box": Vector2(0.8, 0.8),
-				"pokedex": {
-					"front": Vector2(0.65, 0.65),
-					"back": Vector2(0.65, 0.65)
-				}
+				"box": Vector2(0.65, 0.65),
+				"pokedex": Vector2(0.7, 0.7)
 			}
 		},
 		"stats": {
@@ -380,20 +362,17 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2(1, 3),
-				"box": Vector2(3, 0),
-				"pokedex": {
-					"front": Vector2.ZERO,
+				"battle": {
+					"front": Vector2(2, 4),
 					"back": Vector2.ZERO
-				}
+				},
+				"box": Vector2(4, 0),
+				"pokedex": Vector2(8, 5)
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
 				"box": Vector2(0.7, 0.7),
-				"pokedex": {
-					"front": Vector2(0.8, 0.8),
-					"back": Vector2(0.8, 0.8)
-				}
+				"pokedex": Vector2(0.8, 0.8)
 			}
 		},
 		"stats": {
@@ -433,20 +412,17 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2.ZERO,
-				"box": Vector2(3, 0),
-				"pokedex": {
-					"front": Vector2.ZERO,
-					"back": Vector2.ZERO
-				}
+				"battle": {
+					"front": Vector2(2, -3),
+					"back": Vector2(0, -4)
+				},
+				"box": Vector2(-1, -5),
+				"pokedex": Vector2(2, -5)
 			},
 			"scale": {
-				"battle": Vector2(0.8, 0.8),
-				"box": Vector2(0.7, 0.7),
-				"pokedex": {
-					"front": Vector2(0.8, 0.8),
-					"back": Vector2(0.8, 0.8)
-				}
+				"battle": Vector2(0.74, 0.74),
+				"box": Vector2(0.65, 0.65),
+				"pokedex": Vector2(0.7, 0.7)
 			}
 		},
 		"stats": {
@@ -486,20 +462,17 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2(-1, -7),
-				"box": Vector2(3, 0),
-				"pokedex": {
-					"front": Vector2.ZERO,
-					"back": Vector2.ZERO
-				}
+				"battle": {
+					"front": Vector2(-2, -9),
+					"back": Vector2(0, -4)
+				},
+				"box": Vector2(-12, -10),
+				"pokedex": Vector2(-14, -17)
 			},
 			"scale": {
-				"battle": Vector2(0.8, 0.8),
+				"battle": Vector2(0.85, 0.85),
 				"box": Vector2(0.7, 0.7),
-				"pokedex": {
-					"front": Vector2(0.8, 0.8),
-					"back": Vector2(0.8, 0.8)
-				}
+				"pokedex": Vector2(0.8, 0.8)
 			}
 		},
 		"stats": {
@@ -539,20 +512,17 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2(1, 0),
-				"box": Vector2(3, 0),
-				"pokedex": {
-					"front": Vector2.ZERO,
-					"back": Vector2.ZERO
-				}
+				"battle": {
+					"front": Vector2(3, 9),
+					"back": Vector2(0, 4)
+				},
+				"box": Vector2(11, 9),
+				"pokedex": Vector2(17, 26)
 			},
 			"scale": {
-				"battle": Vector2(0.7, 0.7),
-				"box": Vector2(0.7, 0.7),
-				"pokedex": {
-					"front": Vector2(0.8, 0.8),
-					"back": Vector2(0.8, 0.8)
-				}
+				"battle": Vector2(0.65, 0.65),
+				"box": Vector2(0.6, 0.6),
+				"pokedex": Vector2(0.6, 0.6)
 			}
 		},
 		"stats": {
@@ -592,20 +562,17 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2.ZERO,
-				"box": Vector2(-22, -18),
-				"pokedex": {
-					"front": Vector2(-21, -11),
-					"back": Vector2(-3, -11)
-				}
+				"battle": {
+					"front": Vector2(-6, -11),
+					"back": Vector2(8, -3)
+				},
+				"box": Vector2(-22, -16),
+				"pokedex": Vector2(-21, -20)
 			},
 			"scale": {
-				"battle": Vector2(0.8, 0.8),
-				"box": Vector2(0.8, 0.8),
-				"pokedex": {
-					"front": Vector2(0.8, 0.8),
-					"back": Vector2(0.8, 0.8)
-				}
+				"battle": Vector2(0.85, 0.85),
+				"box": Vector2(0.75, 0.75),
+				"pokedex": Vector2(0.8, 0.8)
 			}
 		},
 		"stats": {
@@ -643,20 +610,17 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2.ZERO,
-				"box": Vector2(2, -1),
-				"pokedex": {
-					"front": Vector2(2, 0),
+				"battle": {
+					"front": Vector2(2, 3),
 					"back": Vector2.ZERO
-				}
+				},
+				"box": Vector2(3, -2),
+				"pokedex": Vector2(6, 1)
 			},
 			"scale": {
-				"battle": Vector2(0.8, 0.8),
+				"battle": Vector2(0.75, 0.75),
 				"box": Vector2(0.7, 0.7),
-				"pokedex": {
-					"front": Vector2(0.8, 0.8),
-					"back": Vector2(0.8, 0.8)
-				}
+				"pokedex": Vector2(0.75, 0.75)
 			}
 		},
 		"stats": {
@@ -694,20 +658,17 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2.ZERO,
-				"box": Vector2.ZERO,
-				"pokedex": {
-					"front": Vector2.ZERO,
-					"back": Vector2(-3, 0)
-				}
+				"battle": {
+					"front": Vector2(1, 6),
+					"back": Vector2(-5, 2)
+				},
+				"box": Vector2(2, 0),
+				"pokedex": Vector2(6, 7)
 			},
 			"scale": {
-				"battle": Vector2(0.8, 0.8),
-				"box": Vector2(0.8, 0.8),
-				"pokedex": {
-					"front": Vector2(0.8, 0.8),
-					"back": Vector2(0.8, 0.8)
-				}
+				"battle": Vector2(0.74, 0.74),
+				"box": Vector2(0.7, 0.7),
+				"pokedex": Vector2(0.75, 0.75)
 			}
 		},
 		"stats": {
@@ -745,20 +706,17 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2.ZERO,
-				"box": Vector2.ZERO,
-				"pokedex": {
-					"front": Vector2.ZERO,
-					"back": Vector2.ZERO
-				}
+				"battle": {
+					"front": Vector2(5, 5),
+					"back": Vector2(-6, 0)
+				},
+				"box": Vector2(6, 0),
+				"pokedex": Vector2(10, 7)
 			},
 			"scale": {
-				"battle": Vector2(0.8, 0.8),
-				"box": Vector2(0.8, 0.8),
-				"pokedex": {
-					"front": Vector2(0.8, 0.8),
-					"back": Vector2(0.8, 0.8)
-				}
+				"battle": Vector2(0.7, 0.7),
+				"box": Vector2(0.65, 0.65),
+				"pokedex": Vector2(0.7, 0.7)
 			}
 		},
 		"stats": {
@@ -796,20 +754,17 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2(-1, -3),
-				"box": Vector2.ZERO,
-				"pokedex": {
-					"front": Vector2.ZERO,
-					"back": Vector2.ZERO
-				}
+				"battle": {
+					"front": Vector2(-1, -10),
+					"back": Vector2(1, -5)
+				},
+				"box": Vector2(-9, -9),
+				"pokedex": Vector2(-7, -10)
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
-				"box": Vector2(0.8, 0.8),
-				"pokedex": {
-					"front": Vector2(0.8, 0.8),
-					"back": Vector2(0.8, 0.8)
-				}
+				"box": Vector2(0.75, 0.75),
+				"pokedex": Vector2(0.8, 0.8)
 			}
 		},
 		"stats": {
@@ -847,20 +802,17 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2.ZERO,
-				"box": Vector2.ZERO,
-				"pokedex": {
-					"front": Vector2.ZERO,
-					"back": Vector2.ZERO
-				}
+				"battle": {
+					"front": Vector2(4, 4),
+					"back": Vector2(-2, 1)
+				},
+				"box": Vector2(11, 2),
+				"pokedex": Vector2(15, 9)
 			},
 			"scale": {
-				"battle": Vector2(0.8, 0.8),
-				"box": Vector2(0.8, 0.8),
-				"pokedex": {
-					"front": Vector2(0.8, 0.8),
-					"back": Vector2(0.8, 0.8)
-				}
+				"battle": Vector2(0.75, 0.75),
+				"box": Vector2(0.65, 0.65),
+				"pokedex": Vector2(0.7, 0.7)
 			}
 		},
 		"stats": {
@@ -898,20 +850,17 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2(0, -16),
-				"box": Vector2(-28, -28),
-				"pokedex": {
-					"front": Vector2.ZERO,
-					"back": Vector2.ZERO
-				}
+				"battle": {
+					"front": Vector2(0, -20),
+					"back": Vector2(2, -8)
+				},
+				"box": Vector2(-27, -30),
+				"pokedex": Vector2(-24, -41)
 			},
 			"scale": {
 				"battle": Vector2(0.7, 0.7),
 				"box": Vector2(0.6, 0.6),
-				"pokedex": {
-					"front": Vector2(0.8, 0.8),
-					"back": Vector2(0.8, 0.8)
-				}
+				"pokedex": Vector2(0.7, 0.7)
 			}
 		},
 		"stats": {
@@ -949,20 +898,17 @@ var LIST: Array = [
 		},
 		"display": {
 			"offset": {
-				"battle": Vector2(0, -10),
-				"box": Vector2(-30, -30),
-				"pokedex": {
-					"front": Vector2(-34, -18),
-					"back": Vector2(-12, -23)
-				}
+				"battle": {
+					"front": Vector2(0, -15),
+					"back": Vector2(0, -8)
+				},
+				"box": Vector2(-32, -30),
+				"pokedex": Vector2(-26, -38)
 			},
 			"scale": {
-				"battle": Vector2(0.8, 0.8),
-				"box": Vector2(0.6, 0.6),
-				"pokedex": {
-					"front": Vector2(0.6, 0.6),
-					"back": Vector2(0.58, 0.58)
-				}
+				"battle": Vector2(0.75, 0.75),
+				"box": Vector2(0.6, 0.6), 
+				"pokedex": Vector2(0.7, 0.7),
 			}
 		},
 		"stats": {

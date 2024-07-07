@@ -51,4 +51,4 @@ theme_override_colors/font_shadow_color = Color(0.862745, 0.854902, 0.85098, 1)
 text = "NO"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-volume_db = -20.0
+volume_db = -10.0

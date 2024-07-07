@@ -110,7 +110,7 @@ offset_bottom = 40.0
 texture = ExtResource("2_abwes")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-volume_db = -3.905
+volume_db = -10.0
 
 [node name="Items" type="Node2D" parent="."]
 visible = false

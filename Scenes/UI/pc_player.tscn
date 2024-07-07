@@ -83,4 +83,4 @@ theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 text = "LOG OFF"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-volume_db = -20.0
+volume_db = -10.0

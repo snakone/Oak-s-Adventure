@@ -33,6 +33,7 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 		#EXP
 		if("total_exp" not in data): set_exp_by_level();
 		if(data.current_hp == 0): data.death = true;
+		data.current_hp = min(data.current_hp, data.battle_stats["HP"])
 
 #ATTACK
 func attack(enemy: Object, move: Dictionary) -> Dictionary:

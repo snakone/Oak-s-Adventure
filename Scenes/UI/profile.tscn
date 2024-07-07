@@ -166,7 +166,7 @@ autoplay = "Front"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="TrainerCard"]
 stream = ExtResource("8_b8aoh")
-volume_db = -20.0
+volume_db = -10.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

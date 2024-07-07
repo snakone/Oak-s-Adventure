@@ -382,7 +382,7 @@ text = "+2"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_c8awa")
-volume_db = -20.0
+volume_db = -10.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

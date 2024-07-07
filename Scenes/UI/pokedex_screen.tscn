@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://coqv4qqrp1ie"]
+[gd_scene load_steps=23 format=3 uid="uid://coqv4qqrp1ie"]
 
 [ext_resource type="Script" path="res://Scenes/UI/pokedex_screen.gd" id="1_tq43h"]
 [ext_resource type="Texture2D" uid="uid://cx73yapygovt5" path="res://Assets/UI/Pokedex/index_background.png" id="2_nney6"]
@@ -11,10 +11,11 @@
 [ext_resource type="Texture2D" uid="uid://dmt1sgwftqmcc" path="res://Assets/UI/Pokedex/pokedex_arrow_up.png" id="8_ldmsw"]
 [ext_resource type="Texture2D" uid="uid://d3vk5sx3n4y5l" path="res://Assets/UI/Pokemon/squirtle/footprint.png" id="9_nta12"]
 [ext_resource type="FontFile" uid="uid://bqhxhi032wwfk" path="res://Assets/Fonts/power clear bold.ttf" id="9_qf070"]
-[ext_resource type="SpriteFrames" uid="uid://cgrep68metxry" path="res://Sprites/Animated/Beedrill/beedrill.tres" id="9_urat2"]
 [ext_resource type="Texture2D" uid="uid://dabmedes08vwg" path="res://Assets/UI/Pokedex/pokedex_arrow_down.png" id="9_yjvm8"]
+[ext_resource type="SpriteFrames" uid="uid://b7qwmj75ulas8" path="res://Sprites/Animated/Bulbasaur/bulbasaur.tres" id="10_wmbch"]
 [ext_resource type="Texture2D" uid="uid://bu760yp0d84e7" path="res://Assets/UI/Pokedex/area_background.png" id="10_xyvlb"]
 [ext_resource type="Texture2D" uid="uid://dqbif0an3yaxg" path="res://Assets/UI/Pokemon/bulbasaur/icon.png" id="11_ndmgn"]
+[ext_resource type="Texture2D" uid="uid://c07gl336ff2mq" path="res://Assets/UI/Battle/Backgrounds/grass_base1.png" id="11_wodll"]
 [ext_resource type="Texture2D" uid="uid://dqj6a17cyjseg" path="res://Assets/UI/Types/grass.png" id="13_tilki"]
 [ext_resource type="Texture2D" uid="uid://dqo2j0vakk18h" path="res://Assets/UI/Types/poison.png" id="14_44fka"]
 
@@ -91,7 +92,7 @@ layer = 4
 script = ExtResource("1_tq43h")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-volume_db = -20.0
+volume_db = -10.0
 
 [node name="Index" type="Node2D" parent="."]
 
@@ -381,7 +382,6 @@ autowrap_mode = 0
 context_menu_enabled = true
 
 [node name="List" type="Node2D" parent="."]
-visible = false
 
 [node name="Background" type="TextureRect" parent="List"]
 offset_right = 40.0
@@ -407,7 +407,6 @@ layout_mode = 2
 [node name="PageHabitat" type="Node2D" parent="List"]
 
 [node name="Info" type="Node2D" parent="."]
-visible = false
 
 [node name="Background" type="TextureRect" parent="Info"]
 offset_right = 40.0
@@ -612,20 +611,23 @@ scroll_active = false
 autowrap_mode = 0
 
 [node name="Sprites" type="Node2D" parent="Info"]
+z_index = 1
+y_sort_enabled = true
 
 [node name="Front" type="AnimatedSprite2D" parent="Info/Sprites"]
-position = Vector2(132, 32)
-sprite_frames = ExtResource("9_urat2")
+position = Vector2(159, 36)
+sprite_frames = ExtResource("10_wmbch")
 animation = &"Front"
 centered = false
-offset = Vector2(-20, -11)
 
-[node name="Back" type="AnimatedSprite2D" parent="Info/Sprites"]
-position = Vector2(180, 32)
-sprite_frames = ExtResource("9_urat2")
-animation = &"Back"
-centered = false
-offset = Vector2(-3, -12)
+[node name="Ground" type="TextureRect" parent="Info"]
+offset_left = 126.0
+offset_top = 43.0
+offset_right = 382.0
+offset_bottom = 171.0
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("11_wodll")
+stretch_mode = 2
 
 [node name="Area" type="Node2D" parent="."]
 visible = false

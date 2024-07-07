@@ -1190,7 +1190,7 @@ libraries = {
 }
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-volume_db = -20.0
+volume_db = -10.0
 
 [node name="Select" type="Control" parent="."]
 visible = false

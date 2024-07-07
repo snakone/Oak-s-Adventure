@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://mehsprarmnqn"]
+[gd_scene load_steps=11 format=3 uid="uid://mehsprarmnqn"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/Routes/route_00.gd" id="1_4sei8"]
 [ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="1_7s0sy"]
@@ -7,8 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://cqktd3b4r0pk2" path="res://Scripts/switch_scene.tscn" id="3_yop7n"]
 [ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="5_1wix8"]
 [ext_resource type="Texture2D" uid="uid://c6ef57pdep1pp" path="res://Sprites/door_open_blue.png" id="5_xxc6b"]
-[ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="7_agnbx"]
-[ext_resource type="Texture2D" uid="uid://cas7pala8455i" path="res://Sprites/NPC/gary.png" id="8_k38dg"]
 [ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="9_08sj1"]
 [ext_resource type="PackedScene" uid="uid://cumbmhk511bu0" path="res://Objects/Animated/reflection.tscn" id="11_k8ik8"]
 [ext_resource type="Texture2D" uid="uid://cphc4sd4sd7am" path="res://Sprites/Animated/Water Reflections/2x2.png" id="12_bpss8"]
@@ -19,7 +17,7 @@ script = ExtResource("1_4sei8")
 song = ExtResource("2_cho4p")
 
 [node name="Oak" parent="." instance=ExtResource("1_7s0sy")]
-position = Vector2(48, 16)
+position = Vector2(128, 96)
 input_pickable = true
 
 [node name="TileMap" parent="." instance=ExtResource("1_mej1f")]
@@ -40,12 +38,6 @@ collision_priority = 2.0
 next_scene = "res://Scenes/Maps/Towns/praire_town.tscn"
 enter_direction = 2
 new_map = 0
-
-[node name="Gary" parent="." instance=ExtResource("7_agnbx")]
-position = Vector2(128, 160)
-texture = ExtResource("8_k38dg")
-possitive_limits = Vector2(2, 1)
-negative_limits = Vector2(-2, -2)
 
 [node name="Banner" parent="." instance=ExtResource("9_08sj1")]
 position = Vector2(288, 80)

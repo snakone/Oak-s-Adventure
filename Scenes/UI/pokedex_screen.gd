@@ -19,7 +19,6 @@ extends CanvasLayer
 @onready var height_value: RichTextLabel = $Info/Height/Value;
 @onready var weight_value: RichTextLabel = $Info/Weight/Value;
 @onready var front: AnimatedSprite2D = $Info/Sprites/Front;
-@onready var back: AnimatedSprite2D = $Info/Sprites/Back;
 @onready var description: RichTextLabel = $Info/Description;
 @onready var footprint: TextureRect = $Info/Footprint;
 
@@ -83,14 +82,12 @@ func init() -> void:
 	showcase_size = showcase.size();
 	index_options = LIBRARIES.POKEDEX.index_options;
 
-func _unhandled_input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void: 
 	if(
 		(!event is InputEventKey &&
 		!event is InputEventScreenTouch) ||
 		GLOBAL.on_transition || 
-		GLOBAL.dialog_open ||
-		event.is_echo() ||
-		!event.is_pressed()
+		GLOBAL.dialog_open
 	): return;
 	
 	#CLOSE
@@ -366,7 +363,6 @@ func set_pokemon_info() -> void:
 		if("sprites" in selected_pokemon.data):
 			set_sprites();
 			front.play("Front");
-			back.play("Back");
 		#SPECIES
 		if("specie" in selected_pokemon.data):
 			check_species();
@@ -381,11 +377,8 @@ func set_sprites() -> void:
 	var display_scale = selected_pokemon.data.display.scale.pokedex;
 	
 	front.sprite_frames = sprite_frames;
-	back.sprite_frames = sprite_frames;
-	front.offset = display_offset.front;
-	front.scale = display_scale.front;
-	back.offset = display_offset.back;
-	back.scale = display_scale.back;
+	front.offset = display_offset;
+	front.scale = display_scale;
 
 func check_species() -> void:
 	if(is_pokemon_owned(selected_pokemon.data.number)): 

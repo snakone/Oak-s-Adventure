@@ -19,6 +19,7 @@ offset_bottom = 40.0
 texture = ExtResource("2_stnxd")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -10.0
 
 [node name="Info" type="Node2D" parent="."]
 

@@ -27,10 +27,10 @@ func _load() -> void:
 		GLOBAL.go_to_scene(DEFAULT_PATH, true, false);
 		return;
 		
-	var save_file = FileAccess.open(SAVE_PATH, FileAccess.READ)
+	var save_file = FileAccess.open(SAVE_PATH, FileAccess.READ);
 	while save_file.get_position() < save_file.get_length():
 		var json = JSON.new();
-		json.parse(save_file.get_line())
+		json.parse(save_file.get_line());
 		var data = json.get_data();
 		if(data && data.has("path") && has_node(data["path"])):
 			var node: Node = get_node(data["path"]);

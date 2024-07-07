@@ -244,7 +244,7 @@ func update_battle_ui(
 	
 	if(animated): await animate_hp_bar(target, new_size);
 	else: 
-		target.bar.scale.x = new_size;
+		target.bar.scale.x = min(new_size, 1);
 	dialog.set_label("");
 	BATTLE.ui_updated.emit();
 	if(check_dialog): after_dialog_attack();
@@ -470,12 +470,15 @@ func check_learn_move(poke: Object, new_level: int) -> void:
 func check_for_next_pokemon_after_death() -> void:
 	BATTLE.remove_participant(pokemon);
 	var next = PARTY.get_next_pokemon();
-	if(next != null): await handle_can_use_pokemon();
+	if(next != null): await handle_can_use_next_pokemon();
 	else: await handle_no_pokemon_left();
 
-func handle_can_use_pokemon() -> void:
+func handle_can_use_next_pokemon() -> void:
 	BATTLE.can_use_next_pokemon = true;
 	await GLOBAL.timeout(0.2);
+	if(BATTLE.type == ENUMS.BattleType.TRAINER):
+		menu.open_party();
+		return;
 	dialog.next_pokemon(["Use next POKéMON?"]);
 	await BATTLE.dialog_finished;
 	await GLOBAL.timeout(0.1);
@@ -488,7 +491,8 @@ func handle_no_pokemon_left() -> void:
 	await GLOBAL.timeout(0.8);
 	dialog.start(["No POKéMON left!\n", "You returned to the last safe spot..."]);
 	await BATTLE.dialog_finished;
-	end_battle();
+	BATTLE.can_use_menu = false;
+	battle_anim_player.play("FadetoBlack");
 
 #PARTY
 func _on_party_pokemon_select(_poke_name: String) -> void:
@@ -634,11 +638,11 @@ func set_player_ui() -> void:
 	var gender_node = player_info.get_node("Gender");
 	var level_node = player_info.get_node("Level");
 	set_name_and_gender(name_node, gender_node, pokemon.data);
-	set_sprites(player_sprite, pokemon.data);
+	set_sprites(player_sprite, pokemon.data, 'player');
 	set_level(level_node, pokemon.data);
 	attacks.set_pokemon_moves(pokemon.data.battle_moves);
 	set_exp(pokemon);
-	exp_bar.scale.x = get_new_exp_bar_size();
+	exp_bar.scale.x = min(get_new_exp_bar_size(), 1);
 	player_sprite.play("Back");
 
 #ENEMY UI
@@ -649,7 +653,7 @@ func set_enemy_ui(id: int) -> void:
 	var gender_node = enemy_info.get_node("Gender");
 	var level_node = enemy_info.get_node("Level");
 	set_name_and_gender(enemy_name, gender_node, enemy.data);
-	set_sprites(enemy_sprite, enemy.data);
+	set_sprites(enemy_sprite, enemy.data, 'enemy');
 	set_level(level_node, enemy.data);
 	attacks.set_enemy_moves(enemy.data.moves);
 	enemy_sprite.play("Front");
@@ -687,10 +691,16 @@ func set_name_and_gender(
 		gender_node.position.x = width + name_node.position.x + PLAYER_DIST_MARGIN;
 		gender_node.visible = true;
 
-func set_sprites(sprite: AnimatedSprite2D, data: Dictionary) -> void:
+func set_sprites(
+	sprite: AnimatedSprite2D, 
+	data: Dictionary,
+	type: String
+) -> void:
 	sprite.sprite_frames = data.sprites.sprite_frames;
-	sprite.offset = data.display.offset.battle;
 	sprite.scale = data.display.scale.battle;
+	match type:
+		'player': sprite.offset = data.display.offset.battle.back;
+		'enemy': sprite.offset = data.display.offset.battle.front;
 
 func set_level(info: RichTextLabel, data: Dictionary) -> void:
 	info.text = "Lv" + str(data.level);

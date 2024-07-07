@@ -140,4 +140,4 @@ theme_override_font_sizes/normal_font_size = 13
 text = "EXIT"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-volume_db = -20.0
+volume_db = -10.0

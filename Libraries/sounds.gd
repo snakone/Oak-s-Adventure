@@ -37,3 +37,4 @@ const USE_ITEM_IN_PARTY = preload("res://Assets/Sounds/Use item in party.ogg");
 const BATTLE_CAPTURE_SUCCESS = preload("res://Assets/Sounds/Battle capture success.ogg");
 const BATTLE_TRAINER = preload("res://Assets/Sounds/Battle trainer.ogg");
 const BATTLE_VICTORY_TRAINER = preload("res://Assets/Sounds/Battle victory trainer.ogg");
+const BIKE_SOUND = preload("res://Assets/Sounds/bike_sound.wav");

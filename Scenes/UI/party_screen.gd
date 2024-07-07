@@ -447,7 +447,7 @@ func create_party_list() -> void:
 		level_node.text = str(poke.data.level);
 		total_hp_node.text = str(poke.data.battle_stats["HP"]);
 		remain_hp_node.text = str(poke.data.current_hp);
-		health_node.scale.x = float(poke.data.current_hp) / float(poke.data.battle_stats["HP"]);
+		health_node.scale.x = min(float(poke.data.current_hp) / float(poke.data.battle_stats["HP"]), 1);
 		
 		#HP COLOR
 		var perct = health_node.scale.x;
