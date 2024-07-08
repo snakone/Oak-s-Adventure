@@ -21,6 +21,11 @@ extends CanvasLayer
 @onready var info: Node2D = $Info;
 @onready var selected: RichTextLabel = $Info/Selected;
 
+@onready var give_option: RichTextLabel = $Select/VBoxContainer/Give;
+@onready var toss_option: RichTextLabel = $Select/VBoxContainer/Toss;
+@onready var select_rect: NinePatchRect = $Select/NinePatchRect;
+@onready var select_v_box: VBoxContainer = $Select/VBoxContainer;
+
 @onready var CANCEL_ITEM = {
 	"id": -1,
 	"name": "CANCEL", 
@@ -33,6 +38,7 @@ const ITEM_scene = preload("res://Scenes/UI/bag_item.tscn");
 const LIST_ITEM_HEIGHT = 16;
 const CURSOR_HEIGHT_BOTTOM = 62;
 var picked = false;
+var select_length = SelectSlot.keys().size() - 1;
 
 @onready var view_list = {
 	ENUMS.BagScreen.ITEMS: {
@@ -124,9 +130,10 @@ func select_slot() -> void:
 		return;
 	if(!select_open): open_select(current_item);
 	else:
+		#TODO missing 2º and 3º options
 		match select_index:
-			SelectSlot.FIRST, SelectSlot.SECOND, SelectSlot.THIRD: handle_input(current_item); 
-			SelectSlot.FOURTH: close_select();
+			SelectSlot.FIRST: handle_input(current_item); 
+			select_length: close_select();
 	#NORMAL PARTY
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 
@@ -134,7 +141,7 @@ func handle_input(item: Dictionary) -> void:
 	match select_index:
 		SelectSlot.FIRST:
 			if(GLOBAL.on_battle):
-				if(item.type == ENUMS.BagScreen.POKEBALL):
+				if(is_trainer_and_pokeball(item)):
 					selected.text = "Can\'t catch\nTrainer POKéMON!";
 					await GLOBAL.timeout(2);
 					selected.text = item.name + " is selected.";
@@ -144,6 +151,9 @@ func handle_input(item: Dictionary) -> void:
 				close_bag();
 
 func open_select(current_item: Dictionary) -> void:
+	if(!GLOBAL.on_battle): set_default_select();
+	elif(is_trainer_and_pokeball(current_item)):
+		set_select_for_battle_pokeball();
 	select_open = true;
 	select.visible = true;
 	info.visible = true;
@@ -200,14 +210,14 @@ func handle_LEFT() -> void:
 func select_DOWN() -> void:
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	select_index += 1;
-	if(select_index > SelectSlot.FOURTH): 
+	if(select_index > select_length): 
 		select_index = int(SelectSlot.FIRST);
 	move_select_arrow();
 
 func select_UP() -> void:
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	if(select_index == SelectSlot.FIRST): 
-		select_index = int(SelectSlot.FOURTH);
+		select_index = select_length;
 	else: select_index -= 1;
 	move_select_arrow();
 
@@ -329,8 +339,36 @@ func close_select(sound = true) -> void:
 	move_select_arrow();
 	set_arrows_visibility();
 
+func is_trainer_and_pokeball(item: Dictionary) -> bool:
+	return (BATTLE.type == ENUMS.BattleType.TRAINER && 
+				item.type == ENUMS.BagScreen.POKEBALL)
+
 func move_select_arrow() -> void:
 	select_cursor.position = SELECT_CURSOR_POSITION[select_index];
+
+func set_default_select() -> void:
+	select_length = SelectSlot.keys().size() - 1;
+	give_option.visible = true;
+	toss_option.visible = true;
+	select_rect.size.y = 75;
+	select_rect.position.y = -15;
+	select_v_box.position.y = -6;
+	select_v_box.size.y = 60;
+	select_cursor.position.y = -6;
+	SELECT_CURSOR_POSITION = [
+		Vector2(23, -6), Vector2(23, 10), Vector2(23, 26), Vector2(23, 42)
+	];
+
+func set_select_for_battle_pokeball() -> void:
+	select_length = 1;
+	give_option.visible = false;
+	toss_option.visible = false;
+	select_rect.size.y = 47;
+	select_rect.position.y = 13;
+	select_v_box.position.y = 24;
+	select_v_box.size.y = 30;
+	select_cursor.position.y = 24;
+	SELECT_CURSOR_POSITION = [Vector2(23, 24), Vector2(23, 40)];
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;

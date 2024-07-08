@@ -45,10 +45,15 @@ Let's say at least i want to have exclusive content for the game, knowing it's 1
 ## Gallery
 
 ![Custom Maps](https://i.ibb.co/vqCfCFj/galery1.png "Custom Maps")
+
 ![Battle](https://i.ibb.co/cQCjZKB/galery2.png "Pokémon Battle")
+
 ![Pokémon Center](https://i.ibb.co/vLxQn1m/galery3.png "Pokémon Boxes")
+
 ![Profile](https://i.ibb.co/J2ZyFv4/profile.png "Oak Profile")
+
 ![Pokédex](https://i.ibb.co/3hpr0zv/pokedex.png "Pokédex Screen")
+
 ![Bag](https://i.ibb.co/Gc9PR19/bag.png "Bag Screen")
 
 You can watch more updates on [Youtube](https://www.youtube.com/@AllisonCode).

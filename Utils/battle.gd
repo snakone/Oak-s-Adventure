@@ -107,9 +107,9 @@ func reset_state(reset_type = true) -> void:
 	trainer_must_switch = false;
 
 func reset_on_switch() -> void:
-	if(ENUMS.BattleType.TRAINER):
+	if(BATTLE.type == ENUMS.BattleType.TRAINER):
 		trainer_intro = true;
-	elif(ENUMS.BattleType.WILD):
+	elif(BATTLE.type == ENUMS.BattleType.WILD):
 		wild_intro = true;
 	can_use_menu = false;
 	state = ENUMS.BattleStates.NONE;

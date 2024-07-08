@@ -60,10 +60,10 @@ func check_if_can_run() -> void:
 		dialog.quick(["Can\'t escape from a Trainer Battle!"], 1.5);
 		await BATTLE.quick_dialog_end;
 		dialog.close(0);
-		BATTLE.state = ENUMS.BattleStates.MENU
-	else:
-		BATTLE.state = ENUMS.BattleStates.NONE;
-		BATTLE.check_can_escape.emit();
+		BATTLE.state = ENUMS.BattleStates.MENU;
+		return;
+	BATTLE.state = ENUMS.BattleStates.NONE;
+	BATTLE.check_can_escape.emit();
 
 #MARKERS
 func set_marker() -> void:

@@ -42,8 +42,8 @@ func set_pokemon_data() -> void:
 		poke_name.text = pokemon.name;
 		sprite_2d.sprite_frames = pokemon.data.sprites.sprite_frames;
 		sprite_2d.play("Front")
-		sprite_2d.offset = pokemon.data.display.offset.pokedex.front;
-		sprite_2d.scale = pokemon.data.display.scale.pokedex.front;
+		sprite_2d.offset = pokemon.data.display.offset.pokedex;
+		sprite_2d.scale = pokemon.data.display.scale.pokedex;
 		number.text = format_number(pokemon.data.number);
 		nature.text = LIBRARIES.BATTLE.nature_strings[int(pokemon.data.nature)] + ' nature.';
 		level.text = "Lv" + str(pokemon.data.level);

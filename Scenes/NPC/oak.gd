@@ -370,12 +370,13 @@ func _on_selection_value_select(
 ) -> void:
 	if(value == ENUMS.BinaryOptions.NO): return;
 	match category:
-		ENUMS.SelectionCategory.SLEEP: handle_sleep()
+		ENUMS.SelectionCategory.SLEEP: handle_sleep();
 
 #SLEEP ZZZ
 func handle_sleep() -> void:
 	sleeping = true;
 	playback.travel("SleepFromLeft");
+	AUDIO.stop();
 	await GLOBAL.timeout(1);
 	GLOBAL.go_to_scene(sleep_scene, true, false);
 	await GLOBAL.timeout(SLEEP_TIME);
@@ -386,6 +387,7 @@ func handle_sleep() -> void:
 	await GLOBAL.close_dialog;
 	sleeping = false;
 	set_blend_direction(GLOBAL.DIRECTIONS[ENUMS.Directions.LEFT]);
+	AUDIO.stop_and_play_last_song();
 	
 #SAVE
 func save() -> Dictionary:
