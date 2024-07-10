@@ -60,7 +60,6 @@ func damage_formula(enemy: Object, move: Dictionary, data: Dictionary) -> int:
 	#CRITICAL
 	if(CRIT_rate > randf()):
 		_DEF_bonus = 0;
-		BATTLE.critical_hit = true;
 		BATTLE.attack_result.push_back(ENUMS.AttackResult.CRITICAL);
 		CRIT_stat = 2.0;
 		
@@ -211,3 +210,27 @@ var nature_multiplier = {
 		"ATK": 0.9
 	}
 }
+
+func calculate_catch_rate(enemy: Dictionary, item: Dictionary) -> Array:
+	var status_bonus = 1.0;
+	var max_hp = enemy.battle_stats["HP"];
+	var current = enemy.current_hp;
+	var a = floor((max_hp * 3) - (current * 2));
+	var b = (a * min(enemy.catch_rate, 255) * item.rate * status_bonus) + 1;
+	var c = floor(b / (max_hp * 3));
+	var d = c / 256;
+	return check_shake_pokeball(floor(d * 100));
+
+func check_shake_pokeball(rate: float) -> Array:
+	if(rate >= 100): return [true, true, true, true];
+	var tries = [];
+	for index in range(0, 4):
+		var a = floor(16711680 / rate);
+		var b = floor(sqrt(a));
+		var c = floor(sqrt(b));
+		var d = min(floor(1048560 / c), 65535);
+		var random = randi_range(0, 65535);
+		print(d)
+		tries.push_back(random < d);
+		
+	return tries;

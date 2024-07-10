@@ -64,7 +64,6 @@ var can_use_next_pokemon = false;
 var coming_from_battle = false;
 var participants: Array = [];
 var exp_loop = false;
-var critical_hit = false;
 var attack_missed = false;
 var attack_result = [];
 var player_attack = 0;
@@ -95,7 +94,6 @@ func reset_state(reset_type = true) -> void:
 	can_use_next_pokemon = false;
 	participants = [];
 	exp_loop = false;
-	critical_hit = false;
 	attack_missed = false;
 	attack_result = [];
 	player_attack = 0;
@@ -125,7 +123,6 @@ func reset_on_switch() -> void:
 	attack_pressed = false;
 	can_use_next_pokemon = false;
 	exp_loop = false;
-	critical_hit = false;
 	attack_missed = false;
 	attack_result = [];
 	player_attack = 0;
@@ -220,3 +217,12 @@ func remove_trainer_pokemon(id: int) -> void:
 
 func reset_participants(poke: Object) -> void:
 	participants = participants.filter(func(p): return p.name == poke.name);
+
+func process_catch(values: Array) -> String:
+	var result = "";
+	for value in values:
+		if(value): result += "Shake_";
+		else:
+			result += "Break";
+			return result.rstrip("_");
+	return "Catch";

@@ -152,7 +152,7 @@ func handle_input(item: Dictionary) -> void:
 
 func open_select(current_item: Dictionary) -> void:
 	if(!GLOBAL.on_battle): set_default_select();
-	elif(is_trainer_and_pokeball(current_item)):
+	elif(is_wild_and_pokeball(current_item)):
 		set_select_for_battle_pokeball();
 	select_open = true;
 	select.visible = true;
@@ -341,7 +341,11 @@ func close_select(sound = true) -> void:
 
 func is_trainer_and_pokeball(item: Dictionary) -> bool:
 	return (BATTLE.type == ENUMS.BattleType.TRAINER && 
-				item.type == ENUMS.BagScreen.POKEBALL)
+		item.type == ENUMS.BagScreen.POKEBALL)
+
+func is_wild_and_pokeball(item: Dictionary) -> bool:
+	return (BATTLE.type == ENUMS.BattleType.WILD &&
+		item.type == ENUMS.BagScreen.POKEBALL)
 
 func move_select_arrow() -> void:
 	select_cursor.position = SELECT_CURSOR_POSITION[select_index];

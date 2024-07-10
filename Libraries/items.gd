@@ -7,7 +7,8 @@ var LIST = [
 		"description": "A BALL thrown to catch a wild POKéMON. It is designed in a capsule style.",
 		"image": preload("res://Assets/UI/Items/POKEBALL.png"),
 		"type": ENUMS.BagScreen.POKEBALL,
-		"effect": ENUMS.ItemEffect.CATCH
+		"effect": ENUMS.ItemEffect.CATCH,
+		"rate": 1.0
 	},
 	{
 		"id": ENUMS.Item.GREATBALL,
@@ -15,7 +16,8 @@ var LIST = [
 		"description": "A good, quality BALL that offers a higher POKéMON catch rate then a standard POKéBALL.",
 		"image": preload("res://Assets/UI/Items/GREATBALL.png"),
 		"type": ENUMS.BagScreen.POKEBALL,
-		"effect": ENUMS.ItemEffect.CATCH
+		"effect": ENUMS.ItemEffect.CATCH,
+		"rate": 1.5
 	},
 	{
 		"id": ENUMS.Item.ULTRABALL,
@@ -23,7 +25,8 @@ var LIST = [
 		"description": "A very high-grade BALL that offers a higher POKéMON catch rate than a GREAT BALL.",
 		"image": preload("res://Assets/UI/Items/ULTRABALL.png"),
 		"type": ENUMS.BagScreen.POKEBALL,
-		"effect": ENUMS.ItemEffect.CATCH
+		"effect": ENUMS.ItemEffect.CATCH,
+		"rate": 2.0
 	},
 	{
 		"id": ENUMS.Item.MASTERBALL,
@@ -31,7 +34,8 @@ var LIST = [
 		"description": "The best BALL with the ultimate performance. It will catch any wild POKéMON without fail.",
 		"image": preload("res://Assets/UI/Items/MASTERBALL.png"),
 		"type": ENUMS.BagScreen.POKEBALL,
-		"effect": ENUMS.ItemEffect.CATCH
+		"effect": ENUMS.ItemEffect.CATCH,
+		"rate": 255.0
 	},
 	{
 		"id": ENUMS.Item.POTION,

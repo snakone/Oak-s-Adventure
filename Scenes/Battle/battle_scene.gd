@@ -873,6 +873,7 @@ func _on_use_item(item: Dictionary) -> void:
 			if("action" in item): await item_heal(item);
 		ENUMS.ItemEffect.CATCH: await start_catch(item);
 	BATTLE.on_action = false;
+	BATTLE.can_use_menu = true;
 	BAG.remove_item(item.id);
 
 #ITEM HEAL
@@ -900,11 +901,19 @@ func get_healed_value(val: int) -> int:
 func start_catch(item: Dictionary) -> void:
 	await GLOBAL.timeout(0.2);
 	ball_animation.texture = BATTLE.get_pokeball_texture(item.id);
+	var catch_result = LIBRARIES.FORMULAS.calculate_catch_rate(enemy.data, item);
+	var animation = BATTLE.process_catch(catch_result);
+	print(animation)
 	dialog.quick(["Oak used " + item.name + "."]);
 	await BATTLE.quick_dialog_end;
-	anim_player.play("Catch");
+	anim_player.play(animation);
 	await anim_player.animation_finished;
+	if(animation == 'Catch'): await success_catch(item);
+	else: await fail_catch(catch_result);
+
+func success_catch(item: Dictionary) -> void:
 	AUDIO.stop();
+	status_audio.stop();
 	player_audio.stream = LIBRARIES.SOUNDS.BATTLE_CAPTURE_SUCCESS;
 	player_audio.play();
 	dialog.start([
@@ -926,6 +935,22 @@ func start_catch(item: Dictionary) -> void:
 	PARTY.add_pokemon_to_party(enemy);
 	await BATTLE.dialog_finished;
 	end_battle();
+
+func fail_catch(rates: Array) -> void:
+	var message = get_fail_catch_message(rates);
+	dialog.quick([message], 1.5);
+	await BATTLE.quick_dialog_end;
+	fake_attack();
+
+func get_fail_catch_message(rates: Array) -> String:
+	var index = rates.find(false);
+	var messages = {
+		0: "Oh no! The POKéMON broke free!",
+		1: "Aww! It appeared to be caught!",
+		2: "Aargh! Almost had it!",
+		3: "Shoot! It was so close, too!"
+	}
+	return messages[index];
 
 #RESET
 func reset_attack_state() -> void:

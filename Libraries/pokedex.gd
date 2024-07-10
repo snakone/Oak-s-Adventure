@@ -55,6 +55,7 @@ var LIST: Array = [
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 64,
+		"catch_rate": 45,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Bulbasaur/bulbasaur.tscn",
 		"ability": {
@@ -105,6 +106,7 @@ var LIST: Array = [
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 141,
+		"catch_rate": 45,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Ivysaur/ivysaur.tscn",
 		"ability": {
@@ -153,6 +155,7 @@ var LIST: Array = [
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 236,
+		"catch_rate": 45,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Venusaur/venusaur.tscn",
 		"ability": {
@@ -201,6 +204,7 @@ var LIST: Array = [
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 65,
+		"catch_rate": 45,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Charmander/charmander.tscn",
 		"ability": {
@@ -249,6 +253,7 @@ var LIST: Array = [
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 142,
+		"catch_rate": 45,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Charmeleon/charmeleon.tscn",
 		"ability": {
@@ -297,6 +302,7 @@ var LIST: Array = [
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 267,
+		"catch_rate": 45,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Charizard/charizard.tscn",
 		"ability": {
@@ -345,6 +351,7 @@ var LIST: Array = [
 		"moves": [3],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 63,
+		"catch_rate": 45,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Squirtle/squirtle.tscn",
 		"ability": {
@@ -395,6 +402,7 @@ var LIST: Array = [
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 142,
+		"catch_rate": 45,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Wartortle/wartortle.tscn",
 		"ability": {
@@ -445,6 +453,7 @@ var LIST: Array = [
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 239,
+		"catch_rate": 45,
 		"category": ENUMS.PokemonCategory.STARTER,
 		"sprites": "res://Sprites/Animated/Blastoise/blastoise.tscn",
 		"ability": {
@@ -495,6 +504,7 @@ var LIST: Array = [
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.MEDIUM,
 		"base_exp": 39,
+		"catch_rate": 255,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Caterpie/caterpie.tscn",
 		"ability": {
@@ -545,6 +555,7 @@ var LIST: Array = [
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.MEDIUM,
 		"base_exp": 159,
+		"catch_rate": 45,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Beedrill/beedrill.tscn",
 		"ability": {
@@ -593,6 +604,7 @@ var LIST: Array = [
 		"moves": [3],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 50,
+		"catch_rate": 255,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Pidgey/pidgey.tscn",
 		"ability": {
@@ -641,6 +653,7 @@ var LIST: Array = [
 		"moves": [3],
 		"exp_type": ENUMS.ExpType.MEDIUM,
 		"base_exp": 51,
+		"catch_rate": 255,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Rattata/rattata.tscn",
 		"ability": {
@@ -689,6 +702,7 @@ var LIST: Array = [
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.MEDIUM,
 		"base_exp": 82,
+		"catch_rate": 190,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Pikachu/pikachu.tscn",
 		"ability": {
@@ -737,6 +751,7 @@ var LIST: Array = [
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 86,
+		"catch_rate": 255,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Geodude/geodude.tscn",
 		"ability": {
@@ -785,6 +800,7 @@ var LIST: Array = [
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.MEDIUM,
 		"base_exp": 83,
+		"catch_rate": 225,
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Horsea/horsea.tscn",
 		"ability": {
@@ -833,6 +849,7 @@ var LIST: Array = [
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.SLOW,
 		"base_exp": 220,
+		"catch_rate": 3,
 		"category": ENUMS.PokemonCategory.LEGENDARY,
 		"sprites": "res://Sprites/Animated/Ho-oh/ho-oh.tscn",
 		"ability": {
@@ -881,6 +898,7 @@ var LIST: Array = [
 		"moves": [1],
 		"exp_type": ENUMS.ExpType.SLOW,
 		"base_exp": 220,
+		"catch_rate": 3,
 		"category": ENUMS.PokemonCategory.LEGENDARY,
 		"sprites": "res://Sprites/Animated/Rayquaza/rayquaza.tscn",
 		"ability": {

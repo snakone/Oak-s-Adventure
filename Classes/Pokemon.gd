@@ -161,8 +161,6 @@ func set_battle_stats() -> void:
 	data.battle_stats["block_effect"] = false;
 	data.battle_stats["can_switch"] = true;
 	data.battle_stats["wonder"] = false;
-	
-	
 
 #IV
 func set_random_IV() -> Dictionary:
