@@ -220,7 +220,6 @@ func select_input() -> void:
 		switch_pokemon();
 		return;
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
-	
 	var poke_name = slots[selected_slot].get_node("Name").text;
 	selected_pokemon = PARTY.get_pokemon(poke_name);
 	
@@ -382,13 +381,14 @@ func select_UP() -> void:
 			select_index = int(SelectSlot.FOURTH);
 		else: select_index -= 1;
 	move_select_arrow();
-	
+
 #SUMMARY
 func open_summary() -> void:
 	closing = true;
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 	await audio.finished;
 	GLOBAL.summary_pokemon = selected_pokemon;
+	GLOBAL.summary_index = selected_slot;
 	process_mode = Node.PROCESS_MODE_DISABLED;
 	GLOBAL.go_to_scene(summary_screen_path, false, false);
 

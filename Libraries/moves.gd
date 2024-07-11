@@ -50,7 +50,7 @@ var LIST: Dictionary = {
 				"action": Callable(self, "growl")
 			}
 		],
-		"description": ""
+		"description": "The user growls in a cute way, making the foe lower it's Attack. stat."
 	},
 	3: {
 		"id": 3,

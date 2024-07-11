@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://d2g4ik02vopjf"]
+[gd_scene load_steps=21 format=3 uid="uid://d2g4ik02vopjf"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/Routes/route_02.gd" id="1_u0jk8"]
 [ext_resource type="AudioStream" uid="uid://diqgw4biy1o7s" path="res://Assets/Sounds/Route02.ogg" id="2_mjqvb"]
@@ -20,7 +20,6 @@
 [ext_resource type="PackedScene" uid="uid://c77s86a2rfdbg" path="res://Scenes/NPC/trainer.tscn" id="17_14yj7"]
 [ext_resource type="Texture2D" uid="uid://33uo6ty1kgq7" path="res://Sprites/NPC/green_boy.png" id="19_yk5jt"]
 [ext_resource type="Texture2D" uid="uid://dypd0qld2majp" path="res://Sprites/NPC/boy.png" id="20_mfbeo"]
-[ext_resource type="PackedScene" uid="uid://b7tnfx6otwaju" path="res://Scripts/pickable_area.tscn" id="21_fipch"]
 
 [node name="Route02" type="Node2D"]
 y_sort_enabled = true
@@ -170,10 +169,6 @@ interval = 5.0
 dialog_id = 66
 facing_direction = 3
 type = 1
-
-[node name="Object" parent="." instance=ExtResource("21_fipch")]
-position = Vector2(96, 96)
-area = 9
 
 [editable path="Reflection"]
 [editable path="Reflection2"]

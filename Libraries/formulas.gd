@@ -28,11 +28,10 @@ func damage_formula(enemy: Object, move: Dictionary, data: Dictionary) -> int:
 	var effective_type1 = 1.0;
 	var effective_type2 = 1.0;
 		
-		#EFFECTIVE
+	#EFFECTIVE
 	effective_type1 = LIBRARIES.MOVES.type_effective(move.type, enemy.data.types[0]);
 	if (enemy.data.types.size() > 1):
 		effective_type2 = LIBRARIES.MOVES.type_effective(move.type, enemy.data.types[1]);
-		
 	#RESULT
 	if(
 		(effective_type1 == 2.0 && effective_type2 == 1.0) || 
@@ -48,7 +47,6 @@ func damage_formula(enemy: Object, move: Dictionary, data: Dictionary) -> int:
 		BATTLE.attack_result.push_back(ENUMS.AttackResult.AWFULL);
 	elif(effective_type1 == 0.0 || effective_type2 == 0.0):
 		BATTLE.attack_result = [ENUMS.AttackResult.NONE];
-		
 	#MISS
 	if(ENUMS.AttackResult.MISS in BATTLE.attack_result && 
 		ENUMS.AttackResult.NONE not in BATTLE.attack_result):
@@ -56,16 +54,13 @@ func damage_formula(enemy: Object, move: Dictionary, data: Dictionary) -> int:
 			return 0;
 		
 	if(ENUMS.AttackResult.NONE in BATTLE.attack_result): return 0;
-		
 	#CRITICAL
 	if(CRIT_rate > randf()):
 		_DEF_bonus = 0;
 		BATTLE.attack_result.push_back(ENUMS.AttackResult.CRITICAL);
 		CRIT_stat = 2.0;
-		
 	#STAB
 	if(move.type in data.types): STAB = 1.5;
-		
 	#STATS
 	match move.category:
 		ENUMS.AttackCategory.PHYSIC:
@@ -75,7 +70,6 @@ func damage_formula(enemy: Object, move: Dictionary, data: Dictionary) -> int:
 			ATK_stat = data.battle_stats["S.ATK"];
 			DEF_stat = enemy.data.battle_stats["S.DEF"];
 			
-		
 	var base_damage = floor(
 			((2.0 * float(data.level) / 5.0 + 2.0) * 
 				move.power * float(ATK_stat) / float(DEF_stat) / 50.0
@@ -108,7 +102,8 @@ func get_random_float(level: int) -> float:
 	var random_float = 0.85 + random_index * 0.01;
 	return random_float;
 
-func get_nature_multiplier(nature: ENUMS.Nature, key: String) -> float:
+func get_nature_multiplier(nature: ENUMS.Nature, key: String) -> Variant:
+	if(key == 'all' && nature in nature_multiplier): return nature_multiplier[nature];
 	if(key in nature_multiplier[nature]): 
 		return nature_multiplier[nature][key];
 	return 1.0;

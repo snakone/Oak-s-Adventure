@@ -78,7 +78,8 @@ var LIST: Array = [
 					"back": Vector2.ZERO
 				},
 				"box": Vector2(5, 0),
-				"pokedex": Vector2(5, 9)
+				"pokedex": Vector2(5, 9),
+				"summary": Vector2(6, 3)
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
@@ -129,7 +130,8 @@ var LIST: Array = [
 					"back": Vector2.ZERO
 				},
 				"box": Vector2(-7, -6),
-				"pokedex": Vector2(0, 2)
+				"pokedex": Vector2(0, 2),
+				"summary": Vector2(0, -1)
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
@@ -178,7 +180,8 @@ var LIST: Array = [
 					"back": Vector2.ZERO
 				},
 				"box": Vector2(-16, -12),
-				"pokedex": Vector2(-17, -16)
+				"pokedex": Vector2(-17, -16),
+				"summary": Vector2(-12, -9)
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
@@ -227,7 +230,8 @@ var LIST: Array = [
 					"back": Vector2.ZERO
 				},
 				"box": Vector2(3, 2),
-				"pokedex": Vector2(6, 4)
+				"pokedex": Vector2(6, 4),
+				"summary": Vector2(6, 4)
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
@@ -276,7 +280,8 @@ var LIST: Array = [
 					"back": Vector2(-10, 0)
 				},
 				"box": Vector2(0, -5),
-				"pokedex": Vector2(7, -1)
+				"pokedex": Vector2(7, -1),
+				"summary": Vector2(7, -1)
 			},
 			"scale": {
 				"battle": Vector2(0.75, 0.75),
@@ -325,7 +330,8 @@ var LIST: Array = [
 					"back": Vector2(-10, 0)
 				},
 				"box": Vector2(-14, -26),
-				"pokedex": Vector2(-10, -30)
+				"pokedex": Vector2(-10, -30),
+				"summary": Vector2(-8, -21)
 			},
 			"scale": {
 				"battle": Vector2(0.7, 0.7),
@@ -374,7 +380,8 @@ var LIST: Array = [
 					"back": Vector2.ZERO
 				},
 				"box": Vector2(4, 0),
-				"pokedex": Vector2(8, 5)
+				"pokedex": Vector2(8, 5),
+				"summary": Vector2(8, 2)
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
@@ -425,7 +432,8 @@ var LIST: Array = [
 					"back": Vector2(0, -4)
 				},
 				"box": Vector2(-1, -5),
-				"pokedex": Vector2(2, -5)
+				"pokedex": Vector2(2, -5),
+				"summary": Vector2(0, -3)
 			},
 			"scale": {
 				"battle": Vector2(0.74, 0.74),
@@ -476,7 +484,8 @@ var LIST: Array = [
 					"back": Vector2(0, -4)
 				},
 				"box": Vector2(-12, -10),
-				"pokedex": Vector2(-14, -17)
+				"pokedex": Vector2(-14, -17),
+				"summary": Vector2(-10, -9)
 			},
 			"scale": {
 				"battle": Vector2(0.85, 0.85),
@@ -527,7 +536,8 @@ var LIST: Array = [
 					"back": Vector2(0, 4)
 				},
 				"box": Vector2(11, 9),
-				"pokedex": Vector2(17, 26)
+				"pokedex": Vector2(17, 26),
+				"summary": Vector2(17, 13)
 			},
 			"scale": {
 				"battle": Vector2(0.65, 0.65),
@@ -578,7 +588,8 @@ var LIST: Array = [
 					"back": Vector2(8, -3)
 				},
 				"box": Vector2(-22, -16),
-				"pokedex": Vector2(-21, -20)
+				"pokedex": Vector2(-21, -20),
+				"summary": Vector2(-21, -12)
 			},
 			"scale": {
 				"battle": Vector2(0.85, 0.85),
@@ -627,7 +638,8 @@ var LIST: Array = [
 					"back": Vector2.ZERO
 				},
 				"box": Vector2(3, -2),
-				"pokedex": Vector2(6, 1)
+				"pokedex": Vector2(6, 1),
+				"summary": Vector2(7, 0)
 			},
 			"scale": {
 				"battle": Vector2(0.75, 0.75),
@@ -676,7 +688,8 @@ var LIST: Array = [
 					"back": Vector2(-5, 2)
 				},
 				"box": Vector2(2, 0),
-				"pokedex": Vector2(6, 7)
+				"pokedex": Vector2(6, 7),
+				"summary": Vector2(6, 1)
 			},
 			"scale": {
 				"battle": Vector2(0.74, 0.74),
@@ -725,7 +738,8 @@ var LIST: Array = [
 					"back": Vector2(-6, 0)
 				},
 				"box": Vector2(6, 0),
-				"pokedex": Vector2(10, 7)
+				"pokedex": Vector2(10, 7),
+				"summary": Vector2(10, 5)
 			},
 			"scale": {
 				"battle": Vector2(0.7, 0.7),
@@ -774,7 +788,8 @@ var LIST: Array = [
 					"back": Vector2(1, -5)
 				},
 				"box": Vector2(-9, -9),
-				"pokedex": Vector2(-7, -10)
+				"pokedex": Vector2(-7, -10),
+				"summary": Vector2(-5, -7)
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
@@ -804,7 +819,7 @@ var LIST: Array = [
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Horsea/horsea.tscn",
 		"ability": {
-			"default": ENUMS.Ability.SWITH_SWIM,
+			"default": ENUMS.Ability.SWIFT_SWIM,
 			"hidden": ENUMS.Ability.DAMP
 		},
 		"specie": {
@@ -823,7 +838,8 @@ var LIST: Array = [
 					"back": Vector2(-2, 1)
 				},
 				"box": Vector2(11, 2),
-				"pokedex": Vector2(15, 9)
+				"pokedex": Vector2(15, 9),
+				"summary": Vector2(15, 8)
 			},
 			"scale": {
 				"battle": Vector2(0.75, 0.75),
@@ -872,7 +888,8 @@ var LIST: Array = [
 					"back": Vector2(2, -8)
 				},
 				"box": Vector2(-27, -30),
-				"pokedex": Vector2(-24, -41)
+				"pokedex": Vector2(-24, -41),
+				"summary": Vector2(-24, -28)
 			},
 			"scale": {
 				"battle": Vector2(0.7, 0.7),
@@ -921,7 +938,8 @@ var LIST: Array = [
 					"back": Vector2(0, -8)
 				},
 				"box": Vector2(-32, -30),
-				"pokedex": Vector2(-26, -38)
+				"pokedex": Vector2(-26, -38),
+				"summary": Vector2(-26, -24)
 			},
 			"scale": {
 				"battle": Vector2(0.75, 0.75),
@@ -962,5 +980,75 @@ var ABILITIES = {
 		"name": "Blaze",
 		"description": "Powers up Fire-type moves in a pinch.",
 		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
-	}
+	},
+	ENUMS.Ability.OVERGROW: {
+		"name": "Overgrow",
+		"description": "Powers up Grass-type moves in a pinch.",
+		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
+	},
+	ENUMS.Ability.TORRENT: {
+		"name": "Torrent",
+		"description": "Powers up Water-type moves in a pinch.",
+		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
+	},
+	ENUMS.Ability.SHIELD_DUST: {
+		"name": "Shield Dust",
+		"description": "Blocks the added effects of attacks taken.",
+		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
+	},
+	ENUMS.Ability.SWARM: {
+		"name": "Swarm",
+		"description": "Powers up Bug-type moves in a pinch.",
+		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
+	},
+	ENUMS.Ability.SWIFT_SWIM: {
+		"name": "Swift Swim",
+		"description": "Boosts the Pokémon’s Speed in rain.",
+		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
+	},
+	ENUMS.Ability.SNIPER: {
+		"name": "Sniper",
+		"description": "Powers up moves if they become critical hits.",
+		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
+	},
+	ENUMS.Ability.ROCK_HEAD: {
+		"name": "Rock Head",
+		"description": "Protects the Pokémon from recoil damage.",
+		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
+	},
+	ENUMS.Ability.STURDY: {
+		"name": "Sturdy",
+		"description": "The Pokémon is protected against 1-hit KO attacks.",
+		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
+	},
+	ENUMS.Ability.KEEN_EYE: {
+		"name": "Keen Eye",
+		"description": "Prevents other Pokémon from lowering accuracy.",
+		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
+	},
+	ENUMS.Ability.TANGLED_FEET: {
+		"name": "Tangled Feet",
+		"description": "Raises evasion if the Pokémon is confused.",
+		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
+	},
+	ENUMS.Ability.RUN_AWAY: {
+		"name": "Run Away",
+		"description": "Enables a sure getaway from wild Pokémon.",
+		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
+	},
+	ENUMS.Ability.GUTS: {
+		"name": "Guts",
+		"description": "Boosts Attack if there is a status problem.",
+		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
+	},
+	ENUMS.Ability.STATIC: {
+		"name": "Static",
+		"description": "Contact with the Pokémon may cause paralysis.",
+		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
+	},
+	ENUMS.Ability.PRESSURE: {
+		"name": "Pressure",
+		"description": "The Pokémon raises the foe’s PP usage.",
+		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
+	},
 }

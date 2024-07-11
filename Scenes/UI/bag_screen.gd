@@ -367,12 +367,12 @@ func set_select_for_battle_pokeball() -> void:
 	select_length = 1;
 	give_option.visible = false;
 	toss_option.visible = false;
-	select_rect.size.y = 47;
-	select_rect.position.y = 13;
-	select_v_box.position.y = 24;
+	select_rect.size.y = 42;
+	select_rect.position.y = 18;
+	select_v_box.position.y = 26.5;
 	select_v_box.size.y = 30;
-	select_cursor.position.y = 24;
-	SELECT_CURSOR_POSITION = [Vector2(23, 24), Vector2(23, 40)];
+	select_cursor.position.y = 26.5;
+	SELECT_CURSOR_POSITION = [Vector2(23, 26.5), Vector2(23, 42.5)];
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;

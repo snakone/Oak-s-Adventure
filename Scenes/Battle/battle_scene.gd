@@ -722,7 +722,10 @@ func update_player_health(value = pokemon.data.current_hp) -> void:
 	player_info.get_node("HP").text = health;
 
 func check_health_bar_color(value: float, check = true) -> void:
-	var target = get_attack_target(BATTLE.current_turn != BATTLE.Turn.PLAYER);
+	var target = get_attack_target(
+		BATTLE.current_turn != BATTLE.Turn.PLAYER ||
+		BATTLE.state == ENUMS.BattleStates.SWITCHING
+	);
 	value = min(value, target.total_hp);
 	var perct = value / target.total_hp;
 	
@@ -921,7 +924,8 @@ func success_catch(item: Dictionary) -> void:
 		enemy.name + " registered in the POKéDEX!"
 	]);
 	enemy.data.pokeball = item.id;
-	enemy.data.met = MAPS.get_map_name(true);
+	enemy.data.met = MAPS.get_map_name();
+	enemy.data.met_level = enemy.data.level;
 	await player_audio.finished;
 	AUDIO.play_battle_win();
 		

@@ -109,7 +109,6 @@ offset_top = 22.0
 offset_right = 138.0
 offset_bottom = 138.0
 follow_focus = true
-scroll_vertical = 96
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
@@ -382,6 +381,7 @@ autowrap_mode = 0
 context_menu_enabled = true
 
 [node name="List" type="Node2D" parent="."]
+visible = false
 
 [node name="Background" type="TextureRect" parent="List"]
 offset_right = 40.0
@@ -407,6 +407,7 @@ layout_mode = 2
 [node name="PageHabitat" type="Node2D" parent="List"]
 
 [node name="Info" type="Node2D" parent="."]
+visible = false
 
 [node name="Background" type="TextureRect" parent="Info"]
 offset_right = 40.0
@@ -724,9 +725,9 @@ position = Vector2(225, 128)
 texture = ExtResource("9_yjvm8")
 
 [node name="Cursor" type="TextureRect" parent="."]
-offset_left = 8.0
-offset_top = 23.5
-offset_right = 17.0
-offset_bottom = 33.5
+offset_left = 12.0
+offset_top = 35.5
+offset_right = 21.0
+offset_bottom = 45.5
 texture = ExtResource("5_w27vx")
 stretch_mode = 2

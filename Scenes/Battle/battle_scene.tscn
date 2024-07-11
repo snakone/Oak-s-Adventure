@@ -214,10 +214,10 @@ tracks/7/path = NodePath("Catch/Animation:self_modulate")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(1.75, 1.95),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(1.75, 1.95, 6.3, 6.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 tracks/8/type = "value"
 tracks/8/imported = false
@@ -1658,10 +1658,10 @@ tracks/7/path = NodePath("Catch/Animation:self_modulate")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(1.75, 1.95),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(1.75, 1.95, 7.5, 7.95),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 tracks/8/type = "value"
 tracks/8/imported = false
@@ -1830,10 +1830,10 @@ tracks/7/path = NodePath("Catch/Animation:self_modulate")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(1.75, 1.95),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(1.75, 1.95, 9.3, 9.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 tracks/8/type = "value"
 tracks/8/imported = false
@@ -2005,10 +2005,10 @@ tracks/7/path = NodePath("Catch/Animation:self_modulate")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(1.75, 1.95),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(1.75, 1.95, 11.1, 11.55),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 tracks/8/type = "value"
 tracks/8/imported = false
@@ -3911,7 +3911,7 @@ script = ExtResource("1_vc7g5")
 [node name="Fade" type="ColorRect" parent="."]
 visible = false
 self_modulate = Color(1, 1, 1, 0)
-z_index = 2
+z_index = 3
 custom_minimum_size = Vector2(240, 160)
 color = Color(0, 0, 0, 1)
 
@@ -4084,7 +4084,8 @@ offset_left = 130.0
 offset_right = 230.0
 
 [node name="Enemy" type="Node2D" parent="UI"]
-position = Vector2(174, 42)
+position = Vector2(174, 56)
+scale = Vector2(1e-05, 1e-05)
 
 [node name="EnemySprite" type="AnimatedSprite2D" parent="UI/Enemy"]
 visible = false
@@ -4226,6 +4227,7 @@ text = "Type/FLYIN."
 position = Vector2(0, 127)
 
 [node name="Grass" type="Sprite2D" parent="Scroll"]
+visible = false
 position = Vector2(128, 73)
 texture = ExtResource("16_vfw16")
 
@@ -4269,12 +4271,10 @@ autoplay = "Bounce"
 
 [node name="Pokeball" type="Sprite2D" parent="Animation"]
 visible = false
-self_modulate = Color(1, 1, 1, 0)
 position = Vector2(23.5192, 76.9201)
 scale = Vector2(0.9, 0.9)
 texture = ExtResource("31_l0fyr")
 vframes = 6
-frame = 5
 
 [node name="Oak" type="Sprite2D" parent="Animation"]
 z_index = 2
@@ -4308,7 +4308,6 @@ vframes = 32
 frame = 1
 
 [node name="Trainer" type="Node2D" parent="."]
-visible = false
 
 [node name="Sprite2D" type="Sprite2D" parent="Trainer"]
 y_sort_enabled = true
@@ -4328,7 +4327,6 @@ texture = ExtResource("29_6k11u")
 stretch_mode = 2
 
 [node name="TrainerCounter" type="TextureRect" parent="Trainer/Counter"]
-visible = false
 offset_left = -152.0
 offset_top = 10.0
 offset_bottom = 50.0
@@ -4375,52 +4373,51 @@ centered = false
 hframes = 4
 
 [node name="Trainer" type="Node2D" parent="Trainer/Counter"]
-visible = false
 
 [node name="Pokeball-1" type="Sprite2D" parent="Trainer/Counter/Trainer"]
-position = Vector2(76, 10)
+position = Vector2(-28, 10)
 texture = ExtResource("30_2sdaj")
 centered = false
 hframes = 4
 frame = 1
 
 [node name="Pokeball-2" type="Sprite2D" parent="Trainer/Counter/Trainer"]
-position = Vector2(66, 10)
+position = Vector2(-38, 10)
 texture = ExtResource("30_2sdaj")
 centered = false
 hframes = 4
 
 [node name="Pokeball-3" type="Sprite2D" parent="Trainer/Counter/Trainer"]
-position = Vector2(56, 10)
+position = Vector2(-48, 10)
 texture = ExtResource("30_2sdaj")
 centered = false
 hframes = 4
 
 [node name="Pokeball-4" type="Sprite2D" parent="Trainer/Counter/Trainer"]
-position = Vector2(46, 10)
+position = Vector2(-58, 10)
 texture = ExtResource("30_2sdaj")
 centered = false
 hframes = 4
 
 [node name="Pokeball-5" type="Sprite2D" parent="Trainer/Counter/Trainer"]
-position = Vector2(36, 10)
+position = Vector2(-68, 10)
 texture = ExtResource("30_2sdaj")
 centered = false
 hframes = 4
 
 [node name="Pokeball-6" type="Sprite2D" parent="Trainer/Counter/Trainer"]
-position = Vector2(26, 10)
+position = Vector2(-78, 10)
 texture = ExtResource("30_2sdaj")
 centered = false
 hframes = 4
 
 [node name="Pokeball" type="Sprite2D" parent="Trainer"]
+visible = false
+self_modulate = Color(1, 1, 1, 0)
 position = Vector2(181, 31)
-rotation = 25.1327
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("31_l0fyr")
 vframes = 6
-frame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
