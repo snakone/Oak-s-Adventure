@@ -23,6 +23,9 @@ signal use_item(item: Dictionary);
 signal open_pc();
 signal close_pc();
 
+signal open_shop(data: Dictionary);
+signal close_shop();
+
 signal time_of_day_changed(new_time_of_day);
 
 const TILE_SIZE: int = 16;
@@ -55,11 +58,10 @@ var on_bike = false;
 var inside_house = false;
 var dialog_open = false;
 var on_battle = false;
-var healing = false;
 var on_overlay = false;
-var on_pc = false;
 var insight = false;
 var bike_sound = false;
+var on_pc = false;
 
 #VALUES
 var current_money = 0;

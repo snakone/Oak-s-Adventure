@@ -86,11 +86,15 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			label.text = add_prefix(handle_write());
 			await write();
-			#SELECTION
-			if(dialog_data.arr.size() - 1 == current_index && 
-				"selection" in dialog_data):
-				show_selection();
-				return;
+			if(dialog_data.arr.size() - 1 == current_index):
+				#SELECTION
+				if("selection" in dialog_data): 
+					show_selection();
+					return;
+				#SHOP
+				elif("shop" in dialog_data): 
+					show_shop();
+					return;
 			marker.visible = dialog_data.marker;
 			current_line += 1;
 		await GLOBAL.timeout(0.2);
@@ -129,6 +133,11 @@ func show_selection() -> void:
 	marker.visible = false;
 	await GLOBAL.timeout(0.1);
 	menu_selection.set_visibility(true, dialog_data.selection);
+
+func show_shop() -> void:
+	marker.visible = false;
+	await GLOBAL.timeout(0.2);
+	GLOBAL.emit_signal("open_shop", dialog_data);
 
 func add_prefix(text: String) -> String:
 	if(whos_talking != ""):

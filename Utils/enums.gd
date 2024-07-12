@@ -274,3 +274,7 @@ enum Trainer {
 	BLUE_GUY,
 	RED_GUY
 }
+
+enum Shops {
+	CALDEROCK_SHOP
+}

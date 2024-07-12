@@ -37,7 +37,7 @@ enum Turn { PLAYER, ENEMY, NONE }
 enum Weather { RAINING, DROUGH, SANDSTORM, NONE }
 
 const tile_density = 325.0;
-var modifire = 1.1;
+var modifire = 2;
 
 const MIN_HP_ANIM = 1.2;
 const MAX_HP_ANIM = 3;
@@ -133,9 +133,8 @@ func reset_on_switch() -> void:
 
 func pokemon_encounter() -> bool:
 	randomize();
-	var tile_barrier = randi_range(0, 2879)
-	if(GLOBAL.on_bike): modifire = modifire * 1.5;
-	else: modifire = 1.0;
+	var tile_barrier = randi_range(0, 2879);
+	if(GLOBAL.on_bike): modifire = modifire * 1.2;
 	if tile_barrier <= tile_density * modifire:
 		randomize();
 		var rand: int = randi_range(0, 100)

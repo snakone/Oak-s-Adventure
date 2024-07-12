@@ -76,6 +76,7 @@ func process_player_input() -> void:
 		#STUCK ON DOOR
 		if(stuck_on_door && door_type == ENUMS.DoorType.IN):
 			playback.travel("Idle");
+			player_state = PlayerState.IDLE;
 			await GLOBAL.timeout(1);
 			stuck_on_door = false;
 			return;
@@ -88,7 +89,9 @@ func process_player_input() -> void:
 			start_position = position;
 			is_moving = true;
 			GLOBAL.emit_signal("player_moving", true);
-	else: playback.travel("Idle");
+	else: 
+		playback.travel("Idle");
+		player_state = PlayerState.IDLE;
 
 func set_direction() -> void:
 	if(input_direction.y == 0): 
@@ -100,6 +103,7 @@ func set_direction() -> void:
 
 func move(delta) -> void:
 	playback.travel("Move");
+	player_state = PlayerState.WALKING;
 	if(GLOBAL.on_bike): percent_moved += BIKE_SPEED * delta;
 	else: percent_moved += SPEED * delta;
 	
@@ -152,6 +156,7 @@ func jump() -> void:
 
 func stop_jumping() -> void:
 	playback.travel("Idle");
+	player_state = PlayerState.IDLE;
 	show_dust_effect(true);
 	shadow.visible = false;
 	position = start_position + (GLOBAL.TILE_SIZE * input_direction * 2);
@@ -166,6 +171,7 @@ func _on_get_on_bike(value: bool):
 
 func _on_bike_inside() -> void:
 	playback.travel("Idle");
+	player_state = PlayerState.IDLE;
 	reset_moving();
 	GLOBAL.start_dialog.emit(13);
 
@@ -237,6 +243,7 @@ func _on_menu_opened(value: bool) -> void:
 	if(value):
 		stop = true;
 		playback.travel("Idle");
+		player_state = PlayerState.IDLE;
 		reset_moving();
 	else: stop = false;
 
@@ -254,7 +261,7 @@ func check_for_dialogs() -> void:
 		var desired_step: Vector2 = GLOBAL.last_direction * (GLOBAL.TILE_SIZE / 2.0);
 		update_dialog_rays(desired_step);
 		#NPC
-		if(is_npc_dialog()): 
+		if(is_npc_dialog() || is_shop_dialog()): 
 			var collider = npc_ray_cast_2d.get_collider();
 			start_dialog_state(collider.dialog_id);
 		#TRAINER
@@ -262,17 +269,9 @@ func check_for_dialogs() -> void:
 		#OBJECT
 		elif(is_object_dialog()): open_object_dialog();
 		#PC
-		elif(is_pc_dialog()): 
+		elif(is_pc_dialog()):
 			GLOBAL.on_pc = true;
 			GLOBAL.emit_signal("open_pc");
-
-#PICKABLES
-func check_for_pickables() -> void:
-	if(!can_pick || pickable_data == null): return;
-	if Input.is_action_just_pressed("space"):
-		var desired_step: Vector2 = GLOBAL.last_direction * (GLOBAL.TILE_SIZE / 2.0);
-		update_dialog_rays(desired_step);
-		if(is_pickable_dialog()): open_pickable_dialog();
 
 func open_trainer_dialog() -> void:
 	if(trainer != null && !trainer.already_defeated):
@@ -290,8 +289,17 @@ func open_object_dialog() -> void:
 func start_dialog_state(id: int, sound = true) -> void:
 	GLOBAL.start_dialog.emit(id);
 	playback.travel("Idle");
+	player_state = PlayerState.IDLE;
 	reset_moving();
 	if(sound): play_audio(LIBRARIES.SOUNDS.CONFIRM);
+
+#PICKABLES
+func check_for_pickables() -> void:
+	if(!can_pick || pickable_data == null): return;
+	if Input.is_action_just_pressed("space"):
+		var desired_step: Vector2 = GLOBAL.last_direction * (GLOBAL.TILE_SIZE / 2.0);
+		update_dialog_rays(desired_step);
+		if(is_pickable_dialog()): open_pickable_dialog();
 
 func open_pickable_dialog() -> void:
 	var direction = GLOBAL.DIRECTIONS[pickable_data.direction];
@@ -301,6 +309,7 @@ func open_pickable_dialog() -> void:
 func start_pickable_state() -> void:
 	GLOBAL.emit_signal("pick_item", pickable_data);
 	playback.travel("Idle");
+	player_state = PlayerState.IDLE;
 	reset_moving();
 	play_audio(LIBRARIES.SOUNDS.ITEM_GET);
 
@@ -308,6 +317,7 @@ func start_pickable_state() -> void:
 func check_for_battle() -> void:
 	if(ready_to_battle || trainer_insight):
 		playback.travel("Idle");
+		player_state = PlayerState.IDLE;
 		stop = true;
 		await GLOBAL.timeout(.4);
 		#START
@@ -347,6 +357,7 @@ func _on_enter_door_animation(area: Area2D) -> void:
 func _on_cant_enter_door(_area: Area2D) -> void:
 	stuck_on_door = true;
 	playback.travel("Idle");
+	player_state = PlayerState.IDLE;
 	play_audio(LIBRARIES.SOUNDS.BLOCK);
 	await audio.finished;
 	var tween = get_tree().create_tween().set_trans(Tween.TRANS_ELASTIC);
@@ -387,6 +398,7 @@ func handle_sleep() -> void:
 	await GLOBAL.close_dialog;
 	sleeping = false;
 	set_blend_direction(GLOBAL.DIRECTIONS[ENUMS.Directions.LEFT]);
+	player_state = PlayerState.IDLE;
 	AUDIO.stop_and_play_last_song();
 	
 #SAVE
@@ -449,7 +461,8 @@ func _can_process() -> bool:
 	player_state == PlayerState.TURNING || 
 	GLOBAL.dialog_open || 
 	GLOBAL.on_overlay ||
-	GLOBAL.menu_open
+	GLOBAL.menu_open ||
+	GLOBAL.on_pc
 	): return false;
 	return true;
 
@@ -461,7 +474,13 @@ func is_area_trainer(area: Area2D) -> bool:
 
 func is_npc_dialog() -> bool:
 	if(DIALOG.Type.NPC in area_types && 
-		npc_ray_cast_2d.is_colliding() && !GLOBAL.healing): 
+		npc_ray_cast_2d.is_colliding()): 
+			return true;
+	return false;
+
+func is_shop_dialog() -> bool:
+	if(DIALOG.Type.SHOP in area_types && 
+		npc_ray_cast_2d.is_colliding()): 
 			return true;
 	return false;
 
@@ -479,7 +498,7 @@ func is_object_dialog() -> bool:
 
 func is_pc_dialog() -> bool:
 	if(DIALOG.Type.PC in area_types &&
-		object_ray_cast_2d.is_colliding() && !GLOBAL.on_pc):
+		object_ray_cast_2d.is_colliding()):
 			return true;
 	return false;
 
@@ -499,6 +518,7 @@ func should_play_block_sound(ledge_colliding: bool) -> bool:
 
 func _idle_process() -> void:
 	playback.travel("Idle");
+	player_state = PlayerState.IDLE;
 	is_moving = false;
 	GLOBAL.emit_signal("player_moving", false);
 

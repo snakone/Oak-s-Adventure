@@ -26,6 +26,13 @@ func create_boxes_from_json(boxes: Array) -> Array:
 				boxes[i][j] = new_poke;
 	return boxes;
 
+func healh_boxes_pokemon() -> void:
+	for box in boxes_array:
+		for poke in box:
+			if(poke != null):
+				poke.data.death = false;
+				poke.data.current_hp = poke.data.battle_stats["HP"];
+
 #SAVE
 func get_boxes_as_json() -> Array:
 	var array = [];

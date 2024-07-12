@@ -10,6 +10,7 @@ var heal_anim_duration = 11;
 var party: Array = [];
 var party_size: int = 0;
 var index = 0;
+var healing = false
 
 func _ready() -> void:
 	super();
@@ -19,8 +20,8 @@ func _ready() -> void:
 	GLOBAL.connect("selection_value_select", _on_selection_value_select);
 
 func handle_heal() -> void:
-	if(GLOBAL.healing): return;
-	GLOBAL.healing = true;
+	if(healing): return;
+	healing = true;
 	party = PARTY.get_party();
 	party_size = party.size();
 	await GLOBAL.timeout(0.2);
@@ -30,10 +31,11 @@ func handle_heal() -> void:
 	anim_player.play(anim_name);
 	await GLOBAL.timeout(heal_anim_duration);
 	PARTY.healh_party_pokemon();
+	BOXES.healh_boxes_pokemon();
 	GLOBAL.start_dialog.emit(25);
 	await GLOBAL.close_dialog;
 	await GLOBAL.timeout(0.2);
-	GLOBAL.healing = false;
+	healing = false;
 
 func start_timer(_show_poke = true) -> void:
 	timer.start();

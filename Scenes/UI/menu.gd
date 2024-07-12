@@ -38,7 +38,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		GLOBAL.dialog_open ||
 		GLOBAL.on_battle ||
 		!can_use_menu ||
-		GLOBAL.insight
+		GLOBAL.insight ||
+		GLOBAL.on_pc
 	): return;
 	
 	#BIKE ON/OFF

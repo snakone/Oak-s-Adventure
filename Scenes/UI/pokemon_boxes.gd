@@ -70,6 +70,8 @@ func _ready() -> void:
 	update_all_boxes();
 	set_holding_sprite();
 	set_party_panel();
+	#SET THE DIALOG WHEN CLOSING
+	GLOBAL.start_dialog.emit(33);
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(
@@ -346,6 +348,7 @@ func close_box() -> void:
 	PARTY.set_party(party.filter(func (poke): return poke != null));
 	play_audio(LIBRARIES.SOUNDS.GUI_MENU_CLOSE);
 	await audio.finished;
+	GLOBAL.on_overlay = false;
 	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/PokemonBoxes");
 
 #INPUTS

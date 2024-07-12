@@ -1,6 +1,6 @@
 extends Node
 
-enum Type { NPC, OBJECT, SYSTEM, PC, NONE, PICKABLE, TRAINER }
+enum Type { NPC, OBJECT, SYSTEM, PC, NONE, PICKABLE, TRAINER, SHOP }
 
 func get_dialog(id: int) -> Dictionary:
 	if(id in LIBRARY): return LIBRARY[id];
@@ -233,10 +233,11 @@ const LIBRARY: Dictionary = {
 			["Welcome Professor Oak."],
 			["Take a look to our items."],
 		],
-		"type": Type.NPC,
+		"type": Type.SHOP,
 		"direction": ENUMS.Directions.ALL,
 		"npc_name": "Kevin",
-		"marker": true
+		"marker": true,
+		"shop": ENUMS.Shops.CALDEROCK_SHOP
 	},
 	27: {
 		"arr": [["POKéMON related magazines."]],

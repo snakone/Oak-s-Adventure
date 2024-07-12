@@ -54,6 +54,8 @@ Let's say at least i want to have exclusive content for the game, knowing it's 1
 
 ![Bag](https://i.ibb.co/Gc9PR19/bag.png "Bag Screen")
 
+![Summary](https://i.ibb.co/Z1VRn0H/summary.png "Summart Screen")
+
 You can watch more updates on [Youtube](https://www.youtube.com/@AllisonCode).
 
 ## Download the Game for Android - Free APK

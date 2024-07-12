@@ -1,0 +1,75 @@
+[gd_scene load_steps=5 format=3 uid="uid://cbrqp4cs8w7kk"]
+
+[ext_resource type="Script" path="res://Scenes/NPC/shop.gd" id="1_70au8"]
+[ext_resource type="Texture2D" uid="uid://d3dxw0bsf6jxo" path="res://Assets/UI/marker_orange.png" id="2_mnpew"]
+[ext_resource type="Texture2D" uid="uid://bfnlj6t53rl5p" path="res://Assets/UI/ui_arrow_left_right.png" id="3_nm3xv"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="4_kjiut"]
+
+[node name="Shop" type="CanvasLayer"]
+script = ExtResource("1_70au8")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 82.0
+offset_bottom = 68.0
+texture = ExtResource("2_mnpew")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Cursor" type="TextureRect" parent="Control/NinePatchRect"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 12.0
+offset_right = 14.0
+offset_bottom = 22.0
+texture = ExtResource("3_nm3xv")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/NinePatchRect"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 12.0
+offset_right = 114.0
+offset_bottom = 72.0
+
+[node name="Buy" type="RichTextLabel" parent="Control/NinePatchRect/VBoxContainer"]
+clip_contents = false
+custom_minimum_size = Vector2(25, 12)
+layout_direction = 2
+layout_mode = 2
+theme = ExtResource("4_kjiut")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "BUY"
+
+[node name="Sell" type="RichTextLabel" parent="Control/NinePatchRect/VBoxContainer"]
+clip_contents = false
+custom_minimum_size = Vector2(25, 12)
+layout_direction = 2
+layout_mode = 2
+theme = ExtResource("4_kjiut")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "SELL"
+
+[node name="Cancel" type="RichTextLabel" parent="Control/NinePatchRect/VBoxContainer"]
+clip_contents = false
+custom_minimum_size = Vector2(25, 12)
+layout_direction = 2
+layout_mode = 2
+theme = ExtResource("4_kjiut")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "SEE YA!"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -10.0
