@@ -580,7 +580,7 @@ parameters/Idle/blend_position = Vector2(-0.000947893, 0.73545)
 parameters/Move/blend_position = Vector2(0, 0)
 parameters/Turn/blend_position = Vector2(0, 0)
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
 limit_left = 0
 limit_top = 0
 limit_right = 384

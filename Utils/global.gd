@@ -46,7 +46,6 @@ var last_direction = DIRECTIONS[ENUMS.Directions.DOWN];
 var facing_direction = ENUMS.FacingDirection.UP;
 var last_used_door: String;
 var spawn_location = null;
-var camera_connected = false;
 var no_saved_data = true;
 var play_time: float;
 

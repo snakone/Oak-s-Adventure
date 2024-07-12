@@ -399,13 +399,13 @@ func set_pokemon_moves() -> void:
 			var move = pokemon.data.battle_moves[index];
 			current_moves[index] = move;
 			current_markers[index] = moves_marker_position[index];
-			var node = get_node("Moves/Move" + str(index + 1));
-			var type_node = node.get_node("Type");
+			var move_node = get_node("Moves/Move" + str(index + 1));
+			var type_node = move_node.get_node("Type");
 			type_node.visible = true;
 			var type_texture = MOVES.get_type_sprite(move.type);
 			type_node.texture = type_texture;
-			node.get_node("Name").text = move.name.to_upper();
-			node.get_node("PP").text = "PP " + str(move.pp) + "/" + str(move.total_pp);
+			move_node.get_node("Name").text = move.name.to_upper();
+			move_node.get_node("PP").text = "PP " + str(move.pp) + "/" + str(move.total_pp);
 	#CANCEL LAST SLOT
 	current_moves[moves_length] = moves_cancel;
 	current_markers[moves_length] = moves_marker_position[Moves.CANCEL];

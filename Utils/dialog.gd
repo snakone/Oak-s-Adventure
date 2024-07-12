@@ -349,9 +349,7 @@ const LIBRARY: Dictionary = {
 		"marker": true
 	},
 	43: {
-		"arr": [
-			["Hey! Do you know how to use the PC?"],
-		],
+		"arr": [["Hey! Do you know how to use the PC?"]],
 		"type": Type.NPC,
 		"direction": ENUMS.Directions.ALL,
 		"marker": false,
@@ -403,9 +401,7 @@ const LIBRARY: Dictionary = {
 		"marker": true
 	},
 	47: {
-		"arr": [
-			["A statue of DRAGONITE, a mystic Dragon."],
-		],
+		"arr": [["A statue of DRAGONITE, a mystic Dragon."]],
 		"type": Type.OBJECT,
 		"direction": ENUMS.Directions.UP,
 		"marker": true
@@ -473,9 +469,7 @@ const LIBRARY: Dictionary = {
 		"marker": true
 	},
 	55: {
-		"arr": [
-			["I feel a bit tired. Lay on bed?"],
-		],
+		"arr": [["I feel a bit tired. Lay on bed?"]],
 		"type": Type.OBJECT,
 		"direction": ENUMS.Directions.RIGHT,
 		"marker": false,
@@ -486,17 +480,13 @@ const LIBRARY: Dictionary = {
 		}
 	},
 	56: {
-		"arr": [
-			["Nice! I feel much better now!"],
-		],
+		"arr": [["Nice! I feel much better now!"]],
 		"type": Type.NPC,
 		"direction": ENUMS.Directions.ALL,
 		"marker": true,
 	},
 	57: {
-		"arr": [
-			["Calderock's Trainers Battleground."],
-		],
+		"arr": [["Calderock's Trainers Battleground."]],
 		"type": Type.OBJECT,
 		"direction": ENUMS.Directions.UP,
 		"marker": true,
@@ -537,61 +527,53 @@ const LIBRARY: Dictionary = {
 		"marker": true,
 	},
 	62: {
-		"arr": [
-			["Alright, you got me!"]
-		],
+		"arr": [["Alright, you got me!"]],
 		"type": Type.NPC,
 		"direction": ENUMS.Directions.ALL,
 		"marker": true,
 	},
 	63: {
-		"arr": [
-			["Welcome to the battleground!"],
-		],
+		"arr": [["Welcome to the battleground!"]],
 		"type": Type.TRAINER,
 		"trainer_id": ENUMS.Trainer.BLUE_GUY,
 		"direction": ENUMS.Directions.ALL,
 		"marker": true,
 	},
 	64: {
-		"arr": [
-			["Are you really a newbie trainer?"]
-		],
+		"arr": [["Are you really a newbie trainer?"]],
 		"type": Type.TRAINER,
 		"trainer_id": ENUMS.Trainer.BLUE_GUY,
 		"direction": ENUMS.Directions.ALL,
 		"marker": true,
 	},
 	65: {
-		"arr": [
-			["You are better than I thought."]
-		],
+		"arr": [["You are better than I thought."]],
 		"type": Type.NPC,
 		"direction": ENUMS.Directions.ALL,
 		"marker": true,
 	},
 	66: {
-		"arr": [
-			["Are you enjoying the battleground?"],
-		],
+		"arr": [["Are you enjoying the battleground?"]],
 		"type": Type.TRAINER,
 		"trainer_id": ENUMS.Trainer.RED_GUY,
 		"direction": ENUMS.Directions.ALL,
 		"marker": true,
 	},
 	67: {
-		"arr": [
-			["I think you are."]
-		],
+		"arr": [["I think you are."]],
 		"type": Type.TRAINER,
 		"trainer_id": ENUMS.Trainer.RED_GUY,
 		"direction": ENUMS.Directions.ALL,
 		"marker": true,
 	},
 	68: {
-		"arr": [
-			["Come next time!"]
-		],
+		"arr": [["Come next time!"]],
+		"type": Type.NPC,
+		"direction": ENUMS.Directions.ALL,
+		"marker": true,
+	},
+	69: {
+		"arr": [["Please come again!"]],
 		"type": Type.NPC,
 		"direction": ENUMS.Directions.ALL,
 		"marker": true,

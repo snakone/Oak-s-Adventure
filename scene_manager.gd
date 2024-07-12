@@ -9,7 +9,7 @@ extends Node2D
 const BATTLE_SCENE = preload("res://Scenes/Battle/battle_scene.tscn")
 const DIALOG_MANAGER = preload("res://Scripts/dialog_manager.tscn");
 const PC_SCENE = preload("res://Scenes/UI/pc_player.tscn");
-const SHOP_SCENE = preload("res://Scenes/NPC/shop.tscn");
+const SHOP_SCENE = preload("res://Scenes/NPC/shop_scene.tscn");
 const TIME_BETWEEN_SCENES = 1.2;
 
 const not_save_scenes = [

@@ -8,7 +8,11 @@ var LIST = [
 		"image": preload("res://Assets/UI/Items/POKEBALL.png"),
 		"type": ENUMS.BagScreen.POKEBALL,
 		"effect": ENUMS.ItemEffect.CATCH,
-		"rate": 1.0
+		"rate": 1.0,
+		"shop": {
+			"price": 200,
+			"badges": 0
+		}
 	},
 	{
 		"id": ENUMS.Item.GREATBALL,
@@ -17,7 +21,11 @@ var LIST = [
 		"image": preload("res://Assets/UI/Items/GREATBALL.png"),
 		"type": ENUMS.BagScreen.POKEBALL,
 		"effect": ENUMS.ItemEffect.CATCH,
-		"rate": 1.5
+		"rate": 1.5,
+		"shop": {
+			"price": 600,
+			"badges": 3
+		}
 	},
 	{
 		"id": ENUMS.Item.ULTRABALL,
@@ -26,7 +34,11 @@ var LIST = [
 		"image": preload("res://Assets/UI/Items/ULTRABALL.png"),
 		"type": ENUMS.BagScreen.POKEBALL,
 		"effect": ENUMS.ItemEffect.CATCH,
-		"rate": 2.0
+		"rate": 2.0,
+		"shop": {
+			"price": 1200,
+			"badges": 5
+		}
 	},
 	{
 		"id": ENUMS.Item.MASTERBALL,
@@ -44,7 +56,11 @@ var LIST = [
 		"image": preload("res://Assets/UI/Items/POTION.png"),
 		"type": ENUMS.BagScreen.ITEMS,
 		"effect": ENUMS.ItemEffect.HEAL,
-		"action": Callable(self, "potion")
+		"action": Callable(self, "potion"),
+		"shop": {
+			"price": 300,
+			"badges": 0
+		}
 	},
 	{
 		"id": ENUMS.Item.SUPER_POTION,
@@ -53,7 +69,11 @@ var LIST = [
 		"image": preload("res://Assets/UI/Items/SUPERPOTION.png"),
 		"type": ENUMS.BagScreen.ITEMS,
 		"effect": ENUMS.ItemEffect.HEAL,
-		"action": Callable(self, "super_potion")
+		"action": Callable(self, "super_potion"),
+		"shop": {
+			"price": 700,
+			"badges": 1
+		}
 	}
 ];
 

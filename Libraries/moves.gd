@@ -31,7 +31,6 @@ var LIST: Dictionary = {
 		"accuracy": 100,
 		"pp": 35,
 		"total_pp": 35,
-		"effects": [],
 		"priority": 0,
 		"description": "A physical attack in which the user charges, full body, into the foe."
 	},
@@ -45,11 +44,7 @@ var LIST: Dictionary = {
 		"pp": 40,
 		"total_pp": 40,
 		"priority": 0,
-		"effects": [
-			{
-				"action": Callable(self, "growl")
-			}
-		],
+		"action": Callable(self, "growl"),
 		"description": "The user growls in a cute way, making the foe lower it's Attack. stat."
 	},
 	3: {
@@ -61,7 +56,6 @@ var LIST: Dictionary = {
 		"accuracy": 100,
 		"pp": 30,
 		"total_pp": 30,
-		"effects": [],
 		"priority": 1,
 		"description": "An almost invisibly fast attack that is certain to strike first."
 	}

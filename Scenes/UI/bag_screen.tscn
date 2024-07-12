@@ -243,6 +243,7 @@ texture = ExtResource("12_khuuy")
 stretch_mode = 2
 
 [node name="Select" type="Control" parent="."]
+visible = false
 z_index = 2
 layout_mode = 3
 anchors_preset = 0
@@ -321,6 +322,7 @@ texture = ExtResource("12_khuuy")
 stretch_mode = 2
 
 [node name="Info" type="Node2D" parent="."]
+visible = false
 z_index = 2
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Info"]

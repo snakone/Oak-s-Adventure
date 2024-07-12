@@ -11,6 +11,12 @@ func get_item_by_id(id: ENUMS.Item) -> Variant:
 		if(item["id"] == id): return item;
 	return null;
 
+func get_item_amount(id: ENUMS.Item) -> int:
+	for item in items:
+		if(item != null && "amount" in item && item["id"] == id):
+			return item.amount;
+	return -1;
+
 func add_item(id: ENUMS.Item, amount: int) -> void:
 	for i in range(0, items.size()):
 		var item = items[i];
