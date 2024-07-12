@@ -578,4 +578,9 @@ const LIBRARY: Dictionary = {
 		"direction": ENUMS.Directions.ALL,
 		"marker": true,
 	},
+	70: {
+		"type": Type.NPC,
+		"marker": false,
+		"blue_dialog": true
+	},
 }

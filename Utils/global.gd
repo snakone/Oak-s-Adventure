@@ -61,6 +61,7 @@ var on_overlay = false;
 var insight = false;
 var bike_sound = false;
 var on_pc = false;
+var shopping = false;
 
 #VALUES
 var current_money = 0;

@@ -140,7 +140,7 @@ func _on_start_dialog(id: int) -> void:
 	dialog_data = pre_data;
 
 func _on_close_dialog() -> void:
-	if(!can_close_dialog()): return;
+	if(!free_after_dialog()): return;
 	is_talking = false;
 	dialog_data = {};
 
@@ -171,8 +171,8 @@ func can_start_dialog(pre_data: Dictionary, id: int) -> bool:
 	elif(dialog_id != id): return false;
 	return true;
 
-func can_close_dialog() -> bool:
-	if("response" in dialog_data || 
+func free_after_dialog() -> bool:
+	if(GLOBAL.shopping || "response" in dialog_data || 
 		(
 			"starter" in dialog_data && 
 			dialog_data.starter == dialog_id && 

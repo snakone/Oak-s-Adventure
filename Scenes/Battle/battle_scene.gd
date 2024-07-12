@@ -906,7 +906,6 @@ func start_catch(item: Dictionary) -> void:
 	ball_animation.texture = BATTLE.get_pokeball_texture(item.id);
 	var catch_result = LIBRARIES.FORMULAS.calculate_catch_rate(enemy.data, item);
 	var animation = BATTLE.process_catch(catch_result);
-	print(animation)
 	dialog.quick(["Oak used " + item.name + "."]);
 	await BATTLE.quick_dialog_end;
 	anim_player.play(animation);

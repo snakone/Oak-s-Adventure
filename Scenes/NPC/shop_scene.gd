@@ -18,7 +18,9 @@ extends CanvasLayer
 const SHOP_ITEM = preload("res://Scripts/shop_item.tscn");
 const SHOP_ITEM_HEIGHT = 16;
 const CURSOR_HEIGHT_BOTTOM = 62;
+const SHOPPING_DIALOG = 70;
 var camera: Camera2D;
+var writing = false;
 
 @onready var CANCEL_ITEM = {
 	"id": -1,
@@ -41,7 +43,8 @@ var item_selected = 0;
 var items_size = 0;
 var purchase_amount = 1;
 
-func _ready() -> void: 
+func _ready() -> void:
+	GLOBAL.on_overlay = true;
 	create_items();
 	set_marker();
 	create_list(items);
@@ -58,7 +61,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		GLOBAL.on_transition || 
 		cant_echo ||
 		GLOBAL.on_battle ||
-		!can_use_menu
+		!can_use_menu ||
+		writing
 	): return;
 	#CLOSE
 	if(Input.is_action_just_pressed("backMenu")): close_menu();
@@ -179,8 +183,19 @@ func select_item() -> void:
 	var item_amount = BAG.get_item_amount(item.id);
 	amount_in_bag.text = "IN BAG:  " + str(item_amount);
 	update_purchase_price(item.shop.price, 1);
+	
+	GLOBAL.emit_signal(
+		"create_dialog", 
+		SHOPPING_DIALOG, 
+		generate_text(item.name)
+	);
+	
+	writing = true;
+	await GLOBAL.timeout(2.6);
+	writing = false;
 	control_buying.visible = true;
 	shop_purchase_open = true;
+	GLOBAL.shopping = true;
 
 func open_shop_list() -> void:
 	update_item();
@@ -230,11 +245,14 @@ func close_menu() -> void:
 	nine_rect.visible = false;
 	play_audio(LIBRARIES.SOUNDS.GUI_MENU_CLOSE);
 	await audio.finished;
+	GLOBAL.shopping = false;
 	GLOBAL.start_dialog.emit(69);
 	await GLOBAL.close_dialog;
 	GLOBAL.close_shop.emit();
+	GLOBAL.on_overlay = false;
 
 func close_purchase_panel() -> void:
+	GLOBAL.close_dialog.emit();
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 	control_buying.visible = false;
 	shop_purchase_open = false;
@@ -291,6 +309,9 @@ func set_marker() -> void:
 func format_number(num: int) -> String:
 	if(num < 10): return 'x0' + str(num);
 	return "x" + str(num);
+
+func generate_text(item_name: String) -> Array:
+	return [[item_name + "? Certainly.\nHow many would you like?"]];
 
 func get_current_item() -> Dictionary: return items[item_selected];
 
