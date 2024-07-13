@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://cbrqp4cs8w7kk"]
+[gd_scene load_steps=17 format=3 uid="uid://cbrqp4cs8w7kk"]
 
 [ext_resource type="Script" path="res://Scenes/UI/Shop/shop_scene.gd" id="1_wpkxn"]
 [ext_resource type="Texture2D" uid="uid://d3dxw0bsf6jxo" path="res://Assets/UI/marker_orange.png" id="2_y3ugi"]
 [ext_resource type="Texture2D" uid="uid://bfnlj6t53rl5p" path="res://Assets/UI/ui_arrow_left_right.png" id="3_gq68i"]
 [ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/Menu/menu_theme.tres" id="4_sqtli"]
 [ext_resource type="Texture2D" uid="uid://be21rbkfgl31p" path="res://Assets/UI/item_list.png" id="5_83y0j"]
+[ext_resource type="Script" path="res://Scenes/UI/Shop/shopping.gd" id="5_p3dd1"]
 [ext_resource type="Texture2D" uid="uid://ditutfljg1nfh" path="res://Assets/UI/shop_item_description.png" id="6_2cvtt"]
 [ext_resource type="Texture2D" uid="uid://dk43m8p58d124" path="res://Assets/UI/marker_grey.png" id="6_c15ts"]
 [ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="7_j1r33"]
@@ -12,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://bgu2v0ymgfg7n" path="res://Assets/UI/Items/POKEBALL.png" id="9_tt18k"]
 [ext_resource type="Texture2D" uid="uid://dmt1sgwftqmcc" path="res://Assets/UI/Pokedex/pokedex_arrow_up.png" id="11_pmc2y"]
 [ext_resource type="Texture2D" uid="uid://dabmedes08vwg" path="res://Assets/UI/Pokedex/pokedex_arrow_down.png" id="12_ouirr"]
+[ext_resource type="Script" path="res://Scenes/UI/Shop/purchasing.gd" id="12_pao6s"]
 
 [sub_resource type="Animation" id="Animation_m05vh"]
 resource_name = "Arrows"
@@ -114,10 +116,12 @@ theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 text = "SEE YA!"
 
 [node name="Shopping" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+script = ExtResource("5_p3dd1")
 
 [node name="Background" type="TextureRect" parent="Shopping"]
 layout_mode = 0
@@ -236,13 +240,15 @@ position = Vector2(20, 24)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("9_tt18k")
 
-[node name="Buying" type="Control" parent="."]
+[node name="Purchasing" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+script = ExtResource("12_pao6s")
 
-[node name="Item_Bag" type="NinePatchRect" parent="Buying"]
+[node name="Item_Bag" type="NinePatchRect" parent="Purchasing"]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 83.0
@@ -254,7 +260,7 @@ patch_margin_top = 6
 patch_margin_right = 6
 patch_margin_bottom = 6
 
-[node name="Title" type="RichTextLabel" parent="Buying/Item_Bag"]
+[node name="Title" type="RichTextLabel" parent="Purchasing/Item_Bag"]
 clip_contents = false
 custom_minimum_size = Vector2(60, 8)
 layout_direction = 2
@@ -269,7 +275,7 @@ theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 theme_override_font_sizes/normal_font_size = 10
 text = "IN BAG:  995"
 
-[node name="Select_Amount" type="NinePatchRect" parent="Buying"]
+[node name="Select_Amount" type="NinePatchRect" parent="Purchasing"]
 layout_mode = 0
 offset_left = 138.0
 offset_top = 59.0
@@ -281,7 +287,7 @@ patch_margin_top = 6
 patch_margin_right = 6
 patch_margin_bottom = 6
 
-[node name="Amount" type="RichTextLabel" parent="Buying/Select_Amount"]
+[node name="Amount" type="RichTextLabel" parent="Purchasing/Select_Amount"]
 clip_contents = false
 custom_minimum_size = Vector2(25, 12)
 layout_direction = 2
@@ -296,7 +302,7 @@ theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 theme_override_font_sizes/normal_font_size = 10
 text = "x01"
 
-[node name="Price" type="RichTextLabel" parent="Buying/Select_Amount"]
+[node name="Price" type="RichTextLabel" parent="Purchasing/Select_Amount"]
 clip_contents = false
 custom_minimum_size = Vector2(25, 8)
 layout_direction = 2
@@ -312,15 +318,15 @@ theme_override_font_sizes/normal_font_size = 10
 text = "$ 200"
 text_direction = 2
 
-[node name="ArrowUp" type="Sprite2D" parent="Buying"]
+[node name="ArrowUp" type="Sprite2D" parent="Purchasing"]
 position = Vector2(158, 72.9944)
 texture = ExtResource("11_pmc2y")
 
-[node name="ArrowDown" type="Sprite2D" parent="Buying"]
+[node name="ArrowDown" type="Sprite2D" parent="Purchasing"]
 position = Vector2(158, 95.0056)
 texture = ExtResource("12_ouirr")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Buying"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Purchasing"]
 libraries = {
 "": SubResource("AnimationLibrary_p3mpt")
 }
