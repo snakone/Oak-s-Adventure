@@ -9,11 +9,11 @@ enum ScreenLoaded { NONE, MENU, POKEDEX, PARTY, BAG, OAK, SAVE, OPTIONS }
 enum MenuOptions { POKEDEX, PARTY, BAG, OAK, SAVE, OPTIONS, EXIT }
 
 const party_screen_path = "res://Scenes/UI/party_screen.tscn";
-const pokedex_screen_path = "res://Scenes/UI/pokedex_screen.tscn";                                                      
+const pokedex_screen_path = "res://Scenes/UI/Pokedex/pokedex_screen.tscn";                                                      
 const save_scene_path = "res://Scenes/UI/save_scene.tscn";
 const profile_scene_path = "res://Scenes/UI/profile.tscn";
 const profile_scene_node = "CurrentScene/Profile";
-const bag_screen_path = "res://Scenes/UI/bag_screen.tscn";
+const bag_screen_path = "res://Scenes/UI/BAG/bag_screen.tscn";
 
 var options_length = MenuOptions.keys().size();
 var selected_option = 0;

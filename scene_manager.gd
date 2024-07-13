@@ -9,7 +9,7 @@ extends Node2D
 const BATTLE_SCENE = preload("res://Scenes/Battle/battle_scene.tscn")
 const DIALOG_MANAGER = preload("res://Scripts/dialog_manager.tscn");
 const PC_SCENE = preload("res://Scenes/UI/pc_player.tscn");
-const SHOP_SCENE = preload("res://Scenes/NPC/shop_scene.tscn");
+const SHOP_SCENE = preload("res://Scenes/UI/Shop/shop_scene.tscn");
 const TIME_BETWEEN_SCENES = 1.2;
 
 const not_save_scenes = [
@@ -17,8 +17,8 @@ const not_save_scenes = [
 	"res://Scenes/UI/party_screen.tscn",
 	"res://Scenes/UI/profile.tscn",
 	"res://Scenes/UI/pokemon_boxes.tscn",
-	"res://Scenes/UI/pokedex_screen.tscn",
-	"res://Scenes/UI/bag_screen.tscn",
+	"res://Scenes/UI/Pokedex/pokedex_screen.tscn",
+	"res://Scenes/UI/Bag/bag_screen.tscn",
 	"res://Scenes/UI/summary_screen.tscn"
 ];
 

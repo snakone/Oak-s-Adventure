@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://d3jj2t8g5va8g"]
 
-[ext_resource type="Script" path="res://Scripts/pc_area.gd" id="1_jt21y"]
+[ext_resource type="Script" path="res://Scripts/Areas/pc_area.gd" id="1_jt21y"]
 [ext_resource type="Texture2D" uid="uid://6opoli7jrddj" path="res://Sprites/PC.png" id="2_aujt1"]
 [ext_resource type="AudioStream" uid="uid://44rj1kfeirnn" path="res://Assets/Sounds/PC open.ogg" id="3_kax8i"]
 [ext_resource type="AudioStream" uid="uid://cuedp02wkm0wl" path="res://Assets/Sounds/PC close.ogg" id="4_0fj67"]

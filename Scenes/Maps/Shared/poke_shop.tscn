@@ -8,7 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://cihltj3h07xqb" path="res://Assets/Sounds/Door slide.ogg" id="6_sdgar"]
 [ext_resource type="Texture2D" uid="uid://dnb5fjh02hg0r" path="res://Sprites/NPC/poke_vendor_no_feet.png" id="6_uhm56"]
 [ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="7_ui2od"]
-[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="9_cou7u"]
+[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/Areas/dialog_area.tscn" id="9_cou7u"]
 
 [node name="PokeShop" type="Node2D"]
 y_sort_enabled = true

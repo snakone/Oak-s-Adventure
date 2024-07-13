@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/visit_panel.gd" id="1_igagt"]
 [ext_resource type="Texture2D" uid="uid://de0wgw1lyg3kg" path="res://Assets/UI/pokeball_rect.png" id="2_k2y62"]
-[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="3_6c2x6"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/Menu/menu_theme.tres" id="3_6c2x6"]
 [ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="4_dwn4o"]
 
 [sub_resource type="Animation" id="Animation_icgjn"]

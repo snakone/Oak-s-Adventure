@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://cbr4fclp61d42" path="res://Sprites/NPC/yellow_girl.png" id="7_wv01r"]
 [ext_resource type="Texture2D" uid="uid://cboc8dgq1u70r" path="res://Sprites/poke_center_door_open.png" id="10_5hbyn"]
 [ext_resource type="AudioStream" uid="uid://cihltj3h07xqb" path="res://Assets/Sounds/Door slide.ogg" id="11_uaraq"]
-[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="12_81tun"]
+[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/Areas/dialog_area.tscn" id="12_81tun"]
 [ext_resource type="Texture2D" uid="uid://ct6pytu35pewk" path="res://Sprites/door_old_man_open.png" id="13_oa1ud"]
 [ext_resource type="PackedScene" uid="uid://cqktd3b4r0pk2" path="res://Scripts/switch_scene.tscn" id="15_trqgt"]
 [ext_resource type="PackedScene" uid="uid://cumbmhk511bu0" path="res://Objects/Animated/reflection.tscn" id="16_vul2g"]

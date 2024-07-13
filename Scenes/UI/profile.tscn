@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scenes/UI/profile.gd" id="1_48xln"]
 [ext_resource type="Texture2D" uid="uid://l46egubtlfnt" path="res://Assets/UI/Profile/profile_background.png" id="2_2pkkm"]
 [ext_resource type="Texture2D" uid="uid://d2t75ftb6oswm" path="res://Assets/UI/Profile/trainer_card_front.png" id="3_oxd5s"]
-[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="4_qui5x"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/Menu/menu_theme.tres" id="4_qui5x"]
 [ext_resource type="Texture2D" uid="uid://bp2d2cqtu06p5" path="res://Assets/UI/Profile/oak_profile.png" id="5_3isde"]
 [ext_resource type="Texture2D" uid="uid://g2v4baiol8mq" path="res://Assets/UI/Battle/Characters/ball.png" id="6_3qqdr"]
 [ext_resource type="PackedScene" uid="uid://c2llifbamjxw2" path="res://Sprites/Animated/Pikachu/pikachu.tscn" id="7_t3s6o"]

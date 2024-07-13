@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://b7tnfx6otwaju"]
 
-[ext_resource type="Script" path="res://Scripts/pickable_area.gd" id="1_hpxoo"]
+[ext_resource type="Script" path="res://Scripts/Areas/pickable_area.gd" id="1_hpxoo"]
 [ext_resource type="Texture2D" uid="uid://ciui6tnwpjh5j" path="res://Sprites/pickable.png" id="2_xjr2a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3bw1k"]

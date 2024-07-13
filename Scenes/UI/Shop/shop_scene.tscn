@@ -1,9 +1,9 @@
 [gd_scene load_steps=15 format=3 uid="uid://cbrqp4cs8w7kk"]
 
-[ext_resource type="Script" path="res://Scenes/NPC/shop_scene.gd" id="1_wpkxn"]
+[ext_resource type="Script" path="res://Scenes/UI/Shop/shop_scene.gd" id="1_wpkxn"]
 [ext_resource type="Texture2D" uid="uid://d3dxw0bsf6jxo" path="res://Assets/UI/marker_orange.png" id="2_y3ugi"]
 [ext_resource type="Texture2D" uid="uid://bfnlj6t53rl5p" path="res://Assets/UI/ui_arrow_left_right.png" id="3_gq68i"]
-[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="4_a1caq"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/Menu/menu_theme.tres" id="4_sqtli"]
 [ext_resource type="Texture2D" uid="uid://be21rbkfgl31p" path="res://Assets/UI/item_list.png" id="5_83y0j"]
 [ext_resource type="Texture2D" uid="uid://ditutfljg1nfh" path="res://Assets/UI/shop_item_description.png" id="6_2cvtt"]
 [ext_resource type="Texture2D" uid="uid://dk43m8p58d124" path="res://Assets/UI/marker_grey.png" id="6_c15ts"]
@@ -88,7 +88,7 @@ clip_contents = false
 custom_minimum_size = Vector2(25, 12)
 layout_direction = 2
 layout_mode = 2
-theme = ExtResource("4_a1caq")
+theme = ExtResource("4_sqtli")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 text = "BUY"
@@ -98,7 +98,7 @@ clip_contents = false
 custom_minimum_size = Vector2(25, 12)
 layout_direction = 2
 layout_mode = 2
-theme = ExtResource("4_a1caq")
+theme = ExtResource("4_sqtli")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 text = "SELL"
@@ -108,7 +108,7 @@ clip_contents = false
 custom_minimum_size = Vector2(25, 12)
 layout_direction = 2
 layout_mode = 2
-theme = ExtResource("4_a1caq")
+theme = ExtResource("4_sqtli")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 text = "SEE YA!"
@@ -149,7 +149,7 @@ offset_left = 8.0
 offset_top = 8.0
 offset_right = 52.0
 offset_bottom = 20.0
-theme = ExtResource("4_a1caq")
+theme = ExtResource("4_sqtli")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 theme_override_font_sizes/normal_font_size = 10
@@ -164,7 +164,7 @@ offset_left = 4.0
 offset_top = 21.0
 offset_right = 68.0
 offset_bottom = 33.0
-theme = ExtResource("4_a1caq")
+theme = ExtResource("4_sqtli")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 theme_override_font_sizes/normal_font_size = 10
@@ -216,7 +216,7 @@ offset_left = 41.0
 offset_top = 6.0
 offset_right = 230.0
 offset_bottom = 45.0
-theme = ExtResource("4_a1caq")
+theme = ExtResource("4_sqtli")
 theme_override_colors/default_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0.156863, 0.156863, 0.156863, 1)
 theme_override_constants/line_separation = 6
@@ -263,7 +263,7 @@ offset_left = 8.0
 offset_top = 9.0
 offset_right = 68.0
 offset_bottom = 17.0
-theme = ExtResource("4_a1caq")
+theme = ExtResource("4_sqtli")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 theme_override_font_sizes/normal_font_size = 10
@@ -290,7 +290,7 @@ offset_left = 12.0
 offset_top = 21.0
 offset_right = 37.0
 offset_bottom = 33.0
-theme = ExtResource("4_a1caq")
+theme = ExtResource("4_sqtli")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 theme_override_font_sizes/normal_font_size = 10
@@ -305,7 +305,7 @@ offset_left = 38.0
 offset_top = 21.0
 offset_right = 89.0
 offset_bottom = 29.0
-theme = ExtResource("4_a1caq")
+theme = ExtResource("4_sqtli")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 theme_override_font_sizes/normal_font_size = 10

@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://bx5h0mjl27ldb" path="res://Tilesets/oak_house.tscn" id="3_h00vh"]
 [ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="4_jqxwt"]
 [ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="5_sapte"]
-[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="6_2lk47"]
-[ext_resource type="PackedScene" uid="uid://d3jj2t8g5va8g" path="res://Scripts/pc_area.tscn" id="7_dg8u4"]
+[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/Areas/dialog_area.tscn" id="6_2lk47"]
+[ext_resource type="PackedScene" uid="uid://d3jj2t8g5va8g" path="res://Scripts/Areas/pc_area.tscn" id="7_dg8u4"]
 [ext_resource type="Texture2D" uid="uid://bo4s3nvdnfukw" path="res://Sprites/PC_home.png" id="8_cfj3g"]
 
 [node name="OakHouse" type="Node2D"]

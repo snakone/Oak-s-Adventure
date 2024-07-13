@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="5_mrapx"]
 [ext_resource type="AudioStream" uid="uid://7ufcq8cj32hk" path="res://Assets/Sounds/Door exit.ogg" id="6_2lw6p"]
 [ext_resource type="Texture2D" uid="uid://dmj5soshdtatb" path="res://Sprites/long_house_door_open.png" id="6_gcsmm"]
-[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="8_cjrqs"]
+[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/Areas/dialog_area.tscn" id="8_cjrqs"]
 [ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="9_t442b"]
 [ext_resource type="Texture2D" uid="uid://c3pj5i1hel1v1" path="res://Sprites/NPC/karate_guy.png" id="10_hy55j"]
 [ext_resource type="PackedScene" uid="uid://cumbmhk511bu0" path="res://Objects/Animated/reflection.tscn" id="12_yy10r"]

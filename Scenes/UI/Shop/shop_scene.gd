@@ -15,7 +15,7 @@ extends CanvasLayer
 @onready var purchase_price: RichTextLabel = $Buying/Select_Amount/Price;
 @onready var purchase_node_amount: RichTextLabel = $Buying/Select_Amount/Amount;
 
-const SHOP_ITEM = preload("res://Scripts/shop_item.tscn");
+const SHOP_ITEM = preload("res://Scenes/UI/Shop/shop_item.tscn");
 const SHOP_ITEM_HEIGHT = 16;
 const CURSOR_HEIGHT_BOTTOM = 62;
 const SHOPPING_DIALOG = 70;

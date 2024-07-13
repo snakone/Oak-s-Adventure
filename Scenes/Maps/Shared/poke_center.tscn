@@ -16,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://bnwtt2dxwuf0x" path="res://Sprites/screen_poke_heal.png" id="11_y32w2"]
 [ext_resource type="Texture2D" uid="uid://bytlmx3pm8xey" path="res://Sprites/pokeball_heal_animation_flash_four.png" id="12_cx3q7"]
 [ext_resource type="Texture2D" uid="uid://djt0g0fdssjsp" path="res://Sprites/pokeball_heal_animation_flash_five.png" id="13_5ajxw"]
-[ext_resource type="PackedScene" uid="uid://d3jj2t8g5va8g" path="res://Scripts/pc_area.tscn" id="13_q1t2n"]
+[ext_resource type="PackedScene" uid="uid://d3jj2t8g5va8g" path="res://Scripts/Areas/pc_area.tscn" id="13_q1t2n"]
 [ext_resource type="Texture2D" uid="uid://6opoli7jrddj" path="res://Sprites/PC.png" id="18_npe1b"]
 
 [sub_resource type="Animation" id="Animation_oi0r0"]

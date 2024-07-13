@@ -627,6 +627,9 @@ func set_enemy_ui(id: int) -> void:
 	var level_node = enemy_info.get_node("Level");
 	set_name_and_gender(enemy_name, gender_node, enemy.data);
 	set_sprites(enemy_sprite, enemy.data, 'enemy');
+	if("rotation" in enemy.data.display):
+		enemy_sprite.rotation_degrees = enemy.data.display.rotation;
+	else: enemy_sprite.rotation_degrees = 0;
 	set_level(level_node, enemy.data);
 	attacks.set_enemy_moves(enemy.data.moves);
 	enemy_sprite.play("Front");

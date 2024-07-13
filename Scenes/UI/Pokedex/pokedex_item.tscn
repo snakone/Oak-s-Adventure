@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://di1vvcj6j0lma"]
 
-[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="1_5e7bg"]
-[ext_resource type="Script" path="res://Scenes/UI/pokedex_item.gd" id="1_nrw0k"]
+[ext_resource type="Script" path="res://Scenes/UI/Pokedex/pokedex_item.gd" id="1_nrw0k"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/Menu/menu_theme.tres" id="2_oli0y"]
 [ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="2_uu27q"]
 [ext_resource type="Texture2D" uid="uid://jk5mxhm8rjom" path="res://Assets/UI/Pokedex/owned_pokeball_pokedex.png" id="3_lr5gi"]
 [ext_resource type="Texture2D" uid="uid://dqj6a17cyjseg" path="res://Assets/UI/Types/grass.png" id="4_jb4ee"]
@@ -20,7 +20,7 @@ layout_mode = 0
 offset_top = 3.0
 offset_right = 26.0
 offset_bottom = 14.0
-theme = ExtResource("1_5e7bg")
+theme = ExtResource("2_oli0y")
 theme_override_colors/default_color = Color(0.243137, 0.243137, 0.243137, 1)
 theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
@@ -53,7 +53,7 @@ offset_left = 45.0
 offset_top = 1.0
 offset_right = 125.0
 offset_bottom = 12.0
-theme = ExtResource("1_5e7bg")
+theme = ExtResource("2_oli0y")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)

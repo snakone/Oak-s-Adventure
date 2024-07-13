@@ -129,13 +129,13 @@ var LIST: Array = [
 					"front": Vector2.ZERO,
 					"back": Vector2.ZERO
 				},
-				"box": Vector2(-7, -6),
+				"box": Vector2(-5, -5),
 				"pokedex": Vector2(0, 2),
 				"summary": Vector2(0, -1)
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
-				"box": Vector2(0.75, 0.75),
+				"box": Vector2(0.7, 0.7),
 				"pokedex": Vector2(0.7, 0.7)
 			}
 		},
@@ -279,15 +279,16 @@ var LIST: Array = [
 					"front": Vector2(12, -2),
 					"back": Vector2(-10, 0)
 				},
-				"box": Vector2(0, -5),
+				"box": Vector2(-2, -5),
 				"pokedex": Vector2(7, -1),
-				"summary": Vector2(7, -1)
+				"summary": Vector2(7, 2)
 			},
 			"scale": {
 				"battle": Vector2(0.75, 0.75),
 				"box": Vector2(0.7, 0.7),
 				"pokedex": Vector2(0.7, 0.7)
-			}
+			},
+			"rotation": -5
 		},
 		"stats": {
 			"HP": 58,

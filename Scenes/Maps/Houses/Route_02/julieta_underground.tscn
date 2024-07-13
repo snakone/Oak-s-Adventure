@@ -6,7 +6,7 @@
 [ext_resource type="TileSet" uid="uid://b2dmoptqyrvi" path="res://Tilesets/poke_buildings.tres" id="4_y3pek"]
 [ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="5_2fpra"]
 [ext_resource type="AudioStream" uid="uid://7ufcq8cj32hk" path="res://Assets/Sounds/Door exit.ogg" id="6_hss3k"]
-[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="7_rcujj"]
+[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/Areas/dialog_area.tscn" id="7_rcujj"]
 
 [node name="JulietaUnderground" type="Node2D"]
 y_sort_enabled = true

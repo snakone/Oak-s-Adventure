@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cqktd3b4r0pk2" path="res://Scripts/switch_scene.tscn" id="4_nqgbe"]
 [ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="5_qpu3u"]
 [ext_resource type="Texture2D" uid="uid://binluodfymue4" path="res://Sprites/door_open_orange.png" id="6_ismcs"]
-[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="9_255gx"]
+[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/Areas/dialog_area.tscn" id="9_255gx"]
 [ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="9_sm5xq"]
 [ext_resource type="AudioStream" uid="uid://xaacocjq78cq" path="res://Assets/Sounds/PraireTown.mp3" id="10_gcas7"]
 [ext_resource type="Texture2D" uid="uid://dupraky0vk0qc" path="res://Sprites/NPC/farm_vendor.png" id="10_l6t8e"]

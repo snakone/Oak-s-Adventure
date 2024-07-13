@@ -332,6 +332,9 @@ func set_pokemon_info() -> void:
 		sprite_2d.play("Front")
 		sprite_2d.offset = pokemon.data.display.offset.summary;
 		sprite_2d.scale = pokemon.data.display.scale.pokedex;
+		if("rotation" in pokemon.data.display):
+			sprite_2d.rotation_degrees = pokemon.data.display.rotation;
+		else: sprite_2d.rotation_degrees = 0;
 		number.text = format_number(pokemon.data.number);
 		nature.text = LIBRARIES.BATTLE.nature_strings[int(pokemon.data.nature)] + ' nature.';
 		level.text = "Lv" + str(pokemon.data.level);

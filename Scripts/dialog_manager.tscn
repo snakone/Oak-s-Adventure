@@ -1,13 +1,13 @@
 [gd_scene load_steps=13 format=3 uid="uid://b6hbe8lus8fv2"]
 
 [ext_resource type="Script" path="res://Scripts/dialog_manager.gd" id="1_xrosg"]
-[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="2_sr88g"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/Menu/menu_theme.tres" id="2_sr88g"]
 [ext_resource type="Texture2D" uid="uid://c0dpipa5sqguj" path="res://Assets/UI/dialog_bg.png" id="2_uokyr"]
 [ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/Fonts/power clear.ttf" id="4_c420i"]
 [ext_resource type="Texture2D" uid="uid://bynrkxrintj5r" path="res://Assets/UI/triangle.png" id="5_hcghe"]
 [ext_resource type="FontFile" uid="uid://bqhxhi032wwfk" path="res://Assets/Fonts/power clear bold.ttf" id="5_tndgo"]
 [ext_resource type="AudioStream" uid="uid://cfl2vuycupxn1" path="res://Assets/Sounds/confirm.wav" id="6_lcq8j"]
-[ext_resource type="PackedScene" uid="uid://d1n3rqipshb3u" path="res://Scenes/UI/menu_selection.tscn" id="7_mmu53"]
+[ext_resource type="PackedScene" uid="uid://d1n3rqipshb3u" path="res://Scenes/UI/Menu/menu_selection.tscn" id="7_mmu53"]
 [ext_resource type="Texture2D" uid="uid://doy500juql5l2" path="res://Assets/UI/dialog_shop_bg.png" id="9_gy83c"]
 
 [sub_resource type="Animation" id="Animation_lw6i4"]

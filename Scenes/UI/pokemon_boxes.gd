@@ -509,6 +509,9 @@ func set_active(poke: Node) -> void:
 	else: 
 		active_level.position.x = 6;
 		active_gender.visible = false;
+	if("rotation" in poke.data.display):
+		active_sprite.rotation_degrees = poke.data.display.rotation;
+	else: active_sprite.rotation_degrees = 0;
 	inactive.visible = false;
 	active.visible = true;
 

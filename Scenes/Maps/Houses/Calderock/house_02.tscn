@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="2_f0avs"]
 [ext_resource type="PackedScene" uid="uid://d2ugtmhk27xtk" path="res://Tilesets/house_02.tscn" id="3_cb5pe"]
 [ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="3_taphe"]
-[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="5_sfxun"]
+[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/Areas/dialog_area.tscn" id="5_sfxun"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nabc2"]
 size = Vector2(16, 144)

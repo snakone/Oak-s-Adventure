@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://d1ph6rve8ft6l"]
 
-[ext_resource type="Script" path="res://Scripts/shop_item.gd" id="1_ym2um"]
-[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="2_gc6gm"]
+[ext_resource type="Script" path="res://Scenes/UI/Shop/shop_item.gd" id="1_ym2um"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/Menu/menu_theme.tres" id="2_o0fhy"]
 [ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="3_ng2wq"]
 
 [node name="ShopItem" type="Control"]
@@ -18,7 +18,7 @@ offset_left = 6.0
 offset_top = 1.0
 offset_right = 86.0
 offset_bottom = 13.0
-theme = ExtResource("2_gc6gm")
+theme = ExtResource("2_o0fhy")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 theme_override_fonts/normal_font = ExtResource("3_ng2wq")
@@ -34,7 +34,7 @@ offset_left = 83.0
 offset_top = 3.0
 offset_right = 123.0
 offset_bottom = 15.0
-theme = ExtResource("2_gc6gm")
+theme = ExtResource("2_o0fhy")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 theme_override_fonts/normal_font = ExtResource("3_ng2wq")

@@ -97,7 +97,7 @@ level_range = [2, 5]
 
 [node name="TallGrass5" parent="Grass" instance=ExtResource("5_x2w4k")]
 position = Vector2(144, 160)
-encounters = Array[int]([16, 19])
+encounters = Array[int]([5])
 level_range = [2, 5]
 
 [node name="TallGrass6" parent="Grass" instance=ExtResource("5_x2w4k")]

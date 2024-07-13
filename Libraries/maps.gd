@@ -85,24 +85,9 @@ const CONNECTIONS = {
 var ENCOUNTERS = {
 	"Route01": {
 		1: {
-			ENUMS.Pokedex.BULBASAUR: 100,
-			ENUMS.Pokedex.IVYSAUR: 100,
-			ENUMS.Pokedex.VENUSAUR: 100,
-			ENUMS.Pokedex.CHARMANDER: 100,
-			ENUMS.Pokedex.CHARMELEON: 100,
-			ENUMS.Pokedex.CHARIZARD: 100,
-			ENUMS.Pokedex.SQUIRTLE: 100,
-			ENUMS.Pokedex.WARTORTLE: 100,
-			ENUMS.Pokedex.BLASTOISE: 100,
-			ENUMS.Pokedex.BEEDRILL: 100,
-			ENUMS.Pokedex.PIKACHU: 100,
-			ENUMS.Pokedex.RATTATA: 100,
-			ENUMS.Pokedex.GEODUDE: 100,
-			ENUMS.Pokedex.HORSEA: 100,
-			ENUMS.Pokedex.HOOH: 100,
+			ENUMS.Pokedex.RATTATA: 40.0,
 			ENUMS.Pokedex.PIDGEY: 60.0,
-			ENUMS.Pokedex.CATERPIE: 100,
-			ENUMS.Pokedex.RAYQUAZA: 100
+			ENUMS.Pokedex.CHARMELEON: 100
 		}
 	},
 	"Route02": {

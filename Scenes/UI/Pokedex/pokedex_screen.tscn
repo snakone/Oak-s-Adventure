@@ -1,9 +1,9 @@
 [gd_scene load_steps=23 format=3 uid="uid://coqv4qqrp1ie"]
 
-[ext_resource type="Script" path="res://Scenes/UI/pokedex_screen.gd" id="1_tq43h"]
+[ext_resource type="Script" path="res://Scenes/UI/Pokedex/pokedex_screen.gd" id="1_tq43h"]
 [ext_resource type="Texture2D" uid="uid://cx73yapygovt5" path="res://Assets/UI/Pokedex/index_background.png" id="2_nney6"]
 [ext_resource type="Texture2D" uid="uid://cly1dbwgxdt86" path="res://Assets/UI/Pokedex/list_background.png" id="3_42kpn"]
-[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="3_bce6p"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/Menu/menu_theme.tres" id="3_bce6p"]
 [ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="4_22h8k"]
 [ext_resource type="Texture2D" uid="uid://bfnlj6t53rl5p" path="res://Assets/UI/ui_arrow_left_right.png" id="5_w27vx"]
 [ext_resource type="Texture2D" uid="uid://fjoek3x2almt" path="res://Assets/UI/Pokedex/numerical.png" id="6_mv7f6"]

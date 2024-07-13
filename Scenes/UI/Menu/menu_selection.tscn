@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://d1n3rqipshb3u"]
 
-[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="1_bkbe7"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/Menu/menu_theme.tres" id="1_bkbe7"]
 [ext_resource type="Texture2D" uid="uid://d3dxw0bsf6jxo" path="res://Assets/UI/marker_orange.png" id="2_vqddg"]
-[ext_resource type="Script" path="res://Scenes/UI/menu_selection.gd" id="3_ebam8"]
+[ext_resource type="Script" path="res://Scenes/UI/Menu/menu_selection.gd" id="3_ebam8"]
 [ext_resource type="Texture2D" uid="uid://bfnlj6t53rl5p" path="res://Assets/UI/ui_arrow_left_right.png" id="4_r7n7b"]
 
 [node name="Selection" type="NinePatchRect"]

@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="3_phawa"]
 [ext_resource type="TileSet" uid="uid://b2dmoptqyrvi" path="res://Tilesets/poke_buildings.tres" id="4_wjksh"]
 [ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="5_3tad3"]
-[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="6_sqmcq"]
+[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/Areas/dialog_area.tscn" id="6_sqmcq"]
 [ext_resource type="PackedScene" uid="uid://xa22fo13s7np" path="res://Scenes/NPC/npc.tscn" id="7_0qolq"]
 [ext_resource type="Texture2D" uid="uid://d4lhnf3i807s7" path="res://Sprites/NPC/aqua_man.png" id="8_psycg"]
 

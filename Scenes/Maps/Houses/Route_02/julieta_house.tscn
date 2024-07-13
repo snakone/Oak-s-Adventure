@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://613cjvigsw7n" path="res://Sprites/julieta_house_inside.png" id="4_vtel3"]
 [ext_resource type="Texture2D" uid="uid://cykv1q671rfjb" path="res://Sprites/twin_bush.png" id="5_r3erg"]
 [ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="6_fr6ef"]
-[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="7_axoax"]
+[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/Areas/dialog_area.tscn" id="7_axoax"]
 [ext_resource type="AudioStream" uid="uid://7ufcq8cj32hk" path="res://Assets/Sounds/Door exit.ogg" id="8_03405"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o1sff"]

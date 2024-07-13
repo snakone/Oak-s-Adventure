@@ -32,7 +32,7 @@ extends CanvasLayer
 const MAX_INDEX_SCROLL_HEIGHT = 96;
 const INDEX_ITEM_HEIGHT = 15;
 const LIST_ITEM_HEIGHT = 16;
-const ITEM_scene = preload("res://Scenes/UI/pokedex_item.tscn");
+const ITEM_scene = preload("res://Scenes/UI/Pokedex/pokedex_item.tscn");
 
 const DEFAULT_HEIGHT = "??'??\"";
 const DEFAULT_WEIGHT = "????.? lbs."
