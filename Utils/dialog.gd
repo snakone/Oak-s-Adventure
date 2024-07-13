@@ -583,4 +583,19 @@ const LIBRARY: Dictionary = {
 		"marker": false,
 		"blue_dialog": true
 	},
+	71: {
+		"type": Type.NPC,
+		"marker": false,
+		"blue_dialog": true,
+		"selection": {
+			"category": ENUMS.SelectionCategory.PURCHASE,
+			"sound": preload("res://Assets/Sounds/confirm.wav")
+		},
+	},
+	72: {
+		"arr": [["Here you are!\nThank you!"]],
+		"type": Type.NPC,
+		"marker": true,
+		"blue_dialog": true,
+	},
 }

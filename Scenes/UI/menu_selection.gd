@@ -35,8 +35,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		GLOBAL.on_transition || 
 		!event.is_pressed() ||
 		event.is_echo() ||
-		!visible ||
-		GLOBAL.on_overlay
+		!visible
 	): return;
 	
 	if(

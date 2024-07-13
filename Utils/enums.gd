@@ -21,9 +21,17 @@ enum SaveType { PLAYER, SCENE, PARTY, BOXES, NPC, POKEDEX, BAG, TRAINERS }
 enum DoorType { IN, OUT }
 enum BinaryOptions { YES, NO }
 enum DoorCategory { DOOR, TUNNEL }
-enum SelectionCategory { BINARY, HEAL, SLEEP, SWITCH_TRAINER, NEXT_POKEMON }
 enum NPCStates { MOVING, IDLE }
 enum Climate { DAY, NIGHT, ANY }
+
+enum SelectionCategory { 
+	BINARY,
+	HEAL,
+	SLEEP,
+	SWITCH_TRAINER,
+	NEXT_POKEMON,
+	PURCHASE 
+}
 
 enum Locations {
 	PRAIRE_TOWN,

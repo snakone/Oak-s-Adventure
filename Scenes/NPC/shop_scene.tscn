@@ -114,7 +114,6 @@ theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 text = "SEE YA!"
 
 [node name="Shopping" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -238,7 +237,6 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("9_tt18k")
 
 [node name="Buying" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0

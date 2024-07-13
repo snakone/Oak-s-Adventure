@@ -19,6 +19,7 @@ const SHOP_ITEM = preload("res://Scripts/shop_item.tscn");
 const SHOP_ITEM_HEIGHT = 16;
 const CURSOR_HEIGHT_BOTTOM = 62;
 const SHOPPING_DIALOG = 70;
+const PURCHASE_DIALOG = 71;
 var camera: Camera2D;
 var writing = false;
 
@@ -37,11 +38,12 @@ var options_length = ShopOptions.keys().size();
 var shop: ENUMS.Shops;
 var items: Array;
 
-var shopping = false;
+var is_shopping = false;
 var shop_purchase_open = false;
 var item_selected = 0;
 var items_size = 0;
 var purchase_amount = 1;
+var selection_open = false;
 
 func _ready() -> void:
 	GLOBAL.on_overlay = true;
@@ -49,6 +51,7 @@ func _ready() -> void:
 	set_marker();
 	create_list(items);
 	camera = get_tree().get_nodes_in_group("camera")[0];
+	GLOBAL.connect("selection_value_select", _on_selection_value_select);
 
 func set_data(data: ENUMS.Shops) -> void: shop = data;
 
@@ -62,7 +65,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		cant_echo ||
 		GLOBAL.on_battle ||
 		!can_use_menu ||
-		writing
+		writing ||
+		selection_open
 	): return;
 	#CLOSE
 	if(Input.is_action_just_pressed("backMenu")): close_menu();
@@ -88,7 +92,7 @@ func handle_DOWN() -> void:
 	if(shop_purchase_open):
 		handle_purchase_DOWN();
 		return;
-	elif(shopping): 
+	elif(is_shopping): 
 		handle_list_DOWN();
 		return;
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
@@ -101,7 +105,7 @@ func handle_UP() -> void:
 	if(shop_purchase_open):
 		handle_purchase_UP();
 		return;
-	elif(shopping):
+	elif(is_shopping):
 		handle_list_UP();
 		return;
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
@@ -138,10 +142,6 @@ func handle_purchase_UP() -> void:
 	purchase_amount += 1;
 	update_purchase_amount(purchase_amount);
 
-func update_purchase_amount(value: int) -> void:
-	purchase_node_amount.text = format_number(value);
-	update_purchase_price(get_current_item().shop.price, value);
-
 func handle_RIGHT() -> void:
 	if(!shop_purchase_open): return;
 	if(purchase_amount >= 990):
@@ -162,10 +162,17 @@ func handle_LEFT() -> void:
 	purchase_amount -= 10;
 	update_purchase_amount(purchase_amount);
 
+func update_purchase_amount(value: int) -> void:
+	purchase_node_amount.text = format_number(value);
+	update_purchase_price(get_current_item().shop.price, value);
+
 #SELECT LIST
 func select_option() -> void:
-	if(shopping): 
-		select_item();
+	if(shop_purchase_open):
+		purchase_item();
+		return;
+	elif(is_shopping): 
+		open_purchase_panel();
 		return;
 	play_audio(LIBRARIES.SOUNDS.CONFIRM);
 	match(selected_option):
@@ -173,8 +180,32 @@ func select_option() -> void:
 		ShopOptions.SELL: sell()
 		ShopOptions.CANCEL: close_menu();
 
+#PURCHASE
+func purchase_item() -> void:
+	control_buying.visible = false;
+	play_audio(LIBRARIES.SOUNDS.CONFIRM);
+	var item = get_current_item();
+	GLOBAL.emit_signal(
+		"create_dialog", 
+		PURCHASE_DIALOG, 
+		generate_purchase_text(item.name, purchase_amount, item.shop.price * purchase_amount)
+	);
+	selection_open = true;
+
+func handle_purchase() -> void:
+	audio.volume_db = 0;
+	play_audio(LIBRARIES.SOUNDS.MART_BUY_ITEM);
+	var item = get_current_item();
+	GLOBAL.current_money -= (item.shop.price * purchase_amount);
+	money_amount.text = '$ ' + str(GLOBAL.current_money);
+	BAG.add_item(item.id, purchase_amount);
+	GLOBAL.start_dialog.emit(72);
+	await GLOBAL.close_dialog;
+	audio.volume_db = -10;
+	close_purchase_panel(false);
+
 #SELECT SHOP ITEM
-func select_item() -> void:
+func open_purchase_panel() -> void:
 	play_audio(LIBRARIES.SOUNDS.CONFIRM);
 	var item = get_current_item();
 	if(item.id == -1): 
@@ -198,8 +229,10 @@ func select_item() -> void:
 	GLOBAL.shopping = true;
 
 func open_shop_list() -> void:
+	item_selected = 0;
+	update_shop_cursor();
 	update_item();
-	shopping = true;
+	is_shopping = true;
 	money_amount.text = '$ ' + str(GLOBAL.current_money);
 	nine_rect.visible = false;
 	var tween = get_tree().create_tween();
@@ -236,9 +269,10 @@ func update_item() -> void:
 #CLOSING
 func close_menu() -> void:
 	if(shop_purchase_open):
+		GLOBAL.close_dialog.emit();
 		close_purchase_panel();
 		return;
-	elif(shopping):
+	elif(is_shopping):
 		close_shop_list();
 		return;
 	can_use_menu = false;
@@ -251,22 +285,29 @@ func close_menu() -> void:
 	GLOBAL.close_shop.emit();
 	GLOBAL.on_overlay = false;
 
-func close_purchase_panel() -> void:
-	GLOBAL.close_dialog.emit();
-	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
+func close_purchase_panel(sound = true) -> void:
+	if(sound): play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 	control_buying.visible = false;
 	shop_purchase_open = false;
 	purchase_amount = 1;
 	update_purchase_amount(purchase_amount);
+	await GLOBAL.timeout(0.2);
+	selection_open = false;
 
 func close_shop_list() -> void:
 	play_audio(LIBRARIES.SOUNDS.GUI_MENU_CLOSE);
 	nine_rect.visible = true;
 	control_shopping.visible = false;
-	shopping = false;
+	is_shopping = false;
 	var tween = get_tree().create_tween();
 	tween.set_ease(Tween.EASE_IN_OUT);
 	tween.tween_property(camera, "offset", camera.current_offset, 0.2);
+
+func _on_selection_value_select(value: int, category) -> void:
+	if(category != ENUMS.SelectionCategory.PURCHASE): return;
+	match value:
+		int(ENUMS.BinaryOptions.YES): handle_purchase();
+		int(ENUMS.BinaryOptions.NO): close_purchase_panel(false);
 
 #CURSOR
 func update_cursor() -> void:
@@ -312,6 +353,12 @@ func format_number(num: int) -> String:
 
 func generate_text(item_name: String) -> Array:
 	return [[item_name + "? Certainly.\nHow many would you like?"]];
+
+func generate_purchase_text(
+	item_name: String, 
+	amount: int,
+	price: int) -> Array:
+	return [[item_name + ", and you want " + str(amount) + ".\nThat will be $" + str(price) + ". Okay?"]];
 
 func get_current_item() -> Dictionary: return items[item_selected];
 

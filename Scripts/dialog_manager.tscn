@@ -91,10 +91,10 @@ text_direction = 1
 language = "Eng"
 
 [node name="Marker" type="Sprite2D" parent="."]
+z_index = 1
 position = Vector2(226, 148)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("5_hcghe")
-metadata/_edit_group_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Marker"]
 libraries = {

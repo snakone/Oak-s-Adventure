@@ -22,7 +22,9 @@ var text_size: int = 0;
 var end_line = false;
 var blue = false;
 
-func set_data(id: int) -> void: dialog_data = DIALOG.get_dialog(id);
+func set_data(id: int) -> void: 
+	dialog_data = DIALOG.get_dialog(id);
+	if("blue_dialog" in dialog_data): blue = true;
 
 func create(id: int, array: Array) -> void:
 	var data = DIALOG.get_dialog(id);
@@ -30,8 +32,10 @@ func create(id: int, array: Array) -> void:
 	dialog_data = {
 		"type": data.type,
 		"marker": data.marker,
-		"arr": array
+		"arr": array,
 	}
+	if("selection" in data):
+		dialog_data["selection"] = data.selection;
 
 func _ready() -> void:
 	shop_dialog.visible = false;
@@ -39,6 +43,7 @@ func _ready() -> void:
 		label.position = Vector2(16, 122);
 		label.add_theme_constant_override("line_separation", 6);
 		shop_dialog.visible = true;
+		marker.position.x -= 3;
 	GLOBAL.connect("selection_value_select", _on_selection_value_select);
 	marker.visible = false;
 	label.text = "";
