@@ -22,8 +22,8 @@ const TYPES = {
 }
 
 var LIST: Dictionary = {
-	1: {
-		"id": 1,
+	ENUMS.MoveNames.TACKLE: {
+		"id": ENUMS.MoveNames.TACKLE,
 		"name": "Tackle",
 		"type": ENUMS.Types.NORMAL,
 		"category": ENUMS.AttackCategory.PHYSIC,
@@ -34,8 +34,8 @@ var LIST: Dictionary = {
 		"priority": 0,
 		"description": "A physical attack in which the user charges, full body, into the foe."
 	},
-	2: {
-		"id": 2,
+	ENUMS.MoveNames.GROWL: {
+		"id": ENUMS.MoveNames.GROWL,
 		"name": "Growl",
 		"type": ENUMS.Types.NORMAL,
 		"category": ENUMS.AttackCategory.STATUS,
@@ -47,8 +47,8 @@ var LIST: Dictionary = {
 		"action": Callable(self, "growl"),
 		"description": "The user growls in a cute way, making the foe lower it's Attack. stat."
 	},
-	3: {
-		"id": 3,
+	ENUMS.MoveNames.QUICK_ATTACK: {
+		"id": ENUMS.MoveNames.QUICK_ATTACK,
 		"name": "Quick Attack",
 		"type": ENUMS.Types.NORMAL,
 		"category": ENUMS.AttackCategory.PHYSIC,

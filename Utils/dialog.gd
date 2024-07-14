@@ -598,4 +598,10 @@ const LIBRARY: Dictionary = {
 		"marker": true,
 		"blue_dialog": true,
 	},
+	73: {
+		"arr": [["You don't have enough money."]],
+		"type": Type.NPC,
+		"marker": true,
+		"blue_dialog": true,
+	},
 }

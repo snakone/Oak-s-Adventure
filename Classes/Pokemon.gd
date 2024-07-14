@@ -6,20 +6,22 @@ var data: Dictionary;
 var uuid = preload("res://uuid.gd").new();
 
 #CONSTRUCTOR
-func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
+func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100], for_battle = true):
 	if("name" in poke):
 		name = poke.name;
 		data = poke;
-		data.active = false;
+		#EXTRA PROPS
+		get_extra_props();
+		#ASSETS
+		get_resources();
+		#CHECK IF POKEMON IS DISPLAY ONLY OR BATTLE
+		if(!for_battle): return;
 		#GENERAL
+		get_base_stats();
+		data.active = false;
 		if("death" not in data): data.death = false;
 		if("IV" not in data): data.IV = set_random_IV();
 		if("uuid" not in data): data.uuid = uuid.v4();
-		#EXTRA PROPS
-		get_extra_props();
-		#STATS/ASSETS
-		get_base_stats();
-		get_resources();
 		#ENEMY
 		if(enemy):
 			if(levels.size() == 1): levels.push_front(levels[0]);
@@ -33,7 +35,7 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100]):
 		#EXP
 		if("total_exp" not in data): set_exp_by_level();
 		if(data.current_hp == 0): data.death = true;
-		data.current_hp = min(data.current_hp, data.battle_stats["HP"])
+		data.current_hp = min(data.current_hp, data.battle_stats["HP"]);
 
 #ATTACK
 func attack(enemy: Object, move: Dictionary) -> Dictionary:
@@ -223,6 +225,7 @@ func get_resources() -> void:
 	data.move_set = resources.move_set;
 	data.display = resources.display;
 	data.specie = resources.specie;
+	data.search = resources.search;
 	
 	if("sprites" in resources):
 		var animated_sprite = load(resources.sprites);

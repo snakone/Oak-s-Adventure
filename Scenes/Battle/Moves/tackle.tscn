@@ -122,6 +122,7 @@ _data = {
 script = ExtResource("1_kicyl")
 audio_file = ExtResource("2_a1ev5")
 move_sprite = true
+move_name = 309
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

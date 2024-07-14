@@ -151,7 +151,7 @@ _data = {
 [node name="QuickAttack" type="Node2D"]
 script = ExtResource("1_k5mcb")
 move_sprite = true
-move_name = 1
+move_name = 218
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

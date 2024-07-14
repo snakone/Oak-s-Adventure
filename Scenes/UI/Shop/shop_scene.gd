@@ -10,8 +10,6 @@ extends CanvasLayer
 @onready var item_description: RichTextLabel = $Shopping/Description/Text;
 @onready var sprite_2d: Sprite2D = $Shopping/Description/Sprite2D;
 @onready var amount_in_bag: RichTextLabel = $Purchasing/Item_Bag/Title
-@onready var purchase_price: RichTextLabel = $Purchasing/Select_Amount/Price;
-@onready var purchase_node_amount: RichTextLabel = $Purchasing/Select_Amount/Amount;
 
 @onready var control_shopping: Control = $Shopping;
 @onready var control_purchasing: Control = $Purchasing;
@@ -41,9 +39,7 @@ var shop_number: ENUMS.Shops;
 var items: Array;
 
 var is_shopping = false;
-var item_selected = 0;
 var items_size = 0;
-var purchase_amount = 1;
 var selection_open = false;
 
 func _ready() -> void:
@@ -115,23 +111,11 @@ func select_UP() -> void:
 
 func handle_RIGHT() -> void:
 	if(current_state != State.PURCHASING): return;
-	if(purchase_amount >= 990):
-		purchase_amount = 999;
-		update_purchase_amount(purchase_amount);
-		return;
-	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
-	purchase_amount += 10;
-	update_purchase_amount(purchase_amount);
+	control_purchasing.handle_RIGHT();
 
 func handle_LEFT() -> void:
 	if(current_state != State.PURCHASING): return;
-	if(purchase_amount <= 10):
-		purchase_amount = 1;
-		update_purchase_amount(purchase_amount);
-		return;
-	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
-	purchase_amount -= 10;
-	update_purchase_amount(purchase_amount);
+	control_purchasing.handle_LEFT();
 
 func handle_select() -> void:
 	match current_state:
@@ -197,18 +181,7 @@ func set_marker() -> void:
 	if(SETTINGS.selected_marker):
 		nine_rect.texture = SETTINGS.selected_marker;
 
-func format_number(num: int) -> String:
-	if(num < 10): return 'x0' + str(num);
-	return "x" + str(num);
-
-func get_current_item() -> Dictionary: return items[item_selected];
-
-func update_purchase_amount(value: int) -> void:
-	purchase_node_amount.text = format_number(value);
-	update_purchase_price(get_current_item().shop.price, value);
-
-func update_purchase_price(price: int, amount: int) -> void:
-	purchase_price.text = "$ " + str(price * amount);
+func get_current_item() -> Dictionary: return items[control_shopping.item_selected];
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;

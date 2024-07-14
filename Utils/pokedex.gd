@@ -37,7 +37,8 @@ func get_poke_resources(poke_name: String):
 				"sprites": str(poke.sprites),
 				"move_set": poke.move_set,
 				"display": poke.display,
-				"specie": poke.specie
+				"specie": poke.specie,
+				"search": poke.search
 			};
 
 func get_pokemon_prop(index: int, key: String):

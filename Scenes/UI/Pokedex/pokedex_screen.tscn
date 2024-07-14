@@ -95,6 +95,7 @@ script = ExtResource("1_tq43h")
 volume_db = -10.0
 
 [node name="Index" type="Node2D" parent="."]
+visible = false
 
 [node name="Background" type="TextureRect" parent="Index"]
 offset_right = 240.0
@@ -181,6 +182,21 @@ scroll_active = false
 autowrap_mode = 0
 context_menu_enabled = true
 
+[node name="Forest" type="RichTextLabel" parent="Index/ScrollContainer/VBoxContainer"]
+y_sort_enabled = true
+clip_contents = false
+custom_minimum_size = Vector2(0, 11)
+layout_mode = 2
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+text = "    Forest POKéMON"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+
 [node name="Water" type="RichTextLabel" parent="Index/ScrollContainer/VBoxContainer"]
 y_sort_enabled = true
 clip_contents = false
@@ -251,6 +267,21 @@ theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 0
 theme_override_fonts/normal_font = ExtResource("4_22h8k")
 text = "    Rough-terrain POKéMON"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+
+[node name="Snow" type="RichTextLabel" parent="Index/ScrollContainer/VBoxContainer"]
+y_sort_enabled = true
+clip_contents = false
+custom_minimum_size = Vector2(0, 11)
+layout_mode = 2
+theme = ExtResource("3_bce6p")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_22h8k")
+text = "    Snow-land POKéMON"
 fit_content = true
 scroll_active = false
 autowrap_mode = 0
@@ -477,7 +508,6 @@ language = "Eng"
 
 [node name="Footprint" type="TextureRect" parent="Info"]
 visible = false
-self_modulate = Color(1, 1, 1, 0.835294)
 offset_left = 98.0
 offset_top = 60.0
 offset_right = 114.0

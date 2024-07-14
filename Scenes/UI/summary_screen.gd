@@ -216,12 +216,13 @@ func set_selected_pokemon(sound = true, include = true) -> void:
 		reset_move_info();
 
 func check_if_can_close() -> void:
-	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	if(on_switch_mode):
 		move_anim_player.stop();
 		on_switch_mode = false;
+		play_audio(LIBRARIES.SOUNDS.GUI_MENU_CLOSE);
 		return;
 	elif(selected_view == int(Views.MOVES)):
+		play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 		if(!on_move_detail): active_move_detail();
 		else: reset_move_detail();
 		return;
@@ -268,7 +269,7 @@ func input_move() -> void:
 				if(last_switch_index == selected_move):
 					move_anim_player.stop();
 					on_switch_mode = false;
-					play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
+					play_audio(LIBRARIES.SOUNDS.GUI_MENU_CLOSE);
 				else: switch_move();
 		else: check_if_can_close();
 	else: check_if_can_close();

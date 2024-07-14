@@ -7,21 +7,23 @@ const SHOP_ITEM_HEIGHT = 16;
 const CURSOR_HEIGHT_BOTTOM = 62;
 var camera: Camera2D;
 
+var item_selected = 0;
+
 func _ready() -> void:
 	camera = get_tree().get_nodes_in_group("camera")[0];
 
 func handle_DOWN() -> void:
-	if(shop.item_selected == shop.items_size - 1 || shop.items_size == 0): return;
+	if(item_selected == shop.items_size - 1 || shop.items_size == 0): return;
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
-	shop.item_selected += 1;
+	item_selected += 1;
 	update_cursor();
 	update_item();
 	update_scroll();
 
 func handle_UP() -> void:
-	if(shop.item_selected == 0 || shop.items_size == 0): return;
+	if(item_selected == 0 || shop.items_size == 0): return;
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
-	shop.item_selected -= 1;
+	item_selected -= 1;
 	update_cursor();
 	update_item();
 	update_scroll();
@@ -29,7 +31,7 @@ func handle_UP() -> void:
 #OPEN
 func open() -> void:
 	shop.current_state = shop.State.SHOPPING;
-	shop.item_selected = 0;
+	item_selected = 0;
 	update_cursor();
 	update_item();
 	shop.is_shopping = true;
@@ -60,7 +62,7 @@ func close() -> void:
 
 #CURSOR
 func update_cursor() -> void:
-	var y_position = get_cursor_y(shop.item_selected, shop.items_size);
+	var y_position = get_cursor_y(item_selected, shop.items_size);
 	if(y_position != 0.0): shop.shopping_cursor.position = Vector2(91, y_position);
 
 func get_cursor_y(option: int, arr_size: int) -> float:
@@ -79,12 +81,12 @@ func get_cursor_y(option: int, arr_size: int) -> float:
 
 #SCROLL
 func get_scroll() -> int:
-	if(shop.item_selected < 4): return 0;
-	return (shop.item_selected - 3) * SHOP_ITEM_HEIGHT;
+	if(item_selected < 4): return 0;
+	return (item_selected - 3) * SHOP_ITEM_HEIGHT;
 
 func update_scroll() -> void:
 	var scroll = get_scroll();
-	if(shop.item_selected + 2 > shop.items_size): return;
+	if(item_selected + 2 > shop.items_size): return;
 	shop.scroll_container.scroll_vertical = scroll;
 
 func play_audio(stream: AudioStream) -> void:

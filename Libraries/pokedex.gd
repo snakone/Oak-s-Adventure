@@ -1,47 +1,55 @@
 extends Node
 
 var index_options = {
-	ENUMS.PokedexIndexOptions.NUMERICAL: {
+	ENUMS.PokedexOptions.NUMERICAL: {
 		"texture": preload("res://Assets/UI/Pokedex/numerical.png"),
 		"cursor": Vector2(12, 35.5)
 	},
-	ENUMS.PokedexIndexOptions.GRASS: {
+	ENUMS.PokedexOptions.GRASS: {
 		"texture": preload("res://Assets/UI/Pokedex/grass.png"),
 		"cursor": Vector2(12, 69.5)
 	},
-	ENUMS.PokedexIndexOptions.WATER: {
-		"texture": preload("res://Assets/UI/Pokedex/water.png"),
+	ENUMS.PokedexOptions.FOREST: {
+		"texture": preload("res://Assets/UI/Pokedex/forest.png"),
 		"cursor": Vector2(12, 84.5)
 	},
-	ENUMS.PokedexIndexOptions.SEA: {
+	ENUMS.PokedexOptions.WATER: {
+		"texture": preload("res://Assets/UI/Pokedex/water.png"),
+		"cursor": Vector2(12, 99.5)
+	},
+	ENUMS.PokedexOptions.SEA: {
 		"texture": preload("res://Assets/UI/Pokedex/sea.png"),
 		"cursor": Vector2(12, 99.5)
 	},
-	ENUMS.PokedexIndexOptions.CAVE: {
+	ENUMS.PokedexOptions.CAVE: {
 		"texture": preload("res://Assets/UI/Pokedex/cave.png"),
 		"cursor": Vector2(12, 99.5)
 	},
-	ENUMS.PokedexIndexOptions.MOUNTAIN: {
+	ENUMS.PokedexOptions.MOUNTAIN: {
 		"texture": preload("res://Assets/UI/Pokedex/mountain.png"),
 		"cursor": Vector2(12, 99.5)
 	},
-	ENUMS.PokedexIndexOptions.ROUGH: {
+	ENUMS.PokedexOptions.ROUGH: {
 		"texture": preload("res://Assets/UI/Pokedex/rough.png"),
 		"cursor": Vector2(12, 99.5)
 	},
-	ENUMS.PokedexIndexOptions.URBAN: {
+	ENUMS.PokedexOptions.SNOW: {
+		"texture": preload("res://Assets/UI/Pokedex/snow.png"),
+		"cursor": Vector2(12, 99.5)
+	},
+	ENUMS.PokedexOptions.URBAN: {
 		"texture": preload("res://Assets/UI/Pokedex/urban.png"),
 		"cursor": Vector2(12, 99.5)
 	},
-	ENUMS.PokedexIndexOptions.RARE: {
+	ENUMS.PokedexOptions.RARE: {
 		"texture": preload("res://Assets/UI/Pokedex/rare.png"),
 		"cursor": Vector2(12, 99.5)
 	},
-	ENUMS.PokedexIndexOptions.LEGENDARY: {
+	ENUMS.PokedexOptions.LEGENDARY: {
 		"texture": preload("res://Assets/UI/Pokedex/legendary.png"),
 		"cursor": Vector2(12, 93.5)
 	},
-	ENUMS.PokedexIndexOptions.CLOSE: {
+	ENUMS.PokedexOptions.CLOSE: {
 		"texture": preload("res://Assets/UI/Pokedex/close.png"),
 		"cursor": Vector2(12, 126.5)
 	}
@@ -52,7 +60,7 @@ var LIST: Array = [
 		"name": "BULBASAUR",
 		"number": ENUMS.Pokedex.BULBASAUR,
 		"types": [ENUMS.Types.GRASS],
-		"moves": [1],
+		"moves": [309],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 64,
 		"catch_rate": 45,
@@ -70,6 +78,10 @@ var LIST: Array = [
 			"weight": "15.2 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/bulbasaur/footprint.png"),
 			"description": "There is a plant seed on its back right from the day this POKéMON is born. The seed slowly grows larger."
+		},
+		"search": {
+			"category": ENUMS.PokedexOptions.GRASS,
+			"color": ENUMS.Colors.GREEN
 		},
 		"display": {
 			"offset": {
@@ -104,7 +116,7 @@ var LIST: Array = [
 		"name": "IVYSAUR",
 		"number": ENUMS.Pokedex.IVYSAUR,
 		"types": [ENUMS.Types.GRASS, ENUMS.Types.POISON],
-		"moves": [1],
+		"moves": [309],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 141,
 		"catch_rate": 45,
@@ -122,6 +134,10 @@ var LIST: Array = [
 			"weight": "28.7 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/ivysaur/footprint.png"),
 			"description": "There is a plant bulb on its back. When it absorbs nutrients, the bulb is said to blossom into a large flower."
+		},
+		"search": {
+			"category": ENUMS.PokedexOptions.GRASS,
+			"color": ENUMS.Colors.GREEN
 		},
 		"display": {
 			"offset": {
@@ -154,7 +170,7 @@ var LIST: Array = [
 		"name": "VENUSAUR",
 		"number": ENUMS.Pokedex.VENUSAUR,
 		"types": [ENUMS.Types.GRASS, ENUMS.Types.POISON],
-		"moves": [1],
+		"moves": [309],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 236,
 		"catch_rate": 45,
@@ -172,6 +188,10 @@ var LIST: Array = [
 			"weight": "220.5 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/venusaur/footprint.png"),
 			"description": "VENUSAUR’s flower is said to take on vivid colors if it gets plenty of nutrition and sunlight. The flower’s aroma soothes the emotions of people."
+		},
+		"search": {
+			"category": ENUMS.PokedexOptions.GRASS,
+			"color": ENUMS.Colors.GREEN
 		},
 		"display": {
 			"offset": {
@@ -204,7 +224,7 @@ var LIST: Array = [
 		"name": "CHARMANDER",
 		"number": ENUMS.Pokedex.CHARMANDER,
 		"types": [ENUMS.Types.FIRE],
-		"moves": [1],
+		"moves": [309],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 65,
 		"catch_rate": 45,
@@ -222,6 +242,10 @@ var LIST: Array = [
 			"weight": "18.7 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/charmander/footprint.png"),
 			"description": "From the time it is born, a flame burns at the tip of its tail. Its life would end if the flame were to go out."
+		},
+		"search": {
+			"category": ENUMS.PokedexOptions.MOUNTAIN,
+			"color": ENUMS.Colors.RED
 		},
 		"display": {
 			"offset": {
@@ -254,7 +278,7 @@ var LIST: Array = [
 		"name": "CHARMELEON",
 		"number": ENUMS.Pokedex.CHARMELEON,
 		"types": [ENUMS.Types.FIRE],
-		"moves": [1],
+		"moves": [309],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 142,
 		"catch_rate": 45,
@@ -272,6 +296,10 @@ var LIST: Array = [
 			"weight": "41.9 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/charmeleon/footprint.png"),
 			"description": "Without pity, its sharp claws destroy foes. If it encounters a strong enemy, it becomes agitated, and the flame on its tail flares with a bluish white color."
+		},
+		"search": {
+			"category": ENUMS.PokedexOptions.MOUNTAIN,
+			"color": ENUMS.Colors.RED
 		},
 		"display": {
 			"offset": {
@@ -305,7 +333,7 @@ var LIST: Array = [
 		"name": "CHARIZARD",
 		"number": ENUMS.Pokedex.CHARIZARD,
 		"types": [ENUMS.Types.FIRE, ENUMS.Types.FLYING],
-		"moves": [1],
+		"moves": [309],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 267,
 		"catch_rate": 45,
@@ -323,6 +351,10 @@ var LIST: Array = [
 			"weight": "199.5 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/charizard/footprint.png"),
 			"description": "A CHARIZARD flies about in search of strong opponents. It breathes intense flames that can melt any material. However, it will never torch a weaker foe."
+		},
+		"search": {
+			"category": ENUMS.PokedexOptions.MOUNTAIN,
+			"color": ENUMS.Colors.RED
 		},
 		"display": {
 			"offset": {
@@ -355,7 +387,7 @@ var LIST: Array = [
 		"name": "SQUIRTLE",
 		"number": ENUMS.Pokedex.SQUIRTLE,
 		"types": [ENUMS.Types.WATER],
-		"moves": [3],
+		"moves": [218],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 63,
 		"catch_rate": 45,
@@ -373,6 +405,10 @@ var LIST: Array = [
 			"weight": "19.8 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/squirtle/footprint.png"),
 			"description": "Its shell is not just for protection. Its rounded shape and the grooves on its surface minimize resistance in water, enabling SQUIRTLE to swim at high speeds."
+		},
+		"search": {
+			"category": ENUMS.PokedexOptions.WATER,
+			"color": ENUMS.Colors.BLUE
 		},
 		"display": {
 			"offset": {
@@ -407,7 +443,7 @@ var LIST: Array = [
 		"name": "WARTORTLE",
 		"number": ENUMS.Pokedex.WARTORTLE,
 		"types": [ENUMS.Types.WATER],
-		"moves": [1],
+		"moves": [309],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 142,
 		"catch_rate": 45,
@@ -425,6 +461,10 @@ var LIST: Array = [
 			"weight": "49.6 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/wartortle/footprint.png"),
 			"description": "Its large tail is covered with rich, thick fur that deepens in color with age. The scratches on its shell are evidence of this POKéMON’s toughness in battle."
+		},
+		"search": {
+			"category": ENUMS.PokedexOptions.WATER,
+			"color": ENUMS.Colors.BLUE
 		},
 		"display": {
 			"offset": {
@@ -459,7 +499,7 @@ var LIST: Array = [
 		"name": "BLASTOISE",
 		"number": ENUMS.Pokedex.BLASTOISE,
 		"types": [ENUMS.Types.WATER],
-		"moves": [1],
+		"moves": [309],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 239,
 		"catch_rate": 45,
@@ -477,6 +517,10 @@ var LIST: Array = [
 			"weight": "188.5 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/blastoise/footprint.png"),
 			"description": "The waterspouts that protrude from its shell are highly accurate. Their bullets of water can precisely nail tin cans from a distance of over 160 feet."
+		},
+		"search": {
+			"category": ENUMS.PokedexOptions.WATER,
+			"color": ENUMS.Colors.BLUE
 		},
 		"display": {
 			"offset": {
@@ -511,7 +555,7 @@ var LIST: Array = [
 		"name": "CATERPIE",
 		"number": ENUMS.Pokedex.CATERPIE,
 		"types": [ENUMS.Types.BUG],
-		"moves": [1],
+		"moves": [309],
 		"exp_type": ENUMS.ExpType.MEDIUM,
 		"base_exp": 39,
 		"catch_rate": 255,
@@ -529,6 +573,10 @@ var LIST: Array = [
 			"weight": "6.4 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/caterpie/footprint.png"),
 			"description": "Its voracious appetite compels it to devour leaves bigger than itself without hesitation. It releases a terribly strong odor from its antennae."
+		},
+		"search": {
+			"category": ENUMS.PokedexOptions.FOREST,
+			"color": ENUMS.Colors.GREEN
 		},
 		"display": {
 			"offset": {
@@ -563,7 +611,7 @@ var LIST: Array = [
 		"name": "BEEDRILL",
 		"number": ENUMS.Pokedex.BEEDRILL,
 		"types": [ENUMS.Types.BUG, ENUMS.Types.POISON],
-		"moves": [1],
+		"moves": [309],
 		"exp_type": ENUMS.ExpType.MEDIUM,
 		"base_exp": 159,
 		"catch_rate": 45,
@@ -581,6 +629,10 @@ var LIST: Array = [
 			"weight": "65.0 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/beedrill/footprint.png"),
 			"description": "It can take down any opponent with its powerful poison stingers. It sometimes attacks in swarms."
+		},
+		"search": {
+			"category": ENUMS.PokedexOptions.FOREST,
+			"color": ENUMS.Colors.YELLOW
 		},
 		"display": {
 			"offset": {
@@ -613,7 +665,7 @@ var LIST: Array = [
 		"name": "PIDGEY",
 		"number": ENUMS.Pokedex.PIDGEY,
 		"types": [ENUMS.Types.NORMAL, ENUMS.Types.FLYING],
-		"moves": [3],
+		"moves": [218],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 50,
 		"catch_rate": 255,
@@ -631,6 +683,10 @@ var LIST: Array = [
 			"weight": "4.0 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/pidgey/footprint.png"),
 			"description": "It has an extremely sharp sense of direction. It can unerringly return home to its nest, however far it may be removed from its familiar surroundings."
+		},
+		"search": {
+			"category": ENUMS.PokedexOptions.FOREST,
+			"color": ENUMS.Colors.BROWN
 		},
 		"display": {
 			"offset": {
@@ -663,7 +719,7 @@ var LIST: Array = [
 		"name": "RATTATA",
 		"number": ENUMS.Pokedex.RATTATA,
 		"types": [ENUMS.Types.NORMAL],
-		"moves": [3],
+		"moves": [218],
 		"exp_type": ENUMS.ExpType.MEDIUM,
 		"base_exp": 51,
 		"catch_rate": 255,
@@ -681,6 +737,10 @@ var LIST: Array = [
 			"weight": "7.7 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/rattata/footprint.png"),
 			"description": "Living wherever there is food available, it ceaselessly scavenges for edibles the entire day."
+		},
+		"search": {
+			"category": ENUMS.PokedexOptions.GRASS,
+			"color": ENUMS.Colors.PURPLE
 		},
 		"display": {
 			"offset": {
@@ -713,7 +773,7 @@ var LIST: Array = [
 		"name": "PIKACHU",
 		"number": ENUMS.Pokedex.PIKACHU,
 		"types": [ENUMS.Types.ELECTRIC],
-		"moves": [1],
+		"moves": [309],
 		"exp_type": ENUMS.ExpType.MEDIUM,
 		"base_exp": 82,
 		"catch_rate": 190,
@@ -731,6 +791,10 @@ var LIST: Array = [
 			"weight": "13.2 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/pikachu/footprint.png"),
 			"description": "It stores electricity in the electric sacs on its cheeks. When it releases pent-up energy in a burst, the electric power is equal to a lightning bolt."
+		},
+		"search": {
+			"category": ENUMS.PokedexOptions.FOREST,
+			"color": ENUMS.Colors.YELLOW
 		},
 		"display": {
 			"offset": {
@@ -763,7 +827,7 @@ var LIST: Array = [
 		"name": "GEODUDE",
 		"number": ENUMS.Pokedex.GEODUDE,
 		"types": [ENUMS.Types.ROCK, ENUMS.Types.GROUND],
-		"moves": [1],
+		"moves": [309],
 		"exp_type": ENUMS.ExpType.SLACK,
 		"base_exp": 86,
 		"catch_rate": 255,
@@ -781,6 +845,10 @@ var LIST: Array = [
 			"weight": "44.1 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/geodude/footprint.png"),
 			"description": "It climbs mountain paths using only the power of its arms. Because they look just like boulders lining paths, hikers may step on them without noticing."
+		},
+		"search": {
+			"category": ENUMS.PokedexOptions.MOUNTAIN,
+			"color": ENUMS.Colors.BROWN
 		},
 		"display": {
 			"offset": {
@@ -813,7 +881,7 @@ var LIST: Array = [
 		"name": "HORSEA",
 		"number": ENUMS.Pokedex.HORSEA,
 		"types": [ENUMS.Types.WATER],
-		"moves": [1],
+		"moves": [309],
 		"exp_type": ENUMS.ExpType.MEDIUM,
 		"base_exp": 83,
 		"catch_rate": 225,
@@ -831,6 +899,10 @@ var LIST: Array = [
 			"weight": "17.6 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/horsea/footprint.png"),
 			"description": "By cleverly flicking the fins on its back side to side, it moves in any direction while facing forward. It spits ink to escape if it senses danger.",
+		},
+		"search": {
+			"category": ENUMS.PokedexOptions.SEA,
+			"color": ENUMS.Colors.BLUE
 		},
 		"display": {
 			"offset": {
@@ -863,7 +935,7 @@ var LIST: Array = [
 		"name": "HO-OH",
 		"number": ENUMS.Pokedex.HOOH,
 		"types": [ENUMS.Types.FIRE, ENUMS.Types.FLYING],
-		"moves": [1],
+		"moves": [309],
 		"exp_type": ENUMS.ExpType.SLOW,
 		"base_exp": 220,
 		"catch_rate": 3,
@@ -881,6 +953,10 @@ var LIST: Array = [
 			"weight": "438.7 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/ho-oh/footprint.png"),
 			"description": "Its feathers--which glow in seven colors depending on the angle at which they are struck by light--are thought to bring joy. It is said to live at the foot of a rainbow.",
+		},
+		"search": {
+			"category": ENUMS.PokedexOptions.LEGENDARY,
+			"color": ENUMS.Colors.RED
 		},
 		"display": {
 			"offset": {
@@ -913,7 +989,7 @@ var LIST: Array = [
 		"name": "RAYQUAZA",
 		"number": ENUMS.Pokedex.RAYQUAZA,
 		"types": [ENUMS.Types.DRAGON, ENUMS.Types.FLYING],
-		"moves": [1],
+		"moves": [309],
 		"exp_type": ENUMS.ExpType.SLOW,
 		"base_exp": 220,
 		"catch_rate": 3,
@@ -931,6 +1007,10 @@ var LIST: Array = [
 			"weight": "455.3 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/rayquaza/footprint.png"),
 			"description": "A POKéMON that flies endlessly in the ozone layer. It is said it would descend to the ground if KYOGRE and GROUDON were to fight."
+		},
+		"search": {
+			"category": ENUMS.PokedexOptions.LEGENDARY,
+			"color": ENUMS.Colors.GREEN
 		},
 		"display": {
 			"offset": {
@@ -1052,4 +1132,18 @@ var ABILITIES = {
 		"description": "The Pokémon raises the foe’s PP usage.",
 		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
 	},
+}
+
+var habitat_ground = {
+	ENUMS.PokedexOptions.GRASS: preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png"),
+	ENUMS.PokedexOptions.FOREST: preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png"),
+	ENUMS.PokedexOptions.WATER: preload("res://Assets/UI/Battle/Backgrounds/water_base1.png"),
+	ENUMS.PokedexOptions.SEA: preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png"),
+	ENUMS.PokedexOptions.CAVE: preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png"),
+	ENUMS.PokedexOptions.MOUNTAIN: preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png"),
+	ENUMS.PokedexOptions.ROUGH: preload("res://Assets/UI/Battle/Backgrounds/field_base1.png"),
+	ENUMS.PokedexOptions.SNOW: preload("res://Assets/UI/Battle/Backgrounds/snow_base1.png"),
+	ENUMS.PokedexOptions.URBAN: preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png"),
+	ENUMS.PokedexOptions.RARE: preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png"),
+	ENUMS.PokedexOptions.LEGENDARY: preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png"),
 }

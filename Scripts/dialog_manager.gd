@@ -43,7 +43,7 @@ func _ready() -> void:
 		label.position = Vector2(16, 122);
 		label.add_theme_constant_override("line_separation", 6);
 		shop_dialog.visible = true;
-		marker.position.x -= 3;
+		marker.position.x -= 5;
 	GLOBAL.connect("selection_value_select", _on_selection_value_select);
 	marker.visible = false;
 	label.text = "";
@@ -51,6 +51,7 @@ func _ready() -> void:
 	
 	match dialog_data.type:
 		DIALOG.Type.NPC: handle_NPC(text_string);
+		DIALOG.Type.SHOP: handle_NPC(text_string);
 		DIALOG.Type.OBJECT: handle_object(text_string);
 	
 	text_string = add_prefix(text_string);
@@ -69,7 +70,8 @@ func write() -> void:
 	await line_ended;
 
 func handle_NPC(text_string: String) -> void:
-	if(dialog_data.type ==  DIALOG.Type.NPC):
+	if(dialog_data.type == DIALOG.Type.NPC || 
+	dialog_data.type == DIALOG.Type.SHOP):
 		npc_dialog = true;
 		if("npc_name" in dialog_data): whos_talking = dialog_data.npc_name;
 		elif(oak_prefix in text_string): whos_talking = "Oak";

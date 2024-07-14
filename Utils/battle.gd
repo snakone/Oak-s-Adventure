@@ -153,7 +153,7 @@ const ATTACK_CURSOR: Array = [
 ];
 
 func get_battle_textures(zone: ENUMS.BattleZones): 
-	return LIBRARIES.BATTLE.ZONES_ARRAY[zone];
+	return LIBRARIES.BATTLE.ZONES_LIST[zone];
 
 func can_move_attack_cursor(
 	new_position: Vector2,

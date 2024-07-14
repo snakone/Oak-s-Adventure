@@ -1,22 +1,27 @@
 extends Node
 
-var ZONES_ARRAY = [
-	{
+var ZONES_LIST = {
+	ENUMS.BattleZones.FIELD: {
 		"background": preload("res://Assets/UI/Battle/Backgrounds/field_bg.png"),
 		"enemy_ground": preload("res://Assets/UI/Battle/Backgrounds/field_base1.png"),
 		"player_ground": preload("res://Assets/UI/Battle/Backgrounds/field_base0.png")
 	},
-	{
-		"background": preload("res://Assets/UI/Battle/Backgrounds/grass_01.png"),
+	ENUMS.BattleZones.GRASS: {
+		"background": preload("res://Assets/UI/Battle/Backgrounds/grass_bg.png"),
 		"enemy_ground": preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png"),
 		"player_ground": preload("res://Assets/UI/Battle/Backgrounds/grass_base0.png")
 	},
-	{
+	ENUMS.BattleZones.WATER: {
+		"background": preload("res://Assets/UI/Battle/Backgrounds/water_bg.png"),
+		"enemy_ground": preload("res://Assets/UI/Battle/Backgrounds/water_base1.png"),
+		"player_ground": preload("res://Assets/UI/Battle/Backgrounds/water_base0.png")
+	},
+	ENUMS.BattleZones.SNOW: {
 		"background": preload("res://Assets/UI/Battle/Backgrounds/snow_bg.png"),
 		"enemy_ground": preload("res://Assets/UI/Battle/Backgrounds/snow_base1.png"),
 		"player_ground": preload("res://Assets/UI/Battle/Backgrounds/snow_base0.png")
-	},
-];
+	}
+};
 
 func get_markers(marker_type: SETTINGS.Markers):
 	match marker_type:

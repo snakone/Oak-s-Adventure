@@ -26,7 +26,7 @@ var dialogue_inst: CanvasLayer;
 var battle_inst: CanvasLayer;
 var pc_inst: CanvasLayer;
 var shop_inst: CanvasLayer;
-var last_scene = "res://Scenes/Maps/praire_town.tscn";
+var last_scene = "res://Scenes/Maps/Towns/praire_town.tscn";
 var should_remove_child: bool;
 
 func _ready():

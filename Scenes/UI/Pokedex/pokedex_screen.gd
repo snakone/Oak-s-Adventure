@@ -21,6 +21,7 @@ extends CanvasLayer
 @onready var front: AnimatedSprite2D = $Info/Sprites/Front;
 @onready var description: RichTextLabel = $Info/Description;
 @onready var footprint: TextureRect = $Info/Footprint;
+@onready var ground: TextureRect = $Info/Ground;
 
 #AREA
 @onready var party_sprite: Sprite2D = $Area/Pokemon;
@@ -29,7 +30,9 @@ extends CanvasLayer
 @onready var area_number: RichTextLabel = $Area/Number;
 @onready var area_name: RichTextLabel = $Area/Name;
 
-const MAX_INDEX_SCROLL_HEIGHT = 96;
+#DEPENDS ON NUMº OPTIONS - TOTAL SCROLL HEIGHT ALL ITEMS
+const MAX_INDEX_SCROLL_HEIGHT = 126;
+
 const INDEX_ITEM_HEIGHT = 15;
 const LIST_ITEM_HEIGHT = 16;
 const ITEM_scene = preload("res://Scenes/UI/Pokedex/pokedex_item.tscn");
@@ -78,16 +81,19 @@ func _ready() -> void:
 func init() -> void:
 	index_container.scroll_vertical = 0;
 	pokedex_container.scroll_vertical = 0;
-	list_size = ENUMS.PokedexIndexOptions.keys().size();
+	list_size = ENUMS.PokedexOptions.keys().size();
 	showcase_size = showcase.size();
 	index_options = LIBRARIES.POKEDEX.index_options;
 
-func _unhandled_input(event: InputEvent) -> void: 
+func _unhandled_input(event: InputEvent) -> void:
+	var cant_echo = !event.is_pressed() || event.is_echo();
+	if(selected_view == Views.LIST): cant_echo = false; 
 	if(
 		(!event is InputEventKey &&
 		!event is InputEventScreenTouch) ||
 		GLOBAL.on_transition || 
-		GLOBAL.dialog_open
+		GLOBAL.dialog_open ||
+		cant_echo
 	): return;
 	
 	#CLOSE
@@ -130,7 +136,7 @@ func handle_index_select() -> void:
 	var last_option = list_size - 1;
 	match selected_option:
 		#NUMERICAL
-		ENUMS.PokedexIndexOptions.NUMERICAL: go_to_list();
+		ENUMS.PokedexOptions.NUMERICAL: go_to_list();
 		#CANCEL
 		last_option: close_pokedex();
 
@@ -212,7 +218,7 @@ func go_to_info() -> void:
 	set_arrows(false, false);
 	cursor.visible = false;
 	var data = POKEDEX.get_pokemon(selected_option + 1);
-	selected_pokemon = Pokemon.new(data, true);
+	selected_pokemon = Pokemon.new(data, true, null, false);
 	set_pokemon_info();
 
 #AREA VIEW
@@ -370,6 +376,7 @@ func set_pokemon_info() -> void:
 				footprint.visible = true;
 				footprint.texture = selected_pokemon.data.specie.footprint;
 			else: footprint.visible = false;
+		ground.texture = LIBRARIES.POKEDEX.habitat_ground[selected_pokemon.data.search.category];
 
 func set_sprites() -> void:
 	var sprite_frames = selected_pokemon.data.sprites.sprite_frames;
