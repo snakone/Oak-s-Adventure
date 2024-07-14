@@ -101,6 +101,8 @@ func battle_trainer() -> void:
 	await anim_player.animation_finished;
 	anim_player.play("GoTrainer");
 	dialog.quick(["Go " + pokemon.data.name + "!"], 1);
+	await BATTLE.quick_dialog_end;
+	BATTLE.state = ENUMS.BattleStates.MENU;
 
 func start_wild_battle() -> void:
 	dialog.start([
@@ -114,7 +116,7 @@ func start_trainer_battle() -> void:
 
 #INTRO
 func check_intro() -> void:
-	close_dialog_and_show_menu(.2);
+	close_dialog_and_show_menu(0.2);
 	match BATTLE.type:
 		ENUMS.BattleType.WILD: BATTLE.wild_intro = false;
 		ENUMS.BattleType.TRAINER: BATTLE.trainer_intro = false;
@@ -553,9 +555,9 @@ func selection_switch_trainer_pokemon() -> void:
 	await GLOBAL.timeout(0.5);
 	BATTLE.reset_participants(pokemon);
 	set_exp(pokemon);
-	dialog.quick([trainer.name + ' send out ' + enemy.name + '!'], 1.5);
-	await anim_player.animation_finished;
-	close_dialog_and_show_menu(0.2);
+	dialog.quick([trainer.name + ' send out ' + enemy.name + '!'], 2.5);
+	await battle_audio.finished;
+	close_dialog_and_show_menu(0);
 	BATTLE.state = ENUMS.BattleStates.MENU;
 	battle_anim_player.play("Idle");
 
@@ -645,9 +647,12 @@ func set_enemy_ui(id: int) -> void:
 #TEXTURES
 func set_battle_texture() -> void:
 	var battle_textures = BATTLE.get_battle_textures(battle_data.zone);
-	battle_background.texture = battle_textures.background;
 	player_ground.texture = battle_textures.player_ground;
 	enemy_ground.texture = battle_textures.enemy_ground;
+	if(GLOBAL.current_time_of_day == ENUMS.Climate.NIGHT):
+		battle_background.texture = battle_textures.night;
+	else:
+		battle_background.texture = battle_textures.background;
 
 #MARKERS
 func set_markers() -> void:

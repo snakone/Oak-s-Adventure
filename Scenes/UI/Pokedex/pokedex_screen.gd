@@ -11,6 +11,7 @@ extends CanvasLayer
 @onready var red_arrow_up: Sprite2D = $Arrows/ArrowUp;
 @onready var red_arrow_down: Sprite2D = $Arrows/ArrowDown;
 @onready var anim_player: AnimationPlayer = $Area/AnimationPlayer;
+@onready var info_anim_player: AnimationPlayer = $Info/Sprites/AnimationPlayer;
 
 #INFO
 @onready var info_number: RichTextLabel = $Info/Number;
@@ -65,7 +66,7 @@ var showcase_size: int;
 var showcase = [];
 var pokedex_created = false;
 var index_options;
-var right_or_left = false
+var force_scroll = false
 var selected_pokemon: Object;
 
 func _ready() -> void:
@@ -123,7 +124,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 	update_scroll();
 	await GLOBAL.timeout(0.2);
-	right_or_left = false;
+	force_scroll = false;
 
 func select_slot() -> void:
 	match selected_view:
@@ -167,18 +168,20 @@ func handle_DOWN() -> void:
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	selected_option += 1;
 	if(selected_view == Views.INDEX): select_habitat();
+	else: assign_pokemon(1);
 
 func handle_UP() -> void:
 	if(selected_option == 0 || get_list_size() == 0): return;
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	selected_option -= 1;
 	if(selected_view == Views.INDEX): select_habitat();
+	else: assign_pokemon(-1);
 
 func handle_RIGHT() -> void:
 	if(selected_view != int(Views.LIST)): return;
 	if(selected_option >= showcase_size - 1): return;
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
-	right_or_left = true;
+	force_scroll = true;
 	selected_option += 5;
 	if(selected_option > showcase_size -1):
 		selected_option = showcase_size - 1;
@@ -187,7 +190,7 @@ func handle_LEFT() -> void:
 	if(selected_view != int(Views.LIST)): return;
 	if(selected_option == 0): return;
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
-	right_or_left = true;
+	force_scroll = true;
 	selected_option = max(0, selected_option - 5);
 
 #INDEX VIEW
@@ -217,8 +220,20 @@ func go_to_info() -> void:
 	update_arrow_position();
 	set_arrows(false, false);
 	cursor.visible = false;
+	assign_pokemon(1);
+
+func assign_pokemon(direction: int) -> void:
+	force_scroll = false;
+	if(selected_view == int(Views.INFO)):
+		if(!is_poke_in_showcase(selected_option + 1)):
+			var next_index = POKEDEX.find_next_pokemon(selected_option + direction, direction);
+			if(next_index == -1): return;
+			selected_option = next_index;
+			force_scroll = true;
 	var data = POKEDEX.get_pokemon(selected_option + 1);
+	if(data == null): return;
 	selected_pokemon = Pokemon.new(data, true, null, false);
+	info_anim_player.play("Spawn");
 	set_pokemon_info();
 
 #AREA VIEW
@@ -241,7 +256,7 @@ func update_cursor() -> void:
 		Views.INDEX:
 			var cursor_option = index_options[selected_option];
 			if("cursor" in cursor_option): cursor.position = cursor_option.cursor;
-		Views.LIST:
+		Views.LIST, Views.INFO:
 			var y_position = get_cursor_y(selected_option, showcase_size);
 			if(y_position != 0.0): cursor.position = Vector2(5, y_position);
 
@@ -262,7 +277,7 @@ func get_cursor_y(option: int, size: int) -> float:
 func update_scroll() -> void:
 	match selected_view:
 		Views.INDEX: update_index_scroll()
-		Views.LIST: update_list_scroll()
+		Views.LIST, Views.INFO: update_list_scroll()
 
 #SCROLL
 func update_index_scroll() -> void:
@@ -273,13 +288,14 @@ func update_index_scroll() -> void:
 
 func update_list_scroll() -> void:
 	update_cursor();
-	if(selected_option + 2 > showcase_size - 1 && !right_or_left): return;
+	if(selected_option + 2 > showcase_size - 1 && !force_scroll): return;
 	var scroll = get_scroll(selected_option);
 	pokedex_container.scroll_vertical = scroll;
-	set_arrows(
-		selected_option > 4, 
-		showcase_size > 7 && (selected_option + 2 < showcase_size - 1)
-	);
+	if(selected_view != int(Views.INFO)):
+		set_arrows(
+			selected_option > 4, 
+			showcase_size > 7 && (selected_option + 2 < showcase_size - 1)
+		);
 
 #ARROWS
 func update_arrow_position() -> void:
@@ -297,7 +313,7 @@ func get_scroll(selected: int) -> int:
 			if(selected < 4): return 0;
 			elif(selected >= list_size - 2): return MAX_INDEX_SCROLL_HEIGHT;
 			return (selected - 3) * INDEX_ITEM_HEIGHT;
-		Views.LIST:
+		Views.LIST, Views.INFO:
 			if(selected < 5): return 0;
 			return (selected - 4) * LIST_ITEM_HEIGHT;
 		_: return 0;
@@ -386,6 +402,10 @@ func set_sprites() -> void:
 	front.sprite_frames = sprite_frames;
 	front.offset = display_offset;
 	front.scale = display_scale;
+	
+	if("rotation" in selected_pokemon.data.display):
+		front.rotation_degrees = selected_pokemon.data.display.rotation;
+	else: front.rotation_degrees = 0;
 
 func check_species() -> void:
 	if(is_pokemon_owned(selected_pokemon.data.number)): 
@@ -444,7 +464,7 @@ func get_list_size() -> int:
 	var size: int;
 	match selected_view:
 		Views.INDEX: size = list_size;
-		Views.LIST: size = showcase_size;
+		Views.LIST, Views.INFO: size = showcase_size;
 		_: size = 0;
 	return size;
 

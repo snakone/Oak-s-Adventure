@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://coqv4qqrp1ie"]
+[gd_scene load_steps=24 format=3 uid="uid://coqv4qqrp1ie"]
 
 [ext_resource type="Script" path="res://Scenes/UI/Pokedex/pokedex_screen.gd" id="1_tq43h"]
 [ext_resource type="Texture2D" uid="uid://cx73yapygovt5" path="res://Assets/UI/Pokedex/index_background.png" id="2_nney6"]
@@ -10,7 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://bvgxhagu7odgk" path="res://Assets/UI/Pokedex/info_background.png" id="7_2f0tt"]
 [ext_resource type="Texture2D" uid="uid://dmt1sgwftqmcc" path="res://Assets/UI/Pokedex/pokedex_arrow_up.png" id="8_ldmsw"]
 [ext_resource type="Texture2D" uid="uid://d3vk5sx3n4y5l" path="res://Assets/UI/Pokemon/squirtle/footprint.png" id="9_nta12"]
-[ext_resource type="FontFile" uid="uid://bqhxhi032wwfk" path="res://Assets/Fonts/power clear bold.ttf" id="9_qf070"]
 [ext_resource type="Texture2D" uid="uid://dabmedes08vwg" path="res://Assets/UI/Pokedex/pokedex_arrow_down.png" id="9_yjvm8"]
 [ext_resource type="SpriteFrames" uid="uid://b7qwmj75ulas8" path="res://Sprites/Animated/Bulbasaur/bulbasaur.tres" id="10_wmbch"]
 [ext_resource type="Texture2D" uid="uid://bu760yp0d84e7" path="res://Assets/UI/Pokedex/area_background.png" id="10_xyvlb"]
@@ -18,6 +17,39 @@
 [ext_resource type="Texture2D" uid="uid://c07gl336ff2mq" path="res://Assets/UI/Battle/Backgrounds/grass_base1.png" id="11_wodll"]
 [ext_resource type="Texture2D" uid="uid://dqj6a17cyjseg" path="res://Assets/UI/Types/grass.png" id="13_tilki"]
 [ext_resource type="Texture2D" uid="uid://dqo2j0vakk18h" path="res://Assets/UI/Types/poison.png" id="14_44fka"]
+
+[sub_resource type="Animation" id="Animation_xgrc7"]
+resource_name = "Spawn"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Front:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(159, 33), Vector2(159, 36)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Front:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3dhls"]
+_data = {
+"Spawn": SubResource("Animation_xgrc7")
+}
 
 [sub_resource type="Animation" id="Animation_ejld6"]
 resource_name = "Idle"
@@ -95,7 +127,6 @@ script = ExtResource("1_tq43h")
 volume_db = -10.0
 
 [node name="Index" type="Node2D" parent="."]
-visible = false
 
 [node name="Background" type="TextureRect" parent="Index"]
 offset_right = 240.0
@@ -487,33 +518,31 @@ autowrap_mode = 0
 
 [node name="Description" type="RichTextLabel" parent="Info"]
 clip_contents = false
-offset_left = 12.0
-offset_top = 100.0
+offset_left = 10.0
+offset_top = 97.0
 offset_right = 228.0
-offset_bottom = 133.0
+offset_bottom = 141.0
 theme = ExtResource("3_bce6p")
-theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/default_color = Color(0.156863, 0.156863, 0.156863, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
-theme_override_constants/line_separation = 5
+theme_override_constants/line_separation = 4
 theme_override_fonts/normal_font = ExtResource("4_22h8k")
-theme_override_fonts/bold_font = ExtResource("9_qf070")
-theme_override_font_sizes/normal_font_size = 10
-theme_override_font_sizes/bold_font_size = 12
+theme_override_font_sizes/normal_font_size = 9
 bbcode_enabled = true
 text = "There is a plant seed on its back right from the day this POKéMON is born. The seed slowly grows larger."
-fit_content = true
 scroll_active = false
 text_direction = 1
 language = "Eng"
 
 [node name="Footprint" type="TextureRect" parent="Info"]
-visible = false
-offset_left = 98.0
+offset_left = 104.0
 offset_top = 60.0
-offset_right = 114.0
+offset_right = 120.0
 offset_bottom = 76.0
+scale = Vector2(0.8, 0.8)
 texture = ExtResource("9_nta12")
 expand_mode = 2
+stretch_mode = 2
 
 [node name="Type" type="Node2D" parent="Info"]
 
@@ -646,10 +675,16 @@ z_index = 1
 y_sort_enabled = true
 
 [node name="Front" type="AnimatedSprite2D" parent="Info/Sprites"]
-position = Vector2(159, 36)
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(159, 33)
 sprite_frames = ExtResource("10_wmbch")
 animation = &"Front"
 centered = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Info/Sprites"]
+libraries = {
+"": SubResource("AnimationLibrary_3dhls")
+}
 
 [node name="Ground" type="TextureRect" parent="Info"]
 offset_left = 126.0

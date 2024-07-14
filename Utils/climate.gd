@@ -8,13 +8,13 @@ func _ready():
 func get_initial_time_of_day() -> ENUMS.Climate:
 	var current_time = Time.get_time_dict_from_system();
 	var hour = current_time.hour;
-	if hour >= 6 and hour <= 18: return ENUMS.Climate.DAY;
+	if hour >= 6 and hour < 18: return ENUMS.Climate.DAY;
 	else: return ENUMS.Climate.NIGHT;
 
 func _on_timeout() -> void:
 	var current_time = Time.get_time_dict_from_system();
 	var hour = current_time.hour;
-	var range_day = hour >= 6 && hour <= 18;
+	var range_day = hour >= 6 && hour < 18;
 	var range_night = hour < 6 && hour >= 18;
 	var should_change_to_day = range_day && GLOBAL.current_time_of_day != ENUMS.Climate.DAY;
 	var should_change_to_night = range_night && GLOBAL.current_time_of_day != ENUMS.Climate.NIGHT;

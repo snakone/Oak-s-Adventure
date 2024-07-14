@@ -68,6 +68,17 @@ func add_pokemon_to_showcase(pokemon = null) -> void:
 			pokedex_showcase.append(null);
 		pokedex_showcase.append(pokemon);
 
+func find_next_pokemon(current_index: int, direction: int) -> int:
+	var array = get_showcase();
+	match direction:
+		-1:
+			for i in range(current_index, -1, -1):
+				if(array[i] != null): return i;
+		1:
+			for i in range(current_index, array.size()):
+				if(array[i] != null): return i;
+	return -1;
+
 #SAVE
 func save() -> Dictionary:
 	var data := {

@@ -32,6 +32,10 @@ func healh_boxes_pokemon() -> void:
 			if(poke != null):
 				poke.data.death = false;
 				poke.data.current_hp = poke.data.battle_stats["HP"];
+				for i in range(0, poke.data.battle_moves.size()):
+					var move = poke.data.battle_moves[i];
+					if(move != null):
+						poke.data.battle_moves[i].pp = move.total_pp;
 
 #SAVE
 func get_boxes_as_json() -> Array:

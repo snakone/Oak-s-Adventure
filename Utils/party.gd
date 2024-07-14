@@ -74,6 +74,10 @@ func healh_party_pokemon() -> void:
 	for poke in current_party:
 		poke.data.death = false;
 		poke.data.current_hp = poke.data.battle_stats["HP"];
+		for i in range(0, poke.data.battle_moves.size()):
+			var move = poke.data.battle_moves[i];
+			if(move != null):
+				poke.data.battle_moves[i].pp = move.total_pp;
 
 func create_party_from_json(party: Array) -> Array:
 	var created_party = [];

@@ -4,22 +4,32 @@ var ZONES_LIST = {
 	ENUMS.BattleZones.FIELD: {
 		"background": preload("res://Assets/UI/Battle/Backgrounds/field_bg.png"),
 		"enemy_ground": preload("res://Assets/UI/Battle/Backgrounds/field_base1.png"),
-		"player_ground": preload("res://Assets/UI/Battle/Backgrounds/field_base0.png")
+		"player_ground": preload("res://Assets/UI/Battle/Backgrounds/field_base0.png"),
+		"night": preload("res://Assets/UI/Battle/Backgrounds/field_night_bg.png")
 	},
 	ENUMS.BattleZones.GRASS: {
 		"background": preload("res://Assets/UI/Battle/Backgrounds/grass_bg.png"),
 		"enemy_ground": preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png"),
-		"player_ground": preload("res://Assets/UI/Battle/Backgrounds/grass_base0.png")
+		"player_ground": preload("res://Assets/UI/Battle/Backgrounds/grass_base0.png"),
+		"night": preload("res://Assets/UI/Battle/Backgrounds/field_night_bg.png")
 	},
 	ENUMS.BattleZones.WATER: {
 		"background": preload("res://Assets/UI/Battle/Backgrounds/water_bg.png"),
 		"enemy_ground": preload("res://Assets/UI/Battle/Backgrounds/water_base1.png"),
-		"player_ground": preload("res://Assets/UI/Battle/Backgrounds/water_base0.png")
+		"player_ground": preload("res://Assets/UI/Battle/Backgrounds/water_base0.png"),
+		"night": preload("res://Assets/UI/Battle/Backgrounds/water_night_bg.png")
 	},
 	ENUMS.BattleZones.SNOW: {
 		"background": preload("res://Assets/UI/Battle/Backgrounds/snow_bg.png"),
 		"enemy_ground": preload("res://Assets/UI/Battle/Backgrounds/snow_base1.png"),
-		"player_ground": preload("res://Assets/UI/Battle/Backgrounds/snow_base0.png")
+		"player_ground": preload("res://Assets/UI/Battle/Backgrounds/snow_base0.png"),
+		"night": preload("res://Assets/UI/Battle/Backgrounds/snow_night_bg.png")
+	},
+	ENUMS.BattleZones.FOREST: {
+		"background": preload("res://Assets/UI/Battle/Backgrounds/forest_bg.png"),
+		"enemy_ground": preload("res://Assets/UI/Battle/Backgrounds/forest_base1.png"),
+		"player_ground": preload("res://Assets/UI/Battle/Backgrounds/forest_base0.png"),
+		"night": preload("res://Assets/UI/Battle/Backgrounds/forest_night_bg.png")
 	}
 };
 

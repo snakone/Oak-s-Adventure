@@ -36,19 +36,18 @@ func _ready():
 	show_visit_panel();
 
 func create_climate(size: Vector2) -> void:
-	var time = Time.get_time_dict_from_system();
 	climate_canvas = CanvasLayer.new();
-	if("hour" in time):
-		if(time.hour >= 6 && time.hour < 18):
-			_on_climate_change(ENUMS.Climate.DAY);
-			return;
 	climate_canvas.layer = 0;
 	var night = ColorRect.new();
 	night.size = size;
 	night.self_modulate = Color(0, 0, 0, 0.98);
 	climate_canvas.add_child(night);
 	call_deferred("add_child", climate_canvas);
-	_on_climate_change(ENUMS.Climate.NIGHT);
+	var time = Time.get_time_dict_from_system();
+	if("hour" in time):
+		if(time.hour >= 6 && time.hour < 18):
+			_on_climate_change(ENUMS.Climate.DAY);
+		else: _on_climate_change(ENUMS.Climate.NIGHT);
 
 func _on_climate_change(time: ENUMS.Climate) -> void:
 	var nodes = get_tree().get_nodes_in_group("Lights");

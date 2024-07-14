@@ -77,7 +77,7 @@ var LIST: Array = [
 			"height": "2'04\"",
 			"weight": "15.2 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/bulbasaur/footprint.png"),
-			"description": "There is a plant seed on its back right from the day this POKéMON is born. The seed slowly grows larger."
+			"description": "There is a plant seed on its back right from the day this POKéMON is born. By soaking up the sun\'s rays, the seed grows progressively larger. It can go for days without eating a single morsel."
 		},
 		"search": {
 			"category": ENUMS.PokedexOptions.GRASS,
@@ -90,13 +90,13 @@ var LIST: Array = [
 					"back": Vector2.ZERO
 				},
 				"box": Vector2(5, 0),
-				"pokedex": Vector2(5, 9),
-				"summary": Vector2(6, 3)
+				"pokedex": Vector2(9, 15),
+				"summary": Vector2(7, 4)
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
 				"box": Vector2(0.7, 0.7),
-				"pokedex": Vector2(0.8, 0.8)
+				"pokedex": Vector2(0.7, 0.7)
 			}
 		},
 		"stats": {
@@ -133,7 +133,7 @@ var LIST: Array = [
 			"height": "3'03\"",
 			"weight": "28.7 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/ivysaur/footprint.png"),
-			"description": "There is a plant bulb on its back. When it absorbs nutrients, the bulb is said to blossom into a large flower."
+			"description": "There is a bud on this POKéMON's back. To support its weight, IVYSAUR's legs and trunk grow thick and strong. If it starts spending more time lying in the sunlight, it's a sign that the bud will bloom into a large flower soon."
 		},
 		"search": {
 			"category": ENUMS.PokedexOptions.GRASS,
@@ -187,7 +187,7 @@ var LIST: Array = [
 			"height": "6'07\"",
 			"weight": "220.5 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/venusaur/footprint.png"),
-			"description": "VENUSAUR’s flower is said to take on vivid colors if it gets plenty of nutrition and sunlight. The flower’s aroma soothes the emotions of people."
+			"description": "There is a large flower on VENUSAUR's back. The flower is said to take on vivid colors if it gets plenty of nutrition and sunlight. The flower's aroma soothes the emotions of people. It stays on the move to seek sunlight."
 		},
 		"search": {
 			"category": ENUMS.PokedexOptions.GRASS,
@@ -241,7 +241,7 @@ var LIST: Array = [
 			"height": "2'00\"",
 			"weight": "18.7 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/charmander/footprint.png"),
-			"description": "From the time it is born, a flame burns at the tip of its tail. Its life would end if the flame were to go out."
+			"description": "The flame that burns at the tip of its tail is an indication of its emotions. The flame wavers when CHARMANDER is enjoying itself. If the POKéMON becomes enraged, the flame burns fiercely. If healthy, its tail burns intensely."
 		},
 		"search": {
 			"category": ENUMS.PokedexOptions.MOUNTAIN,
@@ -254,13 +254,13 @@ var LIST: Array = [
 					"back": Vector2.ZERO
 				},
 				"box": Vector2(3, 2),
-				"pokedex": Vector2(6, 4),
+				"pokedex": Vector2(8, 11),
 				"summary": Vector2(6, 4)
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
 				"box": Vector2(0.7, 0.7),
-				"pokedex": Vector2(0.8, 0.8)
+				"pokedex": Vector2(0.7, 0.7)
 			}
 		},
 		"stats": {
@@ -295,7 +295,7 @@ var LIST: Array = [
 			"height": "3'07\"",
 			"weight": "41.9 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/charmeleon/footprint.png"),
-			"description": "Without pity, its sharp claws destroy foes. If it encounters a strong enemy, it becomes agitated, and the flame on its tail flares with a bluish white color."
+			"description": "Without pity, its sharp claws destroy foes. If it encounters a strong enemy, it becomes agitated, and the flame on its tail flares with a bluish white color. When excited, it may breathe out bluish-white flames."
 		},
 		"search": {
 			"category": ENUMS.PokedexOptions.MOUNTAIN,
@@ -308,7 +308,7 @@ var LIST: Array = [
 					"back": Vector2(-10, 0)
 				},
 				"box": Vector2(-2, -5),
-				"pokedex": Vector2(7, -1),
+				"pokedex": Vector2(4, -1),
 				"summary": Vector2(7, 2)
 			},
 			"scale": {
@@ -350,7 +350,7 @@ var LIST: Array = [
 			"height": "5'07\"",
 			"weight": "199.5 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/charizard/footprint.png"),
-			"description": "A CHARIZARD flies about in search of strong opponents. It breathes intense flames that can melt any material. However, it will never torch a weaker foe."
+			"description": "Charizard flies around the sky in search of powerful opponents. It breathes fire of such great heat that it melts anything. However, it never turns its fiery breath on any opponent weaker than itself."
 		},
 		"search": {
 			"category": ENUMS.PokedexOptions.MOUNTAIN,
@@ -363,13 +363,13 @@ var LIST: Array = [
 					"back": Vector2(-10, 0)
 				},
 				"box": Vector2(-14, -26),
-				"pokedex": Vector2(-10, -30),
+				"pokedex": Vector2(-11, -30),
 				"summary": Vector2(-8, -21)
 			},
 			"scale": {
 				"battle": Vector2(0.7, 0.7),
 				"box": Vector2(0.65, 0.65),
-				"pokedex": Vector2(0.7, 0.7)
+				"pokedex": Vector2(0.65, 0.65)
 			}
 		},
 		"stats": {
@@ -404,7 +404,7 @@ var LIST: Array = [
 			"height": "1'08\"",
 			"weight": "19.8 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/squirtle/footprint.png"),
-			"description": "Its shell is not just for protection. Its rounded shape and the grooves on its surface minimize resistance in water, enabling SQUIRTLE to swim at high speeds."
+			"description": "Its shell is not just for protection. Its rounded shape and the grooves on its surface minimize resistance in water, enabling SQUIRTLE to swim at high speeds. Withdraws into its shell when in danger."
 		},
 		"search": {
 			"category": ENUMS.PokedexOptions.WATER,
@@ -417,13 +417,13 @@ var LIST: Array = [
 					"back": Vector2.ZERO
 				},
 				"box": Vector2(4, 0),
-				"pokedex": Vector2(8, 5),
+				"pokedex": Vector2(9, 11),
 				"summary": Vector2(8, 2)
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
 				"box": Vector2(0.7, 0.7),
-				"pokedex": Vector2(0.8, 0.8)
+				"pokedex": Vector2(0.7, 0.7)
 			}
 		},
 		"stats": {
@@ -460,7 +460,7 @@ var LIST: Array = [
 			"height": "3'03\"",
 			"weight": "49.6 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/wartortle/footprint.png"),
-			"description": "Its large tail is covered with rich, thick fur that deepens in color with age. The scratches on its shell are evidence of this POKéMON’s toughness in battle."
+			"description": "Its tail is large and covered with a rich, thick fur. The tail becomes increasingly deeper in color as WARTORTLE ages. The scratches on its shell are evidence of this POKéMON's toughness as a battler."
 		},
 		"search": {
 			"category": ENUMS.PokedexOptions.WATER,
@@ -473,13 +473,13 @@ var LIST: Array = [
 					"back": Vector2(0, -4)
 				},
 				"box": Vector2(-1, -5),
-				"pokedex": Vector2(2, -5),
+				"pokedex": Vector2(1, 0),
 				"summary": Vector2(0, -3)
 			},
 			"scale": {
 				"battle": Vector2(0.74, 0.74),
 				"box": Vector2(0.65, 0.65),
-				"pokedex": Vector2(0.7, 0.7)
+				"pokedex": Vector2(0.65, 0.65)
 			}
 		},
 		"stats": {
@@ -516,7 +516,7 @@ var LIST: Array = [
 			"height": "5'03\"",
 			"weight": "188.5 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/blastoise/footprint.png"),
-			"description": "The waterspouts that protrude from its shell are highly accurate. Their bullets of water can precisely nail tin cans from a distance of over 160 feet."
+			"description": "BLASTOISE has water spouts that protrude from its shell. The water spouts are very accurate. They can shoot bullets of water with enough accuracy to strike empty cans from a distance of over 160 feet."
 		},
 		"search": {
 			"category": ENUMS.PokedexOptions.WATER,
@@ -572,7 +572,7 @@ var LIST: Array = [
 			"height": "1'00\"",
 			"weight": "6.4 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/caterpie/footprint.png"),
-			"description": "Its voracious appetite compels it to devour leaves bigger than itself without hesitation. It releases a terribly strong odor from its antennae."
+			"description": "CATERPIE has a voracious appetite. It can devour leaves bigger than its body right before your eyes. From its antenna, this POKéMON releases a terrifically strong odor. It grows by molting repeatedly."
 		},
 		"search": {
 			"category": ENUMS.PokedexOptions.FOREST,
@@ -682,7 +682,7 @@ var LIST: Array = [
 			"height": "1'00\"",
 			"weight": "4.0 lbs.",
 			"footprint": preload("res://Assets/UI/Pokemon/pidgey/footprint.png"),
-			"description": "It has an extremely sharp sense of direction. It can unerringly return home to its nest, however far it may be removed from its familiar surroundings."
+			"description": "PIDGEY has an extremely sharp sense of direction. It is capable of unerringly returning home to its nest, however far it may be removed from its familiar surroundings. If disturbed, it can ferociously strike back."
 		},
 		"search": {
 			"category": ENUMS.PokedexOptions.FOREST,
@@ -695,13 +695,13 @@ var LIST: Array = [
 					"back": Vector2.ZERO
 				},
 				"box": Vector2(3, -2),
-				"pokedex": Vector2(6, 1),
+				"pokedex": Vector2(7, 6),
 				"summary": Vector2(7, 0)
 			},
 			"scale": {
 				"battle": Vector2(0.75, 0.75),
 				"box": Vector2(0.7, 0.7),
-				"pokedex": Vector2(0.75, 0.75)
+				"pokedex": Vector2(0.7, 0.7)
 			}
 		},
 		"stats": {
@@ -1136,7 +1136,7 @@ var ABILITIES = {
 
 var habitat_ground = {
 	ENUMS.PokedexOptions.GRASS: preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png"),
-	ENUMS.PokedexOptions.FOREST: preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png"),
+	ENUMS.PokedexOptions.FOREST: preload("res://Assets/UI/Battle/Backgrounds/forest_base1.png"),
 	ENUMS.PokedexOptions.WATER: preload("res://Assets/UI/Battle/Backgrounds/water_base1.png"),
 	ENUMS.PokedexOptions.SEA: preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png"),
 	ENUMS.PokedexOptions.CAVE: preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png"),

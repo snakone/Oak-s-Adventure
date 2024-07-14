@@ -198,7 +198,7 @@ const LIBRARY: Dictionary = {
 	},
 	23: {
 		"arr": [
-			["Welcome Sr. Oak"],
+			["Welcome Sr. Oak."],
 			["Do you want to heal your POKéMON?"]
 		],
 		"type": Type.NPC,
