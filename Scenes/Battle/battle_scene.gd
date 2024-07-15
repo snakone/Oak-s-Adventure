@@ -19,6 +19,7 @@ extends Node
 @onready var enemy_hp_bar = $Info/EnemyInfo/EnemyHPBar;
 @onready var enemy_ground = $Ground/EnemyGround;
 @onready var trainer_sprite: Sprite2D = $Trainer/Sprite2D;
+@onready var enemy_shadow: Sprite2D = $UI/Enemy/Shadow;
 
 #BATTLE
 @onready var anim_player = $AnimationPlayer;
@@ -214,7 +215,7 @@ func fake_attack() -> void:
 
 #MOVE ANIMATION
 func add_move_and_play(move: Dictionary) -> void:
-	var animation = moves_script.get_move_animation(move.name.to_lower());
+	var animation = moves_script.get_move_animation(move.id);
 	if(attack_miss()): await handle_missed_attack();
 	else: await handle_success_attack(animation);
 
@@ -556,6 +557,7 @@ func selection_switch_trainer_pokemon() -> void:
 	BATTLE.reset_participants(pokemon);
 	set_exp(pokemon);
 	dialog.quick([trainer.name + ' send out ' + enemy.name + '!'], 2.5);
+	await anim_player.animation_finished;
 	await battle_audio.finished;
 	close_dialog_and_show_menu(0);
 	BATTLE.state = ENUMS.BattleStates.MENU;
@@ -636,6 +638,13 @@ func set_enemy_ui(id: int) -> void:
 	attacks.set_enemy_moves(enemy.data.moves);
 	enemy_sprite.play("Front");
 	enemy_hp_bar.texture = LIBRARIES.IMAGES.GREEN_BAR;
+	
+	#SHADOW
+	if("shadow" in enemy.data.specie):
+		enemy_shadow.visible = true;
+		enemy_shadow.texture = BATTLE.get_shadow_texture(enemy.data);
+		enemy_shadow.offset = enemy.data.display.offset.shadow;
+	else: enemy_shadow.visible = false;
 		
 	var showcase_poke = { 
 		"number": enemy.data.number, 

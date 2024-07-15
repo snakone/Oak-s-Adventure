@@ -194,7 +194,9 @@ func add_participant(poke: Object) -> void:
 func remove_participant(poke: Object) -> void: participants.erase(poke);
 
 func get_pokeball_texture(id: ENUMS.Item):
-	return pokeball_textures[id];
+	if(id in pokeball_textures):
+		return pokeball_textures[id];
+	else: return pokeball_textures[ENUMS.Item.POKEBALL];
 
 func get_trainer_by_id(id: ENUMS.Trainer) -> Variant:
 	if(id in LIBRARIES.TRAINERS.trainer_list):
@@ -225,3 +227,10 @@ func process_catch(values: Array) -> String:
 			result += "Break";
 			return result.rstrip("_");
 	return "Catch";
+
+func get_shadow_texture(data: Dictionary) -> Texture2D:
+	match data.specie.shadow:
+		ENUMS.ShadowSize.SMALL: return LIBRARIES.IMAGES.SHADOW_SMALL;
+		ENUMS.ShadowSize.MEDIUM: return LIBRARIES.IMAGES.SHADOW_MEDIUM;
+		ENUMS.ShadowSize.LARGE: return LIBRARIES.IMAGES.SHADOW_LARGE;
+	return LIBRARIES.IMAGES.SHADOW_MEDIUM;

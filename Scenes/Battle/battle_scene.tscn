@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=3 uid="uid://3clfgm81x0yq"]
+[gd_scene load_steps=79 format=3 uid="uid://3clfgm81x0yq"]
 
 [ext_resource type="Script" path="res://Scenes/Battle/battle_scene.gd" id="1_vc7g5"]
 [ext_resource type="Shader" path="res://Scenes/UI/Shaders/flash.gdshader" id="2_hhjny"]
@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://d10m1ecady526" path="res://Assets/UI/Battle/dialouge_background.png" id="13_m2v7w"]
 [ext_resource type="Texture2D" uid="uid://c52a6e4eqhy5e" path="res://Assets/UI/Battle/main_menu.png" id="13_npenf"]
 [ext_resource type="Shader" path="res://Scenes/Battle/spawn.gdshader" id="14_oknql"]
+[ext_resource type="Texture2D" uid="uid://dl1rxg6ohwxar" path="res://Assets/UI/Pokemon/shadow_medium.png" id="16_87fm5"]
 [ext_resource type="Texture2D" uid="uid://bynrkxrintj5r" path="res://Assets/UI/triangle.png" id="16_i0kwe"]
 [ext_resource type="Texture2D" uid="uid://dpcftpwyuj874" path="res://Assets/UI/Battle/Backgrounds/scroll_grass/grass_01.png" id="16_vfw16"]
 [ext_resource type="PackedScene" uid="uid://h0vfb4g8igq" path="res://Scenes/UI/level_up.tscn" id="16_ymj5o"]
@@ -469,6 +470,17 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector2(174, 42), Vector2(178, 42), Vector2(174, 42)]
 }
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("UI/Enemy/Shadow:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65)
+}
 
 [sub_resource type="Animation" id="Animation_gnqvh"]
 resource_name = "DamagePlayer"
@@ -657,9 +669,12 @@ tracks/11/path = NodePath(".")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/keys = {
-"times": PackedFloat32Array(2.35, 2.4, 2.5),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0.75, 2.35, 2.4, 2.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "values": [{
+"args": [ExtResource("34_jltfg")],
+"method": &"play_audio"
+}, {
 "args": [],
 "method": &"play_shout_pokemon"
 }, {
@@ -741,6 +756,18 @@ tracks/17/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("UI/Enemy/Shadow:self_modulate")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
+"times": PackedFloat32Array(1.7, 2.15, 2.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.784314), Color(1, 1, 1, 0), Color(1, 1, 1, 0.784314)]
 }
 
 [sub_resource type="Animation" id="Animation_ashb8"]
@@ -878,9 +905,12 @@ tracks/10/path = NodePath(".")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
-"times": PackedFloat32Array(2.5, 2.7, 2.9),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(1.1, 2.5, 2.7, 2.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "values": [{
+"args": [ExtResource("34_jltfg")],
+"method": &"play_audio"
+}, {
 "args": [],
 "method": &"play_shout_pokemon"
 }, {
@@ -1066,10 +1096,10 @@ tracks/25/path = NodePath("Animation/Pokeball:self_modulate")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/keys = {
-"times": PackedFloat32Array(1.1, 2.3, 2.7),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(1.1, 1.3, 2.3, 2.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_nmcl2"]
@@ -1541,6 +1571,18 @@ tracks/36/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [1.0]
+}
+tracks/37/type = "value"
+tracks/37/imported = false
+tracks/37/enabled = true
+tracks/37/path = NodePath("UI/Enemy/Shadow:self_modulate")
+tracks/37/interp = 1
+tracks/37/loop_wrap = true
+tracks/37/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.784314)]
 }
 
 [sub_resource type="Animation" id="Animation_v4luw"]
@@ -2397,8 +2439,8 @@ tracks/8/path = NodePath(".")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
-"times": PackedFloat32Array(0.3, 0.7, 0.8, 1, 3.95, 4.1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0.3, 0.7, 0.8, 1, 2.2, 3.95, 4.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "values": [{
 "args": [],
 "method": &"set_pokemon"
@@ -2411,6 +2453,9 @@ tracks/8/keys = {
 }, {
 "args": [],
 "method": &"go_switch_dialog"
+}, {
+"args": [ExtResource("34_jltfg")],
+"method": &"play_audio"
 }, {
 "args": [],
 "method": &"play_shout_pokemon"
@@ -2526,6 +2571,18 @@ tracks/17/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5]
+}
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("UI/Enemy/Shadow:self_modulate")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
+"times": PackedFloat32Array(3.2, 3.5, 3.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.784314), Color(1, 1, 1, 0), Color(1, 1, 1, 0.784314)]
 }
 
 [sub_resource type="Animation" id="Animation_rggbs"]
@@ -3182,9 +3239,12 @@ tracks/21/path = NodePath(".")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/keys = {
-"times": PackedFloat32Array(5.6),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(3.8, 5.6),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [ExtResource("34_jltfg")],
+"method": &"play_audio"
+}, {
 "args": [],
 "method": &"play_shout_enemy"
 }]
@@ -3527,9 +3587,12 @@ tracks/21/path = NodePath(".")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/keys = {
-"times": PackedFloat32Array(3),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.9, 3),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [ExtResource("34_jltfg")],
+"method": &"play_audio"
+}, {
 "args": [],
 "method": &"play_shout_enemy"
 }]
@@ -3660,6 +3723,18 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("UI/Enemy/Shadow:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_7h2mo"]
@@ -3940,7 +4015,7 @@ texture = ExtResource("4_u8m2f")
 metadata/_edit_lock_ = true
 
 [node name="EnemyInfo" type="Sprite2D" parent="Info"]
-z_index = 1
+z_index = 2
 texture_filter = 1
 position = Vector2(-60, 22)
 texture = ExtResource("5_ici0o")
@@ -4089,10 +4164,19 @@ position = Vector2(-50, 42)
 [node name="EnemySprite" type="AnimatedSprite2D" parent="UI/Enemy"]
 visible = false
 modulate = Color(0.392157, 0.392157, 0.392157, 1)
+z_index = 1
 sprite_frames = ExtResource("13_4uggi")
 animation = &"Front"
 autoplay = "Front"
 frame = 1
+
+[node name="Shadow" type="Sprite2D" parent="UI/Enemy"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.784314)
+position = Vector2(-13, 14)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("16_87fm5")
+centered = false
 
 [node name="Menu" type="Node2D" parent="."]
 visible = false
@@ -4269,12 +4353,11 @@ autoplay = "Bounce"
 
 [node name="Pokeball" type="Sprite2D" parent="Animation"]
 visible = false
-self_modulate = Color(1, 1, 1, 0)
 position = Vector2(23.5192, 76.9201)
 scale = Vector2(0.9, 0.9)
 texture = ExtResource("31_l0fyr")
 vframes = 6
-frame = 5
+frame = 1
 
 [node name="Oak" type="Sprite2D" parent="Animation"]
 z_index = 2
@@ -4301,6 +4384,7 @@ color = Color(0, 0, 0, 1)
 [node name="Animation" type="Sprite2D" parent="Catch"]
 visible = false
 self_modulate = Color(1, 1, 1, 0)
+z_index = 1
 position = Vector2(94, 70)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("27_dkmrm")

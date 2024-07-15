@@ -225,7 +225,6 @@ func check_shake_pokeball(rate: float) -> Array:
 		var c = floor(sqrt(b));
 		var d = min(floor(1048560 / c), 65535);
 		var random = randi_range(0, 65535);
-		print(d)
 		tries.push_back(random < d);
-		
+	print(tries)
 	return tries;

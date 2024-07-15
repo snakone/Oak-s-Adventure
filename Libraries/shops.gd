@@ -8,6 +8,7 @@ func get_shop(id: ENUMS.Shops) -> Array:
 var shop_list = {
 	ENUMS.Shops.CALDEROCK_SHOP: [
 		ENUMS.Item.POKEBALL,
-		ENUMS.Item.POTION
+		ENUMS.Item.POTION,
+		ENUMS.Item.MASTERBALL
 	]
 }

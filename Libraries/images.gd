@@ -24,3 +24,8 @@ const GREEN_BAR = preload("res://Assets/UI/green_bar.png");
 const TITLE_ITEMS = preload("res://Assets/UI/Bag/title_items.png");
 const TITLE_KEY = preload("res://Assets/UI/Bag/title_key.png");
 const TITLE_POKEBALL = preload("res://Assets/UI/Bag/title_pokeball.png");
+
+#POKEMON SHADOW
+const SHADOW_SMALL = preload("res://Assets/UI/Pokemon/shadow_small.png");
+const SHADOW_MEDIUM = preload("res://Assets/UI/Pokemon/shadow_medium.png");
+const SHADOW_LARGE = preload("res://Assets/UI/Pokemon/shadow_large.png");

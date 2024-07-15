@@ -1,60 +1,5 @@
 extends Node
 
-var index_options = {
-	ENUMS.PokedexOptions.NUMERICAL: {
-		"texture": preload("res://Assets/UI/Pokedex/numerical.png"),
-		"cursor": Vector2(12, 35.5)
-	},
-	ENUMS.PokedexOptions.GRASS: {
-		"texture": preload("res://Assets/UI/Pokedex/grass.png"),
-		"cursor": Vector2(12, 69.5)
-	},
-	ENUMS.PokedexOptions.FOREST: {
-		"texture": preload("res://Assets/UI/Pokedex/forest.png"),
-		"cursor": Vector2(12, 84.5)
-	},
-	ENUMS.PokedexOptions.WATER: {
-		"texture": preload("res://Assets/UI/Pokedex/water.png"),
-		"cursor": Vector2(12, 99.5)
-	},
-	ENUMS.PokedexOptions.SEA: {
-		"texture": preload("res://Assets/UI/Pokedex/sea.png"),
-		"cursor": Vector2(12, 99.5)
-	},
-	ENUMS.PokedexOptions.CAVE: {
-		"texture": preload("res://Assets/UI/Pokedex/cave.png"),
-		"cursor": Vector2(12, 99.5)
-	},
-	ENUMS.PokedexOptions.MOUNTAIN: {
-		"texture": preload("res://Assets/UI/Pokedex/mountain.png"),
-		"cursor": Vector2(12, 99.5)
-	},
-	ENUMS.PokedexOptions.ROUGH: {
-		"texture": preload("res://Assets/UI/Pokedex/rough.png"),
-		"cursor": Vector2(12, 99.5)
-	},
-	ENUMS.PokedexOptions.SNOW: {
-		"texture": preload("res://Assets/UI/Pokedex/snow.png"),
-		"cursor": Vector2(12, 99.5)
-	},
-	ENUMS.PokedexOptions.URBAN: {
-		"texture": preload("res://Assets/UI/Pokedex/urban.png"),
-		"cursor": Vector2(12, 99.5)
-	},
-	ENUMS.PokedexOptions.RARE: {
-		"texture": preload("res://Assets/UI/Pokedex/rare.png"),
-		"cursor": Vector2(12, 99.5)
-	},
-	ENUMS.PokedexOptions.LEGENDARY: {
-		"texture": preload("res://Assets/UI/Pokedex/legendary.png"),
-		"cursor": Vector2(12, 93.5)
-	},
-	ENUMS.PokedexOptions.CLOSE: {
-		"texture": preload("res://Assets/UI/Pokedex/close.png"),
-		"cursor": Vector2(12, 126.5)
-	}
-}
-
 var LIST: Array = [
 	{
 		"name": "BULBASAUR",
@@ -91,7 +36,7 @@ var LIST: Array = [
 				},
 				"box": Vector2(5, 0),
 				"pokedex": Vector2(9, 15),
-				"summary": Vector2(7, 4)
+				"summary": Vector2(14, 18)
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
@@ -147,7 +92,7 @@ var LIST: Array = [
 				},
 				"box": Vector2(-5, -5),
 				"pokedex": Vector2(0, 2),
-				"summary": Vector2(0, -1)
+				"summary": Vector2(4, 6)
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
@@ -255,7 +200,7 @@ var LIST: Array = [
 				},
 				"box": Vector2(3, 2),
 				"pokedex": Vector2(8, 11),
-				"summary": Vector2(6, 4)
+				"summary": Vector2(12, 13)
 			},
 			"scale": {
 				"battle": Vector2(0.8, 0.8),
@@ -611,7 +556,7 @@ var LIST: Array = [
 		"name": "BEEDRILL",
 		"number": ENUMS.Pokedex.BEEDRILL,
 		"types": [ENUMS.Types.BUG, ENUMS.Types.POISON],
-		"moves": [309],
+		"moves": [218],
 		"exp_type": ENUMS.ExpType.MEDIUM,
 		"base_exp": 159,
 		"catch_rate": 45,
@@ -627,6 +572,7 @@ var LIST: Array = [
 			"value": "Poison Bee",
 			"height": "3'03\"",
 			"weight": "65.0 lbs.",
+			"shadow": ENUMS.ShadowSize.SMALL,
 			"footprint": preload("res://Assets/UI/Pokemon/beedrill/footprint.png"),
 			"description": "It can take down any opponent with its powerful poison stingers. It sometimes attacks in swarms."
 		},
@@ -637,12 +583,13 @@ var LIST: Array = [
 		"display": {
 			"offset": {
 				"battle": {
-					"front": Vector2(-6, -11),
+					"front": Vector2(-10, -14),
 					"back": Vector2(8, -3)
 				},
 				"box": Vector2(-22, -16),
 				"pokedex": Vector2(-21, -20),
-				"summary": Vector2(-21, -12)
+				"summary": Vector2(-21, -18),
+				"shadow": Vector2(5, 0)
 			},
 			"scale": {
 				"battle": Vector2(0.85, 0.85),
@@ -696,7 +643,7 @@ var LIST: Array = [
 				},
 				"box": Vector2(3, -2),
 				"pokedex": Vector2(7, 6),
-				"summary": Vector2(7, 0)
+				"summary": Vector2(11, 10)
 			},
 			"scale": {
 				"battle": Vector2(0.75, 0.75),
@@ -951,6 +898,7 @@ var LIST: Array = [
 			"value": "Rainbow",
 			"height": "12'06\"",
 			"weight": "438.7 lbs.",
+			"shadow": ENUMS.ShadowSize.SMALL,
 			"footprint": preload("res://Assets/UI/Pokemon/ho-oh/footprint.png"),
 			"description": "Its feathers--which glow in seven colors depending on the angle at which they are struck by light--are thought to bring joy. It is said to live at the foot of a rainbow.",
 		},
@@ -961,12 +909,13 @@ var LIST: Array = [
 		"display": {
 			"offset": {
 				"battle": {
-					"front": Vector2(0, -20),
+					"front": Vector2(2, -23),
 					"back": Vector2(2, -8)
 				},
 				"box": Vector2(-27, -30),
 				"pokedex": Vector2(-24, -41),
-				"summary": Vector2(-24, -28)
+				"summary": Vector2(-24, -28),
+				"shadow": Vector2(-1, 0)
 			},
 			"scale": {
 				"battle": Vector2(0.7, 0.7),
@@ -1005,6 +954,7 @@ var LIST: Array = [
 			"value": "Sky High",
 			"height": "23'00\"",
 			"weight": "455.3 lbs.",
+			"shadow": ENUMS.ShadowSize.MEDIUM,
 			"footprint": preload("res://Assets/UI/Pokemon/rayquaza/footprint.png"),
 			"description": "A POKéMON that flies endlessly in the ozone layer. It is said it would descend to the ground if KYOGRE and GROUDON were to fight."
 		},
@@ -1015,12 +965,13 @@ var LIST: Array = [
 		"display": {
 			"offset": {
 				"battle": {
-					"front": Vector2(0, -15),
+					"front": Vector2(0, -18),
 					"back": Vector2(0, -8)
 				},
 				"box": Vector2(-32, -30),
 				"pokedex": Vector2(-26, -38),
-				"summary": Vector2(-26, -24)
+				"summary": Vector2(-26, -24),
+				"shadow": Vector2(-12, 1)
 			},
 			"scale": {
 				"battle": Vector2(0.75, 0.75),
@@ -1132,6 +1083,61 @@ var ABILITIES = {
 		"description": "The Pokémon raises the foe’s PP usage.",
 		"apply": func(target: Dictionary): if(target != null): target.can_escape = false
 	},
+}
+
+var index_options = {
+	ENUMS.PokedexOptions.NUMERICAL: {
+		"texture": preload("res://Assets/UI/Pokedex/numerical.png"),
+		"cursor": Vector2(12, 35.5)
+	},
+	ENUMS.PokedexOptions.GRASS: {
+		"texture": preload("res://Assets/UI/Pokedex/grass.png"),
+		"cursor": Vector2(12, 69.5)
+	},
+	ENUMS.PokedexOptions.FOREST: {
+		"texture": preload("res://Assets/UI/Pokedex/forest.png"),
+		"cursor": Vector2(12, 84.5)
+	},
+	ENUMS.PokedexOptions.WATER: {
+		"texture": preload("res://Assets/UI/Pokedex/water.png"),
+		"cursor": Vector2(12, 99.5)
+	},
+	ENUMS.PokedexOptions.SEA: {
+		"texture": preload("res://Assets/UI/Pokedex/sea.png"),
+		"cursor": Vector2(12, 99.5)
+	},
+	ENUMS.PokedexOptions.CAVE: {
+		"texture": preload("res://Assets/UI/Pokedex/cave.png"),
+		"cursor": Vector2(12, 99.5)
+	},
+	ENUMS.PokedexOptions.MOUNTAIN: {
+		"texture": preload("res://Assets/UI/Pokedex/mountain.png"),
+		"cursor": Vector2(12, 99.5)
+	},
+	ENUMS.PokedexOptions.ROUGH: {
+		"texture": preload("res://Assets/UI/Pokedex/rough.png"),
+		"cursor": Vector2(12, 99.5)
+	},
+	ENUMS.PokedexOptions.SNOW: {
+		"texture": preload("res://Assets/UI/Pokedex/snow.png"),
+		"cursor": Vector2(12, 99.5)
+	},
+	ENUMS.PokedexOptions.URBAN: {
+		"texture": preload("res://Assets/UI/Pokedex/urban.png"),
+		"cursor": Vector2(12, 99.5)
+	},
+	ENUMS.PokedexOptions.RARE: {
+		"texture": preload("res://Assets/UI/Pokedex/rare.png"),
+		"cursor": Vector2(12, 99.5)
+	},
+	ENUMS.PokedexOptions.LEGENDARY: {
+		"texture": preload("res://Assets/UI/Pokedex/legendary.png"),
+		"cursor": Vector2(12, 93.5)
+	},
+	ENUMS.PokedexOptions.CLOSE: {
+		"texture": preload("res://Assets/UI/Pokedex/close.png"),
+		"cursor": Vector2(12, 126.5)
+	}
 }
 
 var habitat_ground = {

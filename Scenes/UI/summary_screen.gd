@@ -17,6 +17,8 @@ extends CanvasLayer
 @onready var animation_player: AnimationPlayer = $Specie/AnimationPlayer;
 @onready var specie: Node2D = $Specie;
 @onready var specie_container: BoxContainer = $Specie/Container;
+@onready var ground: TextureRect = $Specie/Ground;
+@onready var shadow: Sprite2D = $Specie/Container/Shadow;
 
 #SKILLS
 @onready var hp: RichTextLabel = $Skills/HP;
@@ -361,6 +363,14 @@ func set_pokemon_info() -> void:
 			type_2.texture = types[1];
 			poke_type_2.visible = true;
 			poke_type_2.texture = types[1];
+		#GROUND
+		ground.texture = LIBRARIES.POKEDEX.habitat_ground[pokemon.data.search.category];
+		#SHADOW
+		if("shadow" in pokemon.data.specie):
+			shadow.visible = true;
+			shadow.texture = BATTLE.get_shadow_texture(pokemon.data);
+			shadow.offset = pokemon.data.display.offset.shadow;
+		else: shadow.visible = false;
 
 func set_pokemon_skills() -> void:
 	hp.text = str(pokemon.data.current_hp) + "/" + str(pokemon.data.battle_stats["HP"]);

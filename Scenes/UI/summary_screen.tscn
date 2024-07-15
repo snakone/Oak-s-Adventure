@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://mlwf180q6xxm"]
+[gd_scene load_steps=31 format=3 uid="uid://mlwf180q6xxm"]
 
 [ext_resource type="Script" path="res://Scenes/UI/summary_screen.gd" id="1_v6amm"]
 [ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/Fonts/power clear.ttf" id="3_fulsk"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://b357ormwh46ea" path="res://Assets/UI/Summary/background_info.png" id="6_obvon"]
 [ext_resource type="Texture2D" uid="uid://cce8ahdqmj40s" path="res://Assets/UI/gender_icons.png" id="6_t6bh8"]
 [ext_resource type="Texture2D" uid="uid://dqj6a17cyjseg" path="res://Assets/UI/Types/grass.png" id="7_hj8bq"]
+[ext_resource type="Texture2D" uid="uid://ugkq2x3oisvk" path="res://Assets/UI/Battle/Backgrounds/field_base1.png" id="8_iprl2"]
+[ext_resource type="Texture2D" uid="uid://dl1rxg6ohwxar" path="res://Assets/UI/Pokemon/shadow_medium.png" id="8_nwycr"]
 [ext_resource type="Texture2D" uid="uid://dqo2j0vakk18h" path="res://Assets/UI/Types/poison.png" id="8_ssdy4"]
 [ext_resource type="Texture2D" uid="uid://dn7tu5mk8rgu2" path="res://Assets/UI/Summary/background_skills.png" id="9_a3mdj"]
 [ext_resource type="Texture2D" uid="uid://bvh06e84af5kq" path="res://Assets/UI/Summary/background_moves.png" id="10_gm5pt"]
@@ -188,7 +190,7 @@ centered = false
 hframes = 2
 
 [node name="Pokeball" type="Sprite2D" parent="Specie"]
-position = Vector2(111, 89)
+position = Vector2(110, 40)
 scale = Vector2(0.7, 0.7)
 texture = ExtResource("5_pg4j6")
 hframes = 12
@@ -199,7 +201,6 @@ libraries = {
 }
 
 [node name="Container" type="BoxContainer" parent="Specie"]
-visible = false
 clip_contents = true
 custom_minimum_size = Vector2(35, 0)
 offset_left = 4.0
@@ -208,12 +209,28 @@ offset_right = 117.0
 offset_bottom = 95.0
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="Specie/Container"]
-z_index = 1
+z_index = 2
 position = Vector2(36, 10)
 scale = Vector2(0.8, 0.8)
 sprite_frames = ExtResource("5_keobr")
 animation = &"Front"
 centered = false
+
+[node name="Shadow" type="Sprite2D" parent="Specie/Container"]
+self_modulate = Color(1, 1, 1, 0.784314)
+z_index = 1
+position = Vector2(40, 44)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("8_nwycr")
+centered = false
+
+[node name="Ground" type="TextureRect" parent="Specie"]
+offset_left = 9.0
+offset_top = 53.0
+offset_right = 265.0
+offset_bottom = 181.0
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("8_iprl2")
 
 [node name="Info" type="Node2D" parent="."]
 

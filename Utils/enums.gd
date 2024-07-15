@@ -646,3 +646,5 @@ enum Colors {
 	BROWN,
 	PURPLE
 }
+
+enum ShadowSize { SMALL, MEDIUM, LARGE }

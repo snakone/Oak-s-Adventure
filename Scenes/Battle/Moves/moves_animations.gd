@@ -1,12 +1,12 @@
 extends Node
 
 var move_animations = {
-	"tackle": preload("res://Scenes/Battle/Moves/tackle.tscn"),
-	"quick attack": preload("res://Scenes/Battle/Moves/quick_attack.tscn")
+	ENUMS.MoveNames.TACKLE: preload("res://Scenes/Battle/Moves/tackle.tscn"),
+	ENUMS.MoveNames.QUICK_ATTACK: preload("res://Scenes/Battle/Moves/quick_attack.tscn")
 }
 
-func get_move_animation(move_name: String) -> Node2D:
-	if(move_name in move_animations):
-		var move = move_animations[move_name];
+func get_move_animation(id: ENUMS.MoveNames) -> Node2D:
+	if(id in move_animations):
+		var move = move_animations[id];
 		return move.instantiate();
 	return null;

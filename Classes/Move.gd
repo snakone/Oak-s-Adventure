@@ -12,6 +12,8 @@ class_name Move
 const TAKE_TACKLE_HIT = preload("res://Assets/UI/Battle/Moves/take_tackle_hit.png");
 const default_volume = -10;
 
+var shadow: Sprite2D;
+
 var take_hit: Sprite2D;
 var current_sprite: AnimatedSprite2D;
 var current_turn = BATTLE.Turn.NONE;
@@ -21,6 +23,7 @@ func play_attack(sprite: AnimatedSprite2D) -> void:
 	current_sprite = sprite;
 	current_turn = BATTLE.current_turn;
 	await GLOBAL.timeout(0.1);
+
 	if(sprite != null):
 		if(current_turn == BATTLE.Turn.PLAYER): 
 			if(move_sprite): custom_animation();
@@ -28,6 +31,12 @@ func play_attack(sprite: AnimatedSprite2D) -> void:
 		elif(current_turn == BATTLE.Turn.ENEMY):
 			if(move_sprite): custom_animation();
 			anim_player.play("EnemyAttack");
+		#SHADOW
+		await GLOBAL.timeout(0.1);
+		var parent = sprite.get_parent();
+		if(parent.has_node("Shadow")):
+			shadow = parent.get_node("Shadow");
+			shadow.visible = false;
 
 func emit_on_hit() -> void:
 	play_sound();
@@ -60,6 +69,10 @@ func custom_animation() -> void:
 			key_value + stat.value, 
 			stat.duration
 		);
+
+func check_shadow() -> void:
+	if(shadow != null):
+		shadow.visible = true;
 
 func check_take_hit() -> void:
 	take_hit = get_node("TakeHit");
