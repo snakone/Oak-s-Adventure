@@ -219,7 +219,7 @@ centered = false
 [node name="Shadow" type="Sprite2D" parent="Specie/Container"]
 self_modulate = Color(1, 1, 1, 0.784314)
 z_index = 1
-position = Vector2(40, 44)
+position = Vector2(40, 47)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("8_nwycr")
 centered = false
@@ -572,14 +572,6 @@ visible = false
 [node name="Pokemon_Info" type="Node2D" parent="Moves"]
 visible = false
 z_index = 2
-
-[node name="Gender" type="Sprite2D" parent="Moves/Pokemon_Info"]
-z_index = 1
-position = Vector2(106, 19)
-scale = Vector2(1.2, 1.2)
-texture = ExtResource("6_t6bh8")
-centered = false
-hframes = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="Moves/Pokemon_Info"]
 position = Vector2(20, 29)

@@ -484,6 +484,12 @@ enum NPCDirections {
 	LOOK_LEFT, LOOK_RIGHT, LOOK_UP, LOOK_DOWN, NONE
 }
 
+enum NPCharacter {
+	YELLOW_CAP_GUY,
+	GREEN_GIRL,
+	ORANGE_GIRL
+}
+
 enum AbilityType {
 	SPAWN,
 	AFTER_SELF_TURN,

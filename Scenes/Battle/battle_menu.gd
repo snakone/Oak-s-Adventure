@@ -9,7 +9,7 @@ extends Node2D
 @onready var dialog: Node2D = $"../Dialog";
 
 const party_screen_path = "res://Scenes/UI/party_screen.tscn";
-const bag_screen_path = "res://Scenes/UI/BAG/bag_screen.tscn";
+const bag_screen_path = "res://Scenes/UI/Bag/bag_screen.tscn";
 
 var cursor_index = Vector2.ZERO;
 var scene_manager: Node2D;

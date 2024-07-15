@@ -1,8 +1,9 @@
 extends Node
 
 @onready var pokeball_textures = {
-	ENUMS.Item.POKEBALL: preload("res://Assets/UI/Battle/pokeball_catch.png"),
-	ENUMS.Item.GREATBALL: preload("res://Assets/UI/Battle/greatball_catch.png")
+	ENUMS.Item.POKEBALL: preload("res://Assets/UI/Battle/Catch/pokeball_catch.png"),
+	ENUMS.Item.GREATBALL: preload("res://Assets/UI/Battle/Catch/greatball_catch.png"),
+	ENUMS.Item.MASTERBALL: preload("res://Assets/UI/Battle/Catch/masterball_catch.png"),
 }
 
 #ATTACK

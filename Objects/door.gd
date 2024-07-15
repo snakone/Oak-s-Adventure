@@ -11,7 +11,7 @@ extends Area2D
 @export var category: ENUMS.DoorCategory = ENUMS.DoorCategory.DOOR;
 @export var shared: bool = false;
 @export var offset: Vector2 = Vector2.ZERO;
-@export var npc_list: Array[int] = [];
+@export var npc_list: Array[ENUMS.NPCharacter] = [];
 @export var flip_after_enter = false;
 @export var muted = false;
 

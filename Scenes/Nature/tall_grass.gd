@@ -56,6 +56,7 @@ func check_for_battle(body: CharacterBody2D) -> void:
 func get_random_pokemon() -> ENUMS.Pokedex:
 	var map = MAPS.get_map_name(true);
 	var map_encounters = LIBRARIES.MAPS.ENCOUNTERS[map][zone_number];
+	if(encounters.size() == 1): return encounters[0];
 	encounters.sort_custom(func(x, y): 
 		return map_encounters[x] < map_encounters[y]);
 	var random = randf_range(0.0, 99.0);

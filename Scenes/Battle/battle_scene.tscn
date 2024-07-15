@@ -32,8 +32,8 @@
 [ext_resource type="Texture2D" uid="uid://u3q1exar5vtx" path="res://Assets/UI/Battle/Backgrounds/scroll_grass/grass_02.png" id="25_0jmh2"]
 [ext_resource type="Texture2D" uid="uid://dvlnhpn6quw57" path="res://Assets/UI/Battle/Backgrounds/scroll_grass/grass_03.png" id="26_sf7nx"]
 [ext_resource type="Texture2D" uid="uid://dpfe8yroc7ll8" path="res://Assets/UI/Battle/Backgrounds/scroll_grass/grass_04.png" id="27_06oqu"]
-[ext_resource type="Texture2D" uid="uid://dd01fxyrvl7pl" path="res://Assets/UI/Battle/pokeball_catch.png" id="27_dkmrm"]
 [ext_resource type="Texture2D" uid="uid://divokpgmct8fi" path="res://Assets/UI/Battle/Backgrounds/scroll_grass/grass_05.png" id="28_dnnjq"]
+[ext_resource type="Texture2D" uid="uid://cvapo4tud3krc" path="res://Assets/UI/Battle/Catch/masterball_catch.png" id="28_dvhct"]
 [ext_resource type="Texture2D" uid="uid://dwcp656essrwy" path="res://Assets/UI/Trainers/green_guy.png" id="28_hjefi"]
 [ext_resource type="Texture2D" uid="uid://cf4rgtonplhhi" path="res://Assets/UI/Battle/pokemon_counter_left_empty.png" id="29_6k11u"]
 [ext_resource type="Texture2D" uid="uid://clik1vi6xvkjk" path="res://Assets/UI/Battle/counter_pokeball_sprite.png" id="30_2sdaj"]
@@ -3986,7 +3986,7 @@ script = ExtResource("1_vc7g5")
 [node name="Fade" type="ColorRect" parent="."]
 visible = false
 self_modulate = Color(1, 1, 1, 0)
-z_index = 3
+z_index = 4
 custom_minimum_size = Vector2(240, 160)
 color = Color(0, 0, 0, 1)
 
@@ -4159,7 +4159,7 @@ offset_left = 130.0
 offset_right = 230.0
 
 [node name="Enemy" type="Node2D" parent="UI"]
-position = Vector2(-50, 42)
+position = Vector2(174, 42)
 
 [node name="EnemySprite" type="AnimatedSprite2D" parent="UI/Enemy"]
 visible = false
@@ -4387,7 +4387,7 @@ self_modulate = Color(1, 1, 1, 0)
 z_index = 1
 position = Vector2(94, 70)
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("27_dkmrm")
+texture = ExtResource("28_dvhct")
 vframes = 32
 frame = 1
 

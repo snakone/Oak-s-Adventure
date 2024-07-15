@@ -3,7 +3,7 @@ extends Node
 var position_before_scene = Vector2.ZERO;
 var spawn_position = Vector2.ZERO;
 var last_map;
-var npc_shared_list: Array[int] = [];
+var npc_shared_list: Array[ENUMS.NPCharacter] = [];
 var must_flip_sprite = false;
 var on_shared_scene = false;
 

@@ -47,7 +47,7 @@ var LIST = [
 		"image": preload("res://Assets/UI/Items/MASTERBALL.png"),
 		"type": ENUMS.BagScreen.POKEBALL,
 		"effect": ENUMS.ItemEffect.CATCH,
-		"rate": 255.0,
+		"rate": 500.0,
 		"shop": {
 			"price": 1,
 			"badges": 5

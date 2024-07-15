@@ -34,7 +34,7 @@ extends CanvasLayer
 }
 
 enum SelectSlot { FIRST, SECOND, THIRD, FOURTH }
-const ITEM_scene = preload("res://Scenes/UI/BAG/bag_item.tscn");
+const ITEM_scene = preload("res://Scenes/UI/Bag/bag_item.tscn");
 const LIST_ITEM_HEIGHT = 16;
 const CURSOR_HEIGHT_BOTTOM = 62;
 var picked = false;

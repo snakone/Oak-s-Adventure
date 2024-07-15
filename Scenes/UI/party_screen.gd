@@ -443,6 +443,7 @@ func create_party_list() -> void:
 		if("gender" in poke.data):
 			gender_node.visible = true;
 			gender_node.frame = poke.data.gender;
+		else: gender_node.visible = false;
 		name_node.text = poke.data.name;
 		level_node.text = str(poke.data.level);
 		total_hp_node.text = str(poke.data.battle_stats["HP"]);

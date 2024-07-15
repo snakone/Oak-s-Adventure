@@ -643,7 +643,7 @@ func set_enemy_ui(id: int) -> void:
 	if("shadow" in enemy.data.specie):
 		enemy_shadow.visible = true;
 		enemy_shadow.texture = BATTLE.get_shadow_texture(enemy.data);
-		enemy_shadow.offset = enemy.data.display.offset.shadow;
+		enemy_shadow.offset = enemy.data.display.offset.battle.shadow;
 	else: enemy_shadow.visible = false;
 		
 	var showcase_poke = { 

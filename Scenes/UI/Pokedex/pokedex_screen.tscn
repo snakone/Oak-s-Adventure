@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://coqv4qqrp1ie"]
+[gd_scene load_steps=25 format=3 uid="uid://coqv4qqrp1ie"]
 
 [ext_resource type="Script" path="res://Scenes/UI/Pokedex/pokedex_screen.gd" id="1_tq43h"]
 [ext_resource type="Texture2D" uid="uid://cx73yapygovt5" path="res://Assets/UI/Pokedex/index_background.png" id="2_nney6"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://dmt1sgwftqmcc" path="res://Assets/UI/Pokedex/pokedex_arrow_up.png" id="8_ldmsw"]
 [ext_resource type="Texture2D" uid="uid://d3vk5sx3n4y5l" path="res://Assets/UI/Pokemon/squirtle/footprint.png" id="9_nta12"]
 [ext_resource type="Texture2D" uid="uid://dabmedes08vwg" path="res://Assets/UI/Pokedex/pokedex_arrow_down.png" id="9_yjvm8"]
+[ext_resource type="Texture2D" uid="uid://dl1rxg6ohwxar" path="res://Assets/UI/Pokemon/shadow_medium.png" id="10_f5bnl"]
 [ext_resource type="SpriteFrames" uid="uid://b7qwmj75ulas8" path="res://Sprites/Animated/Bulbasaur/bulbasaur.tres" id="10_wmbch"]
 [ext_resource type="Texture2D" uid="uid://bu760yp0d84e7" path="res://Assets/UI/Pokedex/area_background.png" id="10_xyvlb"]
 [ext_resource type="Texture2D" uid="uid://dqbif0an3yaxg" path="res://Assets/UI/Pokemon/bulbasaur/icon.png" id="11_ndmgn"]
@@ -675,8 +676,8 @@ z_index = 1
 y_sort_enabled = true
 
 [node name="Front" type="AnimatedSprite2D" parent="Info/Sprites"]
-self_modulate = Color(1, 1, 1, 0)
-position = Vector2(159, 33)
+z_index = 1
+position = Vector2(159, 36)
 sprite_frames = ExtResource("10_wmbch")
 animation = &"Front"
 centered = false
@@ -685,6 +686,14 @@ centered = false
 libraries = {
 "": SubResource("AnimationLibrary_3dhls")
 }
+
+[node name="Shadow" type="Sprite2D" parent="Info/Sprites"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.784314)
+position = Vector2(160, 69)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_f5bnl")
+centered = false
 
 [node name="Ground" type="TextureRect" parent="Info"]
 offset_left = 126.0

@@ -23,6 +23,7 @@ extends CanvasLayer
 @onready var description: RichTextLabel = $Info/Description;
 @onready var footprint: TextureRect = $Info/Footprint;
 @onready var ground: TextureRect = $Info/Ground;
+@onready var shadow: Sprite2D = $Info/Sprites/Shadow;
 
 #AREA
 @onready var party_sprite: Sprite2D = $Area/Pokemon;
@@ -406,6 +407,12 @@ func set_sprites() -> void:
 	if("rotation" in selected_pokemon.data.display):
 		front.rotation_degrees = selected_pokemon.data.display.rotation;
 	else: front.rotation_degrees = 0;
+	
+	if("shadow" in selected_pokemon.data.display.offset.summary):
+		shadow.visible = true;
+		shadow.texture = BATTLE.get_shadow_texture(selected_pokemon.data);
+		shadow.offset = selected_pokemon.data.display.offset.summary.shadow;
+	else: shadow.visible = false;
 
 func check_species() -> void:
 	if(is_pokemon_owned(selected_pokemon.data.number)): 

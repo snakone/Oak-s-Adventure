@@ -88,9 +88,9 @@ var ENCOUNTERS = {
 			ENUMS.Pokedex.RATTATA: 40.0,
 			ENUMS.Pokedex.PIDGEY: 60.0,
 			ENUMS.Pokedex.CHARMELEON: 100.0,
-			ENUMS.Pokedex.BEEDRILL: 50.0,
-			ENUMS.Pokedex.HOOH: 50.0,
-			ENUMS.Pokedex.RAYQUAZA: 100.0
+			ENUMS.Pokedex.BEEDRILL: 33.0,
+			ENUMS.Pokedex.HOOH: 33.0,
+			ENUMS.Pokedex.RAYQUAZA: 33.0
 		}
 	},
 	"Route02": {
@@ -102,7 +102,7 @@ var ENCOUNTERS = {
 }
 
 var NPC_SHARED_MAP = {
-	1: {
+	ENUMS.NPCharacter.GREEN_GIRL: {
 		"dialog_id": 42,
 		"texture": preload("res://Sprites/NPC/green_girl.png"),
 		"frames": 4,
@@ -116,7 +116,7 @@ var NPC_SHARED_MAP = {
 		"interval": 2,
 		"position": Vector2(192, 80)
 	},
-	2: {
+	ENUMS.NPCharacter.YELLOW_CAP_GUY: {
 		"dialog_id": 43,
 		"texture": preload("res://Sprites/NPC/yellow_cap_guy.png"),
 		"frames": 12,
@@ -131,7 +131,7 @@ var NPC_SHARED_MAP = {
 		"position": Vector2(48, 80),
 		"sprite_offset": Vector2(0, -3)
 	},
-	3: {
+	ENUMS.NPCharacter.ORANGE_GIRL: {
 		"dialog_id": 46,
 		"texture": preload("res://Sprites/NPC/orange_girl.png"),
 		"frames": 12,

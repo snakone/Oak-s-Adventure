@@ -57,7 +57,6 @@ extends CanvasLayer
 @onready var poke_type_2: Sprite2D = $Moves/Pokemon_Info/Types/Type2;
 @onready var move_sprite_2d: Sprite2D = $Moves/Pokemon_Info/Sprite2D;
 @onready var pokemon_info: Node2D = $Moves/Pokemon_Info;
-@onready var move_gender: Sprite2D = $Moves/Pokemon_Info/Gender
 @onready var poke_move_name: RichTextLabel = $Moves/Pokemon_Info/Name;
 @onready var move_anim_player: AnimationPlayer = $Moves/AnimationPlayer
 @onready var page: RichTextLabel = $Page;
@@ -333,8 +332,8 @@ func set_pokemon_info() -> void:
 		poke_move_name.text = pokemon.name;
 		sprite_2d.sprite_frames = pokemon.data.sprites.sprite_frames;
 		sprite_2d.play("Front")
-		sprite_2d.offset = pokemon.data.display.offset.summary;
-		sprite_2d.scale = pokemon.data.display.scale.pokedex;
+		sprite_2d.offset = pokemon.data.display.offset.summary.front;
+		sprite_2d.scale = pokemon.data.display.scale.box;
 		if("rotation" in pokemon.data.display):
 			sprite_2d.rotation_degrees = pokemon.data.display.rotation;
 		else: sprite_2d.rotation_degrees = 0;
@@ -348,12 +347,9 @@ func set_pokemon_info() -> void:
 			pokeball.frame = int(pokemon.data.pokeball);
 		if("gender" in pokemon.data):
 			gender.frame = pokemon.data.gender;
-			move_gender.frame = pokemon.data.gender;
 			gender.visible = true;
-			move_gender.visible = true;
 		else: 
 			gender.visible = false;
-			move_gender.visible = false;
 			
 		var types = convert_types(pokemon);
 		type_1.texture = types[0];
@@ -369,7 +365,7 @@ func set_pokemon_info() -> void:
 		if("shadow" in pokemon.data.specie):
 			shadow.visible = true;
 			shadow.texture = BATTLE.get_shadow_texture(pokemon.data);
-			shadow.offset = pokemon.data.display.offset.shadow;
+			shadow.offset = pokemon.data.display.offset.summary.shadow;
 		else: shadow.visible = false;
 
 func set_pokemon_skills() -> void:
