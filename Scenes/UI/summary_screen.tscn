@@ -201,6 +201,7 @@ libraries = {
 }
 
 [node name="Container" type="BoxContainer" parent="Specie"]
+visible = false
 clip_contents = true
 custom_minimum_size = Vector2(35, 0)
 offset_left = 4.0

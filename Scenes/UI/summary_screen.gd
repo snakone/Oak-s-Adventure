@@ -111,9 +111,9 @@ func _ready() -> void:
 	pokemon = GLOBAL.summary_pokemon;
 	selected_pokemon = GLOBAL.summary_index;
 	party = PARTY.get_party();
+	set_selected_pokemon(false, false);
 	await get_tree().process_frame;
 	specie_container.visible = true;
-	set_selected_pokemon(false, false);
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(

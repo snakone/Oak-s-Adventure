@@ -90,7 +90,9 @@ var ENCOUNTERS = {
 			ENUMS.Pokedex.CHARMELEON: 100.0,
 			ENUMS.Pokedex.BEEDRILL: 33.0,
 			ENUMS.Pokedex.HOOH: 33.0,
-			ENUMS.Pokedex.RAYQUAZA: 33.0
+			ENUMS.Pokedex.RAYQUAZA: 33.0,
+			ENUMS.Pokedex.GEODUDE: 100.0,
+			ENUMS.Pokedex.CATERPIE: 100.0
 		}
 	},
 	"Route02": {

@@ -49,10 +49,23 @@ func play_sound(sound = audio_file, volume = default_volume) -> void:
 
 func play_effective_sound() -> void:
 	if(take_hit.texture == null): return;
-	audio.stop();
-	play_sound(LIBRARIES.SOUNDS.DAMAGE_NORMAL, -15);
+	if(is_weak_attack()):
+			play_sound(LIBRARIES.SOUNDS.BATTLE_DAMAGE_WEAK, -15);
+	elif(is_effective_attack()):
+			play_sound(LIBRARIES.SOUNDS.BATTLE_DAMAGE_SUPER, -15);
+	else: play_sound(LIBRARIES.SOUNDS.DAMAGE_NORMAL, -15);
+
+func is_weak_attack() -> bool:
+	return (ENUMS.AttackResult.AWFULL in BATTLE.attack_result || 
+		ENUMS.AttackResult.LOW in BATTLE.attack_result);
+
+func is_effective_attack() -> bool:
+	return (ENUMS.AttackResult.EFFECTIVE in BATTLE.attack_result || 
+		ENUMS.AttackResult.FULMINATE in BATTLE.attack_result)
 
 func _on_animation_finished(_name) -> void:
+	if(take_hit.texture != null): 
+		await GLOBAL.timeout(0.3);
 	BATTLE.attack_finished.emit();
 
 func custom_animation() -> void:

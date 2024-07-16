@@ -811,8 +811,8 @@ var LIST: Array = [
 		"category": ENUMS.PokemonCategory.NORMAL,
 		"sprites": "res://Sprites/Animated/Geodude/geodude.tscn",
 		"ability": {
-			"default": ENUMS.Ability.STATIC,
-			"hidden": ENUMS.Ability.LIGHTING_ROD
+			"default": ENUMS.Ability.ROCK_HEAD,
+			"hidden": ENUMS.Ability.SAND_VEIL
 		},
 		"specie": {
 			"party_texture": preload("res://Assets/UI/Pokemon/geodude/icon.png"),
@@ -820,6 +820,7 @@ var LIST: Array = [
 			"value": "Rock",
 			"height": "1'04\"",
 			"weight": "44.1 lbs.",
+			"shadow": ENUMS.ShadowSize.SMALL,
 			"footprint": preload("res://Assets/UI/Pokemon/geodude/footprint.png"),
 			"description": "It climbs mountain paths using only the power of its arms. Because they look just like boulders lining paths, hikers may step on them without noticing."
 		},
@@ -831,12 +832,14 @@ var LIST: Array = [
 			"offset": {
 				"battle": {
 					"front": Vector2(-1, -10),
-					"back": Vector2(1, -5)
+					"back": Vector2(1, -5),
+					"shadow": Vector2(5, 0)
 				},
 				"box": Vector2(-9, -9),
 				"pokedex": Vector2(-7, -10),
 				"summary": {
-					"front": Vector2(-5, -7)
+					"front": Vector2(-2, -7),
+					"shadow": Vector2(15, 0)
 				}
 			},
 			"scale": {
@@ -1193,5 +1196,5 @@ var habitat_ground = {
 	ENUMS.PokedexOptions.SNOW: preload("res://Assets/UI/Battle/Backgrounds/snow_base1.png"),
 	ENUMS.PokedexOptions.URBAN: preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png"),
 	ENUMS.PokedexOptions.RARE: preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png"),
-	ENUMS.PokedexOptions.LEGENDARY: preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png"),
+	ENUMS.PokedexOptions.LEGENDARY: preload("res://Assets/UI/Battle/Backgrounds/champion1_base1.png"),
 }

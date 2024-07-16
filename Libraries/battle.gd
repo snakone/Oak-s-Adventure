@@ -30,6 +30,12 @@ var ZONES_LIST = {
 		"enemy_ground": preload("res://Assets/UI/Battle/Backgrounds/forest_base1.png"),
 		"player_ground": preload("res://Assets/UI/Battle/Backgrounds/forest_base0.png"),
 		"night": preload("res://Assets/UI/Battle/Backgrounds/forest_night_bg.png")
+	},
+	ENUMS.BattleZones.SKY: {
+		"background": preload("res://Assets/UI/Battle/Backgrounds/sky_bg.png"),
+		"enemy_ground": preload("res://Assets/UI/Battle/Backgrounds/sky_base1.png"),
+		"player_ground": preload("res://Assets/UI/Battle/Backgrounds/sky_base0.png"),
+		"night": preload("res://Assets/UI/Battle/Backgrounds/sky_bg.png")
 	}
 };
 

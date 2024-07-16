@@ -473,7 +473,7 @@ enum BattleStates {
 }
 
 enum BattleType { WILD, TRAINER, ELITE, SPECIAL, NONE }
-enum BattleZones { FIELD, GRASS, WATER, SNOW, FOREST }
+enum BattleZones { FIELD, GRASS, WATER, SNOW, FOREST, SKY }
 enum ExpType { ERRATIC, FAST, MEDIUM, SLOW, SLACK, FLUCTUATING }
 
 #MEDIUM FAST = MEDIUM
