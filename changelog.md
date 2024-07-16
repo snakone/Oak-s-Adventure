@@ -68,7 +68,7 @@
 - General Fixes
 
 # 0.5.8
-- Catch Pokémon
+- Catch Pokémon WIP
 - Use Combat Items
 - Android Controls
 
@@ -76,3 +76,9 @@
 - Trainer Encounter + Battle
 - Battle Fixes
 - Summary Screen
+
+# 0.6.0
+- Catch Wild Pokémon
+- New Shadows
+- Shop + Buy Items
+- Displayed Sprites Position

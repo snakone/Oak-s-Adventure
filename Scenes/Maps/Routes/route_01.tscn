@@ -84,7 +84,7 @@ pickable = 4
 area = 4
 
 [node name="Object2" parent="Pickables" instance=ExtResource("11_f05qo")]
-position = Vector2(32, 224)
+position = Vector2(192, 352)
 area = 4
 
 [editable path="BannerFountain"]

@@ -2,7 +2,7 @@ extends Node
 
 signal selected_pokemon_party(poke_name: String);
 
-@onready var current_party = [];
+@onready var current_party = [Pokemon.new(LIBRARIES.POKEDEX.LIST[9], true, [5], true)];
 var active_pokemon: Dictionary;
 
 const ERASE_PROPS = [
@@ -12,7 +12,8 @@ const ERASE_PROPS = [
 	"category", "exp_type", "types", "search"
 ];
 
-func _ready(): add_to_group(GLOBAL.group_name);
+func _ready(): 
+	add_to_group(GLOBAL.group_name);
 func get_party() -> Array: return current_party;
 
 func set_party(party: Array) -> void: 

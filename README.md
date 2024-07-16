@@ -33,6 +33,7 @@
 - Credits on Sprites [Sprite Resource](https://www.spriters-resource.com/)
 - Credits to [Arkeve](https://www.youtube.com/@Arkeve) for help me start.
 - Credits to [the_praet0rian](https://www.youtube.com/@the_praet0rian) for help me with Battle and Dialog System.
+- Credits to [anarlaurendil](https://www.deviantart.com/anarlaurendil/gallery) for the Pokéball Catch Animation Sprites
 
 ## Assets/Sprites
 
@@ -58,14 +59,14 @@ Let's say at least i want to have exclusive content for the game, knowing it's 1
 
 You can watch more updates on [Youtube](https://www.youtube.com/@AllisonCode).
 
-## Download the Game for Android - Free APK
-APK debug [Android](https://mega.nz/file/dpJj0ShL#0ChB1ql7UXlPIM-_xoUGndGHZcduL_2yEJWercZqugo)
+## Downloads
 
-## Download Godot Engine
-Download [Godot](https://godotengine.org/) for free and start your own journey!
+- APK debug [Android](https://mega.nz/file/to4kRRAB#UQ9QdJruFBXlUZdBeS6xlr2wjRATdMmz9Eu83xekZTc)
+- Game for Windows [Windows](https://mega.nz/file/g9px2D6S#YWQaQ4h--Wlt34gb5BMsOeURk6MFY_wdek90nXr_jAk)
+- Godot 4 Engine [Godot](https://godotengine.org/) Download for free and start your own journey!
 
 ## Version
-v.0.5.9
+v.0.6.0
 
 ### All Rights reserved to
 &copy;2024 Pokémon. ©1995 - 2024 Nintendo/Creatures Inc./GAME FREAK inc. TM, ®Nintendo.
