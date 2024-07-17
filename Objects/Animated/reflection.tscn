@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://cumbmhk511bu0"]
+
+[ext_resource type="Script" path="res://Objects/Animated/reflection.gd" id="1_bwuie"]
+[ext_resource type="Shader" path="res://Scenes/NPC/reflection.gdshader" id="2_l6an8"]
+[ext_resource type="Texture2D" uid="uid://bbr4k5128eafp" path="res://Sprites/oak_sprite.png" id="3_l2ra3"]
+[ext_resource type="Texture2D" uid="uid://c275a7yet42ru" path="res://Sprites/Animated/Water Reflections/2x4.png" id="4_g4w37"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6wm2w"]
+shader = ExtResource("2_l6an8")
+shader_parameter/hFrames = 3
+shader_parameter/vFrames = 1
+shader_parameter/enableMovement = true
+shader_parameter/displacementPixels = 1
+shader_parameter/timeGap = 0.6
+shader_parameter/speed = 1.25
+shader_parameter/leftSideRelationTime = 0.3
+shader_parameter/rightSideRelationTime = 0.3
+shader_parameter/color = Color(0, 0.607843, 0.937255, 1)
+shader_parameter/colorMix = 0.5
+shader_parameter/alpha = 0.5
+
+[node name="Reflection" type="Node2D"]
+light_mask = 524288
+z_index = 1
+y_sort_enabled = true
+script = ExtResource("1_bwuie")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(0, 0.607843, 1, 0.490196)
+light_mask = 524288
+z_index = 1
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_6wm2w")
+texture = ExtResource("3_l2ra3")
+centered = false
+offset = Vector2(0, 16)
+flip_v = true
+hframes = 3
+vframes = 4
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+y_sort_enabled = true
+energy = 1.01
+blend_mode = 2
+range_item_cull_mask = 524288
+texture = ExtResource("4_g4w37")
+height = 6.0

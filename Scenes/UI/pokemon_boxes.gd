@@ -25,21 +25,8 @@ extends CanvasLayer
 @onready var party_panel: Node2D = $Node2D/Party/Panel;
 @onready var party_anim_player: AnimationPlayer = $Node2D/Party/AnimationPlayer;
 
-const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg");
-const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
-const GUI_STORAGE_HIDE_PARTY_PANEL = preload("res://Assets/Sounds/GUI storage hide party panel.ogg");
-const GUI_STORAGE_SHOW_PARTY_PANEL = preload("res://Assets/Sounds/GUI storage show party panel.ogg");
-const GUI_STORAGE_PICK_UP = preload("res://Assets/Sounds/GUI storage pick up.ogg");
-const GUI_STORAGE_PUT_DOWN = preload("res://Assets/Sounds/GUI storage put down.ogg");
-const GUI_SEL_BUZZER = preload("res://Assets/Sounds/GUI sel buzzer.ogg");
-
 enum Slots { FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH }
-
-enum Positions {
-	OPTIONS = -2,
-	BOX_SWITCH = -1,
-	PARTY = 6
-}
+enum Positions { OPTIONS = -2, BOX_SWITCH = -1, PARTY = 6 }
 
 @onready var party_slots = {
 	Slots.FIRST: $Node2D/Party/Panel/First,
@@ -56,6 +43,7 @@ var changing_box = false;
 var picking = false;
 var holding = false;
 var closing = false;
+var opening = false;
 var selected_index = 0;
 var current_index = 0;
 var selected_box = 1;
@@ -73,7 +61,7 @@ var selected_party_index: int = 0;
 var panel_open_before_pick = false;
 
 func _ready() -> void:
-	boxes_length = BOXES.boxes_background.keys().size();
+	boxes_length = LIBRARIES.BOXES.boxes_background.keys().size();
 	update_hand();
 	update_box();
 	var current_party = PARTY.get_party();
@@ -82,18 +70,22 @@ func _ready() -> void:
 	update_all_boxes();
 	set_holding_sprite();
 	set_party_panel();
+	#SET THE DIALOG WHEN CLOSING
+	GLOBAL.start_dialog.emit(33);
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(
-		!event is InputEventKey ||
+		(!event is InputEventKey &&
+		!event is InputEventScreenTouch) ||
 		GLOBAL.on_transition || 
 		!event.is_pressed() ||
 		event.is_echo() ||
 		GLOBAL.on_battle ||
-		!GLOBAL.on_boxes ||
 		changing_box ||
+		GLOBAL.menu_open ||
 		picking ||
-		closing
+		closing ||
+		opening
 	): return;
 	
 	if(Input.is_action_just_pressed("backMenu")): close_box();
@@ -118,7 +110,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	update_hand();
 
 func update_hand() -> void:
-	hand.position = BOXES.HAND_POSITIONS[current_hand_pos];
+	hand.position = LIBRARIES.BOXES.HAND_POSITIONS[current_hand_pos];
 	var hand_node = hand.get_node("Sprite2D");
 	set_index();
 	if(!party_panel_opened):
@@ -161,11 +153,11 @@ func update_box() -> void:
 	set_current_box();
 	if(current_box == 1):
 		set_next_box();
-		previous_sprite.texture = BOXES.boxes_background[boxes_length].texture;
-		previous_name.text = BOXES.boxes_background[boxes_length].name;
+		previous_sprite.texture = LIBRARIES.BOXES.boxes_background[boxes_length].texture;
+		previous_name.text = LIBRARIES.BOXES.boxes_background[boxes_length].name;
 	elif(current_box == boxes_length):
-		next_sprite.texture = BOXES.boxes_background[1].texture;
-		next_name.text = BOXES.boxes_background[1].name;
+		next_sprite.texture = LIBRARIES.BOXES.boxes_background[1].texture;
+		next_name.text = LIBRARIES.BOXES.boxes_background[1].name;
 		set_previous_box();
 	else:
 		set_next_box();
@@ -181,10 +173,10 @@ func update_ui(box: Node2D, box_index: int) -> void:
 			var sprite = Sprite2D.new();
 			sprite.vframes = 2;
 			sprite.centered = false;
-			sprite.texture = poke.data.party_texture;
+			sprite.texture = poke.data.specie.party_texture;
 			sprite.name = poke.data.uuid;
-			if(i in BOXES.BOXES_SLOTS):
-				sprite.position = BOXES.BOXES_SLOTS[i];
+			if(i in LIBRARIES.BOXES.BOXES_SLOTS):
+				sprite.position = LIBRARIES.BOXES.BOXES_SLOTS[i];
 			box.add_child(sprite);
 
 #SELECT
@@ -192,7 +184,7 @@ func select_slot() -> void:
 	if(!party_panel_opened):
 		#BOXES
 		if(current_hand_pos.y >= 0):
-			play_audio(GUI_SEL_CURSOR);
+			play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 			if(!holding && is_pokemon_in_box()): pick_poke();
 			elif(holding): drop_poke();
 		else:
@@ -201,7 +193,7 @@ func select_slot() -> void:
 				Vector2(192, 2): close_box();
 	else:
 		#PARTY OPENED
-		play_audio(GUI_SEL_CURSOR);
+		play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 		if(!holding && is_pokemon_in_party()): pick_poke();
 		elif(holding && current_hand_pos.y != int(Positions.PARTY)): drop_poke();
 		match hand.position:
@@ -219,7 +211,7 @@ func pick_poke() -> void:
 #DROP
 func drop_poke() -> void:
 	if(is_party_empty(party) && !party_panel_opened):
-		play_audio(GUI_SEL_BUZZER);
+		play_audio(LIBRARIES.SOUNDS.GUI_SEL_BUZZER);
 		return;
 	picking = true;
 	if(!party_panel_opened): anim_hand.play("Drop");
@@ -246,11 +238,11 @@ func add_sprite() -> void:
 		party[selected_party_index] = null;
 		var slot = party_slots[int(selected_party_index)];
 		slot.visible = false;
-	play_audio(GUI_STORAGE_PICK_UP);
+	play_audio(LIBRARIES.SOUNDS.GUI_STORAGE_PICK_UP);
 
 func remove_sprite() -> void:
 	hand.get_node("Sprite2D").remove_child(holding_sprite);
-	play_audio(GUI_STORAGE_PUT_DOWN);
+	play_audio(LIBRARIES.SOUNDS.GUI_STORAGE_PUT_DOWN);
 	if(!party_panel_opened): holding_sprite.offset.y = 0;
 	else: holding_sprite.offset = Vector2(-1, 0);
 	swap_pokes();
@@ -293,7 +285,8 @@ func swap_pokes() -> void:
 #PARTY PANEL
 func open_party_panel() -> void:
 	if(party_panel_opened): return;
-	play_audio(GUI_STORAGE_SHOW_PARTY_PANEL);
+	opening = true;
+	play_audio(LIBRARIES.SOUNDS.GUI_STORAGE_SHOW_PARTY_PANEL);
 	party_panel_opened = true;
 	party_anim_player.play("Show");
 	await party_anim_player.animation_finished;
@@ -304,10 +297,12 @@ func open_party_panel() -> void:
 	if(holding): 
 		holding_sprite.scale = Vector2(0.8, 0.8);
 		holding_sprite.offset = Vector2(2.5, 12.4);
+	opening = false;
 
 func close_party_panel() -> void:
 	if(!party_panel_opened): return;
-	play_audio(GUI_STORAGE_HIDE_PARTY_PANEL);
+	closing = true;
+	play_audio(LIBRARIES.SOUNDS.GUI_STORAGE_HIDE_PARTY_PANEL);
 	party_anim_player.play("Hide");
 	await party_anim_player.animation_finished;
 	party_panel_opened = false;
@@ -317,6 +312,7 @@ func close_party_panel() -> void:
 	if(holding): 
 		holding_sprite.scale = Vector2(1, 1);
 		holding_sprite.offset = Vector2(-1, 6);
+	closing = false;
 
 func close_box() -> void:
 	#PARTY OPENED
@@ -350,13 +346,14 @@ func close_box() -> void:
 	#CLOSING
 	closing = true;
 	PARTY.set_party(party.filter(func (poke): return poke != null));
-	play_audio(GUI_MENU_CLOSE);
+	play_audio(LIBRARIES.SOUNDS.GUI_MENU_CLOSE);
 	await audio.finished;
+	GLOBAL.on_overlay = false;
 	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/PokemonBoxes");
 
 #INPUTS
 func handle_DOWN() -> void:
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	current_hand_pos.y += 1;
 	if(party_panel_opened):
 		if(current_hand_pos.y > int(Positions.PARTY)): 
@@ -367,7 +364,7 @@ func handle_DOWN() -> void:
 	if(current_hand_pos.y == int(Positions.OPTIONS)): current_hand_pos.x = 0;
 
 func handle_UP() -> void:
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	current_hand_pos.y -= 1;
 	if(party_panel_opened):
 		if(current_hand_pos.y < 0): 
@@ -378,7 +375,7 @@ func handle_UP() -> void:
 		current_hand_pos.x = 0;
 
 func handle_RIGHT() -> void:
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	#PARTY OPENED
 	if(party_panel_opened):
 		if(current_hand_pos.y == 0): 
@@ -401,13 +398,13 @@ func handle_RIGHT() -> void:
 			current_hand_pos.x = 0;
 		if(holding): 
 			current_hand_pos.x -= 1;
-			play_audio(GUI_SEL_BUZZER);
+			play_audio(LIBRARIES.SOUNDS.GUI_SEL_BUZZER);
 			return;
 	elif(current_hand_pos.y >= 0 && current_hand_pos.x > 5):
 		current_hand_pos.x = 0;
 
 func handle_LEFT() -> void:
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	#PANEL OPENED
 	if(party_panel_opened):
 		if(current_hand_pos.y != 0):
@@ -430,7 +427,7 @@ func handle_LEFT() -> void:
 			current_hand_pos.x = 1;
 		if(holding):
 			current_hand_pos.x += 1;
-			play_audio(GUI_SEL_BUZZER);
+			play_audio(LIBRARIES.SOUNDS.GUI_SEL_BUZZER);
 			return;
 	elif(current_hand_pos.y >= 0 && current_hand_pos.x < 0):
 		current_hand_pos.x = 5;
@@ -460,13 +457,13 @@ func save_data_before_pick() -> void:
 		var copy = BOXES.boxes_array.duplicate();
 		holding_poke = copy[current_box - 1][selected_index];
 		current_node = pokemon_box.get_node(holding_poke.data.uuid);
-		holding_sprite.texture = holding_poke.data.party_texture;
+		holding_sprite.texture = holding_poke.data.specie.party_texture;
 	else:
 		selected_party_index = current_hand_pos.y;
 		var copy = party.duplicate();
 		holding_poke = copy[selected_party_index];
 		current_node = party_panel.get_child(selected_party_index + 1).get_node("Poke");
-		holding_sprite.texture = holding_poke.data.party_texture;
+		holding_sprite.texture = holding_poke.data.specie.party_texture;
 		holding_sprite.scale = Vector2(0.8, 0.8);
 
 func set_index() -> void:
@@ -485,26 +482,26 @@ func set_holding_sprite() -> void:
 
 func set_current_box() -> void:
 	boxes.position = Vector2.ZERO;
-	box_sprite.texture = BOXES.boxes_background[current_box].texture;
-	box_name.text = BOXES.boxes_background[current_box].name;
+	box_sprite.texture = LIBRARIES.BOXES.boxes_background[current_box].texture;
+	box_name.text = LIBRARIES.BOXES.boxes_background[current_box].name;
 
 func set_next_box() -> void:
 	var next_index = current_box + 1;
-	next_sprite.texture = BOXES.boxes_background[next_index].texture;
-	next_name.text = BOXES.boxes_background[next_index].name;
+	next_sprite.texture = LIBRARIES.BOXES.boxes_background[next_index].texture;
+	next_name.text = LIBRARIES.BOXES.boxes_background[next_index].name;
 
 func set_previous_box() -> void:
 	var previous_index = current_box - 1;
-	previous_sprite.texture = BOXES.boxes_background[previous_index].texture;
-	previous_name.text = BOXES.boxes_background[previous_index].name;
+	previous_sprite.texture = LIBRARIES.BOXES.boxes_background[previous_index].texture;
+	previous_name.text = LIBRARIES.BOXES.boxes_background[previous_index].name;
 
 func set_active(poke: Node) -> void:
 	active_name.text = poke.name;
 	active_sprite.sprite_frames = poke.data.sprites.sprite_frames;
 	active_level.text = "Lv" + str(poke.data.level);
 	active_sprite.play("Front");
-	active_sprite.scale = poke.data.box_scale;
-	active_sprite.offset = poke.data.box_offset;
+	active_sprite.scale = poke.data.display.scale.box;
+	active_sprite.offset = poke.data.display.offset.box;
 	if("gender" in poke.data):
 		active_gender.frame = poke.data.gender;
 		active_level.position.x = 20;
@@ -512,6 +509,9 @@ func set_active(poke: Node) -> void:
 	else: 
 		active_level.position.x = 6;
 		active_gender.visible = false;
+	if("rotation" in poke.data.display):
+		active_sprite.rotation_degrees = poke.data.display.rotation;
+	else: active_sprite.rotation_degrees = 0;
 	inactive.visible = false;
 	active.visible = true;
 
@@ -527,7 +527,7 @@ func set_party_panel() -> void:
 		if(poke != null):
 			slot.visible = true;
 			poke_node.visible = true;
-			poke_node.texture = poke.data.party_texture;
+			poke_node.texture = poke.data.specie.party_texture;
 		else: slot.visible = false;
 
 func update_all_boxes() -> void:

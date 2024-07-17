@@ -2,21 +2,29 @@ extends Node
 
 signal selected_pokemon_party(poke_name: String);
 
-var current_party = [];
+@onready var current_party = [Pokemon.new(LIBRARIES.POKEDEX.LIST[9], true, [5], true)];
 var active_pokemon: Dictionary;
 
 const ERASE_PROPS = [
-	"sprites", "party_texture", "shout", "stats", "battle_stages", 
-	"battle_stats", "battle_moves", "offset", "scale", "move_set", 
-	"box_offset", "box_scale"
+	"party_texture", "stats", "battle_stages", 
+	"battle_stats", "battle_moves", "move_set", 
+	"display", "specie", "sprites", "base_exp",
+	"category", "exp_type", "types", "search"
 ];
 
-func _ready(): add_to_group(GLOBAL.group_name);
+func _ready(): 
+	add_to_group(GLOBAL.group_name);
 func get_party() -> Array: return current_party;
 
 func set_party(party: Array) -> void: 
 	current_party = party;
 	reset_all_active(true);
+
+func add_pokemon_to_party(poke: Object) -> void:
+	if(current_party.size() == 6):
+		BOXES.add_pokemon_to_box(poke);
+		return;
+	current_party.push_back(poke);
 
 func get_active_pokemon() -> Object:
 	if(current_party):
@@ -67,16 +75,12 @@ func healh_party_pokemon() -> void:
 	for poke in current_party:
 		poke.data.death = false;
 		poke.data.current_hp = poke.data.battle_stats["HP"];
+		for i in range(0, poke.data.battle_moves.size()):
+			var move = poke.data.battle_moves[i];
+			if(move != null):
+				poke.data.battle_moves[i].pp = move.total_pp;
 
 func create_party_from_json(party: Array) -> Array:
-	#return [
-		#Pokemon.new(POKEDEX.LIBRARY[0]),
-		#Pokemon.new(POKEDEX.LIBRARY[1]),
-		#Pokemon.new(POKEDEX.LIBRARY[2]),
-		#Pokemon.new(POKEDEX.LIBRARY[3]),
-		#Pokemon.new(POKEDEX.LIBRARY[4]),
-		#Pokemon.new(POKEDEX.LIBRARY[5]),
-	#]
 	var created_party = [];
 	var already_active = false;
 	for index in range(party.size()):
@@ -93,20 +97,13 @@ func get_party_as_json() -> Array:
 	for poke in current_party:
 		var new_data = poke.data.duplicate();
 		for prop in ERASE_PROPS: new_data.erase(prop);
-		var new_moves = [];
-		for move in poke.data.battle_moves.duplicate():
-			new_moves.push_back({
-				"name": move.name,
-				"pp": move.pp,
-				"id": move.id
-			})
-		new_data.battle_moves = new_moves;
+		new_data.battle_moves = poke.create_moves();
 		array.push_back(new_data);
 	return array;
 
 func save() -> Dictionary:
 	var data := {
-		"save_type": GLOBAL.SaveType.PARTY,
+		"save_type": ENUMS.SaveType.PARTY,
 		"party": get_party_as_json(),
 		"path": get_path()
 	}

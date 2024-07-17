@@ -1,0 +1,350 @@
+[gd_scene load_steps=17 format=3 uid="uid://btxhpuysydebb"]
+
+[ext_resource type="Script" path="res://Scenes/UI/Bag/bag_screen.gd" id="1_ktl1u"]
+[ext_resource type="Texture2D" uid="uid://cfbmw8r0x2btl" path="res://Assets/UI/Bag/bag_background_red.png" id="2_abwes"]
+[ext_resource type="Texture2D" uid="uid://ndqile4buslu" path="res://Assets/UI/Bag/bag_texture.png" id="3_526gb"]
+[ext_resource type="Texture2D" uid="uid://baogl13wr704i" path="res://Assets/UI/Bag/title_items.png" id="4_76cw7"]
+[ext_resource type="Texture2D" uid="uid://dmt1sgwftqmcc" path="res://Assets/UI/Pokedex/pokedex_arrow_up.png" id="5_yh1hj"]
+[ext_resource type="Texture2D" uid="uid://dabmedes08vwg" path="res://Assets/UI/Pokedex/pokedex_arrow_down.png" id="6_svt0g"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/Menu/menu_theme.tres" id="7_y72n4"]
+[ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="8_grt04"]
+[ext_resource type="FontFile" uid="uid://bqhxhi032wwfk" path="res://Assets/Fonts/power clear bold.ttf" id="9_j1b26"]
+[ext_resource type="Texture2D" uid="uid://bgu2v0ymgfg7n" path="res://Assets/UI/Items/POKEBALL.png" id="10_468gv"]
+[ext_resource type="Texture2D" uid="uid://d3dxw0bsf6jxo" path="res://Assets/UI/marker_orange.png" id="12_eav7x"]
+[ext_resource type="Texture2D" uid="uid://bfnlj6t53rl5p" path="res://Assets/UI/ui_arrow_left_right.png" id="12_khuuy"]
+[ext_resource type="Texture2D" uid="uid://dk43m8p58d124" path="res://Assets/UI/marker_grey.png" id="13_5sonu"]
+
+[sub_resource type="Animation" id="Animation_j77vd"]
+resource_name = "Arrows"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ArrowRight:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(68, 103), Vector2(71, 103), Vector2(68, 103)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ArrowLeft:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(12, 103), Vector2(9, 103), Vector2(12, 103)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ArrowUp:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(224, 18), Vector2(224, 15), Vector2(224, 18)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ArrowDown:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(224, 94), Vector2(224, 97), Vector2(224, 94)]
+}
+
+[sub_resource type="Animation" id="Animation_pvc3e"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ArrowLeft:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(12, 103)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ArrowRight:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(68, 103)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kylpd"]
+_data = {
+"Arrows": SubResource("Animation_j77vd"),
+"RESET": SubResource("Animation_pvc3e")
+}
+
+[node name="BagScreen" type="CanvasLayer"]
+layer = 3
+script = ExtResource("1_ktl1u")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_abwes")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -10.0
+
+[node name="Items" type="Node2D" parent="."]
+visible = false
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Items"]
+offset_left = 96.0
+offset_top = 12.0
+offset_right = 226.0
+offset_bottom = 88.0
+size_flags_vertical = 3
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Items/ScrollContainer"]
+custom_minimum_size = Vector2(130, 86)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Pokeball" type="Node2D" parent="."]
+visible = false
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Pokeball"]
+offset_left = 96.0
+offset_top = 12.0
+offset_right = 226.0
+offset_bottom = 88.0
+size_flags_vertical = 3
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Pokeball/ScrollContainer"]
+custom_minimum_size = Vector2(130, 86)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Key" type="Node2D" parent="."]
+visible = false
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Key"]
+offset_left = 96.0
+offset_top = 12.0
+offset_right = 226.0
+offset_bottom = 88.0
+size_flags_vertical = 3
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Key/ScrollContainer"]
+custom_minimum_size = Vector2(130, 86)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BagSprite" type="Sprite2D" parent="."]
+position = Vector2(40, 67)
+texture = ExtResource("3_526gb")
+hframes = 3
+frame = 2
+
+[node name="Title" type="TextureRect" parent="."]
+offset_left = 5.0
+offset_top = 3.0
+offset_right = 80.0
+offset_bottom = 28.0
+texture = ExtResource("4_76cw7")
+stretch_mode = 2
+
+[node name="Arrows" type="Node2D" parent="."]
+
+[node name="ArrowLeft" type="Sprite2D" parent="Arrows"]
+position = Vector2(12, 103)
+rotation = 4.71239
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("5_yh1hj")
+
+[node name="ArrowRight" type="Sprite2D" parent="Arrows"]
+position = Vector2(68, 103)
+rotation = -1.5708
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("6_svt0g")
+
+[node name="ArrowUp" type="Sprite2D" parent="Arrows"]
+position = Vector2(224, 18)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("5_yh1hj")
+
+[node name="ArrowDown" type="Sprite2D" parent="Arrows"]
+position = Vector2(224, 94)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("6_svt0g")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Arrows"]
+libraries = {
+"": SubResource("AnimationLibrary_kylpd")
+}
+autoplay = "Arrows"
+
+[node name="Description" type="RichTextLabel" parent="."]
+clip_contents = false
+offset_left = 41.0
+offset_top = 118.0
+offset_right = 230.0
+offset_bottom = 154.0
+theme = ExtResource("7_y72n4")
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.156863, 0.156863, 0.156863, 1)
+theme_override_constants/line_separation = 6
+theme_override_fonts/normal_font = ExtResource("8_grt04")
+theme_override_fonts/bold_font = ExtResource("9_j1b26")
+theme_override_font_sizes/normal_font_size = 10
+theme_override_font_sizes/bold_font_size = 12
+bbcode_enabled = true
+text = "There is a plant seed on its back right from the day this POKéMON is born. The seed slowly grows larger."
+fit_content = true
+scroll_active = false
+text_direction = 1
+language = "Eng"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(20, 136.5)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_468gv")
+
+[node name="Cursor" type="TextureRect" parent="."]
+offset_left = 91.0
+offset_top = 14.0
+offset_right = 100.0
+offset_bottom = 24.0
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("12_khuuy")
+stretch_mode = 2
+
+[node name="Select" type="Control" parent="."]
+visible = false
+z_index = 2
+layout_mode = 3
+anchors_preset = 0
+offset_left = 151.0
+offset_top = 97.0
+offset_right = 238.0
+offset_bottom = 158.0
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Select"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = -15.0
+offset_right = 1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("12_eav7x")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Select"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 33.0
+offset_top = -36.5
+offset_right = 79.0
+offset_bottom = 23.5
+grow_vertical = 2
+
+[node name="Use" type="RichTextLabel" parent="Select/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme = ExtResource("7_y72n4")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "USE"
+
+[node name="Give" type="RichTextLabel" parent="Select/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme = ExtResource("7_y72n4")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "GIVE"
+
+[node name="Toss" type="RichTextLabel" parent="Select/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme = ExtResource("7_y72n4")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "TOSS"
+
+[node name="Cancel" type="RichTextLabel" parent="Select/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme = ExtResource("7_y72n4")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "CANCEL"
+
+[node name="Cursor" type="TextureRect" parent="Select"]
+layout_mode = 2
+offset_left = 23.0
+offset_top = -6.0
+offset_right = 32.0
+offset_bottom = 4.0
+texture = ExtResource("12_khuuy")
+stretch_mode = 2
+
+[node name="Info" type="Node2D" parent="."]
+visible = false
+z_index = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Info"]
+offset_left = 40.0
+offset_top = 115.0
+offset_right = 161.0
+offset_bottom = 157.0
+texture = ExtResource("13_5sonu")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="Selected" type="RichTextLabel" parent="Info"]
+custom_minimum_size = Vector2(101, 25)
+offset_left = 50.0
+offset_top = 125.0
+offset_right = 151.0
+offset_bottom = 150.0
+theme = ExtResource("7_y72n4")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_constants/line_separation = 4
+text = "BURN HEAL is selected."
+scroll_active = false

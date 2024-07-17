@@ -1,37 +1,38 @@
 extends Node2D
 
-const CONFIRM = preload("res://Assets/Sounds/confirm.wav");
-const PKMN_LEVEL_UP = preload("res://Assets/Sounds/Pkmn level up.ogg");
 const wait_quick_dialog = 0.2;
 
 @onready var timer: Timer = $Timer
-@onready var label = $Label;
+@onready var label: RichTextLabel = $Label;
 @onready var marker = $Marker;
-@onready var audio: AudioStreamPlayer = $"../AudioPlayer"
-@onready var level_up_timer: Timer = $LevelUpTimer
+@onready var audio: AudioStreamPlayer = $"../BattlePlayer"
+
+signal line_ended();
 
 var pressed = false;
-var array: Array
+var array: Array;
 var line: int;
-var current_text: String = "";
 var participant: Object;
+var text_size: int = 0;
+var end_line = false;
+
+func write(arr: Array) -> void:
+	timer.start();
+	end_line = false;
+	label.visible_characters = 0;
+	label.text = arr[0];
+	text_size = label.text.length();
+	await line_ended;
 
 #DIALOG STATE
 func start(input_arr: Array) -> void:
-	BATTLE.state = BATTLE.States.DIALOG;
+	BATTLE.state = ENUMS.BattleStates.DIALOG;
 	pressed = true;
 	marker.visible = false;
 	visible = true;
-	array = input_arr.duplicate();
 	line = 1;
-	timer.start();
-	
-	for i in range(line):
-		for j in range(len(input_arr[i])):
-			await timer.timeout;
-			current_text += input_arr[i][j];
-			label.text = current_text;
-	
+	array = input_arr.duplicate();
+	await write(input_arr);
 	marker.visible = true;
 	await GLOBAL.timeout(.2);
 	pressed = false;
@@ -43,25 +44,20 @@ func input() -> void:
 	if Input.is_action_just_pressed("space"):
 		marker.visible = false;
 		pressed = true;
-		play_audio(CONFIRM);
+		end_line = false;
+		play_audio(LIBRARIES.SOUNDS.CONFIRM);
 		await audio.finished;
 		if line < len(array): next_dialog();
-		elif(BATTLE.state != BATTLE.States.LEVELLING): end_dialog();
+		elif(BATTLE.state != ENUMS.BattleStates.LEVELLING): end_dialog();
 
 #NEXT
 func next_dialog() -> void:
-	if(BATTLE.enemy_death && !BATTLE.on_victory): AUDIO.play_battle_win();
-	current_text = current_text.erase(0, current_text.find("\n") + 1)
-	label.text = current_text;
-	if current_text.find("\n") == -1:
-		for i in range(len(array[line])):
-			await timer.timeout
-			current_text += array[line][i];
-			label.text = current_text;
+	should_play_wild_win();
+	await write([array[line]]);
 	line += 1;
 	await GLOBAL.timeout(.2);
 	pressed = false;
-	if(BATTLE.intro_dialog):
+	if(should_close_next_dialog()):
 		marker.visible = false;
 		end_dialog();
 	else: marker.visible = true;
@@ -71,7 +67,7 @@ func levelling_input() -> void:
 	if(pressed): return;
 	if Input.is_action_just_pressed("space"):
 		pressed = true;
-		play_audio(CONFIRM);
+		play_audio(LIBRARIES.SOUNDS.CONFIRM);
 		await audio.finished;
 		if(BATTLE.level_up_panel_visible):
 			if(BATTLE.can_close_level_up_panel): 
@@ -88,71 +84,40 @@ func levelling_input() -> void:
 #ATTACK
 func attack(input_arr: Array) -> void:
 	visible = true;
-	timer.start();
-	
-	for i in range(1):
-		for j in range(len(input_arr[i])):
-			await timer.timeout;
-			current_text += input_arr[i][j];
-			label.text = current_text;
-	
-	await GLOBAL.timeout(.8);
-	current_text = "";
+	await write(input_arr);
+	await GLOBAL.timeout(.2);
 	BATTLE.dialog_finished.emit();
 
 #LEVEL UP
 func level_up(input_arr: Array, poke: Object) -> void:
-	BATTLE.state = BATTLE.States.LEVELLING;
+	BATTLE.state = ENUMS.BattleStates.LEVELLING;
 	participant = poke;
-	current_text = "";
-	level_up_timer.start();
-	play_audio(PKMN_LEVEL_UP, 0.3, -5);
-	
-	for i in range(1):
-		for j in range(len(input_arr[i])):
-			await level_up_timer.timeout;
-			current_text += input_arr[i][j];
-			label.text = current_text;
-	
+	play_audio(LIBRARIES.SOUNDS.PKMN_LEVEL_UP, 0.3, -5);
+	await write(input_arr);
 	marker.visible = true;
 	await GLOBAL.timeout(0.2);
 	pressed = false;
 
 #SWITCH
 func switch(input_arr: Array) -> void:
-	BATTLE.state = BATTLE.States.SWITCHING;
+	BATTLE.state = ENUMS.BattleStates.SWITCHING;
 	BATTLE.can_use_menu = false;
 	marker.visible = false;
 	visible = true;
 	line = 1;
-	timer.start();
-	
-	for i in range(line):
-		for j in range(len(input_arr[i])):
-			await timer.timeout;
-			current_text += input_arr[i][j];
-			label.text = current_text;
-	
+	await write(input_arr);
 	await GLOBAL.timeout(1);
 	timer.stop();
-	current_text = "";
 	BATTLE.dialog_finished.emit();
 
 #ESCAPE
 func escape(input_arr: Array) -> void:
-	BATTLE.state = BATTLE.States.ESCAPING;
+	BATTLE.state = ENUMS.BattleStates.ESCAPING;
 	pressed = true;
 	marker.visible = false;
 	visible = true;
 	line = 1;
-	timer.start();
-	
-	for i in range(line):
-		for j in range(len(input_arr[i])):
-			await timer.timeout;
-			current_text += input_arr[i][j];
-			label.text = current_text;
-
+	await write(input_arr);
 	marker.visible = true;
 	await GLOBAL.timeout(.2);
 	pressed = false;
@@ -162,84 +127,53 @@ func escape_input() -> void:
 	if(pressed): return;
 	if Input.is_action_just_pressed("space"):
 		pressed = true;
-		BATTLE.state = BATTLE.States.NONE;
-		play_audio(CONFIRM);
+		BATTLE.state = ENUMS.BattleStates.NONE;
+		play_audio(LIBRARIES.SOUNDS.CONFIRM);
 		await audio.finished;
 		marker.visible = false;
 		await GLOBAL.timeout(.2);
 		BATTLE.dialog_finished.emit();
 		pressed = false;
-		current_text = "";
 		label.text = "";
 
 #NEXT POKEMON
 func next_pokemon(input_arr: Array) -> void:
-	BATTLE.state = BATTLE.States.NONE;
+	BATTLE.state = ENUMS.BattleStates.NONE;
 	pressed = true;
 	marker.visible = false;
 	visible = true;
-	array = input_arr.duplicate();
 	line = 1;
-	timer.start();
-	
-	for i in range(line):
-		for j in range(len(input_arr[i])):
-			await timer.timeout;
-			current_text += input_arr[i][j];
-			label.text = current_text;
-	
+	array = input_arr.duplicate();
+	await write(array);
 	await GLOBAL.timeout(.2);
 	pressed = false;
 	BATTLE.dialog_finished.emit();
 
 #QUICK DIALOG - SHOW AND CLOSE
 func quick(input_arr: Array, delay = 0.6) -> void:
-	BATTLE.state = BATTLE.States.NONE;
+	BATTLE.state = ENUMS.BattleStates.NONE;
 	pressed = true;
 	marker.visible = false;
 	visible = true;
-	array = input_arr.duplicate();
 	line = 1;
-	timer.start();
-	
-	for i in range(line):
-		for j in range(len(input_arr[i])):
-			await timer.timeout;
-			current_text += input_arr[i][j];
-			label.text = current_text;
-	
+	array = input_arr.duplicate();
+	await write(array);
+	await get_tree().process_frame;
 	await GLOBAL.timeout(delay);
 	pressed = false;
 	BATTLE.quick_dialog_end.emit();
-	reset_text();
+	set_label("");
 	await GLOBAL.timeout(wait_quick_dialog);
-	BATTLE.can_use_menu = true;
+	if(!BATTLE.on_action): BATTLE.can_use_menu = true;
 
-#END
-func end_dialog() -> void:
-	timer.stop();
-	current_text = "";
-	pressed = (BATTLE.enemy_death || BATTLE.pokemon_death);
-	if(
-		!BATTLE.intro_dialog && 
-		!BATTLE.pokemon_death && 
-		!BATTLE.enemy_death &&
-		BATTLE.state != BATTLE.States.ESCAPING
-	): close(0);
-	
-	BATTLE.state = BATTLE.States.NONE;
-	BATTLE.dialog_finished.emit();
-	await GLOBAL.timeout(0.3);
-	if(!BATTLE.exp_loop): BATTLE.state = BATTLE.States.MENU;
-
-#EFFECTIVE
-func show_effective() -> void:
+#MISSED DIALOG
+func show_missed(target_name: String, delay = 0.6) -> void:
 	BATTLE.can_use_menu = false;
-	var text = "It's super effective!";
+	var text = "Oh no! Attack missed!";
 	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
-		text = "Ouch! " + text;
+		text = "Phew! " + target_name + " missed!";
 	await GLOBAL.timeout(wait_quick_dialog);
-	quick([text]);
+	quick([text], delay);
 
 #CRITICAL
 func show_critical() -> void:
@@ -248,68 +182,74 @@ func show_critical() -> void:
 	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
 		text = "Oh no! A critical Hit!";
 	await GLOBAL.timeout(wait_quick_dialog);
-	quick([text]);
-
-#LOW EFFECTIVE
-func show_low() -> void:
-	BATTLE.can_use_menu = false;
-	var text = "Not very effective!";
-	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
-		text = "Well! " + text;
-	await GLOBAL.timeout(wait_quick_dialog);
-	quick([text]);
-
-#FULMINATE
-func show_fulminate() -> void:
-	BATTLE.can_use_menu = false;
-	var text = "Wow! That was fulminate!";
-	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
-		text = "Arghh! That was fulminate!";
-	await GLOBAL.timeout(wait_quick_dialog);
-	quick([text]);
-
-#AWFULL
-func show_awfull() -> void:
-	BATTLE.can_use_menu = false;
-	var text = "Puff! Better change the move!";
-	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
-		text = "Is the enemy drunk!?";
-	await GLOBAL.timeout(wait_quick_dialog);
+	BATTLE.attack_result.erase(ENUMS.AttackResult.CRITICAL);
 	quick([text]);
 
 #NO EFFECTIVE
-func show_non_effective() -> void:
+func show_non_effective(delay = 0.6) -> void:
 	BATTLE.can_use_menu = false;
 	var text = "This move type won't work!";
 	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
 		text = "Alright! that hasn't any effect!";
 	await GLOBAL.timeout(wait_quick_dialog);
-	quick([text]);
+	quick([text], delay);
 
-#MISSED DIALOG
-func show_missed(target_name: String) -> void:
-	BATTLE.can_use_menu = false;
-	var text = "Oh no! Attack missed!";
-	if(BATTLE.current_turn == BATTLE.Turn.ENEMY):
-		text = "Phew! " + target_name + " missed!";
-	await GLOBAL.timeout(wait_quick_dialog);
-	quick([text]);
+#END
+func end_dialog() -> void:
+	timer.stop();
+	pressed = (BATTLE.enemy_death || BATTLE.pokemon_death);
+	if(
+		!BATTLE.wild_intro && 
+		!BATTLE.trainer_intro &&
+		!BATTLE.pokemon_death && 
+		!BATTLE.enemy_death &&
+		BATTLE.state != ENUMS.BattleStates.ESCAPING
+	): close(0);
+	
+	BATTLE.state = ENUMS.BattleStates.NONE;
+	BATTLE.dialog_finished.emit();
+	await GLOBAL.timeout(0.3);
+	if(!BATTLE.exp_loop): BATTLE.state = ENUMS.BattleStates.MENU;
+
+func check_effective_dialog() -> bool:
+	if(BATTLE.attack_result.size() == 0): return false;
+	var result = BATTLE.attack_result[0];
+	if(result in DIALOG.QUICK_DIALOGS):
+		var dialog = DIALOG.QUICK_DIALOGS[result];
+		if(BATTLE.current_turn in dialog):
+			var text = dialog[BATTLE.current_turn];
+			await GLOBAL.timeout(wait_quick_dialog);
+			quick([text]);
+			return true;
+	return false;
 
 #CLOSE
 func close(time: float) -> void:
 	visible = false;
 	await GLOBAL.timeout(time);
-	BATTLE.can_use_menu = true;
+	if(!BATTLE.on_action && !BATTLE.on_victory): 
+		BATTLE.can_use_menu = true;
 
 func set_label(text: String) -> void: label.text = text;
-func set_current_text(text: String) -> void: current_text = text;
-
-func reset_text() -> void:
-	set_label("");
-	set_current_text("");
 
 func play_audio(stream: AudioStream, delay = 0.0, volume = -10) -> void:
 	await GLOBAL.timeout(delay);
 	audio.volume_db = volume;
 	audio.stream = stream;
 	audio.play();
+
+func should_play_wild_win() -> void:
+	if(BATTLE.type == ENUMS.BattleType.WILD && 
+		BATTLE.are_all_enemies_defeated() && 
+		!BATTLE.on_victory
+	): AUDIO.play_battle_win();
+
+func should_close_next_dialog() -> bool:
+	return (BATTLE.wild_intro || BATTLE.trainer_intro);
+
+func _on_timer_timeout() -> void:
+	if(label.visible_characters >= text_size && !end_line):
+		end_line = true;
+		emit_signal("line_ended");
+		return;
+	label.visible_characters += 1;

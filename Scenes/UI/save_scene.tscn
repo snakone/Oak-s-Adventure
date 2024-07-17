@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scenes/UI/save_scene.gd" id="1_ihpa7"]
 [ext_resource type="Texture2D" uid="uid://d3dxw0bsf6jxo" path="res://Assets/UI/marker_orange.png" id="2_th4p2"]
-[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/menu_theme.tres" id="3_88nxm"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/Menu/menu_theme.tres" id="3_88nxm"]
 
 [node name="SaveScene" type="CanvasLayer"]
 script = ExtResource("1_ihpa7")
@@ -81,4 +81,4 @@ theme_override_font_sizes/normal_font_size = 12
 text = "TIME.P"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-volume_db = -20.0
+volume_db = -10.0

@@ -1,10 +1,12 @@
-[gd_scene load_steps=12 format=3 uid="uid://bx5h0mjl27ldb"]
+[gd_scene load_steps=15 format=3 uid="uid://bx5h0mjl27ldb"]
 
 [ext_resource type="Texture2D" uid="uid://cyswo02428m6m" path="res://Sprites/interior_tiles.png" id="1_52bwd"]
 [ext_resource type="Texture2D" uid="uid://c8757xym2cklw" path="res://Sprites/dolls.png" id="2_knrcj"]
 [ext_resource type="Texture2D" uid="uid://cavv0u68e8wec" path="res://Sprites/objects1.png" id="3_sxcfl"]
 [ext_resource type="Texture2D" uid="uid://cc8r3fw5qdhfw" path="res://Sprites/insides1.png" id="4_l2dnm"]
 [ext_resource type="Texture2D" uid="uid://di6dqp8kxemil" path="res://Sprites/mat.png" id="5_877y1"]
+[ext_resource type="Texture2D" uid="uid://cc6fsat812j8s" path="res://Sprites/interiors1.png" id="6_ywmpc"]
+[ext_resource type="Texture2D" uid="uid://dc5spw3vwkbdu" path="res://Sprites/only_bed.png" id="7_suuy6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_18r0l"]
 texture = ExtResource("1_52bwd")
@@ -454,6 +456,31 @@ texture = ExtResource("5_877y1")
 2:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 2:1/0/physics_layer_0/angular_velocity = 0.0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ksohs"]
+texture = ExtResource("6_ywmpc")
+2:11/0 = 0
+2:11/0/z_index = -1
+2:11/0/y_sort_origin = 3
+2:11/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:11/0/physics_layer_0/angular_velocity = 0.0
+2:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:11/0 = 0
+3:11/0/z_index = -1
+3:11/0/y_sort_origin = 3
+3:11/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:11/0/physics_layer_0/angular_velocity = 0.0
+3:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:12/0 = 0
+3:12/0/y_sort_origin = -8
+3:12/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:12/0/physics_layer_0/angular_velocity = 0.0
+3:12/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:12/0 = 0
+2:12/0/y_sort_origin = -8
+2:12/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:12/0/physics_layer_0/angular_velocity = 0.0
+2:12/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
 [sub_resource type="TileSet" id="TileSet_kynbg"]
 physics_layer_0/collision_layer = 2
 physics_layer_0/collision_mask = 0
@@ -462,6 +489,7 @@ sources/1 = SubResource("TileSetAtlasSource_c0nbo")
 sources/2 = SubResource("TileSetAtlasSource_alupt")
 sources/3 = SubResource("TileSetAtlasSource_cfbrh")
 sources/4 = SubResource("TileSetAtlasSource_sgff6")
+sources/5 = SubResource("TileSetAtlasSource_ksohs")
 
 [node name="TileMap" type="TileMap"]
 y_sort_enabled = true
@@ -475,11 +503,21 @@ layer_1/name = "Objects"
 layer_1/y_sort_enabled = true
 layer_1/y_sort_origin = -4
 layer_1/z_index = 1
-layer_1/tile_data = PackedInt32Array(-65531, 0, 29, -65530, 65536, 29, 5, 0, 30, 6, 65536, 30, -65529, 0, 31, 7, 0, 32, -65528, 65536, 31, 8, 65536, 32, -65532, 7798784, 26, 2, 10223616, 4, 65538, 1179648, 38, -65527, 7798784, 26, 65550, 2818048, 12, 14, 2818048, 11, 13, 2752512, 11, 65549, 2752512, 12, -65521, 2621440, 13, 15, 2621440, 14, -131062, 7667712, 37, -65526, 7667712, 38, -131061, 7733248, 37, -65525, 7733248, 38, -131060, 7798784, 37, -65524, 7798784, 38, -131070, 3014656, 0, -65534, 3014656, 1, 131082, 196608, 29, 131083, 262144, 29, 196618, 196608, 30, 196619, 262144, 30, 524291, 1376256, 4, 458755, 1376256, 3, 458759, 1376256, 3, 524295, 1376256, 4, 196623, 1507328, 37, 262159, 1507328, 38, 0, 8716288, 41)
+layer_1/tile_data = PackedInt32Array(-65531, 0, 29, -65530, 65536, 29, 5, 0, 30, 6, 65536, 30, -65529, 0, 31, 7, 0, 32, -65528, 65536, 31, 8, 65536, 32, -65532, 7798784, 26, 2, 10223616, 4, 65538, 1179648, 38, -65527, 7798784, 26, -65521, 2621440, 13, 15, 2621440, 14, -131062, 7667712, 37, -65526, 7667712, 38, -131061, 7733248, 37, -65525, 7733248, 38, -131060, 7798784, 37, -65524, 7798784, 38, -131070, 3014656, 0, -65534, 3014656, 1, 131082, 196608, 29, 131083, 262144, 29, 196618, 196608, 30, 196619, 262144, 30, 524291, 1376256, 4, 458755, 1376256, 3, 458759, 1376256, 3, 524295, 1376256, 4, 196623, 1507328, 37, 262159, 1507328, 38, 0, 8716288, 41)
 layer_2/name = "BackgroundObjects"
 layer_2/y_sort_enabled = true
 layer_2/z_index = 1
-layer_2/tile_data = PackedInt32Array(-131057, 983040, 48, -65521, 983040, 49, 393219, 1376256, 3, 458755, 1376256, 4, 393223, 1376256, 3, 458759, 1376256, 4, 327680, 5242880, 48, 327681, 5308416, 48, 393216, 5242880, 49, 393217, 5308416, 49, 524288, 12058624, 41, 524289, 12124160, 41, 393226, 4718592, 54, 458762, 4718592, 55, 524298, 4718592, 56, 393227, 4784128, 54, 458763, 4784128, 55, 524299, 4784128, 56, 393228, 4849664, 54, 458764, 4849664, 55, 524300, 4849664, 56, 393229, 4915200, 54, 458765, 4915200, 55, 524301, 4915200, 56)
+layer_2/tile_data = PackedInt32Array(-131057, 983040, 48, -65521, 983040, 49, 393219, 1376256, 3, 458755, 1376256, 4, 393223, 1376256, 3, 458759, 1376256, 4, 327680, 5242880, 48, 327681, 5308416, 48, 393216, 5242880, 49, 393217, 5308416, 49, 524288, 12058624, 41, 524289, 12124160, 41, 393226, 4718592, 54, 458762, 4718592, 55, 524298, 4718592, 56, 393227, 4784128, 54, 458763, 4784128, 55, 524299, 4784128, 56, 393228, 4849664, 54, 458764, 4849664, 55, 524300, 4849664, 56, 393229, 4915200, 54, 458765, 4915200, 55, 524301, 4915200, 56, 13, 131077, 11, 65549, 131077, 12, 14, 196613, 11, 65550, 196613, 12)
 layer_3/name = "Beneath"
 layer_3/z_index = -1
 layer_3/tile_data = PackedInt32Array(196612, 2162688, 46, 262148, 2162688, 47, 196613, 2228224, 46, 262149, 2228224, 47, 196614, 8847360, 41, 262150, 8847360, 41, 196611, 8781824, 41, 262147, 8781824, 41, 524292, 4, 0, 589828, 4, 1, 524293, 65540, 0, 589829, 65540, 1, 524294, 131076, 0, 589830, 131076, 1)
+
+[node name="BedCover" type="TextureRect" parent="."]
+z_index = 3
+y_sort_enabled = true
+offset_left = 212.0
+offset_top = 10.0
+offset_right = 236.0
+offset_bottom = 32.0
+texture = ExtResource("7_suuy6")
+stretch_mode = 2

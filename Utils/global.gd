@@ -9,24 +9,24 @@ signal get_on_bike(value: bool);
 signal bike_inside;
 signal start_dialog(id: int);
 signal close_dialog;
+signal create_dialog(text: Array);
 signal on_tile_map_changed(size: Vector2, camera_offset: Vector2);
-signal selection_value_select(value: BinaryOptions, category: SelectionCategory);
+signal selection_value_select(value: ENUMS.BinaryOptions, category: ENUMS.SelectionCategory);
+signal visit_panel(map: String, delay: float);
 
 signal start_battle(battle_data: Dictionary);
-signal close_battle;
+signal close_battle(battle_data: Dictionary);
+
+signal pick_item(pickable: Dictionary);
+signal use_item(item: Dictionary);
 
 signal open_pc();
 signal close_pc();
 
-enum Directions { LEFT, RIGHT, UP, DOWN, NONE, ALL }
-enum FacingDirection { LEFT, RIGHT, UP, DOWN };
-enum Genders { MALE, FEMALE }
-enum SaveType { PLAYER, SCENE, PARTY, BOXES }
-enum DoorType { IN, OUT }
-enum BinaryOptions { YES, NO }
-enum DoorCategory { DOOR, TUNNEL }
-enum SelectionCategory { BINARY, HEAL }
-enum NPCStates { MOVING, IDLE }
+signal open_shop(data: Dictionary);
+signal close_shop();
+
+signal time_of_day_changed(new_time_of_day);
 
 const TILE_SIZE: int = 16;
 const WINDOW_SIZE = Vector2(15, 10);
@@ -42,41 +42,50 @@ const DIRECTIONS: Array = [
 ];
 
 var player_data_to_load = null;
-var last_direction = DIRECTIONS[Directions.DOWN];
-var facing_direction = FacingDirection.UP;
+var last_direction = DIRECTIONS[ENUMS.Directions.DOWN];
+var facing_direction = ENUMS.FacingDirection.UP;
 var last_used_door: String;
 var spawn_location = null;
-var camera_connected = false;
 var no_saved_data = true;
 var play_time: float;
 
 #STATES
 var on_transition = false;
 var first_spawn = false;
-var party_open = false;
 var menu_open = false;
 var on_bike = false;
 var inside_house = false;
 var dialog_open = false;
 var on_battle = false;
-var healing = false;
-var on_boxes = false;
+var on_overlay = false;
+var insight = false;
+var bike_sound = false;
 var on_pc = false;
+var shopping = false;
 
 #VALUES
 var current_money = 0;
+var current_time_of_day: ENUMS.Climate;
+var summary_pokemon: Object;
+var summary_index = 0;
 
 const blends = [
 	"parameters/Idle/blend_position", 
 	'parameters/Move/blend_position', 
 	'parameters/Turn/blend_position'];
 
+func go_to_scene(
+	next_scene: String,
+	animated = true,
+	remove = true
+): get_node("/root/SceneManager").transition_to_scene(next_scene, animated, remove);
+
 func need_to_turn(input_direction: Vector2) -> bool:
 	var new_facing_direction;
-	if(input_direction.x < 0): new_facing_direction = FacingDirection.LEFT
-	elif(input_direction.x > 0): new_facing_direction = FacingDirection.RIGHT
-	elif(input_direction.y < 0): new_facing_direction = FacingDirection.UP
-	elif(input_direction.y > 0): new_facing_direction = FacingDirection.DOWN
+	if(input_direction.x < 0): new_facing_direction = ENUMS.FacingDirection.LEFT
+	elif(input_direction.x > 0): new_facing_direction = ENUMS.FacingDirection.RIGHT
+	elif(input_direction.y < 0): new_facing_direction = ENUMS.FacingDirection.UP
+	elif(input_direction.y > 0): new_facing_direction = ENUMS.FacingDirection.DOWN
 	
 	if(facing_direction != new_facing_direction):
 		facing_direction = new_facing_direction;

@@ -1,0 +1,82 @@
+[gd_scene load_steps=7 format=3 uid="uid://di1vvcj6j0lma"]
+
+[ext_resource type="Script" path="res://Scenes/UI/Pokedex/pokedex_item.gd" id="1_nrw0k"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/Menu/menu_theme.tres" id="2_oli0y"]
+[ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="2_uu27q"]
+[ext_resource type="Texture2D" uid="uid://jk5mxhm8rjom" path="res://Assets/UI/Pokedex/owned_pokeball_pokedex.png" id="3_lr5gi"]
+[ext_resource type="Texture2D" uid="uid://dqj6a17cyjseg" path="res://Assets/UI/Types/grass.png" id="4_jb4ee"]
+[ext_resource type="Texture2D" uid="uid://dqo2j0vakk18h" path="res://Assets/UI/Types/poison.png" id="5_6nu1r"]
+
+[node name="PokedexItem" type="Control"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_nrw0k")
+
+[node name="Number" type="RichTextLabel" parent="."]
+clip_contents = false
+layout_direction = 2
+layout_mode = 0
+offset_top = 3.0
+offset_right = 26.0
+offset_bottom = 14.0
+theme = ExtResource("2_oli0y")
+theme_override_colors/default_color = Color(0.243137, 0.243137, 0.243137, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_constants/line_separation = 7
+theme_override_constants/text_highlight_v_padding = 46
+theme_override_fonts/normal_font = ExtResource("2_uu27q")
+theme_override_fonts/bold_font = ExtResource("2_uu27q")
+theme_override_font_sizes/normal_font_size = 9
+text = "No001"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+anchors_preset = 0
+offset_left = 27.0
+offset_right = 39.0
+offset_bottom = 12.0
+
+[node name="Owned" type="Sprite2D" parent="Control"]
+texture = ExtResource("3_lr5gi")
+centered = false
+
+[node name="Name" type="RichTextLabel" parent="."]
+clip_contents = false
+layout_direction = 2
+layout_mode = 2
+offset_left = 45.0
+offset_top = 1.0
+offset_right = 125.0
+offset_bottom = 12.0
+theme = ExtResource("2_oli0y")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_constants/line_separation = 7
+theme_override_constants/text_highlight_v_padding = 46
+theme_override_fonts/normal_font = ExtResource("2_uu27q")
+theme_override_fonts/bold_font = ExtResource("2_uu27q")
+theme_override_font_sizes/normal_font_size = 13
+text = "BULBASAUR"
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Types" type="Control" parent="."]
+layout_mode = 2
+anchors_preset = 0
+offset_left = 50.0
+offset_right = 80.0
+offset_bottom = 30.0
+
+[node name="Type1" type="Sprite2D" parent="Types"]
+position = Vector2(96, 6)
+texture = ExtResource("4_jb4ee")
+
+[node name="Type2" type="Sprite2D" parent="Types"]
+position = Vector2(132, 6)
+texture = ExtResource("5_6nu1r")

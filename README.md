@@ -10,7 +10,7 @@
 - Made from scratch
 - Custom Made Sprites
 
-## Features
+## Implementation
 
 - Camera auto adjust to TileMap
 - Auto Spawn Location
@@ -24,12 +24,16 @@
 - Pokémon Center
 - Pokémon PC and Boxes
 - Dialog System with Selection and Responses
+- Pokédex View and Registration
+- Bag and Items/Pickable System
+- Android APK
 
 ## Credits
 
 - Credits on Sprites [Sprite Resource](https://www.spriters-resource.com/)
 - Credits to [Arkeve](https://www.youtube.com/@Arkeve) for help me start.
 - Credits to [the_praet0rian](https://www.youtube.com/@the_praet0rian) for help me with Battle and Dialog System.
+- Credits to [anarlaurendil](https://www.deviantart.com/anarlaurendil/gallery) for the Pokéball Catch Animation Sprites
 
 ## Assets/Sprites
 
@@ -42,16 +46,27 @@ Let's say at least i want to have exclusive content for the game, knowing it's 1
 ## Gallery
 
 ![Custom Maps](https://i.ibb.co/vqCfCFj/galery1.png "Custom Maps")
+
 ![Battle](https://i.ibb.co/cQCjZKB/galery2.png "Pokémon Battle")
+
 ![Pokémon Center](https://i.ibb.co/vLxQn1m/galery3.png "Pokémon Boxes")
+
+![Pokédex](https://i.ibb.co/3hpr0zv/pokedex.png "Pokédex Screen")
+
+![Bag](https://i.ibb.co/Gc9PR19/bag.png "Bag Screen")
+
+![Summary](https://i.ibb.co/Z1VRn0H/summary.png "Summart Screen")
 
 You can watch more updates on [Youtube](https://www.youtube.com/@AllisonCode).
 
-## Download Godot Engine
-Download [Godot](https://godotengine.org/) for free and start your own journey!
+## Downloads
+
+- APK debug [Android](https://mega.nz/file/to4kRRAB#UQ9QdJruFBXlUZdBeS6xlr2wjRATdMmz9Eu83xekZTc)
+- Game for Windows [Windows](https://mega.nz/file/g9px2D6S#YWQaQ4h--Wlt34gb5BMsOeURk6MFY_wdek90nXr_jAk)
+- Godot 4 Engine [Godot](https://godotengine.org/) Download for free and start your own journey!
 
 ## Version
-v.0.5.5
+v.0.6.0
 
 ### All Rights reserved to
 &copy;2024 Pokémon. ©1995 - 2024 Nintendo/Creatures Inc./GAME FREAK inc. TM, ®Nintendo.

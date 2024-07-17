@@ -12,7 +12,6 @@ script = ExtResource("1_ji7vl")
 song = ExtResource("2_el0mk")
 
 [node name="Oak" parent="." instance=ExtResource("3_4e6iy")]
-y_sort_enabled = true
 position = Vector2(64, 112)
 
 [node name="TileMap" parent="." instance=ExtResource("4_topl6")]

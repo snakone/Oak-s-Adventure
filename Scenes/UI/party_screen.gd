@@ -11,20 +11,6 @@ extends CanvasLayer
 @onready var item: RichTextLabel = $Select/VBoxContainer/Item;
 @onready var summary: RichTextLabel = $Select/VBoxContainer/Summary;
 
-const RED_BAR = preload("res://Assets/UI/red_bar.png");
-const YELLOW_BAR = preload("res://Assets/UI/yellow_bar.png");
-const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg");
-const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
-const GUI_SEL_DECISION = preload("res://Assets/Sounds/GUI sel decision.ogg");
-const GUI_PARTY_SWITCH = preload("res://Assets/Sounds/GUI party switch.ogg");
-
-const POKEMON_BACKGROUND = preload("res://Assets/UI/standby_pokemon_background.png");
-const MAIN_POKEMON_BACKGROUND = preload("res://Assets/UI/main_pokemon_background.png");
-const BACKGROUND_DEAD = preload("res://Assets/UI/standby_pokemon_background_dead.png");
-const MAIN_BACKGROUND_DEAD = preload("res://Assets/UI/main_pokemon_background_dead.png");
-const BACKGROUND_SWITCH = preload("res://Assets/UI/standby_pokemon_background_switch.png");
-const MAIN_BACKGROUND_SWITCH = preload("res://Assets/UI/main_pokemon_background_switch.png");
-
 const party_screen_node =  "CurrentScene/PartyScreen";
 const default_sentence = "Choose a POKéMON.";
 const selected_sentence = "Do what with this POKéMON?";
@@ -35,6 +21,7 @@ const default_shift = "SHIFT";
 const move_where_sentence = "Move to where?";
 const cancel_switch_sentence = "Cancel Switch";
 
+const summary_screen_path = "res://Scenes/UI/summary_screen.tscn";
 const default_select_position = Vector2(151, 97);
 const select_position_upper_on_battle = Vector2(151, 2);
 const select_position_upper = Vector2(151, 19);
@@ -64,12 +51,14 @@ var closing = false;
 var switching = false;
 var switch_mode = false;
 var current_switch_slot;
+var selected_pokemon: Object;
 
 var select_cursor_default_position = [
 	Vector2(8, -5.5), Vector2(8, 10), Vector2(8, 26), Vector2(8, 42)
 ];
 
 func _ready():
+	GLOBAL.connect("scene_opened", _on_scene_opened);
 	process_mode = Node.PROCESS_MODE_INHERIT;
 	active_pokemon = PARTY.get_active_pokemon();
 	label.text = default_sentence;
@@ -79,7 +68,9 @@ func _ready():
 	create_party_list();
 	set_all_options();
 	set_active_option(State.ON);
-	if(GLOBAL.on_battle): select_cursor_default_position.pop_front();
+	if(GLOBAL.on_battle): 
+		select_cursor_default_position.pop_front();
+		BATTLE.party_pokemon_selected = false;
 	move_select_arrow();
 	if(SETTINGS.selected_marker):
 		nine_rect.texture = SETTINGS.selected_marker; 
@@ -97,53 +88,10 @@ func set_all_options() -> void:
 				if(index == selected_slot): anim_player.play("Selected");
 				else: anim_player.play("Idle");
 
-func set_active_option(value: State) -> void:
-	var slot = current_slots[selected_slot];
-	var panel = slot.get_node("Panel");
-	panel.frame = value;
-	
-	var cancel_slot = selected_slot == current_slots_length;
-	if(!cancel_slot):
-		label.text = default_sentence;
-		if(switch_mode):
-			if(selected_slot == Slots.FIRST): 
-				panel.texture = MAIN_BACKGROUND_SWITCH;
-			else: panel.texture = BACKGROUND_SWITCH;
-			label.text = move_where_sentence;
-		var anim_player = slot.get_node("AnimationPlayer");
-		var anim_name = anim_player.get_assigned_animation();
-		#ACTIVE
-		if(value == int(State.ON)):
-			if(anim_name == "Dead"): return;
-			anim_player.play("Selected");
-		#DESACTIVE
-		else:
-			if(anim_name == "Dead"):
-				if(selected_slot == Slots.FIRST): 
-					panel.texture = MAIN_BACKGROUND_DEAD;
-				else: panel.texture = BACKGROUND_DEAD;
-			else: 
-				if(selected_slot == Slots.FIRST): 
-					panel.texture = MAIN_POKEMON_BACKGROUND;
-				else: panel.texture = POKEMON_BACKGROUND;
-				anim_player.play("Idle");
-		#KEEP SWITCH ACTIVE
-		if(current_switch_slot != null):
-			var switch_panel = current_slots[current_switch_slot].get_node("Panel"); 
-			if(current_switch_slot == Slots.FIRST): 
-				switch_panel.texture = MAIN_BACKGROUND_SWITCH;
-			else: switch_panel.texture = BACKGROUND_SWITCH;
-	#CANCEL
-	else:
-		if(BATTLE.can_use_next_pokemon):
-			label.text = must_sentence;
-		else: 
-			if(switch_mode): label.text = cancel_switch_sentence;
-			else: label.text = exit_sentence;
-
-func _input(event) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if(
-		!event is InputEventKey ||
+		(!event is InputEventKey &&
+		!event is InputEventScreenTouch) ||
 		GLOBAL.on_transition || 
 		!event.is_pressed() ||
 		event.is_echo() ||
@@ -196,6 +144,50 @@ func _input(event) -> void:
 		!Input.is_action_just_pressed("backMenu")
 	): set_active_option(State.ON);
 
+func set_active_option(value: State) -> void:
+	var slot = current_slots[selected_slot];
+	var panel = slot.get_node("Panel");
+	panel.frame = value;
+	
+	var cancel_slot = selected_slot == current_slots_length;
+	if(!cancel_slot):
+		label.text = default_sentence;
+		if(switch_mode):
+			if(selected_slot == Slots.FIRST): 
+				panel.texture = LIBRARIES.IMAGES.MAIN_BACKGROUND_SWITCH;
+			else: panel.texture = LIBRARIES.IMAGES.BACKGROUND_SWITCH;
+			label.text = move_where_sentence;
+		var anim_player = slot.get_node("AnimationPlayer");
+		var anim_name = anim_player.get_assigned_animation();
+		#ACTIVE
+		if(value == int(State.ON)):
+			if(anim_name == "Dead"): return;
+			anim_player.play("Selected");
+		#DESACTIVE
+		else:
+			if(anim_name == "Dead"):
+				if(selected_slot == Slots.FIRST): 
+					panel.texture = LIBRARIES.IMAGES.MAIN_BACKGROUND_DEAD;
+				else: panel.texture = LIBRARIES.IMAGES.BACKGROUND_DEAD;
+			else: 
+				if(selected_slot == Slots.FIRST): 
+					panel.texture = LIBRARIES.IMAGES.MAIN_POKEMON_BACKGROUND;
+				else: panel.texture = LIBRARIES.IMAGES.POKEMON_BACKGROUND;
+				anim_player.play("Idle");
+		#KEEP SWITCH ACTIVE
+		if(current_switch_slot != null):
+			var switch_panel = current_slots[current_switch_slot].get_node("Panel"); 
+			if(current_switch_slot == Slots.FIRST): 
+				switch_panel.texture = LIBRARIES.IMAGES.MAIN_BACKGROUND_SWITCH;
+			else: switch_panel.texture = LIBRARIES.IMAGES.BACKGROUND_SWITCH;
+	#CANCEL
+	else:
+		if(BATTLE.can_use_next_pokemon):
+			label.text = must_sentence;
+		else: 
+			if(switch_mode): label.text = cancel_switch_sentence;
+			else: label.text = exit_sentence;
+
 #SELECT SLOT
 func select_slot() -> void:
 	if(!select_open):
@@ -206,26 +198,30 @@ func select_slot() -> void:
 			#POKEMON
 			Slots.FIRST, Slots.SECOND, Slots.THIRD, Slots.FOURTH, Slots.FIFTH, Slots.SIXTH:
 				select_input();
-
+		
 	#ON BATTLE
 	elif(select_open && GLOBAL.on_battle):
 		match select_index:
 			SelectSlot.FIRST: select_pokemon();
+			SelectSlot.SECOND: open_summary();
 			SelectSlot.THIRD: close_select();
 	#NORMAL PARTY
 	elif(select_open && !GLOBAL.on_battle):
 		match select_index:
+			SelectSlot.FIRST: open_summary();
 			SelectSlot.SECOND: switch_slot();
 			SelectSlot.FOURTH: close_select();
 
 func select_input() -> void:
 	if(selected_slot == current_switch_slot && switch_mode):
-		close_party();
+		reset_switch_mode();
 		return;
 	elif(switch_mode):
 		switch_pokemon();
 		return;
-	play_audio(GUI_SEL_DECISION);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
+	var poke_name = slots[selected_slot].get_node("Name").text;
+	selected_pokemon = PARTY.get_pokemon(poke_name);
 	
 	#OPEN SELECT
 	if(
@@ -245,7 +241,7 @@ func select_input() -> void:
 #SWITCH
 func switch_pokemon() -> void:
 	switching = true;
-	play_audio(GUI_SEL_DECISION);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 	
 	var slots_array = [
 		slots[selected_slot].get_node("Switch"),
@@ -253,7 +249,7 @@ func switch_pokemon() -> void:
 	];
 	
 	#OUT
-	play_audio(GUI_PARTY_SWITCH);
+	play_audio(LIBRARIES.SOUNDS.GUI_PARTY_SWITCH);
 	for anim_player in slots_array:
 		anim_player.play("SwitchOut");
 	await GLOBAL.timeout(switch_anim_duration);
@@ -267,11 +263,11 @@ func switch_pokemon() -> void:
 	await GLOBAL.timeout(0.1);
 	
 	#IN
-	play_audio(GUI_PARTY_SWITCH);
+	play_audio(LIBRARIES.SOUNDS.GUI_PARTY_SWITCH);
 	for anim_player in slots_array:
 		anim_player.play("SwitchIn");
 	await GLOBAL.timeout(switch_anim_duration);
-	close_party(false, false);
+	reset_switch_mode(false, false);
 	if(selected_slot == Slots.FIRST):
 		PARTY.reset_all_active(true);
 	await GLOBAL.timeout(0.2);
@@ -279,18 +275,16 @@ func switch_pokemon() -> void:
 
 #SELECT POKEMON
 func select_pokemon() -> void:
-	var poke_name = slots[selected_slot].get_node("Name").text;
-	var poke = PARTY.get_pokemon(poke_name);
 	#BATTLE
 	if(GLOBAL.on_battle):
-		play_audio(GUI_SEL_DECISION);
-		if(poke.data.death):
-			label.text = poke_name + " can't fight!";
+		play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
+		if(selected_pokemon.data.death):
+			label.text = selected_pokemon.name + " can't fight!";
 			return;
-		if(active_pokemon && poke_name == active_pokemon.name):
+		if(active_pokemon && selected_pokemon.name == active_pokemon.name):
 			label.text = same_pokemon_sentence;
 			return;
-		select_poke_and_change(poke_name);
+		select_poke_and_change(selected_pokemon.name);
 		return;
 	else: close_select();
 
@@ -298,29 +292,34 @@ func select_pokemon() -> void:
 func select_poke_and_change(poke_name: String) -> void:
 	label.text = selected_sentence;
 	closing = true;
-	BATTLE.can_use_menu = false;
 	PARTY.reset_all_active();
 	PARTY.set_active_pokemon(poke_name);
+	if(GLOBAL.on_battle): 
+		BATTLE.party_pokemon_selected = true;
+		BATTLE.can_use_menu = false;
 	await GLOBAL.timeout(0.2);
 	close_party(false);
 	PARTY.emit_signal("selected_pokemon_party", poke_name);
 
 #CLOSE
 func close_party(sound = true, reset_list = true) -> void:
-	if(switch_mode):
-		if(sound): play_audio(GUI_SEL_DECISION);
-		label.text = default_sentence;
-		switch_mode = false;
-		current_switch_slot = null;
-		if(reset_list): reset();
+	if(switch_mode): 
+		reset_switch_mode(sound, reset_list);
 		return;
 	closing = true;
-	GLOBAL.party_open = false;
-	if(sound): play_audio(GUI_MENU_CLOSE);
+	GLOBAL.on_overlay = false;
+	if(sound): play_audio(LIBRARIES.SOUNDS.GUI_MENU_CLOSE);
 	await GLOBAL.timeout(.2);
 	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/PartyScreen");
-	if(GLOBAL.on_battle): BATTLE.state = BATTLE.States.MENU;
+	if(GLOBAL.on_battle): BATTLE.state = ENUMS.BattleStates.MENU;
 	process_mode = Node.PROCESS_MODE_DISABLED;
+
+func reset_switch_mode(sound = true, reset_list = true) -> void:
+	if(sound): play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
+	label.text = default_sentence;
+	switch_mode = false;
+	current_switch_slot = null;
+	if(reset_list): reset();
 
 #SWITCH SLOT
 func switch_slot() -> void:
@@ -330,11 +329,11 @@ func switch_slot() -> void:
 	var slot = current_slots[selected_slot];
 	var panel = slot.get_node("Panel");
 	current_switch_slot = selected_slot;
-	if(selected_slot == Slots.FIRST): panel.texture = MAIN_BACKGROUND_SWITCH;
-	else: panel.texture = BACKGROUND_SWITCH;
+	if(selected_slot == Slots.FIRST): panel.texture = LIBRARIES.IMAGES.MAIN_BACKGROUND_SWITCH;
+	else: panel.texture = LIBRARIES.IMAGES.BACKGROUND_SWITCH;
 
 func handle_DOWN() -> void:
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	if(select_open):
 		select_DOWN();
 		return;
@@ -343,7 +342,7 @@ func handle_DOWN() -> void:
 		selected_slot = int(Slots.FIRST);
 
 func handle_UP() -> void:
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	if(select_open): 
 		select_UP();
 		return;
@@ -352,12 +351,12 @@ func handle_UP() -> void:
 
 func handle_RIGHT() -> void:
 	if(select_open): return;
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	selected_slot = int(last_slot_before_moving_left);
 
 func handle_LEFT() -> void:
 	if(select_open): return;
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	last_slot_before_moving_left = int(selected_slot);
 	selected_slot = int(Slots.FIRST);
 
@@ -383,9 +382,19 @@ func select_UP() -> void:
 		else: select_index -= 1;
 	move_select_arrow();
 
+#SUMMARY
+func open_summary() -> void:
+	closing = true;
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
+	await audio.finished;
+	GLOBAL.summary_pokemon = selected_pokemon;
+	GLOBAL.summary_index = selected_slot;
+	process_mode = Node.PROCESS_MODE_DISABLED;
+	GLOBAL.go_to_scene(summary_screen_path, false, false);
+
 #CLOSE SELECT
 func close_select(sound = true) -> void:
-	if(sound): play_audio(GUI_SEL_CURSOR);
+	if(sound): play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	select_open = false;
 	select.visible = false;
 	select_index = int(SelectSlot.FIRST);
@@ -427,27 +436,28 @@ func create_party_list() -> void:
 		var remain_hp_node = slot.get_node("RemainHP");
 		var health_node = slot.get_node("Health");
 		var status_node = slot.get_node("Status");
-		
 		status_node.visible = false;
-		
 		#STATS
 		var poke = party[index];
-		pokemon_node.texture = poke.data.party_texture;
+		pokemon_node.texture = poke.data.specie.party_texture;
 		if("gender" in poke.data):
 			gender_node.visible = true;
 			gender_node.frame = poke.data.gender;
+		else: gender_node.visible = false;
 		name_node.text = poke.data.name;
 		level_node.text = str(poke.data.level);
 		total_hp_node.text = str(poke.data.battle_stats["HP"]);
 		remain_hp_node.text = str(poke.data.current_hp);
-		health_node.scale.x = float(poke.data.current_hp) / float(poke.data.battle_stats["HP"]);
+		health_node.scale.x = min(float(poke.data.current_hp) / float(poke.data.battle_stats["HP"]), 1);
 		
 		#HP COLOR
 		var perct = health_node.scale.x;
-		if(perct >= BATTLE.GREEN_BAR_PERCT): health_node.texture = BATTLE.GREEN_BAR;
+		if(perct >= BATTLE.GREEN_BAR_PERCT): 
+			health_node.texture = LIBRARIES.IMAGES.GREEN_BAR;
 		elif(perct < BATTLE.GREEN_BAR_PERCT && perct > BATTLE.YELLOW_BAR_PERCT): 
-			health_node.texture = BATTLE.YELLOW_BAR;
-		elif(perct < BATTLE.YELLOW_BAR_PERCT): health_node.texture = BATTLE.RED_BAR;
+			health_node.texture = LIBRARIES.IMAGES.YELLOW_BAR;
+		elif(perct < BATTLE.YELLOW_BAR_PERCT): 
+			health_node.texture = LIBRARIES.IMAGES.RED_BAR;
 		
 		if(
 			active_pokemon && 
@@ -459,13 +469,13 @@ func create_party_list() -> void:
 		var panel = slot.get_node("Panel");
 		if(poke.data.death):
 			if(index == int(Slots.FIRST)):
-				panel.texture = MAIN_BACKGROUND_DEAD;
-			else: panel.texture = BACKGROUND_DEAD;
+				panel.texture = LIBRARIES.IMAGES.MAIN_BACKGROUND_DEAD;
+			else: panel.texture = LIBRARIES.IMAGES.BACKGROUND_DEAD;
 			status_node.visible = true;
 		else:
 			if(index == int(Slots.FIRST)):
-				panel.texture = MAIN_POKEMON_BACKGROUND;
-			else: panel.texture = POKEMON_BACKGROUND;
+				panel.texture = LIBRARIES.IMAGES.MAIN_POKEMON_BACKGROUND;
+			else: panel.texture = LIBRARIES.IMAGES.POKEMON_BACKGROUND;
 			
 	current_slots_length = current_slots.size();
 	#CANCEL BUTTON - CHILD PANEL NODE
@@ -480,12 +490,17 @@ func reset() -> void:
 		var poke = party[index];
 		if(poke.data.death):
 			if(index == int(Slots.FIRST)):
-				panel.texture = MAIN_BACKGROUND_DEAD;
-			else: panel.texture = BACKGROUND_DEAD;
+				panel.texture = LIBRARIES.IMAGES.MAIN_BACKGROUND_DEAD;
+			else: panel.texture = LIBRARIES.IMAGES.BACKGROUND_DEAD;
 		else:
 			if(index == int(Slots.FIRST)):
-				panel.texture = MAIN_POKEMON_BACKGROUND;
-			else: panel.texture = POKEMON_BACKGROUND;
+				panel.texture = LIBRARIES.IMAGES.MAIN_POKEMON_BACKGROUND;
+			else: panel.texture = LIBRARIES.IMAGES.POKEMON_BACKGROUND;
+
+func _on_scene_opened(value: bool, _node_name: String) -> void:
+	if(value): return;
+	closing = false;
+	process_mode = Node.PROCESS_MODE_INHERIT;
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;

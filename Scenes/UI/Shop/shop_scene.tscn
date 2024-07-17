@@ -1,0 +1,336 @@
+[gd_scene load_steps=17 format=3 uid="uid://cbrqp4cs8w7kk"]
+
+[ext_resource type="Script" path="res://Scenes/UI/Shop/shop_scene.gd" id="1_wpkxn"]
+[ext_resource type="Texture2D" uid="uid://d3dxw0bsf6jxo" path="res://Assets/UI/marker_orange.png" id="2_y3ugi"]
+[ext_resource type="Texture2D" uid="uid://bfnlj6t53rl5p" path="res://Assets/UI/ui_arrow_left_right.png" id="3_gq68i"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/Menu/menu_theme.tres" id="4_sqtli"]
+[ext_resource type="Texture2D" uid="uid://be21rbkfgl31p" path="res://Assets/UI/item_list.png" id="5_83y0j"]
+[ext_resource type="Script" path="res://Scenes/UI/Shop/shopping.gd" id="5_p3dd1"]
+[ext_resource type="Texture2D" uid="uid://ditutfljg1nfh" path="res://Assets/UI/shop_item_description.png" id="6_2cvtt"]
+[ext_resource type="Texture2D" uid="uid://dk43m8p58d124" path="res://Assets/UI/marker_grey.png" id="6_c15ts"]
+[ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="7_j1r33"]
+[ext_resource type="FontFile" uid="uid://bqhxhi032wwfk" path="res://Assets/Fonts/power clear bold.ttf" id="8_krjbn"]
+[ext_resource type="Texture2D" uid="uid://bgu2v0ymgfg7n" path="res://Assets/UI/Items/POKEBALL.png" id="9_tt18k"]
+[ext_resource type="Texture2D" uid="uid://dmt1sgwftqmcc" path="res://Assets/UI/Pokedex/pokedex_arrow_up.png" id="11_pmc2y"]
+[ext_resource type="Texture2D" uid="uid://dabmedes08vwg" path="res://Assets/UI/Pokedex/pokedex_arrow_down.png" id="12_ouirr"]
+[ext_resource type="Script" path="res://Scenes/UI/Shop/purchasing.gd" id="12_pao6s"]
+
+[sub_resource type="Animation" id="Animation_m05vh"]
+resource_name = "Arrows"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ArrowDown:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [95.0, 98.0, 95.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ArrowUp:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [73.0, 70.0, 73.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p3mpt"]
+_data = {
+"Arrows": SubResource("Animation_m05vh")
+}
+
+[node name="Shop" type="CanvasLayer"]
+script = ExtResource("1_wpkxn")
+
+[node name="Select" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Select"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 82.0
+offset_bottom = 68.0
+texture = ExtResource("2_y3ugi")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Cursor" type="TextureRect" parent="Select/NinePatchRect"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 12.0
+offset_right = 14.0
+offset_bottom = 22.0
+texture = ExtResource("3_gq68i")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Select/NinePatchRect"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 12.0
+offset_right = 114.0
+offset_bottom = 72.0
+
+[node name="Buy" type="RichTextLabel" parent="Select/NinePatchRect/VBoxContainer"]
+clip_contents = false
+custom_minimum_size = Vector2(25, 12)
+layout_direction = 2
+layout_mode = 2
+theme = ExtResource("4_sqtli")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "BUY"
+
+[node name="Sell" type="RichTextLabel" parent="Select/NinePatchRect/VBoxContainer"]
+clip_contents = false
+custom_minimum_size = Vector2(25, 12)
+layout_direction = 2
+layout_mode = 2
+theme = ExtResource("4_sqtli")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "SELL"
+
+[node name="Cancel" type="RichTextLabel" parent="Select/NinePatchRect/VBoxContainer"]
+clip_contents = false
+custom_minimum_size = Vector2(25, 12)
+layout_direction = 2
+layout_mode = 2
+theme = ExtResource("4_sqtli")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "SEE YA!"
+
+[node name="Shopping" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_p3dd1")
+
+[node name="Background" type="TextureRect" parent="Shopping"]
+layout_mode = 0
+offset_left = 79.0
+offset_top = 2.0
+offset_right = 238.0
+offset_bottom = 111.0
+texture = ExtResource("5_83y0j")
+stretch_mode = 2
+
+[node name="Money" type="NinePatchRect" parent="Shopping"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 77.0
+offset_bottom = 38.0
+texture = ExtResource("6_c15ts")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Title" type="RichTextLabel" parent="Shopping/Money"]
+clip_contents = false
+custom_minimum_size = Vector2(25, 12)
+layout_direction = 2
+layout_mode = 2
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 52.0
+offset_bottom = 20.0
+theme = ExtResource("4_sqtli")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_font_sizes/normal_font_size = 10
+text = "MONEY"
+
+[node name="Amount" type="RichTextLabel" parent="Shopping/Money"]
+clip_contents = false
+custom_minimum_size = Vector2(25, 12)
+layout_direction = 2
+layout_mode = 0
+offset_left = 4.0
+offset_top = 21.0
+offset_right = 68.0
+offset_bottom = 33.0
+theme = ExtResource("4_sqtli")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_font_sizes/normal_font_size = 10
+text = "$ 999999"
+text_direction = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Shopping"]
+layout_mode = 0
+offset_left = 92.0
+offset_top = 13.0
+offset_right = 222.0
+offset_bottom = 89.0
+size_flags_vertical = 3
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Shopping/ScrollContainer"]
+custom_minimum_size = Vector2(130, 86)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Cursor" type="TextureRect" parent="Shopping"]
+layout_mode = 0
+offset_left = 91.0
+offset_top = 14.0
+offset_right = 100.0
+offset_bottom = 24.0
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("3_gq68i")
+stretch_mode = 2
+
+[node name="Description" type="Control" parent="Shopping"]
+anchors_preset = 0
+offset_top = 112.0
+offset_right = 40.0
+offset_bottom = 152.0
+
+[node name="TextureRect" type="TextureRect" parent="Shopping/Description"]
+layout_mode = 0
+offset_right = 240.0
+offset_bottom = 48.0
+texture = ExtResource("6_2cvtt")
+stretch_mode = 2
+
+[node name="Text" type="RichTextLabel" parent="Shopping/Description"]
+clip_contents = false
+layout_mode = 0
+offset_left = 41.0
+offset_top = 6.0
+offset_right = 230.0
+offset_bottom = 45.0
+theme = ExtResource("4_sqtli")
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.156863, 0.156863, 0.156863, 1)
+theme_override_constants/line_separation = 6
+theme_override_fonts/normal_font = ExtResource("7_j1r33")
+theme_override_fonts/bold_font = ExtResource("8_krjbn")
+theme_override_font_sizes/normal_font_size = 10
+theme_override_font_sizes/bold_font_size = 12
+bbcode_enabled = true
+text = "There is a plant seed on its back right from the day this POKéMON is born. The seed slowly grows larger."
+fit_content = true
+scroll_active = false
+text_direction = 1
+language = "Eng"
+
+[node name="Sprite2D" type="Sprite2D" parent="Shopping/Description"]
+position = Vector2(20, 24)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("9_tt18k")
+
+[node name="Purchasing" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("12_pao6s")
+
+[node name="Item_Bag" type="NinePatchRect" parent="Purchasing"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 83.0
+offset_right = 77.0
+offset_bottom = 109.0
+texture = ExtResource("6_c15ts")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Title" type="RichTextLabel" parent="Purchasing/Item_Bag"]
+clip_contents = false
+custom_minimum_size = Vector2(60, 8)
+layout_direction = 2
+layout_mode = 2
+offset_left = 8.0
+offset_top = 9.0
+offset_right = 68.0
+offset_bottom = 17.0
+theme = ExtResource("4_sqtli")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_font_sizes/normal_font_size = 10
+text = "IN BAG:  995"
+
+[node name="Select_Amount" type="NinePatchRect" parent="Purchasing"]
+layout_mode = 0
+offset_left = 138.0
+offset_top = 59.0
+offset_right = 238.0
+offset_bottom = 109.0
+texture = ExtResource("6_c15ts")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Amount" type="RichTextLabel" parent="Purchasing/Select_Amount"]
+clip_contents = false
+custom_minimum_size = Vector2(25, 12)
+layout_direction = 2
+layout_mode = 0
+offset_left = 12.0
+offset_top = 21.0
+offset_right = 37.0
+offset_bottom = 33.0
+theme = ExtResource("4_sqtli")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_font_sizes/normal_font_size = 10
+text = "x01"
+
+[node name="Price" type="RichTextLabel" parent="Purchasing/Select_Amount"]
+clip_contents = false
+custom_minimum_size = Vector2(25, 8)
+layout_direction = 2
+layout_mode = 2
+offset_left = 38.0
+offset_top = 21.0
+offset_right = 89.0
+offset_bottom = 29.0
+theme = ExtResource("4_sqtli")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_font_sizes/normal_font_size = 10
+text = "$ 200"
+text_direction = 2
+
+[node name="ArrowUp" type="Sprite2D" parent="Purchasing"]
+position = Vector2(158, 72.9944)
+texture = ExtResource("11_pmc2y")
+
+[node name="ArrowDown" type="Sprite2D" parent="Purchasing"]
+position = Vector2(158, 95.0056)
+texture = ExtResource("12_ouirr")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Purchasing"]
+libraries = {
+"": SubResource("AnimationLibrary_p3mpt")
+}
+autoplay = "Arrows"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -10.0

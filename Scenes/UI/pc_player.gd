@@ -4,29 +4,20 @@ extends CanvasLayer
 @onready var nine_rect: NinePatchRect = $Control/NinePatchRect;
 @onready var cursor: TextureRect = $Control/NinePatchRect/Cursor;
 
-const GUI_SEL_CURSOR = preload("res://Assets/Sounds/GUI sel cursor.ogg");
-const GUI_MENU_CLOSE = preload("res://Assets/Sounds/GUI menu close.ogg");
-const CONFIRM = preload("res://Assets/Sounds/confirm.wav");
-const PC_ACCESS = preload("res://Assets/Sounds/PC access.ogg");
-
 const POKEMON_BOXES = "res://Scenes/UI/pokemon_boxes.tscn";
-
 enum PcOptions { BILL, OAK, POKEDEX, OFF }
 
 var can_use_menu = false;
 var selected_option = 0;
 var options_length = PcOptions.keys().size();
-var scene_manager: Node2D;
 
 func _ready() -> void:
-	GLOBAL.on_pc = true;
 	set_marker();
 	start_dialog();
-	scene_manager = get_parent();
 	GLOBAL.connect("scene_opened", _on_scene_opened);
 
 func start_dialog() -> void:
-	play_audio(CONFIRM);
+	play_audio(LIBRARIES.SOUNDS.CONFIRM);
 	GLOBAL.start_dialog.emit(32);
 	await GLOBAL.close_dialog;
 	GLOBAL.start_dialog.emit(33);
@@ -37,23 +28,22 @@ func start_dialog() -> void:
 
 func _on_scene_opened(value: bool, node_name: String) -> void:
 	#CLOSED
-	if(!value):
+	if(!value && node_name == 'CurrentScene/PokemonBoxes'):
 		can_use_menu = true;
 		process_mode = Node.PROCESS_MODE_INHERIT;
 		nine_rect.visible = true;
-		GLOBAL.on_boxes = false;
-	scene_manager.get_node(node_name).queue_free();
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(
-		!event is InputEventKey ||
+		(!event is InputEventKey &&
+		!event is InputEventScreenTouch) ||
 		GLOBAL.on_transition || 
 		!event.is_pressed() ||
 		event.is_echo() ||
 		GLOBAL.on_battle ||
-		GLOBAL.party_open ||
 		!can_use_menu
 	): return;
+	
 	if(Input.is_action_just_pressed("backMenu")): close_menu();
 	elif(
 		Input.is_action_just_pressed("moveDown") || 
@@ -64,21 +54,21 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif(Input.is_action_just_pressed("space")): select_option();
 
 func handle_DOWN() -> void:
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	selected_option += 1;
 	if(selected_option > options_length - 1): 
 		selected_option = PcOptions.BILL;
 	update_cursor();
 
 func handle_UP() -> void:
-	play_audio(GUI_SEL_CURSOR);
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
 	if(selected_option == PcOptions.BILL): 
 		selected_option = PcOptions.OFF;
 	else: selected_option -= 1;
 	update_cursor();
 
 func select_option() -> void:
-	play_audio(CONFIRM);
+	play_audio(LIBRARIES.SOUNDS.CONFIRM);
 	match(selected_option):
 		PcOptions.BILL: select_storage()
 		PcOptions.OAK: select_oak()
@@ -90,10 +80,10 @@ func select_storage() -> void:
 	nine_rect.visible = false;
 	GLOBAL.start_dialog.emit(37);
 	await GLOBAL.close_dialog;
-	GLOBAL.on_boxes = true;
-	play_audio(PC_ACCESS);
+	play_audio(LIBRARIES.SOUNDS.PC_ACCESS);
 	await audio.finished;
-	scene_manager.transition_to_scene(POKEMON_BOXES, true, false);
+	GLOBAL.on_overlay = true;
+	GLOBAL.go_to_scene(POKEMON_BOXES, true, false);
 	process_mode = Node.PROCESS_MODE_DISABLED;
 
 func select_oak() -> void:
@@ -104,7 +94,7 @@ func select_pokedex() -> void:
 
 func close_menu() -> void:
 	can_use_menu = false;
-	play_audio(GUI_MENU_CLOSE);
+	play_audio(LIBRARIES.SOUNDS.GUI_MENU_CLOSE);
 	nine_rect.visible = false;
 	await audio.finished;
 	GLOBAL.close_pc.emit();

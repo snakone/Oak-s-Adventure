@@ -1,5 +1,11 @@
 extends Node
 
+@onready var pokeball_textures = {
+	ENUMS.Item.POKEBALL: preload("res://Assets/UI/Battle/Catch/pokeball_catch.png"),
+	ENUMS.Item.GREATBALL: preload("res://Assets/UI/Battle/Catch/greatball_catch.png"),
+	ENUMS.Item.MASTERBALL: preload("res://Assets/UI/Battle/Catch/masterball_catch.png"),
+}
+
 #ATTACK
 signal attack_finished();
 signal on_move_hit(is_enemy: bool);
@@ -12,6 +18,7 @@ signal ui_updated();
 signal update_attack_ui();
 signal experience_end();
 signal hp_bar_anim_duration(duration: float);
+signal trainer_intro_end();
 
 #DIALOG
 signal dialog_finished();
@@ -26,90 +33,27 @@ signal participant_exp_end();
 #MENU
 signal end_battle();
 
-enum Type { WILD, TRAINER, ELITE, SPECIAL, NONE }
-enum ExpType { ERRATIC, FAST, MEDIUM, SLOW, SLACK, FLUCTUATING }
-enum Zones { FIELD = 0, GRASS = 1, SNOW = 2 }
 enum Moves { FIRST, SECOND, THIRD, FOURTH }
 enum Turn { PLAYER, ENEMY, NONE }
-
-enum AttackResult { 
-	NORMAL, 
-	CRITICAL, 
-	EFFECTIVE,
-	LOW, 
-	MISS, 
-	NONE, 
-	FULMINATE, 
-	AWFULL
-}
-
-enum States {
-	MENU = 0, 
-	FIGHT = 1,
-	DIALOG = 2, 
-	ATTACKING = 3,
-	LEVELLING = 4,
-	SWITCHING = 5,
-	ESCAPING = 6,
-	NONE = 7, 
-}
-
-#MARKERS
-const BACKGROUND_ORANGE = preload("res://Assets/UI/Battle/attack_select_background_orange.png");
-const BACKGROUND_GREEN = preload("res://Assets/UI/Battle/attack_select_background_green.png");
-const BACKGROUND_BLUE = preload("res://Assets/UI/Battle/attack_select_background_blue.png");
-const MAIN_MENU_ORANGE = preload("res://Assets/UI/Battle/main_menu_orange.png");
-const MAIN_MENU_GREEN = preload("res://Assets/UI/Battle/main_menu_green.png");
-const MAIN_MENU_BLUE = preload("res://Assets/UI/Battle/main_menu_blue.png");
-
-#FIELD
-const FIELD_BG = preload("res://Assets/UI/Battle/Backgrounds/field_bg.png");
-const FIELD_BASE_0 = preload("res://Assets/UI/Battle/Backgrounds/field_base0.png");
-const FIELD_BASE_1 = preload("res://Assets/UI/Battle/Backgrounds/field_base1.png");
-
-#GRASS
-const GRASS_01 = preload("res://Assets/UI/Battle/Backgrounds/grass_01.png");
-const GRASS_BASE_0 = preload("res://Assets/UI/Battle/Backgrounds/grass_base0.png");
-const GRASS_BASE_1 = preload("res://Assets/UI/Battle/Backgrounds/grass_base1.png");
-
-#SNOW
-const SNOW_BG = preload("res://Assets/UI/Battle/Backgrounds/snow_bg.png");
-const SNOW_BASE_0 = preload("res://Assets/UI/Battle/Backgrounds/snow_base0.png");
-const SNOW_BASE_1 = preload("res://Assets/UI/Battle/Backgrounds/snow_base1.png");
-
-#BARS
-const RED_BAR = preload("res://Assets/UI/red_bar.png");
-const YELLOW_BAR = preload("res://Assets/UI/yellow_bar.png");
-const GREEN_BAR = preload("res://Assets/UI/green_bar.png");
-
-#SOUNDS
-const BATTLE_SOUNDS = {
-	"CONFIRM": preload("res://Assets/Sounds/confirm.wav"),
-	"GUI_SEL_DECISION": preload("res://Assets/Sounds/GUI sel decision.ogg"),
-	"GUI_MENU_CLOSE": preload("res://Assets/Sounds/GUI menu close.ogg"),
-	"BATTLE_FLEE": preload("res://Assets/Sounds/Battle flee.ogg"),
-	"EXP_GAIN_PKM": preload("res://Assets/Sounds/pkm_exp_gain.mp3"),
-	"EXP_FULL": preload("res://Assets/Sounds/exp_full.mp3"),
-	"DAMAGE_NORMAL": preload("res://Assets/Sounds/Battle damage normal.ogg"),
-	"MOVE_LEARN": preload("res://Assets/Sounds/Pkmn move learnt.ogg")
-}
+enum Weather { RAINING, DROUGH, SANDSTORM, NONE }
 
 const tile_density = 325.0;
-var modifire = 1.0;
+var modifire = 2;
 
-const min_hp_anim_duration = 1.2;
-const max_hp_anim_duration = 3;
+const MIN_HP_ANIM = 1.2;
+const MAX_HP_ANIM = 3;
 const GREEN_BAR_PERCT = 0.51;
 const YELLOW_BAR_PERCT = 0.2;
-const default_exp_duration = 1.2;
+const EXP_DURATION = 1.2;
 
 var level_up_panel_visible = false;
 var can_close_level_up_panel = false;
-var type = Type.NONE;
-var state = States.NONE;
+var type = ENUMS.BattleType.NONE;
+var state = ENUMS.BattleStates.NONE;
 var pokemon_death = false;
 var enemy_death = false;
-var intro_dialog = true;
+var wild_intro = true;
+var trainer_intro = true;
 var can_use_menu = false;
 var escape_attempts = 0;
 var on_victory = false;
@@ -121,35 +65,22 @@ var can_use_next_pokemon = false;
 var coming_from_battle = false;
 var participants: Array = [];
 var exp_loop = false;
-var critical_hit = false;
 var attack_missed = false;
 var attack_result = [];
 var player_attack = 0;
 var enemy_attack = 0;
 var attacks_set = false;
-
-@onready var ZONES_ARRAY = [
-	{
-		"background": FIELD_BG,
-		"enemy_ground": FIELD_BASE_1,
-		"player_ground": FIELD_BASE_0
-	},
-	{
-		"background": GRASS_01,
-		"enemy_ground": GRASS_BASE_1,
-		"player_ground": GRASS_BASE_0
-	},
-	{
-		"background": SNOW_BG,
-		"enemy_ground": SNOW_BASE_1,
-		"player_ground": SNOW_BASE_0
-	},
-];
+var current_weather = int(Weather.NONE);
+var on_action = false;
+var trainer_team = [];
+var trainer_must_switch = false;
+var party_pokemon_selected = false;
 
 func reset_state(reset_type = true) -> void:
 	can_use_menu = false;
-	intro_dialog = true;
-	state = BATTLE.States.NONE;
+	wild_intro = true;
+	trainer_intro = true;
+	state = ENUMS.BattleStates.NONE;
 	pokemon_death = false;
 	enemy_death = false;
 	level_up_panel_visible = false;
@@ -160,22 +91,51 @@ func reset_state(reset_type = true) -> void:
 	enemy_attacked = false;
 	current_turn = Turn.NONE;
 	attack_pressed = false;
-	if(reset_type): type = Type.NONE;
+	if(reset_type): type = ENUMS.BattleType.NONE;
 	can_use_next_pokemon = false;
 	participants = [];
 	exp_loop = false;
-	critical_hit = false;
 	attack_missed = false;
 	attack_result = [];
 	player_attack = 0;
 	enemy_attack = 0;
 	attacks_set = false;
+	current_weather = int(Weather.NONE);
+	on_action = false;
+	trainer_team = [];
+	trainer_must_switch = false;
+
+func reset_on_switch() -> void:
+	if(BATTLE.type == ENUMS.BattleType.TRAINER):
+		trainer_intro = true;
+	elif(BATTLE.type == ENUMS.BattleType.WILD):
+		wild_intro = true;
+	can_use_menu = false;
+	state = ENUMS.BattleStates.NONE;
+	pokemon_death = false;
+	enemy_death = false;
+	level_up_panel_visible = false;
+	can_close_level_up_panel = false;
+	escape_attempts = 0;
+	on_victory = false;
+	player_attacked = false;
+	enemy_attacked = false;
+	current_turn = Turn.NONE;
+	attack_pressed = false;
+	can_use_next_pokemon = false;
+	exp_loop = false;
+	attack_missed = false;
+	attack_result = [];
+	player_attack = 0;
+	enemy_attack = 0;
+	on_action = false;
+	attacks_set = false;
+	trainer_must_switch = false;
 
 func pokemon_encounter() -> bool:
 	randomize();
-	var tile_barrier = randi_range(0, 2879)
-	if(GLOBAL.on_bike): modifire = modifire * 1.5;
-	else: modifire = 1.0;
+	var tile_barrier = randi_range(0, 2879);
+	if(GLOBAL.on_bike): modifire = modifire * 1.2;
 	if tile_barrier <= tile_density * modifire:
 		randomize();
 		var rand: int = randi_range(0, 100)
@@ -193,43 +153,25 @@ const ATTACK_CURSOR: Array = [
 	[Vector2(11, 144.5), Vector2(84, 144.5)]
 ];
 
-func get_battle_textures(zone: BATTLE.Zones): return ZONES_ARRAY[zone];
-
-func get_markers(marker_type: SETTINGS.Markers):
-	match marker_type:
-		SETTINGS.Markers.ORANGE:
-			return {
-				"menu": MAIN_MENU_ORANGE,
-				"attack": BACKGROUND_ORANGE
-			}
-		SETTINGS.Markers.BLUE:
-			return {
-				"menu": MAIN_MENU_BLUE,
-				"attack": BACKGROUND_BLUE
-			}
-		SETTINGS.Markers.GREEN:
-			return {
-				"menu": MAIN_MENU_GREEN,
-				"attack": BACKGROUND_GREEN
-			}
+func get_battle_textures(zone: ENUMS.BattleZones): 
+	return LIBRARIES.BATTLE.ZONES_LIST[zone];
 
 func can_move_attack_cursor(
 	new_position: Vector2,
-	player_attacks: Array
+	attacks: Array
 ) -> bool:
-	var attack2_position = ATTACK_CURSOR[0][1];
-	var attack2_text = player_attacks[1].text;
-	var attack3_position = ATTACK_CURSOR[1][0];
-	var attack3_text = player_attacks[2].text;
-	var attack4_position = ATTACK_CURSOR[1][1];
-	var attack4_text = player_attacks[3].text;
+	const index = [
+		{ "pos": ATTACK_CURSOR[0][1], "i": 1 },
+		{ "pos": ATTACK_CURSOR[1][0], "i": 2 },
+		{ "pos": ATTACK_CURSOR[1][1], "i": 3 }
+	];
 	
-	if(
-		(new_position == attack2_position && attack2_text == "") ||
-		(new_position == attack3_position && attack3_text == "") ||
-		(new_position == attack4_position && attack4_text == "")
-	): return false;
-	return true;
+	for attack in index:
+		if (
+			new_position == attack["pos"] && 
+			attacks[attack["i"]].text == ""
+		): return false
+	return true
 
 func can_pokemon_scape(pokemon: Object, enemy: Object) -> bool:
 	var poke_speed = pokemon.data.battle_stats["SPD"];
@@ -238,18 +180,58 @@ func can_pokemon_scape(pokemon: Object, enemy: Object) -> bool:
 	escape_attempts += 1;
 	
 	if(poke_speed >= enemy_speed): return true;
-	else:
-		var odd = floor(int(floor(
-			((poke_speed * 128.0) / enemy_speed) + (30.0 * escape_attempts))) % 256
-		);
-		return random < odd;
+	else: return random < get_odd_number(poke_speed, enemy_speed, escape_attempts);
+
+func get_odd_number(spd: int, enemy_spd: int, attemps: int) -> int:
+	return floor(int(floor(
+		((spd * 128.0) / enemy_spd) + (30.0 * attemps))) % 256
+	);
 
 func add_participant(poke: Object) -> void:
-	var already = false;
 	for participant in participants:
-		if(participant.name == poke.name):
-			already = true;
-			break;
-	if(!already): participants.push_front(poke);
+		if(participant.name == poke.name): return;
+	participants.push_front(poke);
 
 func remove_participant(poke: Object) -> void: participants.erase(poke);
+
+func get_pokeball_texture(id: ENUMS.Item):
+	if(id in pokeball_textures):
+		return pokeball_textures[id];
+	else: return pokeball_textures[ENUMS.Item.POKEBALL];
+
+func get_trainer_by_id(id: ENUMS.Trainer) -> Variant:
+	if(id in LIBRARIES.TRAINERS.trainer_list):
+		return LIBRARIES.TRAINERS.trainer_list[id];
+	return null;
+
+func are_all_enemies_defeated() -> bool:
+	return trainer_team.all(func(enemy): return enemy == -1);
+
+func get_next_trainer_pokemon() -> Variant:
+	for id in trainer_team:
+		if(id != -1): return id;
+	return null;
+
+func remove_trainer_pokemon(id: int) -> void:
+	for index in range(0, trainer_team.size()):
+		if(trainer_team[index] == id): 
+			trainer_team[index] = -1;
+
+func reset_participants(poke: Object) -> void:
+	participants = participants.filter(func(p): return p.name == poke.name);
+
+func process_catch(values: Array) -> String:
+	var result = "";
+	for value in values:
+		if(value): result += "Shake_";
+		else:
+			result += "Break";
+			return result.rstrip("_");
+	return "Catch";
+
+func get_shadow_texture(data: Dictionary) -> Texture2D:
+	match data.specie.shadow:
+		ENUMS.ShadowSize.SMALL: return LIBRARIES.IMAGES.SHADOW_SMALL;
+		ENUMS.ShadowSize.MEDIUM: return LIBRARIES.IMAGES.SHADOW_MEDIUM;
+		ENUMS.ShadowSize.LARGE: return LIBRARIES.IMAGES.SHADOW_LARGE;
+	return LIBRARIES.IMAGES.SHADOW_MEDIUM;

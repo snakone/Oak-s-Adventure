@@ -1,8 +1,8 @@
 extends Area2D
 
 @export_file("*.tscn") var next_scene: String;
-@export var enter_direction = GLOBAL.Directions.UP;
-@export var new_map: MAPS.Locations;
+@export var enter_direction = ENUMS.Directions.UP;
+@export var new_map: ENUMS.Locations;
 
 var can_be_entered = false;
 var next_scene_directon: Vector2;
@@ -23,5 +23,4 @@ func check_direction():
 		can_be_entered = next_scene_directon == GLOBAL.last_direction;
 
 func enter_scene():
-	if(next_scene):
-		get_node("/root/SceneManager").transition_to_scene(next_scene, false);
+	if(next_scene): GLOBAL.go_to_scene(next_scene, false);

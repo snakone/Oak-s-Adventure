@@ -3,13 +3,8 @@ extends Node2D
 #ATTACKS
 @onready var attack_selection_info = $SelectionInfo;
 @onready var attack_cursor = $AttackCursor;
-@onready var audio: AudioStreamPlayer = $"../AudioPlayer";
-
-@onready var attack_01 = $Attack01;
-@onready var attack_02 = $Attack02;
-@onready var attack_03 = $Attack03;
-@onready var attack_04 = $Attack04;
-@onready var player_attacks = [attack_01, attack_02, attack_03, attack_04];
+@onready var audio: AudioStreamPlayer = $"../BattlePlayer";
+@onready var player_attacks = [$Attack01, $Attack02, $Attack03, $Attack04];
 
 const CURSOR_MAP = {
 	Vector2.ZERO: BATTLE.Moves.FIRST,
@@ -50,6 +45,7 @@ func set_enemy_moves(moves: Array) -> void:
 func input() -> void:
 	BATTLE.attack_pressed = false;
 	var pre_position = cursor_index;
+	#D-PAD
 	if Input.is_action_just_pressed("moveLeft") and cursor_index.x > 0:
 		cursor_index.x -= 1;
 	elif Input.is_action_just_pressed("moveRight") and cursor_index.x < 1:
@@ -58,10 +54,11 @@ func input() -> void:
 		cursor_index.y -= 1;
 	elif Input.is_action_just_pressed("moveDown") and cursor_index.y < 1:
 		cursor_index.y += 1;
+	#BACK
 	elif Input.is_action_just_pressed("backMenu"):
-		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
+		play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 		visible = false;
-		BATTLE.state = BATTLE.States.MENU;
+		BATTLE.state = ENUMS.BattleStates.MENU;
 	#START ATTACK
 	elif Input.is_action_just_pressed("space") and !BATTLE.attack_pressed: 
 		BATTLE.start_attack.emit();
@@ -77,7 +74,7 @@ func input() -> void:
 	
 	#NEW POSITION
 	if (pre_position != cursor_index): 
-		play_audio(BATTLE.BATTLE_SOUNDS.GUI_SEL_DECISION);
+		play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 		set_attack_slot();
 		update_attack_ui();
 
@@ -88,7 +85,7 @@ func update_attack_ui() -> void:
 	var current_attack = player_moves[selected_attack];
 	var type_node = attack_selection_info.get_node("Type");
 	var pp_node = attack_selection_info.get_node("PP/Value");
-	type_node.text = MOVES.TYPES[int(current_attack.type + 1)];
+	type_node.text = LIBRARIES.MOVES.TYPES[int(current_attack.type + 1)];
 	pp_node.text = str(current_attack.pp) + "/" + str(current_attack.total_pp);
 
 func reset() -> void:

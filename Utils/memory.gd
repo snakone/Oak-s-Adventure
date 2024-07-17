@@ -1,6 +1,7 @@
 extends Node
 
 const SAVE_PATH = "user://save.poke";
+const DEFAULT_PATH = "res://Scenes/Maps/Towns/praire_town.tscn";
 
 func _ready():
 	await GLOBAL.timeout(1);
@@ -23,19 +24,19 @@ func _load() -> void:
 	if !FileAccess.file_exists(SAVE_PATH):
 		print("Error, no Save File to load.");
 		GLOBAL.no_saved_data = true;
-		get_node("/root/SceneManager").transition_to_scene("res://Scenes/Maps/praire_town.tscn", true, false);
+		GLOBAL.go_to_scene(DEFAULT_PATH, true, false);
 		return;
 		
-	var save_file = FileAccess.open(SAVE_PATH, FileAccess.READ)
+	var save_file = FileAccess.open(SAVE_PATH, FileAccess.READ);
 	while save_file.get_position() < save_file.get_length():
 		var json = JSON.new();
-		json.parse(save_file.get_line())
+		json.parse(save_file.get_line());
 		var data = json.get_data();
-		if(data.has("path") && has_node(data["path"])):
+		if(data && data.has("path") && has_node(data["path"])):
 			var node: Node = get_node(data["path"]);
 			if(node.has_method("load")): node.load(data);
 			else: 
 				print("Node '%s' is missing a load function, skipped" % node.name)
-		elif(data.has("player")): GLOBAL.player_data_to_load = data;
+		elif(data && data.has("player")): GLOBAL.player_data_to_load = data;
 	GLOBAL.no_saved_data = false;
 	save_file.close();

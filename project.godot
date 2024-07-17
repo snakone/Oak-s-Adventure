@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Oak's Adventure"
 config/description="Pokémon Ruby & Shappire inspired Game"
-config/version="0.5.5"
+config/version="0.6.0"
 run/main_scene="res://scene_manager.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 
@@ -30,6 +30,10 @@ BATTLE="*res://Utils/battle.gd"
 MOVES="*res://Utils/moves.gd"
 EXP="*res://Utils/experience.gd"
 BOXES="*res://Utils/boxes.gd"
+LIBRARIES="*res://Utils/libraries.gd"
+ENUMS="*res://Utils/enums.gd"
+BAG="*res://Utils/bag.gd"
+TRAINERS="*res://Utils/trainers.gd"
 
 [display]
 
@@ -61,6 +65,13 @@ folder_colors={
 
 import/blender/enabled=false
 import/fbx/enabled=false
+
+[importer_defaults]
+
+texture={
+"compress/channel_pack": 1,
+"detect_3d/compress_to": 0
+}
 
 [input]
 
@@ -121,6 +132,10 @@ bike={
 ]
 }
 
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
 [layer_names]
 
 2d_physics/layer_1="Player"
@@ -132,7 +147,6 @@ bike={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)
 viewport/hdr_2d=true

@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://xa22fo13s7np"]
+[gd_scene load_steps=13 format=3 uid="uid://xa22fo13s7np"]
 
 [ext_resource type="Script" path="res://Scenes/NPC/npc.gd" id="1_chn85"]
 [ext_resource type="Texture2D" uid="uid://cd3146vuujwx6" path="res://Sprites/NPC/mom.png" id="2_0d8cd"]
+[ext_resource type="Texture2D" uid="uid://dw4d68apfehd2" path="res://Assets/UI/Battle/trainer_exclamation.png" id="3_sg2cn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u6ea3"]
 size = Vector2(16, 16)
@@ -39,8 +40,7 @@ length = 0.001
 
 [sub_resource type="Animation" id="Animation_xgi3o"]
 resource_name = "moveDown"
-length = 0.3
-step = 0.07
+length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -48,7 +48,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.07, 0.14, 0.21),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [4, 0, 5, 0]
@@ -56,8 +56,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_2kdkl"]
 resource_name = "moveLeft"
-length = 0.3
-step = 0.07
+length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -65,7 +64,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.07, 0.14, 0.21),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [8, 2, 9, 2]
@@ -73,8 +72,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_7renu"]
 resource_name = "moveRight"
-length = 0.3
-step = 0.07
+length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -82,7 +80,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.07, 0.14, 0.21),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [10, 3, 11, 3]
@@ -90,8 +88,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_o2wig"]
 resource_name = "moveUp"
-length = 0.3
-step = 0.07
+length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -99,7 +96,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.07, 0.14, 0.21),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [6, 1, 7, 1]
@@ -161,6 +158,13 @@ collision_layer = 16
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TalkArea"]
 polygon = PackedVector2Array(4, 4, 4, -12, 12, -12, 12, 4, 28, 4, 28, 12, 12, 12, 12, 28, 4, 28, 4, 12, -12, 12, -12, 4)
+
+[node name="Exclamation" type="TextureRect" parent="."]
+visible = false
+offset_top = -24.0
+offset_right = 16.0
+offset_bottom = -8.0
+texture = ExtResource("3_sg2cn")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="body_entered" from="StopArea" to="." method="_on_npc_area_body_entered"]

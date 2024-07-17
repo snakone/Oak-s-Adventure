@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://1s62smgp6yrv"]
+
+[ext_resource type="Script" path="res://Scenes/UI/Bag/bag_item.gd" id="1_b8rpj"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/Menu/menu_theme.tres" id="2_ybubr"]
+[ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="3_uujv2"]
+
+[node name="BagItem" type="Control"]
+custom_minimum_size = Vector2(132, 12)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_b8rpj")
+
+[node name="Name" type="RichTextLabel" parent="."]
+custom_minimum_size = Vector2(80, 12)
+layout_direction = 2
+layout_mode = 0
+offset_left = 3.0
+offset_top = 1.0
+offset_right = 83.0
+offset_bottom = 13.0
+theme = ExtResource("2_ybubr")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("3_uujv2")
+theme_override_font_sizes/normal_font_size = 12
+text = "POKé BALL"
+
+[node name="Amount" type="RichTextLabel" parent="."]
+clip_contents = false
+custom_minimum_size = Vector2(40, 12)
+layout_direction = 2
+layout_mode = 0
+offset_left = 79.0
+offset_top = 3.0
+offset_right = 119.0
+offset_bottom = 15.0
+theme = ExtResource("2_ybubr")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+theme_override_fonts/normal_font = ExtResource("3_uujv2")
+theme_override_font_sizes/normal_font_size = 9
+text_direction = 2

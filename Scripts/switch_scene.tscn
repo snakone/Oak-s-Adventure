@@ -8,6 +8,9 @@ size = Vector2(16, 16)
 [node name="SwitchScene" type="Area2D"]
 collision_layer = 2
 script = ExtResource("1_xxmhb")
+next_scene = null
+enter_direction = null
+new_map = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_di5ur")

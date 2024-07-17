@@ -1,12 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://cbsymn8f5k46q"]
+[gd_scene load_steps=9 format=3 uid="uid://cbsymn8f5k46q"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/Houses/PraireTown/oak_house.gd" id="1_ukk3f"]
 [ext_resource type="AudioStream" uid="uid://boqgmu2280oq0" path="res://Assets/Sounds/Lappet Town.ogg" id="2_mneog"]
 [ext_resource type="PackedScene" uid="uid://bx5h0mjl27ldb" path="res://Tilesets/oak_house.tscn" id="3_h00vh"]
 [ext_resource type="PackedScene" uid="uid://w5upskxna6ds" path="res://Scenes/NPC/oak.tscn" id="4_jqxwt"]
 [ext_resource type="PackedScene" uid="uid://c72180blxxve2" path="res://Objects/door.tscn" id="5_sapte"]
-[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/dialog_area.tscn" id="6_2lk47"]
-[ext_resource type="PackedScene" uid="uid://d3jj2t8g5va8g" path="res://Scripts/pc_area.tscn" id="7_dg8u4"]
+[ext_resource type="PackedScene" uid="uid://dlppxk7tvefkv" path="res://Scripts/Areas/dialog_area.tscn" id="6_2lk47"]
+[ext_resource type="PackedScene" uid="uid://d3jj2t8g5va8g" path="res://Scripts/Areas/pc_area.tscn" id="7_dg8u4"]
+[ext_resource type="Texture2D" uid="uid://bo4s3nvdnfukw" path="res://Sprites/PC_home.png" id="8_cfj3g"]
 
 [node name="OakHouse" type="Node2D"]
 y_sort_enabled = true
@@ -17,7 +18,6 @@ song = ExtResource("2_mneog")
 [node name="TileMap" parent="." instance=ExtResource("3_h00vh")]
 
 [node name="Oak" parent="." instance=ExtResource("4_jqxwt")]
-y_sort_enabled = true
 position = Vector2(80, 128)
 
 [node name="Shape" type="StaticBody2D" parent="."]
@@ -30,7 +30,7 @@ polygon = PackedVector2Array(-32, 80, 128, 80, 128, -64, -128, -64, -128, 80, -4
 
 [node name="OakDoor" parent="." instance=ExtResource("5_sapte")]
 position = Vector2(80, 144)
-next_scene = "res://Scenes/Maps/praire_town.tscn"
+next_scene = "res://Scenes/Maps/Towns/praire_town.tscn"
 spawn_position = Vector2(48, 96)
 animated = false
 type = 1
@@ -56,4 +56,10 @@ dialog_id = 16
 
 [node name="PC" parent="." instance=ExtResource("7_dg8u4")]
 position = Vector2(112, 0)
-show_sprite = false
+texture = ExtResource("8_cfj3g")
+offset_sprite = Vector2(2, -13)
+on_top = true
+
+[node name="Sleep" parent="." instance=ExtResource("6_2lk47")]
+position = Vector2(208, 0)
+dialog_id = 55

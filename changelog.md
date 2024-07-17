@@ -55,3 +55,30 @@
 - Shared NPC
 - Dialog Responses
 - Route 02
+
+# 0.5.6
+- Pokédex List
+- Water Reflection
+- Night/Day + Lights
+
+# 0.5.7
+- Bag
+- Pickable Items
+- Water Reflection
+- General Fixes
+
+# 0.5.8
+- Catch Pokémon WIP
+- Use Combat Items
+- Android Controls
+
+# 0.5.9
+- Trainer Encounter + Battle
+- Battle Fixes
+- Summary Screen
+
+# 0.6.0
+- Catch Wild Pokémon
+- New Shadows
+- Shop + Buy Items
+- Displayed Sprites Position
