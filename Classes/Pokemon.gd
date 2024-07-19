@@ -28,6 +28,7 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100], for_battle =
 			data.level = randi_range(levels[0], levels[1]);
 		#BATTLE
 		if("battle_stats" not in data): set_battle_stats();
+		if("held_item" not in data): data.held_item = null;
 		data.battle_stages = set_battle_stages();
 		if("battle_moves" not in data): set_battle_moves();
 		else: convert_battle_moves();

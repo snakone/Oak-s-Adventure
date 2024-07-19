@@ -5,7 +5,7 @@ extends CanvasLayer
 @onready var marker = $Marker;
 @onready var audio = $AudioStreamPlayer;
 @onready var menu_selection: NinePatchRect = $Selection;
-@onready var shop_dialog: Node2D = $Shop;
+@onready var alternative_dialog: Node2D = $Alternative;
 
 signal line_ended();
 
@@ -38,11 +38,11 @@ func create(id: int, array: Array) -> void:
 		dialog_data["selection"] = data.selection;
 
 func _ready() -> void:
-	shop_dialog.visible = false;
+	alternative_dialog.visible = false;
 	if(blue): 
 		label.position = Vector2(16, 122);
 		label.add_theme_constant_override("line_separation", 6);
-		shop_dialog.visible = true;
+		alternative_dialog.visible = true;
 		marker.position.x -= 5;
 	GLOBAL.connect("selection_value_select", _on_selection_value_select);
 	marker.visible = false;
@@ -86,7 +86,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		event.is_echo() ||
 		!event.is_pressed() ||
 		dialog_closed ||
-		GLOBAL.menu_open ||
 		!dialog_data.marker ||
 		must_select
 	): return;

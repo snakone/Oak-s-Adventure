@@ -331,8 +331,8 @@ const LIBRARY: Dictionary = {
 	},
 	41: {
 		"arr": [
-			["For the trainers out there:"],
-			["POKéMON lives in grass. Step on at your own risk."]
+			["For all the trainers out there:"],
+			["Be aware! POKéMON lives in grass.\nStep on at your own risk."]
 		],
 		"type": Type.OBJECT,
 		"direction": ENUMS.Directions.UP,
@@ -454,7 +454,7 @@ const LIBRARY: Dictionary = {
 	},
 	53: {
 		"arr": [
-			["In honour of Geraint who defened\nCalderock Village long ago."],
+			["In honour of the mighty Geraint who \ndefended Calderock Village long ago."],
 		],
 		"type": Type.OBJECT,
 		"direction": ENUMS.Directions.UP,
@@ -603,5 +603,9 @@ const LIBRARY: Dictionary = {
 		"type": Type.NPC,
 		"marker": true,
 		"blue_dialog": true,
+	},
+	74: {
+		"type": Type.SYSTEM,
+		"marker": true
 	},
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://giwx2ioysoot"]
+[gd_scene load_steps=43 format=3 uid="uid://giwx2ioysoot"]
 
 [ext_resource type="Texture2D" uid="uid://b84kos15c1maw" path="res://Assets/UI/party_background.png" id="1_hwxdf"]
 [ext_resource type="Script" path="res://Scenes/UI/party_screen.gd" id="1_nyw7a"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://uaqoxfq6qhvd" path="res://Assets/UI/green_bar.png" id="6_utcu8"]
 [ext_resource type="Texture2D" uid="uid://cygndnup0am01" path="res://Assets/UI/standby_pokemon_background.png" id="7_8kd4u"]
 [ext_resource type="Texture2D" uid="uid://dcvfw8p8val8q" path="res://Assets/UI/exit_background_button.png" id="8_lcc1j"]
+[ext_resource type="Texture2D" uid="uid://buxpvab6noqaa" path="res://Assets/UI/held_item.png" id="11_3svhx"]
 [ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/Fonts/power clear.ttf" id="11_20qo2"]
 [ext_resource type="Texture2D" uid="uid://bopa3lb8giu8a" path="res://Assets/UI/fnt.png" id="12_i0hvq"]
 [ext_resource type="Texture2D" uid="uid://d3dxw0bsf6jxo" path="res://Assets/UI/marker_orange.png" id="12_srpur"]
@@ -578,6 +579,15 @@ scale = Vector2(0.5, 1)
 texture = ExtResource("6_utcu8")
 centered = false
 
+[node name="Held_Item" type="TextureRect" parent="Slots/First"]
+visible = false
+offset_left = 18.0
+offset_top = 45.0
+offset_right = 25.0
+offset_bottom = 52.0
+texture = ExtResource("11_3svhx")
+stretch_mode = 2
+
 [node name="Status" type="TextureRect" parent="Slots/First"]
 visible = false
 offset_left = 20.0
@@ -698,6 +708,15 @@ texture = ExtResource("6_utcu8")
 centered = false
 region_filter_clip_enabled = true
 
+[node name="Held_Item" type="TextureRect" parent="Slots/Second"]
+visible = false
+offset_left = 10.0
+offset_top = 25.0
+offset_right = 17.0
+offset_bottom = 32.0
+texture = ExtResource("11_3svhx")
+stretch_mode = 2
+
 [node name="Status" type="TextureRect" parent="Slots/Second"]
 visible = false
 offset_left = 71.0
@@ -815,6 +834,15 @@ position = Vector2(86, 15)
 texture = ExtResource("6_utcu8")
 centered = false
 region_filter_clip_enabled = true
+
+[node name="Held_Item" type="TextureRect" parent="Slots/Third"]
+visible = false
+offset_left = 10.0
+offset_top = 25.0
+offset_right = 17.0
+offset_bottom = 32.0
+texture = ExtResource("11_3svhx")
+stretch_mode = 2
 
 [node name="Status" type="TextureRect" parent="Slots/Third"]
 visible = false
@@ -953,6 +981,15 @@ libraries = {
 "": SubResource("AnimationLibrary_wp3f2")
 }
 
+[node name="Held_Item" type="TextureRect" parent="Slots/Fourth"]
+visible = false
+offset_left = 10.0
+offset_top = 25.0
+offset_right = 17.0
+offset_bottom = 32.0
+texture = ExtResource("11_3svhx")
+stretch_mode = 2
+
 [node name="Fifth" type="Node2D" parent="Slots"]
 visible = false
 position = Vector2(-94, 24)
@@ -1070,6 +1107,15 @@ libraries = {
 libraries = {
 "": SubResource("AnimationLibrary_yc77i")
 }
+
+[node name="Held_Item" type="TextureRect" parent="Slots/Fifth"]
+visible = false
+offset_left = 10.0
+offset_top = 25.0
+offset_right = 17.0
+offset_bottom = 32.0
+texture = ExtResource("11_3svhx")
+stretch_mode = 2
 
 [node name="Sixth" type="Node2D" parent="Slots"]
 visible = false
@@ -1189,6 +1235,15 @@ libraries = {
 "": SubResource("AnimationLibrary_h7o6p")
 }
 
+[node name="Held_Item" type="TextureRect" parent="Slots/Sixth"]
+visible = false
+offset_left = 10.0
+offset_top = 25.0
+offset_right = 17.0
+offset_bottom = 32.0
+texture = ExtResource("11_3svhx")
+stretch_mode = 2
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -10.0
 
@@ -1225,14 +1280,6 @@ offset_right = 79.0
 offset_bottom = 23.5
 grow_vertical = 2
 
-[node name="Shift" type="RichTextLabel" parent="Select/VBoxContainer"]
-custom_minimum_size = Vector2(0, 12)
-layout_mode = 2
-theme = ExtResource("3_r2g54")
-theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
-theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
-text = "SHIFT"
-
 [node name="Summary" type="RichTextLabel" parent="Select/VBoxContainer"]
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
@@ -1240,6 +1287,14 @@ theme = ExtResource("3_r2g54")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 text = "SUMMARY"
+
+[node name="Shift" type="RichTextLabel" parent="Select/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme = ExtResource("3_r2g54")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "SHIFT"
 
 [node name="Item" type="RichTextLabel" parent="Select/VBoxContainer"]
 visible = false
@@ -1263,6 +1318,73 @@ layout_mode = 2
 offset_left = 8.0
 offset_top = 10.5
 offset_right = 17.0
+offset_bottom = 20.5
+texture = ExtResource("13_186ck")
+stretch_mode = 2
+
+[node name="ItemSelect" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 151.0
+offset_top = 97.0
+offset_right = 238.0
+offset_bottom = 158.0
+
+[node name="NinePatchRect" type="NinePatchRect" parent="ItemSelect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("12_srpur")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ItemSelect"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 32.0
+offset_top = -19.5
+offset_right = 94.0
+offset_bottom = 24.5
+grow_vertical = 2
+
+[node name="Give" type="RichTextLabel" parent="ItemSelect/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme = ExtResource("3_r2g54")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "GIVE"
+
+[node name="Take" type="RichTextLabel" parent="ItemSelect/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme = ExtResource("3_r2g54")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "TAKE"
+
+[node name="Cancel" type="RichTextLabel" parent="ItemSelect/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme = ExtResource("3_r2g54")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "CANCEL"
+
+[node name="Cursor" type="TextureRect" parent="ItemSelect"]
+layout_mode = 2
+offset_left = 23.0
+offset_top = 10.5
+offset_right = 32.0
 offset_bottom = 20.5
 texture = ExtResource("13_186ck")
 stretch_mode = 2

@@ -587,7 +587,8 @@ enum Item {
 	ULTRABALL,
 	MASTERBALL,
 	POTION,
-	SUPER_POTION
+	SUPER_POTION,
+	BIKE
 }
 
 enum ItemEffect {

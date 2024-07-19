@@ -19,6 +19,7 @@ extends CanvasLayer
 @onready var specie_container: BoxContainer = $Specie/Container;
 @onready var ground: TextureRect = $Specie/Ground;
 @onready var shadow: Sprite2D = $Specie/Container/Shadow;
+@onready var item: RichTextLabel = $Info/Item;
 
 #SKILLS
 @onready var hp: RichTextLabel = $Skills/HP;
@@ -298,6 +299,8 @@ func close_summary() -> void:
 		return;
 	play_audio(LIBRARIES.SOUNDS.GUI_MENU_CLOSE);
 	await GLOBAL.timeout(.2);
+	if(!GLOBAL.party_open):
+		GLOBAL.on_overlay = false;
 	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/SummaryScreen");
 	GLOBAL.summary_pokemon = null;
 	GLOBAL.summary_index = 0;
@@ -367,6 +370,12 @@ func set_pokemon_info() -> void:
 			shadow.texture = BATTLE.get_shadow_texture(pokemon.data);
 			shadow.offset = pokemon.data.display.offset.summary.shadow;
 		else: shadow.visible = false;
+		#HELD ITEM
+		if(pokemon.data.held_item != null):
+			var item_data = BAG.get_item_by_id(pokemon.data.held_item);
+			if(item_data != null):
+				item.text = item_data.name;
+		else: item.text = "NONE";
 
 func set_pokemon_skills() -> void:
 	hp.text = str(pokemon.data.current_hp) + "/" + str(pokemon.data.battle_stats["HP"]);

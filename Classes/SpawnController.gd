@@ -10,6 +10,7 @@ class_name SpawnController;
 var climate_canvas: CanvasLayer;
 
 func _ready():
+	GLOBAL.game_started = true;
 	if(song): AUDIO.play(song);
 	GLOBAL.inside_house = false;
 	var size = MAPS.get_map_size_and_emit(tilemap);

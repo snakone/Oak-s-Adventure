@@ -39,7 +39,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		GLOBAL.on_battle ||
 		!can_use_menu ||
 		GLOBAL.insight ||
-		GLOBAL.on_pc
+		GLOBAL.on_pc ||
+		!GLOBAL.game_started ||
+		GLOBAL.on_overlay ||
+		GLOBAL.party_open
 	): return;
 	
 	#BIKE ON/OFF
@@ -184,7 +187,6 @@ func handle_save() -> void:
 func connect_signals() -> void:
 	GLOBAL.connect("player_moving", _on_player_moving);
 	GLOBAL.connect("scene_opened", _on_scene_opened);
-	GLOBAL.connect("close_menu", close_menu);
 
 func update_cursor() -> void:
 	var perct = (selected_option % options_length) * 16;

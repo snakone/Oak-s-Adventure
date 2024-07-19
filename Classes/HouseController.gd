@@ -9,6 +9,7 @@ class_name HouseController;
 const NPC_scene = preload("res://Scenes/NPC/npc.tscn");
 
 func _ready():
+	GLOBAL.game_started = true;
 	set_camera();
 	check_npc_spawn();
 	GLOBAL.inside_house = true;

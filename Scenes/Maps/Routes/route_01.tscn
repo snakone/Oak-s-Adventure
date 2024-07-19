@@ -79,7 +79,7 @@ dialog_id = 41
 [node name="Pickables" type="Node2D" parent="."]
 
 [node name="Object" parent="Pickables" instance=ExtResource("11_f05qo")]
-position = Vector2(64, 128)
+position = Vector2(32, 288)
 pickable = 4
 area = 4
 

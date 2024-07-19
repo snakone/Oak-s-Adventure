@@ -50,6 +50,7 @@ _data = {
 }
 
 [node name="DialogManager" type="CanvasLayer"]
+layer = 3
 script = ExtResource("1_xrosg")
 
 [node name="Timer" type="Timer" parent="."]
@@ -78,7 +79,7 @@ offset_bottom = 153.0
 theme = ExtResource("2_sr88g")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
-theme_override_constants/line_separation = 2
+theme_override_constants/line_separation = 3
 theme_override_fonts/normal_font = ExtResource("4_c420i")
 theme_override_fonts/bold_font = ExtResource("5_tndgo")
 theme_override_font_sizes/normal_font_size = 12
@@ -108,9 +109,10 @@ volume_db = -8.0
 
 [node name="Selection" parent="." instance=ExtResource("7_mmu53")]
 
-[node name="Shop" type="Node2D" parent="."]
+[node name="Alternative" type="Node2D" parent="."]
+z_index = 3
 
-[node name="TextureRect" type="TextureRect" parent="Shop"]
+[node name="TextureRect" type="TextureRect" parent="Alternative"]
 offset_top = 110.0
 offset_right = 240.0
 offset_bottom = 160.0

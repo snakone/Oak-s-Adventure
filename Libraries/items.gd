@@ -78,6 +78,13 @@ var LIST = [
 			"price": 700,
 			"badges": 1
 		}
+	},
+		{
+		"id": ENUMS.Item.BIKE,
+		"name": "OAK's BIKE",
+		"description": "An old Bike that has been running for ages.",
+		"image": preload("res://Assets/UI/Items/BICYCLE.png"),
+		"type": ENUMS.BagScreen.KEY
 	}
 ];
 

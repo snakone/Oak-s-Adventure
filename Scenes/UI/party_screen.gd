@@ -3,8 +3,10 @@ extends CanvasLayer
 @onready var audio = $AudioStreamPlayer;
 @onready var nine_rect: NinePatchRect = $Select/NinePatchRect;
 @onready var select: Control = $Select;
+@onready var item_select: Control = $ItemSelect;
 @onready var cursor: TextureRect = $Select/Cursor;
 @onready var label: RichTextLabel = $Background/RichTextLabel;
+@onready var item_cursor: TextureRect = $ItemSelect/Cursor
 
 @onready var v_box_container: VBoxContainer = $Select/VBoxContainer;
 @onready var shift: RichTextLabel = $Select/VBoxContainer/Shift;
@@ -22,10 +24,13 @@ const move_where_sentence = "Move to where?";
 const cancel_switch_sentence = "Cancel Switch";
 
 const summary_screen_path = "res://Scenes/UI/summary_screen.tscn";
+const bag_screen_path = "res://Scenes/UI/Bag/bag_screen.tscn";
+
 const default_select_position = Vector2(151, 97);
 const select_position_upper_on_battle = Vector2(151, 2);
 const select_position_upper = Vector2(151, 19);
 const switch_anim_duration = 0.5;
+const ITEM_DIALOG = 74;
 
 enum Slots { FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH }
 enum State { OFF, ON }
@@ -52,13 +57,20 @@ var switching = false;
 var switch_mode = false;
 var current_switch_slot;
 var selected_pokemon: Object;
+var in_item_mode = false;
 
 var select_cursor_default_position = [
 	Vector2(8, -5.5), Vector2(8, 10), Vector2(8, 26), Vector2(8, 42)
 ];
 
+var select_item_cursor_default_position = [
+	Vector2(23, 10.5), Vector2(23, 26), Vector2(23, 42)
+];
+
 func _ready():
+	GLOBAL.party_open = true;
 	GLOBAL.connect("scene_opened", _on_scene_opened);
+	PARTY.connect("selected_item_for_pokemon", _on_item_select);
 	process_mode = Node.PROCESS_MODE_INHERIT;
 	active_pokemon = PARTY.get_active_pokemon();
 	label.text = default_sentence;
@@ -72,6 +84,7 @@ func _ready():
 		select_cursor_default_position.pop_front();
 		BATTLE.party_pokemon_selected = false;
 	move_select_arrow();
+	check_for_held_items();
 	if(SETTINGS.selected_marker):
 		nine_rect.texture = SETTINGS.selected_marker; 
 
@@ -98,7 +111,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		GLOBAL.dialog_open ||
 		closing ||
 		switching ||
-		Input.is_action_just_pressed("menu")
+		Input.is_action_just_pressed("menu") ||
+		PARTY.must_select_item
 	): return;
 	
 	if(
@@ -206,11 +220,44 @@ func select_slot() -> void:
 			SelectSlot.SECOND: open_summary();
 			SelectSlot.THIRD: close_select();
 	#NORMAL PARTY
-	elif(select_open && !GLOBAL.on_battle):
+	elif(select_open && !GLOBAL.on_battle && !in_item_mode):
 		match select_index:
 			SelectSlot.FIRST: open_summary();
 			SelectSlot.SECOND: switch_slot();
+			SelectSlot.THIRD: item_mode();
 			SelectSlot.FOURTH: close_select();
+	#ITEM MODE
+	elif(select_open && !GLOBAL.on_battle && in_item_mode):
+		match select_index:
+			SelectSlot.FIRST: give_item();
+			SelectSlot.SECOND: take_item();
+			SelectSlot.THIRD: close_select();
+
+func give_item() -> void:
+	PARTY.must_select_item = true;
+	GLOBAL.on_overlay = true;
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
+	GLOBAL.go_to_scene(bag_screen_path, false, false);
+
+func take_item() -> void:
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
+	close_all_panels();
+	if(selected_pokemon.data.held_item == null):
+		GLOBAL.emit_signal(
+			"create_dialog", ITEM_DIALOG, 
+			[[selected_pokemon.name + " isn't holding anything."]]);
+		await GLOBAL.close_dialog;
+		return;
+	#GIVE ITEM BACK
+	BAG.add_item(selected_pokemon.data.held_item, 1);
+	var item_data = BAG.get_item_by_id(selected_pokemon.data.held_item);
+	if(item_data != null):
+		GLOBAL.emit_signal(
+			"create_dialog", ITEM_DIALOG, 
+			[["Received the " + item_data.name + " from " + selected_pokemon.name + "."]]);
+		await GLOBAL.close_dialog;
+		selected_pokemon.data.held_item = null;
+		check_for_held_items();
 
 func select_input() -> void:
 	if(selected_slot == current_switch_slot && switch_mode):
@@ -222,7 +269,6 @@ func select_input() -> void:
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 	var poke_name = slots[selected_slot].get_node("Name").text;
 	selected_pokemon = PARTY.get_pokemon(poke_name);
-	
 	#OPEN SELECT
 	if(
 		selected_slot == int(Slots.FIFTH) || 
@@ -234,9 +280,19 @@ func select_input() -> void:
 	else: select.position = default_select_position;
 	if(BATTLE.can_use_next_pokemon): shift.text = "SEND OUT";
 	elif(GLOBAL.on_battle): shift.text = default_shift;
+	label.text = selected_sentence;
 	select_open = true;
 	select.visible = true;
-	label.text = selected_sentence;
+
+func item_mode() -> void:
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
+	select.visible = false;
+	in_item_mode = true;
+	await GLOBAL.timeout(0.1);
+	item_select.visible = true;
+	label.text = "Do what with an item?";
+	select_index = int(SelectSlot.FIRST);
+	move_select_arrow();
 
 #SWITCH
 func switch_pokemon() -> void:
@@ -260,6 +316,7 @@ func switch_pokemon() -> void:
 	current_slots_length = 0;
 	create_party_list();
 	set_all_options();
+	check_for_held_items();
 	await GLOBAL.timeout(0.1);
 	
 	#IN
@@ -313,6 +370,7 @@ func close_party(sound = true, reset_list = true) -> void:
 	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/PartyScreen");
 	if(GLOBAL.on_battle): BATTLE.state = ENUMS.BattleStates.MENU;
 	process_mode = Node.PROCESS_MODE_DISABLED;
+	GLOBAL.party_open = false;
 
 func reset_switch_mode(sound = true, reset_list = true) -> void:
 	if(sound): play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
@@ -329,7 +387,8 @@ func switch_slot() -> void:
 	var slot = current_slots[selected_slot];
 	var panel = slot.get_node("Panel");
 	current_switch_slot = selected_slot;
-	if(selected_slot == Slots.FIRST): panel.texture = LIBRARIES.IMAGES.MAIN_BACKGROUND_SWITCH;
+	if(selected_slot == Slots.FIRST): 
+		panel.texture = LIBRARIES.IMAGES.MAIN_BACKGROUND_SWITCH;
 	else: panel.texture = LIBRARIES.IMAGES.BACKGROUND_SWITCH;
 
 func handle_DOWN() -> void:
@@ -363,20 +422,20 @@ func handle_LEFT() -> void:
 #SELECT
 func select_DOWN() -> void:
 	select_index += 1;
-	if(GLOBAL.on_battle):
+	if(GLOBAL.on_battle || in_item_mode):
 		if(select_index > SelectSlot.THIRD): 
 			select_index = int(SelectSlot.FIRST);
-	else:
+	elif(!in_item_mode):
 		if(select_index > SelectSlot.FOURTH): 
 			select_index = int(SelectSlot.FIRST);
 	move_select_arrow();
 
 func select_UP() -> void:
-	if(GLOBAL.on_battle):
+	if(GLOBAL.on_battle || in_item_mode):
 		if(select_index == SelectSlot.FIRST): 
 			select_index = int(SelectSlot.THIRD);
 		else: select_index -= 1;
-	else:
+	elif(!in_item_mode):
 		if(select_index == SelectSlot.FIRST): 
 			select_index = int(SelectSlot.FOURTH);
 		else: select_index -= 1;
@@ -395,10 +454,17 @@ func open_summary() -> void:
 #CLOSE SELECT
 func close_select(sound = true) -> void:
 	if(sound): play_audio(LIBRARIES.SOUNDS.GUI_SEL_CURSOR);
-	select_open = false;
-	select.visible = false;
 	select_index = int(SelectSlot.FIRST);
 	move_select_arrow();
+	if(in_item_mode):
+		in_item_mode = false;
+		item_select.visible = false;
+		await GLOBAL.timeout(0.1);
+		label.text = selected_sentence;
+		select.visible = true;
+		return;
+	select_open = false;
+	select.visible = false;
 
 func check_if_can_close() -> bool:
 	if(BATTLE.can_use_next_pokemon):
@@ -407,7 +473,32 @@ func check_if_can_close() -> bool:
 	return true;
 
 func move_select_arrow() -> void:
+	if(in_item_mode):
+		item_cursor.position = select_item_cursor_default_position[select_index];
 	cursor.position = select_cursor_default_position[select_index];
+
+#ON ITEM SELECT
+func _on_item_select(selected_item: Dictionary):
+	selected_pokemon.data.held_item = selected_item.id;
+	select_index = int(SelectSlot.FIRST);
+	move_select_arrow();
+	close_all_panels();
+	await GLOBAL.timeout(0.2);
+	GLOBAL.emit_signal("create_dialog", ITEM_DIALOG, [[
+		selected_pokemon.name + ' was given\nthe ' + selected_item.name + " to hold."
+	]]);
+	await GLOBAL.close_dialog;
+	label.text = default_sentence;
+	PARTY.must_select_item = false;
+	check_for_held_items();
+
+func close_all_panels() -> void:
+	in_item_mode = false;
+	item_select.visible = false;
+	select_open = false;
+	select.visible = false;
+	select_index = int(SelectSlot.FIRST);
+	move_select_arrow();
 
 #CREATE SELECT
 func create_select_panel() -> void:
@@ -496,6 +587,16 @@ func reset() -> void:
 			if(index == int(Slots.FIRST)):
 				panel.texture = LIBRARIES.IMAGES.MAIN_POKEMON_BACKGROUND;
 			else: panel.texture = LIBRARIES.IMAGES.POKEMON_BACKGROUND;
+
+func check_for_held_items() -> void:
+	var party = PARTY.get_party();
+	for index in range(0, party.size()):
+		var slot = slots[index];
+		var poke = party[index];
+		var held_item_slot = slot.get_node("Held_Item");
+		if(poke.data.held_item != null && held_item_slot):
+			held_item_slot.visible = true;
+		else: held_item_slot.visible = false;
 
 func _on_scene_opened(value: bool, _node_name: String) -> void:
 	if(value): return;

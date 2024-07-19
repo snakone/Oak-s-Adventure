@@ -214,7 +214,6 @@ func calculate_catch_rate(enemy: Dictionary, item: Dictionary) -> Array:
 	var b = (a * min(enemy.catch_rate, 255) * item.rate * status_bonus) + 1;
 	var c = floor(b / (max_hp * 3));
 	var d = c / 256;
-	print(d)
 	return check_shake_pokeball(floor(d * 100));
 
 func check_shake_pokeball(rate: float) -> Array:
@@ -227,5 +226,4 @@ func check_shake_pokeball(rate: float) -> Array:
 		var d = min(floor(1048560 / c), 65535);
 		var random = randi_range(0, 65535);
 		tries.push_back(random < d);
-	print(tries)
 	return tries;

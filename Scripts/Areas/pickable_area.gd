@@ -15,9 +15,9 @@ var uuid = preload("res://uuid.gd").new();
 var id;
 
 func _ready() -> void:
+	check_if_already_picked();
 	GLOBAL.connect("pick_item", _on_pick_item);
 	id = uuid.v4();
-	check_if_already_picked();
 	if(texture): sprite_2d.texture = texture;
 
 func check_if_already_picked() -> void:
@@ -27,8 +27,9 @@ func check_if_already_picked() -> void:
 			var item = pick_area[str(pickable)];
 			if(str(number) in item && item[str(number)]):
 				handle_pick();
-				await GLOBAL.timeout(0.2);
-				call_deferred("queue_free");
+				queue_free();
+				return;
+	sprite_2d.visible = true;
 
 func _on_pick_item(data: Dictionary) -> void:
 	if(data.id != id): return;
@@ -42,7 +43,7 @@ func _on_pick_item(data: Dictionary) -> void:
 	BAG.add_item(data.pickable, amount);
 	MAPS.pickable_by_map[str(area)][str(pickable)][str(number)] = true;
 	await GLOBAL.timeout(0.2);
-	call_deferred("queue_free");
+	queue_free();
 
 func handle_pick() -> void:
 	get_node("PickableArea").emit_signal("area_exited", self);
