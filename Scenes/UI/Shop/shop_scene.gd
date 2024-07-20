@@ -9,7 +9,9 @@ extends CanvasLayer
 @onready var shopping_cursor: TextureRect = $Shopping/Cursor;
 @onready var item_description: RichTextLabel = $Shopping/Description/Text;
 @onready var sprite_2d: Sprite2D = $Shopping/Description/Sprite2D;
-@onready var amount_in_bag: RichTextLabel = $Purchasing/Item_Bag/Title
+@onready var amount_in_bag: RichTextLabel = $Purchasing/Item_Bag/Title;
+@onready var item_bag: NinePatchRect = $Purchasing/Item_Bag;
+@onready var select_amount: NinePatchRect = $Purchasing/Select_Amount;
 
 @onready var control_shopping: Control = $Shopping;
 @onready var control_purchasing: Control = $Purchasing;
@@ -178,8 +180,9 @@ func update_cursor() -> void:
 
 #MARKERS
 func set_marker() -> void:
-	if(SETTINGS.selected_marker):
-		nine_rect.texture = SETTINGS.selected_marker;
+	nine_rect.texture = SETTINGS.player_settings.marker;
+	item_bag.texture = SETTINGS.player_settings.marker;
+	select_amount.texture = SETTINGS.player_settings.marker;
 
 func get_current_item() -> Dictionary: return items[control_shopping.item_selected];
 

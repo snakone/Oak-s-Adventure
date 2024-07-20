@@ -58,6 +58,9 @@ var switch_mode = false;
 var current_switch_slot;
 var selected_pokemon: Object;
 var in_item_mode = false;
+var current_held_item = null;
+var current_item = null;
+var can_use_select = true;
 
 var select_cursor_default_position = [
 	Vector2(8, -5.5), Vector2(8, 10), Vector2(8, 26), Vector2(8, 42)
@@ -69,9 +72,8 @@ var select_item_cursor_default_position = [
 
 func _ready():
 	GLOBAL.party_open = true;
-	GLOBAL.connect("scene_opened", _on_scene_opened);
-	PARTY.connect("selected_item_for_pokemon", _on_item_select);
 	process_mode = Node.PROCESS_MODE_INHERIT;
+	connect_signals();
 	active_pokemon = PARTY.get_active_pokemon();
 	label.text = default_sentence;
 	select.visible = false;
@@ -85,8 +87,7 @@ func _ready():
 		BATTLE.party_pokemon_selected = false;
 	move_select_arrow();
 	check_for_held_items();
-	if(SETTINGS.selected_marker):
-		nine_rect.texture = SETTINGS.selected_marker; 
+	nine_rect.texture = SETTINGS.player_settings.marker; 
 
 func set_all_options() -> void:
 	var party = PARTY.current_party;
@@ -227,7 +228,7 @@ func select_slot() -> void:
 			SelectSlot.THIRD: item_mode();
 			SelectSlot.FOURTH: close_select();
 	#ITEM MODE
-	elif(select_open && !GLOBAL.on_battle && in_item_mode):
+	elif(select_open && !GLOBAL.on_battle && in_item_mode && can_use_select):
 		match select_index:
 			SelectSlot.FIRST: give_item();
 			SelectSlot.SECOND: take_item();
@@ -267,8 +268,7 @@ func select_input() -> void:
 		switch_pokemon();
 		return;
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
-	var poke_name = slots[selected_slot].get_node("Name").text;
-	selected_pokemon = PARTY.get_pokemon(poke_name);
+	selected_pokemon = PARTY.get_party()[selected_slot];
 	#OPEN SELECT
 	if(
 		selected_slot == int(Slots.FIFTH) || 
@@ -288,11 +288,14 @@ func item_mode() -> void:
 	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 	select.visible = false;
 	in_item_mode = true;
+	can_use_select = false;
 	await GLOBAL.timeout(0.1);
 	item_select.visible = true;
 	label.text = "Do what with an item?";
 	select_index = int(SelectSlot.FIRST);
 	move_select_arrow();
+	await GLOBAL.timeout(0.2);
+	can_use_select = true;
 
 #SWITCH
 func switch_pokemon() -> void:
@@ -325,8 +328,7 @@ func switch_pokemon() -> void:
 		anim_player.play("SwitchIn");
 	await GLOBAL.timeout(switch_anim_duration);
 	reset_switch_mode(false, false);
-	if(selected_slot == Slots.FIRST):
-		PARTY.reset_all_active(true);
+	PARTY.reset_all_active(true);
 	await GLOBAL.timeout(0.2);
 	switching = false;
 
@@ -338,25 +340,25 @@ func select_pokemon() -> void:
 		if(selected_pokemon.data.death):
 			label.text = selected_pokemon.name + " can't fight!";
 			return;
-		if(active_pokemon && selected_pokemon.name == active_pokemon.name):
+		if(active_pokemon && selected_pokemon.data.uuid == active_pokemon.data.uuid):
 			label.text = same_pokemon_sentence;
 			return;
-		select_poke_and_change(selected_pokemon.name);
+		select_poke_and_change(selected_pokemon.data.uuid);
 		return;
 	else: close_select();
 
 #CHANGE POKEMON
-func select_poke_and_change(poke_name: String) -> void:
+func select_poke_and_change(uuid: String) -> void:
 	label.text = selected_sentence;
 	closing = true;
 	PARTY.reset_all_active();
-	PARTY.set_active_pokemon(poke_name);
+	PARTY.set_active_pokemon(uuid);
 	if(GLOBAL.on_battle): 
 		BATTLE.party_pokemon_selected = true;
 		BATTLE.can_use_menu = false;
 	await GLOBAL.timeout(0.2);
 	close_party(false);
-	PARTY.emit_signal("selected_pokemon_party", poke_name);
+	PARTY.emit_signal("selected_pokemon_party", uuid);
 
 #CLOSE
 func close_party(sound = true, reset_list = true) -> void:
@@ -479,11 +481,23 @@ func move_select_arrow() -> void:
 
 #ON ITEM SELECT
 func _on_item_select(selected_item: Dictionary):
-	selected_pokemon.data.held_item = selected_item.id;
 	select_index = int(SelectSlot.FIRST);
 	move_select_arrow();
 	close_all_panels();
 	await GLOBAL.timeout(0.2);
+	if(selected_pokemon.data.held_item != null):
+		var item_name = BAG.get_item_by_id(selected_pokemon.data.held_item).name;
+		GLOBAL.emit_signal("create_dialog", ITEM_DIALOG, [[
+		selected_pokemon.name + ' is already holding\none ' + item_name + "."
+	  ]]);
+		await GLOBAL.close_dialog;
+		switching = true;
+		current_held_item = selected_pokemon.data.held_item;
+		current_item = selected_item.id;
+		GLOBAL.start_dialog.emit(75);
+		await GLOBAL.close_dialog;
+		return;
+	selected_pokemon.data.held_item = selected_item.id;
 	GLOBAL.emit_signal("create_dialog", ITEM_DIALOG, [[
 		selected_pokemon.name + ' was given\nthe ' + selected_item.name + " to hold."
 	]]);
@@ -491,6 +505,22 @@ func _on_item_select(selected_item: Dictionary):
 	label.text = default_sentence;
 	PARTY.must_select_item = false;
 	check_for_held_items();
+
+func switch_pokemon_item() -> void:
+	if(current_held_item != null && current_item != null):
+		play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
+		var item_name = BAG.get_item_by_id(current_held_item).name;
+		var current_item_name = BAG.get_item_by_id(current_item).name;
+		BAG.add_item(current_held_item, 1);
+		selected_pokemon.data.held_item = current_item;
+		GLOBAL.emit_signal("create_dialog", ITEM_DIALOG, [[
+		"The " + item_name + ' was taken and\nreplaced with ' + current_item_name + "."
+		]]);
+		await GLOBAL.close_dialog;
+		switching = false;
+		current_held_item = null;
+		current_item = null;
+		check_for_held_items();
 
 func close_all_panels() -> void:
 	in_item_mode = false;
@@ -588,6 +618,14 @@ func reset() -> void:
 				panel.texture = LIBRARIES.IMAGES.MAIN_POKEMON_BACKGROUND;
 			else: panel.texture = LIBRARIES.IMAGES.POKEMON_BACKGROUND;
 
+func _on_selection_value_select(
+	value: int,
+	category: ENUMS.SelectionCategory
+	):
+		if(category != ENUMS.SelectionCategory.BINARY): return;
+		match value:
+			ENUMS.BinaryOptions.YES: switch_pokemon_item();
+
 func check_for_held_items() -> void:
 	var party = PARTY.get_party();
 	for index in range(0, party.size()):
@@ -602,6 +640,11 @@ func _on_scene_opened(value: bool, _node_name: String) -> void:
 	if(value): return;
 	closing = false;
 	process_mode = Node.PROCESS_MODE_INHERIT;
+
+func connect_signals() -> void:
+	GLOBAL.connect("scene_opened", _on_scene_opened);
+	PARTY.connect("selected_item_for_pokemon", _on_item_select);
+	GLOBAL.connect("selection_value_select", _on_selection_value_select);
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;

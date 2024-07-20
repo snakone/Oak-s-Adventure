@@ -44,9 +44,11 @@ func _ready() -> void:
 		label.add_theme_constant_override("line_separation", 6);
 		alternative_dialog.visible = true;
 		marker.position.x -= 5;
+		label.z_index = 4;
 	GLOBAL.connect("selection_value_select", _on_selection_value_select);
 	marker.visible = false;
 	label.text = "";
+	timer.wait_time = SETTINGS.speed_map[int(SETTINGS.player_settings.text_speed)];
 	var text_string = dialog_data.arr[0][0];
 	
 	match dialog_data.type:

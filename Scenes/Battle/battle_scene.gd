@@ -638,13 +638,15 @@ func set_enemy_ui(id: int) -> void:
 	attacks.set_enemy_moves(enemy.data.moves);
 	enemy_sprite.play("Front");
 	enemy_hp_bar.texture = LIBRARIES.IMAGES.GREEN_BAR;
-	
 	#SHADOW
 	if("shadow" in enemy.data.specie):
 		enemy_shadow.visible = true;
 		enemy_shadow.texture = BATTLE.get_shadow_texture(enemy.data);
 		enemy_shadow.offset = enemy.data.display.offset.battle.shadow;
-	else: enemy_shadow.visible = false;
+		enemy_shadow.scale = Vector2(0.5, 0.5);
+	else: 
+		enemy_shadow.visible = false;
+		enemy_shadow.scale = Vector2.ZERO;
 		
 	var showcase_poke = { 
 		"number": enemy.data.number, 
@@ -665,7 +667,7 @@ func set_battle_texture() -> void:
 
 #MARKERS
 func set_markers() -> void:
-	var markers = LIBRARIES.BATTLE.get_markers(SETTINGS.selected_type);
+	var markers = LIBRARIES.BATTLE.get_markers(SETTINGS.player_settings.marker_type);
 	attack_background.texture = markers.attack;
 
 func set_name_and_gender(

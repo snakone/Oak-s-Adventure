@@ -4,9 +4,12 @@ extends Node
 const BACKGROUND_ORANGE = preload("res://Assets/UI/Battle/attack_select_background_orange.png");
 const BACKGROUND_GREEN = preload("res://Assets/UI/Battle/attack_select_background_green.png");
 const BACKGROUND_BLUE = preload("res://Assets/UI/Battle/attack_select_background_blue.png");
+const BACKGROUND_WHITE = preload("res://Assets/UI/Battle/attack_select_background_white.png");
+
 const MAIN_MENU_ORANGE = preload("res://Assets/UI/Battle/main_menu_orange.png");
 const MAIN_MENU_GREEN = preload("res://Assets/UI/Battle/main_menu_green.png");
 const MAIN_MENU_BLUE = preload("res://Assets/UI/Battle/main_menu_blue.png");
+const MAIN_MENU_WHITE = preload("res://Assets/UI/Battle/main_menu_white.png");
 
 const POKEMON_BACKGROUND = preload("res://Assets/UI/standby_pokemon_background.png");
 const MAIN_POKEMON_BACKGROUND = preload("res://Assets/UI/main_pokemon_background.png");

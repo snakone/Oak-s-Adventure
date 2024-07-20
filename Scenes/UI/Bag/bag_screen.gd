@@ -78,6 +78,7 @@ func _ready() -> void:
 	create_bag();
 	set_textures();
 	update_item();
+	select_rect.texture = SETTINGS.player_settings.marker;
 	select.visible = false;
 	info.visible = false;
 	move_select_arrow();

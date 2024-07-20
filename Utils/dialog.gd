@@ -25,7 +25,7 @@ const QUICK_DIALOGS = {
 	}
 }
 
-const LIBRARY: Dictionary = {
+@onready var LIBRARY: Dictionary = {
 	1: {
 		"arr": [
 			["Hey! how are you?"],
@@ -95,7 +95,7 @@ const LIBRARY: Dictionary = {
 		"marker": false,
 		"selection": {
 			"category": ENUMS.SelectionCategory.BINARY,
-			"sound": preload("res://Assets/Sounds/confirm.wav")
+			"sound": LIBRARIES.SOUNDS.CONFIRM
 		},
 	},
 	11: {
@@ -105,7 +105,7 @@ const LIBRARY: Dictionary = {
 		"marker": false,
 		"selection": {
 			"category": ENUMS.SelectionCategory.BINARY,
-			"sound": preload("res://Assets/Sounds/save game.mp3")
+			"sound": LIBRARIES.SOUNDS.SAVE_GAME
 		},
 	},
 	12: {
@@ -207,7 +207,7 @@ const LIBRARY: Dictionary = {
 		"marker": true,
 		"selection": {
 			"category": ENUMS.SelectionCategory.HEAL,
-			"sound": preload("res://Assets/Sounds/confirm.wav")
+			"sound": LIBRARIES.SOUNDS.CONFIRM
 		},
 	},
 	24: {
@@ -355,7 +355,7 @@ const LIBRARY: Dictionary = {
 		"marker": false,
 		"selection": {
 			"category": ENUMS.SelectionCategory.BINARY,
-			"sound": preload("res://Assets/Sounds/confirm.wav"),
+			"sound": LIBRARIES.SOUNDS.CONFIRM,
 			"id": 1,
 			"selected": ENUMS.BinaryOptions.NO
 		},
@@ -475,7 +475,7 @@ const LIBRARY: Dictionary = {
 		"marker": false,
 		"selection": {
 			"category": ENUMS.SelectionCategory.SLEEP,
-			"sound": preload("res://Assets/Sounds/confirm.wav"),
+			"sound": LIBRARIES.SOUNDS.CONFIRM,
 			"selected": ENUMS.BinaryOptions.YES,
 		}
 	},
@@ -589,7 +589,7 @@ const LIBRARY: Dictionary = {
 		"blue_dialog": true,
 		"selection": {
 			"category": ENUMS.SelectionCategory.PURCHASE,
-			"sound": preload("res://Assets/Sounds/confirm.wav")
+			"sound": LIBRARIES.SOUNDS.CONFIRM
 		},
 	},
 	72: {
@@ -607,5 +607,14 @@ const LIBRARY: Dictionary = {
 	74: {
 		"type": Type.SYSTEM,
 		"marker": true
+	},
+	75: {
+		"arr": [["Would you like to switch the two items?"]],
+		"type": Type.SYSTEM,
+		"marker": false,
+		"selection": {
+			"category": ENUMS.SelectionCategory.BINARY,
+			"sound": LIBRARIES.SOUNDS.GUI_SEL_DECISION
+		},
 	},
 }

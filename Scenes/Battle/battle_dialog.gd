@@ -17,6 +17,7 @@ var text_size: int = 0;
 var end_line = false;
 
 func write(arr: Array) -> void:
+	timer.wait_time = SETTINGS.speed_map[int(SETTINGS.player_settings.text_speed)];
 	timer.start();
 	end_line = false;
 	label.visible_characters = 0;

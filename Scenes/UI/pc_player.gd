@@ -105,8 +105,7 @@ func update_cursor() -> void:
 
 #MARKERS
 func set_marker() -> void:
-	if(SETTINGS.selected_marker):
-		nine_rect.texture = SETTINGS.selected_marker;
+	nine_rect.texture = SETTINGS.player_settings.marker;
 
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;

@@ -1,0 +1,222 @@
+[gd_scene load_steps=7 format=3 uid="uid://td7e61xgfrf4"]
+
+[ext_resource type="Script" path="res://Scenes/UI/settings_screen.gd" id="1_meqs7"]
+[ext_resource type="Texture2D" uid="uid://djnlkatdy7mil" path="res://Assets/UI/settings_bg.png" id="2_1snsb"]
+[ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/Menu/menu_theme.tres" id="3_3r1jd"]
+[ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="4_cqru4"]
+[ext_resource type="Texture2D" uid="uid://dk43m8p58d124" path="res://Assets/UI/marker_grey.png" id="5_xye70"]
+[ext_resource type="Texture2D" uid="uid://d3dxw0bsf6jxo" path="res://Assets/UI/marker_orange.png" id="6_t6jto"]
+
+[node name="SettingsScreen" type="CanvasLayer"]
+layer = 5
+script = ExtResource("1_meqs7")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_1snsb")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -10.0
+
+[node name="Navbar" type="Node2D" parent="."]
+
+[node name="Pick" type="RichTextLabel" parent="Navbar"]
+clip_contents = false
+layout_direction = 2
+offset_left = 109.0
+offset_top = 4.0
+offset_right = 133.0
+offset_bottom = 14.0
+theme = ExtResource("3_3r1jd")
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.376471, 0.376471, 0.376471, 1)
+theme_override_fonts/normal_font = ExtResource("4_cqru4")
+theme_override_font_sizes/normal_font_size = 10
+text = "PICK"
+
+[node name="Switch" type="RichTextLabel" parent="Navbar"]
+clip_contents = false
+custom_minimum_size = Vector2(43, 10)
+layout_direction = 2
+offset_left = 145.0
+offset_top = 4.0
+offset_right = 188.0
+offset_bottom = 14.0
+theme = ExtResource("3_3r1jd")
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.376471, 0.376471, 0.376471, 1)
+theme_override_fonts/normal_font = ExtResource("4_cqru4")
+theme_override_font_sizes/normal_font_size = 10
+text = "SWITCH"
+
+[node name="Cancel" type="RichTextLabel" parent="Navbar"]
+clip_contents = false
+custom_minimum_size = Vector2(43, 10)
+layout_direction = 2
+offset_left = 201.0
+offset_top = 4.0
+offset_right = 244.0
+offset_bottom = 14.0
+theme = ExtResource("3_3r1jd")
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.376471, 0.376471, 0.376471, 1)
+theme_override_fonts/normal_font = ExtResource("4_cqru4")
+theme_override_font_sizes/normal_font_size = 10
+text = "CANCEL"
+
+[node name="Body" type="Node2D" parent="."]
+
+[node name="Title" type="NinePatchRect" parent="Body"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 20.0
+offset_right = 224.0
+offset_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_xye70")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Player" type="RichTextLabel" parent="Body/Title"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 10.0
+offset_right = 64.0
+offset_bottom = 22.0
+theme = ExtResource("3_3r1jd")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.854902, 0.85098, 1)
+theme_override_font_sizes/normal_font_size = 11
+text = "OPTION"
+
+[node name="Container" type="NinePatchRect" parent="Body"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 52.0
+offset_right = 224.0
+offset_bottom = 156.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_t6jto")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="ColorRect" type="ColorRect" parent="Body/Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 7.0
+offset_top = 7.0
+offset_right = -7.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.917647, 0.917647, 0.917647, 1)
+
+[node name="Selected" type="ColorRect" parent="Body/Container"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 9.0
+offset_right = 201.0
+offset_bottom = 24.0
+color = Color(0.682353, 0.682353, 0.682353, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Body/Container"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 204.0
+offset_bottom = 102.0
+
+[node name="TextSpeed" type="HBoxContainer" parent="Body/Container/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="RichTextLabel" parent="Body/Container/VBoxContainer/TextSpeed"]
+clip_contents = false
+custom_minimum_size = Vector2(108, 10)
+layout_mode = 2
+theme = ExtResource("3_3r1jd")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.854902, 0.85098, 1)
+theme_override_font_sizes/normal_font_size = 11
+text = "TEXT  SPEED"
+
+[node name="Option" type="RichTextLabel" parent="Body/Container/VBoxContainer/TextSpeed"]
+clip_contents = false
+custom_minimum_size = Vector2(64, 10)
+layout_mode = 2
+theme = ExtResource("3_3r1jd")
+theme_override_colors/default_color = Color(0.878431, 0.658824, 0.407843, 1)
+theme_override_colors/font_shadow_color = Color(0.784314, 0.0313726, 0.0313726, 1)
+theme_override_font_sizes/normal_font_size = 11
+text = "NORMAL"
+
+[node name="BattleScene" type="HBoxContainer" parent="Body/Container/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="RichTextLabel" parent="Body/Container/VBoxContainer/BattleScene"]
+clip_contents = false
+custom_minimum_size = Vector2(108, 10)
+layout_mode = 2
+theme = ExtResource("3_3r1jd")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.854902, 0.85098, 1)
+theme_override_font_sizes/normal_font_size = 11
+text = "BATTLE  SCENE"
+
+[node name="Option" type="RichTextLabel" parent="Body/Container/VBoxContainer/BattleScene"]
+clip_contents = false
+custom_minimum_size = Vector2(64, 10)
+layout_mode = 2
+theme = ExtResource("3_3r1jd")
+theme_override_colors/default_color = Color(0.878431, 0.658824, 0.407843, 1)
+theme_override_colors/font_shadow_color = Color(0.784314, 0.0313726, 0.0313726, 1)
+theme_override_font_sizes/normal_font_size = 11
+text = "OFF"
+
+[node name="Frame" type="HBoxContainer" parent="Body/Container/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="RichTextLabel" parent="Body/Container/VBoxContainer/Frame"]
+clip_contents = false
+custom_minimum_size = Vector2(108, 10)
+layout_mode = 2
+theme = ExtResource("3_3r1jd")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.854902, 0.85098, 1)
+theme_override_font_sizes/normal_font_size = 11
+text = "FRAME"
+
+[node name="Option" type="RichTextLabel" parent="Body/Container/VBoxContainer/Frame"]
+clip_contents = false
+custom_minimum_size = Vector2(64, 10)
+layout_mode = 2
+theme = ExtResource("3_3r1jd")
+theme_override_colors/default_color = Color(0.878431, 0.658824, 0.407843, 1)
+theme_override_colors/font_shadow_color = Color(0.784314, 0.0313726, 0.0313726, 1)
+theme_override_font_sizes/normal_font_size = 11
+text = "TYPE 1"
+
+[node name="Cancel" type="HBoxContainer" parent="Body/Container/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="RichTextLabel" parent="Body/Container/VBoxContainer/Cancel"]
+clip_contents = false
+custom_minimum_size = Vector2(108, 10)
+layout_mode = 2
+theme = ExtResource("3_3r1jd")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.854902, 0.85098, 1)
+theme_override_font_sizes/normal_font_size = 11
+text = "CANCEL"

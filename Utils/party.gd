@@ -39,13 +39,13 @@ func get_next_pokemon() -> Object:
 			if(!poke.data.death): return poke;
 	return null;
 
-func get_pokemon(poke_name: String):
+func get_pokemon(uuid: String):
 	for poke in current_party:
-		if(poke.name == poke_name): return poke;
+		if(poke.data.uuid == uuid): return poke;
 
-func set_active_pokemon(poke_name: String) -> void:
+func set_active_pokemon(uuid: String) -> void:
 	for poke in current_party:
-		if(poke.name == poke_name && !poke.data.death):
+		if(poke.data.uuid == uuid && !poke.data.death):
 			poke.data.active = true;
 			break;
 

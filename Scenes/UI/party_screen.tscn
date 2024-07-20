@@ -1280,14 +1280,6 @@ offset_right = 79.0
 offset_bottom = 23.5
 grow_vertical = 2
 
-[node name="Summary" type="RichTextLabel" parent="Select/VBoxContainer"]
-custom_minimum_size = Vector2(0, 12)
-layout_mode = 2
-theme = ExtResource("3_r2g54")
-theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
-theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
-text = "SUMMARY"
-
 [node name="Shift" type="RichTextLabel" parent="Select/VBoxContainer"]
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
@@ -1295,6 +1287,14 @@ theme = ExtResource("3_r2g54")
 theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
 text = "SHIFT"
+
+[node name="Summary" type="RichTextLabel" parent="Select/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme = ExtResource("3_r2g54")
+theme_override_colors/default_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0.862745, 0.862745, 0.862745, 1)
+text = "SUMMARY"
 
 [node name="Item" type="RichTextLabel" parent="Select/VBoxContainer"]
 visible = false

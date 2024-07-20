@@ -5,6 +5,7 @@ var IVs: Dictionary;
 
 @onready var audio: AudioStreamPlayer = $AudioStreamPlayer;
 @onready var anim_player: AnimationPlayer = $AnimationPlayer;
+@onready var nine_patch_rect: NinePatchRect = $".";
 
 @onready var plus_values = {
 	"HP": $HBoxContainer/VBoxContainer/HP/Plus,
@@ -21,6 +22,7 @@ func show_panel(
 ) -> void:
 	anim_player.play("RESET");
 	stats = data.battle_stats;
+	nine_patch_rect.texture = SETTINGS.player_settings.marker;
 	IVs = data.IV;
 	for key in data.IV.keys():
 		plus_values[key].text = "+" + str(diff_stats[key]);

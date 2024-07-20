@@ -50,6 +50,7 @@ _data = {
 }
 
 [node name="Shop" type="CanvasLayer"]
+layer = 3
 script = ExtResource("1_wpkxn")
 
 [node name="Select" type="Control" parent="."]

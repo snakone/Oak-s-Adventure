@@ -24,6 +24,7 @@ extends CanvasLayer
 @onready var active_level: RichTextLabel = $Node2D/Data/Active/Control/Level;
 @onready var party_panel: Node2D = $Node2D/Party/Panel;
 @onready var party_anim_player: AnimationPlayer = $Node2D/Party/AnimationPlayer;
+@onready var item: RichTextLabel = $Node2D/Data/Active/Control/Item;
 
 enum Slots { FIRST, SECOND, THIRD, FOURTH, FIFTH, SIXTH }
 enum Positions { OPTIONS = -2, BOX_SWITCH = -1, PARTY = 6 }
@@ -514,6 +515,12 @@ func set_active(poke: Node) -> void:
 	else: active_sprite.rotation_degrees = 0;
 	inactive.visible = false;
 	active.visible = true;
+	if(poke.data.held_item != null):
+		item.visible = true;
+		var poke_item = BAG.get_item_by_id(poke.data.held_item);
+		if(poke_item != null):
+			item.text = poke_item.name;
+	else: item.visible = false;
 
 func set_party_panel() -> void:
 	move_null_to_end();

@@ -67,7 +67,7 @@ func check_if_can_run() -> void:
 
 #MARKERS
 func set_marker() -> void:
-	var markers = LIBRARIES.BATTLE.get_markers(SETTINGS.selected_type);
+	var markers = LIBRARIES.BATTLE.get_markers(SETTINGS.player_settings.marker_type);
 	background.texture = markers.menu;
 
 func open_party() -> void:
