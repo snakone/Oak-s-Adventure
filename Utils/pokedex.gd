@@ -51,20 +51,28 @@ func get_showcase_last_index() -> int:
 		if(pokedex_showcase[i] != null): return pokedex_showcase[i].number;
 	return -1;
 
+func is_poke_in_showcase(index: int) -> bool:
+	for poke in pokedex_showcase:
+		if(poke && poke.number == index): return true;
+	return false;
+
+func is_pokemon_owned(index: int) -> bool:
+	for poke in pokedex_showcase:
+		if(poke && poke.number == index): return poke.owned;
+	return false;
+
 func add_pokemon_to_showcase(pokemon = null) -> void:
 	if(pokemon != null):
 		var last_index = get_showcase_last_index();
 		if(last_index == -1): return;
-		if(
-			int(pokemon.number - 1) in pokedex_showcase && 
-			pokedex_showcase[pokemon.number - 1].owned == true
-		): return;
+		if(is_pokemon_owned(pokemon.number)): return;
+		var index = int(pokemon.number - 1);
 		#LOWER - ASSIGN TO CURRENT LIST
 		if(last_index >= pokemon.number):
-			pokedex_showcase[pokemon.number - 1] = pokemon;
+			pokedex_showcase[index] = pokemon;
 			return;
 		#GREATER - CREATE NULLS TILL NEW POKEMON
-		for i in range(last_index, pokemon.number - 1): 
+		for i in range(last_index, index): 
 			pokedex_showcase.append(null);
 		pokedex_showcase.append(pokemon);
 

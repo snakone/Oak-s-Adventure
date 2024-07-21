@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=3 uid="uid://3clfgm81x0yq"]
+[gd_scene load_steps=80 format=3 uid="uid://3clfgm81x0yq"]
 
 [ext_resource type="Script" path="res://Scenes/Battle/battle_scene.gd" id="1_vc7g5"]
 [ext_resource type="Shader" path="res://Scenes/UI/Shaders/flash.gdshader" id="2_hhjny"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://uaqoxfq6qhvd" path="res://Assets/UI/green_bar.png" id="9_1a4ob"]
 [ext_resource type="Texture2D" uid="uid://dbtcanods1xaq" path="res://Assets/UI/Battle/attack_select_background.png" id="9_iv4im"]
 [ext_resource type="Texture2D" uid="uid://cu7y7kgh8s7mn" path="res://Assets/UI/Battle/player_info1.png" id="10_crvw1"]
+[ext_resource type="Texture2D" uid="uid://bckrjlbbdr8nt" path="res://Assets/UI/Battle/owned.png" id="11_d4n3p"]
 [ext_resource type="Texture2D" uid="uid://cwjt1thedkj7u" path="res://Assets/UI/Battle/player_info_bg.png" id="11_jd31m"]
 [ext_resource type="SpriteFrames" uid="uid://b7qwmj75ulas8" path="res://Sprites/Animated/Bulbasaur/bulbasaur.tres" id="13_4uggi"]
 [ext_resource type="Texture2D" uid="uid://d10m1ecady526" path="res://Assets/UI/Battle/dialouge_background.png" id="13_m2v7w"]
@@ -4109,6 +4110,14 @@ texture = ExtResource("9_1a4ob")
 centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 48, 2)
+
+[node name="Owned" type="TextureRect" parent="Info/EnemyInfo"]
+self_modulate = Color(1, 1, 1, 0.941176)
+offset_left = -44.0
+offset_right = -37.0
+offset_bottom = 7.0
+texture = ExtResource("11_d4n3p")
+stretch_mode = 2
 
 [node name="PlayerInfo" type="Sprite2D" parent="Info"]
 visible = false

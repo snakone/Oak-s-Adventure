@@ -32,7 +32,8 @@ var LIST: Dictionary = {
 		"pp": 35,
 		"total_pp": 35,
 		"priority": 0,
-		"description": "A physical attack in which the user charges, full body, into the foe."
+		"description": "A physical attack in which the user charges, full body, into the foe.",
+		"effect": { "type": ENUMS.MoveEffect.NORMAL }
 	},
 	ENUMS.MoveNames.GROWL: {
 		"id": ENUMS.MoveNames.GROWL,
@@ -44,8 +45,14 @@ var LIST: Dictionary = {
 		"pp": 40,
 		"total_pp": 40,
 		"priority": 0,
-		"action": Callable(self, "growl"),
-		"description": "The user growls in a cute way, making the foe lower it's Attack. stat."
+		"description": "The user growls in a cute way, making the foe lower it's Attack. stat.",
+		"effect": { 
+			"type": ENUMS.MoveEffect.LOWER,
+			"data": {
+				"stat": "ATK",
+				"amount": -1
+			}
+		}
 	},
 	ENUMS.MoveNames.QUICK_ATTACK: {
 		"id": ENUMS.MoveNames.QUICK_ATTACK,
@@ -57,7 +64,8 @@ var LIST: Dictionary = {
 		"pp": 30,
 		"total_pp": 30,
 		"priority": 1,
-		"description": "An almost invisibly fast attack that is certain to strike first."
+		"description": "An almost invisibly fast attack that is certain to strike first.",
+		"effect": { "type": ENUMS.MoveEffect.NORMAL }
 	},
 	ENUMS.MoveNames.EMBER: {
 		"id": ENUMS.MoveNames.EMBER,
@@ -69,7 +77,14 @@ var LIST: Dictionary = {
 		"pp": 25,
 		"total_pp": 25,
 		"priority": 0,
-		"description": "The foe is attacked with small flames. The foe may suffer a burn."
+		"description": "The foe is attacked with small flames. The foe may suffer a burn.",
+		"effect": { 
+			"type": ENUMS.MoveEffect.ADDITIONAL,
+			"data": {
+				"status": ENUMS.PokemonStatus.BURN,
+				"chance": 10
+			}
+		}
 	},
 	ENUMS.MoveNames.VINE_WHIP: {
 		"id": ENUMS.MoveNames.VINE_WHIP,
@@ -81,7 +96,8 @@ var LIST: Dictionary = {
 		"pp": 25,
 		"total_pp": 25,
 		"priority": 0,
-		"description": "The foe is struck with slender, whiplike vines."
+		"description": "The foe is struck with slender, whiplike vines.",
+		"effect": { "type": ENUMS.MoveEffect.NORMAL }
 	},
 	ENUMS.MoveNames.WATER_GUN: {
 		"id": ENUMS.MoveNames.WATER_GUN,
@@ -93,7 +109,8 @@ var LIST: Dictionary = {
 		"pp": 25,
 		"total_pp": 25,
 		"priority": 0,
-		"description": "The foe is struck with a lot of water expelled forcibly from the mouth."
+		"description": "The foe is struck with a lot of water expelled forcibly from the mouth.",
+		"effect": { "type": ENUMS.MoveEffect.NORMAL }
 	}
 }
 

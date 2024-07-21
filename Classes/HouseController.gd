@@ -14,8 +14,11 @@ func _ready():
 	check_npc_spawn();
 	GLOBAL.inside_house = true;
 	if(song): AUDIO.play(song);
+	check_position();
+	show_visit_panel();
+
+func check_position() -> void:
 	var direction = GLOBAL.last_direction;
-	
 	if(MAPS.spawn_position):
 		oak.position = MAPS.spawn_position;
 		MAPS.spawn_position = null;
@@ -23,7 +26,6 @@ func _ready():
 	if(MAPS.must_flip_sprite): direction *= -1;
 	oak.set_blend_direction(direction);
 	MAPS.must_flip_sprite = false;
-	show_visit_panel();
 
 func set_camera() -> void:
 	var size: Vector2 = tilemap.get_used_rect().size;

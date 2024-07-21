@@ -20,6 +20,7 @@ extends Node
 @onready var enemy_ground = $Ground/EnemyGround;
 @onready var trainer_sprite: Sprite2D = $Trainer/Sprite2D;
 @onready var enemy_shadow: Sprite2D = $UI/Enemy/Shadow;
+@onready var owned: TextureRect = $Info/EnemyInfo/Owned;
 
 #BATTLE
 @onready var anim_player = $AnimationPlayer;
@@ -87,6 +88,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 #WILD
 func battle_wild() -> void:
+	check_if_owned();
 	BATTLE.trainer_intro = false;
 	anim_player.play("Start");
 	await BATTLE.dialog_finished;
@@ -144,7 +146,7 @@ func start_attack(delay = 0.0, sound = true) -> void:
 	#ATTACK AGAIN
 	if(!all_attacked()):
 		await BATTLE.attack_finished;
-		delay = HP_ANIM_DURATION + 0.1;
+		delay = HP_ANIM_DURATION * hp_anim_velocity;
 		#SECOND ATTACK
 		if(need_to_check_attack()):
 			await BATTLE.attack_check_done;
@@ -582,10 +584,10 @@ func get_attack_target(get_self = false) -> Dictionary:
 	return target;
 
 func get_target_hp() -> int:
-	if BATTLE.current_turn == BATTLE.Turn.PLAYER:
-		return int(enemy.data.current_hp)
-	elif item_value != null:
-		return min(pokemon.data.battle_stats["HP"], health_before_attack + item_value)
+	if(BATTLE.current_turn == BATTLE.Turn.PLAYER && !BATTLE.on_action):
+		return int(enemy.data.current_hp);
+	elif(item_value != null && BATTLE.on_action):
+		return min(pokemon.data.battle_stats["HP"], health_before_attack + item_value);
 	else: return int(pokemon.data.current_hp);
 
 func get_enemy_death_state() -> Dictionary:
@@ -710,8 +712,8 @@ func start_health_timer() -> void:
 func stop_health_timer() -> void:
 	health_timer.stop();
 	HP_ELLAPSED = 0.0;
-	item_value = null;
-	if(BATTLE.current_turn != BATTLE.Turn.PLAYER):
+	if(BATTLE.current_turn != BATTLE.Turn.PLAYER || BATTLE.on_action):
+		await GLOBAL.timeout(0.1);
 		update_player_health(pokemon.data.current_hp);
 
 #HEALTH TIMEOUT
@@ -731,7 +733,7 @@ func set_pokemon_health_color(value: float, check = true) -> void:
 	check_health_bar_color(value, check);
 
 func set_health_color(value: float) -> void:
-	if(BATTLE.current_turn != BATTLE.Turn.PLAYER): 
+	if(BATTLE.current_turn != BATTLE.Turn.PLAYER || BATTLE.on_action): 
 		update_player_health(int(value));
 	check_health_bar_color(value);
 
@@ -743,7 +745,8 @@ func update_player_health(value = pokemon.data.current_hp) -> void:
 func check_health_bar_color(value: float, check = true) -> void:
 	var target = get_attack_target(
 		BATTLE.current_turn != BATTLE.Turn.PLAYER ||
-		BATTLE.state == ENUMS.BattleStates.SWITCHING
+		BATTLE.state == ENUMS.BattleStates.SWITCHING ||
+		BATTLE.on_action
 	);
 	value = min(value, target.total_hp);
 	var perct = value / target.total_hp;
@@ -904,14 +907,17 @@ func item_heal(item: Dictionary) -> void:
 	item_value = item.action.call(pokemon.data);
 	hp_anim_velocity = 2;
 	HP_ANIM_DURATION = BATTLE.MIN_HP_ANIM;
-	await GLOBAL.timeout(0.2);
+	await GLOBAL.timeout(0.3);
 	dialog.quick(["Oak used " + item.name + "."]);
 	await BATTLE.quick_dialog_end;
 	update_battle_ui(true, true);
+	await GLOBAL.timeout(0.1);
 	play_audio(LIBRARIES.SOUNDS.USE_ITEM_IN_PARTY);
 	await BATTLE.ui_updated;
+	await GLOBAL.timeout(0.3);
 	dialog.quick([pokemon.name + " restored " + str(get_healed_value(item_value)) + " HP."]);
 	await BATTLE.quick_dialog_end;
+	item_value = null;
 	hp_anim_velocity = 1;
 	fake_attack();
 
@@ -1005,6 +1011,10 @@ func attack_miss() -> bool: return(
 func is_wild_and_enemy() -> bool: return(
 		BATTLE.type == ENUMS.BattleType.WILD && 
 		BATTLE.current_turn == BATTLE.Turn.ENEMY);
+
+func check_if_owned() -> void:
+	if(POKEDEX.is_pokemon_owned(enemy.data.number)):
+		owned.visible = true;
 
 #SIGNALS
 func connect_signals() -> void:

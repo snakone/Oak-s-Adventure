@@ -17,7 +17,9 @@ func _ready():
 	create_climate(size);
 	oak.set_blend_direction(GLOBAL.last_direction);
 	GLOBAL.connect("time_of_day_changed", _on_climate_change);
-	
+	check_position();
+
+func check_position() -> void:
 	#COMING FROM HOUSE
 	if(MAPS.spawn_position):
 		oak.position = MAPS.spawn_position;
@@ -33,7 +35,6 @@ func _ready():
 		):
 			var map_position = LIBRARIES.MAPS.CONNECTIONS[MAPS.last_map];
 			oak.position = map_position[name][MAPS.position_before_scene];
-			
 	show_visit_panel();
 
 func create_climate(size: Vector2) -> void:

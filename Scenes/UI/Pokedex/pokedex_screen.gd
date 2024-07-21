@@ -143,7 +143,7 @@ func handle_index_select() -> void:
 		last_option: close_pokedex();
 
 func handle_list_select() -> void:
-	if(is_poke_in_showcase(selected_option + 1)): go_to_info();
+	if(POKEDEX.is_poke_in_showcase(selected_option + 1)): go_to_info();
 
 func handle_cry() -> void:
 	if(
@@ -226,7 +226,7 @@ func go_to_info() -> void:
 func assign_pokemon(direction: int) -> void:
 	force_scroll = false;
 	if(selected_view == int(Views.INFO)):
-		if(!is_poke_in_showcase(selected_option + 1)):
+		if(!POKEDEX.is_poke_in_showcase(selected_option + 1)):
 			var next_index = POKEDEX.find_next_pokemon(selected_option + direction, direction);
 			if(next_index == -1): return;
 			selected_option = next_index;
@@ -373,11 +373,6 @@ func format_number(num: int) -> String:
 func get_poke_types(index: int) -> Array:
 	return POKEDEX.get_pokemon_prop(index, 'types');
 
-func is_poke_in_showcase(index: int) -> bool:
-	for poke in showcase:
-		if(poke && poke.number == index): return true;
-	return false;
-
 func set_pokemon_info() -> void:
 	if(selected_pokemon != null):
 		info_number.text = format_number(selected_pokemon.data.number);
@@ -389,7 +384,7 @@ func set_pokemon_info() -> void:
 		#SPECIES
 		if("specie" in selected_pokemon.data):
 			check_species();
-			if(is_pokemon_owned(selected_pokemon.data.number)):
+			if(POKEDEX.is_pokemon_owned(selected_pokemon.data.number)):
 				footprint.visible = true;
 				footprint.texture = selected_pokemon.data.specie.footprint;
 			else: footprint.visible = false;
@@ -415,7 +410,7 @@ func set_sprites() -> void:
 	else: shadow.visible = false;
 
 func check_species() -> void:
-	if(is_pokemon_owned(selected_pokemon.data.number)): 
+	if(POKEDEX.is_pokemon_owned(selected_pokemon.data.number)): 
 		var specie = selected_pokemon.data.specie;
 		set_species(
 			specie.value,
@@ -474,11 +469,6 @@ func get_list_size() -> int:
 		Views.LIST, Views.INFO: size = showcase_size;
 		_: size = 0;
 	return size;
-
-func is_pokemon_owned(index: int) -> bool:
-	for poke in showcase:
-		if(poke && poke.number == index): return poke.owned;
-	return false;
 
 func close_pokedex() -> void:
 	GLOBAL.on_overlay = false;
