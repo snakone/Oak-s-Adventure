@@ -4,11 +4,11 @@
 [ext_resource type="FontFile" uid="uid://dgrb6vwb25lwm" path="res://Assets/Fonts/power clear.ttf" id="3_fulsk"]
 [ext_resource type="Theme" uid="uid://cun343t873x4o" path="res://Scenes/UI/Menu/menu_theme.tres" id="3_ie45p"]
 [ext_resource type="FontFile" uid="uid://b3ynf240onmy4" path="res://Assets/Fonts/pkmnfl.ttf" id="4_ofk7v"]
-[ext_resource type="SpriteFrames" uid="uid://qnt766smmqon" path="res://Sprites/Animated/Caterpie/caterpie.tres" id="5_keobr"]
 [ext_resource type="Texture2D" uid="uid://do7155yvke3yl" path="res://Assets/UI/Summary/pokeball_list.png" id="5_pg4j6"]
 [ext_resource type="Texture2D" uid="uid://b357ormwh46ea" path="res://Assets/UI/Summary/background_info.png" id="6_obvon"]
 [ext_resource type="Texture2D" uid="uid://cce8ahdqmj40s" path="res://Assets/UI/gender_icons.png" id="6_t6bh8"]
 [ext_resource type="Texture2D" uid="uid://dqj6a17cyjseg" path="res://Assets/UI/Types/grass.png" id="7_hj8bq"]
+[ext_resource type="SpriteFrames" uid="uid://qnt766smmqon" path="res://Sprites/Animated/Caterpie/caterpie.tres" id="7_itplj"]
 [ext_resource type="Texture2D" uid="uid://ugkq2x3oisvk" path="res://Assets/UI/Battle/Backgrounds/field_base1.png" id="8_iprl2"]
 [ext_resource type="Texture2D" uid="uid://dl1rxg6ohwxar" path="res://Assets/UI/Pokemon/shadow_medium.png" id="8_nwycr"]
 [ext_resource type="Texture2D" uid="uid://dqo2j0vakk18h" path="res://Assets/UI/Types/poison.png" id="8_ssdy4"]
@@ -213,8 +213,8 @@ offset_bottom = 95.0
 z_index = 2
 position = Vector2(36, 10)
 scale = Vector2(0.8, 0.8)
-sprite_frames = ExtResource("5_keobr")
-animation = &"Front"
+sprite_frames = ExtResource("7_itplj")
+animation = &"Back"
 centered = false
 
 [node name="Shadow" type="Sprite2D" parent="Specie/Container"]

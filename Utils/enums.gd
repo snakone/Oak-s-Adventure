@@ -642,7 +642,8 @@ enum Trainer {
 }
 
 enum Shops {
-	CALDEROCK_SHOP
+	CALDEROCK_SHOP,
+	OAK_SHOP
 }
 
 enum Colors {

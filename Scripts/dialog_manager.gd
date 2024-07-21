@@ -20,15 +20,15 @@ var whos_talking: String;
 var must_select = false;
 var text_size: int = 0;
 var end_line = false;
-var blue = false;
+var alternative = false;
 
 func set_data(id: int) -> void: 
 	dialog_data = DIALOG.get_dialog(id);
-	if("blue_dialog" in dialog_data): blue = true;
+	if("alternative" in dialog_data): alternative = true;
 
 func create(id: int, array: Array) -> void:
 	var data = DIALOG.get_dialog(id);
-	if("blue_dialog" in data): blue = true;
+	if("alternative" in data): alternative = true;
 	dialog_data = {
 		"type": data.type,
 		"marker": data.marker,
@@ -39,7 +39,7 @@ func create(id: int, array: Array) -> void:
 
 func _ready() -> void:
 	alternative_dialog.visible = false;
-	if(blue): 
+	if(alternative): 
 		label.position = Vector2(16, 122);
 		label.add_theme_constant_override("line_separation", 6);
 		alternative_dialog.visible = true;

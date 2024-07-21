@@ -13,6 +13,12 @@ const MAX_PURCHASE_AMOUNT = 999;
 
 var purchase_amount = 1;
 
+var dialog_time_map = {
+	SETTINGS.TextSpeed.NORMAL: 2.6,
+	SETTINGS.TextSpeed.SLOW: 5.2,
+	SETTINGS.TextSpeed.FAST: 1.9
+}
+
 func _ready() -> void:
 	GLOBAL.connect("selection_value_select", _on_selection_value_select);
 
@@ -76,7 +82,8 @@ func open() -> void:
 	);
 	
 	shop.writing = true;
-	await GLOBAL.timeout(2.6);
+	var dialog_wait_time = dialog_time_map[int(SETTINGS.player_settings.text_speed)];
+	await GLOBAL.timeout(dialog_wait_time);
 	shop.writing = false;
 	visible = true;
 

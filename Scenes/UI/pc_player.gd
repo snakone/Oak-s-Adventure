@@ -7,6 +7,12 @@ extends CanvasLayer
 const POKEMON_BOXES = "res://Scenes/UI/pokemon_boxes.tscn";
 enum PcOptions { BILL, OAK, POKEDEX, OFF }
 
+var dialog_time_map = {
+	SETTINGS.TextSpeed.NORMAL: 1.8,
+	SETTINGS.TextSpeed.SLOW: 3.6,
+	SETTINGS.TextSpeed.FAST: 1.3
+}
+
 var can_use_menu = false;
 var selected_option = 0;
 var options_length = PcOptions.keys().size();
@@ -21,7 +27,7 @@ func start_dialog() -> void:
 	GLOBAL.start_dialog.emit(32);
 	await GLOBAL.close_dialog;
 	GLOBAL.start_dialog.emit(33);
-	await GLOBAL.timeout(1.8);
+	await GLOBAL.timeout(dialog_time_map[int(SETTINGS.player_settings.text_speed)]);
 	nine_rect.visible = true;
 	await GLOBAL.timeout(0.2);
 	can_use_menu = true;

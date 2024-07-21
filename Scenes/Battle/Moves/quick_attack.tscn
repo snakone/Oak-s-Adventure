@@ -153,7 +153,6 @@ _data = {
 
 [node name="QuickAttack" type="Node2D"]
 script = ExtResource("1_k5mcb")
-move_sprite = true
 move_name = 218
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -167,7 +166,7 @@ volume_db = -5.0
 [node name="TakeHit" type="Sprite2D" parent="."]
 visible = false
 z_index = 1
-position = Vector2(60, 97)
+position = Vector2(174, 42)
 texture = ExtResource("3_wiuw8")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]

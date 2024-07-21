@@ -28,7 +28,7 @@ extends Node
 @onready var battle_background = $Background;
 @onready var attack_background = $Attacks/Background;
 @onready var menu_selection: NinePatchRect = $MenuSelection;
-@onready var menu: Node2D = $Menu
+@onready var menu: Node2D = $Menu;
 @onready var dialog: Node2D = $Dialog;
 @onready var attacks: Node2D = $Attacks;
 @onready var ball_animation: Sprite2D = $Catch/Animation;
@@ -144,7 +144,7 @@ func start_attack(delay = 0.0, sound = true) -> void:
 	#ATTACK AGAIN
 	if(!all_attacked()):
 		await BATTLE.attack_finished;
-		delay = (HP_ANIM_DURATION * hp_anim_velocity) + 0.3;
+		delay = HP_ANIM_DURATION + 0.1;
 		#SECOND ATTACK
 		if(need_to_check_attack()):
 			await BATTLE.attack_check_done;
@@ -248,13 +248,13 @@ func _on_move_hit() -> void:
 	await BATTLE.ui_updated;
 
 func after_dialog_attack() -> void:
-	await GLOBAL.timeout(.2);
+	await GLOBAL.timeout(0.2);
 	if(need_to_check_attack()):
 		await BATTLE.attack_check_done;
 		await GLOBAL.timeout(0.2);
 	if(any_death() || any_attacked()): return;
 	dialog.visible = false;
-	await GLOBAL.timeout(.2);
+	await GLOBAL.timeout(0.2);
 	BATTLE.state = ENUMS.BattleStates.MENU;
 
 #UPDATES
@@ -276,7 +276,7 @@ func update_battle_ui(
 func handle_death(state: Dictionary) -> void:
 	BATTLE.can_use_menu = false;
 	battle_anim_player.stop();
-	await GLOBAL.timeout(.2);
+	await GLOBAL.timeout(0.2);
 	battle_anim_player.play(state.anim);
 	await battle_anim_player.animation_finished;
 	dialog.start(state.dialog);
@@ -427,7 +427,7 @@ func start_switch_animation() -> void:
 func switch_pokemon() -> void: 
 	if(!BATTLE.trainer_must_switch): battle_anim_player.stop();
 	dialog.visible = true;
-	await GLOBAL.timeout(.2);
+	await GLOBAL.timeout(0.2);
 	dialog.switch([pokemon.name + " that's enough!"]);
 	await BATTLE.dialog_finished;
 	anim_player.play("Switch");
@@ -462,7 +462,7 @@ func handle_scape() -> void:
 	await GLOBAL.timeout(0.2);
 	play_audio(LIBRARIES.SOUNDS.BATTLE_FLEE);
 	await BATTLE.dialog_finished;
-	await GLOBAL.timeout(.4);
+	await GLOBAL.timeout(0.4);
 	end_battle();
 
 #LEVEL UP

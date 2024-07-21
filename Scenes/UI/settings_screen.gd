@@ -16,11 +16,12 @@ var selected_theme = 0;
 var slots_size = 0;
 var text_speed_size = 0;
 var markers_size = 0;
+var exiting = false;
 
 var speed_label = {
 	SETTINGS.TextSpeed.NORMAL: "NORMAL",
 	SETTINGS.TextSpeed.SLOW: "SLOW",
-	SETTINGS.TextSpeed.HIGH: "HIGH"
+	SETTINGS.TextSpeed.FAST: "FAST"
 }
 
 func _ready() -> void:
@@ -47,7 +48,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		GLOBAL.on_transition || 
 		!event.is_pressed() ||
 		event.is_echo() ||
-		GLOBAL.on_battle
+		GLOBAL.on_battle ||
+		exiting
 	): return;
 	#CLOSE
 	if(Input.is_action_just_pressed("backMenu") ||
@@ -119,6 +121,7 @@ func update_selected_option() -> void:
 	selected.position.y = DEFAULT_SELECT_POSITION + (selected_slot * 14);
 
 func close_settings() -> void:
+	exiting = true;
 	play_audio(LIBRARIES.SOUNDS.GUI_MENU_CLOSE);
 	await audio.finished;
 	GLOBAL.on_overlay = false;

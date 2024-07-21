@@ -127,7 +127,6 @@ func open_party() -> void:
 func open_profile() -> void:
 	can_use_menu = false;
 	screen_loaded = ScreenLoaded.OAK;
-	GLOBAL.on_overlay = true;
 	play_audio(LIBRARIES.SOUNDS.TRAINER_CARD_OPEN);
 	await audio.finished;
 	control.visible = false;

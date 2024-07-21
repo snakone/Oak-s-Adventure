@@ -483,7 +483,7 @@ func is_pokemon_owned(index: int) -> bool:
 func close_pokedex() -> void:
 	GLOBAL.on_overlay = false;
 	play_audio(LIBRARIES.SOUNDS.GUI_MENU_CLOSE);
-	await GLOBAL.timeout(.2);
+	await GLOBAL.timeout(0.2);
 	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/PokedexScreen");
 	process_mode = Node.PROCESS_MODE_DISABLED;
 

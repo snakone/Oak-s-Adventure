@@ -368,7 +368,7 @@ func close_party(sound = true, reset_list = true) -> void:
 	closing = true;
 	GLOBAL.on_overlay = false;
 	if(sound): play_audio(LIBRARIES.SOUNDS.GUI_MENU_CLOSE);
-	await GLOBAL.timeout(.2);
+	await GLOBAL.timeout(0.2);
 	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/PartyScreen");
 	if(GLOBAL.on_battle): BATTLE.state = ENUMS.BattleStates.MENU;
 	process_mode = Node.PROCESS_MODE_DISABLED;

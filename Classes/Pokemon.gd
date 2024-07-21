@@ -227,9 +227,10 @@ func get_resources() -> void:
 	data.specie = resources.specie;
 	data.search = resources.search;
 	
-	if("sprites" in resources):
+	if("sprites" in resources && resources.sprites.begins_with("res://")):
 		var animated_sprite = load(resources.sprites);
-		data.sprites = animated_sprite.instantiate();
+		if(animated_sprite != null):
+			data.sprites = animated_sprite.instantiate();
 
 func convert_battle_moves() -> void:
 	var array = [];

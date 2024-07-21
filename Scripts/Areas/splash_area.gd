@@ -2,7 +2,7 @@ extends Node2D
 @onready var splash_effect = $SplashEffect
 
 func active_effect() -> void:
-	await GLOBAL.timeout(.1);
+	await GLOBAL.timeout(0.1);
 	splash_effect.visible = true;
 	splash_effect.play();
 

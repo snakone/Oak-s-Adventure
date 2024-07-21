@@ -307,7 +307,7 @@ func close_bag(sound = LIBRARIES.SOUNDS.GUI_MENU_CLOSE) -> void:
 		GLOBAL.on_overlay = false;
 	play_audio(sound);
 	BAG.last_bag_screen = selected_view;
-	await GLOBAL.timeout(.2);
+	await GLOBAL.timeout(0.2);
 	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/BagScreen");
 	if(GLOBAL.on_battle): BATTLE.state = ENUMS.BattleStates.MENU;
 	PARTY.must_select_item = false;

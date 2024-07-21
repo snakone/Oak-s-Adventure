@@ -298,7 +298,7 @@ func close_summary() -> void:
 		check_if_can_close();
 		return;
 	play_audio(LIBRARIES.SOUNDS.GUI_MENU_CLOSE);
-	await GLOBAL.timeout(.2);
+	await GLOBAL.timeout(0.2);
 	if(!GLOBAL.party_open):
 		GLOBAL.on_overlay = false;
 	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/SummaryScreen");

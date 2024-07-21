@@ -58,6 +58,42 @@ var LIST: Dictionary = {
 		"total_pp": 30,
 		"priority": 1,
 		"description": "An almost invisibly fast attack that is certain to strike first."
+	},
+	ENUMS.MoveNames.EMBER: {
+		"id": ENUMS.MoveNames.EMBER,
+		"name": "Ember",
+		"type": ENUMS.Types.FIRE,
+		"category": ENUMS.AttackCategory.SPECIAL,
+		"power": 40,
+		"accuracy": 100,
+		"pp": 25,
+		"total_pp": 25,
+		"priority": 0,
+		"description": "The foe is attacked with small flames. The foe may suffer a burn."
+	},
+	ENUMS.MoveNames.VINE_WHIP: {
+		"id": ENUMS.MoveNames.VINE_WHIP,
+		"name": "Vine Whip",
+		"type": ENUMS.Types.GRASS,
+		"category": ENUMS.AttackCategory.PHYSIC,
+		"power": 45,
+		"accuracy": 100,
+		"pp": 25,
+		"total_pp": 25,
+		"priority": 0,
+		"description": "The foe is struck with slender, whiplike vines."
+	},
+	ENUMS.MoveNames.WATER_GUN: {
+		"id": ENUMS.MoveNames.WATER_GUN,
+		"name": "Water Gun",
+		"type": ENUMS.Types.WATER,
+		"category": ENUMS.AttackCategory.SPECIAL,
+		"power": 40,
+		"accuracy": 100,
+		"pp": 25,
+		"total_pp": 25,
+		"priority": 0,
+		"description": "The foe is struck with a lot of water expelled forcibly from the mouth."
 	}
 }
 

@@ -168,10 +168,11 @@ const QUICK_DIALOGS = {
 			["Hey Professor!"],
 			["Take a look to our last stuff..."]
 		],
-		"type": Type.NPC,
+		"type": Type.SHOP,
 		"direction": ENUMS.Directions.ALL,
 		"npc_name": "Merlin",
-		"marker": true
+		"marker": true,
+		"shop": ENUMS.Shops.OAK_SHOP
 	},
 	21: {
 		"arr": [
@@ -581,12 +582,12 @@ const QUICK_DIALOGS = {
 	70: {
 		"type": Type.NPC,
 		"marker": false,
-		"blue_dialog": true
+		"alternative": true
 	},
 	71: {
 		"type": Type.NPC,
 		"marker": false,
-		"blue_dialog": true,
+		"alternative": true,
 		"selection": {
 			"category": ENUMS.SelectionCategory.PURCHASE,
 			"sound": LIBRARIES.SOUNDS.CONFIRM
@@ -596,13 +597,13 @@ const QUICK_DIALOGS = {
 		"arr": [["Here you are!\nThank you!"]],
 		"type": Type.NPC,
 		"marker": true,
-		"blue_dialog": true,
+		"alternative": true,
 	},
 	73: {
 		"arr": [["You don't have enough money."]],
 		"type": Type.NPC,
 		"marker": true,
-		"blue_dialog": true,
+		"alternative": true,
 	},
 	74: {
 		"type": Type.SYSTEM,

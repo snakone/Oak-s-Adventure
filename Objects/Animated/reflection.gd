@@ -16,7 +16,7 @@ func _ready() -> void:
 	point_light_2d.texture = light_texture;
 	sprite_2d.visible = true;
 	GLOBAL.connect("get_on_bike", _on_get_on_bike);
-	await GLOBAL.timeout(.2);
+	await GLOBAL.timeout(0.2);
 	if(GLOBAL.on_bike): get_on_bike();
 
 func _process(_delta: float) -> void: 

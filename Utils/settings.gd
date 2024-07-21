@@ -1,7 +1,7 @@
 extends Node
 
 enum Markers { ORANGE, BLUE, GREEN, WHITE }
-enum TextSpeed { SLOW, NORMAL, HIGH }
+enum TextSpeed { SLOW, NORMAL, FAST }
 enum BattleScene { OFF, ON }
 
 const MARKER_ORANGE = preload("res://Assets/UI/marker_orange.png");
@@ -14,7 +14,7 @@ signal settings_changed;
 var speed_map = {
 	TextSpeed.NORMAL: 0.05,
 	TextSpeed.SLOW: 0.1,
-	TextSpeed.HIGH: 0.035
+	TextSpeed.FAST: 0.035
 }
 
 @onready var marker_switch = {
