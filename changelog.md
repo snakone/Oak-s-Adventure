@@ -82,3 +82,7 @@
 - New Shadows
 - Shop + Buy Items
 - Displayed Sprites Position
+
+# 0.6.1
+- Pokémon Held Item
+- Pokémon Move Effects (Burn, Slept, etc...)
