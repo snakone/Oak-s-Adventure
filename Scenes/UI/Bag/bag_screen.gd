@@ -78,6 +78,7 @@ func _ready() -> void:
 	create_bag();
 	set_textures();
 	update_item();
+	select_rect.texture = SETTINGS.player_settings.marker;
 	select.visible = false;
 	info.visible = false;
 	move_select_arrow();
@@ -127,6 +128,15 @@ func select_slot() -> void:
 	var current_item = get_current_item();
 	if(current_item.id == -1): 
 		close_bag();
+		return;
+	if(PARTY.must_select_item):
+		if(current_item.type == ENUMS.BagScreen.KEY):
+			play_audio(LIBRARIES.SOUNDS.GUI_SEL_BUZZER);
+			await audio.finished;
+			return;
+		PARTY.selected_item_for_pokemon.emit(current_item);
+		BAG.remove_item(current_item.id);
+		close_bag(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
 		return;
 	if(!select_open): open_select(current_item);
 	else:
@@ -292,13 +302,15 @@ func create_list(arr: Array, container: VBoxContainer) -> void:
 		node.set_data(item);
 		container.add_child(node);
 
-func close_bag() -> void:
-	GLOBAL.on_overlay = false;
-	play_audio(LIBRARIES.SOUNDS.GUI_MENU_CLOSE);
+func close_bag(sound = LIBRARIES.SOUNDS.GUI_MENU_CLOSE) -> void:
+	if(!GLOBAL.party_open):
+		GLOBAL.on_overlay = false;
+	play_audio(sound);
 	BAG.last_bag_screen = selected_view;
-	await GLOBAL.timeout(.2);
+	await GLOBAL.timeout(0.2);
 	GLOBAL.emit_signal("scene_opened", false, "CurrentScene/BagScreen");
 	if(GLOBAL.on_battle): BATTLE.state = ENUMS.BattleStates.MENU;
+	PARTY.must_select_item = false;
 	process_mode = Node.PROCESS_MODE_DISABLED;
 
 func set_textures() -> void:

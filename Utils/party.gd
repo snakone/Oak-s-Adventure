@@ -1,19 +1,20 @@
 extends Node
 
 signal selected_pokemon_party(poke_name: String);
+signal selected_item_for_pokemon(item: Dictionary);
 
 @onready var current_party = [Pokemon.new(LIBRARIES.POKEDEX.LIST[9], true, [5], true)];
 var active_pokemon: Dictionary;
+var must_select_item = false;
 
 const ERASE_PROPS = [
 	"party_texture", "stats", "battle_stages", 
 	"battle_stats", "battle_moves", "move_set", 
 	"display", "specie", "sprites", "base_exp",
-	"category", "exp_type", "types", "search"
+	"category", "exp_type", "types", "search", "status"
 ];
 
-func _ready(): 
-	add_to_group(GLOBAL.group_name);
+func _ready(): add_to_group(GLOBAL.group_name);
 func get_party() -> Array: return current_party;
 
 func set_party(party: Array) -> void: 
@@ -38,13 +39,13 @@ func get_next_pokemon() -> Object:
 			if(!poke.data.death): return poke;
 	return null;
 
-func get_pokemon(poke_name: String):
+func get_pokemon(uuid: String):
 	for poke in current_party:
-		if(poke.name == poke_name): return poke;
+		if(poke.data.uuid == uuid): return poke;
 
-func set_active_pokemon(poke_name: String) -> void:
+func set_active_pokemon(uuid: String) -> void:
 	for poke in current_party:
-		if(poke.name == poke_name && !poke.data.death):
+		if(poke.data.uuid == uuid && !poke.data.death):
 			poke.data.active = true;
 			break;
 

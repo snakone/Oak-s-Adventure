@@ -53,7 +53,7 @@ func check_direction() -> void:
 
 #ENTER
 func enter_house() -> void:
-	await GLOBAL.timeout(.1);
+	await GLOBAL.timeout(0.1);
 	#SHARED AND OUT
 	if(shared && type == ENUMS.DoorType.OUT): 
 		next_scene = MAPS.get_next_map();

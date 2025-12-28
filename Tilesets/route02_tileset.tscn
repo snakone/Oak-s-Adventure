@@ -2370,31 +2370,24 @@ y_sort_enabled = true
 
 [node name="TallGrass" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(32, 304)
-encounters = Array[int]([1, 4])
 
 [node name="TallGrass2" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(96, 304)
-encounters = Array[int]([1, 4])
 
 [node name="TallGrass3" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(144, 288)
-encounters = Array[int]([1, 4])
 
 [node name="TallGrass4" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(32, 336)
-encounters = Array[int]([1, 4])
 
 [node name="TallGrass5" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(48, 288)
-encounters = Array[int]([1, 4])
 
 [node name="TallGrass6" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(32, 288)
-encounters = Array[int]([1, 4])
 
 [node name="TallGrass7" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(112, 288)
-encounters = Array[int]([1, 4])
 
 [node name="TallGrass8" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(48, 256)
@@ -2406,7 +2399,6 @@ encounters = Array[int]([1, 4])
 
 [node name="TallGrass10" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(32, 272)
-encounters = Array[int]([1, 4])
 
 [node name="TallGrass11" parent="Grass" instance=ExtResource("19_yiy07")]
 position = Vector2(128, 272)

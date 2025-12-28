@@ -56,6 +56,11 @@ func get_markers(marker_type: SETTINGS.Markers):
 				"menu": LIBRARIES.IMAGES.MAIN_MENU_GREEN,
 				"attack": LIBRARIES.IMAGES.BACKGROUND_GREEN
 			}
+		SETTINGS.Markers.WHITE:
+			return {
+				"menu": LIBRARIES.IMAGES.MAIN_MENU_WHITE,
+				"attack": LIBRARIES.IMAGES.BACKGROUND_WHITE
+			}
 
 var nature_strings = {
 	ENUMS.Nature.ADAMANT: "ADAMANT",

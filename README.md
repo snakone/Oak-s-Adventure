@@ -62,11 +62,11 @@ You can watch more updates on [Youtube](https://www.youtube.com/@AllisonCode).
 ## Downloads
 
 - APK debug [Android](https://mega.nz/file/to4kRRAB#UQ9QdJruFBXlUZdBeS6xlr2wjRATdMmz9Eu83xekZTc)
-- Game for Windows [Windows](https://mega.nz/file/g9px2D6S#YWQaQ4h--Wlt34gb5BMsOeURk6MFY_wdek90nXr_jAk)
+- Game for Windows [Windows](https://mega.nz/file/lpQWwSyJ#2iXT8w6Dc5txPdFjJ73uQOZt7f4ROI_V1s7RFCALGRA)
 - Godot 4 Engine [Godot](https://godotengine.org/) Download for free and start your own journey!
 
 ## Version
-v.0.6.0
+v.0.6.1
 
 ### All Rights reserved to
 &copy;2024 Pokémon. ©1995 - 2024 Nintendo/Creatures Inc./GAME FREAK inc. TM, ®Nintendo.

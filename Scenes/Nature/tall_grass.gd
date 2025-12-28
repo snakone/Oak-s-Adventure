@@ -19,7 +19,7 @@ func _on_area_2d_body_entered(body) -> void:
 	if(body.name == "Oak"):
 		if(!BATTLE.coming_from_battle):
 			if(body.input_direction == Vector2.UP && !GLOBAL.on_bike):
-				await GLOBAL.timeout(.1);
+				await GLOBAL.timeout(0.1);
 			animation_player.play("Stepped");
 			if(encounters.size() == 0): return;
 			check_for_battle(body);

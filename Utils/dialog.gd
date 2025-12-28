@@ -25,7 +25,7 @@ const QUICK_DIALOGS = {
 	}
 }
 
-const LIBRARY: Dictionary = {
+@onready var LIBRARY: Dictionary = {
 	1: {
 		"arr": [
 			["Hey! how are you?"],
@@ -95,7 +95,7 @@ const LIBRARY: Dictionary = {
 		"marker": false,
 		"selection": {
 			"category": ENUMS.SelectionCategory.BINARY,
-			"sound": preload("res://Assets/Sounds/confirm.wav")
+			"sound": LIBRARIES.SOUNDS.CONFIRM
 		},
 	},
 	11: {
@@ -105,7 +105,7 @@ const LIBRARY: Dictionary = {
 		"marker": false,
 		"selection": {
 			"category": ENUMS.SelectionCategory.BINARY,
-			"sound": preload("res://Assets/Sounds/save game.mp3")
+			"sound": LIBRARIES.SOUNDS.SAVE_GAME
 		},
 	},
 	12: {
@@ -168,10 +168,11 @@ const LIBRARY: Dictionary = {
 			["Hey Professor!"],
 			["Take a look to our last stuff..."]
 		],
-		"type": Type.NPC,
+		"type": Type.SHOP,
 		"direction": ENUMS.Directions.ALL,
 		"npc_name": "Merlin",
-		"marker": true
+		"marker": true,
+		"shop": ENUMS.Shops.OAK_SHOP
 	},
 	21: {
 		"arr": [
@@ -207,7 +208,7 @@ const LIBRARY: Dictionary = {
 		"marker": true,
 		"selection": {
 			"category": ENUMS.SelectionCategory.HEAL,
-			"sound": preload("res://Assets/Sounds/confirm.wav")
+			"sound": LIBRARIES.SOUNDS.CONFIRM
 		},
 	},
 	24: {
@@ -331,8 +332,8 @@ const LIBRARY: Dictionary = {
 	},
 	41: {
 		"arr": [
-			["For the trainers out there:"],
-			["POKéMON lives in grass. Step on at your own risk."]
+			["For all the trainers out there:"],
+			["Be aware! POKéMON lives in grass.\nStep on at your own risk."]
 		],
 		"type": Type.OBJECT,
 		"direction": ENUMS.Directions.UP,
@@ -355,7 +356,7 @@ const LIBRARY: Dictionary = {
 		"marker": false,
 		"selection": {
 			"category": ENUMS.SelectionCategory.BINARY,
-			"sound": preload("res://Assets/Sounds/confirm.wav"),
+			"sound": LIBRARIES.SOUNDS.CONFIRM,
 			"id": 1,
 			"selected": ENUMS.BinaryOptions.NO
 		},
@@ -454,7 +455,7 @@ const LIBRARY: Dictionary = {
 	},
 	53: {
 		"arr": [
-			["In honour of Geraint who defened\nCalderock Village long ago."],
+			["In honour of the mighty Geraint who \ndefended Calderock Village long ago."],
 		],
 		"type": Type.OBJECT,
 		"direction": ENUMS.Directions.UP,
@@ -475,7 +476,7 @@ const LIBRARY: Dictionary = {
 		"marker": false,
 		"selection": {
 			"category": ENUMS.SelectionCategory.SLEEP,
-			"sound": preload("res://Assets/Sounds/confirm.wav"),
+			"sound": LIBRARIES.SOUNDS.CONFIRM,
 			"selected": ENUMS.BinaryOptions.YES,
 		}
 	},
@@ -581,27 +582,40 @@ const LIBRARY: Dictionary = {
 	70: {
 		"type": Type.NPC,
 		"marker": false,
-		"blue_dialog": true
+		"alternative": true
 	},
 	71: {
 		"type": Type.NPC,
 		"marker": false,
-		"blue_dialog": true,
+		"alternative": true,
 		"selection": {
 			"category": ENUMS.SelectionCategory.PURCHASE,
-			"sound": preload("res://Assets/Sounds/confirm.wav")
+			"sound": LIBRARIES.SOUNDS.CONFIRM
 		},
 	},
 	72: {
 		"arr": [["Here you are!\nThank you!"]],
 		"type": Type.NPC,
 		"marker": true,
-		"blue_dialog": true,
+		"alternative": true,
 	},
 	73: {
 		"arr": [["You don't have enough money."]],
 		"type": Type.NPC,
 		"marker": true,
-		"blue_dialog": true,
+		"alternative": true,
+	},
+	74: {
+		"type": Type.SYSTEM,
+		"marker": true
+	},
+	75: {
+		"arr": [["Would you like to switch the two items?"]],
+		"type": Type.SYSTEM,
+		"marker": false,
+		"selection": {
+			"category": ENUMS.SelectionCategory.BINARY,
+			"sound": LIBRARIES.SOUNDS.GUI_SEL_DECISION
+		},
 	},
 }

@@ -205,7 +205,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 
 func _on_talk_area_entered(area: Area2D) -> void:
 	if(area == null): return;
-	await GLOBAL.timeout(.1);
+	await GLOBAL.timeout(0.1);
 	can_talk = true;
 	dialog_id = area.get_parent().dialog_id;
 	if(is_area_trainer(area)): 
@@ -215,7 +215,7 @@ func _on_talk_area_entered(area: Area2D) -> void:
 
 func _on_pickable_area_entered(area: Area2D) -> void:
 	if(area == null): return;
-	await GLOBAL.timeout(.1);
+	await GLOBAL.timeout(0.1);
 	can_pick = true;
 	var parent = area.get_parent();
 	area_types = [DIALOG.Type.PICKABLE];
@@ -319,7 +319,7 @@ func check_for_battle() -> void:
 		playback.travel("Idle");
 		player_state = PlayerState.IDLE;
 		stop = true;
-		await GLOBAL.timeout(.4);
+		await GLOBAL.timeout(0.4);
 		#START
 		if(battle_data != {}): 
 			GLOBAL.emit_signal("start_battle", battle_data);
@@ -330,7 +330,7 @@ func set_battle_data(data: Dictionary) -> void:
 	ready_to_battle = true;
 
 func _on_end_battle(data: Dictionary) -> void:
-	await GLOBAL.timeout(.4);
+	await GLOBAL.timeout(0.4);
 	stop = false;
 	call_deferred("set_process", Node.PROCESS_MODE_INHERIT);
 	BATTLE.coming_from_battle = true;

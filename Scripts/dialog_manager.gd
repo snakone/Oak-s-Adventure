@@ -5,7 +5,7 @@ extends CanvasLayer
 @onready var marker = $Marker;
 @onready var audio = $AudioStreamPlayer;
 @onready var menu_selection: NinePatchRect = $Selection;
-@onready var shop_dialog: Node2D = $Shop;
+@onready var alternative_dialog: Node2D = $Alternative;
 
 signal line_ended();
 
@@ -20,33 +20,28 @@ var whos_talking: String;
 var must_select = false;
 var text_size: int = 0;
 var end_line = false;
-var blue = false;
+var alternative = false;
 
 func set_data(id: int) -> void: 
 	dialog_data = DIALOG.get_dialog(id);
-	if("blue_dialog" in dialog_data): blue = true;
+	if("alternative" in dialog_data): alternative = true;
 
 func create(id: int, array: Array) -> void:
 	var data = DIALOG.get_dialog(id);
-	if("blue_dialog" in data): blue = true;
+	if("alternative" in data): alternative = true;
 	dialog_data = {
 		"type": data.type,
 		"marker": data.marker,
 		"arr": array,
 	}
-	if("selection" in data):
-		dialog_data["selection"] = data.selection;
+	if("selection" in data): dialog_data["selection"] = data.selection;
 
 func _ready() -> void:
-	shop_dialog.visible = false;
-	if(blue): 
-		label.position = Vector2(16, 122);
-		label.add_theme_constant_override("line_separation", 6);
-		shop_dialog.visible = true;
-		marker.position.x -= 5;
-	GLOBAL.connect("selection_value_select", _on_selection_value_select);
+	check_for_alternative();
+	connect_signals();
 	marker.visible = false;
 	label.text = "";
+	timer.wait_time = SETTINGS.speed_map[int(SETTINGS.player_settings.text_speed)];
 	var text_string = dialog_data.arr[0][0];
 	
 	match dialog_data.type:
@@ -62,6 +57,15 @@ func _ready() -> void:
 	marker.visible = dialog_data.marker;
 	if("selection" in dialog_data && !dialog_data.marker):
 		show_selection();
+
+func check_for_alternative() -> void:
+	alternative_dialog.visible = false;
+	if(alternative): 
+		label.position = Vector2(16, 122);
+		label.add_theme_constant_override("line_separation", 6);
+		alternative_dialog.visible = true;
+		marker.position.x -= 5;
+		label.z_index = 4;
 
 func write() -> void:
 	end_line = false;
@@ -86,7 +90,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		event.is_echo() ||
 		!event.is_pressed() ||
 		dialog_closed ||
-		GLOBAL.menu_open ||
 		!dialog_data.marker ||
 		must_select
 	): return;
@@ -129,10 +132,8 @@ func handle_continue() -> void:
 
 func handle_write() -> String:
 	var text_string = dialog_data.arr[current_index][current_line];
-	#SELF DIALOG
 	if(oak_prefix in text_string): whos_talking = "Oak";
-	#NPC DIALOG
-	if(npc_dialog && "npc_name" in dialog_data): 
+	elif(npc_dialog && "npc_name" in dialog_data): 
 		whos_talking = dialog_data.npc_name;
 	return text_string;
 
@@ -203,4 +204,7 @@ func _on_timer_timeout() -> void:
 
 func get_filtered_length(original: String) -> int:
 	var filtered_string = original.replace("[b]", "").replace("[/b]", "")
-	return filtered_string.length()
+	return filtered_string.length();
+
+func connect_signals() -> void:
+	GLOBAL.connect("selection_value_select", _on_selection_value_select);

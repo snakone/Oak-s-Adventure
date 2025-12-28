@@ -48,11 +48,8 @@ func match_input() -> void:
 		attack_selection.visible = true;
 		BATTLE.state = ENUMS.BattleStates.FIGHT;
 		BATTLE.update_attack_ui.emit();
-	#BAG
 	elif (cursor_index == Vector2.RIGHT): open_bag();
-	#PARTY
 	elif(cursor_index == Vector2.DOWN): open_party();
-	#ESCAPE
 	elif(cursor_index == Vector2(1, 1)): check_if_can_run();
 
 func check_if_can_run() -> void:
@@ -67,7 +64,7 @@ func check_if_can_run() -> void:
 
 #MARKERS
 func set_marker() -> void:
-	var markers = LIBRARIES.BATTLE.get_markers(SETTINGS.selected_type);
+	var markers = LIBRARIES.BATTLE.get_markers(SETTINGS.player_settings.marker_type);
 	background.texture = markers.menu;
 
 func open_party() -> void:

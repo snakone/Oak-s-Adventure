@@ -595,6 +595,21 @@ theme_override_colors/font_shadow_color = Color(0.196078, 0.196078, 0.196078, 1)
 text = "Lv3"
 text_direction = 1
 
+[node name="Item" type="RichTextLabel" parent="Node2D/Data/Active/Control"]
+visible = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 0
+offset_left = 6.0
+offset_top = 41.0
+offset_right = 72.0
+offset_bottom = 53.0
+theme = ExtResource("7_qe0k8")
+theme_override_colors/font_shadow_color = Color(0.196078, 0.196078, 0.196078, 1)
+theme_override_font_sizes/normal_font_size = 10
+text = "POTION"
+text_direction = 1
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D/Data"]
 libraries = {
 "": SubResource("AnimationLibrary_ll2ie")

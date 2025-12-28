@@ -9,4 +9,4 @@ func get_move_animation(id: ENUMS.MoveNames) -> Node2D:
 	if(id in move_animations):
 		var move = move_animations[id];
 		return move.instantiate();
-	return null;
+	return move_animations[ENUMS.MoveNames.TACKLE].instantiate();

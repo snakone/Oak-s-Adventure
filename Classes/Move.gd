@@ -42,11 +42,6 @@ func emit_on_hit() -> void:
 	play_sound();
 	BATTLE.on_move_hit.emit();
 
-func play_sound(sound = audio_file, volume = default_volume) -> void:
-	audio.stream = sound;
-	audio.volume_db = volume;
-	audio.play();
-
 func play_effective_sound() -> void:
 	if(take_hit.texture == null): return;
 	if(is_weak_attack()):
@@ -92,3 +87,8 @@ func check_take_hit() -> void:
 	if(ENUMS.AttackResult.NONE in BATTLE.attack_result):
 		take_hit.texture = null;
 	else: take_hit.texture = TAKE_TACKLE_HIT;
+
+func play_sound(sound = audio_file, volume = default_volume) -> void:
+	audio.stream = sound;
+	audio.volume_db = volume;
+	audio.play();

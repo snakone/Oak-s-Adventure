@@ -19,7 +19,9 @@ const not_save_scenes = [
 	"res://Scenes/UI/pokemon_boxes.tscn",
 	"res://Scenes/UI/Pokedex/pokedex_screen.tscn",
 	"res://Scenes/UI/Bag/bag_screen.tscn",
-	"res://Scenes/UI/summary_screen.tscn"
+	"res://Scenes/UI/summary_screen.tscn",
+	"res://Scenes/UI/settings_screen.tscn",
+	"res://Scenes/Miscellania/sleep_scene.tscn"
 ];
 
 var dialogue_inst: CanvasLayer;

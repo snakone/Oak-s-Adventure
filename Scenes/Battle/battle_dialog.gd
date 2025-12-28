@@ -17,6 +17,7 @@ var text_size: int = 0;
 var end_line = false;
 
 func write(arr: Array) -> void:
+	timer.wait_time = SETTINGS.speed_map[int(SETTINGS.player_settings.text_speed)];
 	timer.start();
 	end_line = false;
 	label.visible_characters = 0;
@@ -34,7 +35,7 @@ func start(input_arr: Array) -> void:
 	array = input_arr.duplicate();
 	await write(input_arr);
 	marker.visible = true;
-	await GLOBAL.timeout(.2);
+	await GLOBAL.timeout(0.2);
 	pressed = false;
 
 #INPUT DIALOG
@@ -55,7 +56,7 @@ func next_dialog() -> void:
 	should_play_wild_win();
 	await write([array[line]]);
 	line += 1;
-	await GLOBAL.timeout(.2);
+	await GLOBAL.timeout(0.2);
 	pressed = false;
 	if(should_close_next_dialog()):
 		marker.visible = false;
@@ -85,7 +86,7 @@ func levelling_input() -> void:
 func attack(input_arr: Array) -> void:
 	visible = true;
 	await write(input_arr);
-	await GLOBAL.timeout(.2);
+	await GLOBAL.timeout(0.2);
 	BATTLE.dialog_finished.emit();
 
 #LEVEL UP
@@ -119,7 +120,7 @@ func escape(input_arr: Array) -> void:
 	line = 1;
 	await write(input_arr);
 	marker.visible = true;
-	await GLOBAL.timeout(.2);
+	await GLOBAL.timeout(0.2);
 	pressed = false;
 
 #ESCAPE INPUT
@@ -131,7 +132,7 @@ func escape_input() -> void:
 		play_audio(LIBRARIES.SOUNDS.CONFIRM);
 		await audio.finished;
 		marker.visible = false;
-		await GLOBAL.timeout(.2);
+		await GLOBAL.timeout(0.2);
 		BATTLE.dialog_finished.emit();
 		pressed = false;
 		label.text = "";
@@ -145,7 +146,7 @@ func next_pokemon(input_arr: Array) -> void:
 	line = 1;
 	array = input_arr.duplicate();
 	await write(array);
-	await GLOBAL.timeout(.2);
+	await GLOBAL.timeout(0.2);
 	pressed = false;
 	BATTLE.dialog_finished.emit();
 

@@ -28,6 +28,7 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100], for_battle =
 			data.level = randi_range(levels[0], levels[1]);
 		#BATTLE
 		if("battle_stats" not in data): set_battle_stats();
+		if("status" not in data): set_battle_status();
 		data.battle_stages = set_battle_stages();
 		if("battle_moves" not in data): set_battle_moves();
 		else: convert_battle_moves();
@@ -127,27 +128,29 @@ func set_battle_stats() -> void:
 		elif(key == "HP"):
 			var stat = LIBRARIES.FORMULAS.health_formula(stat_base, value, data.level);
 			data.battle_stats[key] = stat;
-		
-	#ABILITIES
-	data.battle_stats["can_scape"] = true;
-	data.battle_stats["protect_critical"] = false;
-	data.battle_stats["in_pinch"] = false;
-	data.battle_stats["can_lower_stats"] = {
+
+func set_battle_status() -> void:
+	data.status = {};
+	data.status["current"] = ENUMS.PokemonStatus.NONE;
+	data.status["can_scape"] = true;
+	data.status["protect_critical"] = false;
+	data.status["in_pinch"] = false;
+	data.status["can_lower_stats"] = {
 		"all": true,
 		"ATK": true,
 		"accuracy": true
 	};
-	data.battle_stats["charmed"] = false;
-	data.battle_stats["self_destruction"] = true;
-	data.battle_stats["awake_fast"] = false;
-	data.battle_stats["contact"] = {
+	data.status["charmed"] = false;
+	data.status["self_destruction"] = true;
+	data.status["awake_fast"] = false;
+	data.status["contact"] = {
 		"burn": false,
 		"paralysis": false,
 		"sleep": false,
 		"poison": false
 	};
-	data.battle_stats["on_status"] = false;
-	data.battle_stats["inmune"] = {
+	data.status["on_status"] = false;
+	data.status["inmune"] = {
 		"poison": false,
 		"sleep": false,
 		"ground": false,
@@ -159,10 +162,10 @@ func set_battle_stats() -> void:
 		"sound": false,
 		"ko": false
 	}
-	data.battle_stats["add_effect"] = false;
-	data.battle_stats["block_effect"] = false;
-	data.battle_stats["can_switch"] = true;
-	data.battle_stats["wonder"] = false;
+	data.status["add_effect"] = false;
+	data.status["block_effect"] = false;
+	data.status["can_switch"] = true;
+	data.status["wonder"] = false;
 
 #IV
 func set_random_IV() -> Dictionary:
@@ -203,7 +206,7 @@ func get_extra_props() -> void:
 	if("types" not in data):
 		data.types = POKEDEX.get_pokemon_prop(data.number, 'types');
 	if("nature" not in data): data.nature = get_random_nature();
-	if("item" not in data): data.item = null;
+	if("held_item" not in data): data.held_item = null;
 	if("ability" not in data):
 		data.ability = POKEDEX.get_pokemon_prop(data.number, 'ability').default;
 	elif(data.ability is Dictionary && "default" in data.ability):
@@ -226,9 +229,10 @@ func get_resources() -> void:
 	data.specie = resources.specie;
 	data.search = resources.search;
 	
-	if("sprites" in resources):
+	if("sprites" in resources && resources.sprites.begins_with("res://")):
 		var animated_sprite = load(resources.sprites);
-		data.sprites = animated_sprite.instantiate();
+		if(animated_sprite != null):
+			data.sprites = animated_sprite.instantiate();
 
 func convert_battle_moves() -> void:
 	var array = [];

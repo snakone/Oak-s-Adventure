@@ -3,7 +3,6 @@ extends Node
 signal cant_enter_door;
 signal player_moving(value: bool);
 signal menu_opened(value: bool);
-signal close_menu;
 signal scene_opened(value: bool, node_name: String);
 signal get_on_bike(value: bool);
 signal bike_inside;
@@ -62,6 +61,8 @@ var insight = false;
 var bike_sound = false;
 var on_pc = false;
 var shopping = false;
+var game_started = false;
+var party_open = false;
 
 #VALUES
 var current_money = 0;

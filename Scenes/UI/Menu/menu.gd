@@ -5,8 +5,8 @@ extends CanvasLayer
 @onready var audio = $AudioStreamPlayer;
 @onready var nine_rect = $Control/NinePatchRect;
 
-enum ScreenLoaded { NONE, MENU, POKEDEX, PARTY, BAG, OAK, SAVE, OPTIONS }
-enum MenuOptions { POKEDEX, PARTY, BAG, OAK, SAVE, OPTIONS, EXIT }
+enum ScreenLoaded { NONE, MENU, POKEDEX, PARTY, BAG, OAK, SAVE, SETTINGS }
+enum MenuOptions { POKEDEX, PARTY, BAG, OAK, SAVE, SETTINGS, EXIT }
 
 const party_screen_path = "res://Scenes/UI/party_screen.tscn";
 const pokedex_screen_path = "res://Scenes/UI/Pokedex/pokedex_screen.tscn";                                                      
@@ -14,6 +14,7 @@ const save_scene_path = "res://Scenes/UI/save_scene.tscn";
 const profile_scene_path = "res://Scenes/UI/profile.tscn";
 const profile_scene_node = "CurrentScene/Profile";
 const bag_screen_path = "res://Scenes/UI/Bag/bag_screen.tscn";
+const settings_screen_path = "res://Scenes/UI/settings_screen.tscn";
 
 var options_length = MenuOptions.keys().size();
 var selected_option = 0;
@@ -22,7 +23,7 @@ var screen_loaded = ScreenLoaded.NONE;
 var can_use_menu = true;
 
 func _ready():
-	if(SETTINGS.selected_marker): nine_rect.texture = SETTINGS.selected_marker;
+	_on_settings_changed();
 	control.visible = false;
 	update_cursor();
 	connect_signals();
@@ -39,7 +40,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		GLOBAL.on_battle ||
 		!can_use_menu ||
 		GLOBAL.insight ||
-		GLOBAL.on_pc
+		GLOBAL.on_pc ||
+		!GLOBAL.game_started ||
+		GLOBAL.on_overlay ||
+		GLOBAL.party_open
 	): return;
 	
 	#BIKE ON/OFF
@@ -57,8 +61,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	): GLOBAL.emit_signal("bike_inside");
 
 	match (screen_loaded):
-		ScreenLoaded.NONE: if(Input.is_action_just_pressed("menu") && !GLOBAL.on_overlay): 
-			handle_MENU();
+		ScreenLoaded.NONE: 
+			if(Input.is_action_just_pressed("menu") && !GLOBAL.on_overlay): 
+				handle_MENU();
 		ScreenLoaded.MENU:
 			if(
 				Input.is_action_just_pressed("menu") || 
@@ -83,6 +88,7 @@ func select_option() -> void:
 		MenuOptions.BAG: open_bag()
 		MenuOptions.OAK: open_profile()
 		MenuOptions.SAVE: handle_save()
+		MenuOptions.SETTINGS: open_settings()
 		MenuOptions.EXIT: close_menu()
 
 #CLOSE
@@ -121,13 +127,23 @@ func open_party() -> void:
 func open_profile() -> void:
 	can_use_menu = false;
 	screen_loaded = ScreenLoaded.OAK;
-	GLOBAL.on_overlay = true;
 	play_audio(LIBRARIES.SOUNDS.TRAINER_CARD_OPEN);
 	await audio.finished;
 	control.visible = false;
 	GLOBAL.go_to_scene(profile_scene_path, true, false);
 	await GLOBAL.timeout(0.8);
 	can_use_menu = true;
+
+#SETTINGS
+func open_settings() -> void:
+	can_use_menu = false;
+	screen_loaded = ScreenLoaded.SETTINGS;
+	GLOBAL.on_overlay = true;
+	play_audio(LIBRARIES.SOUNDS.GUI_SEL_DECISION);
+	await audio.finished;
+	control.visible = false;
+	process_mode = Node.PROCESS_MODE_DISABLED;
+	GLOBAL.go_to_scene(settings_screen_path, true, false);
 
 #BAG
 func open_bag() -> void:
@@ -181,11 +197,6 @@ func handle_save() -> void:
 	GLOBAL.start_dialog.emit(10);
 	update_cursor();
 
-func connect_signals() -> void:
-	GLOBAL.connect("player_moving", _on_player_moving);
-	GLOBAL.connect("scene_opened", _on_scene_opened);
-	GLOBAL.connect("close_menu", close_menu);
-
 func update_cursor() -> void:
 	var perct = (selected_option % options_length) * 16;
 	cursor.position.y = 12 + perct;
@@ -198,6 +209,14 @@ func activate_menu() -> void:
 
 func _on_player_moving(value: bool) -> void: is_player_moving = value;
 
+func _on_settings_changed() -> void:
+	nine_rect.texture = SETTINGS.player_settings.marker;
+
 func play_audio(stream: AudioStream) -> void:
 	audio.stream = stream;
 	audio.play();
+
+func connect_signals() -> void:
+	GLOBAL.connect("player_moving", _on_player_moving);
+	GLOBAL.connect("scene_opened", _on_scene_opened);
+	SETTINGS.connect("settings_changed", _on_settings_changed);

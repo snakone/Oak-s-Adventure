@@ -11,9 +11,7 @@ func _ready():
 	location.text = MAPS.get_map_name();
 	time.text = GLOBAL.get_time_played();
 	GLOBAL.connect("selection_value_select", _on_selection_value_select);
-	
-	if(SETTINGS.selected_marker):
-		player_stats.texture = SETTINGS.selected_marker;
+	player_stats.texture = SETTINGS.player_settings.marker;
 
 func close_menu():
 	GLOBAL.emit_signal("menu_opened", false);

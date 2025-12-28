@@ -13,7 +13,7 @@ func _ready():
 	position = selection_position;
 	update_cursor();
 	visible = false;
-	if(SETTINGS.selected_marker): texture = SETTINGS.selected_marker;
+	texture = SETTINGS.player_settings.marker;
 
 func set_visibility(
 	value: bool,
