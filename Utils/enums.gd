@@ -712,4 +712,6 @@ enum MoveEffect {
 	WEATHER
 }
 
-enum PokemonStatus { BURN, FREEZE, PARALYZE, SLEPT, CONFUSE }
+enum PokemonStatus { BURN, FREEZE, PARALYZE, SLEPT, CONFUSE, NONE }
+
+enum BattleCheck { SPAWN, AFTER_SELF_TURN, AFTER_ENEMY_TURN, BEFORE_HIT, AFTER_HIT }

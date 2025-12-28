@@ -66,6 +66,10 @@ func damage_formula(enemy: Object, move: Dictionary, data: Dictionary) -> int:
 		ENUMS.AttackCategory.PHYSIC:
 			ATK_stat = data.battle_stats["ATK"];
 			DEF_stat = enemy.data.battle_stats["DEF"];
+			if(data.status.current == ENUMS.PokemonStatus.BURN &&
+			data.ability != ENUMS.Ability.GUTS): 
+				burned = 0.5;
+				print("burned attack")
 		ENUMS.AttackCategory.SPECIAL:
 			ATK_stat = data.battle_stats["S.ATK"];
 			DEF_stat = enemy.data.battle_stats["S.DEF"];

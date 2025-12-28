@@ -29,7 +29,6 @@ func _init(poke: Dictionary = {}, enemy = false, levels = [1, 100], for_battle =
 		#BATTLE
 		if("battle_stats" not in data): set_battle_stats();
 		if("status" not in data): set_battle_status();
-		if("held_item" not in data): data.held_item = null;
 		data.battle_stages = set_battle_stages();
 		if("battle_moves" not in data): set_battle_moves();
 		else: convert_battle_moves();
@@ -132,6 +131,7 @@ func set_battle_stats() -> void:
 
 func set_battle_status() -> void:
 	data.status = {};
+	data.status["current"] = ENUMS.PokemonStatus.NONE;
 	data.status["can_scape"] = true;
 	data.status["protect_critical"] = false;
 	data.status["in_pinch"] = false;
@@ -206,7 +206,7 @@ func get_extra_props() -> void:
 	if("types" not in data):
 		data.types = POKEDEX.get_pokemon_prop(data.number, 'types');
 	if("nature" not in data): data.nature = get_random_nature();
-	if("item" not in data): data.item = null;
+	if("held_item" not in data): data.held_item = null;
 	if("ability" not in data):
 		data.ability = POKEDEX.get_pokemon_prop(data.number, 'ability').default;
 	elif(data.ability is Dictionary && "default" in data.ability):

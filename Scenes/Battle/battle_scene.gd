@@ -12,6 +12,7 @@ extends Node
 @onready var level_up_panel: NinePatchRect = $UI/NinePatchRect;
 @onready var status_audio: AudioStreamPlayer = $Info/StatusPlayer;
 @onready var dialog_timer: Timer = $Dialog/Timer;
+@onready var player_status: Node2D = $Info/PlayerInfo/Status;
 
 #ENEMY
 @onready var enemy_info = $Info/EnemyInfo;
@@ -21,6 +22,7 @@ extends Node
 @onready var trainer_sprite: Sprite2D = $Trainer/Sprite2D;
 @onready var enemy_shadow: Sprite2D = $UI/Enemy/Shadow;
 @onready var owned: TextureRect = $Info/EnemyInfo/Owned;
+@onready var enemy_status: Node2D = $Info/EnemyInfo/Status;
 
 #BATTLE
 @onready var anim_player = $AnimationPlayer;
@@ -35,9 +37,8 @@ extends Node
 @onready var ball_animation: Sprite2D = $Catch/Animation;
 
 const moves_path = "res://Scenes/Battle/Moves/moves_animations.gd";
+const effects_path = "res://Scenes/Battle/battle_effects.gd";
 var moves_script = preload(moves_path).new();
-const SECOND_ATTACK_DELAY = 0.2;
-const TURN_FINISH_DELAY = 0.2;
 var HP_ANIM_DURATION = BATTLE.MIN_HP_ANIM;
 const PLAYER_DIST_MARGIN = 6;
 const DIALOG_TIME_WHEN_MISSED = 1.5;
@@ -137,6 +138,7 @@ func set_battle_ui() -> void:
 func start_attack(delay = 0.0, sound = true) -> void:
 	await GLOBAL.timeout(delay);
 	BATTLE.attack_pressed = true;
+	set_attacks();
 	var priority = determine_priority();
 	if((priority && !BATTLE.player_attacked) || BATTLE.enemy_attacked): 
 		pokemon_attack(sound);
@@ -148,9 +150,10 @@ func start_attack(delay = 0.0, sound = true) -> void:
 		await BATTLE.attack_finished;
 		delay = HP_ANIM_DURATION * hp_anim_velocity;
 		#SECOND ATTACK
-		if(need_to_check_attack()):
+		if(BATTLE.need_to_check_attack()):
 			await BATTLE.attack_check_done;
-			delay = SECOND_ATTACK_DELAY;
+			delay = 0.2;
+		if(BATTLE.must_show_status_dialog): await BATTLE.quick_dialog_end;
 		start_attack(delay, false);
 		return;
 	await GLOBAL.timeout(delay);
@@ -162,34 +165,18 @@ func start_attack(delay = 0.0, sound = true) -> void:
 	reset_attack_state();
 
 func pokemon_attack(sound = true) -> void:
-	perform_attack(
-		pokemon,
-		enemy,
-		BATTLE.player_attack,
-		BATTLE.Turn.PLAYER,
-		"player_attacked",
-		"enemy_death",
-		sound)
+	perform_attack(pokemon, enemy,
+		BATTLE.player_attack, BATTLE.Turn.PLAYER,
+		"player_attacked", "enemy_death", sound)
 
 func enemy_attack(sound = true) -> void:
-	perform_attack(
-		enemy,
-		pokemon,
-		BATTLE.enemy_attack,
-		BATTLE.Turn.ENEMY,
-		"enemy_attacked",
-		"pokemon_death",
-		sound)
+	perform_attack(enemy, pokemon,
+		BATTLE.enemy_attack, BATTLE.Turn.ENEMY,
+		"enemy_attacked", "pokemon_death", sound)
 
-func perform_attack(
-	attacker: Object, 
-	defender: Object, 
-	attack: Dictionary, 
-	turn: BATTLE.Turn, 
-	attacked_flag: String, 
-	death_flag: String, 
-	sound: bool
-) -> void:
+func perform_attack(attacker: Object, defender: Object, 
+	attack: Dictionary, turn: BATTLE.Turn, 
+	attacked_flag: String, death_flag: String, sound: bool) -> void:
 	BATTLE.current_turn = turn;
 	BATTLE[attacked_flag] = true;
 	health_before_attack = defender.data.current_hp;
@@ -197,18 +184,27 @@ func perform_attack(
 		if defender.data.death: BATTLE[death_flag] = true;
 		handle_attack(attacker, attack, sound);
 
-func handle_attack(target: Object, move: Dictionary, sound = true) -> void:
+func handle_attack(attacker: Object, move: Dictionary, sound = true) -> void:
 	BATTLE.state = ENUMS.BattleStates.ATTACKING;
 	battle_anim_player.stop();
 	if(sound): play_audio(LIBRARIES.SOUNDS.CONFIRM);
-	var target_name = target.name + " use ";
-	if(is_wild_and_enemy()): target_name = "Wild " + target_name;
-	dialog.attack([target_name + move.name.to_upper() + "."]);
+	var attacker_name = attacker.name + " use ";
+	if(BATTLE.is_wild_and_enemy()): attacker_name = "Wild " + attacker_name;
+	dialog.attack([attacker_name + move.name.to_upper() + "."]);
 	await BATTLE.dialog_finished;
 	add_move_and_play(move);
-	BATTLE.attack_pressed = false;
 	attacks.update_attack_ui();
 	check_battle_state();
+	await BATTLE.attack_check_done;
+	BATTLE.attack_pressed = false;
+	load(effects_path).new(pokemon, enemy, dialog);
+
+func check_status_effects_after_attack() -> void:
+	var target = pokemon;
+	if(BATTLE.current_turn == BATTLE.Turn.ENEMY): target = enemy;
+	var status = target.data.status;
+	if(status && "current" in status && status.current != ENUMS.PokemonStatus.NONE):
+		print(status.current);
 
 func fake_attack() -> void:
 	BATTLE.player_attacked = true;
@@ -218,15 +214,14 @@ func fake_attack() -> void:
 #MOVE ANIMATION
 func add_move_and_play(move: Dictionary) -> void:
 	var animation = moves_script.get_move_animation(move.id);
-	if(attack_miss()): await handle_missed_attack();
+	if(BATTLE.attack_miss()): await handle_missed_attack();
 	else: await handle_success_attack(animation);
 
 func handle_success_attack(animation: Node2D) -> void:
 	call_deferred("add_child", animation);
-	if(BATTLE.current_turn == BATTLE.Turn.PLAYER): 
-		animation.play_attack(player_sprite);
-	elif(BATTLE.current_turn == BATTLE.Turn.ENEMY): 
-		animation.play_attack(enemy_sprite);
+	var sprite = player_sprite;
+	if(BATTLE.current_turn == BATTLE.Turn.ENEMY): sprite = enemy_sprite;
+	animation.play_attack(sprite);
 	await BATTLE.attack_finished;
 	animation.call_deferred("queue_free");
 
@@ -241,17 +236,16 @@ func handle_missed_attack() -> void:
 #LISTENERS
 func _on_move_hit() -> void:
 	if(ENUMS.AttackResult.NONE not in BATTLE.attack_result):
-		if(BATTLE.current_turn == BATTLE.Turn.PLAYER): 
-			anim_player.play("DamageEnemy");
-		elif(BATTLE.current_turn == BATTLE.Turn.ENEMY): 
-			anim_player.play("DamagePlayer");
+		var anim = "DamageEnemy";
+		if(BATTLE.current_turn == BATTLE.Turn.ENEMY): anim = "DamagePlayer";
+		anim_player.play(anim);
 		await anim_player.animation_finished;
 	update_battle_ui(true, false, true);
 	await BATTLE.ui_updated;
 
 func after_dialog_attack() -> void:
 	await GLOBAL.timeout(0.2);
-	if(need_to_check_attack()):
+	if(BATTLE.need_to_check_attack()):
 		await BATTLE.attack_check_done;
 		await GLOBAL.timeout(0.2);
 	if(any_death() || any_attacked()): return;
@@ -260,11 +254,7 @@ func after_dialog_attack() -> void:
 	BATTLE.state = ENUMS.BattleStates.MENU;
 
 #UPDATES
-func update_battle_ui(
-	animated = true,
-	get_self = false,
-	check_dialog = false
-) -> void:
+func update_battle_ui(animated = true, get_self = false, check_dialog = false) -> void:
 	player_info.get_node("Level").text = "Lv" + str(pokemon.data.level);
 	var target = get_attack_target(get_self);
 	var new_size = float(target["current_hp"]) / float(target["total_hp"]);
@@ -672,24 +662,15 @@ func set_markers() -> void:
 	var markers = LIBRARIES.BATTLE.get_markers(SETTINGS.player_settings.marker_type);
 	attack_background.texture = markers.attack;
 
-func set_name_and_gender(
-	name_node: RichTextLabel, 
-	gender_node: Sprite2D,
-	data: Dictionary
-) -> void:
+func set_name_and_gender(name_node: RichTextLabel, gender_node: Sprite2D, data: Dictionary) -> void:
 	name_node.text = data.name;
 	var width = name_node.get_content_width();
-		
 	if "gender" in data:
 		gender_node.frame = data.gender;
 		gender_node.position.x = width + name_node.position.x + PLAYER_DIST_MARGIN;
 		gender_node.visible = true;
 
-func set_sprites(
-	sprite: AnimatedSprite2D, 
-	data: Dictionary,
-	type: String
-) -> void:
+func set_sprites(sprite: AnimatedSprite2D, data: Dictionary, type: String) -> void:
 	sprite.sprite_frames = data.sprites.sprite_frames;
 	sprite.scale = data.display.scale.battle;
 	match type:
@@ -746,8 +727,7 @@ func check_health_bar_color(value: float, check = true) -> void:
 	var target = get_attack_target(
 		BATTLE.current_turn != BATTLE.Turn.PLAYER ||
 		BATTLE.state == ENUMS.BattleStates.SWITCHING ||
-		BATTLE.on_action
-	);
+		BATTLE.on_action);
 	value = min(value, target.total_hp);
 	var perct = value / target.total_hp;
 	
@@ -779,17 +759,28 @@ func update_exp_bar(delay = 0.0) -> void:
 	var new_size = get_new_exp_bar_size();
 	var tween = get_tree().create_tween();
 	tween.set_trans(Tween.TRANS_LINEAR);
-	tween.tween_property(
-		exp_bar, "scale:x",
-		clampf(new_size, 0.0, 1.0),
-		BATTLE.EXP_DURATION
-	);
+	tween.tween_property(exp_bar, "scale:x", clampf(new_size, 0.0, 1.0), BATTLE.EXP_DURATION);
 	play_audio(LIBRARIES.SOUNDS.EXP_GAIN_PKM);
 	await tween.finished;
 	while(exp_to_next_level <= 0.0): 
 		level_up_animation();
 		await tween.finished;
 	BATTLE.experience_end.emit();
+
+#MOVE EFFECTS
+func _on_effect_finished(status: ENUMS.PokemonStatus) -> void:
+	if(status in BATTLE.pokemon_status && status != ENUMS.PokemonStatus.NONE):
+		var data = BATTLE.pokemon_status[status];
+		var node = player_status;
+		if(BATTLE.current_turn == BATTLE.Turn.PLAYER): node = enemy_status;
+		node.get_node("Badge").texture = data.badge;
+		node.visible = true;
+		var animation_name = data.animation;
+		if(BATTLE.current_turn == BATTLE.Turn.PLAYER):
+			animation_name = "Enemy" + data.animation;
+		battle_anim_player.play(animation_name);
+		await battle_anim_player.animation_finished;
+	check_status_effects_after_attack();
 
 #PARTICIPANT EXP
 func give_exp_to_participants(state: Dictionary) -> void:
@@ -817,14 +808,8 @@ func level_up_participant(participant: Object) -> void:
 		check_learn_move(participant, new_level);
 		await BATTLE.dialog_finished;
 
-func need_to_check_attack() -> bool:
-	var not_normal = ENUMS.AttackResult.NORMAL not in BATTLE.attack_result;
-	var not_miss = ENUMS.AttackResult.MISS not in BATTLE.attack_result;
-	return not_normal && not_miss;
-
 func determine_priority() -> bool:
 	var priority = pokemon.data.battle_stats.SPD >= enemy.data.battle_stats.SPD
-	set_attacks();
 	if (BATTLE.enemy_attack.priority > BATTLE.player_attack.priority):
 		priority = false;
 	elif (BATTLE.player_attack.priority > BATTLE.enemy_attack.priority):
@@ -838,10 +823,7 @@ func set_attacks() -> void:
 		BATTLE.attacks_set = true;
 
 #POKEBALL SLOTS
-func set_pokeball_slots(
-	check_player = true, 
-	check_enemy = true
-) -> void:
+func set_pokeball_slots(check_player = true, check_enemy = true) -> void:
 	if(check_player):
 		var party = PARTY.get_party();
 		var player_path = "Trainer/Counter/Oak/Pokeball-";
@@ -859,35 +841,6 @@ func set_pokeball_slots(
 			if(enemy_party[index] != -1):
 				pokeball_node.frame = 1;
 			else: pokeball_node.frame = 2;
-
-#AUDIO
-func play_shout_pokemon() -> void:
-	player_audio.stream = pokemon.data.specie.shout;
-	player_audio.play();
-
-func check_status() -> void:
-	if(on_critical_status):
-		status_audio.stream = LIBRARIES.SOUNDS.LOW_HEALTH_POKEMON;
-		status_audio.play();
-	else: status_audio.stop()
-
-func check_status_after_attack() -> void:
-	if(status_audio.playing || pokemon.data.death): return;
-	check_status();
-
-func play_shout_enemy() -> void:
-	await GLOBAL.timeout(0.2);
-	play_audio(enemy.data.specie.shout);
-
-func play_audio(stream: AudioStream) -> void:
-	battle_audio.stream = stream;
-	battle_audio.play();
-
-func reset_status() -> void:
-	on_critical_status = false;
-	if(player_audio.playing):
-		await player_audio.finished;
-	check_status();
 
 #ITEMS
 func _on_use_item(item: Dictionary) -> void:
@@ -943,42 +896,28 @@ func success_catch(item: Dictionary) -> void:
 	status_audio.stop();
 	player_audio.stream = LIBRARIES.SOUNDS.BATTLE_CAPTURE_SUCCESS;
 	player_audio.play();
-	dialog.start([
-		"Gotcha! " + enemy.name + " captured!", 
-		enemy.name + " registered in the POKéDEX!"
-	]);
+	dialog.start(["Gotcha! " + enemy.name + " captured!", 
+		enemy.name + " registered in the POKéDEX!"]);
+	await player_audio.finished;
+	after_catch(item);
+
+func after_catch(item: Dictionary) -> void:
 	enemy.data.pokeball = item.id;
 	enemy.data.met = MAPS.get_map_name();
 	enemy.data.met_level = enemy.data.level;
-	await player_audio.finished;
 	AUDIO.play_battle_win();
-		
-	var showcase_poke = { 
-		"number": enemy.data.number, 
-		"seen": true, 
-		"owned": true, 
-		"name": enemy.data.name };
-		
+	var showcase_poke = { "number": enemy.data.number, 
+		"seen": true, "owned": true, "name": enemy.data.name };
 	POKEDEX.add_pokemon_to_showcase(showcase_poke);
 	PARTY.add_pokemon_to_party(enemy);
 	await BATTLE.dialog_finished;
 	end_battle();
 
 func fail_catch(rates: Array) -> void:
-	var message = get_fail_catch_message(rates);
+	var message = BATTLE.get_fail_catch_message(rates);
 	dialog.quick([message], 1.5);
 	await BATTLE.quick_dialog_end;
 	fake_attack();
-
-func get_fail_catch_message(rates: Array) -> String:
-	var index = rates.find(false);
-	var messages = {
-		0: "Oh no! The POKéMON broke free!",
-		1: "Aww! It appeared to be caught!",
-		2: "Aargh! Almost had it!",
-		3: "Shoot! It was so close, too!"
-	}
-	return messages[index];
 
 #RESET
 func reset_attack_state() -> void:
@@ -986,6 +925,7 @@ func reset_attack_state() -> void:
 	BATTLE.enemy_attacked = false;
 	BATTLE.attacks_set = false;
 	battle_anim_player.play("Idle");
+	BATTLE.must_show_status_dialog = false;
 
 #SCENE CLOSE
 func _on_scene_opened(value: bool, node_name: String) -> void:
@@ -1004,17 +944,37 @@ func all_attacked() -> bool: return BATTLE.enemy_attacked && BATTLE.player_attac
 func any_attacked() -> bool: return BATTLE.enemy_attacked || BATTLE.player_attacked;
 func _on_status_audio_finished() -> void: check_status();
 
-func attack_miss() -> bool: return(
-		ENUMS.AttackResult.MISS in BATTLE.attack_result && 
-		ENUMS.AttackResult.NONE not in BATTLE.attack_result);
-
-func is_wild_and_enemy() -> bool: return(
-		BATTLE.type == ENUMS.BattleType.WILD && 
-		BATTLE.current_turn == BATTLE.Turn.ENEMY);
-
 func check_if_owned() -> void:
 	if(POKEDEX.is_pokemon_owned(enemy.data.number)):
 		owned.visible = true;
+
+#AUDIO
+func play_shout_pokemon() -> void:
+	player_audio.stream = pokemon.data.specie.shout;
+	player_audio.play();
+
+func check_status() -> void:
+	if(on_critical_status):
+		status_audio.stream = LIBRARIES.SOUNDS.LOW_HEALTH_POKEMON;
+		status_audio.play();
+	else: status_audio.stop()
+
+func check_status_after_attack() -> void:
+	if(status_audio.playing || pokemon.data.death): return;
+	check_status();
+
+func play_shout_enemy() -> void:
+	await GLOBAL.timeout(0.2);
+	play_audio(enemy.data.specie.shout);
+
+func play_audio(stream: AudioStream) -> void:
+	battle_audio.stream = stream;
+	battle_audio.play();
+
+func reset_status() -> void:
+	on_critical_status = false;
+	if(player_audio.playing): await player_audio.finished;
+	check_status();
 
 #SIGNALS
 func connect_signals() -> void:
@@ -1025,6 +985,7 @@ func connect_signals() -> void:
 	BATTLE.connect("show_level_up_panel", show_level_up_panel);
 	BATTLE.connect("check_can_escape", _on_check_can_escape);
 	BATTLE.connect("start_attack", start_attack);
+	BATTLE.connect("attack_effect_finished", _on_effect_finished);
 	PARTY.connect("selected_pokemon_party", _on_party_pokemon_select);
 	GLOBAL.connect("selection_value_select", _on_selection_value_select);
 	GLOBAL.connect("use_item", _on_use_item);

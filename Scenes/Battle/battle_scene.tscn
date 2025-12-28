@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=3 uid="uid://3clfgm81x0yq"]
+[gd_scene load_steps=85 format=3 uid="uid://3clfgm81x0yq"]
 
 [ext_resource type="Script" path="res://Scenes/Battle/battle_scene.gd" id="1_vc7g5"]
 [ext_resource type="Shader" path="res://Scenes/UI/Shaders/flash.gdshader" id="2_hhjny"]
@@ -15,8 +15,10 @@
 [ext_resource type="Texture2D" uid="uid://cu7y7kgh8s7mn" path="res://Assets/UI/Battle/player_info1.png" id="10_crvw1"]
 [ext_resource type="Texture2D" uid="uid://bckrjlbbdr8nt" path="res://Assets/UI/Battle/owned.png" id="11_d4n3p"]
 [ext_resource type="Texture2D" uid="uid://cwjt1thedkj7u" path="res://Assets/UI/Battle/player_info_bg.png" id="11_jd31m"]
+[ext_resource type="Texture2D" uid="uid://ytkrbajh6mae" path="res://Assets/UI/brn.png" id="12_ou8qh"]
 [ext_resource type="SpriteFrames" uid="uid://b7qwmj75ulas8" path="res://Sprites/Animated/Bulbasaur/bulbasaur.tres" id="13_4uggi"]
 [ext_resource type="Texture2D" uid="uid://d10m1ecady526" path="res://Assets/UI/Battle/dialouge_background.png" id="13_m2v7w"]
+[ext_resource type="Texture2D" uid="uid://bf8lu0qkr5kh4" path="res://Assets/UI/HP_hide.png" id="13_mgk8w"]
 [ext_resource type="Texture2D" uid="uid://c52a6e4eqhy5e" path="res://Assets/UI/Battle/main_menu.png" id="13_npenf"]
 [ext_resource type="Shader" path="res://Scenes/Battle/spawn.gdshader" id="14_oknql"]
 [ext_resource type="Texture2D" uid="uid://dl1rxg6ohwxar" path="res://Assets/UI/Pokemon/shadow_medium.png" id="16_87fm5"]
@@ -46,6 +48,7 @@
 [ext_resource type="AudioStream" uid="uid://cindx2j07ugha" path="res://Assets/Sounds/Battle catch click.ogg" id="33_77se8"]
 [ext_resource type="AudioStream" uid="uid://dga3mxf1icl1j" path="res://Assets/Sounds/Battle throw.ogg" id="34_jltfg"]
 [ext_resource type="AudioStream" uid="uid://bujoluoxcjhic" path="res://Assets/Sounds/Battle recall.ogg" id="35_o7yso"]
+[ext_resource type="Texture2D" uid="uid://c7csoqm876ypt" path="res://Assets/UI/Moves/burned.png" id="35_pkvn3"]
 [ext_resource type="AudioStream" uid="uid://cntwln28etb21" path="res://Assets/Sounds/Battle ball hit.ogg" id="36_8w6wm"]
 [ext_resource type="PackedScene" uid="uid://d1n3rqipshb3u" path="res://Scenes/UI/Menu/menu_selection.tscn" id="36_loxbc"]
 
@@ -3683,6 +3686,230 @@ _data = {
 "TrainerThrow": SubResource("Animation_khhma")
 }
 
+[sub_resource type="Animation" id="Animation_20bd6"]
+resource_name = "Burn"
+length = 1.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Effects/Burn/Flame1:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(157, 52), Vector2(165, 54), Vector2(178, 54), Vector2(187, 52), Vector2(189, 50)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Effects/Burn/Flame1:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Effects/Burn/Flame1:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Effects/Burn/Flame2:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.3, 0.6, 0.8, 1.1, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(157, 52), Vector2(165, 54), Vector2(178, 54), Vector2(187, 52), Vector2(189, 50)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Effects/Burn/Flame2:self_modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.3, 0.4, 1.3, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Effects/Burn/Flame2:frame")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.3, 0.7, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Effects/Burn/Flame3:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.7, 1, 1.2, 1.5, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(157, 52), Vector2(165, 54), Vector2(178, 54), Vector2(187, 52), Vector2(189, 50)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Effects/Burn/Flame3:self_modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.7, 0.8, 1.5, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Effects/Burn/Flame3:frame")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.7, 1.1, 1.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_x86xs"]
+resource_name = "EnemyBurn"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Effects/Burn/Flame1:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(157, 52), Vector2(165, 54), Vector2(178, 54), Vector2(187, 52), Vector2(189, 50)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Effects/Burn/Flame1:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Effects/Burn/Flame1:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Effects/Burn/Flame2:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.2, 0.35, 0.5, 1, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(157, 52), Vector2(165, 54), Vector2(178, 54), Vector2(187, 52), Vector2(189, 50)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Effects/Burn/Flame2:self_modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.2, 0.25, 1, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Effects/Burn/Flame2:frame")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.2, 0.5, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Effects/Burn/Flame3:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.3, 0.45, 0.6, 1.1, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(157, 52), Vector2(165, 54), Vector2(178, 54), Vector2(187, 52), Vector2(189, 50)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Effects/Burn/Flame3:self_modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.3, 0.35, 1.1, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Effects/Burn/Flame3:frame")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.3, 0.6, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
 [sub_resource type="Animation" id="Animation_7cqpu"]
 resource_name = "EnemyFaint"
 length = 0.8
@@ -4020,6 +4247,8 @@ tracks/8/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hd5rc"]
 _data = {
+"Burn": SubResource("Animation_20bd6"),
+"EnemyBurn": SubResource("Animation_x86xs"),
 "EnemyFaint": SubResource("Animation_7cqpu"),
 "FadetoBlack": SubResource("Animation_7h2mo"),
 "Idle": SubResource("Animation_8e0h4"),
@@ -4119,6 +4348,26 @@ offset_bottom = 7.0
 texture = ExtResource("11_d4n3p")
 stretch_mode = 2
 
+[node name="Status" type="Node2D" parent="Info/EnemyInfo"]
+visible = false
+
+[node name="Badge" type="TextureRect" parent="Info/EnemyInfo/Status"]
+z_index = 1
+offset_left = -33.0
+offset_top = 1.0
+offset_right = -13.0
+offset_bottom = 9.0
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("12_ou8qh")
+stretch_mode = 2
+
+[node name="HideHP" type="TextureRect" parent="Info/EnemyInfo/Status"]
+offset_left = -28.0
+offset_right = -12.0
+offset_bottom = 8.0
+texture = ExtResource("13_mgk8w")
+stretch_mode = 2
+
 [node name="PlayerInfo" type="Sprite2D" parent="Info"]
 visible = false
 position = Vector2(180, 93)
@@ -4195,6 +4444,26 @@ texture = ExtResource("11_jd31m")
 
 [node name="HealthTimer" type="Timer" parent="Info/PlayerInfo"]
 
+[node name="Status" type="Node2D" parent="Info/PlayerInfo"]
+visible = false
+
+[node name="Badge" type="TextureRect" parent="Info/PlayerInfo/Status"]
+z_index = 1
+offset_left = -33.0
+offset_top = 1.0
+offset_right = -13.0
+offset_bottom = 9.0
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("12_ou8qh")
+stretch_mode = 2
+
+[node name="HideHP" type="TextureRect" parent="Info/PlayerInfo/Status"]
+offset_left = -28.0
+offset_right = -12.0
+offset_bottom = 8.0
+texture = ExtResource("13_mgk8w")
+stretch_mode = 2
+
 [node name="StatusPlayer" type="AudioStreamPlayer" parent="Info"]
 volume_db = -8.0
 
@@ -4216,8 +4485,7 @@ offset_left = 130.0
 offset_right = 230.0
 
 [node name="Enemy" type="Node2D" parent="UI"]
-position = Vector2(174, 56)
-scale = Vector2(1e-05, 1e-05)
+position = Vector2(174, 42)
 
 [node name="EnemySprite" type="AnimatedSprite2D" parent="UI/Enemy"]
 visible = false
@@ -4226,7 +4494,8 @@ z_index = 1
 sprite_frames = ExtResource("13_4uggi")
 animation = &"Front"
 autoplay = "Front"
-frame = 1
+frame = 43
+frame_progress = 0.556919
 
 [node name="Shadow" type="Sprite2D" parent="UI/Enemy"]
 visible = false
@@ -4368,7 +4637,6 @@ text = "Type/FLYIN."
 position = Vector2(0, 127)
 
 [node name="Grass" type="Sprite2D" parent="Scroll"]
-visible = false
 position = Vector2(128, 73)
 texture = ExtResource("16_vfw16")
 
@@ -4417,6 +4685,7 @@ position = Vector2(23.5192, 76.9201)
 scale = Vector2(0.9, 0.9)
 texture = ExtResource("31_l0fyr")
 vframes = 6
+frame = 5
 
 [node name="Oak" type="Sprite2D" parent="Animation"]
 z_index = 2
@@ -4451,6 +4720,7 @@ vframes = 32
 frame = 1
 
 [node name="Trainer" type="Node2D" parent="."]
+visible = false
 
 [node name="Sprite2D" type="Sprite2D" parent="Trainer"]
 modulate = Color(0.294118, 0.294118, 0.294118, 1)
@@ -4562,6 +4832,36 @@ position = Vector2(181, 31)
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("31_l0fyr")
 vframes = 6
+
+[node name="Effects" type="Node2D" parent="."]
+
+[node name="Burn" type="Node2D" parent="Effects"]
+
+[node name="Flame1" type="Sprite2D" parent="Effects/Burn"]
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+position = Vector2(157, 52)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("35_pkvn3")
+hframes = 3
+
+[node name="Flame2" type="Sprite2D" parent="Effects/Burn"]
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+position = Vector2(157, 52)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("35_pkvn3")
+hframes = 3
+frame = 2
+
+[node name="Flame3" type="Sprite2D" parent="Effects/Burn"]
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+position = Vector2(157, 52)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("35_pkvn3")
+hframes = 3
+frame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

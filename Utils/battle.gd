@@ -12,6 +12,7 @@ signal on_move_hit(is_enemy: bool);
 signal not_effective();
 signal start_attack();
 signal attack_check_done();
+signal attack_effect_finished(status: ENUMS.PokemonStatus);
 
 #UI
 signal ui_updated();
@@ -75,6 +76,14 @@ var on_action = false;
 var trainer_team = [];
 var trainer_must_switch = false;
 var party_pokemon_selected = false;
+var must_show_status_dialog = false;
+
+@onready var pokemon_status = {
+	ENUMS.PokemonStatus.BURN: {
+		"badge": preload("res://Assets/UI/brn.png"),
+		"animation": "Burn"
+	}
+}
 
 func reset_state(reset_type = true) -> void:
 	can_use_menu = false;
@@ -104,6 +113,7 @@ func reset_state(reset_type = true) -> void:
 	on_action = false;
 	trainer_team = [];
 	trainer_must_switch = false;
+	must_show_status_dialog = false;
 
 func reset_on_switch() -> void:
 	if(BATTLE.type == ENUMS.BattleType.TRAINER):
@@ -235,3 +245,26 @@ func get_shadow_texture(data: Dictionary) -> Texture2D:
 		ENUMS.ShadowSize.MEDIUM: return LIBRARIES.IMAGES.SHADOW_MEDIUM;
 		ENUMS.ShadowSize.LARGE: return LIBRARIES.IMAGES.SHADOW_LARGE;
 	return LIBRARIES.IMAGES.SHADOW_MEDIUM;
+
+func is_wild_and_enemy() -> bool: return(
+		BATTLE.type == ENUMS.BattleType.WILD && 
+		BATTLE.current_turn == BATTLE.Turn.ENEMY);
+
+func get_fail_catch_message(rates: Array) -> String:
+	var index = rates.find(false);
+	var messages = {
+		0: "Oh no! The POKéMON broke free!",
+		1: "Aww! It appeared to be caught!",
+		2: "Aargh! Almost had it!",
+		3: "Shoot! It was so close, too!"
+	};
+	return messages[index];
+
+func attack_miss() -> bool: return(
+		ENUMS.AttackResult.MISS in BATTLE.attack_result && 
+		ENUMS.AttackResult.NONE not in BATTLE.attack_result);
+
+func need_to_check_attack() -> bool:
+	var not_normal = ENUMS.AttackResult.NORMAL not in BATTLE.attack_result;
+	var not_miss = ENUMS.AttackResult.MISS not in BATTLE.attack_result;
+	return (not_normal && not_miss);

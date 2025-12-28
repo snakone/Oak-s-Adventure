@@ -50,7 +50,8 @@ var LIST: Dictionary = {
 			"type": ENUMS.MoveEffect.LOWER,
 			"data": {
 				"stat": "ATK",
-				"amount": -1
+				"amount": -1,
+				"on": ENUMS.BattleCheck.AFTER_HIT
 			}
 		}
 	},
@@ -72,7 +73,7 @@ var LIST: Dictionary = {
 		"name": "Ember",
 		"type": ENUMS.Types.FIRE,
 		"category": ENUMS.AttackCategory.SPECIAL,
-		"power": 40,
+		"power": 10,
 		"accuracy": 100,
 		"pp": 25,
 		"total_pp": 25,
@@ -82,7 +83,8 @@ var LIST: Dictionary = {
 			"type": ENUMS.MoveEffect.ADDITIONAL,
 			"data": {
 				"status": ENUMS.PokemonStatus.BURN,
-				"chance": 10
+				"chance": 100,
+				"on": ENUMS.BattleCheck.AFTER_HIT
 			}
 		}
 	},
