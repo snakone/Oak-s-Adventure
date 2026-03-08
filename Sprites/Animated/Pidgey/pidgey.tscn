@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://qul4rqwyojnl"]
+
+[ext_resource type="SpriteFrames" uid="uid://cy7wpf8eigwvi" path="res://Sprites/Animated/Pidgey/pidgey.tres" id="1_v8a23"]
+
+[node name="Pidgey" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_v8a23")
+animation = &"Front"
+frame_progress = 0.526239
+centered = false

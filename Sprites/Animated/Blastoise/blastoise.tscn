@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwshglvvvn8ud"]
+
+[ext_resource type="SpriteFrames" uid="uid://b8c0ruyaf83un" path="res://Sprites/Animated/Blastoise/blastoise.tres" id="1_ol45k"]
+
+[node name="Blastoise" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_ol45k")
+animation = &"Back"
+centered = false

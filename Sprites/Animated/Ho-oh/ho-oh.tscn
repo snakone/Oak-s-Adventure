@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b0j7f183g6otr"]
+
+[ext_resource type="SpriteFrames" uid="uid://cijngqoijsoep" path="res://Sprites/Animated/Ho-oh/ho-oh.tres" id="1_vhk05"]
+
+[node name="Ho-oh" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_vhk05")
+animation = &"Back"
+centered = false

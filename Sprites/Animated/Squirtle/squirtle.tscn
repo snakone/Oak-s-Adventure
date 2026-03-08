@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwshglvvvn748"]
+
+[ext_resource type="SpriteFrames" uid="uid://b8c0ruyaf8gvn" path="res://Sprites/Animated/Squirtle/squirtle.tres" id="1_2h0x0"]
+
+[node name="Squirtle" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_2h0x0")
+animation = &"Back"
+centered = false

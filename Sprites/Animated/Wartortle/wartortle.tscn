@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwshglvvvn702"]
+
+[ext_resource type="SpriteFrames" uid="uid://b8c0ruyaf8plg" path="res://Sprites/Animated/Wartortle/wartortle.tres" id="1_yn6bi"]
+
+[node name="Wartortle" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_yn6bi")
+animation = &"Front"
+frame_progress = 0.0565199
+centered = false

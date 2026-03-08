@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2llifbamjxw2"]
+
+[ext_resource type="SpriteFrames" uid="uid://1uvlhc32l75e" path="res://Sprites/Animated/Pikachu/pikachu.tres" id="1_0mm6x"]
+
+[node name="Pikachu" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_0mm6x")
+animation = &"Back"
+centered = false

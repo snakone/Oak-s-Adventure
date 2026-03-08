@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxpcrkcryej0v"]
+
+[ext_resource type="SpriteFrames" uid="uid://cgrep68metxry" path="res://Sprites/Animated/Beedrill/beedrill.tres" id="1_5kbpo"]
+
+[node name="Beedrill" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_5kbpo")
+animation = &"Back"
+centered = false

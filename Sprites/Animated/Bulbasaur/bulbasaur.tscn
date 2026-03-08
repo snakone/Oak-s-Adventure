@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://1jeseswlgmk3"]
+
+[ext_resource type="SpriteFrames" uid="uid://b7qwmj75ulas8" path="res://Sprites/Animated/Bulbasaur/bulbasaur.tres" id="1_qj170"]
+
+[node name="Bulbasaur" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_qj170")
+animation = &"Back"
+centered = false

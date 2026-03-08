@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5p0i26rfoh32"]
+
+[ext_resource type="SpriteFrames" uid="uid://olbxvaduuvjc" path="res://Sprites/Animated/Ivysaur/ivysaur.tres" id="1_dxe27"]
+
+[node name="Ivysaur" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_dxe27")
+animation = &"Back"
+centered = false

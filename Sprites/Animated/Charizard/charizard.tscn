@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5b2jkn3n7jpc"]
+
+[ext_resource type="SpriteFrames" uid="uid://ufyqyf5ou607" path="res://Sprites/Animated/Charizard/charizard.tres" id="1_s2752"]
+
+[node name="Charizard" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_s2752")
+animation = &"Back"
+frame = 64
+frame_progress = 0.386104

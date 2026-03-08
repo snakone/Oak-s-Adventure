@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cycocaecyqqii"]
+
+[ext_resource type="SpriteFrames" uid="uid://dbn4wfpkyt016" path="res://Sprites/Animated/Geodude/geodude.tres" id="1_tqcd3"]
+
+[node name="Geodude" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_tqcd3")
+animation = &"Back"
+frame_progress = 0.261917
+centered = false
