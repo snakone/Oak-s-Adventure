@@ -2,6 +2,8 @@
 
 ### A Pokémon inspired game made with Godot4 Engine
 
+### NOTE: This project is discontinued
+
 ## Features:
 
 - New Pokémon Adventure with Oak as main character
@@ -37,11 +39,13 @@
 
 ## Assets/Sprites
 
-All the code is *open source*, you can check, take advice, copy/paste it to your own project.
+~~All the code is *open source*, you can check, take advice, copy/paste it to your own project.
 In other terms, graphical content is hidden by default. This includes all Assets and Sprites.
 You still can download the original files from [Sprite Resource](https://www.spriters-resource.com/).
 I spend a lot of time editing the original files, that's why the graphical content is not available for everyone.
-Let's say at least i want to have exclusive content for the game, knowing it's 100% inspired in Pokémon.
+Let's say at least i want to have exclusive content for the game, knowing it's 100% inspired in Pokémon.~~
+
+**NOTE: ALL ASSETS ARE INCLUDED.**
 
 ## Gallery
 

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://vr76okydxhtj"]
+
+[ext_resource type="SpriteFrames" uid="uid://dce4shyxlieiq" path="res://Sprites/Animated/Horsea/horsea.tres" id="1_6txu5"]
+
+[node name="Horsea" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_6txu5")
+animation = &"Back"
+centered = false

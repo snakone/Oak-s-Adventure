@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bnpw7iaeend1r"]
+
+[ext_resource type="SpriteFrames" uid="uid://26p2c2ofarqt" path="res://Sprites/Animated/Rayquaza/rayquaza.tres" id="1_l2xcq"]
+
+[node name="Rayquaza" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_l2xcq")
+animation = &"Back"
+centered = false

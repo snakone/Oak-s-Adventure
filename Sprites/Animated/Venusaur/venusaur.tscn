@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://1jeseswlg8od"]
+
+[ext_resource type="SpriteFrames" uid="uid://b7qwmj75ulfr3" path="res://Sprites/Animated/Venusaur/venusaur.tres" id="1_a5bv2"]
+
+[node name="Venusaur" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_a5bv2")
+animation = &"Back"
+frame_progress = 0.242423
+centered = false

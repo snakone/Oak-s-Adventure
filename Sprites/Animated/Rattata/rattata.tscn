@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgohbx7lfwqoo"]
+
+[ext_resource type="SpriteFrames" uid="uid://qnt766smmtcy" path="res://Sprites/Animated/Rattata/rattata.tres" id="1_xwcnq"]
+
+[node name="Rattata" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_xwcnq")
+animation = &"Front"
+autoplay = "Front"
+frame_progress = 0.881043
+centered = false

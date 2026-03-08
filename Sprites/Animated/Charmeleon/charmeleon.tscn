@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dkmddoaq72jf"]
+
+[ext_resource type="SpriteFrames" uid="uid://b3wcl5edyh123" path="res://Sprites/Animated/Charmeleon/charmeleon.tres" id="1_mmiym"]
+
+[node name="Charmeleon" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_mmiym")
+animation = &"Back"
+centered = false

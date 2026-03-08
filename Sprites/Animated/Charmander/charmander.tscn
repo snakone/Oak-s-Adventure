@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://mlkdxmkbs8si"]
+
+[ext_resource type="SpriteFrames" uid="uid://dt1msl66wieu" path="res://Sprites/Animated/Charmander/charmander.tres" id="1_b1rtb"]
+
+[node name="Charmander" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_b1rtb")
+animation = &"Back"

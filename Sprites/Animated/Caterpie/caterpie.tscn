@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgohbx7lfwrmy"]
+
+[ext_resource type="SpriteFrames" uid="uid://qnt766smmqon" path="res://Sprites/Animated/Caterpie/caterpie.tres" id="1_tlo52"]
+
+[node name="Caterpie" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_tlo52")
+animation = &"Front"
+frame_progress = 0.279555
+centered = false
